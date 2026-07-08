@@ -1036,6 +1036,81 @@ extension ARCRegionswitchClientTypes {
 
 extension ARCRegionswitchClientTypes {
 
+    /// Configuration for Amazon Aurora provisioned cluster scaling used in a Region switch plan.
+    public struct AuroraProvisionedScalingConfiguration: Swift.Sendable {
+        /// The cross account role for the configuration.
+        public var crossAccountRole: Swift.String?
+        /// The external ID (secret key) for the configuration.
+        public var externalId: Swift.String?
+        /// The global cluster identifier for a global database.
+        /// This member is required.
+        public var globalClusterIdentifier: Swift.String?
+        /// Per-Region configuration that maps each Region to the Aurora database instance ARN for scaling.
+        /// This member is required.
+        public var instanceArns: [Swift.String: Swift.String]?
+        /// Per-Region configuration that maps each Region to the Aurora database cluster ARN for scaling.
+        /// This member is required.
+        public var regionDatabaseClusterArns: [Swift.String: Swift.String]?
+        /// The timeout value specified for the configuration.
+        public var timeoutMinutes: Swift.Int?
+
+        public init(
+            crossAccountRole: Swift.String? = nil,
+            externalId: Swift.String? = nil,
+            globalClusterIdentifier: Swift.String? = nil,
+            instanceArns: [Swift.String: Swift.String]? = nil,
+            regionDatabaseClusterArns: [Swift.String: Swift.String]? = nil,
+            timeoutMinutes: Swift.Int? = 60
+        ) {
+            self.crossAccountRole = crossAccountRole
+            self.externalId = externalId
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.instanceArns = instanceArns
+            self.regionDatabaseClusterArns = regionDatabaseClusterArns
+            self.timeoutMinutes = timeoutMinutes
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
+    /// Configuration for Amazon Aurora Serverless scaling used in a Region switch plan.
+    public struct AuroraServerlessScalingConfiguration: Swift.Sendable {
+        /// The cross account role for the configuration.
+        public var crossAccountRole: Swift.String?
+        /// The external ID (secret key) for the configuration.
+        public var externalId: Swift.String?
+        /// The global cluster identifier for a global database.
+        /// This member is required.
+        public var globalClusterIdentifier: Swift.String?
+        /// Per-Region configuration that maps each Region to the Aurora database cluster ARN for scaling.
+        /// This member is required.
+        public var regionDatabaseClusterArns: [Swift.String: Swift.String]?
+        /// The target capacity percentage for Aurora Serverless scaling.
+        public var targetPercent: Swift.Int?
+        /// The timeout value specified for the configuration.
+        public var timeoutMinutes: Swift.Int?
+
+        public init(
+            crossAccountRole: Swift.String? = nil,
+            externalId: Swift.String? = nil,
+            globalClusterIdentifier: Swift.String? = nil,
+            regionDatabaseClusterArns: [Swift.String: Swift.String]? = nil,
+            targetPercent: Swift.Int? = 100,
+            timeoutMinutes: Swift.Int? = 60
+        ) {
+            self.crossAccountRole = crossAccountRole
+            self.externalId = externalId
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.regionDatabaseClusterArns = regionDatabaseClusterArns
+            self.targetPercent = targetPercent
+            self.timeoutMinutes = timeoutMinutes
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
     /// Configuration for Amazon Web Services Lambda functions used in a Region switch plan.
     public struct Lambdas: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the Lambda function.
@@ -1892,6 +1967,118 @@ extension ARCRegionswitchClientTypes {
 
 extension ARCRegionswitchClientTypes {
 
+    public enum NeptuneDefaultBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failover
+        case switchoverOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NeptuneDefaultBehavior] {
+            return [
+                .failover,
+                .switchoverOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failover: return "failover"
+            case .switchoverOnly: return "switchoverOnly"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
+    public enum NeptuneUngracefulBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failover
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NeptuneUngracefulBehavior] {
+            return [
+                .failover
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failover: return "failover"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
+    /// Configuration for handling failures when performing operations on Neptune global databases.
+    public struct NeptuneUngraceful: Swift.Sendable {
+        /// The settings for ungraceful execution.
+        public var ungraceful: ARCRegionswitchClientTypes.NeptuneUngracefulBehavior?
+
+        public init(
+            ungraceful: ARCRegionswitchClientTypes.NeptuneUngracefulBehavior? = nil
+        ) {
+            self.ungraceful = ungraceful
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
+    /// Configuration for Amazon Neptune global databases used in a Region switch plan.
+    public struct NeptuneGlobalDatabaseConfiguration: Swift.Sendable {
+        /// The behavior for a global database, that is, only allow switchover or also allow failover.
+        /// This member is required.
+        public var behavior: ARCRegionswitchClientTypes.NeptuneDefaultBehavior?
+        /// The cross account role for the configuration.
+        public var crossAccountRole: Swift.String?
+        /// The external ID (secret key) for the configuration.
+        public var externalId: Swift.String?
+        /// The global cluster identifier for a Neptune global database.
+        /// This member is required.
+        public var globalClusterIdentifier: Swift.String?
+        /// The database cluster Amazon Resource Names (ARNs) for a Neptune global database.
+        /// This member is required.
+        public var regionDatabaseClusterArns: [Swift.String: Swift.String]?
+        /// The timeout value specified for the configuration.
+        public var timeoutMinutes: Swift.Int?
+        /// The settings for ungraceful execution.
+        public var ungraceful: ARCRegionswitchClientTypes.NeptuneUngraceful?
+
+        public init(
+            behavior: ARCRegionswitchClientTypes.NeptuneDefaultBehavior? = .switchoverOnly,
+            crossAccountRole: Swift.String? = nil,
+            externalId: Swift.String? = nil,
+            globalClusterIdentifier: Swift.String? = nil,
+            regionDatabaseClusterArns: [Swift.String: Swift.String]? = nil,
+            timeoutMinutes: Swift.Int? = 60,
+            ungraceful: ARCRegionswitchClientTypes.NeptuneUngraceful? = nil
+        ) {
+            self.behavior = behavior
+            self.crossAccountRole = crossAccountRole
+            self.externalId = externalId
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.regionDatabaseClusterArns = regionDatabaseClusterArns
+            self.timeoutMinutes = timeoutMinutes
+            self.ungraceful = ungraceful
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
     /// Configuration for creating an Amazon RDS cross-Region read replica during post-recovery in a Region switch.
     public struct RdsCreateCrossRegionReplicaConfiguration: Swift.Sendable {
         /// The cross-account role for the configuration.
@@ -2030,6 +2217,8 @@ extension ARCRegionswitchClientTypes {
 
     public enum ExecutionBlockType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aurora
+        case auroraProvisionedScaling
+        case auroraServerlessScaling
         case customActionLambda
         case documentdb
         case ec2Asg
@@ -2037,6 +2226,7 @@ extension ARCRegionswitchClientTypes {
         case eksResourceScaling
         case executionApproval
         case lambdaEventSourceMapping
+        case neptune
         case parallel
         case rdsCreateCrossRegionReplica
         case rdsPromoteReadReplica
@@ -2048,6 +2238,8 @@ extension ARCRegionswitchClientTypes {
         public static var allCases: [ExecutionBlockType] {
             return [
                 .aurora,
+                .auroraProvisionedScaling,
+                .auroraServerlessScaling,
                 .customActionLambda,
                 .documentdb,
                 .ec2Asg,
@@ -2055,6 +2247,7 @@ extension ARCRegionswitchClientTypes {
                 .eksResourceScaling,
                 .executionApproval,
                 .lambdaEventSourceMapping,
+                .neptune,
                 .parallel,
                 .rdsCreateCrossRegionReplica,
                 .rdsPromoteReadReplica,
@@ -2072,6 +2265,8 @@ extension ARCRegionswitchClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .aurora: return "AuroraGlobalDatabase"
+            case .auroraProvisionedScaling: return "AuroraProvisionedScaling"
+            case .auroraServerlessScaling: return "AuroraServerlessScaling"
             case .customActionLambda: return "CustomActionLambda"
             case .documentdb: return "DocumentDb"
             case .ec2Asg: return "EC2AutoScaling"
@@ -2079,6 +2274,7 @@ extension ARCRegionswitchClientTypes {
             case .eksResourceScaling: return "EKSResourceScaling"
             case .executionApproval: return "ManualApproval"
             case .lambdaEventSourceMapping: return "LambdaEventSourceMapping"
+            case .neptune: return "NeptuneGlobalDatabase"
             case .parallel: return "Parallel"
             case .rdsCreateCrossRegionReplica: return "RdsCreateCrossRegionReplica"
             case .rdsPromoteReadReplica: return "RdsPromoteReadReplica"
@@ -2440,6 +2636,30 @@ public struct ListPlansInRegionOutput: Swift.Sendable {
     }
 }
 
+/// The request processing has an invalid argument.
+public struct IllegalArgumentException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IllegalArgumentException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The request processing has failed because of an unknown error, exception, or failure. HTTP Status Code: 500
 public struct InternalServerException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2470,7 +2690,7 @@ public struct ListRoute53HealthChecksInput: Swift.Sendable {
     public var arn: Swift.String?
     /// The hosted zone ID for the health checks.
     public var hostedZoneId: Swift.String?
-    /// The number of objects that you want to return with this call.
+    /// The maximum number of results to return in the response.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
     public var nextToken: Swift.String?
@@ -2561,7 +2781,7 @@ extension ARCRegionswitchClientTypes {
 public struct ListRoute53HealthChecksOutput: Swift.Sendable {
     /// List of the health checks requested.
     public var healthChecks: [ARCRegionswitchClientTypes.Route53HealthCheck]?
-    /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
+    /// A pagination token. A response may contain no results while still including a nextToken. Continue paginating until nextToken is null to retrieve all results.
     public var nextToken: Swift.String?
 
     public init(
@@ -2573,37 +2793,13 @@ public struct ListRoute53HealthChecksOutput: Swift.Sendable {
     }
 }
 
-/// The request processing has an invalid argument.
-public struct IllegalArgumentException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "IllegalArgumentException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 public struct ListRoute53HealthChecksInRegionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Arc Region Switch Plan.
     /// This member is required.
     public var arn: Swift.String?
     /// The hosted zone ID for the health checks.
     public var hostedZoneId: Swift.String?
-    /// The number of objects that you want to return with this call.
+    /// The maximum number of results to return in the response.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
     public var nextToken: Swift.String?
@@ -2628,7 +2824,7 @@ public struct ListRoute53HealthChecksInRegionInput: Swift.Sendable {
 public struct ListRoute53HealthChecksInRegionOutput: Swift.Sendable {
     /// List of the health checks requested.
     public var healthChecks: [ARCRegionswitchClientTypes.Route53HealthCheck]?
-    /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
+    /// A pagination token. A response may contain no results while still including a nextToken. Continue paginating until nextToken is null to retrieve all results.
     public var nextToken: Swift.String?
 
     public init(
@@ -3019,6 +3215,12 @@ extension ARCRegionswitchClientTypes {
         case rdscreatecrossregionreadreplicaconfig(ARCRegionswitchClientTypes.RdsCreateCrossRegionReplicaConfiguration)
         /// A Lambda event source mapping execution block.
         case lambdaeventsourcemappingconfig(ARCRegionswitchClientTypes.LambdaEventSourceMappingConfiguration)
+        /// An Aurora Serverless scaling execution block.
+        case auroraserverlessscalingconfig(ARCRegionswitchClientTypes.AuroraServerlessScalingConfiguration)
+        /// An Aurora provisioned cluster scaling execution block.
+        case auroraprovisionedscalingconfig(ARCRegionswitchClientTypes.AuroraProvisionedScalingConfiguration)
+        /// A Neptune global database execution block.
+        case neptuneglobaldatabaseconfig(ARCRegionswitchClientTypes.NeptuneGlobalDatabaseConfiguration)
         case sdkUnknown(Swift.String)
     }
 }

@@ -45,6 +45,11 @@ public struct PutCompositeAlarmOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct PutLogAlarmOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct PutMetricAlarmOutput: Swift.Sendable {
 
     public init() { }
@@ -126,12 +131,14 @@ extension CloudWatchClientTypes {
 
     public enum AlarmType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case compositealarm
+        case logalarm
         case metricalarm
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AlarmType] {
             return [
                 .compositealarm,
+                .logalarm,
                 .metricalarm
             ]
         }
@@ -144,6 +151,7 @@ extension CloudWatchClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .compositealarm: return "CompositeAlarm"
+            case .logalarm: return "LogAlarm"
             case .metricalarm: return "MetricAlarm"
             case let .sdkUnknown(s): return s
             }
@@ -756,6 +764,152 @@ extension CloudWatchClientTypes {
     }
 }
 
+/// This operation attempted to create a resource that already exists.
+public struct ConflictException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The operation was denied because either the calling principal lacks the required Amazon Web Services Key Management Service (Amazon Web Services KMS) permission on the key, or the key policy does not grant Amazon CloudWatch the permissions it needs to use the key. Verify that the caller has kms:Decrypt permission on the key, and that the key policy grants the CloudWatch service principal the kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt* permissions described in [AssociateDatasetKmsKey](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_AssociateDatasetKmsKey.html).
+public struct KmsAccessDeniedException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KmsAccessDeniedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The specified Amazon Web Services Key Management Service (Amazon Web Services KMS) key is disabled or pending deletion. Re-enable the key (or restore it, if it is pending deletion) and retry the operation.
+public struct KmsKeyDisabledException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KmsKeyDisabledException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The specified Amazon Web Services Key Management Service (Amazon Web Services KMS) key could not be found. Verify that the key Amazon Resource Name (ARN) is correct, that the key exists, and that it is in the same Amazon Web Services Region as the resource.
+public struct KmsKeyNotFoundException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KmsKeyNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The named resource does not exist.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        public internal(set) var resourceId: Swift.String? = nil
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+public struct AssociateDatasetKmsKeyInput: Swift.Sendable {
+    /// Specifies the identifier of the dataset that you want to associate the KMS key with. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:Region:account-id:dataset/default.
+    /// This member is required.
+    public var datasetIdentifier: Swift.String?
+    /// Specifies the Amazon Resource Name (ARN) of the customer managed KMS key to associate with the dataset. The key must be a symmetric encryption KMS key (SYMMETRIC_DEFAULT) in the same Amazon Web Services Region as the dataset. The ARN must be in the format arn:aws:kms:Region:account-id:key/key-id . Key IDs, aliases, and alias ARNs are not accepted. For more information about KMS key ARNs, see [Key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the Amazon Web Services Key Management Service Developer Guide.
+    /// This member is required.
+    public var kmsKeyArn: Swift.String?
+
+    public init(
+        datasetIdentifier: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil
+    ) {
+        self.datasetIdentifier = datasetIdentifier
+        self.kmsKeyArn = kmsKeyArn
+    }
+}
+
+public struct AssociateDatasetKmsKeyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension CloudWatchClientTypes {
 
     /// This array is empty if the API operation was successful for all the rules specified in the request. If the operation could not process one of the rules, the following data is returned for each of those rules.
@@ -969,29 +1123,6 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, Clien
     }
 }
 
-/// This operation attempted to create a resource that already exists.
-public struct ConflictException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 extension CloudWatchClientTypes {
 
     /// Represents a specific dashboard.
@@ -1142,6 +1273,29 @@ public struct DeleteAlarmMuteRuleInput: Swift.Sendable {
     }
 }
 
+/// The operation could not be completed because the request conflicts with the current state of the alarm or its underlying scheduled query resource.
+public struct ResourceConflict: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceConflict" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The named resource does not exist.
 public struct ResourceNotFound: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1271,35 +1425,6 @@ public struct MissingRequiredParameterException: ClientRuntime.ModeledError, Cli
         message: Swift.String? = nil
     ) {
         self.properties.message = message
-    }
-}
-
-/// The named resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        public internal(set) var resourceId: Swift.String? = nil
-        public internal(set) var resourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
     }
 }
 
@@ -1516,7 +1641,7 @@ public struct DescribeAlarmHistoryInput: Swift.Sendable {
     public var alarmContributorId: Swift.String?
     /// The name of the alarm.
     public var alarmName: Swift.String?
-    /// Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned.
+    /// Use this parameter to specify whether you want the operation to return metric alarms, composite alarms, or log alarms. If you omit this parameter, only metric alarms are returned.
     public var alarmTypes: [CloudWatchClientTypes.AlarmType]?
     /// The ending date to retrieve alarm history.
     public var endDate: Foundation.Date?
@@ -1576,7 +1701,7 @@ public struct DescribeAlarmsInput: Swift.Sendable {
     public var alarmNamePrefix: Swift.String?
     /// The names of the alarms to retrieve information about.
     public var alarmNames: [Swift.String]?
-    /// Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned, even if composite alarms exist in the account. For example, if you omit this parameter or specify MetricAlarms, the operation returns only a list of metric alarms. It does not return any composite alarms, even if composite alarms exist in the account. If you specify CompositeAlarms, the operation returns only a list of composite alarms, and does not return any metric alarms.
+    /// Use this parameter to specify whether you want the operation to return metric alarms, composite alarms, or log alarms. If you omit this parameter, only metric alarms are returned, even if composite alarms or log alarms exist in the account. For example, if you omit this parameter or specify MetricAlarms, the operation returns only a list of metric alarms. It does not return any composite alarms or log alarms, even if they exist in the account. If you specify CompositeAlarms, the operation returns only a list of composite alarms, and does not return any metric alarms or log alarms. If you specify LogAlarms, the operation returns only a list of log alarms, and does not return any metric alarms or composite alarms.
     public var alarmTypes: [CloudWatchClientTypes.AlarmType]?
     /// If you use this parameter and specify the name of a composite alarm, the operation returns information about the "children" alarms of the alarm you specify. These are the metric alarms and composite alarms referenced in the AlarmRule field of the composite alarm that you specify in ChildrenOfAlarmName. Information about the composite alarm that you name in ChildrenOfAlarmName is not returned. If you specify ChildrenOfAlarmName, you cannot specify any other parameters in the request except for MaxRecords and NextToken. If you do so, you receive a validation error. Only the Alarm Name, ARN, StateValue (OK/ALARM/INSUFFICIENT_DATA), and StateUpdatedTimestamp information are returned by this operation when you use this parameter. To get complete information about these alarms, perform another DescribeAlarms operation and specify the parent alarm names in the AlarmNames parameter.
     public var childrenOfAlarmName: Swift.String?
@@ -1614,16 +1739,6 @@ public struct DescribeAlarmsInput: Swift.Sendable {
 
 extension CloudWatchClientTypes {
 
-    /// The evaluation criteria for an alarm. This is a union type that currently supports PromQLCriteria.
-    public enum EvaluationCriteria: Swift.Sendable {
-        /// The PromQL criteria for the alarm evaluation.
-        case promqlcriteria(CloudWatchClientTypes.AlarmPromQLCriteria)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension CloudWatchClientTypes {
-
     public enum EvaluationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case evaluationError
         case evaluationFailure
@@ -1651,6 +1766,239 @@ extension CloudWatchClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// Contains the schedule expression and time-range offsets that define when a scheduled query runs and what time range each execution covers.
+    public struct ScheduleConfiguration: Swift.Sendable {
+        /// The offset, in seconds, before the scheduled execution time at which the query time range ends. Must be non-negative and less than StartTimeOffset. The default is 0.
+        public var endTimeOffset: Swift.Int?
+        /// The schedule expression that defines how often the underlying CloudWatch Logs scheduled query runs. Specify a rate() expression, for example rate(5 minutes).
+        /// This member is required.
+        public var scheduleExpression: Swift.String?
+        /// The offset, in seconds, before the scheduled execution time at which the query time range begins. For example, an offset of 360 (6 minutes) on a query running at 12:05:00 starts the query time range at 11:59:00.
+        public var startTimeOffset: Swift.Int?
+
+        public init(
+            endTimeOffset: Swift.Int? = nil,
+            scheduleExpression: Swift.String? = nil,
+            startTimeOffset: Swift.Int? = nil
+        ) {
+            self.endTimeOffset = endTimeOffset
+            self.scheduleExpression = scheduleExpression
+            self.startTimeOffset = startTimeOffset
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// A key-value pair associated with a CloudWatch resource.
+    public struct Tag: Swift.Sendable {
+        /// A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value for the specified tag key.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// The configuration of the CloudWatch Logs scheduled query that backs a log alarm.
+    public struct ScheduledQueryConfiguration: Swift.Sendable {
+        /// The expression that defines how to aggregate query results into one or more scalar values for alarm evaluation. For example, count(*) or avg(latency) by host | sort desc. Length constraints: minimum 1 character, maximum 2048 characters.
+        /// This member is required.
+        public var aggregationExpression: Swift.String?
+        /// The log groups to query. Each entry can be a log group name or ARN. Use the ARN form when querying log groups in a different account (for example, when running cross-account queries from a monitoring account). The list must contain between 1 and 50 entries.
+        public var logGroupIdentifiers: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the CloudWatch Logs scheduled query that the alarm uses. This field is populated in DescribeAlarms responses.
+        public var queryARN: Swift.String?
+        /// The CloudWatch Logs query to execute on each scheduled run. Length constraints: maximum of 10,000 characters.
+        /// This member is required.
+        public var queryString: Swift.String?
+        /// The schedule and time-range offset configuration for the underlying scheduled query.
+        /// This member is required.
+        public var scheduleConfiguration: CloudWatchClientTypes.ScheduleConfiguration?
+        /// The Amazon Resource Name (ARN) of the IAM role that CloudWatch assumes when executing the scheduled query against the configured log groups.
+        /// This member is required.
+        public var scheduledQueryRoleARN: Swift.String?
+        /// A list of key-value pairs to associate with the underlying scheduled query resource.
+        public var tags: [CloudWatchClientTypes.Tag]?
+
+        public init(
+            aggregationExpression: Swift.String? = nil,
+            logGroupIdentifiers: [Swift.String]? = nil,
+            queryARN: Swift.String? = nil,
+            queryString: Swift.String? = nil,
+            scheduleConfiguration: CloudWatchClientTypes.ScheduleConfiguration? = nil,
+            scheduledQueryRoleARN: Swift.String? = nil,
+            tags: [CloudWatchClientTypes.Tag]? = nil
+        ) {
+            self.aggregationExpression = aggregationExpression
+            self.logGroupIdentifiers = logGroupIdentifiers
+            self.queryARN = queryARN
+            self.queryString = queryString
+            self.scheduleConfiguration = scheduleConfiguration
+            self.scheduledQueryRoleARN = scheduledQueryRoleARN
+            self.tags = tags
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// The details about a log alarm.
+    public struct LogAlarm: Swift.Sendable {
+        /// The number of log lines from the most recent scheduled query execution that are included in alarm action notifications. Valid range is 0 through 50. A value of 0 means no log lines are included.
+        public var actionLogLineCount: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the IAM role that CloudWatch assumes to retrieve log events for inclusion in alarm action notifications. Set when ActionLogLineCount is greater than 0.
+        public var actionLogLineRoleArn: Swift.String?
+        /// Indicates whether actions should be executed during any changes to the alarm state.
+        public var actionsEnabled: Swift.Bool?
+        /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN).
+        public var alarmActions: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the alarm.
+        public var alarmArn: Swift.String?
+        /// The time stamp of the last update to the alarm configuration.
+        public var alarmConfigurationUpdatedTimestamp: Foundation.Date?
+        /// The description of the alarm.
+        public var alarmDescription: Swift.String?
+        /// The name of the alarm.
+        public var alarmName: Swift.String?
+        /// The arithmetic operation to use when comparing the aggregated query result and the threshold. The aggregated query result is used as the first operand.
+        public var comparisonOperator: CloudWatchClientTypes.ComparisonOperator?
+        /// If the value of this field is EVALUATION_ERROR, it indicates configuration errors in the alarm setup that require review and correction. Refer to the StateReason field of the alarm for more details. If the value of this field is EVALUATION_FAILURE, it indicates temporary CloudWatch issues. We recommend manual monitoring until the issue is resolved. If the value of this field is PARTIAL_DATA, it indicates that the query returned the maximum 500 contributor groups but more matched. The alarm evaluates the available contributors, but results might be incomplete.
+        public var evaluationState: CloudWatchClientTypes.EvaluationState?
+        /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN).
+        public var insufficientDataActions: [Swift.String]?
+        /// The actions to execute when this alarm transitions to the OK state from any other state. Each action is specified as an Amazon Resource Name (ARN).
+        public var okActions: [Swift.String]?
+        /// The number of query results, out of the most recent QueryResultsToEvaluate results, that must breach the threshold to trigger the alarm to transition to ALARM (the M in M-of-N evaluation).
+        public var queryResultsToAlarm: Swift.Int?
+        /// The number of most recent scheduled query results that the alarm evaluates against the threshold (the N in M-of-N evaluation).
+        public var queryResultsToEvaluate: Swift.Int?
+        /// The configuration of the underlying CloudWatch Logs scheduled query, including the query string, log groups, schedule, aggregation expression, and the ARN of the managed scheduled query.
+        public var scheduledQueryConfiguration: CloudWatchClientTypes.ScheduledQueryConfiguration?
+        /// An explanation for the alarm state, in text format.
+        public var stateReason: Swift.String?
+        /// An explanation for the alarm state, in JSON format.
+        public var stateReasonData: Swift.String?
+        /// The date and time that the alarm's StateValue most recently changed.
+        public var stateTransitionedTimestamp: Foundation.Date?
+        /// The time stamp of the last update to the value of either the StateValue or EvaluationState parameters.
+        public var stateUpdatedTimestamp: Foundation.Date?
+        /// The state value for the alarm.
+        public var stateValue: CloudWatchClientTypes.StateValue?
+        /// The value to compare with the aggregated query result.
+        public var threshold: Swift.Double?
+        /// How this alarm handles missing data points. Valid values are breaching, notBreaching, ignore, and missing.
+        public var treatMissingData: Swift.String?
+
+        public init(
+            actionLogLineCount: Swift.Int? = nil,
+            actionLogLineRoleArn: Swift.String? = nil,
+            actionsEnabled: Swift.Bool? = nil,
+            alarmActions: [Swift.String]? = nil,
+            alarmArn: Swift.String? = nil,
+            alarmConfigurationUpdatedTimestamp: Foundation.Date? = nil,
+            alarmDescription: Swift.String? = nil,
+            alarmName: Swift.String? = nil,
+            comparisonOperator: CloudWatchClientTypes.ComparisonOperator? = nil,
+            evaluationState: CloudWatchClientTypes.EvaluationState? = nil,
+            insufficientDataActions: [Swift.String]? = nil,
+            okActions: [Swift.String]? = nil,
+            queryResultsToAlarm: Swift.Int? = nil,
+            queryResultsToEvaluate: Swift.Int? = nil,
+            scheduledQueryConfiguration: CloudWatchClientTypes.ScheduledQueryConfiguration? = nil,
+            stateReason: Swift.String? = nil,
+            stateReasonData: Swift.String? = nil,
+            stateTransitionedTimestamp: Foundation.Date? = nil,
+            stateUpdatedTimestamp: Foundation.Date? = nil,
+            stateValue: CloudWatchClientTypes.StateValue? = nil,
+            threshold: Swift.Double? = nil,
+            treatMissingData: Swift.String? = nil
+        ) {
+            self.actionLogLineCount = actionLogLineCount
+            self.actionLogLineRoleArn = actionLogLineRoleArn
+            self.actionsEnabled = actionsEnabled
+            self.alarmActions = alarmActions
+            self.alarmArn = alarmArn
+            self.alarmConfigurationUpdatedTimestamp = alarmConfigurationUpdatedTimestamp
+            self.alarmDescription = alarmDescription
+            self.alarmName = alarmName
+            self.comparisonOperator = comparisonOperator
+            self.evaluationState = evaluationState
+            self.insufficientDataActions = insufficientDataActions
+            self.okActions = okActions
+            self.queryResultsToAlarm = queryResultsToAlarm
+            self.queryResultsToEvaluate = queryResultsToEvaluate
+            self.scheduledQueryConfiguration = scheduledQueryConfiguration
+            self.stateReason = stateReason
+            self.stateReasonData = stateReasonData
+            self.stateTransitionedTimestamp = stateTransitionedTimestamp
+            self.stateUpdatedTimestamp = stateUpdatedTimestamp
+            self.stateValue = stateValue
+            self.threshold = threshold
+            self.treatMissingData = treatMissingData
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// The evaluation criteria for an alarm. This is a union type that currently supports PromQLCriteria.
+    public enum EvaluationCriteria: Swift.Sendable {
+        /// The PromQL criteria for the alarm evaluation.
+        case promqlcriteria(CloudWatchClientTypes.AlarmPromQLCriteria)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// An evaluation window that advances each time the alarm is evaluated, forming a rolling time window. This is the default evaluation window. A sliding window has no additional configuration options. Choose a sliding window when you need the fastest detection and the calendar boundaries of the data don't matter, such as for continuous performance, latency, or resource-exhaustion monitoring.
+    public struct SlidingWindow: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// An evaluation window that aligns the evaluated range to fixed clock boundaries that match the alarm's period, such as the top of the hour, midnight, or the start of the calendar week, optionally in a specific time zone. When you use a wall clock window, the alarm's period must be 1 minute (60 seconds), 5 minutes (300 seconds), 1 hour (3,600 seconds), 1 day (86,400 seconds), or 1 week (604,800 seconds). Other period values aren't supported with a wall clock window. Choose a wall clock window when your monitoring is tied to a business or calendar period, such as daily reports, batch jobs, or backups, or when you want alarm evaluations to match the periods shown on a metric dashboard.
+    public struct WallClockWindow: Swift.Sendable {
+        /// The time zone to use when the alarm aligns the evaluation window to clock boundaries. You can specify an IANA time zone name (for example, America/New_York), a fixed UTC offset (for example, +05:30), or an offset-prefixed identifier (for example, UTC+05:30). The offset must be aligned to a multiple of 5 minutes. If you don't specify a time zone, CloudWatch uses UTC. The time zone affects window alignment for all periods, including periods of one hour or shorter.
+        public var timezone: Swift.String?
+
+        public init(
+            timezone: Swift.String? = nil
+        ) {
+            self.timezone = timezone
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// The evaluation window that an alarm uses to select the range of metric data that it evaluates each time it runs. This is a union type. Set exactly one of its members, SlidingWindow or WallClockWindow. If you don't set EvaluationWindow, the alarm uses a SlidingWindow by default. For more information, see [Alarm evaluation windows](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-evaluation-window.html) in the CloudWatch User Guide.
+    public enum EvaluationWindow: Swift.Sendable {
+        /// A wall clock window, which aligns the evaluated range to fixed clock boundaries that match the alarm's period, such as the top of the hour, midnight, or the start of the calendar week.
+        case wallclockwindow(CloudWatchClientTypes.WallClockWindow)
+        /// A sliding window, which advances each time the alarm is evaluated, forming a rolling time window. This is the default evaluation window.
+        case slidingwindow(CloudWatchClientTypes.SlidingWindow)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -1724,6 +2072,8 @@ extension CloudWatchClientTypes {
         public var evaluationPeriods: Swift.Int?
         /// If the value of this field is PARTIAL_DATA, it indicates that not all the available data was able to be retrieved due to quota limitations. For more information, see [Create alarms on Metrics Insights queries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Metrics_Insights_Alarm.html). If the value of this field is EVALUATION_ERROR, it indicates configuration errors in alarm setup that require review and correction. Refer to StateReason field of the alarm for more details. If the value of this field is EVALUATION_FAILURE, it indicates temporary CloudWatch issues. We recommend manual monitoring until the issue is resolved
         public var evaluationState: CloudWatchClientTypes.EvaluationState?
+        /// The evaluation window that the alarm uses to select the range of metric data that it evaluates. This is either a sliding window or a wall clock window. For more information, see [Alarm evaluation windows](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-evaluation-window.html) in the CloudWatch User Guide.
+        public var evaluationWindow: CloudWatchClientTypes.EvaluationWindow?
         /// The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100.
         public var extendedStatistic: Swift.String?
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN).
@@ -1774,6 +2124,7 @@ extension CloudWatchClientTypes {
             evaluationInterval: Swift.Int? = nil,
             evaluationPeriods: Swift.Int? = nil,
             evaluationState: CloudWatchClientTypes.EvaluationState? = nil,
+            evaluationWindow: CloudWatchClientTypes.EvaluationWindow? = nil,
             extendedStatistic: Swift.String? = nil,
             insufficientDataActions: [Swift.String]? = nil,
             metricName: Swift.String? = nil,
@@ -1806,6 +2157,7 @@ extension CloudWatchClientTypes {
             self.evaluationInterval = evaluationInterval
             self.evaluationPeriods = evaluationPeriods
             self.evaluationState = evaluationState
+            self.evaluationWindow = evaluationWindow
             self.extendedStatistic = extendedStatistic
             self.insufficientDataActions = insufficientDataActions
             self.metricName = metricName
@@ -1830,6 +2182,8 @@ extension CloudWatchClientTypes {
 public struct DescribeAlarmsOutput: Swift.Sendable {
     /// The information about any composite alarms returned by the operation.
     public var compositeAlarms: [CloudWatchClientTypes.CompositeAlarm]?
+    /// The information about any log alarms returned by the operation.
+    public var logAlarms: [CloudWatchClientTypes.LogAlarm]?
     /// The information about any metric alarms returned by the operation.
     public var metricAlarms: [CloudWatchClientTypes.MetricAlarm]?
     /// The token that marks the start of the next batch of returned results.
@@ -1837,10 +2191,12 @@ public struct DescribeAlarmsOutput: Swift.Sendable {
 
     public init(
         compositeAlarms: [CloudWatchClientTypes.CompositeAlarm]? = nil,
+        logAlarms: [CloudWatchClientTypes.LogAlarm]? = nil,
         metricAlarms: [CloudWatchClientTypes.MetricAlarm]? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.compositeAlarms = compositeAlarms
+        self.logAlarms = logAlarms
         self.metricAlarms = metricAlarms
         self.nextToken = nextToken
     }
@@ -2062,6 +2418,23 @@ public struct DisableInsightRulesOutput: Swift.Sendable {
     ) {
         self.failures = failures
     }
+}
+
+public struct DisassociateDatasetKmsKeyInput: Swift.Sendable {
+    /// Specifies the identifier of the dataset from which to remove the KMS key association. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:Region:account-id:dataset/default.
+    /// This member is required.
+    public var datasetIdentifier: Swift.String?
+
+    public init(
+        datasetIdentifier: Swift.String? = nil
+    ) {
+        self.datasetIdentifier = datasetIdentifier
+    }
+}
+
+public struct DisassociateDatasetKmsKeyOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct EnableAlarmActionsInput: Swift.Sendable {
@@ -2414,7 +2787,7 @@ public struct GetDashboardInput: Swift.Sendable {
 public struct GetDashboardOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the dashboard.
     public var dashboardArn: Swift.String?
-    /// The detailed information about the dashboard, including what widgets are included and their location on the dashboard. For more information about the DashboardBody syntax, see [Dashboard Body Structure and Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html).
+    /// The detailed information about the dashboard, including what widgets are included and their location on the dashboard. For more information about the DashboardBody syntax, see [Dashboard Body Structure and Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Dashboard-Body-Structure.html).
     public var dashboardBody: Swift.String?
     /// The name of the dashboard.
     public var dashboardName: Swift.String?
@@ -2427,6 +2800,39 @@ public struct GetDashboardOutput: Swift.Sendable {
         self.dashboardArn = dashboardArn
         self.dashboardBody = dashboardBody
         self.dashboardName = dashboardName
+    }
+}
+
+public struct GetDatasetInput: Swift.Sendable {
+    /// Specifies the identifier of the dataset to retrieve. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:Region:account-id:dataset/default.
+    /// This member is required.
+    public var datasetIdentifier: Swift.String?
+
+    public init(
+        datasetIdentifier: Swift.String? = nil
+    ) {
+        self.datasetIdentifier = datasetIdentifier
+    }
+}
+
+public struct GetDatasetOutput: Swift.Sendable {
+    /// Returns the Amazon Resource Name (ARN) of the dataset, in the format arn:aws:cloudwatch:Region:account-id:dataset/dataset-id .
+    /// This member is required.
+    public var arn: Swift.String?
+    /// Returns the identifier of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// Returns the Amazon Resource Name (ARN) of the customer managed Amazon Web Services KMS key that is currently associated with the dataset, if any. If the dataset is not associated with a customer managed KMS key, this field is not included in the response and the dataset is encrypted at rest using an Amazon Web Services owned key.
+    public var kmsKeyArn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.datasetId = datasetId
+        self.kmsKeyArn = kmsKeyArn
     }
 }
 
@@ -3014,7 +3420,7 @@ public struct GetMetricStreamOutput: Swift.Sendable {
 }
 
 public struct GetMetricWidgetImageInput: Swift.Sendable {
-    /// A JSON string that defines the bitmap graph to be retrieved. The string includes the metrics to include in the graph, statistics, annotations, title, axis limits, and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage call. For more information about the syntax of MetricWidget see [GetMetricWidgetImage: Metric Widget Structure and Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Metric-Widget-Structure.html). If any metric on the graph could not load all the requested data points, an orange triangle with an exclamation point appears next to the graph legend.
+    /// A JSON string that defines the bitmap graph to be retrieved. The string includes the metrics to include in the graph, statistics, annotations, title, axis limits, and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage call. For more information about the syntax of MetricWidget see [GetMetricWidgetImage: Metric Widget Structure and Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Metric-Widget-Structure.html). If any metric on the graph could not load all the requested data points, an orange triangle with an exclamation point appears next to the graph legend.
     /// This member is required.
     public var metricWidget: Swift.String?
     /// The format of the resulting image. Only PNG images are supported. The default is png. If you specify png, the API returns an HTTP response with the content-type set to text/xml. The image data is in a MetricWidgetImage field. For example:  >
@@ -3419,27 +3825,6 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     }
 }
 
-extension CloudWatchClientTypes {
-
-    /// A key-value pair associated with a CloudWatch resource.
-    public struct Tag: Swift.Sendable {
-        /// A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
-        /// This member is required.
-        public var key: Swift.String?
-        /// The value for the specified tag key.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.key = key
-            self.value = value
-        }
-    }
-}
-
 public struct ListTagsForResourceOutput: Swift.Sendable {
     /// The list of tag keys and values associated with the resource you specified.
     public var tags: [CloudWatchClientTypes.Tag]?
@@ -3683,7 +4068,7 @@ public struct PutCompositeAlarmInput: Swift.Sendable {
 }
 
 public struct PutDashboardInput: Swift.Sendable {
-    /// The detailed information about the dashboard in JSON format, including the widgets to include and their location on the dashboard. This parameter is required. For more information about the syntax, see [Dashboard Body Structure and Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html).
+    /// The detailed information about the dashboard in JSON format, including the widgets to include and their location on the dashboard. This parameter is required. For more information about the syntax, see [Dashboard Body Structure and Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Dashboard-Body-Structure.html).
     /// This member is required.
     public var dashboardBody: Swift.String?
     /// The name of the dashboard. If a dashboard with this name already exists, this call modifies that dashboard, replacing its current contents. Otherwise, a new dashboard is created. The maximum length is 255, and valid characters are A-Z, a-z, 0-9, "-", and "_". This parameter is required.
@@ -3746,6 +4131,100 @@ public struct PutInsightRuleInput: Swift.Sendable {
 public struct PutInsightRuleOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct PutLogAlarmInput: Swift.Sendable {
+    /// The number of log lines from the most recent scheduled query execution to include in alarm action notifications. Valid range is 0 through 50. The default is 0, which means no log lines are included.
+    public var actionLogLineCount: Swift.Int?
+    /// The Amazon Resource Name (ARN) of an IAM role that CloudWatch assumes to retrieve log events for inclusion in alarm action notifications. Required when ActionLogLineCount is greater than 0.
+    public var actionLogLineRoleArn: Swift.String?
+    /// Indicates whether actions should be executed during any changes to the alarm state. The default is true.
+    public var actionsEnabled: Swift.Bool?
+    /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: Amazon SNS actions: arn:aws:sns:region:account-id:sns-topic-name  Lambda actions:
+    ///
+    /// * Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name
+    ///
+    /// * Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number
+    ///
+    /// * Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name
+    ///
+    ///
+    /// Systems Manager actions: arn:aws:ssm:region:account-id:opsitem:severity
+    public var alarmActions: [Swift.String]?
+    /// The description for the alarm.
+    public var alarmDescription: Swift.String?
+    /// The name for the alarm. This name must be unique within the Amazon Web Services account and Region.
+    /// This member is required.
+    public var alarmName: Swift.String?
+    /// The arithmetic operation to use when comparing the aggregated query result and the threshold. The aggregated query result is used as the first operand. Valid values are GreaterThanThreshold, GreaterThanOrEqualToThreshold, LessThanThreshold, and LessThanOrEqualToThreshold.
+    /// This member is required.
+    public var comparisonOperator: CloudWatchClientTypes.ComparisonOperator?
+    /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: Amazon SNS actions: arn:aws:sns:region:account-id:sns-topic-name  Lambda actions:
+    ///
+    /// * Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name
+    ///
+    /// * Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number
+    ///
+    /// * Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name
+    public var insufficientDataActions: [Swift.String]?
+    /// The actions to execute when this alarm transitions to the OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: Amazon SNS actions: arn:aws:sns:region:account-id:sns-topic-name  Lambda actions:
+    ///
+    /// * Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name
+    ///
+    /// * Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number
+    ///
+    /// * Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name
+    public var okActions: [Swift.String]?
+    /// The number of query results, out of the most recent QueryResultsToEvaluate results, that must breach the threshold to trigger the alarm to transition to ALARM (the M in M-of-N evaluation). Must be less than or equal to QueryResultsToEvaluate.
+    /// This member is required.
+    public var queryResultsToAlarm: Swift.Int?
+    /// The number of most recent scheduled query results to evaluate against the threshold (the N in M-of-N evaluation). Valid range is 1 through 100.
+    /// This member is required.
+    public var queryResultsToEvaluate: Swift.Int?
+    /// The configuration of the underlying CloudWatch Logs scheduled query that this alarm evaluates, including the query string, log groups, schedule, and aggregation expression.
+    /// This member is required.
+    public var scheduledQueryConfiguration: CloudWatchClientTypes.ScheduledQueryConfiguration?
+    /// A list of key-value pairs to associate with the alarm. You can use tags to categorize and manage your alarms.
+    public var tags: [CloudWatchClientTypes.Tag]?
+    /// The value to compare with the aggregated query result.
+    /// This member is required.
+    public var threshold: Swift.Double?
+    /// Sets how this alarm is to handle missing data points. Valid values are breaching, notBreaching, ignore, and missing. If this parameter is omitted, the default behavior of missing is used.
+    public var treatMissingData: Swift.String?
+
+    public init(
+        actionLogLineCount: Swift.Int? = nil,
+        actionLogLineRoleArn: Swift.String? = nil,
+        actionsEnabled: Swift.Bool? = nil,
+        alarmActions: [Swift.String]? = nil,
+        alarmDescription: Swift.String? = nil,
+        alarmName: Swift.String? = nil,
+        comparisonOperator: CloudWatchClientTypes.ComparisonOperator? = nil,
+        insufficientDataActions: [Swift.String]? = nil,
+        okActions: [Swift.String]? = nil,
+        queryResultsToAlarm: Swift.Int? = nil,
+        queryResultsToEvaluate: Swift.Int? = nil,
+        scheduledQueryConfiguration: CloudWatchClientTypes.ScheduledQueryConfiguration? = nil,
+        tags: [CloudWatchClientTypes.Tag]? = nil,
+        threshold: Swift.Double? = nil,
+        treatMissingData: Swift.String? = nil
+    ) {
+        self.actionLogLineCount = actionLogLineCount
+        self.actionLogLineRoleArn = actionLogLineRoleArn
+        self.actionsEnabled = actionsEnabled
+        self.alarmActions = alarmActions
+        self.alarmDescription = alarmDescription
+        self.alarmName = alarmName
+        self.comparisonOperator = comparisonOperator
+        self.insufficientDataActions = insufficientDataActions
+        self.okActions = okActions
+        self.queryResultsToAlarm = queryResultsToAlarm
+        self.queryResultsToEvaluate = queryResultsToEvaluate
+        self.scheduledQueryConfiguration = scheduledQueryConfiguration
+        self.tags = tags
+        self.threshold = threshold
+        self.treatMissingData = treatMissingData
+    }
 }
 
 extension CloudWatchClientTypes {
@@ -3865,6 +4344,8 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     public var evaluationInterval: Swift.Int?
     /// The number of periods over which data is compared to the specified threshold. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies that number. If you are setting an "M out of N" alarm, this value is the N.
     public var evaluationPeriods: Swift.Int?
+    /// The evaluation window that the alarm uses to select the range of metric data that it evaluates. Specify either a sliding window or a wall clock window. If you omit this parameter, the alarm uses a sliding window. A sliding window advances each time the alarm is evaluated, forming a rolling time window. A wall clock window aligns the evaluated range to fixed clock boundaries, such as the top of the hour or the start of the day. You can use EvaluationWindow with any type of metric alarm except alarms that are based on a PromQL query. For more information, see [Alarm evaluation windows](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-evaluation-window.html) in the CloudWatch User Guide.
+    public var evaluationWindow: CloudWatchClientTypes.EvaluationWindow?
     /// The extended statistic for the metric specified in MetricName. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic but not both. If you specify ExtendedStatistic, the following are valid values:
     ///
     /// * p90
@@ -4013,6 +4494,7 @@ public struct PutMetricAlarmInput: Swift.Sendable {
         evaluationCriteria: CloudWatchClientTypes.EvaluationCriteria? = nil,
         evaluationInterval: Swift.Int? = nil,
         evaluationPeriods: Swift.Int? = nil,
+        evaluationWindow: CloudWatchClientTypes.EvaluationWindow? = nil,
         extendedStatistic: Swift.String? = nil,
         insufficientDataActions: [Swift.String]? = nil,
         metricName: Swift.String? = nil,
@@ -4038,6 +4520,7 @@ public struct PutMetricAlarmInput: Swift.Sendable {
         self.evaluationCriteria = evaluationCriteria
         self.evaluationInterval = evaluationInterval
         self.evaluationPeriods = evaluationPeriods
+        self.evaluationWindow = evaluationWindow
         self.extendedStatistic = extendedStatistic
         self.insufficientDataActions = insufficientDataActions
         self.metricName = metricName

@@ -28,6 +28,8 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
@@ -569,6 +571,106 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+extension SocialMessagingClientTypes {
+
+    /// The category that classifies the business purpose of a WhatsApp Flow.
+    public enum MetaFlowCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case appointmentBooking
+        case contactUs
+        case customerSupport
+        case leadGeneration
+        case other
+        case shopping
+        case signIn
+        case signUp
+        case survey
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetaFlowCategory] {
+            return [
+                .appointmentBooking,
+                .contactUs,
+                .customerSupport,
+                .leadGeneration,
+                .other,
+                .shopping,
+                .signIn,
+                .signUp,
+                .survey
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .appointmentBooking: return "APPOINTMENT_BOOKING"
+            case .contactUs: return "CONTACT_US"
+            case .customerSupport: return "CUSTOMER_SUPPORT"
+            case .leadGeneration: return "LEAD_GENERATION"
+            case .other: return "OTHER"
+            case .shopping: return "SHOPPING"
+            case .signIn: return "SIGN_IN"
+            case .signUp: return "SIGN_UP"
+            case .survey: return "SURVEY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateWhatsAppFlowInput: Swift.Sendable {
+    /// The categories that classify the business purpose of the Flow. At least one category is required.
+    /// This member is required.
+    public var categories: [SocialMessagingClientTypes.MetaFlowCategory]?
+    /// The ID of an existing Flow within the same WhatsApp Business Account to clone.
+    public var cloneFlowId: Swift.String?
+    /// The Flow JSON definition that describes the screens, components, and logic of the Flow. Maximum size is 10 MB.
+    public var flowJson: Foundation.Data?
+    /// The name of the Flow. Must be unique within the WhatsApp Business Account.
+    /// This member is required.
+    public var flowName: Swift.String?
+    /// The ID of the WhatsApp Business Account to associate with this Flow.
+    /// This member is required.
+    public var id: Swift.String?
+    /// Set to true to publish the Flow immediately after creation. Requires a valid flowJson that passes Meta's validation.
+    public var publish: Swift.Bool?
+
+    public init(
+        categories: [SocialMessagingClientTypes.MetaFlowCategory]? = nil,
+        cloneFlowId: Swift.String? = nil,
+        flowJson: Foundation.Data? = nil,
+        flowName: Swift.String? = nil,
+        id: Swift.String? = nil,
+        publish: Swift.Bool? = nil
+    ) {
+        self.categories = categories
+        self.cloneFlowId = cloneFlowId
+        self.flowJson = flowJson
+        self.flowName = flowName
+        self.id = id
+        self.publish = publish
+    }
+}
+
+public struct CreateWhatsAppFlowOutput: Swift.Sendable {
+    /// The unique identifier assigned to the Flow by Meta.
+    public var flowId: Swift.String?
+    /// A list of validation errors returned by Meta, if any. Validation errors must be resolved before the Flow can be published.
+    public var validationErrors: [Swift.String]?
+
+    public init(
+        flowId: Swift.String? = nil,
+        validationErrors: [Swift.String]? = nil
+    ) {
+        self.flowId = flowId
+        self.validationErrors = validationErrors
+    }
+}
+
 public struct CreateWhatsAppMessageTemplateInput: Swift.Sendable {
     /// The ID of the WhatsApp Business Account to associate with this template.
     /// This member is required.
@@ -805,6 +907,28 @@ public struct CreateWhatsAppMessageTemplateMediaOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteWhatsAppFlowInput: Swift.Sendable {
+    /// The unique identifier of the Flow to delete.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// The ID of the WhatsApp Business Account associated with this Flow.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        flowId: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.flowId = flowId
+        self.id = id
+    }
+}
+
+public struct DeleteWhatsAppFlowOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteWhatsAppMessageMediaInput: Swift.Sendable {
     /// The unique identifier of the media file to delete. Use the mediaId returned from [PostWhatsAppMessageMedia](https://console.aws.amazon.com/social-messaging/latest/APIReference/API_PostWhatsAppMessageMedia.html).
     /// This member is required.
@@ -859,6 +983,28 @@ public struct DeleteWhatsAppMessageTemplateInput: Swift.Sendable {
 }
 
 public struct DeleteWhatsAppMessageTemplateOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeprecateWhatsAppFlowInput: Swift.Sendable {
+    /// The unique identifier of the Flow to deprecate.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// The ID of the WhatsApp Business Account associated with this Flow.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        flowId: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.flowId = flowId
+        self.id = id
+    }
+}
+
+public struct DeprecateWhatsAppFlowOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -1032,6 +1178,244 @@ public struct GetLinkedWhatsAppBusinessAccountPhoneNumberOutput: Swift.Sendable 
     ) {
         self.linkedWhatsAppBusinessAccountId = linkedWhatsAppBusinessAccountId
         self.phoneNumber = phoneNumber
+    }
+}
+
+public struct GetWhatsAppFlowInput: Swift.Sendable {
+    /// The unique identifier of the Flow to retrieve.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// The ID of the WhatsApp Business Account associated with this Flow.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        flowId: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.flowId = flowId
+        self.id = id
+    }
+}
+
+extension SocialMessagingClientTypes {
+
+    /// Contains the Meta application metadata associated with a WhatsApp Flow.
+    public struct MetaFlowApplicationInfo: Swift.Sendable {
+        /// The unique identifier of the Meta application.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The URL link for the Meta application.
+        public var link: Swift.String?
+        /// The name of the Meta application.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            link: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.id = id
+            self.link = link
+            self.name = name
+        }
+    }
+}
+
+extension SocialMessagingClientTypes {
+
+    /// Represents a single entity in the health status check for a WhatsApp Flow.
+    public struct MetaFlowHealthEntity: Swift.Sendable {
+        /// The messaging availability status for this entity (for example, AVAILABLE, LIMITED, or BLOCKED).
+        /// This member is required.
+        public var canSendMessage: Swift.String?
+        /// The type of entity (for example, FLOW, WABA, BUSINESS, or APP).
+        /// This member is required.
+        public var entityType: Swift.String?
+        /// The unique identifier of the entity.
+        /// This member is required.
+        public var id: Swift.String?
+
+        public init(
+            canSendMessage: Swift.String? = nil,
+            entityType: Swift.String? = nil,
+            id: Swift.String? = nil
+        ) {
+            self.canSendMessage = canSendMessage
+            self.entityType = entityType
+            self.id = id
+        }
+    }
+}
+
+extension SocialMessagingClientTypes {
+
+    /// Contains the overall health status and per-entity breakdown for a WhatsApp Flow.
+    public struct MetaFlowHealthStatus: Swift.Sendable {
+        /// The overall messaging availability status (for example, AVAILABLE, LIMITED, or BLOCKED).
+        /// This member is required.
+        public var canSendMessage: Swift.String?
+        /// A list of health status entities with per-entity availability information.
+        public var entities: [SocialMessagingClientTypes.MetaFlowHealthEntity]?
+
+        public init(
+            canSendMessage: Swift.String? = nil,
+            entities: [SocialMessagingClientTypes.MetaFlowHealthEntity]? = nil
+        ) {
+            self.canSendMessage = canSendMessage
+            self.entities = entities
+        }
+    }
+}
+
+extension SocialMessagingClientTypes {
+
+    /// Contains the preview URL for testing a WhatsApp Flow and its expiration timestamp.
+    public struct MetaFlowPreviewInfo: Swift.Sendable {
+        /// The timestamp when the preview URL expires.
+        /// This member is required.
+        public var expiresAt: Swift.String?
+        /// The web URL for previewing the Flow. Can be shared with stakeholders for review.
+        /// This member is required.
+        public var previewUrl: Swift.String?
+
+        public init(
+            expiresAt: Swift.String? = nil,
+            previewUrl: Swift.String? = nil
+        ) {
+            self.expiresAt = expiresAt
+            self.previewUrl = previewUrl
+        }
+    }
+}
+
+extension SocialMessagingClientTypes {
+
+    /// Contains WhatsApp Business Account metadata associated with a Flow, as returned by Meta.
+    public struct MetaFlowWhatsAppBusinessAccountInfo: Swift.Sendable {
+        /// The currency code for the WhatsApp Business Account (for example, USD).
+        public var currency: Swift.String?
+        /// The WhatsApp Business Account ID from Meta.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The message template namespace for the WhatsApp Business Account.
+        public var messageTemplateNamespace: Swift.String?
+        /// The name of the WhatsApp Business Account.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The timezone ID for the WhatsApp Business Account.
+        public var timezoneId: Swift.String?
+
+        public init(
+            currency: Swift.String? = nil,
+            id: Swift.String? = nil,
+            messageTemplateNamespace: Swift.String? = nil,
+            name: Swift.String? = nil,
+            timezoneId: Swift.String? = nil
+        ) {
+            self.currency = currency
+            self.id = id
+            self.messageTemplateNamespace = messageTemplateNamespace
+            self.name = name
+            self.timezoneId = timezoneId
+        }
+    }
+}
+
+public struct GetWhatsAppFlowOutput: Swift.Sendable {
+    /// The Meta application information associated with this Flow.
+    public var application: SocialMessagingClientTypes.MetaFlowApplicationInfo?
+    /// The categories that classify the business purpose of the Flow.
+    public var categories: [SocialMessagingClientTypes.MetaFlowCategory]?
+    /// The data API version for data exchange endpoint Flows.
+    public var dataApiVersion: Swift.String?
+    /// The endpoint URI for data exchange Flows, if configured.
+    public var endpointUri: Swift.String?
+    /// The unique identifier of the Flow.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// The name of the Flow.
+    /// This member is required.
+    public var flowName: Swift.String?
+    /// The lifecycle status of the Flow. Valid values are DRAFT, PUBLISHED, DEPRECATED, BLOCKED, and THROTTLED.
+    /// This member is required.
+    public var flowStatus: Swift.String?
+    /// The health status information for this Flow from Meta.
+    public var healthStatus: SocialMessagingClientTypes.MetaFlowHealthStatus?
+    /// The version of the Flow JSON schema used by this Flow (for example, 7.3).
+    public var jsonVersion: Swift.String?
+    /// The preview URL and its expiration timestamp for testing the Flow.
+    public var preview: SocialMessagingClientTypes.MetaFlowPreviewInfo?
+    /// A list of validation errors from Meta, if any.
+    public var validationErrors: [Swift.String]?
+    /// The WhatsApp Business Account information from Meta associated with this Flow.
+    public var whatsAppBusinessAccount: SocialMessagingClientTypes.MetaFlowWhatsAppBusinessAccountInfo?
+
+    public init(
+        application: SocialMessagingClientTypes.MetaFlowApplicationInfo? = nil,
+        categories: [SocialMessagingClientTypes.MetaFlowCategory]? = nil,
+        dataApiVersion: Swift.String? = nil,
+        endpointUri: Swift.String? = nil,
+        flowId: Swift.String? = nil,
+        flowName: Swift.String? = nil,
+        flowStatus: Swift.String? = nil,
+        healthStatus: SocialMessagingClientTypes.MetaFlowHealthStatus? = nil,
+        jsonVersion: Swift.String? = nil,
+        preview: SocialMessagingClientTypes.MetaFlowPreviewInfo? = nil,
+        validationErrors: [Swift.String]? = nil,
+        whatsAppBusinessAccount: SocialMessagingClientTypes.MetaFlowWhatsAppBusinessAccountInfo? = nil
+    ) {
+        self.application = application
+        self.categories = categories
+        self.dataApiVersion = dataApiVersion
+        self.endpointUri = endpointUri
+        self.flowId = flowId
+        self.flowName = flowName
+        self.flowStatus = flowStatus
+        self.healthStatus = healthStatus
+        self.jsonVersion = jsonVersion
+        self.preview = preview
+        self.validationErrors = validationErrors
+        self.whatsAppBusinessAccount = whatsAppBusinessAccount
+    }
+}
+
+public struct GetWhatsAppFlowPreviewInput: Swift.Sendable {
+    /// The unique identifier of the Flow to preview.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// The ID of the WhatsApp Business Account associated with this Flow.
+    /// This member is required.
+    public var id: Swift.String?
+    /// Set to true to force generation of a new preview URL. Use this if the previous URL has been compromised or you want a fresh expiration period.
+    public var invalidate: Swift.Bool?
+
+    public init(
+        flowId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        invalidate: Swift.Bool? = nil
+    ) {
+        self.flowId = flowId
+        self.id = id
+        self.invalidate = invalidate
+    }
+}
+
+public struct GetWhatsAppFlowPreviewOutput: Swift.Sendable {
+    /// The unique identifier of the Flow.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// The preview URL and its expiration timestamp.
+    /// This member is required.
+    public var preview: SocialMessagingClientTypes.MetaFlowPreviewInfo?
+
+    public init(
+        flowId: Swift.String? = nil,
+        preview: SocialMessagingClientTypes.MetaFlowPreviewInfo? = nil
+    ) {
+        self.flowId = flowId
+        self.preview = preview
     }
 }
 
@@ -1265,6 +1649,145 @@ public struct ListLinkedWhatsAppBusinessAccountsOutput: Swift.Sendable {
     }
 }
 
+public struct ListWhatsAppFlowAssetsInput: Swift.Sendable {
+    /// The unique identifier of the Flow whose assets to list.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// The ID of the WhatsApp Business Account associated with this Flow.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        flowId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.flowId = flowId
+        self.id = id
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension SocialMessagingClientTypes {
+
+    /// Represents a single asset file associated with a WhatsApp Flow, including a presigned download URL.
+    public struct MetaFlowAsset: Swift.Sendable {
+        /// The type of asset. Currently the only supported value is FLOW_JSON.
+        /// This member is required.
+        public var assetType: Swift.String?
+        /// A presigned URL from Meta for downloading the asset. The URL expires after a short period.
+        /// This member is required.
+        public var downloadUrl: Swift.String?
+        /// The filename of the asset (for example, flow.json).
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            assetType: Swift.String? = nil,
+            downloadUrl: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.assetType = assetType
+            self.downloadUrl = downloadUrl
+            self.name = name
+        }
+    }
+}
+
+public struct ListWhatsAppFlowAssetsOutput: Swift.Sendable {
+    /// A list of Flow assets with download URLs.
+    /// This member is required.
+    public var flowAssets: [SocialMessagingClientTypes.MetaFlowAsset]?
+    /// The token to retrieve the next page of results, if any.
+    public var nextToken: Swift.String?
+
+    public init(
+        flowAssets: [SocialMessagingClientTypes.MetaFlowAsset]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.flowAssets = flowAssets
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListWhatsAppFlowsInput: Swift.Sendable {
+    /// The ID of the WhatsApp Business Account to list Flows for.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.id = id
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension SocialMessagingClientTypes {
+
+    /// Contains summary information about a WhatsApp Flow, including its ID, name, status, and categories.
+    public struct MetaFlowSummary: Swift.Sendable {
+        /// The categories that classify the business purpose of the Flow.
+        /// This member is required.
+        public var flowCategories: [SocialMessagingClientTypes.MetaFlowCategory]?
+        /// The unique identifier of the Flow assigned by Meta.
+        /// This member is required.
+        public var flowId: Swift.String?
+        /// The name of the Flow.
+        /// This member is required.
+        public var flowName: Swift.String?
+        /// The lifecycle status of the Flow (DRAFT, PUBLISHED, DEPRECATED, BLOCKED, or THROTTLED).
+        /// This member is required.
+        public var flowStatus: Swift.String?
+        /// A list of validation errors from Meta, if any.
+        /// This member is required.
+        public var validationErrors: [Swift.String]?
+
+        public init(
+            flowCategories: [SocialMessagingClientTypes.MetaFlowCategory]? = nil,
+            flowId: Swift.String? = nil,
+            flowName: Swift.String? = nil,
+            flowStatus: Swift.String? = nil,
+            validationErrors: [Swift.String]? = nil
+        ) {
+            self.flowCategories = flowCategories
+            self.flowId = flowId
+            self.flowName = flowName
+            self.flowStatus = flowStatus
+            self.validationErrors = validationErrors
+        }
+    }
+}
+
+public struct ListWhatsAppFlowsOutput: Swift.Sendable {
+    /// A list of Flow summaries.
+    /// This member is required.
+    public var flows: [SocialMessagingClientTypes.MetaFlowSummary]?
+    /// The token to retrieve the next page of results, if any.
+    public var nextToken: Swift.String?
+
+    public init(
+        flows: [SocialMessagingClientTypes.MetaFlowSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.flows = flows
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListWhatsAppMessageTemplatesInput: Swift.Sendable {
     /// The ID of the WhatsApp Business Account to list templates for.
     /// This member is required.
@@ -1429,6 +1952,28 @@ public struct ListWhatsAppTemplateLibraryOutput: Swift.Sendable {
     }
 }
 
+public struct PublishWhatsAppFlowInput: Swift.Sendable {
+    /// The unique identifier of the Flow to publish.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// The ID of the WhatsApp Business Account associated with this Flow.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        flowId: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.flowId = flowId
+        self.id = id
+    }
+}
+
+public struct PublishWhatsAppFlowOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct PutWhatsAppBusinessAccountEventDestinationsInput: Swift.Sendable {
     /// An array of WhatsAppBusinessAccountEventDestination event destinations.
     /// This member is required.
@@ -1449,6 +1994,69 @@ public struct PutWhatsAppBusinessAccountEventDestinationsInput: Swift.Sendable {
 public struct PutWhatsAppBusinessAccountEventDestinationsOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct UpdateWhatsAppFlowInput: Swift.Sendable {
+    /// The updated categories for the Flow.
+    public var categories: [SocialMessagingClientTypes.MetaFlowCategory]?
+    /// The unique identifier of the Flow to update.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// The updated name for the Flow.
+    public var flowName: Swift.String?
+    /// The ID of the WhatsApp Business Account associated with this Flow.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        categories: [SocialMessagingClientTypes.MetaFlowCategory]? = nil,
+        flowId: Swift.String? = nil,
+        flowName: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.categories = categories
+        self.flowId = flowId
+        self.flowName = flowName
+        self.id = id
+    }
+}
+
+public struct UpdateWhatsAppFlowOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateWhatsAppFlowAssetsInput: Swift.Sendable {
+    /// The unique identifier of the Flow whose assets to update.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// The updated Flow JSON definition. Maximum size is 10 MB.
+    /// This member is required.
+    public var flowJson: Foundation.Data?
+    /// The ID of the WhatsApp Business Account associated with this Flow.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        flowId: Swift.String? = nil,
+        flowJson: Foundation.Data? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.flowId = flowId
+        self.flowJson = flowJson
+        self.id = id
+    }
+}
+
+public struct UpdateWhatsAppFlowAssetsOutput: Swift.Sendable {
+    /// A list of validation errors returned by Meta, if any. Validation errors must be resolved before the Flow can be published.
+    public var validationErrors: [Swift.String]?
+
+    public init(
+        validationErrors: [Swift.String]? = nil
+    ) {
+        self.validationErrors = validationErrors
+    }
 }
 
 public struct UpdateWhatsAppMessageTemplateInput: Swift.Sendable {
@@ -1683,6 +2291,13 @@ extension AssociateWhatsAppBusinessAccountInput {
     }
 }
 
+extension CreateWhatsAppFlowInput {
+
+    static func urlPathProvider(_ value: CreateWhatsAppFlowInput) -> Swift.String? {
+        return "/v1/whatsapp/flow/create"
+    }
+}
+
 extension CreateWhatsAppMessageTemplateInput {
 
     static func urlPathProvider(_ value: CreateWhatsAppMessageTemplateInput) -> Swift.String? {
@@ -1701,6 +2316,33 @@ extension CreateWhatsAppMessageTemplateMediaInput {
 
     static func urlPathProvider(_ value: CreateWhatsAppMessageTemplateMediaInput) -> Swift.String? {
         return "/v1/whatsapp/template/media"
+    }
+}
+
+extension DeleteWhatsAppFlowInput {
+
+    static func urlPathProvider(_ value: DeleteWhatsAppFlowInput) -> Swift.String? {
+        return "/v1/whatsapp/flow"
+    }
+}
+
+extension DeleteWhatsAppFlowInput {
+
+    static func queryItemProvider(_ value: DeleteWhatsAppFlowInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        guard let flowId = value.flowId else {
+            let message = "Creating a URL Query Item failed. flowId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let flowIdQueryItem = Smithy.URIQueryItem(name: "flowId".urlPercentEncoding(), value: Swift.String(flowId).urlPercentEncoding())
+        items.append(flowIdQueryItem)
+        return items
     }
 }
 
@@ -1766,6 +2408,13 @@ extension DeleteWhatsAppMessageTemplateInput {
     }
 }
 
+extension DeprecateWhatsAppFlowInput {
+
+    static func urlPathProvider(_ value: DeprecateWhatsAppFlowInput) -> Swift.String? {
+        return "/v1/whatsapp/flow/deprecate"
+    }
+}
+
 extension DisassociateWhatsAppBusinessAccountInput {
 
     static func urlPathProvider(_ value: DisassociateWhatsAppBusinessAccountInput) -> Swift.String? {
@@ -1825,6 +2474,64 @@ extension GetLinkedWhatsAppBusinessAccountPhoneNumberInput {
         }
         let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
         items.append(idQueryItem)
+        return items
+    }
+}
+
+extension GetWhatsAppFlowInput {
+
+    static func urlPathProvider(_ value: GetWhatsAppFlowInput) -> Swift.String? {
+        return "/v1/whatsapp/flow"
+    }
+}
+
+extension GetWhatsAppFlowInput {
+
+    static func queryItemProvider(_ value: GetWhatsAppFlowInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        guard let flowId = value.flowId else {
+            let message = "Creating a URL Query Item failed. flowId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let flowIdQueryItem = Smithy.URIQueryItem(name: "flowId".urlPercentEncoding(), value: Swift.String(flowId).urlPercentEncoding())
+        items.append(flowIdQueryItem)
+        return items
+    }
+}
+
+extension GetWhatsAppFlowPreviewInput {
+
+    static func urlPathProvider(_ value: GetWhatsAppFlowPreviewInput) -> Swift.String? {
+        return "/v1/whatsapp/flow/preview"
+    }
+}
+
+extension GetWhatsAppFlowPreviewInput {
+
+    static func queryItemProvider(_ value: GetWhatsAppFlowPreviewInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        if let invalidate = value.invalidate {
+            let invalidateQueryItem = Smithy.URIQueryItem(name: "invalidate".urlPercentEncoding(), value: Swift.String(invalidate).urlPercentEncoding())
+            items.append(invalidateQueryItem)
+        }
+        guard let flowId = value.flowId else {
+            let message = "Creating a URL Query Item failed. flowId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let flowIdQueryItem = Smithy.URIQueryItem(name: "flowId".urlPercentEncoding(), value: Swift.String(flowId).urlPercentEncoding())
+        items.append(flowIdQueryItem)
         return items
     }
 }
@@ -1913,6 +2620,70 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension ListWhatsAppFlowAssetsInput {
+
+    static func urlPathProvider(_ value: ListWhatsAppFlowAssetsInput) -> Swift.String? {
+        return "/v1/whatsapp/flow/assets"
+    }
+}
+
+extension ListWhatsAppFlowAssetsInput {
+
+    static func queryItemProvider(_ value: ListWhatsAppFlowAssetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        guard let flowId = value.flowId else {
+            let message = "Creating a URL Query Item failed. flowId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let flowIdQueryItem = Smithy.URIQueryItem(name: "flowId".urlPercentEncoding(), value: Swift.String(flowId).urlPercentEncoding())
+        items.append(flowIdQueryItem)
+        return items
+    }
+}
+
+extension ListWhatsAppFlowsInput {
+
+    static func urlPathProvider(_ value: ListWhatsAppFlowsInput) -> Swift.String? {
+        return "/v1/whatsapp/flow/list"
+    }
+}
+
+extension ListWhatsAppFlowsInput {
+
+    static func queryItemProvider(_ value: ListWhatsAppFlowsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        return items
+    }
+}
+
 extension ListWhatsAppMessageTemplatesInput {
 
     static func urlPathProvider(_ value: ListWhatsAppMessageTemplatesInput) -> Swift.String? {
@@ -1970,6 +2741,13 @@ extension PostWhatsAppMessageMediaInput {
     }
 }
 
+extension PublishWhatsAppFlowInput {
+
+    static func urlPathProvider(_ value: PublishWhatsAppFlowInput) -> Swift.String? {
+        return "/v1/whatsapp/flow/publish"
+    }
+}
+
 extension PutWhatsAppBusinessAccountEventDestinationsInput {
 
     static func urlPathProvider(_ value: PutWhatsAppBusinessAccountEventDestinationsInput) -> Swift.String? {
@@ -1998,6 +2776,20 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateWhatsAppFlowInput {
+
+    static func urlPathProvider(_ value: UpdateWhatsAppFlowInput) -> Swift.String? {
+        return "/v1/whatsapp/flow/update"
+    }
+}
+
+extension UpdateWhatsAppFlowAssetsInput {
+
+    static func urlPathProvider(_ value: UpdateWhatsAppFlowAssetsInput) -> Swift.String? {
+        return "/v1/whatsapp/flow/assets/update"
+    }
+}
+
 extension UpdateWhatsAppMessageTemplateInput {
 
     static func urlPathProvider(_ value: UpdateWhatsAppMessageTemplateInput) -> Swift.String? {
@@ -2011,6 +2803,19 @@ extension AssociateWhatsAppBusinessAccountInput {
         guard let value else { return }
         try writer["setupFinalization"].write(value.setupFinalization, with: SocialMessagingClientTypes.WhatsAppSetupFinalization.write(value:to:))
         try writer["signupCallback"].write(value.signupCallback, with: SocialMessagingClientTypes.WhatsAppSignupCallback.write(value:to:))
+    }
+}
+
+extension CreateWhatsAppFlowInput {
+
+    static func write(value: CreateWhatsAppFlowInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["categories"].writeList(value.categories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SocialMessagingClientTypes.MetaFlowCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloneFlowId"].write(value.cloneFlowId)
+        try writer["flowJson"].write(value.flowJson)
+        try writer["flowName"].write(value.flowName)
+        try writer["id"].write(value.id)
+        try writer["publish"].write(value.publish)
     }
 }
 
@@ -2038,6 +2843,15 @@ extension CreateWhatsAppMessageTemplateMediaInput {
         guard let value else { return }
         try writer["id"].write(value.id)
         try writer["sourceS3File"].write(value.sourceS3File, with: SocialMessagingClientTypes.S3File.write(value:to:))
+    }
+}
+
+extension DeprecateWhatsAppFlowInput {
+
+    static func write(value: DeprecateWhatsAppFlowInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["flowId"].write(value.flowId)
+        try writer["id"].write(value.id)
     }
 }
 
@@ -2070,6 +2884,15 @@ extension PostWhatsAppMessageMediaInput {
         try writer["originationPhoneNumberId"].write(value.originationPhoneNumberId)
         try writer["sourceS3File"].write(value.sourceS3File, with: SocialMessagingClientTypes.S3File.write(value:to:))
         try writer["sourceS3PresignedUrl"].write(value.sourceS3PresignedUrl, with: SocialMessagingClientTypes.S3PresignedUrl.write(value:to:))
+    }
+}
+
+extension PublishWhatsAppFlowInput {
+
+    static func write(value: PublishWhatsAppFlowInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["flowId"].write(value.flowId)
+        try writer["id"].write(value.id)
     }
 }
 
@@ -2110,6 +2933,27 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateWhatsAppFlowInput {
+
+    static func write(value: UpdateWhatsAppFlowInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["categories"].writeList(value.categories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SocialMessagingClientTypes.MetaFlowCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["flowId"].write(value.flowId)
+        try writer["flowName"].write(value.flowName)
+        try writer["id"].write(value.id)
+    }
+}
+
+extension UpdateWhatsAppFlowAssetsInput {
+
+    static func write(value: UpdateWhatsAppFlowAssetsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["flowId"].write(value.flowId)
+        try writer["flowJson"].write(value.flowJson)
+        try writer["id"].write(value.id)
+    }
+}
+
 extension UpdateWhatsAppMessageTemplateInput {
 
     static func write(value: UpdateWhatsAppMessageTemplateInput?, to writer: SmithyJSON.Writer) throws {
@@ -2135,6 +2979,19 @@ extension AssociateWhatsAppBusinessAccountOutput {
         value.linkedWhatsAppBusinessAccountId = try reader["linkedWhatsAppBusinessAccountId"].readIfPresent()
         value.signupCallbackResult = try reader["signupCallbackResult"].readIfPresent(with: SocialMessagingClientTypes.WhatsAppSignupCallbackResult.read(from:))
         value.statusCode = try reader["statusCode"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateWhatsAppFlowOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateWhatsAppFlowOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateWhatsAppFlowOutput()
+        value.flowId = try reader["flowId"].readIfPresent()
+        value.validationErrors = try reader["validationErrors"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2179,6 +3036,13 @@ extension CreateWhatsAppMessageTemplateMediaOutput {
     }
 }
 
+extension DeleteWhatsAppFlowOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteWhatsAppFlowOutput {
+        return DeleteWhatsAppFlowOutput()
+    }
+}
+
 extension DeleteWhatsAppMessageMediaOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteWhatsAppMessageMediaOutput {
@@ -2195,6 +3059,13 @@ extension DeleteWhatsAppMessageTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteWhatsAppMessageTemplateOutput {
         return DeleteWhatsAppMessageTemplateOutput()
+    }
+}
+
+extension DeprecateWhatsAppFlowOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeprecateWhatsAppFlowOutput {
+        return DeprecateWhatsAppFlowOutput()
     }
 }
 
@@ -2226,6 +3097,42 @@ extension GetLinkedWhatsAppBusinessAccountPhoneNumberOutput {
         var value = GetLinkedWhatsAppBusinessAccountPhoneNumberOutput()
         value.linkedWhatsAppBusinessAccountId = try reader["linkedWhatsAppBusinessAccountId"].readIfPresent()
         value.phoneNumber = try reader["phoneNumber"].readIfPresent(with: SocialMessagingClientTypes.WhatsAppPhoneNumberDetail.read(from:))
+        return value
+    }
+}
+
+extension GetWhatsAppFlowOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetWhatsAppFlowOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetWhatsAppFlowOutput()
+        value.application = try reader["application"].readIfPresent(with: SocialMessagingClientTypes.MetaFlowApplicationInfo.read(from:))
+        value.categories = try reader["categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SocialMessagingClientTypes.MetaFlowCategory>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataApiVersion = try reader["dataApiVersion"].readIfPresent()
+        value.endpointUri = try reader["endpointUri"].readIfPresent()
+        value.flowId = try reader["flowId"].readIfPresent() ?? ""
+        value.flowName = try reader["flowName"].readIfPresent() ?? ""
+        value.flowStatus = try reader["flowStatus"].readIfPresent() ?? ""
+        value.healthStatus = try reader["healthStatus"].readIfPresent(with: SocialMessagingClientTypes.MetaFlowHealthStatus.read(from:))
+        value.jsonVersion = try reader["jsonVersion"].readIfPresent()
+        value.preview = try reader["preview"].readIfPresent(with: SocialMessagingClientTypes.MetaFlowPreviewInfo.read(from:))
+        value.validationErrors = try reader["validationErrors"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.whatsAppBusinessAccount = try reader["whatsAppBusinessAccount"].readIfPresent(with: SocialMessagingClientTypes.MetaFlowWhatsAppBusinessAccountInfo.read(from:))
+        return value
+    }
+}
+
+extension GetWhatsAppFlowPreviewOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetWhatsAppFlowPreviewOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetWhatsAppFlowPreviewOutput()
+        value.flowId = try reader["flowId"].readIfPresent() ?? ""
+        value.preview = try reader["preview"].readIfPresent(with: SocialMessagingClientTypes.MetaFlowPreviewInfo.read(from:))
         return value
     }
 }
@@ -2281,6 +3188,32 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension ListWhatsAppFlowAssetsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListWhatsAppFlowAssetsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListWhatsAppFlowAssetsOutput()
+        value.flowAssets = try reader["flowAssets"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.MetaFlowAsset.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListWhatsAppFlowsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListWhatsAppFlowsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListWhatsAppFlowsOutput()
+        value.flows = try reader["flows"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.MetaFlowSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListWhatsAppMessageTemplatesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListWhatsAppMessageTemplatesOutput {
@@ -2316,6 +3249,13 @@ extension PostWhatsAppMessageMediaOutput {
         var value = PostWhatsAppMessageMediaOutput()
         value.mediaId = try reader["mediaId"].readIfPresent()
         return value
+    }
+}
+
+extension PublishWhatsAppFlowOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PublishWhatsAppFlowOutput {
+        return PublishWhatsAppFlowOutput()
     }
 }
 
@@ -2362,6 +3302,25 @@ extension UntagResourceOutput {
     }
 }
 
+extension UpdateWhatsAppFlowOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateWhatsAppFlowOutput {
+        return UpdateWhatsAppFlowOutput()
+    }
+}
+
+extension UpdateWhatsAppFlowAssetsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateWhatsAppFlowAssetsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateWhatsAppFlowAssetsOutput()
+        value.validationErrors = try reader["validationErrors"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension UpdateWhatsAppMessageTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateWhatsAppMessageTemplateOutput {
@@ -2395,6 +3354,26 @@ enum AssociateWhatsAppBusinessAccountOutputError {
     }
 }
 
+enum CreateWhatsAppFlowOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateWhatsAppMessageTemplateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2404,6 +3383,7 @@ enum CreateWhatsAppMessageTemplateOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
@@ -2423,6 +3403,7 @@ enum CreateWhatsAppMessageTemplateFromLibraryOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
@@ -2442,6 +3423,27 @@ enum CreateWhatsAppMessageTemplateMediaOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteWhatsAppFlowOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
@@ -2481,6 +3483,27 @@ enum DeleteWhatsAppMessageTemplateOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeprecateWhatsAppFlowOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
@@ -2547,6 +3570,46 @@ enum GetLinkedWhatsAppBusinessAccountPhoneNumberOutputError {
     }
 }
 
+enum GetWhatsAppFlowOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetWhatsAppFlowPreviewOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetWhatsAppMessageMediaOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2576,6 +3639,7 @@ enum GetWhatsAppMessageTemplateOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
@@ -2621,6 +3685,46 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum ListWhatsAppFlowAssetsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListWhatsAppFlowsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListWhatsAppMessageTemplatesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2630,6 +3734,7 @@ enum ListWhatsAppMessageTemplatesOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
@@ -2649,6 +3754,7 @@ enum ListWhatsAppTemplateLibraryOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
@@ -2660,6 +3766,26 @@ enum ListWhatsAppTemplateLibraryOutputError {
 }
 
 enum PostWhatsAppMessageMediaOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PublishWhatsAppFlowOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -2749,6 +3875,46 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdateWhatsAppFlowOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateWhatsAppFlowAssetsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateWhatsAppMessageTemplateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2758,6 +3924,7 @@ enum UpdateWhatsAppMessageTemplateOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
@@ -2820,6 +3987,19 @@ extension ThrottledRequestException {
     }
 }
 
+extension AccessDeniedByMetaException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedByMetaException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedByMetaException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InternalServiceException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServiceException {
@@ -2838,19 +4018,6 @@ extension ResourceNotFoundException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedByMetaException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedByMetaException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedByMetaException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2970,6 +4137,92 @@ extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountSummary {
         value.wabaName = try reader["wabaName"].readIfPresent() ?? ""
         value.eventDestinations = try reader["eventDestinations"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.marketingMessagesOnboardingStatus = try reader["marketingMessagesOnboardingStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.MetaFlowApplicationInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.MetaFlowApplicationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.MetaFlowApplicationInfo()
+        value.link = try reader["link"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.MetaFlowAsset {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.MetaFlowAsset {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.MetaFlowAsset()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.assetType = try reader["assetType"].readIfPresent() ?? ""
+        value.downloadUrl = try reader["downloadUrl"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.MetaFlowHealthEntity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.MetaFlowHealthEntity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.MetaFlowHealthEntity()
+        value.entityType = try reader["entityType"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.canSendMessage = try reader["canSendMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.MetaFlowHealthStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.MetaFlowHealthStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.MetaFlowHealthStatus()
+        value.canSendMessage = try reader["canSendMessage"].readIfPresent() ?? ""
+        value.entities = try reader["entities"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.MetaFlowHealthEntity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.MetaFlowPreviewInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.MetaFlowPreviewInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.MetaFlowPreviewInfo()
+        value.previewUrl = try reader["previewUrl"].readIfPresent() ?? ""
+        value.expiresAt = try reader["expiresAt"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.MetaFlowSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.MetaFlowSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.MetaFlowSummary()
+        value.flowId = try reader["flowId"].readIfPresent() ?? ""
+        value.flowName = try reader["flowName"].readIfPresent() ?? ""
+        value.flowStatus = try reader["flowStatus"].readIfPresent() ?? ""
+        value.flowCategories = try reader["flowCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SocialMessagingClientTypes.MetaFlowCategory>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.validationErrors = try reader["validationErrors"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.MetaFlowWhatsAppBusinessAccountInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.MetaFlowWhatsAppBusinessAccountInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.MetaFlowWhatsAppBusinessAccountInfo()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.currency = try reader["currency"].readIfPresent()
+        value.timezoneId = try reader["timezoneId"].readIfPresent()
+        value.messageTemplateNamespace = try reader["messageTemplateNamespace"].readIfPresent()
         return value
     }
 }

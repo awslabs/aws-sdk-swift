@@ -111,6 +111,11 @@ public struct DeleteSubscriptionFilterOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteSyslogConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteTransformerOutput: Swift.Sendable {
 
     public init() { }
@@ -147,6 +152,11 @@ public struct PutRetentionPolicyOutput: Swift.Sendable {
 }
 
 public struct PutSubscriptionFilterOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct PutSyslogConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -2010,12 +2020,14 @@ public struct CreateScheduledQueryInput: Swift.Sendable {
     public var description: Swift.String?
     /// Configuration for where to deliver query results. Currently supports Amazon S3 destinations for storing query output.
     public var destinationConfiguration: CloudWatchLogsClientTypes.DestinationConfiguration?
+    /// The time offset in seconds that defines the end of the lookback period for the query. Together with startTimeOffset, this determines the time window relative to the execution time over which the query runs.
+    public var endTimeOffset: Swift.Int?
     /// The ARN of the IAM role that grants permissions to execute the query and deliver results to the specified destination. The role must have permissions to read from the specified log groups and write to the destination.
     /// This member is required.
     public var executionRoleArn: Swift.String?
     /// An array of log group names or ARNs to query. You can specify between 1 and 50 log groups. Log groups can be identified by name or full ARN.
     public var logGroupIdentifiers: [Swift.String]?
-    /// The name of the scheduled query. The name must be unique within your account and region. Valid characters are alphanumeric characters, hyphens, underscores, and periods. Length must be between 1 and 255 characters.
+    /// The name of the scheduled query. The name must be unique within your account and region. Length must be between 1 and 300 characters.
     /// This member is required.
     public var name: Swift.String?
     /// The query language to use for the scheduled query. Valid values are CWLI, PPL, and SQL.
@@ -2043,6 +2055,7 @@ public struct CreateScheduledQueryInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         destinationConfiguration: CloudWatchLogsClientTypes.DestinationConfiguration? = nil,
+        endTimeOffset: Swift.Int? = nil,
         executionRoleArn: Swift.String? = nil,
         logGroupIdentifiers: [Swift.String]? = nil,
         name: Swift.String? = nil,
@@ -2058,6 +2071,7 @@ public struct CreateScheduledQueryInput: Swift.Sendable {
     ) {
         self.description = description
         self.destinationConfiguration = destinationConfiguration
+        self.endTimeOffset = endTimeOffset
         self.executionRoleArn = executionRoleArn
         self.logGroupIdentifiers = logGroupIdentifiers
         self.name = name
@@ -2540,6 +2554,22 @@ public struct DeleteSubscriptionFilterInput: Swift.Sendable {
     ) {
         self.filterName = filterName
         self.logGroupName = logGroupName
+    }
+}
+
+public struct DeleteSyslogConfigurationInput: Swift.Sendable {
+    /// The name or ARN of the log group to remove the syslog configuration from.
+    /// This member is required.
+    public var logGroupIdentifier: Swift.String?
+    /// The ID of the VPC endpoint associated with the syslog configuration to delete.
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        logGroupIdentifier: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.logGroupIdentifier = logGroupIdentifier
+        self.vpcEndpointId = vpcEndpointId
     }
 }
 
@@ -4789,6 +4819,8 @@ public struct FilterLogEventsInput: Swift.Sendable {
     public var logStreamNames: [Swift.String]?
     /// The token for the next set of events to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
+    /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is true. The startFromHead parameter sets the sort direction on the first request. On subsequent requests, the nextToken determines the sort direction. To continue paginating in the same direction, provide the returned nextToken. If you provide both nextToken and startFromHead, the direction of the nextToken is used. Setting startFromHead to false is supported only when startTime is on or after Jan 1, 2024 00:00:00 UTC. A request with startFromHead set to false and a startTime before this date returns an InvalidParameterException.
+    public var startFromHead: Swift.Bool?
     /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
     public var startTime: Swift.Int?
     /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
@@ -4804,6 +4836,7 @@ public struct FilterLogEventsInput: Swift.Sendable {
         logStreamNamePrefix: Swift.String? = nil,
         logStreamNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
+        startFromHead: Swift.Bool? = nil,
         startTime: Swift.Int? = nil,
         unmask: Swift.Bool? = false
     ) {
@@ -4816,6 +4849,7 @@ public struct FilterLogEventsInput: Swift.Sendable {
         self.logStreamNamePrefix = logStreamNamePrefix
         self.logStreamNames = logStreamNames
         self.nextToken = nextToken
+        self.startFromHead = startFromHead
         self.startTime = startTime
         self.unmask = unmask
     }
@@ -4843,7 +4877,7 @@ extension CloudWatchLogsClientTypes {
 public struct FilterLogEventsOutput: Swift.Sendable {
     /// The matched events.
     public var events: [CloudWatchLogsClientTypes.FilteredLogEvent]?
-    /// The token to use when requesting the next set of items. The token expires after 24 hours. If the results don't include a nextToken, then pagination is finished.
+    /// The token for the next set of items in the sorting direction specified by the startFromHead parameter in the first request. The token expires after 24 hours. If the results don't include a nextToken, then pagination is finished.
     public var nextToken: Swift.String?
     /// Important As of May 15, 2020, this parameter is no longer supported. This parameter returns an empty list. Indicates which log streams have been searched and whether each has been searched completely.
     public var searchedLogStreams: [CloudWatchLogsClientTypes.SearchedLogStream]?
@@ -5807,7 +5841,7 @@ extension CloudWatchLogsClientTypes {
 public struct GetQueryResultsOutput: Swift.Sendable {
     /// If you associated an KMS key with the CloudWatch Logs Insights query results in this account, this field displays the ARN of the key that's used to encrypt the query results when [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html) stores them.
     public var encryptionKey: Swift.String?
-    /// If there are more log events remaining in the results, the response includes a nextToken. You can use this token in a subsequent GetQueryResults request to get the next set of results. You can retrieve up to 100,000 log event results from a query by paginating with this token.
+    /// If there are more log events remaining in the results, the response includes a nextToken. You can use this token in a subsequent GetQueryResults request to get the next set of results. You can retrieve up to 100,000 log event results from a query by paginating with this token. This is only supported for Logs Insights QL and is currently not supported for PPL and SQL query languages.
     public var nextToken: Swift.String?
     /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports, see [Supported query languages](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData_Languages.html).
     public var queryLanguage: CloudWatchLogsClientTypes.QueryLanguage?
@@ -5847,6 +5881,35 @@ public struct GetScheduledQueryInput: Swift.Sendable {
     }
 }
 
+extension CloudWatchLogsClientTypes {
+
+    public enum ScheduleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsManaged
+        case customerManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScheduleType] {
+            return [
+                .awsManaged,
+                .customerManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsManaged: return "AWS_MANAGED"
+            case .customerManaged: return "CUSTOMER_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetScheduledQueryOutput: Swift.Sendable {
     /// The timestamp when the scheduled query was created.
     public var creationTime: Swift.Int?
@@ -5854,6 +5917,8 @@ public struct GetScheduledQueryOutput: Swift.Sendable {
     public var description: Swift.String?
     /// Configuration for where query results are delivered.
     public var destinationConfiguration: CloudWatchLogsClientTypes.DestinationConfiguration?
+    /// The time offset in seconds that defines the end of the lookback period for the query.
+    public var endTimeOffset: Swift.Int?
     /// The ARN of the IAM role used to execute the query and deliver results.
     public var executionRoleArn: Swift.String?
     /// The status of the most recent execution of the scheduled query.
@@ -5876,6 +5941,8 @@ public struct GetScheduledQueryOutput: Swift.Sendable {
     public var scheduleExpression: Swift.String?
     /// The start time for the scheduled query in Unix epoch format.
     public var scheduleStartTime: Swift.Int?
+    /// The schedule type of the scheduled query. Valid values are CUSTOMER_MANAGED and AWS_MANAGED.
+    public var scheduleType: CloudWatchLogsClientTypes.ScheduleType?
     /// The ARN of the scheduled query.
     public var scheduledQueryArn: Swift.String?
     /// The time offset in seconds that defines the lookback period for the query.
@@ -5889,6 +5956,7 @@ public struct GetScheduledQueryOutput: Swift.Sendable {
         creationTime: Swift.Int? = nil,
         description: Swift.String? = nil,
         destinationConfiguration: CloudWatchLogsClientTypes.DestinationConfiguration? = nil,
+        endTimeOffset: Swift.Int? = nil,
         executionRoleArn: Swift.String? = nil,
         lastExecutionStatus: CloudWatchLogsClientTypes.ExecutionStatus? = nil,
         lastTriggeredTime: Swift.Int? = nil,
@@ -5900,6 +5968,7 @@ public struct GetScheduledQueryOutput: Swift.Sendable {
         scheduleEndTime: Swift.Int? = nil,
         scheduleExpression: Swift.String? = nil,
         scheduleStartTime: Swift.Int? = nil,
+        scheduleType: CloudWatchLogsClientTypes.ScheduleType? = nil,
         scheduledQueryArn: Swift.String? = nil,
         startTimeOffset: Swift.Int? = nil,
         state: CloudWatchLogsClientTypes.ScheduledQueryState? = nil,
@@ -5908,6 +5977,7 @@ public struct GetScheduledQueryOutput: Swift.Sendable {
         self.creationTime = creationTime
         self.description = description
         self.destinationConfiguration = destinationConfiguration
+        self.endTimeOffset = endTimeOffset
         self.executionRoleArn = executionRoleArn
         self.lastExecutionStatus = lastExecutionStatus
         self.lastTriggeredTime = lastTriggeredTime
@@ -5919,6 +5989,7 @@ public struct GetScheduledQueryOutput: Swift.Sendable {
         self.scheduleEndTime = scheduleEndTime
         self.scheduleExpression = scheduleExpression
         self.scheduleStartTime = scheduleStartTime
+        self.scheduleType = scheduleType
         self.scheduledQueryArn = scheduledQueryArn
         self.startTimeOffset = startTimeOffset
         self.state = state
@@ -6068,6 +6139,55 @@ public struct GetScheduledQueryHistoryOutput: Swift.Sendable {
         self.nextToken = nextToken
         self.scheduledQueryArn = scheduledQueryArn
         self.triggerHistory = triggerHistory
+    }
+}
+
+public struct GetStorageTierPolicyInput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    public enum StorageTier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case intelligentTiering
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageTier] {
+            return [
+                .intelligentTiering,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .intelligentTiering: return "INTELLIGENT_TIERING"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetStorageTierPolicyOutput: Swift.Sendable {
+    /// The time when the storage tier policy was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+    public var lastUpdatedTime: Swift.Int?
+    /// The current storage tier for the account.
+    public var storageTier: CloudWatchLogsClientTypes.StorageTier?
+
+    public init(
+        lastUpdatedTime: Swift.Int? = nil,
+        storageTier: CloudWatchLogsClientTypes.StorageTier? = nil
+    ) {
+        self.lastUpdatedTime = lastUpdatedTime
+        self.storageTier = storageTier
     }
 }
 
@@ -7192,16 +7312,20 @@ public struct ListScheduledQueriesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token for the next set of items to return. The token expires after 24 hours.
     public var nextToken: Swift.String?
+    /// Filter scheduled queries by schedule type. Valid values are CUSTOMER_MANAGED and AWS_MANAGED. If not specified, scheduled queries of all schedule types are returned.
+    public var scheduleType: CloudWatchLogsClientTypes.ScheduleType?
     /// Filter scheduled queries by state. Valid values are ENABLED and DISABLED. If not specified, all scheduled queries are returned.
     public var state: CloudWatchLogsClientTypes.ScheduledQueryState?
 
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        scheduleType: CloudWatchLogsClientTypes.ScheduleType? = nil,
         state: CloudWatchLogsClientTypes.ScheduledQueryState? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.scheduleType = scheduleType
         self.state = state
     }
 }
@@ -7224,6 +7348,8 @@ extension CloudWatchLogsClientTypes {
         public var name: Swift.String?
         /// The cron expression that defines when the scheduled query runs.
         public var scheduleExpression: Swift.String?
+        /// The schedule type of the scheduled query. Valid values are CUSTOMER_MANAGED and AWS_MANAGED.
+        public var scheduleType: CloudWatchLogsClientTypes.ScheduleType?
         /// The ARN of the scheduled query.
         public var scheduledQueryArn: Swift.String?
         /// The current state of the scheduled query.
@@ -7239,6 +7365,7 @@ extension CloudWatchLogsClientTypes {
             lastUpdatedTime: Swift.Int? = nil,
             name: Swift.String? = nil,
             scheduleExpression: Swift.String? = nil,
+            scheduleType: CloudWatchLogsClientTypes.ScheduleType? = nil,
             scheduledQueryArn: Swift.String? = nil,
             state: CloudWatchLogsClientTypes.ScheduledQueryState? = nil,
             timezone: Swift.String? = nil
@@ -7250,6 +7377,7 @@ extension CloudWatchLogsClientTypes {
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
             self.scheduleExpression = scheduleExpression
+            self.scheduleType = scheduleType
             self.scheduledQueryArn = scheduledQueryArn
             self.state = state
             self.timezone = timezone
@@ -7374,6 +7502,97 @@ public struct ListSourcesForS3TableIntegrationOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.sources = sources
+    }
+}
+
+public struct ListSyslogConfigurationsInput: Swift.Sendable {
+    /// The name or ARN of the log group to filter syslog configurations for.
+    public var logGroupIdentifier: Swift.String?
+    /// The maximum number of syslog configurations to return in the response.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of items to return. You received this token from a previous call.
+    public var nextToken: Swift.String?
+    /// The ID of the VPC endpoint to filter syslog configurations for.
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        logGroupIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.logGroupIdentifier = logGroupIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.vpcEndpointId = vpcEndpointId
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    public enum SyslogSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case vpce
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SyslogSourceType] {
+            return [
+                .vpce
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .vpce: return "VPCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// Contains information about a syslog configuration associated with a log group.
+    public struct SyslogConfiguration: Swift.Sendable {
+        /// The time when the syslog configuration was created, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public var createdAt: Swift.Int?
+        /// The ARN of the log group associated with this syslog configuration.
+        public var logGroupArn: Swift.String?
+        /// The source type for the syslog configuration.
+        public var sourceType: CloudWatchLogsClientTypes.SyslogSourceType?
+        /// The ID of the VPC endpoint used for syslog ingestion.
+        public var vpcEndpointId: Swift.String?
+
+        public init(
+            createdAt: Swift.Int? = nil,
+            logGroupArn: Swift.String? = nil,
+            sourceType: CloudWatchLogsClientTypes.SyslogSourceType? = nil,
+            vpcEndpointId: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.logGroupArn = logGroupArn
+            self.sourceType = sourceType
+            self.vpcEndpointId = vpcEndpointId
+        }
+    }
+}
+
+public struct ListSyslogConfigurationsOutput: Swift.Sendable {
+    /// The token for the next set of items to return. The token expires after 24 hours.
+    public var nextToken: Swift.String?
+    /// The list of syslog configurations.
+    public var syslogConfigurations: [CloudWatchLogsClientTypes.SyslogConfiguration]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        syslogConfigurations: [CloudWatchLogsClientTypes.SyslogConfiguration]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.syslogConfigurations = syslogConfigurations
     }
 }
 
@@ -7763,7 +7982,7 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For Amazon Bedrock Agents, the valid values are APPLICATION_LOGS and EVENT_LOGS.
     ///
-    /// * For Amazon Bedrock Knowledge Bases, the valid value is APPLICATION_LOGS.
+    /// * For Amazon Bedrock Knowledge Bases, the valid values are APPLICATION_LOGS and TRACES.
     ///
     /// * For Amazon Bedrock AgentCore Runtime, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.
     ///
@@ -7774,6 +7993,8 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     /// * For Amazon Bedrock AgentCore Memory, the valid values are APPLICATION_LOGS and TRACES.
     ///
     /// * For Amazon Bedrock AgentCore Gateway, the valid values are APPLICATION_LOGS and TRACES.
+    ///
+    /// * For Amazon Bedrock AgentCore Payments, the valid values are APPLICATION_LOGS and TRACES.
     ///
     /// * For CloudFront, the valid value is ACCESS_LOGS.
     ///
@@ -7787,6 +8008,8 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For Amazon EKS Auto Mode, the valid values are AUTO_MODE_BLOCK_STORAGE_LOGS, AUTO_MODE_COMPUTE_LOGS, AUTO_MODE_IPAM_LOGS, and AUTO_MODE_LOAD_BALANCING_LOGS.
     ///
+    /// * For Amazon EKS Capability Logs, the valid values are EKS_CAPABILITY_ACK_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATION_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATIONSET_LOGS, EKS_CAPABILITY_ARGOCD_COMMITSERVER_LOGS, EKS_CAPABILITY_ARGOCD_REPOSERVER_LOGS, EKS_CAPABILITY_ARGOCD_SERVER_LOGS, and EKS_CAPABILITY_KRO_LOGS.
+    ///
     /// * For Entity Resolution, the valid value is WORKFLOW_LOGS.
     ///
     /// * For IAM Identity Center, the valid value is ERROR_LOGS.
@@ -7797,11 +8020,13 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For PCS, the valid values are PCS_SCHEDULER_LOGS, PCS_JOBCOMP_LOGS, and PCS_SCHEDULER_AUDIT_LOGS.
     ///
-    /// * For Quick, the valid values are CHAT_LOGS and FEEDBACK_LOGS.
+    /// * For Quick, the valid values are AGENT_HOURS_LOGS, CHAT_LOGS, FEEDBACK_LOGS, and INDEX_USAGE_LOGS.
     ///
     /// * For Amazon Web Services RTB Fabric, the valid values is APPLICATION_LOGS.
     ///
     /// * For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.
+    ///
+    /// * For Amazon S3, the valid value is S3_SERVER_ACCESS_LOGS.
     ///
     /// * For Amazon Web Services Security Hub CSPM, the valid value is SECURITY_FINDING_LOGS.
     ///
@@ -8286,6 +8511,33 @@ public struct PutRetentionPolicyInput: Swift.Sendable {
     }
 }
 
+public struct PutStorageTierPolicyInput: Swift.Sendable {
+    /// The storage tier to set for the account. Valid values are STANDARD and INTELLIGENT_TIERING.
+    /// This member is required.
+    public var storageTier: CloudWatchLogsClientTypes.StorageTier?
+
+    public init(
+        storageTier: CloudWatchLogsClientTypes.StorageTier? = nil
+    ) {
+        self.storageTier = storageTier
+    }
+}
+
+public struct PutStorageTierPolicyOutput: Swift.Sendable {
+    /// The time when the storage tier policy was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+    public var lastUpdatedTime: Swift.Int?
+    /// The storage tier that was set.
+    public var storageTier: CloudWatchLogsClientTypes.StorageTier?
+
+    public init(
+        lastUpdatedTime: Swift.Int? = nil,
+        storageTier: CloudWatchLogsClientTypes.StorageTier? = nil
+    ) {
+        self.lastUpdatedTime = lastUpdatedTime
+        self.storageTier = storageTier
+    }
+}
+
 public struct PutSubscriptionFilterInput: Swift.Sendable {
     /// This parameter is valid only for log groups that have an active log transformer. For more information about log transformers, see [PutTransformer](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutTransformer.html). If the log group uses either a log-group level or account-level transformer, and you specify true, the subscription filter will be applied on the transformed version of the log events instead of the original ingested log events.
     public var applyOnTransformedLogs: Swift.Bool?
@@ -8338,6 +8590,22 @@ public struct PutSubscriptionFilterInput: Swift.Sendable {
         self.filterPattern = filterPattern
         self.logGroupName = logGroupName
         self.roleArn = roleArn
+    }
+}
+
+public struct PutSyslogConfigurationInput: Swift.Sendable {
+    /// The name or ARN of the log group to associate with the syslog configuration.
+    /// This member is required.
+    public var logGroupIdentifier: Swift.String?
+    /// The ID of the VPC endpoint to use for syslog ingestion.
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        logGroupIdentifier: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.logGroupIdentifier = logGroupIdentifier
+        self.vpcEndpointId = vpcEndpointId
     }
 }
 
@@ -8520,7 +8788,7 @@ public struct StartQueryInput: Swift.Sendable {
     /// The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
     /// This member is required.
     public var endTime: Swift.Int?
-    /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned. The default is 10,000. The maximum value is 100,000.
+    /// The maximum number of log events to return from the query. The maximum limit is 100,000. The maximum events returned in a single GetQueryResults API call is 10,000 log events per request. You can retrieve up to 100,000 log event results from a query by paginating with the nextToken. 100,000 limit is only supported for Logs Insights QL and is currently not supported for PPL and SQL query languages.
     public var limit: Swift.Int?
     /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a monitoring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, use the format arn:aws:logs:region:account-id:log-group:log_group_name Don't include an * at the end. A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers. The exception is queries using the OpenSearch Service SQL query language, where you specify the log group names inside the querystring instead of here.
     public var logGroupIdentifiers: [Swift.String]?
@@ -9006,6 +9274,8 @@ public struct UpdateScheduledQueryInput: Swift.Sendable {
     public var description: Swift.String?
     /// The updated configuration for where to deliver query results.
     public var destinationConfiguration: CloudWatchLogsClientTypes.DestinationConfiguration?
+    /// The updated time offset in seconds that defines the end of the lookback period for the query.
+    public var endTimeOffset: Swift.Int?
     /// The updated ARN of the IAM role that grants permissions to execute the query and deliver results.
     /// This member is required.
     public var executionRoleArn: Swift.String?
@@ -9037,6 +9307,7 @@ public struct UpdateScheduledQueryInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         destinationConfiguration: CloudWatchLogsClientTypes.DestinationConfiguration? = nil,
+        endTimeOffset: Swift.Int? = nil,
         executionRoleArn: Swift.String? = nil,
         identifier: Swift.String? = nil,
         logGroupIdentifiers: [Swift.String]? = nil,
@@ -9051,6 +9322,7 @@ public struct UpdateScheduledQueryInput: Swift.Sendable {
     ) {
         self.description = description
         self.destinationConfiguration = destinationConfiguration
+        self.endTimeOffset = endTimeOffset
         self.executionRoleArn = executionRoleArn
         self.identifier = identifier
         self.logGroupIdentifiers = logGroupIdentifiers
@@ -9072,6 +9344,8 @@ public struct UpdateScheduledQueryOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The destination configuration of the updated scheduled query.
     public var destinationConfiguration: CloudWatchLogsClientTypes.DestinationConfiguration?
+    /// The end time offset in seconds of the updated scheduled query.
+    public var endTimeOffset: Swift.Int?
     /// The execution role ARN of the updated scheduled query.
     public var executionRoleArn: Swift.String?
     /// The status of the most recent execution of the updated scheduled query.
@@ -9094,6 +9368,8 @@ public struct UpdateScheduledQueryOutput: Swift.Sendable {
     public var scheduleExpression: Swift.String?
     /// The start time of the updated scheduled query.
     public var scheduleStartTime: Swift.Int?
+    /// The schedule type of the updated scheduled query.
+    public var scheduleType: CloudWatchLogsClientTypes.ScheduleType?
     /// The ARN of the updated scheduled query.
     public var scheduledQueryArn: Swift.String?
     /// The time offset of the updated scheduled query.
@@ -9107,6 +9383,7 @@ public struct UpdateScheduledQueryOutput: Swift.Sendable {
         creationTime: Swift.Int? = nil,
         description: Swift.String? = nil,
         destinationConfiguration: CloudWatchLogsClientTypes.DestinationConfiguration? = nil,
+        endTimeOffset: Swift.Int? = nil,
         executionRoleArn: Swift.String? = nil,
         lastExecutionStatus: CloudWatchLogsClientTypes.ExecutionStatus? = nil,
         lastTriggeredTime: Swift.Int? = nil,
@@ -9118,6 +9395,7 @@ public struct UpdateScheduledQueryOutput: Swift.Sendable {
         scheduleEndTime: Swift.Int? = nil,
         scheduleExpression: Swift.String? = nil,
         scheduleStartTime: Swift.Int? = nil,
+        scheduleType: CloudWatchLogsClientTypes.ScheduleType? = nil,
         scheduledQueryArn: Swift.String? = nil,
         startTimeOffset: Swift.Int? = nil,
         state: CloudWatchLogsClientTypes.ScheduledQueryState? = nil,
@@ -9126,6 +9404,7 @@ public struct UpdateScheduledQueryOutput: Swift.Sendable {
         self.creationTime = creationTime
         self.description = description
         self.destinationConfiguration = destinationConfiguration
+        self.endTimeOffset = endTimeOffset
         self.executionRoleArn = executionRoleArn
         self.lastExecutionStatus = lastExecutionStatus
         self.lastTriggeredTime = lastTriggeredTime
@@ -9137,6 +9416,7 @@ public struct UpdateScheduledQueryOutput: Swift.Sendable {
         self.scheduleEndTime = scheduleEndTime
         self.scheduleExpression = scheduleExpression
         self.scheduleStartTime = scheduleStartTime
+        self.scheduleType = scheduleType
         self.scheduledQueryArn = scheduledQueryArn
         self.startTimeOffset = startTimeOffset
         self.state = state

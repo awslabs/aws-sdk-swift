@@ -75,6 +75,7 @@ public final class GuardDutyClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: GuardDutyClient.GuardDutyClientConfig
     let serviceName = "GuardDuty"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use GuardDutyClient.GuardDutyClientConfig instead")
     public typealias Config = GuardDutyClient.GuardDutyClientConfiguration
@@ -84,6 +85,7 @@ public final class GuardDutyClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: GuardDutyClient.GuardDutyClientConfig) instead")
@@ -198,7 +200,7 @@ extension GuardDutyClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "GuardDuty")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -253,7 +255,7 @@ extension GuardDutyClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "GuardDuty")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -429,7 +431,7 @@ extension GuardDutyClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "GuardDuty")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -484,7 +486,7 @@ extension GuardDutyClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "GuardDuty")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -655,8 +657,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptAdministratorInvitationOutput>(AcceptAdministratorInvitationOutput.httpOutput(from:), AcceptAdministratorInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptAdministratorInvitationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -666,6 +666,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptAdministratorInvitationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -725,8 +727,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptInvitationOutput>(AcceptInvitationOutput.httpOutput(from:), AcceptInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptInvitationInput, AcceptInvitationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptInvitationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -736,6 +736,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptInvitationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptInvitationInput, AcceptInvitationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptInvitationInput, AcceptInvitationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptInvitationInput, AcceptInvitationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -794,8 +796,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ArchiveFindingsOutput>(ArchiveFindingsOutput.httpOutput(from:), ArchiveFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ArchiveFindingsInput, ArchiveFindingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ArchiveFindingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -805,6 +805,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ArchiveFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ArchiveFindingsInput, ArchiveFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ArchiveFindingsInput, ArchiveFindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ArchiveFindingsInput, ArchiveFindingsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -871,8 +873,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDetectorOutput>(CreateDetectorOutput.httpOutput(from:), CreateDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDetectorInput, CreateDetectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDetectorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -882,6 +882,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDetectorInput, CreateDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDetectorInput, CreateDetectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDetectorInput, CreateDetectorOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -941,8 +943,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFilterOutput>(CreateFilterOutput.httpOutput(from:), CreateFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFilterInput, CreateFilterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFilterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -952,6 +952,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFilterInput, CreateFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFilterInput, CreateFilterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateFilterInput, CreateFilterOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -1012,8 +1014,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIPSetOutput>(CreateIPSetOutput.httpOutput(from:), CreateIPSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIPSetInput, CreateIPSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIPSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1023,10 +1023,83 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIPSetInput, CreateIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIPSetInput, CreateIPSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIPSetInput, CreateIPSetOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateIPSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateInvestigation` operation on the `GuardDuty` service.
+    ///
+    /// This API is currently available as a preview. During the preview, you can initiate up to 10 investigations per account per day, with a total limit of 100 investigations per account. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Initiates a GuardDuty investigation that automatically analyzes security findings, correlates related activity, performs account-level analysis, and produces a structured investigation summary with recommended next steps. Only the administrator account can create an investigation. Member accounts don't have permission to create investigations from their accounts. To use this operation, the AI_ANALYST feature must be enabled on your detector. This feature uses Amazon Bedrock models that leverage Cross-Region Inference (CRIS), which automatically selects the optimal Amazon Web Services Region within your geography to process the investigation analysis and generate the investigation report. This maximizes available compute resources, model availability, and delivers the best customer experience. Your data remains stored only in the Region where the investigation request originates, however, investigation data and summary results may be processed outside that Region. All data is transmitted encrypted across Amazon's secure network. For more information, see [GuardDuty Investigation](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-investigation.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateInvestigationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateInvestigationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    public func createInvestigation(input: CreateInvestigationInput) async throws -> CreateInvestigationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createInvestigation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateInvestigationInput, CreateInvestigationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateInvestigationInput, CreateInvestigationOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateInvestigationInput, CreateInvestigationOutput>(CreateInvestigationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateInvestigationInput, CreateInvestigationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateInvestigationInput, CreateInvestigationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateInvestigationInput, CreateInvestigationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateInvestigationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInvestigationInput, CreateInvestigationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInvestigationOutput>(CreateInvestigationOutput.httpOutput(from:), CreateInvestigationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInvestigationInput, CreateInvestigationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateInvestigationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateInvestigationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateInvestigationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateInvestigationInput, CreateInvestigationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateInvestigationInput, CreateInvestigationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateInvestigationInput, CreateInvestigationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateInvestigation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1084,8 +1157,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMalwareProtectionPlanOutput>(CreateMalwareProtectionPlanOutput.httpOutput(from:), CreateMalwareProtectionPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMalwareProtectionPlanInput, CreateMalwareProtectionPlanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMalwareProtectionPlanOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1095,6 +1166,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMalwareProtectionPlanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateMalwareProtectionPlanInput, CreateMalwareProtectionPlanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateMalwareProtectionPlanInput, CreateMalwareProtectionPlanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateMalwareProtectionPlanInput, CreateMalwareProtectionPlanOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -1153,8 +1226,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMembersOutput>(CreateMembersOutput.httpOutput(from:), CreateMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMembersInput, CreateMembersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMembersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1164,6 +1235,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateMembersInput, CreateMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateMembersInput, CreateMembersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateMembersInput, CreateMembersOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -1223,8 +1296,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePublishingDestinationOutput>(CreatePublishingDestinationOutput.httpOutput(from:), CreatePublishingDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePublishingDestinationInput, CreatePublishingDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePublishingDestinationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1234,6 +1305,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePublishingDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePublishingDestinationInput, CreatePublishingDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePublishingDestinationInput, CreatePublishingDestinationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePublishingDestinationInput, CreatePublishingDestinationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -1292,8 +1365,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSampleFindingsOutput>(CreateSampleFindingsOutput.httpOutput(from:), CreateSampleFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSampleFindingsInput, CreateSampleFindingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSampleFindingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1303,6 +1374,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSampleFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSampleFindingsInput, CreateSampleFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSampleFindingsInput, CreateSampleFindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSampleFindingsInput, CreateSampleFindingsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -1362,8 +1435,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateThreatEntitySetOutput>(CreateThreatEntitySetOutput.httpOutput(from:), CreateThreatEntitySetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateThreatEntitySetInput, CreateThreatEntitySetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateThreatEntitySetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1373,6 +1444,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateThreatEntitySetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateThreatEntitySetInput, CreateThreatEntitySetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateThreatEntitySetInput, CreateThreatEntitySetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateThreatEntitySetInput, CreateThreatEntitySetOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -1433,8 +1506,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateThreatIntelSetOutput>(CreateThreatIntelSetOutput.httpOutput(from:), CreateThreatIntelSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateThreatIntelSetInput, CreateThreatIntelSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateThreatIntelSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1444,6 +1515,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateThreatIntelSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateThreatIntelSetInput, CreateThreatIntelSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateThreatIntelSetInput, CreateThreatIntelSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateThreatIntelSetInput, CreateThreatIntelSetOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -1503,8 +1576,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrustedEntitySetOutput>(CreateTrustedEntitySetOutput.httpOutput(from:), CreateTrustedEntitySetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrustedEntitySetInput, CreateTrustedEntitySetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrustedEntitySetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1514,6 +1585,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTrustedEntitySetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTrustedEntitySetInput, CreateTrustedEntitySetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTrustedEntitySetInput, CreateTrustedEntitySetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTrustedEntitySetInput, CreateTrustedEntitySetOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -1572,8 +1645,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeclineInvitationsOutput>(DeclineInvitationsOutput.httpOutput(from:), DeclineInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeclineInvitationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1583,6 +1654,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeclineInvitationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -1638,8 +1711,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDetectorOutput>(DeleteDetectorOutput.httpOutput(from:), DeleteDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDetectorInput, DeleteDetectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDetectorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1649,6 +1720,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDetectorInput, DeleteDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDetectorInput, DeleteDetectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDetectorInput, DeleteDetectorOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -1704,8 +1777,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFilterOutput>(DeleteFilterOutput.httpOutput(from:), DeleteFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFilterInput, DeleteFilterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFilterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1715,6 +1786,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFilterInput, DeleteFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFilterInput, DeleteFilterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteFilterInput, DeleteFilterOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -1770,8 +1843,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIPSetOutput>(DeleteIPSetOutput.httpOutput(from:), DeleteIPSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIPSetInput, DeleteIPSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIPSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1781,6 +1852,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIPSetInput, DeleteIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIPSetInput, DeleteIPSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIPSetInput, DeleteIPSetOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -1839,8 +1912,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInvitationsOutput>(DeleteInvitationsOutput.httpOutput(from:), DeleteInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInvitationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1850,6 +1921,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInvitationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -1907,8 +1980,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMalwareProtectionPlanOutput>(DeleteMalwareProtectionPlanOutput.httpOutput(from:), DeleteMalwareProtectionPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMalwareProtectionPlanInput, DeleteMalwareProtectionPlanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMalwareProtectionPlanOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1918,6 +1989,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMalwareProtectionPlanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMalwareProtectionPlanInput, DeleteMalwareProtectionPlanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMalwareProtectionPlanInput, DeleteMalwareProtectionPlanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMalwareProtectionPlanInput, DeleteMalwareProtectionPlanOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -1976,8 +2049,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMembersOutput>(DeleteMembersOutput.httpOutput(from:), DeleteMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMembersInput, DeleteMembersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMembersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1987,6 +2058,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMembersInput, DeleteMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMembersInput, DeleteMembersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMembersInput, DeleteMembersOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -2042,8 +2115,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePublishingDestinationOutput>(DeletePublishingDestinationOutput.httpOutput(from:), DeletePublishingDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePublishingDestinationInput, DeletePublishingDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePublishingDestinationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2053,6 +2124,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePublishingDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePublishingDestinationInput, DeletePublishingDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePublishingDestinationInput, DeletePublishingDestinationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePublishingDestinationInput, DeletePublishingDestinationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -2108,8 +2181,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteThreatEntitySetOutput>(DeleteThreatEntitySetOutput.httpOutput(from:), DeleteThreatEntitySetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteThreatEntitySetInput, DeleteThreatEntitySetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteThreatEntitySetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2119,6 +2190,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteThreatEntitySetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteThreatEntitySetInput, DeleteThreatEntitySetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteThreatEntitySetInput, DeleteThreatEntitySetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteThreatEntitySetInput, DeleteThreatEntitySetOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -2174,8 +2247,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteThreatIntelSetOutput>(DeleteThreatIntelSetOutput.httpOutput(from:), DeleteThreatIntelSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteThreatIntelSetInput, DeleteThreatIntelSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteThreatIntelSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2185,6 +2256,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteThreatIntelSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteThreatIntelSetInput, DeleteThreatIntelSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteThreatIntelSetInput, DeleteThreatIntelSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteThreatIntelSetInput, DeleteThreatIntelSetOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -2240,8 +2313,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrustedEntitySetOutput>(DeleteTrustedEntitySetOutput.httpOutput(from:), DeleteTrustedEntitySetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrustedEntitySetInput, DeleteTrustedEntitySetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrustedEntitySetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2251,6 +2322,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTrustedEntitySetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTrustedEntitySetInput, DeleteTrustedEntitySetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTrustedEntitySetInput, DeleteTrustedEntitySetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTrustedEntitySetInput, DeleteTrustedEntitySetOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -2309,8 +2382,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMalwareScansOutput>(DescribeMalwareScansOutput.httpOutput(from:), DescribeMalwareScansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMalwareScansInput, DescribeMalwareScansOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMalwareScansOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2320,6 +2391,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMalwareScansOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMalwareScansInput, DescribeMalwareScansOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMalwareScansInput, DescribeMalwareScansOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMalwareScansInput, DescribeMalwareScansOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -2376,8 +2449,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOrganizationConfigurationOutput>(DescribeOrganizationConfigurationOutput.httpOutput(from:), DescribeOrganizationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2387,6 +2458,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOrganizationConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -2442,8 +2515,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePublishingDestinationOutput>(DescribePublishingDestinationOutput.httpOutput(from:), DescribePublishingDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePublishingDestinationInput, DescribePublishingDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePublishingDestinationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2453,6 +2524,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePublishingDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePublishingDestinationInput, DescribePublishingDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePublishingDestinationInput, DescribePublishingDestinationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePublishingDestinationInput, DescribePublishingDestinationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -2511,8 +2584,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableOrganizationAdminAccountOutput>(DisableOrganizationAdminAccountOutput.httpOutput(from:), DisableOrganizationAdminAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableOrganizationAdminAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2522,6 +2593,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableOrganizationAdminAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -2577,8 +2650,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFromAdministratorAccountOutput>(DisassociateFromAdministratorAccountOutput.httpOutput(from:), DisassociateFromAdministratorAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFromAdministratorAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2588,6 +2659,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateFromAdministratorAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -2644,8 +2717,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFromMasterAccountOutput>(DisassociateFromMasterAccountOutput.httpOutput(from:), DisassociateFromMasterAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFromMasterAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2655,6 +2726,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateFromMasterAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -2713,8 +2786,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateMembersOutput>(DisassociateMembersOutput.httpOutput(from:), DisassociateMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateMembersInput, DisassociateMembersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateMembersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2724,6 +2795,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateMembersInput, DisassociateMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateMembersInput, DisassociateMembersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateMembersInput, DisassociateMembersOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -2782,8 +2855,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableOrganizationAdminAccountOutput>(EnableOrganizationAdminAccountOutput.httpOutput(from:), EnableOrganizationAdminAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableOrganizationAdminAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2793,6 +2864,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableOrganizationAdminAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -2854,8 +2927,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAdministratorAccountOutput>(GetAdministratorAccountOutput.httpOutput(from:), GetAdministratorAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAdministratorAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2865,6 +2936,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAdministratorAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -2923,8 +2996,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCoverageStatisticsOutput>(GetCoverageStatisticsOutput.httpOutput(from:), GetCoverageStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCoverageStatisticsInput, GetCoverageStatisticsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCoverageStatisticsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2934,6 +3005,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCoverageStatisticsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCoverageStatisticsInput, GetCoverageStatisticsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCoverageStatisticsInput, GetCoverageStatisticsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCoverageStatisticsInput, GetCoverageStatisticsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -2989,8 +3062,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDetectorOutput>(GetDetectorOutput.httpOutput(from:), GetDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDetectorInput, GetDetectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDetectorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3000,6 +3071,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDetectorInput, GetDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDetectorInput, GetDetectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDetectorInput, GetDetectorOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -3055,8 +3128,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFilterOutput>(GetFilterOutput.httpOutput(from:), GetFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFilterInput, GetFilterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFilterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3066,6 +3137,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFilterInput, GetFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFilterInput, GetFilterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFilterInput, GetFilterOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -3124,8 +3197,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingsOutput>(GetFindingsOutput.httpOutput(from:), GetFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingsInput, GetFindingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3135,6 +3206,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFindingsInput, GetFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFindingsInput, GetFindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFindingsInput, GetFindingsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -3193,8 +3266,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingsStatisticsOutput>(GetFindingsStatisticsOutput.httpOutput(from:), GetFindingsStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingsStatisticsInput, GetFindingsStatisticsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingsStatisticsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3204,6 +3275,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFindingsStatisticsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFindingsStatisticsInput, GetFindingsStatisticsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFindingsStatisticsInput, GetFindingsStatisticsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFindingsStatisticsInput, GetFindingsStatisticsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -3259,8 +3332,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIPSetOutput>(GetIPSetOutput.httpOutput(from:), GetIPSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIPSetInput, GetIPSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIPSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3270,10 +3341,80 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIPSetInput, GetIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIPSetInput, GetIPSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIPSetInput, GetIPSetOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIPSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetInvestigation` operation on the `GuardDuty` service.
+    ///
+    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Retrieves the results and status of a specific GuardDuty investigation. An administrator account can retrieve any investigation within the organization. Member accounts can only retrieve investigations that belong to them.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetInvestigationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetInvestigationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    public func getInvestigation(input: GetInvestigationInput) async throws -> GetInvestigationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getInvestigation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetInvestigationInput, GetInvestigationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetInvestigationInput, GetInvestigationOutput>(GetInvestigationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInvestigationInput, GetInvestigationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvestigationOutput>(GetInvestigationOutput.httpOutput(from:), GetInvestigationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvestigationInput, GetInvestigationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetInvestigationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetInvestigationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInvestigationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetInvestigationInput, GetInvestigationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetInvestigationInput, GetInvestigationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetInvestigationInput, GetInvestigationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetInvestigation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3325,8 +3466,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvitationsCountOutput>(GetInvitationsCountOutput.httpOutput(from:), GetInvitationsCountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvitationsCountInput, GetInvitationsCountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInvitationsCountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3336,6 +3475,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInvitationsCountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetInvitationsCountInput, GetInvitationsCountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetInvitationsCountInput, GetInvitationsCountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetInvitationsCountInput, GetInvitationsCountOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -3393,8 +3534,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMalwareProtectionPlanOutput>(GetMalwareProtectionPlanOutput.httpOutput(from:), GetMalwareProtectionPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMalwareProtectionPlanInput, GetMalwareProtectionPlanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMalwareProtectionPlanOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3404,6 +3543,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMalwareProtectionPlanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMalwareProtectionPlanInput, GetMalwareProtectionPlanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMalwareProtectionPlanInput, GetMalwareProtectionPlanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMalwareProtectionPlanInput, GetMalwareProtectionPlanOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -3460,8 +3601,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMalwareScanOutput>(GetMalwareScanOutput.httpOutput(from:), GetMalwareScanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMalwareScanInput, GetMalwareScanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMalwareScanOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3471,6 +3610,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMalwareScanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMalwareScanInput, GetMalwareScanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMalwareScanInput, GetMalwareScanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMalwareScanInput, GetMalwareScanOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -3526,8 +3667,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMalwareScanSettingsOutput>(GetMalwareScanSettingsOutput.httpOutput(from:), GetMalwareScanSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMalwareScanSettingsInput, GetMalwareScanSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMalwareScanSettingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3537,6 +3676,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMalwareScanSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMalwareScanSettingsInput, GetMalwareScanSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMalwareScanSettingsInput, GetMalwareScanSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMalwareScanSettingsInput, GetMalwareScanSettingsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -3593,8 +3734,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMasterAccountOutput>(GetMasterAccountOutput.httpOutput(from:), GetMasterAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMasterAccountInput, GetMasterAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMasterAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3604,6 +3743,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMasterAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMasterAccountInput, GetMasterAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMasterAccountInput, GetMasterAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMasterAccountInput, GetMasterAccountOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -3662,8 +3803,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMemberDetectorsOutput>(GetMemberDetectorsOutput.httpOutput(from:), GetMemberDetectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMemberDetectorsInput, GetMemberDetectorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMemberDetectorsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3673,6 +3812,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMemberDetectorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMemberDetectorsInput, GetMemberDetectorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMemberDetectorsInput, GetMemberDetectorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMemberDetectorsInput, GetMemberDetectorsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -3731,8 +3872,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMembersOutput>(GetMembersOutput.httpOutput(from:), GetMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMembersInput, GetMembersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMembersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3742,6 +3881,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMembersInput, GetMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMembersInput, GetMembersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMembersInput, GetMembersOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -3797,8 +3938,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOrganizationStatisticsOutput>(GetOrganizationStatisticsOutput.httpOutput(from:), GetOrganizationStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOrganizationStatisticsInput, GetOrganizationStatisticsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOrganizationStatisticsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3808,6 +3947,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOrganizationStatisticsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOrganizationStatisticsInput, GetOrganizationStatisticsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOrganizationStatisticsInput, GetOrganizationStatisticsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOrganizationStatisticsInput, GetOrganizationStatisticsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -3866,8 +4007,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRemainingFreeTrialDaysOutput>(GetRemainingFreeTrialDaysOutput.httpOutput(from:), GetRemainingFreeTrialDaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRemainingFreeTrialDaysInput, GetRemainingFreeTrialDaysOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRemainingFreeTrialDaysOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3877,6 +4016,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRemainingFreeTrialDaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRemainingFreeTrialDaysInput, GetRemainingFreeTrialDaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRemainingFreeTrialDaysInput, GetRemainingFreeTrialDaysOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRemainingFreeTrialDaysInput, GetRemainingFreeTrialDaysOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -3932,8 +4073,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetThreatEntitySetOutput>(GetThreatEntitySetOutput.httpOutput(from:), GetThreatEntitySetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetThreatEntitySetInput, GetThreatEntitySetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetThreatEntitySetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3943,6 +4082,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetThreatEntitySetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetThreatEntitySetInput, GetThreatEntitySetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetThreatEntitySetInput, GetThreatEntitySetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetThreatEntitySetInput, GetThreatEntitySetOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -3998,8 +4139,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetThreatIntelSetOutput>(GetThreatIntelSetOutput.httpOutput(from:), GetThreatIntelSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetThreatIntelSetInput, GetThreatIntelSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetThreatIntelSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4009,6 +4148,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetThreatIntelSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetThreatIntelSetInput, GetThreatIntelSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetThreatIntelSetInput, GetThreatIntelSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetThreatIntelSetInput, GetThreatIntelSetOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -4064,8 +4205,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrustedEntitySetOutput>(GetTrustedEntitySetOutput.httpOutput(from:), GetTrustedEntitySetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrustedEntitySetInput, GetTrustedEntitySetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrustedEntitySetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4075,6 +4214,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTrustedEntitySetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTrustedEntitySetInput, GetTrustedEntitySetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTrustedEntitySetInput, GetTrustedEntitySetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTrustedEntitySetInput, GetTrustedEntitySetOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -4133,8 +4274,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUsageStatisticsOutput>(GetUsageStatisticsOutput.httpOutput(from:), GetUsageStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUsageStatisticsInput, GetUsageStatisticsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUsageStatisticsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4144,6 +4283,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUsageStatisticsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetUsageStatisticsInput, GetUsageStatisticsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetUsageStatisticsInput, GetUsageStatisticsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetUsageStatisticsInput, GetUsageStatisticsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -4202,8 +4343,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InviteMembersOutput>(InviteMembersOutput.httpOutput(from:), InviteMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InviteMembersInput, InviteMembersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InviteMembersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4213,6 +4352,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InviteMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InviteMembersInput, InviteMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InviteMembersInput, InviteMembersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InviteMembersInput, InviteMembersOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -4271,8 +4412,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCoverageOutput>(ListCoverageOutput.httpOutput(from:), ListCoverageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCoverageInput, ListCoverageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCoverageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4282,6 +4421,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCoverageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCoverageInput, ListCoverageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCoverageInput, ListCoverageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCoverageInput, ListCoverageOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -4338,8 +4479,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDetectorsOutput>(ListDetectorsOutput.httpOutput(from:), ListDetectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDetectorsInput, ListDetectorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDetectorsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4349,6 +4488,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDetectorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDetectorsInput, ListDetectorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDetectorsInput, ListDetectorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDetectorsInput, ListDetectorsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -4405,8 +4546,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFiltersOutput>(ListFiltersOutput.httpOutput(from:), ListFiltersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFiltersInput, ListFiltersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFiltersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4416,6 +4555,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFiltersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFiltersInput, ListFiltersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFiltersInput, ListFiltersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFiltersInput, ListFiltersOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -4474,8 +4615,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFindingsOutput>(ListFindingsOutput.httpOutput(from:), ListFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFindingsInput, ListFindingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFindingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4485,6 +4624,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFindingsInput, ListFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFindingsInput, ListFindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFindingsInput, ListFindingsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -4541,8 +4682,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIPSetsOutput>(ListIPSetsOutput.httpOutput(from:), ListIPSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIPSetsInput, ListIPSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIPSetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4552,10 +4691,82 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIPSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIPSetsInput, ListIPSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListIPSetsInput, ListIPSetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListIPSetsInput, ListIPSetsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListIPSets")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListInvestigations` operation on the `GuardDuty` service.
+    ///
+    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Returns a list of investigations associated with the specified GuardDuty detector. An administrator account sees all investigations across the organization. Member accounts see only the investigations that belong to them.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListInvestigationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListInvestigationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    public func listInvestigations(input: ListInvestigationsInput) async throws -> ListInvestigationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listInvestigations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListInvestigationsInput, ListInvestigationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListInvestigationsInput, ListInvestigationsOutput>(ListInvestigationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListInvestigationsInput, ListInvestigationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInvestigationsInput, ListInvestigationsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListInvestigationsInput, ListInvestigationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInvestigationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInvestigationsInput, ListInvestigationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvestigationsOutput>(ListInvestigationsOutput.httpOutput(from:), ListInvestigationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvestigationsInput, ListInvestigationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListInvestigationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInvestigationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInvestigationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListInvestigationsInput, ListInvestigationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListInvestigationsInput, ListInvestigationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListInvestigationsInput, ListInvestigationsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListInvestigations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4608,8 +4819,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvitationsOutput>(ListInvitationsOutput.httpOutput(from:), ListInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvitationsInput, ListInvitationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInvitationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4619,6 +4828,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInvitationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListInvitationsInput, ListInvitationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListInvitationsInput, ListInvitationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListInvitationsInput, ListInvitationsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -4676,8 +4887,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMalwareProtectionPlansOutput>(ListMalwareProtectionPlansOutput.httpOutput(from:), ListMalwareProtectionPlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMalwareProtectionPlansInput, ListMalwareProtectionPlansOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMalwareProtectionPlansOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4687,6 +4896,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMalwareProtectionPlansOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMalwareProtectionPlansInput, ListMalwareProtectionPlansOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMalwareProtectionPlansInput, ListMalwareProtectionPlansOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMalwareProtectionPlansInput, ListMalwareProtectionPlansOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -4746,8 +4957,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMalwareScansOutput>(ListMalwareScansOutput.httpOutput(from:), ListMalwareScansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMalwareScansInput, ListMalwareScansOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMalwareScansOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4757,6 +4966,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMalwareScansOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMalwareScansInput, ListMalwareScansOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMalwareScansInput, ListMalwareScansOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMalwareScansInput, ListMalwareScansOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -4813,8 +5024,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMembersOutput>(ListMembersOutput.httpOutput(from:), ListMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMembersInput, ListMembersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMembersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4824,6 +5033,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMembersInput, ListMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMembersInput, ListMembersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMembersInput, ListMembersOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -4880,8 +5091,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOrganizationAdminAccountsOutput>(ListOrganizationAdminAccountsOutput.httpOutput(from:), ListOrganizationAdminAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOrganizationAdminAccountsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4891,6 +5100,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOrganizationAdminAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -4947,8 +5158,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPublishingDestinationsOutput>(ListPublishingDestinationsOutput.httpOutput(from:), ListPublishingDestinationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPublishingDestinationsInput, ListPublishingDestinationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPublishingDestinationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4958,6 +5167,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPublishingDestinationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPublishingDestinationsInput, ListPublishingDestinationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPublishingDestinationsInput, ListPublishingDestinationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPublishingDestinationsInput, ListPublishingDestinationsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -5014,8 +5225,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5025,6 +5234,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -5081,8 +5292,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThreatEntitySetsOutput>(ListThreatEntitySetsOutput.httpOutput(from:), ListThreatEntitySetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThreatEntitySetsInput, ListThreatEntitySetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThreatEntitySetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5092,6 +5301,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListThreatEntitySetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListThreatEntitySetsInput, ListThreatEntitySetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListThreatEntitySetsInput, ListThreatEntitySetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListThreatEntitySetsInput, ListThreatEntitySetsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -5148,8 +5359,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThreatIntelSetsOutput>(ListThreatIntelSetsOutput.httpOutput(from:), ListThreatIntelSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThreatIntelSetsInput, ListThreatIntelSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThreatIntelSetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5159,6 +5368,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListThreatIntelSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListThreatIntelSetsInput, ListThreatIntelSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListThreatIntelSetsInput, ListThreatIntelSetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListThreatIntelSetsInput, ListThreatIntelSetsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -5215,8 +5426,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrustedEntitySetsOutput>(ListTrustedEntitySetsOutput.httpOutput(from:), ListTrustedEntitySetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrustedEntitySetsInput, ListTrustedEntitySetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrustedEntitySetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5226,6 +5435,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTrustedEntitySetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTrustedEntitySetsInput, ListTrustedEntitySetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTrustedEntitySetsInput, ListTrustedEntitySetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTrustedEntitySetsInput, ListTrustedEntitySetsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -5285,8 +5496,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendObjectMalwareScanOutput>(SendObjectMalwareScanOutput.httpOutput(from:), SendObjectMalwareScanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendObjectMalwareScanInput, SendObjectMalwareScanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendObjectMalwareScanOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5296,6 +5505,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendObjectMalwareScanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendObjectMalwareScanInput, SendObjectMalwareScanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendObjectMalwareScanInput, SendObjectMalwareScanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendObjectMalwareScanInput, SendObjectMalwareScanOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -5356,8 +5567,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMalwareScanOutput>(StartMalwareScanOutput.httpOutput(from:), StartMalwareScanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMalwareScanInput, StartMalwareScanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMalwareScanOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5367,6 +5576,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMalwareScanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMalwareScanInput, StartMalwareScanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMalwareScanInput, StartMalwareScanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMalwareScanInput, StartMalwareScanOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -5425,8 +5636,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMonitoringMembersOutput>(StartMonitoringMembersOutput.httpOutput(from:), StartMonitoringMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMonitoringMembersInput, StartMonitoringMembersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMonitoringMembersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5436,6 +5645,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMonitoringMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMonitoringMembersInput, StartMonitoringMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMonitoringMembersInput, StartMonitoringMembersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMonitoringMembersInput, StartMonitoringMembersOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -5494,8 +5705,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopMonitoringMembersOutput>(StopMonitoringMembersOutput.httpOutput(from:), StopMonitoringMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopMonitoringMembersInput, StopMonitoringMembersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopMonitoringMembersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5505,6 +5714,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopMonitoringMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopMonitoringMembersInput, StopMonitoringMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopMonitoringMembersInput, StopMonitoringMembersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopMonitoringMembersInput, StopMonitoringMembersOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -5564,8 +5775,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5575,6 +5784,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -5633,8 +5844,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnarchiveFindingsOutput>(UnarchiveFindingsOutput.httpOutput(from:), UnarchiveFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnarchiveFindingsInput, UnarchiveFindingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UnarchiveFindingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5644,6 +5853,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UnarchiveFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UnarchiveFindingsInput, UnarchiveFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UnarchiveFindingsInput, UnarchiveFindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UnarchiveFindingsInput, UnarchiveFindingsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -5701,8 +5912,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5712,6 +5921,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -5770,8 +5981,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDetectorOutput>(UpdateDetectorOutput.httpOutput(from:), UpdateDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDetectorInput, UpdateDetectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDetectorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5781,6 +5990,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDetectorInput, UpdateDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDetectorInput, UpdateDetectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDetectorInput, UpdateDetectorOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -5839,8 +6050,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFilterOutput>(UpdateFilterOutput.httpOutput(from:), UpdateFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFilterInput, UpdateFilterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFilterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5850,6 +6059,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFilterInput, UpdateFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFilterInput, UpdateFilterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFilterInput, UpdateFilterOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -5908,8 +6119,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFindingsFeedbackOutput>(UpdateFindingsFeedbackOutput.httpOutput(from:), UpdateFindingsFeedbackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFindingsFeedbackInput, UpdateFindingsFeedbackOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFindingsFeedbackOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5919,6 +6128,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFindingsFeedbackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFindingsFeedbackInput, UpdateFindingsFeedbackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFindingsFeedbackInput, UpdateFindingsFeedbackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFindingsFeedbackInput, UpdateFindingsFeedbackOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -5978,8 +6189,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIPSetOutput>(UpdateIPSetOutput.httpOutput(from:), UpdateIPSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIPSetInput, UpdateIPSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIPSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5989,6 +6198,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateIPSetInput, UpdateIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateIPSetInput, UpdateIPSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateIPSetInput, UpdateIPSetOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -6049,8 +6260,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMalwareProtectionPlanOutput>(UpdateMalwareProtectionPlanOutput.httpOutput(from:), UpdateMalwareProtectionPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMalwareProtectionPlanInput, UpdateMalwareProtectionPlanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMalwareProtectionPlanOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6060,6 +6269,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMalwareProtectionPlanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMalwareProtectionPlanInput, UpdateMalwareProtectionPlanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateMalwareProtectionPlanInput, UpdateMalwareProtectionPlanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateMalwareProtectionPlanInput, UpdateMalwareProtectionPlanOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -6118,8 +6329,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMalwareScanSettingsOutput>(UpdateMalwareScanSettingsOutput.httpOutput(from:), UpdateMalwareScanSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMalwareScanSettingsInput, UpdateMalwareScanSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMalwareScanSettingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6129,6 +6338,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMalwareScanSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMalwareScanSettingsInput, UpdateMalwareScanSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateMalwareScanSettingsInput, UpdateMalwareScanSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateMalwareScanSettingsInput, UpdateMalwareScanSettingsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -6187,8 +6398,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMemberDetectorsOutput>(UpdateMemberDetectorsOutput.httpOutput(from:), UpdateMemberDetectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMemberDetectorsInput, UpdateMemberDetectorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMemberDetectorsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6198,6 +6407,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMemberDetectorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMemberDetectorsInput, UpdateMemberDetectorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateMemberDetectorsInput, UpdateMemberDetectorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateMemberDetectorsInput, UpdateMemberDetectorsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -6256,8 +6467,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOrganizationConfigurationOutput>(UpdateOrganizationConfigurationOutput.httpOutput(from:), UpdateOrganizationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOrganizationConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6267,6 +6476,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateOrganizationConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -6325,8 +6536,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePublishingDestinationOutput>(UpdatePublishingDestinationOutput.httpOutput(from:), UpdatePublishingDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePublishingDestinationInput, UpdatePublishingDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePublishingDestinationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6336,6 +6545,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePublishingDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePublishingDestinationInput, UpdatePublishingDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePublishingDestinationInput, UpdatePublishingDestinationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePublishingDestinationInput, UpdatePublishingDestinationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -6394,8 +6605,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThreatEntitySetOutput>(UpdateThreatEntitySetOutput.httpOutput(from:), UpdateThreatEntitySetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThreatEntitySetInput, UpdateThreatEntitySetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThreatEntitySetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6405,6 +6614,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateThreatEntitySetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateThreatEntitySetInput, UpdateThreatEntitySetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateThreatEntitySetInput, UpdateThreatEntitySetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateThreatEntitySetInput, UpdateThreatEntitySetOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -6464,8 +6675,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThreatIntelSetOutput>(UpdateThreatIntelSetOutput.httpOutput(from:), UpdateThreatIntelSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThreatIntelSetInput, UpdateThreatIntelSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThreatIntelSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6475,6 +6684,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateThreatIntelSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateThreatIntelSetInput, UpdateThreatIntelSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateThreatIntelSetInput, UpdateThreatIntelSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateThreatIntelSetInput, UpdateThreatIntelSetOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
@@ -6533,8 +6744,6 @@ extension GuardDutyClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrustedEntitySetOutput>(UpdateTrustedEntitySetOutput.httpOutput(from:), UpdateTrustedEntitySetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrustedEntitySetInput, UpdateTrustedEntitySetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrustedEntitySetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6544,6 +6753,8 @@ extension GuardDutyClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTrustedEntitySetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTrustedEntitySetInput, UpdateTrustedEntitySetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTrustedEntitySetInput, UpdateTrustedEntitySetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTrustedEntitySetInput, UpdateTrustedEntitySetOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")

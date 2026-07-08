@@ -21,11 +21,11 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
+import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultClockSkewProvider
-import enum ClientRuntime.DefaultRetryErrorInfoProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -73,6 +73,7 @@ public final class GameLiftClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: GameLiftClient.GameLiftClientConfig
     let serviceName = "GameLift"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use GameLiftClient.GameLiftClientConfig instead")
     public typealias Config = GameLiftClient.GameLiftClientConfiguration
@@ -82,6 +83,7 @@ public final class GameLiftClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: GameLiftClient.GameLiftClientConfig) instead")
@@ -196,7 +198,7 @@ extension GameLiftClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "GameLift")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -251,7 +253,7 @@ extension GameLiftClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "GameLift")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -427,7 +429,7 @@ extension GameLiftClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "GameLift")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -482,7 +484,7 @@ extension GameLiftClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "GameLift")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -631,7 +633,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func acceptMatch(input: AcceptMatchInput) async throws -> AcceptMatchOutput {
         var config = config
@@ -667,8 +669,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptMatchInput, AcceptMatchOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptMatchInput, AcceptMatchOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptMatchOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -682,6 +682,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptMatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptMatchInput, AcceptMatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptMatchInput, AcceptMatchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptMatchInput, AcceptMatchOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -721,7 +723,7 @@ extension GameLiftClient {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `OutOfCapacityException` : The specified game server group has no available game servers to fulfill a ClaimGameServer request. Clients can retry such requests immediately or after a waiting period.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func claimGameServer(input: ClaimGameServerInput) async throws -> ClaimGameServerOutput {
@@ -758,8 +760,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ClaimGameServerInput, ClaimGameServerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ClaimGameServerInput, ClaimGameServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ClaimGameServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -773,6 +773,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ClaimGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ClaimGameServerInput, ClaimGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ClaimGameServerInput, ClaimGameServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ClaimGameServerInput, ClaimGameServerOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -840,8 +842,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAliasInput, CreateAliasOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAliasInput, CreateAliasOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAliasOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -855,6 +855,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAliasInput, CreateAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAliasInput, CreateAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAliasInput, CreateAliasOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -928,8 +930,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBuildInput, CreateBuildOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBuildInput, CreateBuildOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBuildOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -943,6 +943,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBuildInput, CreateBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateBuildInput, CreateBuildOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBuildInput, CreateBuildOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -1048,8 +1050,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContainerFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1063,6 +1063,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateContainerFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -1103,11 +1105,11 @@ extension GameLiftClient {
     ///
     /// * ContainerGroupType (GAME_SERVER)
     ///
-    /// * OperatingSystem (omit to use default value)
+    /// * OperatingSystem
     ///
-    /// * TotalMemoryLimitMebibytes (omit to use default value)
+    /// * TotalMemoryLimitMebibytes
     ///
-    /// * TotalVcpuLimit (omit to use default value)
+    /// * TotalVcpuLimit
     ///
     /// * At least one GameServerContainerDefinition
     ///
@@ -1117,7 +1119,7 @@ extension GameLiftClient {
     ///
     /// * PortConfiguration
     ///
-    /// * ServerSdkVersion (omit to use default value)
+    /// * ServerSdkVersion
     ///
     ///
     ///
@@ -1131,11 +1133,11 @@ extension GameLiftClient {
     ///
     /// * ContainerGroupType (PER_INSTANCE)
     ///
-    /// * OperatingSystem (omit to use default value)
+    /// * OperatingSystem
     ///
-    /// * TotalMemoryLimitMebibytes (omit to use default value)
+    /// * TotalMemoryLimitMebibytes
     ///
-    /// * TotalVcpuLimit (omit to use default value)
+    /// * TotalVcpuLimit
     ///
     /// * At least one SupportContainerDefinition
     ///
@@ -1200,8 +1202,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContainerGroupDefinitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1215,6 +1215,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateContainerGroupDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -1272,7 +1274,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `NotReadyException` : The operation failed because Amazon GameLift Servers has not yet finished validating this compute. We recommend attempting 8 to 10 retries over 3 to 5 minutes with [exponential backoffs and jitter](http://aws.amazon.com/blogs/https:/aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
@@ -1311,8 +1313,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetInput, CreateFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFleetInput, CreateFleetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1326,6 +1326,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFleetInput, CreateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFleetInput, CreateFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateFleetInput, CreateFleetOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -1358,7 +1360,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `NotReadyException` : The operation failed because Amazon GameLift Servers has not yet finished validating this compute. We recommend attempting 8 to 10 retries over 3 to 5 minutes with [exponential backoffs and jitter](http://aws.amazon.com/blogs/https:/aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -1396,8 +1398,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFleetLocationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1411,6 +1411,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFleetLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -1484,8 +1486,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGameServerGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1499,6 +1499,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -1542,7 +1544,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -1580,8 +1582,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGameSessionInput, CreateGameSessionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGameSessionInput, CreateGameSessionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGameSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1595,6 +1595,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGameSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGameSessionInput, CreateGameSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateGameSessionInput, CreateGameSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateGameSessionInput, CreateGameSessionOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -1664,7 +1666,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createGameSessionQueue(input: CreateGameSessionQueueInput) async throws -> CreateGameSessionQueueOutput {
@@ -1701,8 +1703,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGameSessionQueueOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1716,6 +1716,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGameSessionQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -1783,8 +1785,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLocationInput, CreateLocationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLocationInput, CreateLocationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLocationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1798,6 +1798,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLocationInput, CreateLocationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateLocationInput, CreateLocationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateLocationInput, CreateLocationOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -1828,7 +1830,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func createMatchmakingConfiguration(input: CreateMatchmakingConfigurationInput) async throws -> CreateMatchmakingConfigurationOutput {
@@ -1865,8 +1867,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMatchmakingConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1880,6 +1880,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMatchmakingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -1952,8 +1954,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMatchmakingRuleSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1967,6 +1967,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMatchmakingRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -1998,7 +2000,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidGameSessionStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the game instance. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createPlayerSession(input: CreatePlayerSessionInput) async throws -> CreatePlayerSessionOutput {
@@ -2035,8 +2037,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePlayerSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2050,6 +2050,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePlayerSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -2081,7 +2083,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidGameSessionStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the game instance. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createPlayerSessions(input: CreatePlayerSessionsInput) async throws -> CreatePlayerSessionsOutput {
@@ -2118,8 +2120,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePlayerSessionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2133,6 +2133,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePlayerSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -2206,8 +2208,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScriptInput, CreateScriptOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateScriptInput, CreateScriptOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateScriptOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2221,6 +2221,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateScriptInput, CreateScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateScriptInput, CreateScriptOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateScriptInput, CreateScriptOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -2239,7 +2241,22 @@ extension GameLiftClient {
 
     /// Performs the `CreateVpcPeeringAuthorization` operation on the `GameLift` service.
     ///
-    /// This API works with the following fleet types: EC2 Requests authorization to create or delete a peer connection between the VPC for your Amazon GameLift Servers fleet and a virtual private cloud (VPC) in your Amazon Web Services account. VPC peering enables the game servers on your fleet to communicate directly with other Amazon Web Services resources. After you've received authorization, use [CreateVpcPeeringConnection](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateVpcPeeringConnection.html) to establish the peering connection. For more information, see [VPC Peering with Amazon GameLift Servers Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html). You can peer with VPCs that are owned by any Amazon Web Services account you have access to, including the account that you use to manage your Amazon GameLift Servers fleets. You cannot peer with VPCs that are in different Regions. To request authorization to create a connection, call this operation from the Amazon Web Services account with the VPC that you want to peer to your Amazon GameLift Servers fleet. For example, to enable your game servers to retrieve data from a DynamoDB table, use the account that manages that DynamoDB resource. Identify the following values: (1) The ID of the VPC that you want to peer with, and (2) the ID of the Amazon Web Services account that you use to manage Amazon GameLift Servers. If successful, VPC peering is authorized for the specified VPC. To request authorization to delete a connection, call this operation from the Amazon Web Services account with the VPC that is peered with your Amazon GameLift Servers fleet. Identify the following values: (1) VPC ID that you want to delete the peering connection for, and (2) ID of the Amazon Web Services account that you use to manage Amazon GameLift Servers. The authorization remains valid for 24 hours unless it is canceled. You must create or delete the peering connection while the authorization is valid. Related actions [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
+    /// This API works with the following fleet types: EC2 Requests authorization to create or delete a peer connection between the VPC for your Amazon GameLift Servers fleet and a virtual private cloud (VPC) in your Amazon Web Services account. VPC peering enables the game servers on your fleet to communicate directly with other Amazon Web Services resources. After you've received authorization, use [CreateVpcPeeringConnection](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateVpcPeeringConnection.html) to establish the peering connection. For more information, see [VPC Peering with Amazon GameLift Servers Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html). You can peer with VPCs that are owned by any Amazon Web Services account you have access to, including the account that you use to manage your Amazon GameLift Servers fleets. You cannot peer with VPCs that are in different Regions. To request authorization to create a connection, call this operation from the Amazon Web Services account with the VPC that you want to peer to your Amazon GameLift Servers fleet. For example, to enable your game servers to retrieve data from a DynamoDB table, use the account that manages that DynamoDB resource. Identify the following values: (1) The ID of the VPC that you want to peer with, and (2) the ID of the Amazon Web Services account that you use to manage Amazon GameLift Servers. If successful, VPC peering is authorized for the specified VPC. To request authorization to delete a connection, call this operation from the Amazon Web Services account with the VPC that is peered with your Amazon GameLift Servers fleet. Identify the following values: (1) VPC ID that you want to delete the peering connection for, and (2) ID of the Amazon Web Services account that you use to manage Amazon GameLift Servers. The authorization remains valid for 24 hours unless it is canceled. You must create or delete the peering connection while the authorization is valid. Amazon GameLift Servers uses the caller's credentials to update peer-VPC resources. The IAM user that calls this operation must have the following Amazon EC2 permissions enabled:
+    ///
+    /// * ec2:AcceptVpcPeeringConnection
+    ///
+    /// * ec2:AuthorizeSecurityGroupEgress
+    ///
+    /// * ec2:AuthorizeSecurityGroupIngress
+    ///
+    /// * ec2:CreateRoute
+    ///
+    /// * ec2:DescribeRouteTables
+    ///
+    /// * ec2:DescribeSecurityGroups
+    ///
+    ///
+    /// Related actions [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateVpcPeeringAuthorizationInput`)
     ///
@@ -2250,7 +2267,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createVpcPeeringAuthorization(input: CreateVpcPeeringAuthorizationInput) async throws -> CreateVpcPeeringAuthorizationOutput {
         var config = config
@@ -2286,8 +2303,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcPeeringAuthorizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2301,6 +2316,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVpcPeeringAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -2319,7 +2336,22 @@ extension GameLiftClient {
 
     /// Performs the `CreateVpcPeeringConnection` operation on the `GameLift` service.
     ///
-    /// This API works with the following fleet types: EC2 Establishes a VPC peering connection between a virtual private cloud (VPC) in an Amazon Web Services account with the VPC for your Amazon GameLift Servers fleet. VPC peering enables the game servers on your fleet to communicate directly with other Amazon Web Services resources. You can peer with VPCs in any Amazon Web Services account that you have access to, including the account that you use to manage your Amazon GameLift Servers fleets. You cannot peer with VPCs that are in different Regions. For more information, see [VPC Peering with Amazon GameLift Servers Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html). Before calling this operation to establish the peering connection, you first need to use [CreateVpcPeeringAuthorization](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateVpcPeeringAuthorization.html) and identify the VPC you want to peer with. Once the authorization for the specified VPC is issued, you have 24 hours to establish the connection. These two operations handle all tasks necessary to peer the two VPCs, including acceptance, updating routing tables, etc. To establish the connection, call this operation from the Amazon Web Services account that is used to manage the Amazon GameLift Servers fleets. Identify the following values: (1) The ID of the fleet you want to be enable a VPC peering connection for; (2) The Amazon Web Services account with the VPC that you want to peer with; and (3) The ID of the VPC you want to peer with. This operation is asynchronous. If successful, a connection request is created. You can use continuous polling to track the request's status using [DescribeVpcPeeringConnections](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeVpcPeeringConnections.html) , or by monitoring fleet events for success or failure using [DescribeFleetEvents](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetEvents.html) . Related actions [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
+    /// This API works with the following fleet types: EC2 Establishes a VPC peering connection between a virtual private cloud (VPC) in an Amazon Web Services account with the VPC for your Amazon GameLift Servers fleet. VPC peering enables the game servers on your fleet to communicate directly with other Amazon Web Services resources. You can peer with VPCs in any Amazon Web Services account that you have access to, including the account that you use to manage your Amazon GameLift Servers fleets. You cannot peer with VPCs that are in different Regions. For more information, see [VPC Peering with Amazon GameLift Servers Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html). Before calling this operation to establish the peering connection, you first need to use [CreateVpcPeeringAuthorization](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateVpcPeeringAuthorization.html) and identify the VPC you want to peer with. Once the authorization for the specified VPC is issued, you have 24 hours to establish the connection. These two operations handle all tasks necessary to peer the two VPCs, including acceptance, updating routing tables, etc. To establish the connection, call this operation from the Amazon Web Services account that is used to manage the Amazon GameLift Servers fleets. Identify the following values: (1) The ID of the fleet you want to be enable a VPC peering connection for; (2) The Amazon Web Services account with the VPC that you want to peer with; and (3) The ID of the VPC you want to peer with. This operation is asynchronous. If successful, a connection request is created. You can use continuous polling to track the request's status using [DescribeVpcPeeringConnections](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeVpcPeeringConnections.html) , or by monitoring fleet events for success or failure using [DescribeFleetEvents](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetEvents.html) . Amazon GameLift Servers uses the caller's credentials to update peer-VPC resources. The IAM user that calls this operation must have the following Amazon EC2 permissions enabled:
+    ///
+    /// * ec2:AcceptVpcPeeringConnection
+    ///
+    /// * ec2:AuthorizeSecurityGroupEgress
+    ///
+    /// * ec2:AuthorizeSecurityGroupIngress
+    ///
+    /// * ec2:CreateRoute
+    ///
+    /// * ec2:DescribeRouteTables
+    ///
+    /// * ec2:DescribeSecurityGroups
+    ///
+    ///
+    /// Related actions [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateVpcPeeringConnectionInput`)
     ///
@@ -2330,7 +2362,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createVpcPeeringConnection(input: CreateVpcPeeringConnectionInput) async throws -> CreateVpcPeeringConnectionOutput {
         var config = config
@@ -2366,8 +2398,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcPeeringConnectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2381,6 +2411,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVpcPeeringConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -2410,7 +2442,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput {
@@ -2447,8 +2479,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAliasInput, DeleteAliasOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAliasInput, DeleteAliasOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAliasOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2462,6 +2492,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAliasInput, DeleteAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAliasInput, DeleteAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAliasInput, DeleteAliasOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -2491,7 +2523,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteBuild(input: DeleteBuildInput) async throws -> DeleteBuildOutput {
@@ -2528,8 +2560,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBuildInput, DeleteBuildOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBuildInput, DeleteBuildOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBuildOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2543,6 +2573,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBuildInput, DeleteBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteBuildInput, DeleteBuildOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteBuildInput, DeleteBuildOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -2572,7 +2604,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -2610,8 +2642,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContainerFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2625,6 +2655,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContainerFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -2674,7 +2706,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -2712,8 +2744,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContainerGroupDefinitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2727,6 +2757,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContainerGroupDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -2757,7 +2789,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput {
@@ -2794,8 +2826,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFleetInput, DeleteFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFleetInput, DeleteFleetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2809,6 +2839,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFleetInput, DeleteFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFleetInput, DeleteFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteFleetInput, DeleteFleetOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -2838,7 +2870,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func deleteFleetLocations(input: DeleteFleetLocationsInput) async throws -> DeleteFleetLocationsOutput {
@@ -2875,8 +2907,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFleetLocationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2890,6 +2920,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFleetLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -2928,7 +2960,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteGameServerGroup(input: DeleteGameServerGroupInput) async throws -> DeleteGameServerGroupOutput {
         var config = config
@@ -2964,8 +2996,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGameServerGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2979,6 +3009,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -3008,7 +3040,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteGameSessionQueue(input: DeleteGameSessionQueueInput) async throws -> DeleteGameSessionQueueOutput {
@@ -3045,8 +3077,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGameSessionQueueOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3060,6 +3090,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGameSessionQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -3089,7 +3121,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteLocation(input: DeleteLocationInput) async throws -> DeleteLocationOutput {
         var config = config
@@ -3125,8 +3157,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLocationInput, DeleteLocationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLocationInput, DeleteLocationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLocationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3140,6 +3170,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLocationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLocationInput, DeleteLocationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteLocationInput, DeleteLocationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteLocationInput, DeleteLocationOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -3169,7 +3201,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func deleteMatchmakingConfiguration(input: DeleteMatchmakingConfigurationInput) async throws -> DeleteMatchmakingConfigurationOutput {
@@ -3206,8 +3238,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMatchmakingConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3221,6 +3251,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMatchmakingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -3252,7 +3284,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func deleteMatchmakingRuleSet(input: DeleteMatchmakingRuleSetInput) async throws -> DeleteMatchmakingRuleSetOutput {
@@ -3289,8 +3321,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMatchmakingRuleSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3304,6 +3334,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMatchmakingRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -3333,7 +3365,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func deleteScalingPolicy(input: DeleteScalingPolicyInput) async throws -> DeleteScalingPolicyOutput {
@@ -3370,8 +3402,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScalingPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3385,6 +3415,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteScalingPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -3414,7 +3446,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteScript(input: DeleteScriptInput) async throws -> DeleteScriptOutput {
@@ -3451,8 +3483,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteScriptInput, DeleteScriptOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScriptInput, DeleteScriptOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScriptOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3466,6 +3496,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteScriptInput, DeleteScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteScriptInput, DeleteScriptOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteScriptInput, DeleteScriptOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -3495,7 +3527,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteVpcPeeringAuthorization(input: DeleteVpcPeeringAuthorizationInput) async throws -> DeleteVpcPeeringAuthorizationOutput {
         var config = config
@@ -3531,8 +3563,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcPeeringAuthorizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3546,6 +3576,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVpcPeeringAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -3575,7 +3607,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteVpcPeeringConnection(input: DeleteVpcPeeringConnectionInput) async throws -> DeleteVpcPeeringConnectionOutput {
         var config = config
@@ -3611,8 +3643,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcPeeringConnectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3626,6 +3656,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVpcPeeringConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -3655,7 +3687,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deregisterCompute(input: DeregisterComputeInput) async throws -> DeregisterComputeOutput {
         var config = config
@@ -3691,8 +3723,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterComputeInput, DeregisterComputeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterComputeInput, DeregisterComputeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterComputeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3706,6 +3736,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterComputeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterComputeInput, DeregisterComputeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterComputeInput, DeregisterComputeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterComputeInput, DeregisterComputeOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -3735,7 +3767,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deregisterGameServer(input: DeregisterGameServerInput) async throws -> DeregisterGameServerOutput {
         var config = config
@@ -3771,8 +3803,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterGameServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3786,6 +3816,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -3815,7 +3847,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeAlias(input: DescribeAliasInput) async throws -> DescribeAliasOutput {
         var config = config
@@ -3851,8 +3883,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAliasInput, DescribeAliasOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAliasInput, DescribeAliasOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAliasOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3866,6 +3896,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAliasInput, DescribeAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAliasInput, DescribeAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAliasInput, DescribeAliasOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -3895,7 +3927,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeBuild(input: DescribeBuildInput) async throws -> DescribeBuildOutput {
         var config = config
@@ -3931,8 +3963,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBuildInput, DescribeBuildOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBuildInput, DescribeBuildOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBuildOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3946,6 +3976,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBuildInput, DescribeBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeBuildInput, DescribeBuildOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeBuildInput, DescribeBuildOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -3988,7 +4020,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeCompute(input: DescribeComputeInput) async throws -> DescribeComputeOutput {
@@ -4025,8 +4057,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeComputeInput, DescribeComputeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeComputeInput, DescribeComputeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeComputeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4040,6 +4070,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeComputeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeComputeInput, DescribeComputeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeComputeInput, DescribeComputeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeComputeInput, DescribeComputeOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -4074,7 +4106,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeContainerFleet(input: DescribeContainerFleetInput) async throws -> DescribeContainerFleetOutput {
@@ -4111,8 +4143,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContainerFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4126,6 +4156,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContainerFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -4164,7 +4196,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeContainerGroupDefinition(input: DescribeContainerGroupDefinitionInput) async throws -> DescribeContainerGroupDefinitionOutput {
@@ -4201,8 +4233,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContainerGroupDefinitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4216,6 +4246,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContainerGroupDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -4243,7 +4275,7 @@ extension GameLiftClient {
     /// * Optionally filter results to a single container by providing a ContainerName.
     ///
     ///
-    /// Results This operation returns the fleet ID, location, container group definition ARN, container group type, compute name (for game server container groups), instance ID, and a list of ContainerGroupPortMapping objects. Each object contains the container name, runtime ID, and a list of port mappings that show how container ports map to connection ports on the instance. Learn more [Connect to containers](https://docs.aws.amazon.com/gamelift/latest/developerguide/containers-remote-access.html)[Create a container group definition](https://docs.aws.amazon.com/gamelift/latest/developerguide/containers-create-groups.html)
+    /// Results This operation returns the fleet ID, fleet ARN, location, container group definition ARN, container group type, compute name (for game server container groups), instance ID, and a list of ContainerGroupPortMapping objects. Each object contains the container name, runtime ID, and a list of port mappings that show how container ports map to connection ports on the instance. Learn more [Connect to containers](https://docs.aws.amazon.com/gamelift/latest/developerguide/containers-remote-access.html)[Create a container group definition](https://docs.aws.amazon.com/gamelift/latest/developerguide/containers-create-groups.html)
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeContainerGroupPortMappingsInput`)
     ///
@@ -4255,7 +4287,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeContainerGroupPortMappings(input: DescribeContainerGroupPortMappingsInput) async throws -> DescribeContainerGroupPortMappingsOutput {
@@ -4292,8 +4324,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContainerGroupPortMappingsInput, DescribeContainerGroupPortMappingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContainerGroupPortMappingsInput, DescribeContainerGroupPortMappingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContainerGroupPortMappingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4307,6 +4337,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContainerGroupPortMappingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeContainerGroupPortMappingsInput, DescribeContainerGroupPortMappingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeContainerGroupPortMappingsInput, DescribeContainerGroupPortMappingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeContainerGroupPortMappingsInput, DescribeContainerGroupPortMappingsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -4388,8 +4420,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEC2InstanceLimitsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4403,6 +4433,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEC2InstanceLimitsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -4439,7 +4471,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeFleetAttributes(input: DescribeFleetAttributesInput) async throws -> DescribeFleetAttributesOutput {
         var config = config
@@ -4475,8 +4507,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetAttributesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4490,6 +4520,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -4526,7 +4558,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetCapacity(input: DescribeFleetCapacityInput) async throws -> DescribeFleetCapacityOutput {
@@ -4563,8 +4595,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetCapacityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4578,6 +4608,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetCapacityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -4614,7 +4646,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetDeployment(input: DescribeFleetDeploymentInput) async throws -> DescribeFleetDeploymentOutput {
@@ -4651,8 +4683,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetDeploymentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4666,6 +4696,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -4695,7 +4727,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetEvents(input: DescribeFleetEventsInput) async throws -> DescribeFleetEventsOutput {
@@ -4732,8 +4764,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetEventsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4747,6 +4777,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -4772,7 +4804,7 @@ extension GameLiftClient {
     /// * To get data for all locations, provide a fleet identifier only. Location data is returned in no particular order.
     ///
     ///
-    /// When requesting attributes for multiple locations, use the pagination parameters to retrieve results as a set of sequential pages. If successful, a LocationAttributes object is returned for each requested location. If the fleet does not have a requested location, no information is returned. This operation does not return the home Region. To get information on a fleet's home Region, call DescribeFleetAttributes. Learn more [Setting up Amazon GameLift Servers fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)[ Amazon GameLift Servers service locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html) for managed hosting
+    /// When requesting attributes for multiple locations, use the pagination parameters to retrieve results as a set of sequential pages. If successful, a LocationAttributes object is returned for each requested location. If the fleet does not have a requested location, no information is returned. Learn more [Setting up Amazon GameLift Servers fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)[ Amazon GameLift Servers service locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html) for managed hosting
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeFleetLocationAttributesInput`)
     ///
@@ -4783,7 +4815,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetLocationAttributes(input: DescribeFleetLocationAttributesInput) async throws -> DescribeFleetLocationAttributesOutput {
@@ -4820,8 +4852,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetLocationAttributesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4835,6 +4865,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetLocationAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -4864,7 +4896,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetLocationCapacity(input: DescribeFleetLocationCapacityInput) async throws -> DescribeFleetLocationCapacityOutput {
@@ -4901,8 +4933,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetLocationCapacityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4916,6 +4946,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetLocationCapacityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -4945,7 +4977,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetLocationUtilization(input: DescribeFleetLocationUtilizationInput) async throws -> DescribeFleetLocationUtilizationOutput {
@@ -4982,8 +5014,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetLocationUtilizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4997,6 +5027,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetLocationUtilizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -5033,7 +5065,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetPortSettings(input: DescribeFleetPortSettingsInput) async throws -> DescribeFleetPortSettingsOutput {
@@ -5070,8 +5102,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetPortSettingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5085,6 +5115,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetPortSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -5121,7 +5153,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeFleetUtilization(input: DescribeFleetUtilizationInput) async throws -> DescribeFleetUtilizationOutput {
         var config = config
@@ -5157,8 +5189,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetUtilizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5172,6 +5202,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetUtilizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -5201,7 +5233,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameServer(input: DescribeGameServerInput) async throws -> DescribeGameServerOutput {
         var config = config
@@ -5237,8 +5269,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameServerInput, DescribeGameServerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGameServerInput, DescribeGameServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGameServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5252,6 +5282,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeGameServerInput, DescribeGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeGameServerInput, DescribeGameServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeGameServerInput, DescribeGameServerOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -5281,7 +5313,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameServerGroup(input: DescribeGameServerGroupInput) async throws -> DescribeGameServerGroupOutput {
         var config = config
@@ -5317,8 +5349,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGameServerGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5332,6 +5362,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -5361,7 +5393,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameServerInstances(input: DescribeGameServerInstancesInput) async throws -> DescribeGameServerInstancesOutput {
         var config = config
@@ -5397,8 +5429,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGameServerInstancesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5412,6 +5442,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeGameServerInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -5450,7 +5482,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -5488,8 +5520,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGameSessionDetailsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5503,6 +5533,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeGameSessionDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -5532,7 +5564,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameSessionPlacement(input: DescribeGameSessionPlacementInput) async throws -> DescribeGameSessionPlacementOutput {
         var config = config
@@ -5568,8 +5600,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGameSessionPlacementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5583,6 +5613,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeGameSessionPlacementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -5612,7 +5644,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameSessionQueues(input: DescribeGameSessionQueuesInput) async throws -> DescribeGameSessionQueuesOutput {
         var config = config
@@ -5648,8 +5680,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGameSessionQueuesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5663,6 +5693,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeGameSessionQueuesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -5701,7 +5733,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -5739,8 +5771,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGameSessionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5754,6 +5784,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeGameSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -5792,7 +5824,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeInstances(input: DescribeInstancesInput) async throws -> DescribeInstancesOutput {
@@ -5829,8 +5861,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstancesInput, DescribeInstancesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstancesInput, DescribeInstancesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstancesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5844,6 +5874,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInstancesInput, DescribeInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInstancesInput, DescribeInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInstancesInput, DescribeInstancesOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -5908,8 +5940,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMatchmakingOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5923,6 +5953,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMatchmakingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -5987,8 +6019,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMatchmakingConfigurationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6002,6 +6032,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMatchmakingConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -6033,7 +6065,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeMatchmakingRuleSets(input: DescribeMatchmakingRuleSetsInput) async throws -> DescribeMatchmakingRuleSetsOutput {
         var config = config
@@ -6069,8 +6101,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMatchmakingRuleSetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6084,6 +6114,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMatchmakingRuleSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -6122,7 +6154,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describePlayerSessions(input: DescribePlayerSessionsInput) async throws -> DescribePlayerSessionsOutput {
         var config = config
@@ -6158,8 +6190,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePlayerSessionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6173,6 +6203,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePlayerSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -6202,7 +6234,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeRuntimeConfiguration(input: DescribeRuntimeConfigurationInput) async throws -> DescribeRuntimeConfigurationOutput {
         var config = config
@@ -6238,8 +6270,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRuntimeConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6253,6 +6283,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRuntimeConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -6282,7 +6314,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeScalingPolicies(input: DescribeScalingPoliciesInput) async throws -> DescribeScalingPoliciesOutput {
@@ -6319,8 +6351,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScalingPoliciesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6334,6 +6364,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeScalingPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -6363,7 +6395,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeScript(input: DescribeScriptInput) async throws -> DescribeScriptOutput {
         var config = config
@@ -6399,8 +6431,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeScriptInput, DescribeScriptOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScriptInput, DescribeScriptOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScriptOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6414,6 +6444,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeScriptInput, DescribeScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeScriptInput, DescribeScriptOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeScriptInput, DescribeScriptOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -6477,8 +6509,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcPeeringAuthorizationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6492,6 +6522,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVpcPeeringAuthorizationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -6521,7 +6553,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeVpcPeeringConnections(input: DescribeVpcPeeringConnectionsInput) async throws -> DescribeVpcPeeringConnectionsOutput {
         var config = config
@@ -6557,8 +6589,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcPeeringConnectionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6572,6 +6602,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVpcPeeringConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -6610,7 +6642,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func getComputeAccess(input: GetComputeAccessInput) async throws -> GetComputeAccessOutput {
@@ -6647,8 +6679,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComputeAccessInput, GetComputeAccessOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComputeAccessInput, GetComputeAccessOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComputeAccessOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6662,6 +6692,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetComputeAccessOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetComputeAccessInput, GetComputeAccessOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetComputeAccessInput, GetComputeAccessOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetComputeAccessInput, GetComputeAccessOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -6704,7 +6736,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func getComputeAuthToken(input: GetComputeAuthTokenInput) async throws -> GetComputeAuthTokenOutput {
@@ -6741,8 +6773,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComputeAuthTokenOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6756,6 +6786,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetComputeAuthTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -6785,7 +6817,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func getGameSessionLogUrl(input: GetGameSessionLogUrlInput) async throws -> GetGameSessionLogUrlOutput {
         var config = config
@@ -6821,8 +6853,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGameSessionLogUrlOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6836,6 +6866,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetGameSessionLogUrlOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -6872,7 +6904,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func getInstanceAccess(input: GetInstanceAccessInput) async throws -> GetInstanceAccessOutput {
         var config = config
@@ -6908,8 +6940,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstanceAccessOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6923,6 +6953,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInstanceAccessOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -6954,7 +6986,7 @@ extension GameLiftClient {
     /// - `InvalidGameSessionStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the game instance. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func getPlayerConnectionDetails(input: GetPlayerConnectionDetailsInput) async throws -> GetPlayerConnectionDetailsOutput {
@@ -6991,8 +7023,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPlayerConnectionDetailsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7006,6 +7036,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPlayerConnectionDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -7070,8 +7102,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAliasesInput, ListAliasesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAliasesInput, ListAliasesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAliasesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7085,6 +7115,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAliasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAliasesInput, ListAliasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAliasesInput, ListAliasesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAliasesInput, ListAliasesOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -7149,8 +7181,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildsInput, ListBuildsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBuildsInput, ListBuildsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBuildsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7164,6 +7194,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBuildsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBuildsInput, ListBuildsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBuildsInput, ListBuildsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBuildsInput, ListBuildsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -7240,8 +7272,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComputeInput, ListComputeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComputeInput, ListComputeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComputeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7255,6 +7285,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListComputeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListComputeInput, ListComputeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListComputeInput, ListComputeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListComputeInput, ListComputeOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -7329,8 +7361,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContainerFleetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7344,6 +7374,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContainerFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -7380,7 +7412,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func listContainerGroupDefinitionVersions(input: ListContainerGroupDefinitionVersionsInput) async throws -> ListContainerGroupDefinitionVersionsOutput {
@@ -7417,8 +7449,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContainerGroupDefinitionVersionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7432,6 +7462,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContainerGroupDefinitionVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -7504,8 +7536,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContainerGroupDefinitionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7519,6 +7549,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContainerGroupDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -7555,7 +7587,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func listFleetDeployments(input: ListFleetDeploymentsInput) async throws -> ListFleetDeploymentsOutput {
@@ -7592,8 +7624,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFleetDeploymentsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7607,6 +7637,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFleetDeploymentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -7645,7 +7677,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutput {
         var config = config
@@ -7681,8 +7713,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFleetsInput, ListFleetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFleetsInput, ListFleetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFleetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7696,6 +7726,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFleetsInput, ListFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFleetsInput, ListFleetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFleetsInput, ListFleetsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -7760,8 +7792,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGameServerGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7775,6 +7805,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGameServerGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -7839,8 +7871,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGameServersInput, ListGameServersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGameServersInput, ListGameServersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGameServersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7854,6 +7884,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGameServersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGameServersInput, ListGameServersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListGameServersInput, ListGameServersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListGameServersInput, ListGameServersOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -7918,8 +7950,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLocationsInput, ListLocationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLocationsInput, ListLocationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLocationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7933,6 +7963,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLocationsInput, ListLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListLocationsInput, ListLocationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListLocationsInput, ListLocationsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -7997,8 +8029,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListScriptsInput, ListScriptsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListScriptsInput, ListScriptsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListScriptsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8012,6 +8042,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListScriptsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListScriptsInput, ListScriptsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListScriptsInput, ListScriptsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListScriptsInput, ListScriptsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -8041,7 +8073,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
@@ -8078,8 +8110,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8093,6 +8123,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -8122,7 +8154,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func putScalingPolicy(input: PutScalingPolicyInput) async throws -> PutScalingPolicyOutput {
@@ -8159,8 +8191,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutScalingPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8174,6 +8204,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutScalingPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -8247,8 +8279,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterComputeInput, RegisterComputeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterComputeInput, RegisterComputeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterComputeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8262,6 +8292,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterComputeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterComputeInput, RegisterComputeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterComputeInput, RegisterComputeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterComputeInput, RegisterComputeOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -8328,8 +8360,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterGameServerInput, RegisterGameServerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterGameServerInput, RegisterGameServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterGameServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8343,6 +8373,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterGameServerInput, RegisterGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterGameServerInput, RegisterGameServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterGameServerInput, RegisterGameServerOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -8372,7 +8404,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func requestUploadCredentials(input: RequestUploadCredentialsInput) async throws -> RequestUploadCredentialsOutput {
         var config = config
@@ -8408,8 +8440,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RequestUploadCredentialsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8423,6 +8453,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RequestUploadCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -8452,7 +8484,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func resolveAlias(input: ResolveAliasInput) async throws -> ResolveAliasOutput {
@@ -8489,8 +8521,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResolveAliasInput, ResolveAliasOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResolveAliasInput, ResolveAliasOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResolveAliasOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8504,6 +8534,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResolveAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResolveAliasInput, ResolveAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResolveAliasInput, ResolveAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ResolveAliasInput, ResolveAliasOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -8533,7 +8565,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func resumeGameServerGroup(input: ResumeGameServerGroupInput) async throws -> ResumeGameServerGroupOutput {
         var config = config
@@ -8569,8 +8601,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResumeGameServerGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8584,6 +8614,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResumeGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -8644,7 +8676,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -8682,8 +8714,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchGameSessionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8697,6 +8727,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchGameSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -8733,7 +8765,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func startFleetActions(input: StartFleetActionsInput) async throws -> StartFleetActionsOutput {
@@ -8770,8 +8802,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFleetActionsInput, StartFleetActionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFleetActionsInput, StartFleetActionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFleetActionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8785,6 +8815,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartFleetActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartFleetActionsInput, StartFleetActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartFleetActionsInput, StartFleetActionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartFleetActionsInput, StartFleetActionsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -8855,7 +8887,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func startGameSessionPlacement(input: StartGameSessionPlacementInput) async throws -> StartGameSessionPlacementOutput {
@@ -8892,8 +8924,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartGameSessionPlacementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8907,6 +8937,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartGameSessionPlacementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -8936,7 +8968,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func startMatchBackfill(input: StartMatchBackfillInput) async throws -> StartMatchBackfillOutput {
         var config = config
@@ -8972,8 +9004,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMatchBackfillOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8987,6 +9017,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMatchBackfillOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -9016,7 +9048,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func startMatchmaking(input: StartMatchmakingInput) async throws -> StartMatchmakingOutput {
         var config = config
@@ -9052,8 +9084,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMatchmakingInput, StartMatchmakingOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMatchmakingInput, StartMatchmakingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMatchmakingOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9067,6 +9097,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMatchmakingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMatchmakingInput, StartMatchmakingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMatchmakingInput, StartMatchmakingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMatchmakingInput, StartMatchmakingOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -9103,7 +9135,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func stopFleetActions(input: StopFleetActionsInput) async throws -> StopFleetActionsOutput {
@@ -9140,8 +9172,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopFleetActionsInput, StopFleetActionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopFleetActionsInput, StopFleetActionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopFleetActionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9155,6 +9185,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopFleetActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopFleetActionsInput, StopFleetActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopFleetActionsInput, StopFleetActionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopFleetActionsInput, StopFleetActionsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -9184,7 +9216,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func stopGameSessionPlacement(input: StopGameSessionPlacementInput) async throws -> StopGameSessionPlacementOutput {
         var config = config
@@ -9220,8 +9252,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopGameSessionPlacementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9235,6 +9265,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopGameSessionPlacementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -9264,7 +9296,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func stopMatchmaking(input: StopMatchmakingInput) async throws -> StopMatchmakingOutput {
         var config = config
@@ -9300,8 +9332,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopMatchmakingInput, StopMatchmakingOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopMatchmakingInput, StopMatchmakingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopMatchmakingOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9315,6 +9345,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopMatchmakingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopMatchmakingInput, StopMatchmakingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopMatchmakingInput, StopMatchmakingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopMatchmakingInput, StopMatchmakingOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -9349,7 +9381,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func suspendGameServerGroup(input: SuspendGameServerGroupInput) async throws -> SuspendGameServerGroupOutput {
         var config = config
@@ -9385,8 +9417,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SuspendGameServerGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9400,6 +9430,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SuspendGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -9429,7 +9461,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
@@ -9466,8 +9498,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9481,6 +9511,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -9518,7 +9550,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidGameSessionStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the game instance. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `NotReadyException` : The operation failed because Amazon GameLift Servers has not yet finished validating this compute. We recommend attempting 8 to 10 retries over 3 to 5 minutes with [exponential backoffs and jitter](http://aws.amazon.com/blogs/https:/aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func terminateGameSession(input: TerminateGameSessionInput) async throws -> TerminateGameSessionOutput {
@@ -9555,8 +9587,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateGameSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9570,6 +9600,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TerminateGameSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -9599,7 +9631,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
@@ -9636,8 +9668,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9651,6 +9681,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -9680,7 +9712,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutput {
         var config = config
@@ -9716,8 +9748,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAliasInput, UpdateAliasOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAliasInput, UpdateAliasOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAliasOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9731,6 +9761,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAliasInput, UpdateAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAliasInput, UpdateAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAliasInput, UpdateAliasOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -9760,7 +9792,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateBuild(input: UpdateBuildInput) async throws -> UpdateBuildOutput {
         var config = config
@@ -9796,8 +9828,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBuildInput, UpdateBuildOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBuildInput, UpdateBuildOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBuildOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9811,6 +9841,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateBuildInput, UpdateBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateBuildInput, UpdateBuildOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateBuildInput, UpdateBuildOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -9863,7 +9895,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `NotReadyException` : The operation failed because Amazon GameLift Servers has not yet finished validating this compute. We recommend attempting 8 to 10 retries over 3 to 5 minutes with [exponential backoffs and jitter](http://aws.amazon.com/blogs/https:/aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -9901,8 +9933,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContainerFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9916,6 +9946,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContainerFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -9940,7 +9972,7 @@ extension GameLiftClient {
     ///
     /// * Update based on a specific version of the container group definition. Specify the container group definition name and a source version number, or use an ARN value with a version number. Provide updated values for the properties that you want to change only. All other values remain the same as the source version.
     ///
-    /// * Change a game server container definition. Provide the updated container definition.
+    /// * Change a game server container definition. Provide a complete set of container definitions, including the updated definition.
     ///
     /// * Add or change a support container definition. Provide a complete set of container definitions, including the updated definition.
     ///
@@ -9959,7 +9991,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func updateContainerGroupDefinition(input: UpdateContainerGroupDefinitionInput) async throws -> UpdateContainerGroupDefinitionOutput {
@@ -9996,8 +10028,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContainerGroupDefinitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10011,6 +10041,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContainerGroupDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -10043,7 +10075,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateFleetAttributes(input: UpdateFleetAttributesInput) async throws -> UpdateFleetAttributesOutput {
         var config = config
@@ -10079,8 +10111,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFleetAttributesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10094,6 +10124,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFleetAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -10133,7 +10165,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func updateFleetCapacity(input: UpdateFleetCapacityInput) async throws -> UpdateFleetCapacityOutput {
@@ -10170,8 +10202,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFleetCapacityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10185,6 +10215,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFleetCapacityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -10203,7 +10235,7 @@ extension GameLiftClient {
 
     /// Performs the `UpdateFleetPortSettings` operation on the `GameLift` service.
     ///
-    /// This API works with the following fleet types: EC2, Container Updates permissions that allow inbound traffic to connect to game sessions in the fleet. To update settings, specify the fleet ID to be updated and specify the changes to be made. List the permissions you want to add in InboundPermissionAuthorizations, and permissions you want to remove in InboundPermissionRevocations. Permissions to be removed must match existing fleet permissions. If successful, the fleet ID for the updated fleet is returned. For fleets with remote locations, port setting updates can take time to propagate across all locations. You can check the status of updates in each location by calling DescribeFleetPortSettings with a location name. Learn more [Setting up Amazon GameLift Servers fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)
+    /// This API works with the following fleet types: EC2, Container Updates permissions that allow inbound traffic to connect to game sessions in the fleet. To update settings, specify the fleet ID to be updated and specify the changes to be made. List the permissions you want to add in InboundPermissionAuthorizations, and permissions you want to remove in InboundPermissionRevocations. Permissions to be removed must match existing fleet permissions. If successful, the fleet identifiers for the updated fleet are returned. For fleets with remote locations, port setting updates can take time to propagate across all locations. You can check the status of updates in each location by calling DescribeFleetPortSettings with a location name. Learn more [Setting up Amazon GameLift Servers fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateFleetPortSettingsInput`)
     ///
@@ -10217,7 +10249,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateFleetPortSettings(input: UpdateFleetPortSettingsInput) async throws -> UpdateFleetPortSettingsOutput {
         var config = config
@@ -10253,8 +10285,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFleetPortSettingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10268,6 +10298,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFleetPortSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -10306,7 +10338,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateGameServer(input: UpdateGameServerInput) async throws -> UpdateGameServerOutput {
         var config = config
@@ -10342,8 +10374,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGameServerInput, UpdateGameServerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGameServerInput, UpdateGameServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGameServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10357,6 +10387,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGameServerInput, UpdateGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGameServerInput, UpdateGameServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateGameServerInput, UpdateGameServerOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -10375,7 +10407,7 @@ extension GameLiftClient {
 
     /// Performs the `UpdateGameServerGroup` operation on the `GameLift` service.
     ///
-    /// This API works with the following fleet types: EC2 (FleetIQ) Updates Amazon GameLift Servers FleetIQ-specific properties for a game server group. Many Auto Scaling group properties are updated on the Auto Scaling group directly, including the launch template, Auto Scaling policies, and maximum/minimum/desired instance counts. To update the game server group, specify the game server group ID and provide the updated values. Before applying the updates, the new values are validated to ensure that Amazon GameLift Servers FleetIQ can continue to perform instance balancing activity. If successful, a GameServerGroup object is returned. Learn more [Amazon GameLift Servers FleetIQ Guide](https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html)
+    /// This API works with the following fleet types: EC2 (FleetIQ) Updates Amazon GameLift Servers FleetIQ-specific properties for a game server group. Many Auto Scaling group properties are updated on the Auto Scaling group directly, including the launch template, Auto Scaling policies, and maximum/minimum/desired instance counts. To update the game server group, specify the game server group ID and provide the updated values. Before applying the updates, the new values are validated to ensure that Amazon GameLift Servers FleetIQ can continue to perform instance balancing activity. If successful, a GameServerGroup object is returned. Target tracking Auto Scaling policies on the Auto Scaling group cannot be updated through the Amazon Web Services Management Console. Instead, use the Amazon Elastic Compute Cloud Auto Scaling [PutScalingPolicy](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_PutScalingPolicy.html) API action to update these policies. Learn more [Amazon GameLift Servers FleetIQ Guide](https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html)
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateGameServerGroupInput`)
     ///
@@ -10386,7 +10418,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateGameServerGroup(input: UpdateGameServerGroupInput) async throws -> UpdateGameServerGroupOutput {
         var config = config
@@ -10422,8 +10454,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGameServerGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10437,6 +10467,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -10468,7 +10500,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidGameSessionStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the game instance. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `NotReadyException` : The operation failed because Amazon GameLift Servers has not yet finished validating this compute. We recommend attempting 8 to 10 retries over 3 to 5 minutes with [exponential backoffs and jitter](http://aws.amazon.com/blogs/https:/aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateGameSession(input: UpdateGameSessionInput) async throws -> UpdateGameSessionOutput {
@@ -10505,8 +10537,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGameSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10520,6 +10550,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGameSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -10549,7 +10581,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateGameSessionQueue(input: UpdateGameSessionQueueInput) async throws -> UpdateGameSessionQueueOutput {
         var config = config
@@ -10585,8 +10617,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGameSessionQueueOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10600,6 +10630,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGameSessionQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -10629,7 +10661,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func updateMatchmakingConfiguration(input: UpdateMatchmakingConfigurationInput) async throws -> UpdateMatchmakingConfigurationOutput {
         var config = config
@@ -10665,8 +10697,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMatchmakingConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10680,6 +10710,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMatchmakingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -10711,7 +10743,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateRuntimeConfiguration(input: UpdateRuntimeConfigurationInput) async throws -> UpdateRuntimeConfigurationOutput {
         var config = config
@@ -10747,8 +10779,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuntimeConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10762,6 +10792,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRuntimeConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -10791,7 +10823,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateScript(input: UpdateScriptInput) async throws -> UpdateScriptOutput {
         var config = config
@@ -10827,8 +10859,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateScriptInput, UpdateScriptOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateScriptInput, UpdateScriptOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateScriptOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10842,6 +10872,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateScriptInput, UpdateScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateScriptInput, UpdateScriptOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateScriptInput, UpdateScriptOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
@@ -10908,8 +10940,6 @@ extension GameLiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ValidateMatchmakingRuleSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10923,6 +10953,8 @@ extension GameLiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ValidateMatchmakingRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLift"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")

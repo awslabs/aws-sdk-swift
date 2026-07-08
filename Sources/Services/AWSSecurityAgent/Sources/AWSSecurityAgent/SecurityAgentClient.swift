@@ -74,6 +74,7 @@ public final class SecurityAgentClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: SecurityAgentClient.SecurityAgentClientConfig
     let serviceName = "SecurityAgent"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use SecurityAgentClient.SecurityAgentClientConfig instead")
     public typealias Config = SecurityAgentClient.SecurityAgentClientConfiguration
@@ -83,6 +84,7 @@ public final class SecurityAgentClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: SecurityAgentClient.SecurityAgentClientConfig) instead")
@@ -197,7 +199,7 @@ extension SecurityAgentClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "SecurityAgent")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -252,7 +254,7 @@ extension SecurityAgentClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "SecurityAgent")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -428,7 +430,7 @@ extension SecurityAgentClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "SecurityAgent")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -483,7 +485,7 @@ extension SecurityAgentClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "SecurityAgent")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -657,8 +659,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddArtifactOutput>(AddArtifactOutput.httpOutput(from:), AddArtifactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddArtifactInput, AddArtifactOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddArtifactOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -668,10 +668,86 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddArtifactOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddArtifactInput, AddArtifactOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AddArtifactInput, AddArtifactOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AddArtifactInput, AddArtifactOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AddArtifact")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchCreateSecurityRequirements` operation on the `SecurityAgent` service.
+    ///
+    /// Batch creates security requirements in a customer managed pack.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateSecurityRequirementsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchCreateSecurityRequirementsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota. Review your current usage and request a quota increase if needed.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func batchCreateSecurityRequirements(input: BatchCreateSecurityRequirementsInput) async throws -> BatchCreateSecurityRequirementsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchCreateSecurityRequirements")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchCreateSecurityRequirementsInput, BatchCreateSecurityRequirementsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchCreateSecurityRequirementsInput, BatchCreateSecurityRequirementsOutput>(BatchCreateSecurityRequirementsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchCreateSecurityRequirementsInput, BatchCreateSecurityRequirementsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateSecurityRequirementsInput, BatchCreateSecurityRequirementsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchCreateSecurityRequirementsInput, BatchCreateSecurityRequirementsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchCreateSecurityRequirementsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateSecurityRequirementsInput, BatchCreateSecurityRequirementsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchCreateSecurityRequirementsOutput>(BatchCreateSecurityRequirementsOutput.httpOutput(from:), BatchCreateSecurityRequirementsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateSecurityRequirementsInput, BatchCreateSecurityRequirementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateSecurityRequirementsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCreateSecurityRequirementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateSecurityRequirementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCreateSecurityRequirementsInput, BatchCreateSecurityRequirementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchCreateSecurityRequirementsInput, BatchCreateSecurityRequirementsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchCreateSecurityRequirementsInput, BatchCreateSecurityRequirementsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchCreateSecurityRequirements")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -720,8 +796,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteCodeReviewsOutput>(BatchDeleteCodeReviewsOutput.httpOutput(from:), BatchDeleteCodeReviewsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteCodeReviewsInput, BatchDeleteCodeReviewsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteCodeReviewsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -731,6 +805,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteCodeReviewsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteCodeReviewsInput, BatchDeleteCodeReviewsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteCodeReviewsInput, BatchDeleteCodeReviewsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteCodeReviewsInput, BatchDeleteCodeReviewsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -783,8 +859,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeletePentestsOutput>(BatchDeletePentestsOutput.httpOutput(from:), BatchDeletePentestsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeletePentestsInput, BatchDeletePentestsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeletePentestsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -794,10 +868,148 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeletePentestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeletePentestsInput, BatchDeletePentestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeletePentestsInput, BatchDeletePentestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeletePentestsInput, BatchDeletePentestsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchDeletePentests")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchDeleteSecurityRequirements` operation on the `SecurityAgent` service.
+    ///
+    /// Batch deletes security requirements from a customer managed pack.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteSecurityRequirementsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchDeleteSecurityRequirementsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func batchDeleteSecurityRequirements(input: BatchDeleteSecurityRequirementsInput) async throws -> BatchDeleteSecurityRequirementsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchDeleteSecurityRequirements")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchDeleteSecurityRequirementsInput, BatchDeleteSecurityRequirementsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchDeleteSecurityRequirementsInput, BatchDeleteSecurityRequirementsOutput>(BatchDeleteSecurityRequirementsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDeleteSecurityRequirementsInput, BatchDeleteSecurityRequirementsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteSecurityRequirementsInput, BatchDeleteSecurityRequirementsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteSecurityRequirementsInput, BatchDeleteSecurityRequirementsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteSecurityRequirementsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteSecurityRequirementsInput, BatchDeleteSecurityRequirementsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteSecurityRequirementsOutput>(BatchDeleteSecurityRequirementsOutput.httpOutput(from:), BatchDeleteSecurityRequirementsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteSecurityRequirementsInput, BatchDeleteSecurityRequirementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteSecurityRequirementsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteSecurityRequirementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteSecurityRequirementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteSecurityRequirementsInput, BatchDeleteSecurityRequirementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteSecurityRequirementsInput, BatchDeleteSecurityRequirementsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteSecurityRequirementsInput, BatchDeleteSecurityRequirementsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchDeleteSecurityRequirements")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchDeleteThreatModels` operation on the `SecurityAgent` service.
+    ///
+    /// Deletes one or more threat models from an agent space.
+    ///
+    /// - Parameter input: Input for deleting multiple threat models. (Type: `BatchDeleteThreatModelsInput`)
+    ///
+    /// - Returns: Output for the BatchDeleteThreatModels operation. (Type: `BatchDeleteThreatModelsOutput`)
+    public func batchDeleteThreatModels(input: BatchDeleteThreatModelsInput) async throws -> BatchDeleteThreatModelsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchDeleteThreatModels")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchDeleteThreatModelsInput, BatchDeleteThreatModelsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchDeleteThreatModelsInput, BatchDeleteThreatModelsOutput>(BatchDeleteThreatModelsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDeleteThreatModelsInput, BatchDeleteThreatModelsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteThreatModelsInput, BatchDeleteThreatModelsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteThreatModelsInput, BatchDeleteThreatModelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteThreatModelsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteThreatModelsInput, BatchDeleteThreatModelsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteThreatModelsOutput>(BatchDeleteThreatModelsOutput.httpOutput(from:), BatchDeleteThreatModelsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteThreatModelsInput, BatchDeleteThreatModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteThreatModelsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteThreatModelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteThreatModelsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteThreatModelsInput, BatchDeleteThreatModelsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteThreatModelsInput, BatchDeleteThreatModelsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteThreatModelsInput, BatchDeleteThreatModelsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchDeleteThreatModels")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -846,8 +1058,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetAgentSpacesOutput>(BatchGetAgentSpacesOutput.httpOutput(from:), BatchGetAgentSpacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetAgentSpacesInput, BatchGetAgentSpacesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetAgentSpacesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -857,6 +1067,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetAgentSpacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetAgentSpacesInput, BatchGetAgentSpacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetAgentSpacesInput, BatchGetAgentSpacesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetAgentSpacesInput, BatchGetAgentSpacesOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -918,8 +1130,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetArtifactMetadataOutput>(BatchGetArtifactMetadataOutput.httpOutput(from:), BatchGetArtifactMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetArtifactMetadataInput, BatchGetArtifactMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetArtifactMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -929,6 +1139,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetArtifactMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetArtifactMetadataInput, BatchGetArtifactMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetArtifactMetadataInput, BatchGetArtifactMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetArtifactMetadataInput, BatchGetArtifactMetadataOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -981,8 +1193,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCodeReviewJobTasksOutput>(BatchGetCodeReviewJobTasksOutput.httpOutput(from:), BatchGetCodeReviewJobTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCodeReviewJobTasksInput, BatchGetCodeReviewJobTasksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCodeReviewJobTasksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -992,6 +1202,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetCodeReviewJobTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetCodeReviewJobTasksInput, BatchGetCodeReviewJobTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetCodeReviewJobTasksInput, BatchGetCodeReviewJobTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetCodeReviewJobTasksInput, BatchGetCodeReviewJobTasksOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -1044,8 +1256,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCodeReviewJobsOutput>(BatchGetCodeReviewJobsOutput.httpOutput(from:), BatchGetCodeReviewJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCodeReviewJobsInput, BatchGetCodeReviewJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCodeReviewJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1055,6 +1265,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetCodeReviewJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetCodeReviewJobsInput, BatchGetCodeReviewJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetCodeReviewJobsInput, BatchGetCodeReviewJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetCodeReviewJobsInput, BatchGetCodeReviewJobsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -1107,8 +1319,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCodeReviewsOutput>(BatchGetCodeReviewsOutput.httpOutput(from:), BatchGetCodeReviewsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCodeReviewsInput, BatchGetCodeReviewsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCodeReviewsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1118,6 +1328,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetCodeReviewsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetCodeReviewsInput, BatchGetCodeReviewsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetCodeReviewsInput, BatchGetCodeReviewsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetCodeReviewsInput, BatchGetCodeReviewsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -1170,8 +1382,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetFindingsOutput>(BatchGetFindingsOutput.httpOutput(from:), BatchGetFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetFindingsInput, BatchGetFindingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetFindingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1181,6 +1391,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetFindingsInput, BatchGetFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetFindingsInput, BatchGetFindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetFindingsInput, BatchGetFindingsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -1233,8 +1445,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetPentestJobTasksOutput>(BatchGetPentestJobTasksOutput.httpOutput(from:), BatchGetPentestJobTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetPentestJobTasksInput, BatchGetPentestJobTasksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetPentestJobTasksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1244,6 +1454,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetPentestJobTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetPentestJobTasksInput, BatchGetPentestJobTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetPentestJobTasksInput, BatchGetPentestJobTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetPentestJobTasksInput, BatchGetPentestJobTasksOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -1296,8 +1508,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetPentestJobsOutput>(BatchGetPentestJobsOutput.httpOutput(from:), BatchGetPentestJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetPentestJobsInput, BatchGetPentestJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetPentestJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1307,6 +1517,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetPentestJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetPentestJobsInput, BatchGetPentestJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetPentestJobsInput, BatchGetPentestJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetPentestJobsInput, BatchGetPentestJobsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -1359,8 +1571,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetPentestsOutput>(BatchGetPentestsOutput.httpOutput(from:), BatchGetPentestsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetPentestsInput, BatchGetPentestsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetPentestsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1370,10 +1580,84 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetPentestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetPentestsInput, BatchGetPentestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetPentestsInput, BatchGetPentestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetPentestsInput, BatchGetPentestsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetPentests")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchGetSecurityRequirements` operation on the `SecurityAgent` service.
+    ///
+    /// Batch retrieves security requirements from a pack.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchGetSecurityRequirementsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchGetSecurityRequirementsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func batchGetSecurityRequirements(input: BatchGetSecurityRequirementsInput) async throws -> BatchGetSecurityRequirementsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetSecurityRequirements")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetSecurityRequirementsInput, BatchGetSecurityRequirementsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetSecurityRequirementsInput, BatchGetSecurityRequirementsOutput>(BatchGetSecurityRequirementsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetSecurityRequirementsInput, BatchGetSecurityRequirementsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetSecurityRequirementsInput, BatchGetSecurityRequirementsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetSecurityRequirementsInput, BatchGetSecurityRequirementsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetSecurityRequirementsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetSecurityRequirementsInput, BatchGetSecurityRequirementsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetSecurityRequirementsOutput>(BatchGetSecurityRequirementsOutput.httpOutput(from:), BatchGetSecurityRequirementsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetSecurityRequirementsInput, BatchGetSecurityRequirementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetSecurityRequirementsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetSecurityRequirementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetSecurityRequirementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetSecurityRequirementsInput, BatchGetSecurityRequirementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetSecurityRequirementsInput, BatchGetSecurityRequirementsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetSecurityRequirementsInput, BatchGetSecurityRequirementsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetSecurityRequirements")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1422,8 +1706,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetTargetDomainsOutput>(BatchGetTargetDomainsOutput.httpOutput(from:), BatchGetTargetDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetTargetDomainsInput, BatchGetTargetDomainsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetTargetDomainsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1433,10 +1715,337 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetTargetDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetTargetDomainsInput, BatchGetTargetDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetTargetDomainsInput, BatchGetTargetDomainsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetTargetDomainsInput, BatchGetTargetDomainsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetTargetDomains")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchGetThreatModelJobTasks` operation on the `SecurityAgent` service.
+    ///
+    /// Retrieves information about one or more tasks within a threat model job.
+    ///
+    /// - Parameter input: Input for retrieving multiple tasks associated with a threat model job. (Type: `BatchGetThreatModelJobTasksInput`)
+    ///
+    /// - Returns: Output for the BatchGetThreatModelJobTasks operation. (Type: `BatchGetThreatModelJobTasksOutput`)
+    public func batchGetThreatModelJobTasks(input: BatchGetThreatModelJobTasksInput) async throws -> BatchGetThreatModelJobTasksOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetThreatModelJobTasks")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetThreatModelJobTasksInput, BatchGetThreatModelJobTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetThreatModelJobTasksInput, BatchGetThreatModelJobTasksOutput>(BatchGetThreatModelJobTasksInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetThreatModelJobTasksInput, BatchGetThreatModelJobTasksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetThreatModelJobTasksInput, BatchGetThreatModelJobTasksOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetThreatModelJobTasksInput, BatchGetThreatModelJobTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetThreatModelJobTasksInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetThreatModelJobTasksInput, BatchGetThreatModelJobTasksOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetThreatModelJobTasksOutput>(BatchGetThreatModelJobTasksOutput.httpOutput(from:), BatchGetThreatModelJobTasksOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetThreatModelJobTasksInput, BatchGetThreatModelJobTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetThreatModelJobTasksOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetThreatModelJobTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetThreatModelJobTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetThreatModelJobTasksInput, BatchGetThreatModelJobTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetThreatModelJobTasksInput, BatchGetThreatModelJobTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetThreatModelJobTasksInput, BatchGetThreatModelJobTasksOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetThreatModelJobTasks")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchGetThreatModelJobs` operation on the `SecurityAgent` service.
+    ///
+    /// Retrieves information about one or more threat model jobs in an agent space.
+    ///
+    /// - Parameter input: Input for BatchGetThreatModelJobs operation. (Type: `BatchGetThreatModelJobsInput`)
+    ///
+    /// - Returns: Output for the BatchGetThreatModelJobs operation. (Type: `BatchGetThreatModelJobsOutput`)
+    public func batchGetThreatModelJobs(input: BatchGetThreatModelJobsInput) async throws -> BatchGetThreatModelJobsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetThreatModelJobs")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetThreatModelJobsInput, BatchGetThreatModelJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetThreatModelJobsInput, BatchGetThreatModelJobsOutput>(BatchGetThreatModelJobsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetThreatModelJobsInput, BatchGetThreatModelJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetThreatModelJobsInput, BatchGetThreatModelJobsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetThreatModelJobsInput, BatchGetThreatModelJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetThreatModelJobsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetThreatModelJobsInput, BatchGetThreatModelJobsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetThreatModelJobsOutput>(BatchGetThreatModelJobsOutput.httpOutput(from:), BatchGetThreatModelJobsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetThreatModelJobsInput, BatchGetThreatModelJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetThreatModelJobsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetThreatModelJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetThreatModelJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetThreatModelJobsInput, BatchGetThreatModelJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetThreatModelJobsInput, BatchGetThreatModelJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetThreatModelJobsInput, BatchGetThreatModelJobsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetThreatModelJobs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchGetThreatModels` operation on the `SecurityAgent` service.
+    ///
+    /// Retrieves information about one or more threat models in an agent space.
+    ///
+    /// - Parameter input: Input for retrieving multiple threat models by their IDs. (Type: `BatchGetThreatModelsInput`)
+    ///
+    /// - Returns: Output for the BatchGetThreatModels operation. (Type: `BatchGetThreatModelsOutput`)
+    public func batchGetThreatModels(input: BatchGetThreatModelsInput) async throws -> BatchGetThreatModelsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetThreatModels")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetThreatModelsInput, BatchGetThreatModelsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetThreatModelsInput, BatchGetThreatModelsOutput>(BatchGetThreatModelsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetThreatModelsInput, BatchGetThreatModelsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetThreatModelsInput, BatchGetThreatModelsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetThreatModelsInput, BatchGetThreatModelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetThreatModelsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetThreatModelsInput, BatchGetThreatModelsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetThreatModelsOutput>(BatchGetThreatModelsOutput.httpOutput(from:), BatchGetThreatModelsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetThreatModelsInput, BatchGetThreatModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetThreatModelsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetThreatModelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetThreatModelsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetThreatModelsInput, BatchGetThreatModelsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetThreatModelsInput, BatchGetThreatModelsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetThreatModelsInput, BatchGetThreatModelsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetThreatModels")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchGetThreats` operation on the `SecurityAgent` service.
+    ///
+    /// Retrieves information about one or more threats.
+    ///
+    /// - Parameter input: Input for retrieving multiple threats. (Type: `BatchGetThreatsInput`)
+    ///
+    /// - Returns: Output for the BatchGetThreats operation. (Type: `BatchGetThreatsOutput`)
+    public func batchGetThreats(input: BatchGetThreatsInput) async throws -> BatchGetThreatsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetThreats")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetThreatsInput, BatchGetThreatsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetThreatsInput, BatchGetThreatsOutput>(BatchGetThreatsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetThreatsInput, BatchGetThreatsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetThreatsInput, BatchGetThreatsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetThreatsInput, BatchGetThreatsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetThreatsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetThreatsInput, BatchGetThreatsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetThreatsOutput>(BatchGetThreatsOutput.httpOutput(from:), BatchGetThreatsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetThreatsInput, BatchGetThreatsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetThreatsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetThreatsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetThreatsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetThreatsInput, BatchGetThreatsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetThreatsInput, BatchGetThreatsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetThreatsInput, BatchGetThreatsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetThreats")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchUpdateSecurityRequirements` operation on the `SecurityAgent` service.
+    ///
+    /// Batch updates security requirements within a customer managed pack.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateSecurityRequirementsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchUpdateSecurityRequirementsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func batchUpdateSecurityRequirements(input: BatchUpdateSecurityRequirementsInput) async throws -> BatchUpdateSecurityRequirementsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchUpdateSecurityRequirements")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchUpdateSecurityRequirementsInput, BatchUpdateSecurityRequirementsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchUpdateSecurityRequirementsInput, BatchUpdateSecurityRequirementsOutput>(BatchUpdateSecurityRequirementsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchUpdateSecurityRequirementsInput, BatchUpdateSecurityRequirementsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateSecurityRequirementsInput, BatchUpdateSecurityRequirementsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchUpdateSecurityRequirementsInput, BatchUpdateSecurityRequirementsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchUpdateSecurityRequirementsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateSecurityRequirementsInput, BatchUpdateSecurityRequirementsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateSecurityRequirementsOutput>(BatchUpdateSecurityRequirementsOutput.httpOutput(from:), BatchUpdateSecurityRequirementsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateSecurityRequirementsInput, BatchUpdateSecurityRequirementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateSecurityRequirementsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchUpdateSecurityRequirementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateSecurityRequirementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateSecurityRequirementsInput, BatchUpdateSecurityRequirementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateSecurityRequirementsInput, BatchUpdateSecurityRequirementsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateSecurityRequirementsInput, BatchUpdateSecurityRequirementsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchUpdateSecurityRequirements")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1485,8 +2094,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAgentSpaceOutput>(CreateAgentSpaceOutput.httpOutput(from:), CreateAgentSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAgentSpaceInput, CreateAgentSpaceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAgentSpaceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1496,6 +2103,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAgentSpaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAgentSpaceInput, CreateAgentSpaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAgentSpaceInput, CreateAgentSpaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAgentSpaceInput, CreateAgentSpaceOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -1548,8 +2157,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationOutput>(CreateApplicationOutput.httpOutput(from:), CreateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1559,6 +2166,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateApplicationInput, CreateApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateApplicationInput, CreateApplicationOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -1611,8 +2220,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCodeReviewOutput>(CreateCodeReviewOutput.httpOutput(from:), CreateCodeReviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCodeReviewInput, CreateCodeReviewOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCodeReviewOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1622,6 +2229,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCodeReviewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCodeReviewInput, CreateCodeReviewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCodeReviewInput, CreateCodeReviewOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCodeReviewInput, CreateCodeReviewOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -1684,8 +2293,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIntegrationOutput>(CreateIntegrationOutput.httpOutput(from:), CreateIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIntegrationInput, CreateIntegrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIntegrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1695,6 +2302,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIntegrationInput, CreateIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIntegrationInput, CreateIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIntegrationInput, CreateIntegrationOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -1747,8 +2356,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMembershipOutput>(CreateMembershipOutput.httpOutput(from:), CreateMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMembershipInput, CreateMembershipOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMembershipOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1758,6 +2365,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMembershipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateMembershipInput, CreateMembershipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateMembershipInput, CreateMembershipOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateMembershipInput, CreateMembershipOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -1810,8 +2419,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePentestOutput>(CreatePentestOutput.httpOutput(from:), CreatePentestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePentestInput, CreatePentestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePentestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1821,10 +2428,158 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePentestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePentestInput, CreatePentestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePentestInput, CreatePentestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePentestInput, CreatePentestOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePentest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreatePrivateConnection` operation on the `SecurityAgent` service.
+    ///
+    /// Creates a private connection for reaching a self-hosted provider instance over private networking using Amazon VPC Lattice.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreatePrivateConnectionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreatePrivateConnectionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func createPrivateConnection(input: CreatePrivateConnectionInput) async throws -> CreatePrivateConnectionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createPrivateConnection")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreatePrivateConnectionInput, CreatePrivateConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePrivateConnectionInput, CreatePrivateConnectionOutput>(CreatePrivateConnectionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePrivateConnectionInput, CreatePrivateConnectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePrivateConnectionInput, CreatePrivateConnectionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreatePrivateConnectionInput, CreatePrivateConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePrivateConnectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePrivateConnectionInput, CreatePrivateConnectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePrivateConnectionOutput>(CreatePrivateConnectionOutput.httpOutput(from:), CreatePrivateConnectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePrivateConnectionInput, CreatePrivateConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreatePrivateConnectionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePrivateConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePrivateConnectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePrivateConnectionInput, CreatePrivateConnectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePrivateConnectionInput, CreatePrivateConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePrivateConnectionInput, CreatePrivateConnectionOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePrivateConnection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateSecurityRequirementPack` operation on the `SecurityAgent` service.
+    ///
+    /// Creates a customer managed security requirement pack.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateSecurityRequirementPackInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateSecurityRequirementPackOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota. Review your current usage and request a quota increase if needed.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func createSecurityRequirementPack(input: CreateSecurityRequirementPackInput) async throws -> CreateSecurityRequirementPackOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createSecurityRequirementPack")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateSecurityRequirementPackInput, CreateSecurityRequirementPackOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSecurityRequirementPackInput, CreateSecurityRequirementPackOutput>(CreateSecurityRequirementPackInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSecurityRequirementPackInput, CreateSecurityRequirementPackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSecurityRequirementPackInput, CreateSecurityRequirementPackOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateSecurityRequirementPackInput, CreateSecurityRequirementPackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSecurityRequirementPackInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSecurityRequirementPackInput, CreateSecurityRequirementPackOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSecurityRequirementPackOutput>(CreateSecurityRequirementPackOutput.httpOutput(from:), CreateSecurityRequirementPackOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSecurityRequirementPackInput, CreateSecurityRequirementPackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateSecurityRequirementPackOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSecurityRequirementPackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSecurityRequirementPackOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSecurityRequirementPackInput, CreateSecurityRequirementPackOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSecurityRequirementPackInput, CreateSecurityRequirementPackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSecurityRequirementPackInput, CreateSecurityRequirementPackOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSecurityRequirementPack")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1873,8 +2628,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTargetDomainOutput>(CreateTargetDomainOutput.httpOutput(from:), CreateTargetDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTargetDomainInput, CreateTargetDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTargetDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1884,10 +2637,138 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTargetDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTargetDomainInput, CreateTargetDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTargetDomainInput, CreateTargetDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTargetDomainInput, CreateTargetDomainOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTargetDomain")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateThreat` operation on the `SecurityAgent` service.
+    ///
+    /// Creates a new threat under a threat model job.
+    ///
+    /// - Parameter input: Input for creating a new threat. (Type: `CreateThreatInput`)
+    ///
+    /// - Returns: Output for the CreateThreat operation. (Type: `CreateThreatOutput`)
+    public func createThreat(input: CreateThreatInput) async throws -> CreateThreatOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createThreat")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateThreatInput, CreateThreatOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateThreatInput, CreateThreatOutput>(CreateThreatInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateThreatInput, CreateThreatOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateThreatInput, CreateThreatOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateThreatInput, CreateThreatOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateThreatInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateThreatInput, CreateThreatOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateThreatOutput>(CreateThreatOutput.httpOutput(from:), CreateThreatOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateThreatInput, CreateThreatOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateThreatOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateThreatOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateThreatOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateThreatInput, CreateThreatOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateThreatInput, CreateThreatOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateThreatInput, CreateThreatOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateThreat")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateThreatModel` operation on the `SecurityAgent` service.
+    ///
+    /// Creates a new threat model configuration in an agent space. A threat model defines the parameters for automated threat analysis.
+    ///
+    /// - Parameter input: Input for creating a new threat model. (Type: `CreateThreatModelInput`)
+    ///
+    /// - Returns: Output for the CreateThreatModel operation. (Type: `CreateThreatModelOutput`)
+    public func createThreatModel(input: CreateThreatModelInput) async throws -> CreateThreatModelOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createThreatModel")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateThreatModelInput, CreateThreatModelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateThreatModelInput, CreateThreatModelOutput>(CreateThreatModelInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateThreatModelInput, CreateThreatModelOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateThreatModelInput, CreateThreatModelOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateThreatModelInput, CreateThreatModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateThreatModelInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateThreatModelInput, CreateThreatModelOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateThreatModelOutput>(CreateThreatModelOutput.httpOutput(from:), CreateThreatModelOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateThreatModelInput, CreateThreatModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateThreatModelOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateThreatModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateThreatModelOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateThreatModelInput, CreateThreatModelOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateThreatModelInput, CreateThreatModelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateThreatModelInput, CreateThreatModelOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateThreatModel")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1936,8 +2817,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAgentSpaceOutput>(DeleteAgentSpaceOutput.httpOutput(from:), DeleteAgentSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAgentSpaceInput, DeleteAgentSpaceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAgentSpaceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1947,6 +2826,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAgentSpaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAgentSpaceInput, DeleteAgentSpaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAgentSpaceInput, DeleteAgentSpaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAgentSpaceInput, DeleteAgentSpaceOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -1999,8 +2880,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationOutput>(DeleteApplicationOutput.httpOutput(from:), DeleteApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2010,6 +2889,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -2071,8 +2952,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteArtifactOutput>(DeleteArtifactOutput.httpOutput(from:), DeleteArtifactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteArtifactInput, DeleteArtifactOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteArtifactOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2082,6 +2961,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteArtifactOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteArtifactInput, DeleteArtifactOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteArtifactInput, DeleteArtifactOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteArtifactInput, DeleteArtifactOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -2144,8 +3025,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntegrationOutput>(DeleteIntegrationOutput.httpOutput(from:), DeleteIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntegrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2155,6 +3034,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -2207,8 +3088,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMembershipOutput>(DeleteMembershipOutput.httpOutput(from:), DeleteMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMembershipInput, DeleteMembershipOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMembershipOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2218,10 +3097,158 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMembershipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMembershipInput, DeleteMembershipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMembershipInput, DeleteMembershipOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMembershipInput, DeleteMembershipOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteMembership")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeletePrivateConnection` operation on the `SecurityAgent` service.
+    ///
+    /// Deletes a private connection.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeletePrivateConnectionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeletePrivateConnectionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func deletePrivateConnection(input: DeletePrivateConnectionInput) async throws -> DeletePrivateConnectionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deletePrivateConnection")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeletePrivateConnectionInput, DeletePrivateConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePrivateConnectionInput, DeletePrivateConnectionOutput>(DeletePrivateConnectionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePrivateConnectionInput, DeletePrivateConnectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePrivateConnectionInput, DeletePrivateConnectionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeletePrivateConnectionInput, DeletePrivateConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePrivateConnectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePrivateConnectionInput, DeletePrivateConnectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePrivateConnectionOutput>(DeletePrivateConnectionOutput.httpOutput(from:), DeletePrivateConnectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePrivateConnectionInput, DeletePrivateConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeletePrivateConnectionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePrivateConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePrivateConnectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePrivateConnectionInput, DeletePrivateConnectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePrivateConnectionInput, DeletePrivateConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePrivateConnectionInput, DeletePrivateConnectionOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePrivateConnection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteSecurityRequirementPack` operation on the `SecurityAgent` service.
+    ///
+    /// Deletes a customer managed security requirement pack and all its associated security requirements.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteSecurityRequirementPackInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteSecurityRequirementPackOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func deleteSecurityRequirementPack(input: DeleteSecurityRequirementPackInput) async throws -> DeleteSecurityRequirementPackOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteSecurityRequirementPack")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteSecurityRequirementPackInput, DeleteSecurityRequirementPackOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSecurityRequirementPackInput, DeleteSecurityRequirementPackOutput>(DeleteSecurityRequirementPackInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSecurityRequirementPackInput, DeleteSecurityRequirementPackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSecurityRequirementPackInput, DeleteSecurityRequirementPackOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteSecurityRequirementPackInput, DeleteSecurityRequirementPackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSecurityRequirementPackInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSecurityRequirementPackInput, DeleteSecurityRequirementPackOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSecurityRequirementPackOutput>(DeleteSecurityRequirementPackOutput.httpOutput(from:), DeleteSecurityRequirementPackOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSecurityRequirementPackInput, DeleteSecurityRequirementPackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSecurityRequirementPackOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSecurityRequirementPackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSecurityRequirementPackOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSecurityRequirementPackInput, DeleteSecurityRequirementPackOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSecurityRequirementPackInput, DeleteSecurityRequirementPackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSecurityRequirementPackInput, DeleteSecurityRequirementPackOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSecurityRequirementPack")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2270,8 +3297,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTargetDomainOutput>(DeleteTargetDomainOutput.httpOutput(from:), DeleteTargetDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTargetDomainInput, DeleteTargetDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTargetDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2281,10 +3306,84 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTargetDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTargetDomainInput, DeleteTargetDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTargetDomainInput, DeleteTargetDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTargetDomainInput, DeleteTargetDomainOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTargetDomain")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribePrivateConnection` operation on the `SecurityAgent` service.
+    ///
+    /// Retrieves the details of a private connection.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribePrivateConnectionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribePrivateConnectionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func describePrivateConnection(input: DescribePrivateConnectionInput) async throws -> DescribePrivateConnectionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describePrivateConnection")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribePrivateConnectionInput, DescribePrivateConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribePrivateConnectionInput, DescribePrivateConnectionOutput>(DescribePrivateConnectionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePrivateConnectionInput, DescribePrivateConnectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePrivateConnectionInput, DescribePrivateConnectionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribePrivateConnectionInput, DescribePrivateConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePrivateConnectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePrivateConnectionInput, DescribePrivateConnectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePrivateConnectionOutput>(DescribePrivateConnectionOutput.httpOutput(from:), DescribePrivateConnectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePrivateConnectionInput, DescribePrivateConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribePrivateConnectionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePrivateConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePrivateConnectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePrivateConnectionInput, DescribePrivateConnectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePrivateConnectionInput, DescribePrivateConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePrivateConnectionInput, DescribePrivateConnectionOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribePrivateConnection")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2333,8 +3432,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationOutput>(GetApplicationOutput.httpOutput(from:), GetApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationInput, GetApplicationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2344,6 +3441,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetApplicationInput, GetApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetApplicationInput, GetApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetApplicationInput, GetApplicationOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -2405,8 +3504,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetArtifactOutput>(GetArtifactOutput.httpOutput(from:), GetArtifactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetArtifactInput, GetArtifactOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetArtifactOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2416,6 +3513,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetArtifactOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetArtifactInput, GetArtifactOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetArtifactInput, GetArtifactOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetArtifactInput, GetArtifactOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -2477,8 +3576,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIntegrationOutput>(GetIntegrationOutput.httpOutput(from:), GetIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntegrationInput, GetIntegrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntegrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2488,10 +3585,158 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIntegrationInput, GetIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIntegrationInput, GetIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIntegrationInput, GetIntegrationOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIntegration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetSecurityRequirementPack` operation on the `SecurityAgent` service.
+    ///
+    /// Retrieves information about a security requirement pack.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetSecurityRequirementPackInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetSecurityRequirementPackOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func getSecurityRequirementPack(input: GetSecurityRequirementPackInput) async throws -> GetSecurityRequirementPackOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getSecurityRequirementPack")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetSecurityRequirementPackInput, GetSecurityRequirementPackOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSecurityRequirementPackInput, GetSecurityRequirementPackOutput>(GetSecurityRequirementPackInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSecurityRequirementPackInput, GetSecurityRequirementPackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSecurityRequirementPackInput, GetSecurityRequirementPackOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetSecurityRequirementPackInput, GetSecurityRequirementPackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSecurityRequirementPackInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSecurityRequirementPackInput, GetSecurityRequirementPackOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSecurityRequirementPackOutput>(GetSecurityRequirementPackOutput.httpOutput(from:), GetSecurityRequirementPackOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSecurityRequirementPackInput, GetSecurityRequirementPackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSecurityRequirementPackOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSecurityRequirementPackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSecurityRequirementPackOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSecurityRequirementPackInput, GetSecurityRequirementPackOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSecurityRequirementPackInput, GetSecurityRequirementPackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSecurityRequirementPackInput, GetSecurityRequirementPackOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSecurityRequirementPack")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ImportSecurityRequirements` operation on the `SecurityAgent` service.
+    ///
+    /// Imports security requirements from uploaded documents into a customer managed security requirement pack. The import process asynchronously extracts and generates structured security requirements from the provided source files.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ImportSecurityRequirementsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ImportSecurityRequirementsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota. Review your current usage and request a quota increase if needed.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func importSecurityRequirements(input: ImportSecurityRequirementsInput) async throws -> ImportSecurityRequirementsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "importSecurityRequirements")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ImportSecurityRequirementsInput, ImportSecurityRequirementsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ImportSecurityRequirementsInput, ImportSecurityRequirementsOutput>(ImportSecurityRequirementsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ImportSecurityRequirementsInput, ImportSecurityRequirementsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportSecurityRequirementsInput, ImportSecurityRequirementsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ImportSecurityRequirementsInput, ImportSecurityRequirementsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportSecurityRequirementsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportSecurityRequirementsInput, ImportSecurityRequirementsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportSecurityRequirementsOutput>(ImportSecurityRequirementsOutput.httpOutput(from:), ImportSecurityRequirementsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportSecurityRequirementsInput, ImportSecurityRequirementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ImportSecurityRequirementsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportSecurityRequirementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportSecurityRequirementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportSecurityRequirementsInput, ImportSecurityRequirementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ImportSecurityRequirementsInput, ImportSecurityRequirementsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ImportSecurityRequirementsInput, ImportSecurityRequirementsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ImportSecurityRequirements")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2550,8 +3795,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InitiateProviderRegistrationOutput>(InitiateProviderRegistrationOutput.httpOutput(from:), InitiateProviderRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InitiateProviderRegistrationInput, InitiateProviderRegistrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InitiateProviderRegistrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2561,6 +3804,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InitiateProviderRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InitiateProviderRegistrationInput, InitiateProviderRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InitiateProviderRegistrationInput, InitiateProviderRegistrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InitiateProviderRegistrationInput, InitiateProviderRegistrationOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -2613,8 +3858,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAgentSpacesOutput>(ListAgentSpacesOutput.httpOutput(from:), ListAgentSpacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgentSpacesInput, ListAgentSpacesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAgentSpacesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2624,6 +3867,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgentSpacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAgentSpacesInput, ListAgentSpacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAgentSpacesInput, ListAgentSpacesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAgentSpacesInput, ListAgentSpacesOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -2676,8 +3921,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationsOutput>(ListApplicationsOutput.httpOutput(from:), ListApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationsInput, ListApplicationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2687,6 +3930,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListApplicationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListApplicationsInput, ListApplicationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListApplicationsInput, ListApplicationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListApplicationsInput, ListApplicationsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -2748,8 +3993,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListArtifactsOutput>(ListArtifactsOutput.httpOutput(from:), ListArtifactsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListArtifactsInput, ListArtifactsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListArtifactsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2759,6 +4002,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListArtifactsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListArtifactsInput, ListArtifactsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListArtifactsInput, ListArtifactsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListArtifactsInput, ListArtifactsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -2811,8 +4056,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCodeReviewJobTasksOutput>(ListCodeReviewJobTasksOutput.httpOutput(from:), ListCodeReviewJobTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCodeReviewJobTasksInput, ListCodeReviewJobTasksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCodeReviewJobTasksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2822,6 +4065,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCodeReviewJobTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCodeReviewJobTasksInput, ListCodeReviewJobTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCodeReviewJobTasksInput, ListCodeReviewJobTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCodeReviewJobTasksInput, ListCodeReviewJobTasksOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -2874,8 +4119,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCodeReviewJobsForCodeReviewOutput>(ListCodeReviewJobsForCodeReviewOutput.httpOutput(from:), ListCodeReviewJobsForCodeReviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCodeReviewJobsForCodeReviewInput, ListCodeReviewJobsForCodeReviewOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCodeReviewJobsForCodeReviewOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2885,6 +4128,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCodeReviewJobsForCodeReviewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCodeReviewJobsForCodeReviewInput, ListCodeReviewJobsForCodeReviewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCodeReviewJobsForCodeReviewInput, ListCodeReviewJobsForCodeReviewOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCodeReviewJobsForCodeReviewInput, ListCodeReviewJobsForCodeReviewOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -2937,8 +4182,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCodeReviewsOutput>(ListCodeReviewsOutput.httpOutput(from:), ListCodeReviewsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCodeReviewsInput, ListCodeReviewsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCodeReviewsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2948,6 +4191,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCodeReviewsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCodeReviewsInput, ListCodeReviewsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCodeReviewsInput, ListCodeReviewsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCodeReviewsInput, ListCodeReviewsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -3000,8 +4245,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDiscoveredEndpointsOutput>(ListDiscoveredEndpointsOutput.httpOutput(from:), ListDiscoveredEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDiscoveredEndpointsInput, ListDiscoveredEndpointsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDiscoveredEndpointsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3011,6 +4254,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDiscoveredEndpointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDiscoveredEndpointsInput, ListDiscoveredEndpointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDiscoveredEndpointsInput, ListDiscoveredEndpointsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDiscoveredEndpointsInput, ListDiscoveredEndpointsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -3063,8 +4308,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFindingsOutput>(ListFindingsOutput.httpOutput(from:), ListFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFindingsInput, ListFindingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFindingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3074,6 +4317,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFindingsInput, ListFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFindingsInput, ListFindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFindingsInput, ListFindingsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -3135,8 +4380,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIntegratedResourcesOutput>(ListIntegratedResourcesOutput.httpOutput(from:), ListIntegratedResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIntegratedResourcesInput, ListIntegratedResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIntegratedResourcesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3146,6 +4389,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIntegratedResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIntegratedResourcesInput, ListIntegratedResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListIntegratedResourcesInput, ListIntegratedResourcesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListIntegratedResourcesInput, ListIntegratedResourcesOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -3207,8 +4452,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIntegrationsOutput>(ListIntegrationsOutput.httpOutput(from:), ListIntegrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIntegrationsInput, ListIntegrationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIntegrationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3218,6 +4461,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIntegrationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIntegrationsInput, ListIntegrationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListIntegrationsInput, ListIntegrationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListIntegrationsInput, ListIntegrationsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -3270,8 +4515,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMembershipsOutput>(ListMembershipsOutput.httpOutput(from:), ListMembershipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMembershipsInput, ListMembershipsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMembershipsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3281,6 +4524,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMembershipsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMembershipsInput, ListMembershipsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMembershipsInput, ListMembershipsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMembershipsInput, ListMembershipsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -3333,8 +4578,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPentestJobTasksOutput>(ListPentestJobTasksOutput.httpOutput(from:), ListPentestJobTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPentestJobTasksInput, ListPentestJobTasksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPentestJobTasksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3344,6 +4587,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPentestJobTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPentestJobTasksInput, ListPentestJobTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPentestJobTasksInput, ListPentestJobTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPentestJobTasksInput, ListPentestJobTasksOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -3396,8 +4641,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPentestJobsForPentestOutput>(ListPentestJobsForPentestOutput.httpOutput(from:), ListPentestJobsForPentestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPentestJobsForPentestInput, ListPentestJobsForPentestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPentestJobsForPentestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3407,6 +4650,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPentestJobsForPentestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPentestJobsForPentestInput, ListPentestJobsForPentestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPentestJobsForPentestInput, ListPentestJobsForPentestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPentestJobsForPentestInput, ListPentestJobsForPentestOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -3459,8 +4704,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPentestsOutput>(ListPentestsOutput.httpOutput(from:), ListPentestsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPentestsInput, ListPentestsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPentestsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3470,10 +4713,226 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPentestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPentestsInput, ListPentestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPentestsInput, ListPentestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPentestsInput, ListPentestsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPentests")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListPrivateConnections` operation on the `SecurityAgent` service.
+    ///
+    /// Lists the private connections in your account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListPrivateConnectionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListPrivateConnectionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func listPrivateConnections(input: ListPrivateConnectionsInput) async throws -> ListPrivateConnectionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listPrivateConnections")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListPrivateConnectionsInput, ListPrivateConnectionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPrivateConnectionsInput, ListPrivateConnectionsOutput>(ListPrivateConnectionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPrivateConnectionsInput, ListPrivateConnectionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPrivateConnectionsInput, ListPrivateConnectionsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListPrivateConnectionsInput, ListPrivateConnectionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPrivateConnectionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPrivateConnectionsInput, ListPrivateConnectionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPrivateConnectionsOutput>(ListPrivateConnectionsOutput.httpOutput(from:), ListPrivateConnectionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPrivateConnectionsInput, ListPrivateConnectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListPrivateConnectionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPrivateConnectionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPrivateConnectionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPrivateConnectionsInput, ListPrivateConnectionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPrivateConnectionsInput, ListPrivateConnectionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPrivateConnectionsInput, ListPrivateConnectionsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPrivateConnections")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListSecurityRequirementPacks` operation on the `SecurityAgent` service.
+    ///
+    /// Lists all security requirement packs in the caller's account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListSecurityRequirementPacksInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListSecurityRequirementPacksOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func listSecurityRequirementPacks(input: ListSecurityRequirementPacksInput) async throws -> ListSecurityRequirementPacksOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSecurityRequirementPacks")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListSecurityRequirementPacksInput, ListSecurityRequirementPacksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSecurityRequirementPacksInput, ListSecurityRequirementPacksOutput>(ListSecurityRequirementPacksInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSecurityRequirementPacksInput, ListSecurityRequirementPacksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSecurityRequirementPacksInput, ListSecurityRequirementPacksOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListSecurityRequirementPacksInput, ListSecurityRequirementPacksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSecurityRequirementPacksInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSecurityRequirementPacksInput, ListSecurityRequirementPacksOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityRequirementPacksOutput>(ListSecurityRequirementPacksOutput.httpOutput(from:), ListSecurityRequirementPacksOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityRequirementPacksInput, ListSecurityRequirementPacksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSecurityRequirementPacksOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSecurityRequirementPacksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSecurityRequirementPacksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSecurityRequirementPacksInput, ListSecurityRequirementPacksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSecurityRequirementPacksInput, ListSecurityRequirementPacksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSecurityRequirementPacksInput, ListSecurityRequirementPacksOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSecurityRequirementPacks")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListSecurityRequirements` operation on the `SecurityAgent` service.
+    ///
+    /// Lists security requirements within a pack.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListSecurityRequirementsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListSecurityRequirementsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func listSecurityRequirements(input: ListSecurityRequirementsInput) async throws -> ListSecurityRequirementsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSecurityRequirements")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListSecurityRequirementsInput, ListSecurityRequirementsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSecurityRequirementsInput, ListSecurityRequirementsOutput>(ListSecurityRequirementsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSecurityRequirementsInput, ListSecurityRequirementsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSecurityRequirementsInput, ListSecurityRequirementsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListSecurityRequirementsInput, ListSecurityRequirementsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSecurityRequirementsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSecurityRequirementsInput, ListSecurityRequirementsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityRequirementsOutput>(ListSecurityRequirementsOutput.httpOutput(from:), ListSecurityRequirementsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityRequirementsInput, ListSecurityRequirementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSecurityRequirementsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSecurityRequirementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSecurityRequirementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSecurityRequirementsInput, ListSecurityRequirementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSecurityRequirementsInput, ListSecurityRequirementsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSecurityRequirementsInput, ListSecurityRequirementsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSecurityRequirements")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3519,8 +4978,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3530,6 +4987,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -3582,8 +5041,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTargetDomainsOutput>(ListTargetDomainsOutput.httpOutput(from:), ListTargetDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTargetDomainsInput, ListTargetDomainsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTargetDomainsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3593,10 +5050,264 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTargetDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTargetDomainsInput, ListTargetDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTargetDomainsInput, ListTargetDomainsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTargetDomainsInput, ListTargetDomainsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTargetDomains")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListThreatModelJobTasks` operation on the `SecurityAgent` service.
+    ///
+    /// Returns a paginated list of task summaries for the specified threat model job.
+    ///
+    /// - Parameter input: Input for listing tasks associated with a threat model job. (Type: `ListThreatModelJobTasksInput`)
+    ///
+    /// - Returns: Output for the ListThreatModelJobTasks operation. (Type: `ListThreatModelJobTasksOutput`)
+    public func listThreatModelJobTasks(input: ListThreatModelJobTasksInput) async throws -> ListThreatModelJobTasksOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listThreatModelJobTasks")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListThreatModelJobTasksInput, ListThreatModelJobTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListThreatModelJobTasksInput, ListThreatModelJobTasksOutput>(ListThreatModelJobTasksInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListThreatModelJobTasksInput, ListThreatModelJobTasksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListThreatModelJobTasksInput, ListThreatModelJobTasksOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListThreatModelJobTasksInput, ListThreatModelJobTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListThreatModelJobTasksInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListThreatModelJobTasksInput, ListThreatModelJobTasksOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThreatModelJobTasksOutput>(ListThreatModelJobTasksOutput.httpOutput(from:), ListThreatModelJobTasksOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThreatModelJobTasksInput, ListThreatModelJobTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListThreatModelJobTasksOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListThreatModelJobTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListThreatModelJobTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListThreatModelJobTasksInput, ListThreatModelJobTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListThreatModelJobTasksInput, ListThreatModelJobTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListThreatModelJobTasksInput, ListThreatModelJobTasksOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListThreatModelJobTasks")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListThreatModelJobs` operation on the `SecurityAgent` service.
+    ///
+    /// Returns a paginated list of threat model job summaries for the specified threat model.
+    ///
+    /// - Parameter input: Input for ListThreatModelJobs operation. (Type: `ListThreatModelJobsInput`)
+    ///
+    /// - Returns: Output for the ListThreatModelJobs operation. (Type: `ListThreatModelJobsOutput`)
+    public func listThreatModelJobs(input: ListThreatModelJobsInput) async throws -> ListThreatModelJobsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listThreatModelJobs")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListThreatModelJobsInput, ListThreatModelJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListThreatModelJobsInput, ListThreatModelJobsOutput>(ListThreatModelJobsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListThreatModelJobsInput, ListThreatModelJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListThreatModelJobsInput, ListThreatModelJobsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListThreatModelJobsInput, ListThreatModelJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListThreatModelJobsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListThreatModelJobsInput, ListThreatModelJobsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThreatModelJobsOutput>(ListThreatModelJobsOutput.httpOutput(from:), ListThreatModelJobsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThreatModelJobsInput, ListThreatModelJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListThreatModelJobsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListThreatModelJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListThreatModelJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListThreatModelJobsInput, ListThreatModelJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListThreatModelJobsInput, ListThreatModelJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListThreatModelJobsInput, ListThreatModelJobsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListThreatModelJobs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListThreatModels` operation on the `SecurityAgent` service.
+    ///
+    /// Returns a paginated list of threat model summaries for the specified agent space.
+    ///
+    /// - Parameter input: Input for listing threat models. (Type: `ListThreatModelsInput`)
+    ///
+    /// - Returns: Output for the ListThreatModels operation. (Type: `ListThreatModelsOutput`)
+    public func listThreatModels(input: ListThreatModelsInput) async throws -> ListThreatModelsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listThreatModels")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListThreatModelsInput, ListThreatModelsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListThreatModelsInput, ListThreatModelsOutput>(ListThreatModelsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListThreatModelsInput, ListThreatModelsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListThreatModelsInput, ListThreatModelsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListThreatModelsInput, ListThreatModelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListThreatModelsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListThreatModelsInput, ListThreatModelsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThreatModelsOutput>(ListThreatModelsOutput.httpOutput(from:), ListThreatModelsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThreatModelsInput, ListThreatModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListThreatModelsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListThreatModelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListThreatModelsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListThreatModelsInput, ListThreatModelsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListThreatModelsInput, ListThreatModelsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListThreatModelsInput, ListThreatModelsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListThreatModels")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListThreats` operation on the `SecurityAgent` service.
+    ///
+    /// Returns a paginated list of threats for a threat model job.
+    ///
+    /// - Parameter input: Input for listing threats. (Type: `ListThreatsInput`)
+    ///
+    /// - Returns: Output for the ListThreats operation. (Type: `ListThreatsOutput`)
+    public func listThreats(input: ListThreatsInput) async throws -> ListThreatsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listThreats")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListThreatsInput, ListThreatsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListThreatsInput, ListThreatsOutput>(ListThreatsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListThreatsInput, ListThreatsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListThreatsInput, ListThreatsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListThreatsInput, ListThreatsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListThreatsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListThreatsInput, ListThreatsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThreatsOutput>(ListThreatsOutput.httpOutput(from:), ListThreatsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThreatsInput, ListThreatsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListThreatsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListThreatsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListThreatsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListThreatsInput, ListThreatsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListThreatsInput, ListThreatsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListThreatsInput, ListThreatsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListThreats")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3645,8 +5356,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCodeRemediationOutput>(StartCodeRemediationOutput.httpOutput(from:), StartCodeRemediationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCodeRemediationInput, StartCodeRemediationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCodeRemediationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3656,6 +5365,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCodeRemediationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCodeRemediationInput, StartCodeRemediationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartCodeRemediationInput, StartCodeRemediationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartCodeRemediationInput, StartCodeRemediationOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -3708,8 +5419,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCodeReviewJobOutput>(StartCodeReviewJobOutput.httpOutput(from:), StartCodeReviewJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCodeReviewJobInput, StartCodeReviewJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCodeReviewJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3719,6 +5428,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCodeReviewJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCodeReviewJobInput, StartCodeReviewJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartCodeReviewJobInput, StartCodeReviewJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartCodeReviewJobInput, StartCodeReviewJobOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -3771,8 +5482,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPentestJobOutput>(StartPentestJobOutput.httpOutput(from:), StartPentestJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPentestJobInput, StartPentestJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartPentestJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3782,10 +5491,75 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartPentestJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartPentestJobInput, StartPentestJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartPentestJobInput, StartPentestJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartPentestJobInput, StartPentestJobOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartPentestJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartThreatModelJob` operation on the `SecurityAgent` service.
+    ///
+    /// Starts a new threat model job for a threat model configuration.
+    ///
+    /// - Parameter input: Input for starting a threat model job. (Type: `StartThreatModelJobInput`)
+    ///
+    /// - Returns: Output for the StartThreatModelJob operation. (Type: `StartThreatModelJobOutput`)
+    public func startThreatModelJob(input: StartThreatModelJobInput) async throws -> StartThreatModelJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startThreatModelJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartThreatModelJobInput, StartThreatModelJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartThreatModelJobInput, StartThreatModelJobOutput>(StartThreatModelJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartThreatModelJobInput, StartThreatModelJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartThreatModelJobInput, StartThreatModelJobOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartThreatModelJobInput, StartThreatModelJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartThreatModelJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartThreatModelJobInput, StartThreatModelJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartThreatModelJobOutput>(StartThreatModelJobOutput.httpOutput(from:), StartThreatModelJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartThreatModelJobInput, StartThreatModelJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartThreatModelJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartThreatModelJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartThreatModelJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartThreatModelJobInput, StartThreatModelJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartThreatModelJobInput, StartThreatModelJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartThreatModelJobInput, StartThreatModelJobOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartThreatModelJob")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3834,8 +5608,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopCodeReviewJobOutput>(StopCodeReviewJobOutput.httpOutput(from:), StopCodeReviewJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopCodeReviewJobInput, StopCodeReviewJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopCodeReviewJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3845,6 +5617,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopCodeReviewJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopCodeReviewJobInput, StopCodeReviewJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopCodeReviewJobInput, StopCodeReviewJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopCodeReviewJobInput, StopCodeReviewJobOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -3897,8 +5671,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopPentestJobOutput>(StopPentestJobOutput.httpOutput(from:), StopPentestJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopPentestJobInput, StopPentestJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopPentestJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3908,10 +5680,75 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopPentestJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopPentestJobInput, StopPentestJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopPentestJobInput, StopPentestJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopPentestJobInput, StopPentestJobOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopPentestJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StopThreatModelJob` operation on the `SecurityAgent` service.
+    ///
+    /// Stops a running threat model job.
+    ///
+    /// - Parameter input: Input for stopping a threat model job. (Type: `StopThreatModelJobInput`)
+    ///
+    /// - Returns: Output for the StopThreatModelJob operation. (Type: `StopThreatModelJobOutput`)
+    public func stopThreatModelJob(input: StopThreatModelJobInput) async throws -> StopThreatModelJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopThreatModelJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StopThreatModelJobInput, StopThreatModelJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopThreatModelJobInput, StopThreatModelJobOutput>(StopThreatModelJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopThreatModelJobInput, StopThreatModelJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopThreatModelJobInput, StopThreatModelJobOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopThreatModelJobInput, StopThreatModelJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopThreatModelJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopThreatModelJobInput, StopThreatModelJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopThreatModelJobOutput>(StopThreatModelJobOutput.httpOutput(from:), StopThreatModelJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopThreatModelJobInput, StopThreatModelJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopThreatModelJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopThreatModelJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopThreatModelJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopThreatModelJobInput, StopThreatModelJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopThreatModelJobInput, StopThreatModelJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopThreatModelJobInput, StopThreatModelJobOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopThreatModelJob")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3960,8 +5797,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3971,6 +5806,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -4021,8 +5858,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4032,6 +5867,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -4084,8 +5921,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAgentSpaceOutput>(UpdateAgentSpaceOutput.httpOutput(from:), UpdateAgentSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAgentSpaceInput, UpdateAgentSpaceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAgentSpaceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4095,6 +5930,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAgentSpaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAgentSpaceInput, UpdateAgentSpaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAgentSpaceInput, UpdateAgentSpaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAgentSpaceInput, UpdateAgentSpaceOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -4147,8 +5984,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationOutput>(UpdateApplicationOutput.httpOutput(from:), UpdateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4158,6 +5993,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -4210,8 +6047,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCodeReviewOutput>(UpdateCodeReviewOutput.httpOutput(from:), UpdateCodeReviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCodeReviewInput, UpdateCodeReviewOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCodeReviewOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4221,6 +6056,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCodeReviewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCodeReviewInput, UpdateCodeReviewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCodeReviewInput, UpdateCodeReviewOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCodeReviewInput, UpdateCodeReviewOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -4273,8 +6110,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFindingOutput>(UpdateFindingOutput.httpOutput(from:), UpdateFindingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFindingInput, UpdateFindingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFindingOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4284,6 +6119,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFindingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFindingInput, UpdateFindingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFindingInput, UpdateFindingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFindingInput, UpdateFindingOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -4346,8 +6183,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIntegratedResourcesOutput>(UpdateIntegratedResourcesOutput.httpOutput(from:), UpdateIntegratedResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIntegratedResourcesInput, UpdateIntegratedResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIntegratedResourcesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4357,6 +6192,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIntegratedResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateIntegratedResourcesInput, UpdateIntegratedResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateIntegratedResourcesInput, UpdateIntegratedResourcesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateIntegratedResourcesInput, UpdateIntegratedResourcesOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
@@ -4409,8 +6246,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePentestOutput>(UpdatePentestOutput.httpOutput(from:), UpdatePentestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePentestInput, UpdatePentestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePentestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4420,10 +6255,158 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePentestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePentestInput, UpdatePentestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePentestInput, UpdatePentestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePentestInput, UpdatePentestOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdatePentest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdatePrivateConnectionCertificate` operation on the `SecurityAgent` service.
+    ///
+    /// Updates the certificate associated with a private connection. Certificates can be added or replaced but not removed.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdatePrivateConnectionCertificateInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdatePrivateConnectionCertificateOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func updatePrivateConnectionCertificate(input: UpdatePrivateConnectionCertificateInput) async throws -> UpdatePrivateConnectionCertificateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updatePrivateConnectionCertificate")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdatePrivateConnectionCertificateInput, UpdatePrivateConnectionCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdatePrivateConnectionCertificateInput, UpdatePrivateConnectionCertificateOutput>(UpdatePrivateConnectionCertificateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePrivateConnectionCertificateInput, UpdatePrivateConnectionCertificateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePrivateConnectionCertificateInput, UpdatePrivateConnectionCertificateOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdatePrivateConnectionCertificateInput, UpdatePrivateConnectionCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePrivateConnectionCertificateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePrivateConnectionCertificateInput, UpdatePrivateConnectionCertificateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePrivateConnectionCertificateOutput>(UpdatePrivateConnectionCertificateOutput.httpOutput(from:), UpdatePrivateConnectionCertificateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePrivateConnectionCertificateInput, UpdatePrivateConnectionCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePrivateConnectionCertificateOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePrivateConnectionCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePrivateConnectionCertificateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePrivateConnectionCertificateInput, UpdatePrivateConnectionCertificateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePrivateConnectionCertificateInput, UpdatePrivateConnectionCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePrivateConnectionCertificateInput, UpdatePrivateConnectionCertificateOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdatePrivateConnectionCertificate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateSecurityRequirementPack` operation on the `SecurityAgent` service.
+    ///
+    /// Updates a security requirement pack. For customer managed packs, both metadata and status can be updated. For AWS managed packs, only status can be updated.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateSecurityRequirementPackInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateSecurityRequirementPackOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func updateSecurityRequirementPack(input: UpdateSecurityRequirementPackInput) async throws -> UpdateSecurityRequirementPackOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateSecurityRequirementPack")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateSecurityRequirementPackInput, UpdateSecurityRequirementPackOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSecurityRequirementPackInput, UpdateSecurityRequirementPackOutput>(UpdateSecurityRequirementPackInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSecurityRequirementPackInput, UpdateSecurityRequirementPackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSecurityRequirementPackInput, UpdateSecurityRequirementPackOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSecurityRequirementPackInput, UpdateSecurityRequirementPackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSecurityRequirementPackInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSecurityRequirementPackInput, UpdateSecurityRequirementPackOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSecurityRequirementPackOutput>(UpdateSecurityRequirementPackOutput.httpOutput(from:), UpdateSecurityRequirementPackOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSecurityRequirementPackInput, UpdateSecurityRequirementPackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecurityRequirementPackOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSecurityRequirementPackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSecurityRequirementPackOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSecurityRequirementPackInput, UpdateSecurityRequirementPackOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSecurityRequirementPackInput, UpdateSecurityRequirementPackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSecurityRequirementPackInput, UpdateSecurityRequirementPackOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSecurityRequirementPack")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4472,8 +6455,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTargetDomainOutput>(UpdateTargetDomainOutput.httpOutput(from:), UpdateTargetDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTargetDomainInput, UpdateTargetDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTargetDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4483,10 +6464,138 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTargetDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTargetDomainInput, UpdateTargetDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTargetDomainInput, UpdateTargetDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTargetDomainInput, UpdateTargetDomainOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTargetDomain")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateThreat` operation on the `SecurityAgent` service.
+    ///
+    /// Updates a threat.
+    ///
+    /// - Parameter input: Input for updating an existing threat. (Type: `UpdateThreatInput`)
+    ///
+    /// - Returns: Output for the UpdateThreat operation. (Type: `UpdateThreatOutput`)
+    public func updateThreat(input: UpdateThreatInput) async throws -> UpdateThreatOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateThreat")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateThreatInput, UpdateThreatOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateThreatInput, UpdateThreatOutput>(UpdateThreatInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateThreatInput, UpdateThreatOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateThreatInput, UpdateThreatOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateThreatInput, UpdateThreatOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateThreatInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThreatInput, UpdateThreatOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThreatOutput>(UpdateThreatOutput.httpOutput(from:), UpdateThreatOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThreatInput, UpdateThreatOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThreatOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateThreatOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateThreatOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateThreatInput, UpdateThreatOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateThreatInput, UpdateThreatOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateThreatInput, UpdateThreatOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateThreat")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateThreatModel` operation on the `SecurityAgent` service.
+    ///
+    /// Updates an existing threat model configuration.
+    ///
+    /// - Parameter input: Input for updating an existing threat model. (Type: `UpdateThreatModelInput`)
+    ///
+    /// - Returns: Output for the UpdateThreatModel operation. (Type: `UpdateThreatModelOutput`)
+    public func updateThreatModel(input: UpdateThreatModelInput) async throws -> UpdateThreatModelOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateThreatModel")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateThreatModelInput, UpdateThreatModelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateThreatModelInput, UpdateThreatModelOutput>(UpdateThreatModelInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateThreatModelInput, UpdateThreatModelOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateThreatModelInput, UpdateThreatModelOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateThreatModelInput, UpdateThreatModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateThreatModelInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThreatModelInput, UpdateThreatModelOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThreatModelOutput>(UpdateThreatModelOutput.httpOutput(from:), UpdateThreatModelOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThreatModelInput, UpdateThreatModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThreatModelOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateThreatModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateThreatModelOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateThreatModelInput, UpdateThreatModelOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateThreatModelInput, UpdateThreatModelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateThreatModelInput, UpdateThreatModelOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateThreatModel")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4535,8 +6644,6 @@ extension SecurityAgentClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyTargetDomainOutput>(VerifyTargetDomainOutput.httpOutput(from:), VerifyTargetDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyTargetDomainInput, VerifyTargetDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyTargetDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4546,6 +6653,8 @@ extension SecurityAgentClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<VerifyTargetDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<VerifyTargetDomainInput, VerifyTargetDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<VerifyTargetDomainInput, VerifyTargetDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<VerifyTargetDomainInput, VerifyTargetDomainOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")

@@ -73,6 +73,7 @@ public final class TextractClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: TextractClient.TextractClientConfig
     let serviceName = "Textract"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use TextractClient.TextractClientConfig instead")
     public typealias Config = TextractClient.TextractClientConfiguration
@@ -82,6 +83,7 @@ public final class TextractClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: TextractClient.TextractClientConfig) instead")
@@ -196,7 +198,7 @@ extension TextractClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Textract")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -251,7 +253,7 @@ extension TextractClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Textract")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -427,7 +429,7 @@ extension TextractClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Textract")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -482,7 +484,7 @@ extension TextractClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Textract")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -680,8 +682,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AnalyzeDocumentInput, AnalyzeDocumentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AnalyzeDocumentInput, AnalyzeDocumentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AnalyzeDocumentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -693,6 +693,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AnalyzeDocumentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AnalyzeDocumentInput, AnalyzeDocumentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AnalyzeDocumentInput, AnalyzeDocumentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AnalyzeDocumentInput, AnalyzeDocumentOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -766,8 +768,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AnalyzeExpenseInput, AnalyzeExpenseOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AnalyzeExpenseInput, AnalyzeExpenseOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AnalyzeExpenseOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -779,6 +779,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AnalyzeExpenseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AnalyzeExpenseInput, AnalyzeExpenseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AnalyzeExpenseInput, AnalyzeExpenseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AnalyzeExpenseInput, AnalyzeExpenseOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -848,8 +850,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AnalyzeIDInput, AnalyzeIDOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AnalyzeIDInput, AnalyzeIDOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AnalyzeIDOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -861,6 +861,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AnalyzeIDOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AnalyzeIDInput, AnalyzeIDOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AnalyzeIDInput, AnalyzeIDOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AnalyzeIDInput, AnalyzeIDOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -932,8 +934,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAdapterInput, CreateAdapterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAdapterInput, CreateAdapterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAdapterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -945,6 +945,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAdapterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAdapterInput, CreateAdapterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAdapterInput, CreateAdapterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAdapterInput, CreateAdapterOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -1019,8 +1021,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAdapterVersionInput, CreateAdapterVersionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAdapterVersionInput, CreateAdapterVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAdapterVersionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1032,6 +1032,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAdapterVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAdapterVersionInput, CreateAdapterVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAdapterVersionInput, CreateAdapterVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAdapterVersionInput, CreateAdapterVersionOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -1100,8 +1102,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAdapterInput, DeleteAdapterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAdapterInput, DeleteAdapterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAdapterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1113,6 +1113,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAdapterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAdapterInput, DeleteAdapterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAdapterInput, DeleteAdapterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAdapterInput, DeleteAdapterOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -1181,8 +1183,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAdapterVersionInput, DeleteAdapterVersionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAdapterVersionInput, DeleteAdapterVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAdapterVersionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1194,6 +1194,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAdapterVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAdapterVersionInput, DeleteAdapterVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAdapterVersionInput, DeleteAdapterVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAdapterVersionInput, DeleteAdapterVersionOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -1263,8 +1265,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectDocumentTextInput, DetectDocumentTextOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectDocumentTextInput, DetectDocumentTextOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectDocumentTextOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1276,6 +1276,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectDocumentTextOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectDocumentTextInput, DetectDocumentTextOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetectDocumentTextInput, DetectDocumentTextOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetectDocumentTextInput, DetectDocumentTextOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -1343,8 +1345,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAdapterInput, GetAdapterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAdapterInput, GetAdapterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAdapterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1356,6 +1356,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAdapterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAdapterInput, GetAdapterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAdapterInput, GetAdapterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAdapterInput, GetAdapterOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -1423,8 +1425,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAdapterVersionInput, GetAdapterVersionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAdapterVersionInput, GetAdapterVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAdapterVersionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1436,6 +1436,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAdapterVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAdapterVersionInput, GetAdapterVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAdapterVersionInput, GetAdapterVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAdapterVersionInput, GetAdapterVersionOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -1517,8 +1519,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDocumentAnalysisInput, GetDocumentAnalysisOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDocumentAnalysisInput, GetDocumentAnalysisOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDocumentAnalysisOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1530,6 +1530,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDocumentAnalysisOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDocumentAnalysisInput, GetDocumentAnalysisOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDocumentAnalysisInput, GetDocumentAnalysisOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDocumentAnalysisInput, GetDocumentAnalysisOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -1598,8 +1600,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDocumentTextDetectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1611,6 +1611,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDocumentTextDetectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -1679,8 +1681,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetExpenseAnalysisInput, GetExpenseAnalysisOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExpenseAnalysisInput, GetExpenseAnalysisOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExpenseAnalysisOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1692,6 +1692,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetExpenseAnalysisOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetExpenseAnalysisInput, GetExpenseAnalysisOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetExpenseAnalysisInput, GetExpenseAnalysisOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetExpenseAnalysisInput, GetExpenseAnalysisOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -1760,8 +1762,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLendingAnalysisInput, GetLendingAnalysisOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLendingAnalysisInput, GetLendingAnalysisOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLendingAnalysisOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1773,6 +1773,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLendingAnalysisOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLendingAnalysisInput, GetLendingAnalysisOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLendingAnalysisInput, GetLendingAnalysisOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLendingAnalysisInput, GetLendingAnalysisOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -1841,8 +1843,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLendingAnalysisSummaryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1854,6 +1854,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLendingAnalysisSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -1921,8 +1923,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAdapterVersionsInput, ListAdapterVersionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAdapterVersionsInput, ListAdapterVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAdapterVersionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1934,6 +1934,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAdapterVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAdapterVersionsInput, ListAdapterVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAdapterVersionsInput, ListAdapterVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAdapterVersionsInput, ListAdapterVersionsOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -2000,8 +2002,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAdaptersInput, ListAdaptersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAdaptersInput, ListAdaptersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAdaptersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2013,6 +2013,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAdaptersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAdaptersInput, ListAdaptersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAdaptersInput, ListAdaptersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAdaptersInput, ListAdaptersOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -2080,8 +2082,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2093,6 +2093,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -2165,8 +2167,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDocumentAnalysisInput, StartDocumentAnalysisOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDocumentAnalysisInput, StartDocumentAnalysisOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDocumentAnalysisOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2178,6 +2178,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDocumentAnalysisOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartDocumentAnalysisInput, StartDocumentAnalysisOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartDocumentAnalysisInput, StartDocumentAnalysisOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartDocumentAnalysisInput, StartDocumentAnalysisOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -2250,8 +2252,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDocumentTextDetectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2263,6 +2263,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDocumentTextDetectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -2335,8 +2337,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartExpenseAnalysisInput, StartExpenseAnalysisOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartExpenseAnalysisInput, StartExpenseAnalysisOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartExpenseAnalysisOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2348,6 +2348,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartExpenseAnalysisOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartExpenseAnalysisInput, StartExpenseAnalysisOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartExpenseAnalysisInput, StartExpenseAnalysisOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartExpenseAnalysisInput, StartExpenseAnalysisOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -2426,8 +2428,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartLendingAnalysisInput, StartLendingAnalysisOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartLendingAnalysisInput, StartLendingAnalysisOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartLendingAnalysisOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2439,6 +2439,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartLendingAnalysisOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartLendingAnalysisInput, StartLendingAnalysisOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartLendingAnalysisInput, StartLendingAnalysisOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartLendingAnalysisInput, StartLendingAnalysisOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -2507,8 +2509,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2520,6 +2520,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -2587,8 +2589,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2600,6 +2600,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")
@@ -2668,8 +2670,6 @@ extension TextractClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAdapterInput, UpdateAdapterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAdapterInput, UpdateAdapterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAdapterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Textract", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2681,6 +2681,8 @@ extension TextractClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAdapterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAdapterInput, UpdateAdapterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAdapterInput, UpdateAdapterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Textract"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAdapterInput, UpdateAdapterOutput>(serviceID: serviceName, version: TextractClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Textract")

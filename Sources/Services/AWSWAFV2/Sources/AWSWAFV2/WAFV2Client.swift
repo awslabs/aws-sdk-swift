@@ -72,6 +72,7 @@ public final class WAFV2Client: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: WAFV2Client.WAFV2ClientConfig
     let serviceName = "WAFV2"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use WAFV2Client.WAFV2ClientConfig instead")
     public typealias Config = WAFV2Client.WAFV2ClientConfiguration
@@ -81,6 +82,7 @@ public final class WAFV2Client: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: WAFV2Client.WAFV2ClientConfig) instead")
@@ -195,7 +197,7 @@ extension WAFV2Client {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "WAFV2")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -250,7 +252,7 @@ extension WAFV2Client {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "WAFV2")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -426,7 +428,7 @@ extension WAFV2Client {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "WAFV2")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -481,7 +483,7 @@ extension WAFV2Client {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "WAFV2")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -677,8 +679,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateWebACLInput, AssociateWebACLOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateWebACLInput, AssociateWebACLOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateWebACLOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -690,6 +690,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateWebACLInput, AssociateWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateWebACLInput, AssociateWebACLOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateWebACLInput, AssociateWebACLOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -767,8 +769,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckCapacityInput, CheckCapacityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckCapacityInput, CheckCapacityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CheckCapacityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -780,6 +780,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CheckCapacityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CheckCapacityInput, CheckCapacityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CheckCapacityInput, CheckCapacityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CheckCapacityInput, CheckCapacityOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -852,8 +854,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAPIKeyInput, CreateAPIKeyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAPIKeyInput, CreateAPIKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAPIKeyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -865,6 +865,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAPIKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAPIKeyInput, CreateAPIKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAPIKeyInput, CreateAPIKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAPIKeyInput, CreateAPIKeyOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -941,8 +943,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIPSetInput, CreateIPSetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIPSetInput, CreateIPSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIPSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -954,6 +954,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIPSetInput, CreateIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIPSetInput, CreateIPSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIPSetInput, CreateIPSetOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -1030,8 +1032,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRegexPatternSetInput, CreateRegexPatternSetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRegexPatternSetInput, CreateRegexPatternSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRegexPatternSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1043,6 +1043,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRegexPatternSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRegexPatternSetInput, CreateRegexPatternSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRegexPatternSetInput, CreateRegexPatternSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRegexPatternSetInput, CreateRegexPatternSetOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -1122,8 +1124,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1135,6 +1135,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -1217,8 +1219,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWebACLInput, CreateWebACLOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWebACLInput, CreateWebACLOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWebACLOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1230,6 +1230,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateWebACLInput, CreateWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateWebACLInput, CreateWebACLOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateWebACLInput, CreateWebACLOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -1303,8 +1305,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAPIKeyInput, DeleteAPIKeyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAPIKeyInput, DeleteAPIKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAPIKeyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1316,6 +1316,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAPIKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAPIKeyInput, DeleteAPIKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAPIKeyInput, DeleteAPIKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAPIKeyInput, DeleteAPIKeyOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -1389,8 +1391,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallManagerRuleGroupsInput, DeleteFirewallManagerRuleGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFirewallManagerRuleGroupsInput, DeleteFirewallManagerRuleGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFirewallManagerRuleGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1402,6 +1402,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFirewallManagerRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFirewallManagerRuleGroupsInput, DeleteFirewallManagerRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFirewallManagerRuleGroupsInput, DeleteFirewallManagerRuleGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteFirewallManagerRuleGroupsInput, DeleteFirewallManagerRuleGroupsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -1478,8 +1480,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIPSetInput, DeleteIPSetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIPSetInput, DeleteIPSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIPSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1491,6 +1491,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIPSetInput, DeleteIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIPSetInput, DeleteIPSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIPSetInput, DeleteIPSetOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -1564,8 +1566,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLoggingConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1577,6 +1577,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLoggingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -1648,8 +1650,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePermissionPolicyInput, DeletePermissionPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePermissionPolicyInput, DeletePermissionPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePermissionPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1661,6 +1661,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePermissionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePermissionPolicyInput, DeletePermissionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePermissionPolicyInput, DeletePermissionPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePermissionPolicyInput, DeletePermissionPolicyOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -1737,8 +1739,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRegexPatternSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1750,6 +1750,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRegexPatternSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -1826,8 +1828,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1839,6 +1839,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -1930,8 +1932,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWebACLInput, DeleteWebACLOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWebACLInput, DeleteWebACLOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWebACLOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1943,6 +1943,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteWebACLInput, DeleteWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteWebACLInput, DeleteWebACLOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteWebACLInput, DeleteWebACLOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -2014,8 +2016,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAllManagedProductsInput, DescribeAllManagedProductsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAllManagedProductsInput, DescribeAllManagedProductsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAllManagedProductsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2027,6 +2027,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAllManagedProductsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAllManagedProductsInput, DescribeAllManagedProductsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAllManagedProductsInput, DescribeAllManagedProductsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAllManagedProductsInput, DescribeAllManagedProductsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -2098,8 +2100,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeManagedProductsByVendorInput, DescribeManagedProductsByVendorOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeManagedProductsByVendorInput, DescribeManagedProductsByVendorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeManagedProductsByVendorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2111,6 +2111,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeManagedProductsByVendorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeManagedProductsByVendorInput, DescribeManagedProductsByVendorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeManagedProductsByVendorInput, DescribeManagedProductsByVendorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeManagedProductsByVendorInput, DescribeManagedProductsByVendorOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -2185,8 +2187,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeManagedRuleGroupInput, DescribeManagedRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeManagedRuleGroupInput, DescribeManagedRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeManagedRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2198,6 +2198,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeManagedRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeManagedRuleGroupInput, DescribeManagedRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeManagedRuleGroupInput, DescribeManagedRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeManagedRuleGroupInput, DescribeManagedRuleGroupOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -2270,8 +2272,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateWebACLInput, DisassociateWebACLOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateWebACLInput, DisassociateWebACLOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateWebACLOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2283,6 +2283,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateWebACLInput, DisassociateWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateWebACLInput, DisassociateWebACLOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateWebACLInput, DisassociateWebACLOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -2355,8 +2357,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateMobileSdkReleaseUrlInput, GenerateMobileSdkReleaseUrlOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateMobileSdkReleaseUrlInput, GenerateMobileSdkReleaseUrlOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateMobileSdkReleaseUrlOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2368,6 +2368,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GenerateMobileSdkReleaseUrlOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GenerateMobileSdkReleaseUrlInput, GenerateMobileSdkReleaseUrlOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GenerateMobileSdkReleaseUrlInput, GenerateMobileSdkReleaseUrlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GenerateMobileSdkReleaseUrlInput, GenerateMobileSdkReleaseUrlOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -2441,8 +2443,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDecryptedAPIKeyInput, GetDecryptedAPIKeyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDecryptedAPIKeyInput, GetDecryptedAPIKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDecryptedAPIKeyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2454,6 +2454,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDecryptedAPIKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDecryptedAPIKeyInput, GetDecryptedAPIKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDecryptedAPIKeyInput, GetDecryptedAPIKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDecryptedAPIKeyInput, GetDecryptedAPIKeyOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -2526,8 +2528,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIPSetInput, GetIPSetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIPSetInput, GetIPSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIPSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2539,6 +2539,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIPSetInput, GetIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIPSetInput, GetIPSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIPSetInput, GetIPSetOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -2611,8 +2613,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLoggingConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2624,6 +2624,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLoggingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -2696,8 +2698,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetManagedRuleSetInput, GetManagedRuleSetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedRuleSetInput, GetManagedRuleSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedRuleSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2709,6 +2709,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetManagedRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetManagedRuleSetInput, GetManagedRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetManagedRuleSetInput, GetManagedRuleSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetManagedRuleSetInput, GetManagedRuleSetOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -2781,8 +2783,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMobileSdkReleaseInput, GetMobileSdkReleaseOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMobileSdkReleaseInput, GetMobileSdkReleaseOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMobileSdkReleaseOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2794,6 +2794,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMobileSdkReleaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMobileSdkReleaseInput, GetMobileSdkReleaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMobileSdkReleaseInput, GetMobileSdkReleaseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMobileSdkReleaseInput, GetMobileSdkReleaseOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -2865,8 +2867,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPermissionPolicyInput, GetPermissionPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPermissionPolicyInput, GetPermissionPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPermissionPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2878,6 +2878,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPermissionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPermissionPolicyInput, GetPermissionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPermissionPolicyInput, GetPermissionPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPermissionPolicyInput, GetPermissionPolicyOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -2951,8 +2953,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRateBasedStatementManagedKeysInput, GetRateBasedStatementManagedKeysOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRateBasedStatementManagedKeysInput, GetRateBasedStatementManagedKeysOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRateBasedStatementManagedKeysOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2964,6 +2964,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRateBasedStatementManagedKeysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRateBasedStatementManagedKeysInput, GetRateBasedStatementManagedKeysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRateBasedStatementManagedKeysInput, GetRateBasedStatementManagedKeysOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRateBasedStatementManagedKeysInput, GetRateBasedStatementManagedKeysOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -3036,8 +3038,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRegexPatternSetInput, GetRegexPatternSetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRegexPatternSetInput, GetRegexPatternSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRegexPatternSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3049,10 +3049,267 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRegexPatternSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRegexPatternSetInput, GetRegexPatternSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRegexPatternSetInput, GetRegexPatternSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRegexPatternSetInput, GetRegexPatternSetOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRegexPatternSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetRevenueStatistics` operation on the `WAFV2` service.
+    ///
+    /// Retrieves ranked monetization statistics. Use the StatisticType parameter to specify the ranking: TOP_SOURCES_BY_REVENUE for top sources by revenue, or TOP_PATHS_BY_REVENUE for top content paths by revenue. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL. To retrieve test data, include a CurrencyMode filter with the value TEST.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRevenueStatisticsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRevenueStatisticsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `WAFInvalidOperationException` : The operation isn't valid.
+    /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
+    ///
+    /// * You specified a parameter name or value that isn't valid.
+    ///
+    /// * Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.
+    ///
+    /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
+    /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
+    public func getRevenueStatistics(input: GetRevenueStatisticsInput) async throws -> GetRevenueStatisticsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFV2Client.getRevenueStatisticsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRevenueStatistics")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wafv2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRevenueStatisticsInput, GetRevenueStatisticsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRevenueStatisticsInput, GetRevenueStatisticsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRevenueStatisticsInput, GetRevenueStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRevenueStatisticsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRevenueStatisticsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRevenueStatisticsInput, GetRevenueStatisticsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20190729.GetRevenueStatistics"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRevenueStatisticsInput, GetRevenueStatisticsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRevenueStatisticsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRevenueStatisticsInput, GetRevenueStatisticsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRevenueStatisticsInput, GetRevenueStatisticsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRevenueStatisticsInput, GetRevenueStatisticsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRevenueStatistics")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetRevenueStatisticsSummary` operation on the `WAFV2` service.
+    ///
+    /// Retrieves a summary of monetization revenue for the specified time window. Returns total revenue, revenue by verification tier, total settlements, and total HTTP 402 responses served. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL. To retrieve test data, include a CurrencyMode filter with the value TEST.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRevenueStatisticsSummaryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRevenueStatisticsSummaryOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `WAFInvalidOperationException` : The operation isn't valid.
+    /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
+    ///
+    /// * You specified a parameter name or value that isn't valid.
+    ///
+    /// * Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.
+    ///
+    /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
+    /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
+    public func getRevenueStatisticsSummary(input: GetRevenueStatisticsSummaryInput) async throws -> GetRevenueStatisticsSummaryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFV2Client.getRevenueStatisticsSummaryOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRevenueStatisticsSummary")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wafv2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRevenueStatisticsSummaryInput, GetRevenueStatisticsSummaryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRevenueStatisticsSummaryInput, GetRevenueStatisticsSummaryOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRevenueStatisticsSummaryInput, GetRevenueStatisticsSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRevenueStatisticsSummaryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRevenueStatisticsSummaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRevenueStatisticsSummaryInput, GetRevenueStatisticsSummaryOutput>(overrides: ["X-Amz-Target": "AWSWAF_20190729.GetRevenueStatisticsSummary"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRevenueStatisticsSummaryInput, GetRevenueStatisticsSummaryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRevenueStatisticsSummaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRevenueStatisticsSummaryInput, GetRevenueStatisticsSummaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRevenueStatisticsSummaryInput, GetRevenueStatisticsSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRevenueStatisticsSummaryInput, GetRevenueStatisticsSummaryOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRevenueStatisticsSummary")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetRevenueStatisticsTimeSeries` operation on the `WAFV2` service.
+    ///
+    /// Retrieves time series data for monetization revenue. Returns data points aggregated at the specified interval for the given time window. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL. To retrieve test data, include a CurrencyMode filter with the value TEST.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRevenueStatisticsTimeSeriesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRevenueStatisticsTimeSeriesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `WAFInvalidOperationException` : The operation isn't valid.
+    /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
+    ///
+    /// * You specified a parameter name or value that isn't valid.
+    ///
+    /// * Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.
+    ///
+    /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
+    /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
+    public func getRevenueStatisticsTimeSeries(input: GetRevenueStatisticsTimeSeriesInput) async throws -> GetRevenueStatisticsTimeSeriesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFV2Client.getRevenueStatisticsTimeSeriesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRevenueStatisticsTimeSeries")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wafv2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRevenueStatisticsTimeSeriesInput, GetRevenueStatisticsTimeSeriesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRevenueStatisticsTimeSeriesInput, GetRevenueStatisticsTimeSeriesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRevenueStatisticsTimeSeriesInput, GetRevenueStatisticsTimeSeriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRevenueStatisticsTimeSeriesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRevenueStatisticsTimeSeriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRevenueStatisticsTimeSeriesInput, GetRevenueStatisticsTimeSeriesOutput>(overrides: ["X-Amz-Target": "AWSWAF_20190729.GetRevenueStatisticsTimeSeries"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRevenueStatisticsTimeSeriesInput, GetRevenueStatisticsTimeSeriesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRevenueStatisticsTimeSeriesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRevenueStatisticsTimeSeriesInput, GetRevenueStatisticsTimeSeriesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRevenueStatisticsTimeSeriesInput, GetRevenueStatisticsTimeSeriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRevenueStatisticsTimeSeriesInput, GetRevenueStatisticsTimeSeriesOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRevenueStatisticsTimeSeries")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3121,8 +3378,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRuleGroupInput, GetRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRuleGroupInput, GetRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3134,6 +3389,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRuleGroupInput, GetRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRuleGroupInput, GetRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRuleGroupInput, GetRuleGroupOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -3205,8 +3462,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSampledRequestsInput, GetSampledRequestsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSampledRequestsInput, GetSampledRequestsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSampledRequestsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3218,6 +3473,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSampledRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSampledRequestsInput, GetSampledRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSampledRequestsInput, GetSampledRequestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSampledRequestsInput, GetSampledRequestsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -3291,8 +3548,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTopPathStatisticsByTrafficInput, GetTopPathStatisticsByTrafficOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTopPathStatisticsByTrafficInput, GetTopPathStatisticsByTrafficOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTopPathStatisticsByTrafficOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3304,6 +3559,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTopPathStatisticsByTrafficOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTopPathStatisticsByTrafficInput, GetTopPathStatisticsByTrafficOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTopPathStatisticsByTrafficInput, GetTopPathStatisticsByTrafficOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTopPathStatisticsByTrafficInput, GetTopPathStatisticsByTrafficOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -3376,8 +3633,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWebACLInput, GetWebACLOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWebACLInput, GetWebACLOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWebACLOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3389,6 +3644,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetWebACLInput, GetWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetWebACLInput, GetWebACLOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetWebACLInput, GetWebACLOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -3462,8 +3719,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWebACLForResourceInput, GetWebACLForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWebACLForResourceInput, GetWebACLForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWebACLForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3475,6 +3730,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWebACLForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetWebACLForResourceInput, GetWebACLForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetWebACLForResourceInput, GetWebACLForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetWebACLForResourceInput, GetWebACLForResourceOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -3547,8 +3804,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAPIKeysInput, ListAPIKeysOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAPIKeysInput, ListAPIKeysOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAPIKeysOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3560,6 +3815,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAPIKeysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAPIKeysInput, ListAPIKeysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAPIKeysInput, ListAPIKeysOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAPIKeysInput, ListAPIKeysOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -3632,8 +3889,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAvailableManagedRuleGroupVersionsInput, ListAvailableManagedRuleGroupVersionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAvailableManagedRuleGroupVersionsInput, ListAvailableManagedRuleGroupVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAvailableManagedRuleGroupVersionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3645,6 +3900,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAvailableManagedRuleGroupVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAvailableManagedRuleGroupVersionsInput, ListAvailableManagedRuleGroupVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAvailableManagedRuleGroupVersionsInput, ListAvailableManagedRuleGroupVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAvailableManagedRuleGroupVersionsInput, ListAvailableManagedRuleGroupVersionsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -3716,8 +3973,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAvailableManagedRuleGroupsInput, ListAvailableManagedRuleGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAvailableManagedRuleGroupsInput, ListAvailableManagedRuleGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAvailableManagedRuleGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3729,6 +3984,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAvailableManagedRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAvailableManagedRuleGroupsInput, ListAvailableManagedRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAvailableManagedRuleGroupsInput, ListAvailableManagedRuleGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAvailableManagedRuleGroupsInput, ListAvailableManagedRuleGroupsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -3800,8 +4057,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIPSetsInput, ListIPSetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIPSetsInput, ListIPSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIPSetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3813,6 +4068,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIPSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIPSetsInput, ListIPSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListIPSetsInput, ListIPSetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListIPSetsInput, ListIPSetsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -3884,8 +4141,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLoggingConfigurationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3897,6 +4152,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLoggingConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -3968,8 +4225,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListManagedRuleSetsInput, ListManagedRuleSetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedRuleSetsInput, ListManagedRuleSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedRuleSetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3981,6 +4236,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListManagedRuleSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListManagedRuleSetsInput, ListManagedRuleSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListManagedRuleSetsInput, ListManagedRuleSetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListManagedRuleSetsInput, ListManagedRuleSetsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -4052,8 +4309,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMobileSdkReleasesInput, ListMobileSdkReleasesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMobileSdkReleasesInput, ListMobileSdkReleasesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMobileSdkReleasesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4065,6 +4320,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMobileSdkReleasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMobileSdkReleasesInput, ListMobileSdkReleasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMobileSdkReleasesInput, ListMobileSdkReleasesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMobileSdkReleasesInput, ListMobileSdkReleasesOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -4136,8 +4393,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRegexPatternSetsInput, ListRegexPatternSetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRegexPatternSetsInput, ListRegexPatternSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRegexPatternSetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4149,6 +4404,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRegexPatternSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRegexPatternSetsInput, ListRegexPatternSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRegexPatternSetsInput, ListRegexPatternSetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRegexPatternSetsInput, ListRegexPatternSetsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -4221,8 +4478,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourcesForWebACLInput, ListResourcesForWebACLOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourcesForWebACLInput, ListResourcesForWebACLOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourcesForWebACLOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4234,6 +4489,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResourcesForWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResourcesForWebACLInput, ListResourcesForWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResourcesForWebACLInput, ListResourcesForWebACLOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResourcesForWebACLInput, ListResourcesForWebACLOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -4305,8 +4562,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRuleGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4318,10 +4573,97 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRuleGroups")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListSettlementRecords` operation on the `WAFV2` service.
+    ///
+    /// Retrieves individual settlement transaction records for monetization. Each record represents a single payment transaction between a client and your protected resource. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL. To retrieve test data, include a CurrencyMode filter with the value TEST.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListSettlementRecordsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListSettlementRecordsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `WAFInvalidOperationException` : The operation isn't valid.
+    /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
+    ///
+    /// * You specified a parameter name or value that isn't valid.
+    ///
+    /// * Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.
+    ///
+    /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
+    /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
+    public func listSettlementRecords(input: ListSettlementRecordsInput) async throws -> ListSettlementRecordsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFV2Client.listSettlementRecordsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSettlementRecords")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wafv2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSettlementRecordsInput, ListSettlementRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSettlementRecordsInput, ListSettlementRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSettlementRecordsInput, ListSettlementRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSettlementRecordsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSettlementRecordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSettlementRecordsInput, ListSettlementRecordsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20190729.ListSettlementRecords"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSettlementRecordsInput, ListSettlementRecordsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSettlementRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSettlementRecordsInput, ListSettlementRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSettlementRecordsInput, ListSettlementRecordsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSettlementRecordsInput, ListSettlementRecordsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSettlementRecords")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4392,8 +4734,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4405,6 +4745,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -4476,8 +4818,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWebACLsInput, ListWebACLsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWebACLsInput, ListWebACLsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWebACLsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4489,6 +4829,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWebACLsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListWebACLsInput, ListWebACLsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListWebACLsInput, ListWebACLsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListWebACLsInput, ListWebACLsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -4582,8 +4924,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLoggingConfigurationInput, PutLoggingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLoggingConfigurationInput, PutLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutLoggingConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4595,6 +4935,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutLoggingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutLoggingConfigurationInput, PutLoggingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutLoggingConfigurationInput, PutLoggingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutLoggingConfigurationInput, PutLoggingConfigurationOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -4668,8 +5010,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutManagedRuleSetVersionsInput, PutManagedRuleSetVersionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutManagedRuleSetVersionsInput, PutManagedRuleSetVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutManagedRuleSetVersionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4681,6 +5021,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutManagedRuleSetVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutManagedRuleSetVersionsInput, PutManagedRuleSetVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutManagedRuleSetVersionsInput, PutManagedRuleSetVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutManagedRuleSetVersionsInput, PutManagedRuleSetVersionsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -4775,8 +5117,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPermissionPolicyInput, PutPermissionPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPermissionPolicyInput, PutPermissionPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPermissionPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4788,6 +5128,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutPermissionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutPermissionPolicyInput, PutPermissionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutPermissionPolicyInput, PutPermissionPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutPermissionPolicyInput, PutPermissionPolicyOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -4863,8 +5205,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4876,6 +5216,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -4950,8 +5292,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4963,6 +5303,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -5055,8 +5397,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIPSetInput, UpdateIPSetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIPSetInput, UpdateIPSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIPSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5068,6 +5408,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateIPSetInput, UpdateIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateIPSetInput, UpdateIPSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateIPSetInput, UpdateIPSetOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -5141,8 +5483,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateManagedRuleSetVersionExpiryDateInput, UpdateManagedRuleSetVersionExpiryDateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateManagedRuleSetVersionExpiryDateInput, UpdateManagedRuleSetVersionExpiryDateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateManagedRuleSetVersionExpiryDateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5154,6 +5494,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateManagedRuleSetVersionExpiryDateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateManagedRuleSetVersionExpiryDateInput, UpdateManagedRuleSetVersionExpiryDateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateManagedRuleSetVersionExpiryDateInput, UpdateManagedRuleSetVersionExpiryDateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateManagedRuleSetVersionExpiryDateInput, UpdateManagedRuleSetVersionExpiryDateOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -5246,8 +5588,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRegexPatternSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5259,6 +5599,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRegexPatternSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -5354,8 +5696,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5367,6 +5707,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
@@ -5465,8 +5807,6 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWebACLInput, UpdateWebACLOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWebACLInput, UpdateWebACLOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWebACLOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5478,6 +5818,8 @@ extension WAFV2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateWebACLInput, UpdateWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateWebACLInput, UpdateWebACLOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateWebACLInput, UpdateWebACLOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")

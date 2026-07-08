@@ -1895,7 +1895,7 @@ extension SSMContactsClientTypes {
 
         public init(
             contactArn: Swift.String? = nil,
-            stageIndex: Swift.Int? = 0,
+            stageIndex: Swift.Int? = nil,
             type: SSMContactsClientTypes.ContactType? = nil
         ) {
             self.contactArn = contactArn

@@ -24,6 +24,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 
@@ -306,32 +307,26 @@ public struct BatchGetRecordOutput: Swift.Sendable {
     }
 }
 
-extension SageMakerFeatureStoreRuntimeClientTypes {
+/// A resource that is required to perform an action was not found.
+public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public enum DeletionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case hardDelete
-        case softDelete
-        case sdkUnknown(Swift.String)
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
 
-        public static var allCases: [DeletionMode] {
-            return [
-                .hardDelete,
-                .softDelete
-            ]
-        }
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .hardDelete: return "HardDelete"
-            case .softDelete: return "SoftDelete"
-            case let .sdkUnknown(s): return s
-            }
-        }
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -361,99 +356,6 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-    }
-}
-
-public struct DeleteRecordInput: Swift.Sendable {
-    /// The name of the deletion mode for deleting the record. By default, the deletion mode is set to SoftDelete.
-    public var deletionMode: SageMakerFeatureStoreRuntimeClientTypes.DeletionMode?
-    /// Timestamp indicating when the deletion event occurred. EventTime can be used to query data at a certain point in time.
-    /// This member is required.
-    public var eventTime: Swift.String?
-    /// The name or Amazon Resource Name (ARN) of the feature group to delete the record from.
-    /// This member is required.
-    public var featureGroupName: Swift.String?
-    /// The value for the RecordIdentifier that uniquely identifies the record, in string format.
-    /// This member is required.
-    public var recordIdentifierValueAsString: Swift.String?
-    /// A list of stores from which you're deleting the record. By default, Feature Store deletes the record from all of the stores that you're using for the FeatureGroup.
-    public var targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]?
-
-    public init(
-        deletionMode: SageMakerFeatureStoreRuntimeClientTypes.DeletionMode? = nil,
-        eventTime: Swift.String? = nil,
-        featureGroupName: Swift.String? = nil,
-        recordIdentifierValueAsString: Swift.String? = nil,
-        targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]? = nil
-    ) {
-        self.deletionMode = deletionMode
-        self.eventTime = eventTime
-        self.featureGroupName = featureGroupName
-        self.recordIdentifierValueAsString = recordIdentifierValueAsString
-        self.targetStores = targetStores
-    }
-}
-
-/// A resource that is required to perform an action was not found.
-public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFound" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-public struct GetRecordInput: Swift.Sendable {
-    /// Parameter to request ExpiresAt in response. If Enabled, GetRecord will return the value of ExpiresAt, if it is not null. If Disabled and null, GetRecord will return null.
-    public var expirationTimeResponse: SageMakerFeatureStoreRuntimeClientTypes.ExpirationTimeResponse?
-    /// The name or Amazon Resource Name (ARN) of the feature group from which you want to retrieve a record.
-    /// This member is required.
-    public var featureGroupName: Swift.String?
-    /// List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned.
-    public var featureNames: [Swift.String]?
-    /// The value that corresponds to RecordIdentifier type and uniquely identifies the record in the FeatureGroup.
-    /// This member is required.
-    public var recordIdentifierValueAsString: Swift.String?
-
-    public init(
-        expirationTimeResponse: SageMakerFeatureStoreRuntimeClientTypes.ExpirationTimeResponse? = nil,
-        featureGroupName: Swift.String? = nil,
-        featureNames: [Swift.String]? = nil,
-        recordIdentifierValueAsString: Swift.String? = nil
-    ) {
-        self.expirationTimeResponse = expirationTimeResponse
-        self.featureGroupName = featureGroupName
-        self.featureNames = featureNames
-        self.recordIdentifierValueAsString = recordIdentifierValueAsString
-    }
-}
-
-public struct GetRecordOutput: Swift.Sendable {
-    /// The ExpiresAt ISO string of the requested record.
-    public var expiresAt: Swift.String?
-    /// The record you requested. A list of FeatureValues.
-    public var record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]?
-
-    public init(
-        expiresAt: Swift.String? = nil,
-        record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]? = nil
-    ) {
-        self.expiresAt = expiresAt
-        self.record = record
     }
 }
 
@@ -516,6 +418,233 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
     }
 }
 
+extension SageMakerFeatureStoreRuntimeClientTypes {
+
+    /// An entry to write as part of a BatchWriteRecord request.
+    public struct BatchWriteRecordEntry: Swift.Sendable {
+        /// The name or Amazon Resource Name (ARN) of the FeatureGroup to write the record to.
+        /// This member is required.
+        public var featureGroupName: Swift.String?
+        /// List of FeatureValues to be inserted. This will be a full over-write.
+        /// This member is required.
+        public var record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]?
+        /// A list of stores to which you're adding the record. By default, Feature Store adds the record to all of the stores that you're using for the FeatureGroup.
+        public var targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]?
+        /// Time to live duration for this entry, where the record is hard deleted after the expiration time is reached; ExpiresAt = EventTime + TtlDuration. This overrides the request level TtlDuration.
+        public var ttlDuration: SageMakerFeatureStoreRuntimeClientTypes.TtlDuration?
+
+        public init(
+            featureGroupName: Swift.String? = nil,
+            record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]? = nil,
+            targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]? = nil,
+            ttlDuration: SageMakerFeatureStoreRuntimeClientTypes.TtlDuration? = nil
+        ) {
+            self.featureGroupName = featureGroupName
+            self.record = record
+            self.targetStores = targetStores
+            self.ttlDuration = ttlDuration
+        }
+    }
+}
+
+public struct BatchWriteRecordInput: Swift.Sendable {
+    /// A list of records to write. Each entry specifies the FeatureGroup, the record data, and optionally target stores and a TTL duration.
+    /// This member is required.
+    public var entries: [SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordEntry]?
+    /// Time to live duration applied to all entries in the batch that do not specify their own TtlDuration; ExpiresAt = EventTime + TtlDuration. For information on HardDelete, see the [DeleteRecord](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html) API in the Amazon SageMaker API Reference guide.
+    public var ttlDuration: SageMakerFeatureStoreRuntimeClientTypes.TtlDuration?
+
+    public init(
+        entries: [SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordEntry]? = nil,
+        ttlDuration: SageMakerFeatureStoreRuntimeClientTypes.TtlDuration? = nil
+    ) {
+        self.entries = entries
+        self.ttlDuration = ttlDuration
+    }
+}
+
+extension SageMakerFeatureStoreRuntimeClientTypes {
+
+    /// The error that has occurred when attempting to write a record in a batch.
+    public struct BatchWriteRecordError: Swift.Sendable {
+        /// The entry that failed to be written.
+        /// This member is required.
+        public var entry: SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordEntry?
+        /// The error code for the failed record write.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// The error message for the failed record write.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+
+        public init(
+            entry: SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordEntry? = nil,
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil
+        ) {
+            self.entry = entry
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+}
+
+public struct BatchWriteRecordOutput: Swift.Sendable {
+    /// A list of errors that occurred when writing records in the batch.
+    /// This member is required.
+    public var errors: [SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordError]?
+    /// A list of entries that were not processed. These entries can be retried.
+    /// This member is required.
+    public var unprocessedEntries: [SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordEntry]?
+
+    public init(
+        errors: [SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordError]? = nil,
+        unprocessedEntries: [SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordEntry]? = nil
+    ) {
+        self.errors = errors
+        self.unprocessedEntries = unprocessedEntries
+    }
+}
+
+extension SageMakerFeatureStoreRuntimeClientTypes {
+
+    public enum DeletionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hardDelete
+        case softDelete
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeletionMode] {
+            return [
+                .hardDelete,
+                .softDelete
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hardDelete: return "HardDelete"
+            case .softDelete: return "SoftDelete"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DeleteRecordInput: Swift.Sendable {
+    /// The name of the deletion mode for deleting the record. By default, the deletion mode is set to SoftDelete.
+    public var deletionMode: SageMakerFeatureStoreRuntimeClientTypes.DeletionMode?
+    /// Timestamp indicating when the deletion event occurred. EventTime can be used to query data at a certain point in time.
+    /// This member is required.
+    public var eventTime: Swift.String?
+    /// The name or Amazon Resource Name (ARN) of the feature group to delete the record from.
+    /// This member is required.
+    public var featureGroupName: Swift.String?
+    /// The value for the RecordIdentifier that uniquely identifies the record, in string format.
+    /// This member is required.
+    public var recordIdentifierValueAsString: Swift.String?
+    /// A list of stores from which you're deleting the record. By default, Feature Store deletes the record from all of the stores that you're using for the FeatureGroup.
+    public var targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]?
+
+    public init(
+        deletionMode: SageMakerFeatureStoreRuntimeClientTypes.DeletionMode? = nil,
+        eventTime: Swift.String? = nil,
+        featureGroupName: Swift.String? = nil,
+        recordIdentifierValueAsString: Swift.String? = nil,
+        targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]? = nil
+    ) {
+        self.deletionMode = deletionMode
+        self.eventTime = eventTime
+        self.featureGroupName = featureGroupName
+        self.recordIdentifierValueAsString = recordIdentifierValueAsString
+        self.targetStores = targetStores
+    }
+}
+
+public struct GetRecordInput: Swift.Sendable {
+    /// Parameter to request ExpiresAt in response. If Enabled, GetRecord will return the value of ExpiresAt, if it is not null. If Disabled and null, GetRecord will return null.
+    public var expirationTimeResponse: SageMakerFeatureStoreRuntimeClientTypes.ExpirationTimeResponse?
+    /// The name or Amazon Resource Name (ARN) of the feature group from which you want to retrieve a record.
+    /// This member is required.
+    public var featureGroupName: Swift.String?
+    /// List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned.
+    public var featureNames: [Swift.String]?
+    /// The value that corresponds to RecordIdentifier type and uniquely identifies the record in the FeatureGroup.
+    /// This member is required.
+    public var recordIdentifierValueAsString: Swift.String?
+
+    public init(
+        expirationTimeResponse: SageMakerFeatureStoreRuntimeClientTypes.ExpirationTimeResponse? = nil,
+        featureGroupName: Swift.String? = nil,
+        featureNames: [Swift.String]? = nil,
+        recordIdentifierValueAsString: Swift.String? = nil
+    ) {
+        self.expirationTimeResponse = expirationTimeResponse
+        self.featureGroupName = featureGroupName
+        self.featureNames = featureNames
+        self.recordIdentifierValueAsString = recordIdentifierValueAsString
+    }
+}
+
+public struct GetRecordOutput: Swift.Sendable {
+    /// The ExpiresAt ISO string of the requested record.
+    public var expiresAt: Swift.String?
+    /// The record you requested. A list of FeatureValues.
+    public var record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]?
+
+    public init(
+        expiresAt: Swift.String? = nil,
+        record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]? = nil
+    ) {
+        self.expiresAt = expiresAt
+        self.record = record
+    }
+}
+
+public struct ListRecordsInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the feature group to list records from.
+    /// This member is required.
+    public var featureGroupName: Swift.String?
+    /// If set to true, the result includes records that have been soft deleted.
+    public var includeSoftDeletedRecords: Swift.Bool?
+    /// The maximum number of record identifiers to return in a single page of results. For the InMemory tier, this value is a hint and not a strict requirement. The response may contain more or fewer results than the specified MaxResults.
+    public var maxResults: Swift.Int?
+    /// A token to resume pagination of ListRecords results.
+    public var nextToken: Swift.String?
+
+    public init(
+        featureGroupName: Swift.String? = nil,
+        includeSoftDeletedRecords: Swift.Bool? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.featureGroupName = featureGroupName
+        self.includeSoftDeletedRecords = includeSoftDeletedRecords
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListRecordsOutput: Swift.Sendable {
+    /// A token to resume pagination if the response includes more record identifiers than MaxResults.
+    public var nextToken: Swift.String?
+    /// A list of record identifier values for the records stored in the OnlineStore.
+    /// This member is required.
+    public var recordIdentifiers: [Swift.String]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        recordIdentifiers: [Swift.String]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.recordIdentifiers = recordIdentifiers
+    }
+}
+
 public struct PutRecordInput: Swift.Sendable {
     /// The name or Amazon Resource Name (ARN) of the feature group that you want to insert the record into.
     /// This member is required.
@@ -551,6 +680,13 @@ extension BatchGetRecordInput {
 
     static func urlPathProvider(_ value: BatchGetRecordInput) -> Swift.String? {
         return "/BatchGetRecord"
+    }
+}
+
+extension BatchWriteRecordInput {
+
+    static func urlPathProvider(_ value: BatchWriteRecordInput) -> Swift.String? {
+        return "/BatchWriteRecord"
     }
 }
 
@@ -628,6 +764,16 @@ extension GetRecordInput {
     }
 }
 
+extension ListRecordsInput {
+
+    static func urlPathProvider(_ value: ListRecordsInput) -> Swift.String? {
+        guard let featureGroupName = value.featureGroupName else {
+            return nil
+        }
+        return "/FeatureGroup/\(featureGroupName.urlPercentEncoding())/ListRecords"
+    }
+}
+
 extension PutRecordInput {
 
     static func urlPathProvider(_ value: PutRecordInput) -> Swift.String? {
@@ -644,6 +790,25 @@ extension BatchGetRecordInput {
         guard let value else { return }
         try writer["ExpirationTimeResponse"].write(value.expirationTimeResponse)
         try writer["Identifiers"].writeList(value.identifiers, memberWritingClosure: SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchWriteRecordInput {
+
+    static func write(value: BatchWriteRecordInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Entries"].writeList(value.entries, memberWritingClosure: SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TtlDuration"].write(value.ttlDuration, with: SageMakerFeatureStoreRuntimeClientTypes.TtlDuration.write(value:to:))
+    }
+}
+
+extension ListRecordsInput {
+
+    static func write(value: ListRecordsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IncludeSoftDeletedRecords"].write(value.includeSoftDeletedRecords)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -671,6 +836,19 @@ extension BatchGetRecordOutput {
     }
 }
 
+extension BatchWriteRecordOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchWriteRecordOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchWriteRecordOutput()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.unprocessedEntries = try reader["UnprocessedEntries"].readListIfPresent(memberReadingClosure: SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension DeleteRecordOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRecordOutput {
@@ -687,6 +865,19 @@ extension GetRecordOutput {
         var value = GetRecordOutput()
         value.expiresAt = try reader["ExpiresAt"].readIfPresent()
         value.record = try reader["Record"].readListIfPresent(memberReadingClosure: SageMakerFeatureStoreRuntimeClientTypes.FeatureValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListRecordsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRecordsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRecordsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.recordIdentifiers = try reader["RecordIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -715,6 +906,24 @@ enum BatchGetRecordOutputError {
     }
 }
 
+enum BatchWriteRecordOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessForbidden": return try AccessForbidden.makeError(baseError: baseError)
+            case "InternalFailure": return try InternalFailure.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            case "ServiceUnavailable": return try ServiceUnavailable.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationError.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteRecordOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -733,6 +942,24 @@ enum DeleteRecordOutputError {
 }
 
 enum GetRecordOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessForbidden": return try AccessForbidden.makeError(baseError: baseError)
+            case "InternalFailure": return try InternalFailure.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            case "ServiceUnavailable": return try ServiceUnavailable.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationError.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRecordsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -877,6 +1104,39 @@ extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail {
     }
 }
 
+extension SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordEntry {
+
+    static func write(value: SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FeatureGroupName"].write(value.featureGroupName)
+        try writer["Record"].writeList(value.record, memberWritingClosure: SageMakerFeatureStoreRuntimeClientTypes.FeatureValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetStores"].writeList(value.targetStores, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerFeatureStoreRuntimeClientTypes.TargetStore>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TtlDuration"].write(value.ttlDuration, with: SageMakerFeatureStoreRuntimeClientTypes.TtlDuration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordEntry()
+        value.featureGroupName = try reader["FeatureGroupName"].readIfPresent() ?? ""
+        value.record = try reader["Record"].readListIfPresent(memberReadingClosure: SageMakerFeatureStoreRuntimeClientTypes.FeatureValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.targetStores = try reader["TargetStores"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerFeatureStoreRuntimeClientTypes.TargetStore>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ttlDuration = try reader["TtlDuration"].readIfPresent(with: SageMakerFeatureStoreRuntimeClientTypes.TtlDuration.read(from:))
+        return value
+    }
+}
+
+extension SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordError()
+        value.entry = try reader["Entry"].readIfPresent(with: SageMakerFeatureStoreRuntimeClientTypes.BatchWriteRecordEntry.read(from:))
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension SageMakerFeatureStoreRuntimeClientTypes.FeatureValue {
 
     static func write(value: SageMakerFeatureStoreRuntimeClientTypes.FeatureValue?, to writer: SmithyJSON.Writer) throws {
@@ -902,6 +1162,14 @@ extension SageMakerFeatureStoreRuntimeClientTypes.TtlDuration {
         guard let value else { return }
         try writer["Unit"].write(value.unit)
         try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerFeatureStoreRuntimeClientTypes.TtlDuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerFeatureStoreRuntimeClientTypes.TtlDuration()
+        value.unit = try reader["Unit"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? 0
+        return value
     }
 }
 

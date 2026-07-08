@@ -72,6 +72,7 @@ public final class ECRPUBLICClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: ECRPUBLICClient.ECRPUBLICClientConfig
     let serviceName = "ECR PUBLIC"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use ECRPUBLICClient.ECRPUBLICClientConfig instead")
     public typealias Config = ECRPUBLICClient.ECRPUBLICClientConfiguration
@@ -81,6 +82,7 @@ public final class ECRPUBLICClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: ECRPUBLICClient.ECRPUBLICClientConfig) instead")
@@ -195,7 +197,7 @@ extension ECRPUBLICClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ECR PUBLIC")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -250,7 +252,7 @@ extension ECRPUBLICClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ECR PUBLIC")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -426,7 +428,7 @@ extension ECRPUBLICClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ECR PUBLIC")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -481,7 +483,7 @@ extension ECRPUBLICClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ECR PUBLIC")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -659,8 +661,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCheckLayerAvailabilityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -672,6 +672,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCheckLayerAvailabilityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -736,8 +738,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteImageInput, BatchDeleteImageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteImageInput, BatchDeleteImageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteImageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -749,6 +749,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteImageInput, BatchDeleteImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteImageInput, BatchDeleteImageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteImageInput, BatchDeleteImageOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -819,8 +821,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CompleteLayerUploadOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -832,6 +832,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CompleteLayerUploadOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -899,8 +901,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRepositoryInput, CreateRepositoryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRepositoryInput, CreateRepositoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRepositoryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -912,6 +912,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRepositoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRepositoryInput, CreateRepositoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRepositoryInput, CreateRepositoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRepositoryInput, CreateRepositoryOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -977,8 +979,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRepositoryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -990,6 +990,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRepositoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -1055,8 +1057,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRepositoryPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1068,6 +1068,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRepositoryPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -1132,8 +1134,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImageTagsInput, DescribeImageTagsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImageTagsInput, DescribeImageTagsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImageTagsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1145,6 +1145,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImageTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeImageTagsInput, DescribeImageTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeImageTagsInput, DescribeImageTagsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeImageTagsInput, DescribeImageTagsOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -1210,8 +1212,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImagesInput, DescribeImagesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImagesInput, DescribeImagesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImagesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1223,6 +1223,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImagesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeImagesInput, DescribeImagesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeImagesInput, DescribeImagesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeImagesInput, DescribeImagesOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -1286,8 +1288,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRegistriesInput, DescribeRegistriesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRegistriesInput, DescribeRegistriesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRegistriesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1299,6 +1299,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRegistriesInput, DescribeRegistriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRegistriesInput, DescribeRegistriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRegistriesInput, DescribeRegistriesOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -1363,8 +1365,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRepositoriesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1376,6 +1376,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRepositoriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -1439,8 +1441,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAuthorizationTokenOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1452,6 +1452,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAuthorizationTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -1514,8 +1516,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRegistryCatalogDataInput, GetRegistryCatalogDataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRegistryCatalogDataInput, GetRegistryCatalogDataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRegistryCatalogDataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1527,6 +1527,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRegistryCatalogDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRegistryCatalogDataInput, GetRegistryCatalogDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRegistryCatalogDataInput, GetRegistryCatalogDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRegistryCatalogDataInput, GetRegistryCatalogDataOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -1592,8 +1594,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRepositoryCatalogDataInput, GetRepositoryCatalogDataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRepositoryCatalogDataInput, GetRepositoryCatalogDataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRepositoryCatalogDataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1605,6 +1605,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRepositoryCatalogDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRepositoryCatalogDataInput, GetRepositoryCatalogDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRepositoryCatalogDataInput, GetRepositoryCatalogDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRepositoryCatalogDataInput, GetRepositoryCatalogDataOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -1670,8 +1672,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRepositoryPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1683,6 +1683,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRepositoryPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -1748,8 +1750,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InitiateLayerUploadOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1761,6 +1761,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InitiateLayerUploadOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -1825,8 +1827,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1838,6 +1838,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -1909,8 +1911,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutImageInput, PutImageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutImageInput, PutImageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutImageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1922,6 +1922,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutImageInput, PutImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutImageInput, PutImageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutImageInput, PutImageOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -1985,8 +1987,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRegistryCatalogDataInput, PutRegistryCatalogDataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRegistryCatalogDataInput, PutRegistryCatalogDataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRegistryCatalogDataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1998,6 +1998,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRegistryCatalogDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutRegistryCatalogDataInput, PutRegistryCatalogDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutRegistryCatalogDataInput, PutRegistryCatalogDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRegistryCatalogDataInput, PutRegistryCatalogDataOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -2062,8 +2064,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRepositoryCatalogDataInput, PutRepositoryCatalogDataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRepositoryCatalogDataInput, PutRepositoryCatalogDataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRepositoryCatalogDataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2075,6 +2075,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRepositoryCatalogDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutRepositoryCatalogDataInput, PutRepositoryCatalogDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutRepositoryCatalogDataInput, PutRepositoryCatalogDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRepositoryCatalogDataInput, PutRepositoryCatalogDataOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -2139,8 +2141,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetRepositoryPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2152,6 +2152,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetRepositoryPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -2218,8 +2220,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2231,6 +2231,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -2297,8 +2299,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2310,6 +2310,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")
@@ -2378,8 +2380,6 @@ extension ECRPUBLICClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UploadLayerPartInput, UploadLayerPartOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadLayerPartInput, UploadLayerPartOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadLayerPartOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR PUBLIC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2391,6 +2391,8 @@ extension ECRPUBLICClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UploadLayerPartOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UploadLayerPartInput, UploadLayerPartOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UploadLayerPartInput, UploadLayerPartOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR PUBLIC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UploadLayerPartInput, UploadLayerPartOutput>(serviceID: serviceName, version: ECRPUBLICClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECRPUBLIC")

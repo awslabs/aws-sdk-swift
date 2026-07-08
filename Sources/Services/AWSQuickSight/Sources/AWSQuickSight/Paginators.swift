@@ -677,6 +677,37 @@ extension PaginatorSequence where OperationStackInput == ListIngestionsInput, Op
     }
 }
 extension QuickSightClient {
+    /// Paginate over `[ListKnowledgeBasesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListKnowledgeBasesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListKnowledgeBasesOutput`
+    public func listKnowledgeBasesPaginated(input: ListKnowledgeBasesInput) -> ClientRuntime.PaginatorSequence<ListKnowledgeBasesInput, ListKnowledgeBasesOutput> {
+        return ClientRuntime.PaginatorSequence<ListKnowledgeBasesInput, ListKnowledgeBasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listKnowledgeBases(input:))
+    }
+}
+
+extension ListKnowledgeBasesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListKnowledgeBasesInput {
+        return ListKnowledgeBasesInput(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListKnowledgeBasesInput, OperationStackOutput == ListKnowledgeBasesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listKnowledgeBasesPaginated`
+    /// to access the nested member `[QuickSightClientTypes.KnowledgeBaseSummary]`
+    /// - Returns: `[QuickSightClientTypes.KnowledgeBaseSummary]`
+    public func knowledgeBaseSummaries() async throws -> [QuickSightClientTypes.KnowledgeBaseSummary] {
+        return try await self.asyncCompactMap { item in item.knowledgeBaseSummaries }
+    }
+}
+extension QuickSightClient {
     /// Paginate over `[ListNamespacesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1294,6 +1325,39 @@ extension PaginatorSequence where OperationStackInput == SearchGroupsInput, Oper
     /// - Returns: `[QuickSightClientTypes.Group]`
     public func groupList() async throws -> [QuickSightClientTypes.Group] {
         return try await self.asyncCompactMap { item in item.groupList }
+    }
+}
+extension QuickSightClient {
+    /// Paginate over `[SearchKnowledgeBasesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchKnowledgeBasesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchKnowledgeBasesOutput`
+    public func searchKnowledgeBasesPaginated(input: SearchKnowledgeBasesInput) -> ClientRuntime.PaginatorSequence<SearchKnowledgeBasesInput, SearchKnowledgeBasesOutput> {
+        return ClientRuntime.PaginatorSequence<SearchKnowledgeBasesInput, SearchKnowledgeBasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchKnowledgeBases(input:))
+    }
+}
+
+extension SearchKnowledgeBasesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchKnowledgeBasesInput {
+        return SearchKnowledgeBasesInput(
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchKnowledgeBasesInput, OperationStackOutput == SearchKnowledgeBasesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchKnowledgeBasesPaginated`
+    /// to access the nested member `[QuickSightClientTypes.KnowledgeBaseSummary]`
+    /// - Returns: `[QuickSightClientTypes.KnowledgeBaseSummary]`
+    public func knowledgeBaseSummaries() async throws -> [QuickSightClientTypes.KnowledgeBaseSummary] {
+        return try await self.asyncCompactMap { item in item.knowledgeBaseSummaries }
     }
 }
 extension QuickSightClient {

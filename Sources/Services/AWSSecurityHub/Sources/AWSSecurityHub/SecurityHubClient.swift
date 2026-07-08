@@ -76,6 +76,7 @@ public final class SecurityHubClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: SecurityHubClient.SecurityHubClientConfig
     let serviceName = "SecurityHub"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use SecurityHubClient.SecurityHubClientConfig instead")
     public typealias Config = SecurityHubClient.SecurityHubClientConfiguration
@@ -85,6 +86,7 @@ public final class SecurityHubClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: SecurityHubClient.SecurityHubClientConfig) instead")
@@ -199,7 +201,7 @@ extension SecurityHubClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "SecurityHub")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -254,7 +256,7 @@ extension SecurityHubClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "SecurityHub")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -430,7 +432,7 @@ extension SecurityHubClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "SecurityHub")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -485,7 +487,7 @@ extension SecurityHubClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "SecurityHub")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -659,8 +661,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptAdministratorInvitationOutput>(AcceptAdministratorInvitationOutput.httpOutput(from:), AcceptAdministratorInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptAdministratorInvitationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -670,6 +670,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptAdministratorInvitationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -732,8 +734,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptInvitationOutput>(AcceptInvitationOutput.httpOutput(from:), AcceptInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptInvitationInput, AcceptInvitationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptInvitationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -743,6 +743,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptInvitationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptInvitationInput, AcceptInvitationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptInvitationInput, AcceptInvitationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptInvitationInput, AcceptInvitationOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -804,8 +806,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteAutomationRulesOutput>(BatchDeleteAutomationRulesOutput.httpOutput(from:), BatchDeleteAutomationRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteAutomationRulesInput, BatchDeleteAutomationRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteAutomationRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -815,6 +815,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteAutomationRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteAutomationRulesInput, BatchDeleteAutomationRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteAutomationRulesInput, BatchDeleteAutomationRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteAutomationRulesInput, BatchDeleteAutomationRulesOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -876,8 +878,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDisableStandardsOutput>(BatchDisableStandardsOutput.httpOutput(from:), BatchDisableStandardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDisableStandardsInput, BatchDisableStandardsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDisableStandardsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -887,6 +887,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDisableStandardsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDisableStandardsInput, BatchDisableStandardsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDisableStandardsInput, BatchDisableStandardsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDisableStandardsInput, BatchDisableStandardsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -948,8 +950,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchEnableStandardsOutput>(BatchEnableStandardsOutput.httpOutput(from:), BatchEnableStandardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchEnableStandardsInput, BatchEnableStandardsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchEnableStandardsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -959,6 +959,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchEnableStandardsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchEnableStandardsInput, BatchEnableStandardsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchEnableStandardsInput, BatchEnableStandardsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchEnableStandardsInput, BatchEnableStandardsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -1021,8 +1023,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetAutomationRulesOutput>(BatchGetAutomationRulesOutput.httpOutput(from:), BatchGetAutomationRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetAutomationRulesInput, BatchGetAutomationRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetAutomationRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1032,6 +1032,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetAutomationRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetAutomationRulesInput, BatchGetAutomationRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetAutomationRulesInput, BatchGetAutomationRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetAutomationRulesInput, BatchGetAutomationRulesOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -1094,8 +1096,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetConfigurationPolicyAssociationsOutput>(BatchGetConfigurationPolicyAssociationsOutput.httpOutput(from:), BatchGetConfigurationPolicyAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetConfigurationPolicyAssociationsInput, BatchGetConfigurationPolicyAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetConfigurationPolicyAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1105,6 +1105,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetConfigurationPolicyAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetConfigurationPolicyAssociationsInput, BatchGetConfigurationPolicyAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetConfigurationPolicyAssociationsInput, BatchGetConfigurationPolicyAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetConfigurationPolicyAssociationsInput, BatchGetConfigurationPolicyAssociationsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -1165,8 +1167,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetSecurityControlsOutput>(BatchGetSecurityControlsOutput.httpOutput(from:), BatchGetSecurityControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetSecurityControlsInput, BatchGetSecurityControlsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetSecurityControlsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1176,6 +1176,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetSecurityControlsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetSecurityControlsInput, BatchGetSecurityControlsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetSecurityControlsInput, BatchGetSecurityControlsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetSecurityControlsInput, BatchGetSecurityControlsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -1236,8 +1238,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetStandardsControlAssociationsOutput>(BatchGetStandardsControlAssociationsOutput.httpOutput(from:), BatchGetStandardsControlAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetStandardsControlAssociationsInput, BatchGetStandardsControlAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetStandardsControlAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1247,6 +1247,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetStandardsControlAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetStandardsControlAssociationsInput, BatchGetStandardsControlAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetStandardsControlAssociationsInput, BatchGetStandardsControlAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetStandardsControlAssociationsInput, BatchGetStandardsControlAssociationsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -1338,8 +1340,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchImportFindingsOutput>(BatchImportFindingsOutput.httpOutput(from:), BatchImportFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchImportFindingsInput, BatchImportFindingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchImportFindingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1349,6 +1349,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchImportFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchImportFindingsInput, BatchImportFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchImportFindingsInput, BatchImportFindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchImportFindingsInput, BatchImportFindingsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -1410,8 +1412,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateAutomationRulesOutput>(BatchUpdateAutomationRulesOutput.httpOutput(from:), BatchUpdateAutomationRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateAutomationRulesInput, BatchUpdateAutomationRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateAutomationRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1421,6 +1421,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateAutomationRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateAutomationRulesInput, BatchUpdateAutomationRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateAutomationRulesInput, BatchUpdateAutomationRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateAutomationRulesInput, BatchUpdateAutomationRulesOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -1502,8 +1504,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateFindingsOutput>(BatchUpdateFindingsOutput.httpOutput(from:), BatchUpdateFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateFindingsInput, BatchUpdateFindingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateFindingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1513,6 +1513,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateFindingsInput, BatchUpdateFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateFindingsInput, BatchUpdateFindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateFindingsInput, BatchUpdateFindingsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -1574,8 +1576,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateFindingsV2Output>(BatchUpdateFindingsV2Output.httpOutput(from:), BatchUpdateFindingsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateFindingsV2Input, BatchUpdateFindingsV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateFindingsV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1585,6 +1585,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateFindingsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateFindingsV2Input, BatchUpdateFindingsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateFindingsV2Input, BatchUpdateFindingsV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateFindingsV2Input, BatchUpdateFindingsV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -1646,8 +1648,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateStandardsControlAssociationsOutput>(BatchUpdateStandardsControlAssociationsOutput.httpOutput(from:), BatchUpdateStandardsControlAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateStandardsControlAssociationsInput, BatchUpdateStandardsControlAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateStandardsControlAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1657,6 +1657,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateStandardsControlAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateStandardsControlAssociationsInput, BatchUpdateStandardsControlAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateStandardsControlAssociationsInput, BatchUpdateStandardsControlAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateStandardsControlAssociationsInput, BatchUpdateStandardsControlAssociationsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -1718,8 +1720,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateActionTargetOutput>(CreateActionTargetOutput.httpOutput(from:), CreateActionTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateActionTargetInput, CreateActionTargetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateActionTargetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1729,6 +1729,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateActionTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateActionTargetInput, CreateActionTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateActionTargetInput, CreateActionTargetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateActionTargetInput, CreateActionTargetOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -1793,8 +1795,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAggregatorV2Output>(CreateAggregatorV2Output.httpOutput(from:), CreateAggregatorV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAggregatorV2Input, CreateAggregatorV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAggregatorV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1804,6 +1804,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAggregatorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAggregatorV2Input, CreateAggregatorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAggregatorV2Input, CreateAggregatorV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAggregatorV2Input, CreateAggregatorV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -1865,8 +1867,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAutomationRuleOutput>(CreateAutomationRuleOutput.httpOutput(from:), CreateAutomationRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAutomationRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1876,6 +1876,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -1939,8 +1941,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAutomationRuleV2Output>(CreateAutomationRuleV2Output.httpOutput(from:), CreateAutomationRuleV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAutomationRuleV2Input, CreateAutomationRuleV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAutomationRuleV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1950,6 +1950,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAutomationRuleV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAutomationRuleV2Input, CreateAutomationRuleV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAutomationRuleV2Input, CreateAutomationRuleV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAutomationRuleV2Input, CreateAutomationRuleV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -2012,8 +2014,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfigurationPolicyOutput>(CreateConfigurationPolicyOutput.httpOutput(from:), CreateConfigurationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfigurationPolicyInput, CreateConfigurationPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfigurationPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2023,10 +2023,88 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConfigurationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConfigurationPolicyInput, CreateConfigurationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateConfigurationPolicyInput, CreateConfigurationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateConfigurationPolicyInput, CreateConfigurationPolicyOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateConfigurationPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateConnector` operation on the `SecurityHub` service.
+    ///
+    /// Creates a cloud service provider management (CSPM) connector in Security Hub CSPM. A connector establishes a connection between Security Hub CSPM and a third-party cloud provider, enabling Security Hub CSPM to ingest security findings and resource data from the connected environment.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `ConflictException` : The request causes conflict with the current state of the service resource.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the service.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
+    /// - `ServiceQuotaExceededException` : The request was rejected because it would exceed the service quota limit.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
+    public func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityhub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateConnectorInput, CreateConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateConnectorInput, CreateConnectorOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateConnectorInput, CreateConnectorOutput>(CreateConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateConnectorInput, CreateConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateConnectorInput, CreateConnectorOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateConnectorInput, CreateConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateConnectorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectorInput, CreateConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectorOutput>(CreateConnectorOutput.httpOutput(from:), CreateConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectorInput, CreateConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConnectorInput, CreateConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateConnectorInput, CreateConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateConnectorInput, CreateConnectorOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2087,8 +2165,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectorV2Output>(CreateConnectorV2Output.httpOutput(from:), CreateConnectorV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectorV2Input, CreateConnectorV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectorV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2098,6 +2174,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConnectorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConnectorV2Input, CreateConnectorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateConnectorV2Input, CreateConnectorV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateConnectorV2Input, CreateConnectorV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -2159,8 +2237,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFindingAggregatorOutput>(CreateFindingAggregatorOutput.httpOutput(from:), CreateFindingAggregatorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFindingAggregatorInput, CreateFindingAggregatorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFindingAggregatorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2170,6 +2246,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFindingAggregatorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFindingAggregatorInput, CreateFindingAggregatorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFindingAggregatorInput, CreateFindingAggregatorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateFindingAggregatorInput, CreateFindingAggregatorOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -2231,8 +2309,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInsightOutput>(CreateInsightOutput.httpOutput(from:), CreateInsightOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInsightInput, CreateInsightOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInsightOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2242,6 +2318,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateInsightOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateInsightInput, CreateInsightOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateInsightInput, CreateInsightOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateInsightInput, CreateInsightOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -2318,8 +2396,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMembersOutput>(CreateMembersOutput.httpOutput(from:), CreateMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMembersInput, CreateMembersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMembersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2329,6 +2405,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateMembersInput, CreateMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateMembersInput, CreateMembersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateMembersInput, CreateMembersOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -2392,8 +2470,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTicketV2Output>(CreateTicketV2Output.httpOutput(from:), CreateTicketV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTicketV2Input, CreateTicketV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTicketV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2403,6 +2479,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTicketV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTicketV2Input, CreateTicketV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTicketV2Input, CreateTicketV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTicketV2Input, CreateTicketV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -2463,8 +2541,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeclineInvitationsOutput>(DeclineInvitationsOutput.httpOutput(from:), DeclineInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeclineInvitationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2474,6 +2550,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeclineInvitationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -2531,8 +2609,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteActionTargetOutput>(DeleteActionTargetOutput.httpOutput(from:), DeleteActionTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteActionTargetInput, DeleteActionTargetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteActionTargetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2542,6 +2618,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteActionTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteActionTargetInput, DeleteActionTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteActionTargetInput, DeleteActionTargetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteActionTargetInput, DeleteActionTargetOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -2601,8 +2679,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAggregatorV2Output>(DeleteAggregatorV2Output.httpOutput(from:), DeleteAggregatorV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAggregatorV2Input, DeleteAggregatorV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAggregatorV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2612,6 +2688,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAggregatorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAggregatorV2Input, DeleteAggregatorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAggregatorV2Input, DeleteAggregatorV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAggregatorV2Input, DeleteAggregatorV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -2671,8 +2749,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAutomationRuleV2Output>(DeleteAutomationRuleV2Output.httpOutput(from:), DeleteAutomationRuleV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAutomationRuleV2Input, DeleteAutomationRuleV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAutomationRuleV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2682,6 +2758,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAutomationRuleV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAutomationRuleV2Input, DeleteAutomationRuleV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAutomationRuleV2Input, DeleteAutomationRuleV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAutomationRuleV2Input, DeleteAutomationRuleV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -2742,8 +2820,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfigurationPolicyOutput>(DeleteConfigurationPolicyOutput.httpOutput(from:), DeleteConfigurationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigurationPolicyInput, DeleteConfigurationPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2753,10 +2829,83 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConfigurationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConfigurationPolicyInput, DeleteConfigurationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConfigurationPolicyInput, DeleteConfigurationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfigurationPolicyInput, DeleteConfigurationPolicyOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteConfigurationPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteConnector` operation on the `SecurityHub` service.
+    ///
+    /// Deletes a CSPM connector. When you delete a connector, Security Hub CSPM stops ingesting findings and resource data from the connected cloud provider environment.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `ConflictException` : The request causes conflict with the current state of the service resource.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the service.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
+    public func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityhub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteConnectorInput, DeleteConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(DeleteConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectorInput, DeleteConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectorOutput>(DeleteConnectorOutput.httpOutput(from:), DeleteConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConnectorInput, DeleteConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2812,8 +2961,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectorV2Output>(DeleteConnectorV2Output.httpOutput(from:), DeleteConnectorV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectorV2Input, DeleteConnectorV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectorV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2823,6 +2970,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConnectorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConnectorV2Input, DeleteConnectorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConnectorV2Input, DeleteConnectorV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConnectorV2Input, DeleteConnectorV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -2882,8 +3031,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFindingAggregatorOutput>(DeleteFindingAggregatorOutput.httpOutput(from:), DeleteFindingAggregatorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFindingAggregatorInput, DeleteFindingAggregatorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFindingAggregatorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2893,6 +3040,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFindingAggregatorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFindingAggregatorInput, DeleteFindingAggregatorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFindingAggregatorInput, DeleteFindingAggregatorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteFindingAggregatorInput, DeleteFindingAggregatorOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -2951,8 +3100,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInsightOutput>(DeleteInsightOutput.httpOutput(from:), DeleteInsightOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInsightInput, DeleteInsightOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInsightOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2962,6 +3109,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInsightOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteInsightInput, DeleteInsightOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteInsightInput, DeleteInsightOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteInsightInput, DeleteInsightOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -3023,8 +3172,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInvitationsOutput>(DeleteInvitationsOutput.httpOutput(from:), DeleteInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInvitationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3034,6 +3181,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInvitationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -3095,8 +3244,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMembersOutput>(DeleteMembersOutput.httpOutput(from:), DeleteMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMembersInput, DeleteMembersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMembersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3106,6 +3253,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMembersInput, DeleteMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMembersInput, DeleteMembersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMembersInput, DeleteMembersOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -3166,8 +3315,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeActionTargetsOutput>(DescribeActionTargetsOutput.httpOutput(from:), DescribeActionTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeActionTargetsInput, DescribeActionTargetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeActionTargetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3177,6 +3324,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeActionTargetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeActionTargetsInput, DescribeActionTargetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeActionTargetsInput, DescribeActionTargetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeActionTargetsInput, DescribeActionTargetsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -3236,8 +3385,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHubOutput>(DescribeHubOutput.httpOutput(from:), DescribeHubOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHubInput, DescribeHubOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHubOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3247,6 +3394,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeHubOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeHubInput, DescribeHubOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeHubInput, DescribeHubOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeHubInput, DescribeHubOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -3304,8 +3453,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOrganizationConfigurationOutput>(DescribeOrganizationConfigurationOutput.httpOutput(from:), DescribeOrganizationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3315,6 +3462,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOrganizationConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -3373,8 +3522,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProductsOutput>(DescribeProductsOutput.httpOutput(from:), DescribeProductsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProductsInput, DescribeProductsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProductsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3384,6 +3531,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProductsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProductsInput, DescribeProductsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeProductsInput, DescribeProductsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeProductsInput, DescribeProductsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -3443,8 +3592,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProductsV2Output>(DescribeProductsV2Output.httpOutput(from:), DescribeProductsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProductsV2Input, DescribeProductsV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProductsV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3454,6 +3601,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProductsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProductsV2Input, DescribeProductsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeProductsV2Input, DescribeProductsV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeProductsV2Input, DescribeProductsV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -3511,8 +3660,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecurityHubV2Output>(DescribeSecurityHubV2Output.httpOutput(from:), DescribeSecurityHubV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSecurityHubV2Input, DescribeSecurityHubV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSecurityHubV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3522,6 +3669,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSecurityHubV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSecurityHubV2Input, DescribeSecurityHubV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSecurityHubV2Input, DescribeSecurityHubV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSecurityHubV2Input, DescribeSecurityHubV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -3579,8 +3728,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStandardsOutput>(DescribeStandardsOutput.httpOutput(from:), DescribeStandardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStandardsInput, DescribeStandardsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStandardsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3590,6 +3737,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStandardsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeStandardsInput, DescribeStandardsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeStandardsInput, DescribeStandardsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeStandardsInput, DescribeStandardsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -3648,8 +3797,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStandardsControlsOutput>(DescribeStandardsControlsOutput.httpOutput(from:), DescribeStandardsControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStandardsControlsInput, DescribeStandardsControlsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStandardsControlsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3659,6 +3806,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStandardsControlsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeStandardsControlsInput, DescribeStandardsControlsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeStandardsControlsInput, DescribeStandardsControlsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeStandardsControlsInput, DescribeStandardsControlsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -3717,8 +3866,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableImportFindingsForProductOutput>(DisableImportFindingsForProductOutput.httpOutput(from:), DisableImportFindingsForProductOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableImportFindingsForProductInput, DisableImportFindingsForProductOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableImportFindingsForProductOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3728,6 +3875,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableImportFindingsForProductOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableImportFindingsForProductInput, DisableImportFindingsForProductOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableImportFindingsForProductInput, DisableImportFindingsForProductOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableImportFindingsForProductInput, DisableImportFindingsForProductOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -3789,8 +3938,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableOrganizationAdminAccountOutput>(DisableOrganizationAdminAccountOutput.httpOutput(from:), DisableOrganizationAdminAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableOrganizationAdminAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3800,6 +3947,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableOrganizationAdminAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -3858,8 +4007,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableSecurityHubOutput>(DisableSecurityHubOutput.httpOutput(from:), DisableSecurityHubOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableSecurityHubInput, DisableSecurityHubOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableSecurityHubOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3869,6 +4016,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableSecurityHubOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableSecurityHubInput, DisableSecurityHubOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableSecurityHubInput, DisableSecurityHubOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableSecurityHubInput, DisableSecurityHubOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -3885,9 +4034,78 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisableSecurityHubFeatureV2` operation on the `SecurityHub` service.
+    ///
+    /// Disables an opt-in feature for the calling account in the current Amazon Web Services Region. The operation is idempotent. If the feature is already disabled, no changes are made. You cannot disable a feature that is managed by an organization policy.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisableSecurityHubFeatureV2Input`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisableSecurityHubFeatureV2Output`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the service.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
+    public func disableSecurityHubFeatureV2(input: DisableSecurityHubFeatureV2Input) async throws -> DisableSecurityHubFeatureV2Output {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disableSecurityHubFeatureV2")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityhub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisableSecurityHubFeatureV2Input, DisableSecurityHubFeatureV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableSecurityHubFeatureV2Input, DisableSecurityHubFeatureV2Output>(DisableSecurityHubFeatureV2Input.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableSecurityHubFeatureV2Input, DisableSecurityHubFeatureV2Output>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableSecurityHubFeatureV2Output>(DisableSecurityHubFeatureV2Output.httpOutput(from:), DisableSecurityHubFeatureV2OutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableSecurityHubFeatureV2Input, DisableSecurityHubFeatureV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisableSecurityHubFeatureV2Output>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableSecurityHubFeatureV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableSecurityHubFeatureV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableSecurityHubFeatureV2Input, DisableSecurityHubFeatureV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableSecurityHubFeatureV2Input, DisableSecurityHubFeatureV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableSecurityHubFeatureV2Input, DisableSecurityHubFeatureV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableSecurityHubFeatureV2")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisableSecurityHubV2` operation on the `SecurityHub` service.
     ///
-    /// Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region.
+    /// Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region. Disabling the service also disables all opt-in features that are currently enabled in that Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `DisableSecurityHubV2Input`)
     ///
@@ -3926,8 +4144,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableSecurityHubV2Output>(DisableSecurityHubV2Output.httpOutput(from:), DisableSecurityHubV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableSecurityHubV2Input, DisableSecurityHubV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableSecurityHubV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3937,6 +4153,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableSecurityHubV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableSecurityHubV2Input, DisableSecurityHubV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableSecurityHubV2Input, DisableSecurityHubV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableSecurityHubV2Input, DisableSecurityHubV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -3995,8 +4213,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFromAdministratorAccountOutput>(DisassociateFromAdministratorAccountOutput.httpOutput(from:), DisassociateFromAdministratorAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFromAdministratorAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4006,6 +4222,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateFromAdministratorAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -4065,8 +4283,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFromMasterAccountOutput>(DisassociateFromMasterAccountOutput.httpOutput(from:), DisassociateFromMasterAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFromMasterAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4076,6 +4292,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateFromMasterAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -4138,8 +4356,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateMembersOutput>(DisassociateMembersOutput.httpOutput(from:), DisassociateMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateMembersInput, DisassociateMembersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateMembersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4149,6 +4365,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateMembersInput, DisassociateMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateMembersInput, DisassociateMembersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateMembersInput, DisassociateMembersOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -4210,8 +4428,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableImportFindingsForProductOutput>(EnableImportFindingsForProductOutput.httpOutput(from:), EnableImportFindingsForProductOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableImportFindingsForProductInput, EnableImportFindingsForProductOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableImportFindingsForProductOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4221,6 +4437,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableImportFindingsForProductOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableImportFindingsForProductInput, EnableImportFindingsForProductOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableImportFindingsForProductInput, EnableImportFindingsForProductOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableImportFindingsForProductInput, EnableImportFindingsForProductOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -4282,8 +4500,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableOrganizationAdminAccountOutput>(EnableOrganizationAdminAccountOutput.httpOutput(from:), EnableOrganizationAdminAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableOrganizationAdminAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4293,6 +4509,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableOrganizationAdminAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -4361,8 +4579,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableSecurityHubOutput>(EnableSecurityHubOutput.httpOutput(from:), EnableSecurityHubOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableSecurityHubInput, EnableSecurityHubOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableSecurityHubOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4372,10 +4588,81 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableSecurityHubOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableSecurityHubInput, EnableSecurityHubOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableSecurityHubInput, EnableSecurityHubOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableSecurityHubInput, EnableSecurityHubOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableSecurityHub")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `EnableSecurityHubFeatureV2` operation on the `SecurityHub` service.
+    ///
+    /// Enables an opt-in feature for the calling account in the current Amazon Web Services Region. The service must be enabled before you can enable a feature. The operation is idempotent. If the feature is already enabled, no changes are made. You cannot enable a feature that is managed by an organization policy.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `EnableSecurityHubFeatureV2Input`)
+    ///
+    /// - Returns: [no documentation found] (Type: `EnableSecurityHubFeatureV2Output`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the service.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
+    public func enableSecurityHubFeatureV2(input: EnableSecurityHubFeatureV2Input) async throws -> EnableSecurityHubFeatureV2Output {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "enableSecurityHubFeatureV2")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityhub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<EnableSecurityHubFeatureV2Input, EnableSecurityHubFeatureV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableSecurityHubFeatureV2Input, EnableSecurityHubFeatureV2Output>(EnableSecurityHubFeatureV2Input.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableSecurityHubFeatureV2Input, EnableSecurityHubFeatureV2Output>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableSecurityHubFeatureV2Output>(EnableSecurityHubFeatureV2Output.httpOutput(from:), EnableSecurityHubFeatureV2OutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableSecurityHubFeatureV2Input, EnableSecurityHubFeatureV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<EnableSecurityHubFeatureV2Output>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableSecurityHubFeatureV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableSecurityHubFeatureV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableSecurityHubFeatureV2Input, EnableSecurityHubFeatureV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableSecurityHubFeatureV2Input, EnableSecurityHubFeatureV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableSecurityHubFeatureV2Input, EnableSecurityHubFeatureV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableSecurityHubFeatureV2")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4432,8 +4719,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableSecurityHubV2Output>(EnableSecurityHubV2Output.httpOutput(from:), EnableSecurityHubV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableSecurityHubV2Input, EnableSecurityHubV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableSecurityHubV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4443,6 +4728,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableSecurityHubV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableSecurityHubV2Input, EnableSecurityHubV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableSecurityHubV2Input, EnableSecurityHubV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableSecurityHubV2Input, EnableSecurityHubV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -4502,8 +4789,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateRecommendedPolicyV2Output>(GenerateRecommendedPolicyV2Output.httpOutput(from:), GenerateRecommendedPolicyV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateRecommendedPolicyV2Input, GenerateRecommendedPolicyV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateRecommendedPolicyV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4513,6 +4798,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GenerateRecommendedPolicyV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GenerateRecommendedPolicyV2Input, GenerateRecommendedPolicyV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GenerateRecommendedPolicyV2Input, GenerateRecommendedPolicyV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GenerateRecommendedPolicyV2Input, GenerateRecommendedPolicyV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -4571,8 +4858,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAdministratorAccountOutput>(GetAdministratorAccountOutput.httpOutput(from:), GetAdministratorAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAdministratorAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4582,6 +4867,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAdministratorAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -4641,8 +4928,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAggregatorV2Output>(GetAggregatorV2Output.httpOutput(from:), GetAggregatorV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAggregatorV2Input, GetAggregatorV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAggregatorV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4652,6 +4937,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAggregatorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAggregatorV2Input, GetAggregatorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAggregatorV2Input, GetAggregatorV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAggregatorV2Input, GetAggregatorV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -4711,8 +4998,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutomationRuleV2Output>(GetAutomationRuleV2Output.httpOutput(from:), GetAutomationRuleV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutomationRuleV2Input, GetAutomationRuleV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutomationRuleV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4722,6 +5007,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAutomationRuleV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAutomationRuleV2Input, GetAutomationRuleV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAutomationRuleV2Input, GetAutomationRuleV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAutomationRuleV2Input, GetAutomationRuleV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -4781,8 +5068,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfigurationPolicyOutput>(GetConfigurationPolicyOutput.httpOutput(from:), GetConfigurationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfigurationPolicyInput, GetConfigurationPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfigurationPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4792,6 +5077,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConfigurationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConfigurationPolicyInput, GetConfigurationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConfigurationPolicyInput, GetConfigurationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConfigurationPolicyInput, GetConfigurationPolicyOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -4854,8 +5141,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfigurationPolicyAssociationOutput>(GetConfigurationPolicyAssociationOutput.httpOutput(from:), GetConfigurationPolicyAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfigurationPolicyAssociationInput, GetConfigurationPolicyAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfigurationPolicyAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4865,10 +5150,83 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConfigurationPolicyAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConfigurationPolicyAssociationInput, GetConfigurationPolicyAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConfigurationPolicyAssociationInput, GetConfigurationPolicyAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConfigurationPolicyAssociationInput, GetConfigurationPolicyAssociationOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetConfigurationPolicyAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetConnector` operation on the `SecurityHub` service.
+    ///
+    /// Retrieves details for a CSPM connector based on the connector ID.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `ConflictException` : The request causes conflict with the current state of the service resource.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the service.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
+    public func getConnector(input: GetConnectorInput) async throws -> GetConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityhub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetConnectorInput, GetConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetConnectorInput, GetConnectorOutput>(GetConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectorInput, GetConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectorOutput>(GetConnectorOutput.httpOutput(from:), GetConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectorInput, GetConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConnectorInput, GetConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConnectorInput, GetConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConnectorInput, GetConnectorOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4924,8 +5282,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectorV2Output>(GetConnectorV2Output.httpOutput(from:), GetConnectorV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectorV2Input, GetConnectorV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectorV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4935,6 +5291,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConnectorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConnectorV2Input, GetConnectorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConnectorV2Input, GetConnectorV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConnectorV2Input, GetConnectorV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -4995,8 +5353,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnabledStandardsOutput>(GetEnabledStandardsOutput.httpOutput(from:), GetEnabledStandardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnabledStandardsInput, GetEnabledStandardsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnabledStandardsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5006,6 +5362,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEnabledStandardsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEnabledStandardsInput, GetEnabledStandardsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetEnabledStandardsInput, GetEnabledStandardsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetEnabledStandardsInput, GetEnabledStandardsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -5065,8 +5423,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingAggregatorOutput>(GetFindingAggregatorOutput.httpOutput(from:), GetFindingAggregatorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingAggregatorInput, GetFindingAggregatorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingAggregatorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5076,6 +5432,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFindingAggregatorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFindingAggregatorInput, GetFindingAggregatorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFindingAggregatorInput, GetFindingAggregatorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFindingAggregatorInput, GetFindingAggregatorOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -5136,8 +5494,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingHistoryOutput>(GetFindingHistoryOutput.httpOutput(from:), GetFindingHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingHistoryInput, GetFindingHistoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingHistoryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5147,6 +5503,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFindingHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFindingHistoryInput, GetFindingHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFindingHistoryInput, GetFindingHistoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFindingHistoryInput, GetFindingHistoryOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -5210,8 +5568,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingStatisticsV2Output>(GetFindingStatisticsV2Output.httpOutput(from:), GetFindingStatisticsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingStatisticsV2Input, GetFindingStatisticsV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingStatisticsV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5221,6 +5577,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFindingStatisticsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFindingStatisticsV2Input, GetFindingStatisticsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFindingStatisticsV2Input, GetFindingStatisticsV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFindingStatisticsV2Input, GetFindingStatisticsV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -5281,8 +5639,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingsOutput>(GetFindingsOutput.httpOutput(from:), GetFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingsInput, GetFindingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5292,6 +5648,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFindingsInput, GetFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFindingsInput, GetFindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFindingsInput, GetFindingsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -5352,8 +5710,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingsTrendsV2Output>(GetFindingsTrendsV2Output.httpOutput(from:), GetFindingsTrendsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingsTrendsV2Input, GetFindingsTrendsV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingsTrendsV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5363,6 +5719,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFindingsTrendsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFindingsTrendsV2Input, GetFindingsTrendsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFindingsTrendsV2Input, GetFindingsTrendsV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFindingsTrendsV2Input, GetFindingsTrendsV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -5426,8 +5784,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingsV2Output>(GetFindingsV2Output.httpOutput(from:), GetFindingsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingsV2Input, GetFindingsV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingsV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5437,6 +5793,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFindingsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFindingsV2Input, GetFindingsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFindingsV2Input, GetFindingsV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFindingsV2Input, GetFindingsV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -5495,8 +5853,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInsightResultsOutput>(GetInsightResultsOutput.httpOutput(from:), GetInsightResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInsightResultsInput, GetInsightResultsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInsightResultsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5506,6 +5862,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInsightResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetInsightResultsInput, GetInsightResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetInsightResultsInput, GetInsightResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetInsightResultsInput, GetInsightResultsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -5567,8 +5925,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInsightsOutput>(GetInsightsOutput.httpOutput(from:), GetInsightsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInsightsInput, GetInsightsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInsightsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5578,6 +5934,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInsightsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetInsightsInput, GetInsightsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetInsightsInput, GetInsightsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetInsightsInput, GetInsightsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -5635,8 +5993,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvitationsCountOutput>(GetInvitationsCountOutput.httpOutput(from:), GetInvitationsCountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvitationsCountInput, GetInvitationsCountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInvitationsCountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5646,6 +6002,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInvitationsCountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetInvitationsCountInput, GetInvitationsCountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetInvitationsCountInput, GetInvitationsCountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetInvitationsCountInput, GetInvitationsCountOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -5705,8 +6063,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMasterAccountOutput>(GetMasterAccountOutput.httpOutput(from:), GetMasterAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMasterAccountInput, GetMasterAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMasterAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5716,6 +6072,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMasterAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMasterAccountInput, GetMasterAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMasterAccountInput, GetMasterAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMasterAccountInput, GetMasterAccountOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -5777,8 +6135,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMembersOutput>(GetMembersOutput.httpOutput(from:), GetMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMembersInput, GetMembersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMembersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5788,6 +6144,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMembersInput, GetMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMembersInput, GetMembersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMembersInput, GetMembersOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -5848,8 +6206,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecommendedPolicyV2Output>(GetRecommendedPolicyV2Output.httpOutput(from:), GetRecommendedPolicyV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecommendedPolicyV2Input, GetRecommendedPolicyV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecommendedPolicyV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5859,6 +6215,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRecommendedPolicyV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRecommendedPolicyV2Input, GetRecommendedPolicyV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRecommendedPolicyV2Input, GetRecommendedPolicyV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRecommendedPolicyV2Input, GetRecommendedPolicyV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -5923,8 +6281,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcesStatisticsV2Output>(GetResourcesStatisticsV2Output.httpOutput(from:), GetResourcesStatisticsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcesStatisticsV2Input, GetResourcesStatisticsV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcesStatisticsV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5934,6 +6290,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcesStatisticsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcesStatisticsV2Input, GetResourcesStatisticsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourcesStatisticsV2Input, GetResourcesStatisticsV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcesStatisticsV2Input, GetResourcesStatisticsV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -5994,8 +6352,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcesTrendsV2Output>(GetResourcesTrendsV2Output.httpOutput(from:), GetResourcesTrendsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcesTrendsV2Input, GetResourcesTrendsV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcesTrendsV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6005,6 +6361,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcesTrendsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcesTrendsV2Input, GetResourcesTrendsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourcesTrendsV2Input, GetResourcesTrendsV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcesTrendsV2Input, GetResourcesTrendsV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -6069,8 +6427,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcesV2Output>(GetResourcesV2Output.httpOutput(from:), GetResourcesV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcesV2Input, GetResourcesV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcesV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6080,6 +6436,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcesV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcesV2Input, GetResourcesV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourcesV2Input, GetResourcesV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcesV2Input, GetResourcesV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -6139,8 +6497,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSecurityControlDefinitionOutput>(GetSecurityControlDefinitionOutput.httpOutput(from:), GetSecurityControlDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSecurityControlDefinitionInput, GetSecurityControlDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSecurityControlDefinitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6150,6 +6506,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSecurityControlDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSecurityControlDefinitionInput, GetSecurityControlDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSecurityControlDefinitionInput, GetSecurityControlDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSecurityControlDefinitionInput, GetSecurityControlDefinitionOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -6211,8 +6569,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InviteMembersOutput>(InviteMembersOutput.httpOutput(from:), InviteMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InviteMembersInput, InviteMembersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InviteMembersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6222,6 +6578,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InviteMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InviteMembersInput, InviteMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InviteMembersInput, InviteMembersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InviteMembersInput, InviteMembersOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -6282,8 +6640,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAggregatorsV2Output>(ListAggregatorsV2Output.httpOutput(from:), ListAggregatorsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAggregatorsV2Input, ListAggregatorsV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAggregatorsV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6293,6 +6649,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAggregatorsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAggregatorsV2Input, ListAggregatorsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAggregatorsV2Input, ListAggregatorsV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAggregatorsV2Input, ListAggregatorsV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -6352,8 +6710,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutomationRulesOutput>(ListAutomationRulesOutput.httpOutput(from:), ListAutomationRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomationRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6363,6 +6719,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -6422,8 +6780,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutomationRulesV2Output>(ListAutomationRulesV2Output.httpOutput(from:), ListAutomationRulesV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomationRulesV2Input, ListAutomationRulesV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomationRulesV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6433,6 +6789,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationRulesV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutomationRulesV2Input, ListAutomationRulesV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAutomationRulesV2Input, ListAutomationRulesV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAutomationRulesV2Input, ListAutomationRulesV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -6492,8 +6850,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationPoliciesOutput>(ListConfigurationPoliciesOutput.httpOutput(from:), ListConfigurationPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationPoliciesInput, ListConfigurationPoliciesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationPoliciesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6503,6 +6859,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConfigurationPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConfigurationPoliciesInput, ListConfigurationPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConfigurationPoliciesInput, ListConfigurationPoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConfigurationPoliciesInput, ListConfigurationPoliciesOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -6564,8 +6922,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationPolicyAssociationsOutput>(ListConfigurationPolicyAssociationsOutput.httpOutput(from:), ListConfigurationPolicyAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationPolicyAssociationsInput, ListConfigurationPolicyAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationPolicyAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6575,10 +6931,84 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConfigurationPolicyAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConfigurationPolicyAssociationsInput, ListConfigurationPolicyAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConfigurationPolicyAssociationsInput, ListConfigurationPolicyAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConfigurationPolicyAssociationsInput, ListConfigurationPolicyAssociationsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListConfigurationPolicyAssociations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListConnectors` operation on the `SecurityHub` service.
+    ///
+    /// Lists the CSPM connectors and their metadata for the calling account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListConnectorsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `ConflictException` : The request causes conflict with the current state of the service resource.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the service.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
+    public func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listConnectors")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityhub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListConnectorsInput, ListConnectorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListConnectorsInput, ListConnectorsOutput>(ListConnectorsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListConnectorsInput, ListConnectorsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListConnectorsInput, ListConnectorsOutput>(ListConnectorsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectorsOutput>(ListConnectorsOutput.httpOutput(from:), ListConnectorsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectorsInput, ListConnectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectorsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListConnectorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConnectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConnectorsInput, ListConnectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConnectorsInput, ListConnectorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConnectorsInput, ListConnectorsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListConnectors")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6635,8 +7065,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectorsV2Output>(ListConnectorsV2Output.httpOutput(from:), ListConnectorsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectorsV2Input, ListConnectorsV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectorsV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6646,6 +7074,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConnectorsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConnectorsV2Input, ListConnectorsV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConnectorsV2Input, ListConnectorsV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConnectorsV2Input, ListConnectorsV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -6703,8 +7133,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnabledProductsForImportOutput>(ListEnabledProductsForImportOutput.httpOutput(from:), ListEnabledProductsForImportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnabledProductsForImportInput, ListEnabledProductsForImportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnabledProductsForImportOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6714,6 +7142,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEnabledProductsForImportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEnabledProductsForImportInput, ListEnabledProductsForImportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEnabledProductsForImportInput, ListEnabledProductsForImportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEnabledProductsForImportInput, ListEnabledProductsForImportOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -6773,8 +7203,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFindingAggregatorsOutput>(ListFindingAggregatorsOutput.httpOutput(from:), ListFindingAggregatorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFindingAggregatorsInput, ListFindingAggregatorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFindingAggregatorsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6784,6 +7212,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFindingAggregatorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFindingAggregatorsInput, ListFindingAggregatorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFindingAggregatorsInput, ListFindingAggregatorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFindingAggregatorsInput, ListFindingAggregatorsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -6842,8 +7272,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvitationsOutput>(ListInvitationsOutput.httpOutput(from:), ListInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvitationsInput, ListInvitationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInvitationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6853,6 +7281,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInvitationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListInvitationsInput, ListInvitationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListInvitationsInput, ListInvitationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListInvitationsInput, ListInvitationsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -6911,8 +7341,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMembersOutput>(ListMembersOutput.httpOutput(from:), ListMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMembersInput, ListMembersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMembersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6922,6 +7350,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMembersInput, ListMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMembersInput, ListMembersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMembersInput, ListMembersOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -6980,8 +7410,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOrganizationAdminAccountsOutput>(ListOrganizationAdminAccountsOutput.httpOutput(from:), ListOrganizationAdminAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOrganizationAdminAccountsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6991,6 +7419,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOrganizationAdminAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -7049,8 +7479,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityControlDefinitionsOutput>(ListSecurityControlDefinitionsOutput.httpOutput(from:), ListSecurityControlDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecurityControlDefinitionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7060,6 +7488,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSecurityControlDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -7118,8 +7548,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStandardsControlAssociationsOutput>(ListStandardsControlAssociationsOutput.httpOutput(from:), ListStandardsControlAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStandardsControlAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7129,6 +7557,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStandardsControlAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -7185,8 +7615,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7196,6 +7624,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -7258,8 +7688,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterConnectorV2Output>(RegisterConnectorV2Output.httpOutput(from:), RegisterConnectorV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterConnectorV2Input, RegisterConnectorV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterConnectorV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7269,6 +7697,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterConnectorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterConnectorV2Input, RegisterConnectorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterConnectorV2Input, RegisterConnectorV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterConnectorV2Input, RegisterConnectorV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -7331,8 +7761,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartConfigurationPolicyAssociationOutput>(StartConfigurationPolicyAssociationOutput.httpOutput(from:), StartConfigurationPolicyAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartConfigurationPolicyAssociationInput, StartConfigurationPolicyAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartConfigurationPolicyAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7342,6 +7770,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartConfigurationPolicyAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartConfigurationPolicyAssociationInput, StartConfigurationPolicyAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartConfigurationPolicyAssociationInput, StartConfigurationPolicyAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartConfigurationPolicyAssociationInput, StartConfigurationPolicyAssociationOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -7404,8 +7834,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartConfigurationPolicyDisassociationOutput>(StartConfigurationPolicyDisassociationOutput.httpOutput(from:), StartConfigurationPolicyDisassociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartConfigurationPolicyDisassociationInput, StartConfigurationPolicyDisassociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartConfigurationPolicyDisassociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7415,6 +7843,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartConfigurationPolicyDisassociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartConfigurationPolicyDisassociationInput, StartConfigurationPolicyDisassociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartConfigurationPolicyDisassociationInput, StartConfigurationPolicyDisassociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartConfigurationPolicyDisassociationInput, StartConfigurationPolicyDisassociationOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -7474,8 +7904,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7485,6 +7913,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -7542,8 +7972,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7553,6 +7981,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -7613,8 +8043,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateActionTargetOutput>(UpdateActionTargetOutput.httpOutput(from:), UpdateActionTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateActionTargetInput, UpdateActionTargetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateActionTargetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7624,6 +8052,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateActionTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateActionTargetInput, UpdateActionTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateActionTargetInput, UpdateActionTargetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateActionTargetInput, UpdateActionTargetOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -7686,8 +8116,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAggregatorV2Output>(UpdateAggregatorV2Output.httpOutput(from:), UpdateAggregatorV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAggregatorV2Input, UpdateAggregatorV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAggregatorV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7697,6 +8125,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAggregatorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAggregatorV2Input, UpdateAggregatorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAggregatorV2Input, UpdateAggregatorV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAggregatorV2Input, UpdateAggregatorV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -7759,8 +8189,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAutomationRuleV2Output>(UpdateAutomationRuleV2Output.httpOutput(from:), UpdateAutomationRuleV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAutomationRuleV2Input, UpdateAutomationRuleV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAutomationRuleV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7770,6 +8198,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAutomationRuleV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAutomationRuleV2Input, UpdateAutomationRuleV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAutomationRuleV2Input, UpdateAutomationRuleV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAutomationRuleV2Input, UpdateAutomationRuleV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -7833,8 +8263,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfigurationPolicyOutput>(UpdateConfigurationPolicyOutput.httpOutput(from:), UpdateConfigurationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfigurationPolicyInput, UpdateConfigurationPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfigurationPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7844,10 +8272,86 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConfigurationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConfigurationPolicyInput, UpdateConfigurationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateConfigurationPolicyInput, UpdateConfigurationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConfigurationPolicyInput, UpdateConfigurationPolicyOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateConfigurationPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateConnector` operation on the `SecurityHub` service.
+    ///
+    /// Updates a CSPM connector's configuration, such as the scope or regions for the connected cloud provider.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `ConflictException` : The request causes conflict with the current state of the service resource.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the service.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
+    public func updateConnector(input: UpdateConnectorInput) async throws -> UpdateConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityhub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateConnectorInput, UpdateConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateConnectorInput, UpdateConnectorOutput>(UpdateConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateConnectorInput, UpdateConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateConnectorInput, UpdateConnectorOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateConnectorInput, UpdateConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateConnectorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectorInput, UpdateConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectorOutput>(UpdateConnectorOutput.httpOutput(from:), UpdateConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectorInput, UpdateConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConnectorInput, UpdateConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateConnectorInput, UpdateConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConnectorInput, UpdateConnectorOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -7906,8 +8410,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectorV2Output>(UpdateConnectorV2Output.httpOutput(from:), UpdateConnectorV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectorV2Input, UpdateConnectorV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectorV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7917,6 +8419,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConnectorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConnectorV2Input, UpdateConnectorV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateConnectorV2Input, UpdateConnectorV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConnectorV2Input, UpdateConnectorV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -7979,8 +8483,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFindingAggregatorOutput>(UpdateFindingAggregatorOutput.httpOutput(from:), UpdateFindingAggregatorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFindingAggregatorInput, UpdateFindingAggregatorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFindingAggregatorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7990,6 +8492,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFindingAggregatorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFindingAggregatorInput, UpdateFindingAggregatorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFindingAggregatorInput, UpdateFindingAggregatorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFindingAggregatorInput, UpdateFindingAggregatorOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -8051,8 +8555,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFindingsOutput>(UpdateFindingsOutput.httpOutput(from:), UpdateFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFindingsInput, UpdateFindingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFindingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8062,6 +8564,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFindingsInput, UpdateFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFindingsInput, UpdateFindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFindingsInput, UpdateFindingsOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -8123,8 +8627,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInsightOutput>(UpdateInsightOutput.httpOutput(from:), UpdateInsightOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInsightInput, UpdateInsightOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInsightOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8134,6 +8636,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateInsightOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateInsightInput, UpdateInsightOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateInsightInput, UpdateInsightOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateInsightInput, UpdateInsightOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -8197,8 +8701,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOrganizationConfigurationOutput>(UpdateOrganizationConfigurationOutput.httpOutput(from:), UpdateOrganizationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOrganizationConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8208,6 +8710,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateOrganizationConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -8271,8 +8775,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSecurityControlOutput>(UpdateSecurityControlOutput.httpOutput(from:), UpdateSecurityControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSecurityControlInput, UpdateSecurityControlOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecurityControlOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8282,6 +8784,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSecurityControlOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSecurityControlInput, UpdateSecurityControlOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSecurityControlInput, UpdateSecurityControlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSecurityControlInput, UpdateSecurityControlOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -8344,8 +8848,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSecurityHubConfigurationOutput>(UpdateSecurityHubConfigurationOutput.httpOutput(from:), UpdateSecurityHubConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSecurityHubConfigurationInput, UpdateSecurityHubConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecurityHubConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8355,6 +8857,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSecurityHubConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSecurityHubConfigurationInput, UpdateSecurityHubConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSecurityHubConfigurationInput, UpdateSecurityHubConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSecurityHubConfigurationInput, UpdateSecurityHubConfigurationOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
@@ -8416,8 +8920,6 @@ extension SecurityHubClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStandardsControlOutput>(UpdateStandardsControlOutput.httpOutput(from:), UpdateStandardsControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStandardsControlInput, UpdateStandardsControlOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStandardsControlOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8427,6 +8929,8 @@ extension SecurityHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateStandardsControlOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateStandardsControlInput, UpdateStandardsControlOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateStandardsControlInput, UpdateStandardsControlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateStandardsControlInput, UpdateStandardsControlOutput>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")

@@ -2984,9 +2984,9 @@ extension MediaConnectClientTypes {
         public var routerIntegrationState: MediaConnectClientTypes.State?
         /// The decryption configuration for the flow source when router integration is enabled.
         public var routerIntegrationTransitDecryption: MediaConnectClientTypes.FlowTransitEncryption?
-        /// The IP address that the flow communicates with to initiate connection with the sender.
-        public var senderControlPort: Swift.Int?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
+        public var senderControlPort: Swift.Int?
+        /// The IP address that the flow communicates with to initiate connection with the sender.
         public var senderIpAddress: Swift.String?
         /// The ARN of the source.
         /// This member is required.
@@ -3126,7 +3126,7 @@ extension MediaConnectClientTypes {
 
     /// Configures settings for the BlackFrames metric.
     public struct BlackFrames: Swift.Sendable {
-        /// Indicates whether the BlackFrames metric is enabled or disabled..
+        /// Indicates whether the BlackFrames metric is enabled or disabled.
         public var state: MediaConnectClientTypes.State?
         /// Specifies the number of consecutive seconds of black frames that triggers an event or alert.
         public var thresholdSeconds: Swift.Int?
@@ -4264,6 +4264,157 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    public enum ContentQualityAnalysisState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentQualityAnalysisState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Detects black frames in the router input's source content and reports them through a CloudWatch metric, an EventBridge event, and a router input message.
+    public struct BlackFramesConfiguration: Swift.Sendable {
+        /// Indicates whether black frames detection is enabled or disabled.
+        /// This member is required.
+        public var state: MediaConnectClientTypes.ContentQualityAnalysisState?
+        /// The number of consecutive seconds of black frames that MediaConnect must detect before it reports an issue.
+        /// This member is required.
+        public var thresholdSeconds: Swift.Int?
+
+        public init(
+            state: MediaConnectClientTypes.ContentQualityAnalysisState? = nil,
+            thresholdSeconds: Swift.Int? = nil
+        ) {
+            self.state = state
+            self.thresholdSeconds = thresholdSeconds
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Detects frozen video frames in the router input's source content and reports them through a CloudWatch metric, an EventBridge event, and a router input message.
+    public struct FrozenFramesConfiguration: Swift.Sendable {
+        /// Indicates whether frozen frames detection is enabled or disabled.
+        /// This member is required.
+        public var state: MediaConnectClientTypes.ContentQualityAnalysisState?
+        /// The number of consecutive seconds of a frozen frame that MediaConnect must detect before it reports an issue.
+        /// This member is required.
+        public var thresholdSeconds: Swift.Int?
+
+        public init(
+            state: MediaConnectClientTypes.ContentQualityAnalysisState? = nil,
+            thresholdSeconds: Swift.Int? = nil
+        ) {
+            self.state = state
+            self.thresholdSeconds = thresholdSeconds
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Detects silent audio in the router input's source content and reports it through a CloudWatch metric, an EventBridge event, and a router input message.
+    public struct SilentAudioConfiguration: Swift.Sendable {
+        /// Indicates whether silent audio detection is enabled or disabled.
+        /// This member is required.
+        public var state: MediaConnectClientTypes.ContentQualityAnalysisState?
+        /// The number of consecutive seconds of silence that MediaConnect must detect before it reports an issue.
+        /// This member is required.
+        public var thresholdSeconds: Swift.Int?
+
+        public init(
+            state: MediaConnectClientTypes.ContentQualityAnalysisState? = nil,
+            thresholdSeconds: Swift.Int? = nil
+        ) {
+            self.state = state
+            self.thresholdSeconds = thresholdSeconds
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configures the content quality analysis features for the router input.
+    public struct ContentQualityAnalysisFeatureConfiguration: Swift.Sendable {
+        /// Settings for black frames detection.
+        public var blackFrames: MediaConnectClientTypes.BlackFramesConfiguration?
+        /// Settings for frozen frames detection.
+        public var frozenFrames: MediaConnectClientTypes.FrozenFramesConfiguration?
+        /// Settings for silent audio detection.
+        public var silentAudio: MediaConnectClientTypes.SilentAudioConfiguration?
+
+        public init(
+            blackFrames: MediaConnectClientTypes.BlackFramesConfiguration? = nil,
+            frozenFrames: MediaConnectClientTypes.FrozenFramesConfiguration? = nil,
+            silentAudio: MediaConnectClientTypes.SilentAudioConfiguration? = nil
+        ) {
+            self.blackFrames = blackFrames
+            self.frozenFrames = frozenFrames
+            self.silentAudio = silentAudio
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The content quality analysis configuration for the router input. The content quality analysis feature only monitors the first video stream and the first audio stream it encounters within the router input source.
+    public enum RouterContentQualityAnalysisConfiguration: Swift.Sendable {
+        /// The content quality analysis configuration.
+        case contentlevel(MediaConnectClientTypes.ContentQualityAnalysisFeatureConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum RouterContentQualityAnalysisType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contentLevel
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouterContentQualityAnalysisType] {
+            return [
+                .contentLevel
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contentLevel: return "CONTENT_LEVEL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     public enum RouterInputType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failover
         case mediaconnectFlow
@@ -4819,6 +4970,12 @@ extension MediaConnectClientTypes {
         /// The configuration settings for a router input.
         /// This member is required.
         public var configuration: MediaConnectClientTypes.RouterInputConfiguration?
+        /// The content quality analysis configuration for the router input.
+        /// This member is required.
+        public var contentQualityAnalysisConfiguration: MediaConnectClientTypes.RouterContentQualityAnalysisConfiguration?
+        /// The type of content quality analysis applied to the router input.
+        /// This member is required.
+        public var contentQualityAnalysisType: MediaConnectClientTypes.RouterContentQualityAnalysisType?
         /// The timestamp when the router input was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -4883,6 +5040,8 @@ extension MediaConnectClientTypes {
             arn: Swift.String? = nil,
             availabilityZone: Swift.String? = nil,
             configuration: MediaConnectClientTypes.RouterInputConfiguration? = nil,
+            contentQualityAnalysisConfiguration: MediaConnectClientTypes.RouterContentQualityAnalysisConfiguration? = nil,
+            contentQualityAnalysisType: MediaConnectClientTypes.RouterContentQualityAnalysisType? = nil,
             createdAt: Foundation.Date? = nil,
             id: Swift.String? = nil,
             inputType: MediaConnectClientTypes.RouterInputType? = nil,
@@ -4908,6 +5067,8 @@ extension MediaConnectClientTypes {
             self.arn = arn
             self.availabilityZone = availabilityZone
             self.configuration = configuration
+            self.contentQualityAnalysisConfiguration = contentQualityAnalysisConfiguration
+            self.contentQualityAnalysisType = contentQualityAnalysisType
             self.createdAt = createdAt
             self.id = id
             self.inputType = inputType
@@ -6656,35 +6817,6 @@ extension MediaConnectClientTypes {
     }
 }
 
-extension MediaConnectClientTypes {
-
-    public enum ContentQualityAnalysisState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ContentQualityAnalysisState] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
 /// Exception raised by Elemental MediaConnect when creating the flow. See the error message for the operation for more information on the cause of this exception.
 public struct CreateFlow420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -7194,6 +7326,8 @@ public struct CreateRouterInputInput: Swift.Sendable {
     /// The configuration settings for the router input, which can include the protocol, network interface, and other details.
     /// This member is required.
     public var configuration: MediaConnectClientTypes.RouterInputConfiguration?
+    /// The content quality analysis configuration for the router input.
+    public var contentQualityAnalysisConfiguration: MediaConnectClientTypes.RouterContentQualityAnalysisConfiguration?
     /// The maintenance configuration settings for the router input, including preferred maintenance windows and schedules.
     public var maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration?
     /// The maximum bitrate for the router input.
@@ -7219,6 +7353,7 @@ public struct CreateRouterInputInput: Swift.Sendable {
         availabilityZone: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         configuration: MediaConnectClientTypes.RouterInputConfiguration? = nil,
+        contentQualityAnalysisConfiguration: MediaConnectClientTypes.RouterContentQualityAnalysisConfiguration? = nil,
         maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration? = nil,
         maximumBitrate: Swift.Int? = nil,
         name: Swift.String? = nil,
@@ -7231,6 +7366,7 @@ public struct CreateRouterInputInput: Swift.Sendable {
         self.availabilityZone = availabilityZone
         self.clientToken = clientToken
         self.configuration = configuration
+        self.contentQualityAnalysisConfiguration = contentQualityAnalysisConfiguration
         self.maintenanceConfiguration = maintenanceConfiguration
         self.maximumBitrate = maximumBitrate
         self.name = name
@@ -9691,6 +9827,8 @@ public struct UpdateRouterInputInput: Swift.Sendable {
     public var arn: Swift.String?
     /// The updated configuration settings for the router input. Changing the type of the configuration is not supported.
     public var configuration: MediaConnectClientTypes.RouterInputConfiguration?
+    /// The content quality analysis configuration for the router input.
+    public var contentQualityAnalysisConfiguration: MediaConnectClientTypes.RouterContentQualityAnalysisConfiguration?
     /// The updated maintenance configuration settings for the router input, including any changes to preferred maintenance windows and schedules.
     public var maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration?
     /// The updated maximum bitrate for the router input.
@@ -9707,6 +9845,7 @@ public struct UpdateRouterInputInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         configuration: MediaConnectClientTypes.RouterInputConfiguration? = nil,
+        contentQualityAnalysisConfiguration: MediaConnectClientTypes.RouterContentQualityAnalysisConfiguration? = nil,
         maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration? = nil,
         maximumBitrate: Swift.Int? = nil,
         name: Swift.String? = nil,
@@ -9716,6 +9855,7 @@ public struct UpdateRouterInputInput: Swift.Sendable {
     ) {
         self.arn = arn
         self.configuration = configuration
+        self.contentQualityAnalysisConfiguration = contentQualityAnalysisConfiguration
         self.maintenanceConfiguration = maintenanceConfiguration
         self.maximumBitrate = maximumBitrate
         self.name = name
@@ -11206,6 +11346,7 @@ extension CreateRouterInputInput {
         try writer["availabilityZone"].write(value.availabilityZone)
         try writer["clientToken"].write(value.clientToken)
         try writer["configuration"].write(value.configuration, with: MediaConnectClientTypes.RouterInputConfiguration.write(value:to:))
+        try writer["contentQualityAnalysisConfiguration"].write(value.contentQualityAnalysisConfiguration, with: MediaConnectClientTypes.RouterContentQualityAnalysisConfiguration.write(value:to:))
         try writer["maintenanceConfiguration"].write(value.maintenanceConfiguration, with: MediaConnectClientTypes.MaintenanceConfiguration.write(value:to:))
         try writer["maximumBitrate"].write(value.maximumBitrate)
         try writer["name"].write(value.name)
@@ -11451,6 +11592,7 @@ extension UpdateRouterInputInput {
     static func write(value: UpdateRouterInputInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["configuration"].write(value.configuration, with: MediaConnectClientTypes.RouterInputConfiguration.write(value:to:))
+        try writer["contentQualityAnalysisConfiguration"].write(value.contentQualityAnalysisConfiguration, with: MediaConnectClientTypes.RouterContentQualityAnalysisConfiguration.write(value:to:))
         try writer["maintenanceConfiguration"].write(value.maintenanceConfiguration, with: MediaConnectClientTypes.MaintenanceConfiguration.write(value:to:))
         try writer["maximumBitrate"].write(value.maximumBitrate)
         try writer["name"].write(value.name)
@@ -14478,6 +14620,23 @@ extension MediaConnectClientTypes.BlackFrames {
     }
 }
 
+extension MediaConnectClientTypes.BlackFramesConfiguration {
+
+    static func write(value: MediaConnectClientTypes.BlackFramesConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+        try writer["thresholdSeconds"].write(value.thresholdSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BlackFramesConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.BlackFramesConfiguration()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.thresholdSeconds = try reader["thresholdSeconds"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension MediaConnectClientTypes.Bridge {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Bridge {
@@ -14570,6 +14729,25 @@ extension MediaConnectClientTypes.BridgeSource {
         var value = MediaConnectClientTypes.BridgeSource()
         value.flowSource = try reader["flowSource"].readIfPresent(with: MediaConnectClientTypes.BridgeFlowSource.read(from:))
         value.networkSource = try reader["networkSource"].readIfPresent(with: MediaConnectClientTypes.BridgeNetworkSource.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.ContentQualityAnalysisFeatureConfiguration {
+
+    static func write(value: MediaConnectClientTypes.ContentQualityAnalysisFeatureConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["blackFrames"].write(value.blackFrames, with: MediaConnectClientTypes.BlackFramesConfiguration.write(value:to:))
+        try writer["frozenFrames"].write(value.frozenFrames, with: MediaConnectClientTypes.FrozenFramesConfiguration.write(value:to:))
+        try writer["silentAudio"].write(value.silentAudio, with: MediaConnectClientTypes.SilentAudioConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ContentQualityAnalysisFeatureConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.ContentQualityAnalysisFeatureConfiguration()
+        value.blackFrames = try reader["blackFrames"].readIfPresent(with: MediaConnectClientTypes.BlackFramesConfiguration.read(from:))
+        value.frozenFrames = try reader["frozenFrames"].readIfPresent(with: MediaConnectClientTypes.FrozenFramesConfiguration.read(from:))
+        value.silentAudio = try reader["silentAudio"].readIfPresent(with: MediaConnectClientTypes.SilentAudioConfiguration.read(from:))
         return value
     }
 }
@@ -14931,6 +15109,23 @@ extension MediaConnectClientTypes.FrozenFrames {
         var value = MediaConnectClientTypes.FrozenFrames()
         value.state = try reader["state"].readIfPresent()
         value.thresholdSeconds = try reader["thresholdSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.FrozenFramesConfiguration {
+
+    static func write(value: MediaConnectClientTypes.FrozenFramesConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+        try writer["thresholdSeconds"].write(value.thresholdSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FrozenFramesConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.FrozenFramesConfiguration()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.thresholdSeconds = try reader["thresholdSeconds"].readIfPresent() ?? 0
         return value
     }
 }
@@ -15880,6 +16075,30 @@ extension MediaConnectClientTypes.RistRouterOutputConfiguration {
     }
 }
 
+extension MediaConnectClientTypes.RouterContentQualityAnalysisConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RouterContentQualityAnalysisConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .contentlevel(contentlevel):
+                try writer["contentLevel"].write(contentlevel, with: MediaConnectClientTypes.ContentQualityAnalysisFeatureConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterContentQualityAnalysisConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "contentLevel":
+                return .contentlevel(try reader["contentLevel"].read(with: MediaConnectClientTypes.ContentQualityAnalysisFeatureConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension MediaConnectClientTypes.RouterInput {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInput {
@@ -15909,6 +16128,8 @@ extension MediaConnectClientTypes.RouterInput {
         value.maintenanceConfiguration = try reader["maintenanceConfiguration"].readIfPresent(with: MediaConnectClientTypes.MaintenanceConfiguration.read(from:))
         value.maintenanceScheduleType = try reader["maintenanceScheduleType"].readIfPresent()
         value.maintenanceSchedule = try reader["maintenanceSchedule"].readIfPresent(with: MediaConnectClientTypes.MaintenanceSchedule.read(from:))
+        value.contentQualityAnalysisType = try reader["contentQualityAnalysisType"].readIfPresent() ?? .sdkUnknown("")
+        value.contentQualityAnalysisConfiguration = try reader["contentQualityAnalysisConfiguration"].readIfPresent(with: MediaConnectClientTypes.RouterContentQualityAnalysisConfiguration.read(from:))
         return value
     }
 }
@@ -16450,6 +16671,23 @@ extension MediaConnectClientTypes.SilentAudio {
         var value = MediaConnectClientTypes.SilentAudio()
         value.state = try reader["state"].readIfPresent()
         value.thresholdSeconds = try reader["thresholdSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SilentAudioConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SilentAudioConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+        try writer["thresholdSeconds"].write(value.thresholdSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SilentAudioConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SilentAudioConfiguration()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.thresholdSeconds = try reader["thresholdSeconds"].readIfPresent() ?? 0
         return value
     }
 }

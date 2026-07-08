@@ -415,6 +415,29 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
+/// This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
+public struct OperationNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OperationNotEnabledException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// This exception is thrown when the Amazon Cognito service can't find the requested resource.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -581,11 +604,11 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             attributeDataType: CognitoIdentityProviderClientTypes.AttributeDataType? = nil,
-            developerOnlyAttribute: Swift.Bool? = false,
-            mutable: Swift.Bool? = false,
+            developerOnlyAttribute: Swift.Bool? = nil,
+            mutable: Swift.Bool? = nil,
             name: Swift.String? = nil,
             numberAttributeConstraints: CognitoIdentityProviderClientTypes.NumberAttributeConstraintsType? = nil,
-            `required`: Swift.Bool? = false,
+            `required`: Swift.Bool? = nil,
             stringAttributeConstraints: CognitoIdentityProviderClientTypes.StringAttributeConstraintsType? = nil
         ) {
             self.attributeDataType = attributeDataType
@@ -5284,6 +5307,98 @@ extension CognitoIdentityProviderClientTypes {
 
 extension CognitoIdentityProviderClientTypes {
 
+    public enum IssuerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case original
+        case updated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IssuerType] {
+            return [
+                .original,
+                .updated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .original: return "ORIGINAL"
+            case .updated: return "UPDATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// Specifies the issuer configuration for a user pool. Contains settings that determine how tokens are issued and validated.
+    public struct IssuerConfigurationType: Swift.Sendable {
+        /// The type of issuer configuration. Determines the token issuing behavior for the user pool. ORIGINAL The original issuer configuration for user pools. The issuer URL is hosted in the user pool’s region and provides OIDC endpoints specific to that region. Original issuers have the format of https://cognito-idp.[region].amazonaws.com/[userPoolId] UPDATED Recommended for all user pools, including for multi-Region replication. Updated issuers host the same JWKS content in multiple regions, resulting in improved resilience and efficiency. Updated issuers have the format of https://issuer-cognito-idp.[region].amazonaws.com/[userPoolId], where region is the primary Amazon Web Services Region of your user pool.
+        public var type: CognitoIdentityProviderClientTypes.IssuerType?
+
+        public init(
+            type: CognitoIdentityProviderClientTypes.IssuerType? = nil
+        ) {
+            self.type = type
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    public enum EncryptionKeyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsOwnedKey
+        case customerManagedKey
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncryptionKeyType] {
+            return [
+                .awsOwnedKey,
+                .customerManagedKey
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsOwnedKey: return "AWS_OWNED_KEY"
+            case .customerManagedKey: return "CUSTOMER_MANAGED_KEY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// Specifies the key configuration for a user pool. Contains settings for encryption keys used to secure user pool data.
+    public struct KeyConfigurationType: Swift.Sendable {
+        /// The type of encryption key used for the user pool. AWS_OWNED_KEY A key owned by Amazon Web Services in Key Management Service. CUSTOMER_MANAGED_KEY A key managed by the customer in Key Management Service. You must use a multi-region key to enable multi-region replication for a user pool.
+        public var keyType: CognitoIdentityProviderClientTypes.EncryptionKeyType?
+        /// The Amazon Resource Name (ARN) of the KMS key used for encryption. If not specified, Amazon Web Services managed keys are used.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            keyType: CognitoIdentityProviderClientTypes.EncryptionKeyType? = nil,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.keyType = keyType
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
     public enum CustomEmailSenderLambdaVersionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case v10
         case sdkUnknown(Swift.String)
@@ -5872,6 +5987,10 @@ public struct CreateUserPoolInput: Swift.Sendable {
     public var emailVerificationMessage: Swift.String?
     /// This parameter is no longer used.
     public var emailVerificationSubject: Swift.String?
+    /// The issuer configuration for the user pool. Specifies the issuer type for token generation.
+    public var issuerConfiguration: CognitoIdentityProviderClientTypes.IssuerConfigurationType?
+    /// The key configuration for the user pool. Specifies the key type and KMS key ARN for encryption.
+    public var keyConfiguration: CognitoIdentityProviderClientTypes.KeyConfigurationType?
     /// A collection of user pool Lambda triggers. Amazon Cognito invokes triggers at several possible stages of authentication operations. Triggers can modify the outcome of the operations that invoked them.
     public var lambdaConfig: CognitoIdentityProviderClientTypes.LambdaConfigType?
     /// Sets multi-factor authentication (MFA) to be on, off, or optional. When ON, all users must set up MFA before they can sign in. When OPTIONAL, your application must make a client-side determination of whether a user wants to register an MFA device. For user pools with adaptive authentication with threat protection, choose OPTIONAL. When MfaConfiguration is OPTIONAL, managed login doesn't automatically prompt users to set up MFA. Amazon Cognito generates MFA prompts in API responses and in managed login for users who have chosen and configured a preferred MFA factor.
@@ -5914,6 +6033,8 @@ public struct CreateUserPoolInput: Swift.Sendable {
         emailConfiguration: CognitoIdentityProviderClientTypes.EmailConfigurationType? = nil,
         emailVerificationMessage: Swift.String? = nil,
         emailVerificationSubject: Swift.String? = nil,
+        issuerConfiguration: CognitoIdentityProviderClientTypes.IssuerConfigurationType? = nil,
+        keyConfiguration: CognitoIdentityProviderClientTypes.KeyConfigurationType? = nil,
         lambdaConfig: CognitoIdentityProviderClientTypes.LambdaConfigType? = nil,
         mfaConfiguration: CognitoIdentityProviderClientTypes.UserPoolMfaType? = nil,
         policies: CognitoIdentityProviderClientTypes.UserPoolPolicyType? = nil,
@@ -5939,6 +6060,8 @@ public struct CreateUserPoolInput: Swift.Sendable {
         self.emailConfiguration = emailConfiguration
         self.emailVerificationMessage = emailVerificationMessage
         self.emailVerificationSubject = emailVerificationSubject
+        self.issuerConfiguration = issuerConfiguration
+        self.keyConfiguration = keyConfiguration
         self.lambdaConfig = lambdaConfig
         self.mfaConfiguration = mfaConfiguration
         self.policies = policies
@@ -6022,6 +6145,10 @@ extension CognitoIdentityProviderClientTypes {
         public var estimatedNumberOfUsers: Swift.Int
         /// The ID of the user pool.
         public var id: Swift.String?
+        /// The issuer configuration for the user pool, including token issuing settings.
+        public var issuerConfiguration: CognitoIdentityProviderClientTypes.IssuerConfigurationType?
+        /// The key configuration for the user pool, including encryption settings.
+        public var keyConfiguration: CognitoIdentityProviderClientTypes.KeyConfigurationType?
         /// A collection of user pool Lambda triggers. Amazon Cognito invokes triggers at several possible stages of user pool operations. Triggers can modify the outcome of the operations that invoked them.
         public var lambdaConfig: CognitoIdentityProviderClientTypes.LambdaConfigType?
         /// The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
@@ -6083,6 +6210,8 @@ extension CognitoIdentityProviderClientTypes {
             emailVerificationSubject: Swift.String? = nil,
             estimatedNumberOfUsers: Swift.Int = 0,
             id: Swift.String? = nil,
+            issuerConfiguration: CognitoIdentityProviderClientTypes.IssuerConfigurationType? = nil,
+            keyConfiguration: CognitoIdentityProviderClientTypes.KeyConfigurationType? = nil,
             lambdaConfig: CognitoIdentityProviderClientTypes.LambdaConfigType? = nil,
             lastModifiedDate: Foundation.Date? = nil,
             mfaConfiguration: CognitoIdentityProviderClientTypes.UserPoolMfaType? = nil,
@@ -6118,6 +6247,8 @@ extension CognitoIdentityProviderClientTypes {
             self.emailVerificationSubject = emailVerificationSubject
             self.estimatedNumberOfUsers = estimatedNumberOfUsers
             self.id = id
+            self.issuerConfiguration = issuerConfiguration
+            self.keyConfiguration = keyConfiguration
             self.lambdaConfig = lambdaConfig
             self.lastModifiedDate = lastModifiedDate
             self.mfaConfiguration = mfaConfiguration
@@ -6661,7 +6792,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             accessTokenValidity: Swift.Int? = nil,
             allowedOAuthFlows: [CognitoIdentityProviderClientTypes.OAuthFlowType]? = nil,
-            allowedOAuthFlowsUserPoolClient: Swift.Bool? = false,
+            allowedOAuthFlowsUserPoolClient: Swift.Bool? = nil,
             allowedOAuthScopes: [Swift.String]? = nil,
             analyticsConfiguration: CognitoIdentityProviderClientTypes.AnalyticsConfigurationType? = nil,
             authSessionValidity: Swift.Int? = nil,
@@ -6730,16 +6861,94 @@ public struct CreateUserPoolClientOutput: Swift.Sendable {
 
 extension CognitoIdentityProviderClientTypes {
 
-    /// The configuration for a hosted UI custom domain.
+    public enum SecurityPolicyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tlsV1
+        case tlsV122021
+        case tlsV132025
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SecurityPolicyType] {
+            return [
+                .tlsV1,
+                .tlsV122021,
+                .tlsV132025
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .tlsV1: return "TLS_V1"
+            case .tlsV122021: return "TLS_V1_2_2021"
+            case .tlsV132025: return "TLS_V1_3_2025"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// The configuration for a custom domain, including the SSL certificate and TLS security policy.
     public struct CustomDomainConfigType: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of an Certificate Manager SSL certificate. You use this certificate for the subdomain of your custom domain.
         /// This member is required.
         public var certificateArn: Swift.String?
+        /// The security policy for the custom domain. Defines the minimum TLS version and cipher suites that CloudFront uses when communicating with viewers (clients). Valid values are as follows:
+        ///
+        /// * TLS_V1: Supports TLS 1.0 and later. Provides the broadest client compatibility.
+        ///
+        /// * TLS_V1_2_2021: Supports TLS 1.2 and later with 2021 cipher suites. Recommended minimum for most use cases.
+        ///
+        /// * TLS_V1_3_2025: Supports TLS 1.3 and later with 2025 cipher suites. Provides the strongest security posture.
+        public var securityPolicy: CognitoIdentityProviderClientTypes.SecurityPolicyType?
 
         public init(
-            certificateArn: Swift.String? = nil
+            certificateArn: Swift.String? = nil,
+            securityPolicy: CognitoIdentityProviderClientTypes.SecurityPolicyType? = nil
         ) {
             self.certificateArn = certificateArn
+            self.securityPolicy = securityPolicy
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// Specifies failover configuration for multi-region user pool domains. Contains settings for the secondary region and health check configuration.
+    public struct FailoverType: Swift.Sendable {
+        /// The ID of the Amazon Web Services Route53 healthcheck that controls routing. If the healthcheck is healthy, traffic will be routed to the primary replica, and if the healthcheck is unhealthy, traffic will be routed to the secondary region.
+        /// This member is required.
+        public var primaryRoute53HealthCheckId: Swift.String?
+        /// The secondary Amazon Web Services Region to use for failover when the primary region becomes unavailable.
+        /// This member is required.
+        public var secondaryRegion: Swift.String?
+
+        public init(
+            primaryRoute53HealthCheckId: Swift.String? = nil,
+            secondaryRegion: Swift.String? = nil
+        ) {
+            self.primaryRoute53HealthCheckId = primaryRoute53HealthCheckId
+            self.secondaryRegion = secondaryRegion
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// Specifies routing configuration for user pool domains. Contains failover settings for multi-region deployments.
+    public struct RoutingType: Swift.Sendable {
+        /// The failover configuration that specifies the secondary region and health check settings.
+        public var failover: CognitoIdentityProviderClientTypes.FailoverType?
+
+        public init(
+            failover: CognitoIdentityProviderClientTypes.FailoverType? = nil
+        ) {
+            self.failover = failover
         }
     }
 }
@@ -6752,6 +6961,8 @@ public struct CreateUserPoolDomainInput: Swift.Sendable {
     public var domain: Swift.String?
     /// The version of managed login branding that you want to apply to your domain. A value of 1 indicates hosted UI (classic) and a version of 2 indicates managed login. Managed login requires that your user pool be configured for any [feature plan](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html) other than Lite.
     public var managedLoginVersion: Swift.Int?
+    /// The configuration of routing for requests to the domain for replicas of a replicated user pool. The routing configuration is currently only supported for custom domains.
+    public var routing: CognitoIdentityProviderClientTypes.RoutingType?
     /// The ID of the user pool where you want to add a domain.
     /// This member is required.
     public var userPoolId: Swift.String?
@@ -6760,11 +6971,13 @@ public struct CreateUserPoolDomainInput: Swift.Sendable {
         customDomainConfig: CognitoIdentityProviderClientTypes.CustomDomainConfigType? = nil,
         domain: Swift.String? = nil,
         managedLoginVersion: Swift.Int? = nil,
+        routing: CognitoIdentityProviderClientTypes.RoutingType? = nil,
         userPoolId: Swift.String? = nil
     ) {
         self.customDomainConfig = customDomainConfig
         self.domain = domain
         self.managedLoginVersion = managedLoginVersion
+        self.routing = routing
         self.userPoolId = userPoolId
     }
 }
@@ -6774,13 +6987,140 @@ public struct CreateUserPoolDomainOutput: Swift.Sendable {
     public var cloudFrontDomain: Swift.String?
     /// The version of managed login branding applied your domain. A value of 1 indicates hosted UI (classic) and a version of 2 indicates managed login.
     public var managedLoginVersion: Swift.Int?
+    /// The routing configuration that was applied to the user pool domain.
+    public var routing: CognitoIdentityProviderClientTypes.RoutingType?
 
     public init(
         cloudFrontDomain: Swift.String? = nil,
-        managedLoginVersion: Swift.Int? = nil
+        managedLoginVersion: Swift.Int? = nil,
+        routing: CognitoIdentityProviderClientTypes.RoutingType? = nil
     ) {
         self.cloudFrontDomain = cloudFrontDomain
         self.managedLoginVersion = managedLoginVersion
+        self.routing = routing
+    }
+}
+
+public struct CreateUserPoolReplicaInput: Swift.Sendable {
+    /// The Amazon Web Services Region where you want to create the replica user pool.
+    /// This member is required.
+    public var regionName: Swift.String?
+    /// The ID of the user pool to replicate.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+    /// A map of tags to assign to the replica user pool. Each tag consists of a key and an optional value, both of which you define. You can maintain tags independently on replica user pools.
+    public var userPoolTags: [Swift.String: Swift.String]?
+
+    public init(
+        regionName: Swift.String? = nil,
+        userPoolId: Swift.String? = nil,
+        userPoolTags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.regionName = regionName
+        self.userPoolId = userPoolId
+        self.userPoolTags = userPoolTags
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    public enum ReplicaRoleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case primary
+        case secondary
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicaRoleType] {
+            return [
+                .primary,
+                .secondary
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .primary: return "PRIMARY"
+            case .secondary: return "SECONDARY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    public enum ReplicaStatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicaStatusType] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// Contains information about a replica user pool, including Region, status, role, and ARN.
+    public struct UserPoolReplicaType: Swift.Sendable {
+        /// The Amazon Web Services Region where the replica is located.
+        public var regionName: Swift.String?
+        /// The role of the user pool replica that determines which API operations are enabled. PRIMARY The primary replica supports all end user and administrator operations. SECONDARY The secondary replica supports a limited set of end user and administrator operations. Generally, only administrator operations that set configurations specific to the replica, and only end-user operations that do not create or change attributes of a user are supported.
+        public var role: CognitoIdentityProviderClientTypes.ReplicaRoleType?
+        /// The current status of the replica. CREATING The replica is being created. INACTIVE The replica has been created, but is not accepting requests for end-users. Administrator configuration operations are supported. ACTIVE The replica is available for both end-user and administrator operations. DELETING The replica is being deleted.
+        public var status: CognitoIdentityProviderClientTypes.ReplicaStatusType?
+        /// The Amazon Resource Name (ARN) of the replica user pool.
+        public var userPoolArn: Swift.String?
+
+        public init(
+            regionName: Swift.String? = nil,
+            role: CognitoIdentityProviderClientTypes.ReplicaRoleType? = nil,
+            status: CognitoIdentityProviderClientTypes.ReplicaStatusType? = nil,
+            userPoolArn: Swift.String? = nil
+        ) {
+            self.regionName = regionName
+            self.role = role
+            self.status = status
+            self.userPoolArn = userPoolArn
+        }
+    }
+}
+
+public struct CreateUserPoolReplicaOutput: Swift.Sendable {
+    /// Information about the created user pool replica, including its status and role.
+    public var userPoolReplica: CognitoIdentityProviderClientTypes.UserPoolReplicaType?
+
+    public init(
+        userPoolReplica: CognitoIdentityProviderClientTypes.UserPoolReplicaType? = nil
+    ) {
+        self.userPoolReplica = userPoolReplica
     }
 }
 
@@ -7009,6 +7349,34 @@ public struct DeleteUserPoolDomainInput: Swift.Sendable {
 public struct DeleteUserPoolDomainOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct DeleteUserPoolReplicaInput: Swift.Sendable {
+    /// The Amazon Web Services Region of the replica to delete.
+    /// This member is required.
+    public var regionName: Swift.String?
+    /// The ID of the user pool that contains the replica to delete.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        regionName: Swift.String? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.regionName = regionName
+        self.userPoolId = userPoolId
+    }
+}
+
+public struct DeleteUserPoolReplicaOutput: Swift.Sendable {
+    /// Information about the deleted user pool replica.
+    public var userPoolReplica: CognitoIdentityProviderClientTypes.UserPoolReplicaType?
+
+    public init(
+        userPoolReplica: CognitoIdentityProviderClientTypes.UserPoolReplicaType? = nil
+    ) {
+        self.userPoolReplica = userPoolReplica
+    }
 }
 
 public struct DeleteWebAuthnCredentialInput: Swift.Sendable {
@@ -7511,6 +7879,8 @@ extension CognitoIdentityProviderClientTypes {
         public var domain: Swift.String?
         /// The version of managed login branding that you want to apply to your domain. A value of 1 indicates hosted UI (classic) branding and a version of 2 indicates managed login branding. Managed login requires that your user pool be configured for any [feature plan](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html) other than Lite.
         public var managedLoginVersion: Swift.Int?
+        /// The routing configuration for the domain, including failover settings for multi-region deployments. Currently only Failover configurations are allowed.
+        public var routing: CognitoIdentityProviderClientTypes.RoutingType?
         /// The Amazon S3 bucket where the static files for this domain are stored.
         public var s3Bucket: Swift.String?
         /// The domain status.
@@ -7526,6 +7896,7 @@ extension CognitoIdentityProviderClientTypes {
             customDomainConfig: CognitoIdentityProviderClientTypes.CustomDomainConfigType? = nil,
             domain: Swift.String? = nil,
             managedLoginVersion: Swift.Int? = nil,
+            routing: CognitoIdentityProviderClientTypes.RoutingType? = nil,
             s3Bucket: Swift.String? = nil,
             status: CognitoIdentityProviderClientTypes.DomainStatusType? = nil,
             userPoolId: Swift.String? = nil,
@@ -7536,6 +7907,7 @@ extension CognitoIdentityProviderClientTypes {
             self.customDomainConfig = customDomainConfig
             self.domain = domain
             self.managedLoginVersion = managedLoginVersion
+            self.routing = routing
             self.s3Bucket = s3Bucket
             self.status = status
             self.userPoolId = userPoolId
@@ -7940,6 +8312,103 @@ public struct GetLogDeliveryConfigurationOutput: Swift.Sendable {
         logDeliveryConfiguration: CognitoIdentityProviderClientTypes.LogDeliveryConfigurationType? = nil
     ) {
         self.logDeliveryConfiguration = logDeliveryConfiguration
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    public enum LimitClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apiCategory
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LimitClass] {
+            return [
+                .apiCategory
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .apiCategory: return "API_CATEGORY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// The class and attributes that identify a specific limit at the account level.
+    public struct LimitDefinitionType: Swift.Sendable {
+        /// The attributes that identify the specific limit. For API rate limits, specify the Category key with a value like UserAuthentication or UserCreation.
+        /// This member is required.
+        public var attributes: [Swift.String: Swift.String]?
+        /// The class of the limit. For API rate limits, this is API_CATEGORY.
+        /// This member is required.
+        public var limitClass: CognitoIdentityProviderClientTypes.LimitClass?
+
+        public init(
+            attributes: [Swift.String: Swift.String]? = nil,
+            limitClass: CognitoIdentityProviderClientTypes.LimitClass? = nil
+        ) {
+            self.attributes = attributes
+            self.limitClass = limitClass
+        }
+    }
+}
+
+public struct GetProvisionedLimitInput: Swift.Sendable {
+    /// The limit to retrieve. Specify the limit class and the attributes that identify the limit.
+    /// This member is required.
+    public var limitDefinition: CognitoIdentityProviderClientTypes.LimitDefinitionType?
+
+    public init(
+        limitDefinition: CognitoIdentityProviderClientTypes.LimitDefinitionType? = nil
+    ) {
+        self.limitDefinition = limitDefinition
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// The limit definition and current limit values for a provisioned limit.
+    public struct LimitType: Swift.Sendable {
+        /// The default (free) limit value, in requests per second (RPS). This is the rate included at no additional cost.
+        /// This member is required.
+        public var freeLimitValue: Swift.Int
+        /// The definition that identifies this limit, including the class and attributes.
+        /// This member is required.
+        public var limitDefinition: CognitoIdentityProviderClientTypes.LimitDefinitionType?
+        /// The provisioned limit value, in requests per second (RPS). This is the rate that Amazon Cognito currently enforces for your account.
+        /// This member is required.
+        public var provisionedLimitValue: Swift.Int
+
+        public init(
+            freeLimitValue: Swift.Int = 0,
+            limitDefinition: CognitoIdentityProviderClientTypes.LimitDefinitionType? = nil,
+            provisionedLimitValue: Swift.Int = 0
+        ) {
+            self.freeLimitValue = freeLimitValue
+            self.limitDefinition = limitDefinition
+            self.provisionedLimitValue = provisionedLimitValue
+        }
+    }
+}
+
+public struct GetProvisionedLimitOutput: Swift.Sendable {
+    /// The provisioned and default limit values for the requested limit.
+    /// This member is required.
+    public var limit: CognitoIdentityProviderClientTypes.LimitType?
+
+    public init(
+        limit: CognitoIdentityProviderClientTypes.LimitType? = nil
+    ) {
+        self.limit = limit
     }
 }
 
@@ -8991,6 +9460,37 @@ public struct ListUserPoolClientSecretsOutput: Swift.Sendable {
     }
 }
 
+public struct ListUserPoolReplicasInput: Swift.Sendable {
+    /// A pagination token for retrieving the next page of results. If this parameter is omitted, the operation returns the first page of results.
+    public var nextToken: Swift.String?
+    /// The ID of the user pool for which to list replicas.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.nextToken = nextToken
+        self.userPoolId = userPoolId
+    }
+}
+
+public struct ListUserPoolReplicasOutput: Swift.Sendable {
+    /// A pagination token for retrieving the next page of results. If this value is null, there are no more results to retrieve.
+    public var nextToken: Swift.String?
+    /// A list of user pool replicas, including information about their status, role, and Region.
+    public var userPoolReplicas: [CognitoIdentityProviderClientTypes.UserPoolReplicaType]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        userPoolReplicas: [CognitoIdentityProviderClientTypes.UserPoolReplicaType]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.userPoolReplicas = userPoolReplicas
+    }
+}
+
 /// Represents the request to list user pools.
 public struct ListUserPoolsInput: Swift.Sendable {
     /// The maximum number of user pools that you want Amazon Cognito to return in the response.
@@ -9022,6 +9522,8 @@ extension CognitoIdentityProviderClientTypes {
         public var lastModifiedDate: Foundation.Date?
         /// The user pool name.
         public var name: Swift.String?
+        /// A list of Amazon Web Services Regions where replicas of this user pool exist.
+        public var replicaRegions: [Swift.String]?
         /// The user pool status.
         @available(*, deprecated, message: "This property is no longer available.")
         public var status: CognitoIdentityProviderClientTypes.StatusType?
@@ -9032,6 +9534,7 @@ extension CognitoIdentityProviderClientTypes {
             lambdaConfig: CognitoIdentityProviderClientTypes.LambdaConfigType? = nil,
             lastModifiedDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            replicaRegions: [Swift.String]? = nil,
             status: CognitoIdentityProviderClientTypes.StatusType? = nil
         ) {
             self.creationDate = creationDate
@@ -9039,6 +9542,7 @@ extension CognitoIdentityProviderClientTypes {
             self.lambdaConfig = lambdaConfig
             self.lastModifiedDate = lastModifiedDate
             self.name = name
+            self.replicaRegions = replicaRegions
             self.status = status
         }
     }
@@ -10158,6 +10662,58 @@ public struct UpdateManagedLoginBrandingOutput: Swift.Sendable {
     }
 }
 
+/// The request exceeded your account's service quota. To increase your limit, use or submit a Service Quotas increase request.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct UpdateProvisionedLimitInput: Swift.Sendable {
+    /// The limit to update. Specify the limit class and the attributes that identify the limit.
+    /// This member is required.
+    public var limitDefinition: CognitoIdentityProviderClientTypes.LimitDefinitionType?
+    /// The provisioned rate to set, in requests per second (RPS).
+    /// This member is required.
+    public var requestedLimitValue: Swift.Int?
+
+    public init(
+        limitDefinition: CognitoIdentityProviderClientTypes.LimitDefinitionType? = nil,
+        requestedLimitValue: Swift.Int? = 0
+    ) {
+        self.limitDefinition = limitDefinition
+        self.requestedLimitValue = requestedLimitValue
+    }
+}
+
+public struct UpdateProvisionedLimitOutput: Swift.Sendable {
+    /// The updated provisioned and default limit values.
+    /// This member is required.
+    public var limit: CognitoIdentityProviderClientTypes.LimitType?
+
+    public init(
+        limit: CognitoIdentityProviderClientTypes.LimitType? = nil
+    ) {
+        self.limit = limit
+    }
+}
+
 public struct UpdateResourceServerInput: Swift.Sendable {
     /// A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data. You can also set an API URL like https://solar-system-data-api.example.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope. Longer scope-identifier strings increase the size of your access tokens.
     /// This member is required.
@@ -10298,6 +10854,10 @@ public struct UpdateUserPoolInput: Swift.Sendable {
     public var emailVerificationMessage: Swift.String?
     /// This parameter is no longer used.
     public var emailVerificationSubject: Swift.String?
+    /// The issuer configuration for the user pool. In secondary regions, this parameter must match the existing configuration and cannot be modified.
+    public var issuerConfiguration: CognitoIdentityProviderClientTypes.IssuerConfigurationType?
+    /// The key configuration for the user pool. In secondary regions, this parameter must match the existing configuration and cannot be modified.
+    public var keyConfiguration: CognitoIdentityProviderClientTypes.KeyConfigurationType?
     /// A collection of user pool Lambda triggers. Amazon Cognito invokes triggers at several possible stages of authentication operations. Triggers can modify the outcome of the operations that invoked them.
     public var lambdaConfig: CognitoIdentityProviderClientTypes.LambdaConfigType?
     /// Sets multi-factor authentication (MFA) to be on, off, or optional. When ON, all users must set up MFA before they can sign in. When OPTIONAL, your application must make a client-side determination of whether a user wants to register an MFA device. For user pools with adaptive authentication with threat protection, choose OPTIONAL. When MfaConfiguration is OPTIONAL, managed login doesn't automatically prompt users to set up MFA. Amazon Cognito generates MFA prompts in API responses and in managed login for users who have chosen and configured a preferred MFA factor.
@@ -10335,6 +10895,8 @@ public struct UpdateUserPoolInput: Swift.Sendable {
         emailConfiguration: CognitoIdentityProviderClientTypes.EmailConfigurationType? = nil,
         emailVerificationMessage: Swift.String? = nil,
         emailVerificationSubject: Swift.String? = nil,
+        issuerConfiguration: CognitoIdentityProviderClientTypes.IssuerConfigurationType? = nil,
+        keyConfiguration: CognitoIdentityProviderClientTypes.KeyConfigurationType? = nil,
         lambdaConfig: CognitoIdentityProviderClientTypes.LambdaConfigType? = nil,
         mfaConfiguration: CognitoIdentityProviderClientTypes.UserPoolMfaType? = nil,
         policies: CognitoIdentityProviderClientTypes.UserPoolPolicyType? = nil,
@@ -10357,6 +10919,8 @@ public struct UpdateUserPoolInput: Swift.Sendable {
         self.emailConfiguration = emailConfiguration
         self.emailVerificationMessage = emailVerificationMessage
         self.emailVerificationSubject = emailVerificationSubject
+        self.issuerConfiguration = issuerConfiguration
+        self.keyConfiguration = keyConfiguration
         self.lambdaConfig = lambdaConfig
         self.mfaConfiguration = mfaConfiguration
         self.policies = policies
@@ -10537,6 +11101,8 @@ public struct UpdateUserPoolDomainInput: Swift.Sendable {
     public var domain: Swift.String?
     /// A version number that indicates the state of managed login for your domain. Version 1 is hosted UI (classic). Version 2 is the newer managed login with the branding editor. For more information, see [Managed login](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managed-login.html).
     public var managedLoginVersion: Swift.Int?
+    /// The routing configuration for the user pool domain. Specifies failover settings for multi-region deployments.
+    public var routing: CognitoIdentityProviderClientTypes.RoutingType?
     /// The ID of the user pool that is associated with the domain you're updating.
     /// This member is required.
     public var userPoolId: Swift.String?
@@ -10545,11 +11111,13 @@ public struct UpdateUserPoolDomainInput: Swift.Sendable {
         customDomainConfig: CognitoIdentityProviderClientTypes.CustomDomainConfigType? = nil,
         domain: Swift.String? = nil,
         managedLoginVersion: Swift.Int? = nil,
+        routing: CognitoIdentityProviderClientTypes.RoutingType? = nil,
         userPoolId: Swift.String? = nil
     ) {
         self.customDomainConfig = customDomainConfig
         self.domain = domain
         self.managedLoginVersion = managedLoginVersion
+        self.routing = routing
         self.userPoolId = userPoolId
     }
 }
@@ -10560,13 +11128,79 @@ public struct UpdateUserPoolDomainOutput: Swift.Sendable {
     public var cloudFrontDomain: Swift.String?
     /// A version number that indicates the state of managed login for your domain. Version 1 is hosted UI (classic). Version 2 is the newer managed login with the branding editor. For more information, see [Managed login](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managed-login.html).
     public var managedLoginVersion: Swift.Int?
+    /// The updated routing configuration for the user pool domain.
+    public var routing: CognitoIdentityProviderClientTypes.RoutingType?
 
     public init(
         cloudFrontDomain: Swift.String? = nil,
-        managedLoginVersion: Swift.Int? = nil
+        managedLoginVersion: Swift.Int? = nil,
+        routing: CognitoIdentityProviderClientTypes.RoutingType? = nil
     ) {
         self.cloudFrontDomain = cloudFrontDomain
         self.managedLoginVersion = managedLoginVersion
+        self.routing = routing
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    public enum UpdateReplicaStatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateReplicaStatusType] {
+            return [
+                .active,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateUserPoolReplicaInput: Swift.Sendable {
+    /// The Amazon Web Services Region of the replica to update.
+    /// This member is required.
+    public var regionName: Swift.String?
+    /// The status to set for the replica. Valid values are ACTIVE and INACTIVE.
+    /// This member is required.
+    public var status: CognitoIdentityProviderClientTypes.UpdateReplicaStatusType?
+    /// The ID of the user pool that contains the replica to update.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        regionName: Swift.String? = nil,
+        status: CognitoIdentityProviderClientTypes.UpdateReplicaStatusType? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.regionName = regionName
+        self.status = status
+        self.userPoolId = userPoolId
+    }
+}
+
+public struct UpdateUserPoolReplicaOutput: Swift.Sendable {
+    /// Information about the updated user pool replica.
+    public var userPoolReplica: CognitoIdentityProviderClientTypes.UserPoolReplicaType?
+
+    public init(
+        userPoolReplica: CognitoIdentityProviderClientTypes.UserPoolReplicaType? = nil
+    ) {
+        self.userPoolReplica = userPoolReplica
     }
 }
 

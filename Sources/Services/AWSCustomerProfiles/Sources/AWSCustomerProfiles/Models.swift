@@ -1255,7 +1255,7 @@ extension CustomerProfilesClientTypes {
             firstExecutionFrom: Foundation.Date? = nil,
             scheduleEndTime: Foundation.Date? = nil,
             scheduleExpression: Swift.String? = nil,
-            scheduleOffset: Swift.Int? = 0,
+            scheduleOffset: Swift.Int? = nil,
             scheduleStartTime: Foundation.Date? = nil,
             timezone: Swift.String? = nil
         ) {
@@ -4588,6 +4588,76 @@ public struct CreateProfileOutput: Swift.Sendable {
 
 extension CustomerProfilesClientTypes {
 
+    public enum DiversityCapType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case percentage
+        case value
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DiversityCapType] {
+            return [
+                .percentage,
+                .value
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .percentage: return "PERCENTAGE"
+            case .value: return "VALUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Defines a diversity constraint for a single item column, specifying a cap type and a target value or placeholder that controls how many recommended items may share the same column value.
+    public struct DiversityColumn: Swift.Sendable {
+        /// The type of diversity cap to apply. Valid values are PERCENTAGE (interpret Target as a percentage of returned items) and VALUE (interpret Target as an absolute count).
+        /// This member is required.
+        public var capType: CustomerProfilesClientTypes.DiversityCapType?
+        /// The name of the item catalog column on which to apply the diversity cap. The column must be defined in the recommender schema.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The diversity cap target. Either an integer literal (for example, "25") or a placeholder expression of the form $name whose value is supplied at inference time through GetProfileRecommendations.
+        /// This member is required.
+        public var target: Swift.String?
+
+        public init(
+            capType: CustomerProfilesClientTypes.DiversityCapType? = nil,
+            name: Swift.String? = nil,
+            target: Swift.String? = nil
+        ) {
+            self.capType = capType
+            self.name = name
+            self.target = target
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Configuration that controls diversity of recommendation results by capping the representation of specified item columns.
+    public struct DiversityConfig: Swift.Sendable {
+        /// A list of up to two diversity columns. Each column defines a cap on the number or percentage of recommended items that share the same value for that column.
+        public var diversityColumns: [CustomerProfilesClientTypes.DiversityColumn]?
+
+        public init(
+            diversityColumns: [CustomerProfilesClientTypes.DiversityColumn]? = nil
+        ) {
+            self.diversityColumns = diversityColumns
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
     /// Configuration parameters for events in the personalization system.
     public struct EventParameters: Swift.Sendable {
         /// The type of event being tracked (e.g., 'click', 'purchase', 'view').
@@ -4645,6 +4715,8 @@ extension CustomerProfilesClientTypes {
 
     /// Configuration settings that define the behavior and parameters of a recommender.
     public struct RecommenderConfig: Swift.Sendable {
+        /// Configuration for diversity-aware recommendations. When set, the recommender applies diversity constraints defined per item column to reduce over-concentration of similar items in the results.
+        public var diversityConfig: CustomerProfilesClientTypes.DiversityConfig?
         /// Configuration settings for how the recommender processes and uses events.
         public var eventsConfig: CustomerProfilesClientTypes.EventsConfig?
         /// A map of dataset type to a list of column names to exclude from training. The _webAnalytics and _catalogItem keys are supported. The column names must be valid columns defined in the recommender schema. All columns in the schema except the listed columns will be used for training. The following columns are mandatory and cannot be excluded: Item.Id, EventTimestamp, and EventType for _webAnalytics; Id for _catalogItem. Mutually exclusive with IncludedColumns — both cannot be specified in the same request.
@@ -4657,12 +4729,14 @@ extension CustomerProfilesClientTypes {
         public var trainingFrequency: Swift.Int?
 
         public init(
+            diversityConfig: CustomerProfilesClientTypes.DiversityConfig? = nil,
             eventsConfig: CustomerProfilesClientTypes.EventsConfig? = nil,
             excludedColumns: [Swift.String: [Swift.String]]? = nil,
             includedColumns: [Swift.String: [Swift.String]]? = nil,
             inferenceConfig: CustomerProfilesClientTypes.InferenceConfig? = nil,
             trainingFrequency: Swift.Int? = nil
         ) {
+            self.diversityConfig = diversityConfig
             self.eventsConfig = eventsConfig
             self.excludedColumns = excludedColumns
             self.includedColumns = includedColumns
@@ -7719,6 +7793,26 @@ extension GetProfileObjectTypeTemplateOutput: Swift.CustomDebugStringConvertible
 
 extension CustomerProfilesClientTypes {
 
+    /// Runtime diversity configuration for a GetProfileRecommendations request.
+    public struct RecommendationDiversityConfig: Swift.Sendable {
+        /// Whether diversity-aware recommendations are enabled for this request.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// An optional map of placeholder name to integer cap value used to resolve $name placeholders defined in the recommender's DiversityConfig at inference time. Up to 2 entries are supported.
+        public var values: [Swift.String: Swift.Int]?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            values: [Swift.String: Swift.Int]? = nil
+        ) {
+            self.enabled = enabled
+            self.values = values
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
     /// Configuration for metadata to include in recommendation responses.
     public struct MetadataConfig: Swift.Sendable {
         /// A list of metadata column names from your Items dataset to include in the recommendation response.
@@ -7793,6 +7887,8 @@ public struct GetProfileRecommendationsInput: Swift.Sendable {
     public var candidateIds: [Swift.String]?
     /// The contextual metadata used to provide dynamic runtime information to tailor recommendations.
     public var context: [Swift.String: Swift.String]?
+    /// Runtime diversity configuration for this request. Enables diversity-aware recommendations and optionally supplies values for placeholder-based diversity caps configured on the recommender.
+    public var diversityConfig: CustomerProfilesClientTypes.RecommendationDiversityConfig?
     /// The unique name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -7814,6 +7910,7 @@ public struct GetProfileRecommendationsInput: Swift.Sendable {
     public init(
         candidateIds: [Swift.String]? = nil,
         context: [Swift.String: Swift.String]? = nil,
+        diversityConfig: CustomerProfilesClientTypes.RecommendationDiversityConfig? = nil,
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         metadataConfig: CustomerProfilesClientTypes.MetadataConfig? = nil,
@@ -7824,6 +7921,7 @@ public struct GetProfileRecommendationsInput: Swift.Sendable {
     ) {
         self.candidateIds = candidateIds
         self.context = context
+        self.diversityConfig = diversityConfig
         self.domainName = domainName
         self.maxResults = maxResults
         self.metadataConfig = metadataConfig
@@ -7836,7 +7934,7 @@ public struct GetProfileRecommendationsInput: Swift.Sendable {
 
 extension GetProfileRecommendationsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetProfileRecommendationsInput(candidateIds: \(Swift.String(describing: candidateIds)), domainName: \(Swift.String(describing: domainName)), maxResults: \(Swift.String(describing: maxResults)), metadataConfig: \(Swift.String(describing: metadataConfig)), profileId: \(Swift.String(describing: profileId)), recommenderFilters: \(Swift.String(describing: recommenderFilters)), recommenderName: \(Swift.String(describing: recommenderName)), recommenderPromotionalFilters: \(Swift.String(describing: recommenderPromotionalFilters)), context: \"CONTENT_REDACTED\")"}
+        "GetProfileRecommendationsInput(candidateIds: \(Swift.String(describing: candidateIds)), diversityConfig: \(Swift.String(describing: diversityConfig)), domainName: \(Swift.String(describing: domainName)), maxResults: \(Swift.String(describing: maxResults)), metadataConfig: \(Swift.String(describing: metadataConfig)), profileId: \(Swift.String(describing: profileId)), recommenderFilters: \(Swift.String(describing: recommenderFilters)), recommenderName: \(Swift.String(describing: recommenderName)), recommenderPromotionalFilters: \(Swift.String(describing: recommenderPromotionalFilters)), context: \"CONTENT_REDACTED\")"}
 }
 
 extension CustomerProfilesClientTypes {
@@ -7954,6 +8052,8 @@ extension CustomerProfilesClientTypes {
         public var lastUpdatedAt: Foundation.Date?
         /// The updated configuration settings applied to the recommender during this update.
         public var recommenderConfig: CustomerProfilesClientTypes.RecommenderConfig?
+        /// The name of the recommender version associated with this update operation.
+        public var recommenderVersionName: Swift.String?
         /// The current status of the recommender update operation.
         public var status: CustomerProfilesClientTypes.RecommenderStatus?
 
@@ -7962,12 +8062,14 @@ extension CustomerProfilesClientTypes {
             failureReason: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             recommenderConfig: CustomerProfilesClientTypes.RecommenderConfig? = nil,
+            recommenderVersionName: Swift.String? = nil,
             status: CustomerProfilesClientTypes.RecommenderStatus? = nil
         ) {
             self.createdAt = createdAt
             self.failureReason = failureReason
             self.lastUpdatedAt = lastUpdatedAt
             self.recommenderConfig = recommenderConfig
+            self.recommenderVersionName = recommenderVersionName
             self.status = status
         }
     }
@@ -8041,20 +8143,26 @@ extension CustomerProfilesClientTypes {
     public struct TrainingMetrics: Swift.Sendable {
         /// A collection of performance metrics and statistics from the training process.
         public var metrics: [Swift.String: Swift.Double]?
+        /// The name of the recommender version that produced these training metrics.
+        public var recommenderVersionName: Swift.String?
         /// The timestamp when these training metrics were recorded.
         public var time: Foundation.Date?
 
         public init(
             metrics: [Swift.String: Swift.Double]? = nil,
+            recommenderVersionName: Swift.String? = nil,
             time: Foundation.Date? = nil
         ) {
             self.metrics = metrics
+            self.recommenderVersionName = recommenderVersionName
             self.time = time
         }
     }
 }
 
 public struct GetRecommenderOutput: Swift.Sendable {
+    /// The name of the recommender version currently serving recommendations. Omitted when no active recommender version is set.
+    public var activeRecommenderVersionName: Swift.String?
     /// The timestamp of when the recommender was created.
     public var createdAt: Foundation.Date?
     /// A detailed description of the recommender providing information about its purpose and functionality.
@@ -8083,6 +8191,7 @@ public struct GetRecommenderOutput: Swift.Sendable {
     public var trainingMetrics: [CustomerProfilesClientTypes.TrainingMetrics]?
 
     public init(
+        activeRecommenderVersionName: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         failureReason: Swift.String? = nil,
@@ -8096,6 +8205,7 @@ public struct GetRecommenderOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         trainingMetrics: [CustomerProfilesClientTypes.TrainingMetrics]? = nil
     ) {
+        self.activeRecommenderVersionName = activeRecommenderVersionName
         self.createdAt = createdAt
         self.description = description
         self.failureReason = failureReason
@@ -8113,7 +8223,7 @@ public struct GetRecommenderOutput: Swift.Sendable {
 
 extension GetRecommenderOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetRecommenderOutput(createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), latestRecommenderUpdate: \(Swift.String(describing: latestRecommenderUpdate)), recommenderConfig: \(Swift.String(describing: recommenderConfig)), recommenderName: \(Swift.String(describing: recommenderName)), recommenderRecipeName: \(Swift.String(describing: recommenderRecipeName)), recommenderSchemaName: \(Swift.String(describing: recommenderSchemaName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), trainingMetrics: \(Swift.String(describing: trainingMetrics)), description: \"CONTENT_REDACTED\")"}
+        "GetRecommenderOutput(activeRecommenderVersionName: \(Swift.String(describing: activeRecommenderVersionName)), createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), latestRecommenderUpdate: \(Swift.String(describing: latestRecommenderUpdate)), recommenderConfig: \(Swift.String(describing: recommenderConfig)), recommenderName: \(Swift.String(describing: recommenderName)), recommenderRecipeName: \(Swift.String(describing: recommenderRecipeName)), recommenderSchemaName: \(Swift.String(describing: recommenderSchemaName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), trainingMetrics: \(Swift.String(describing: trainingMetrics)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetRecommenderFilterInput: Swift.Sendable {
@@ -12239,23 +12349,27 @@ public struct UpdateRecommenderInput: Swift.Sendable {
     /// The name of the recommender to update.
     /// This member is required.
     public var recommenderName: Swift.String?
+    /// The name of a specific recommender version to activate as part of this update (for example, to roll back to a previously trained version).
+    public var recommenderVersionName: Swift.String?
 
     public init(
         description: Swift.String? = nil,
         domainName: Swift.String? = nil,
         recommenderConfig: CustomerProfilesClientTypes.RecommenderConfig? = nil,
-        recommenderName: Swift.String? = nil
+        recommenderName: Swift.String? = nil,
+        recommenderVersionName: Swift.String? = nil
     ) {
         self.description = description
         self.domainName = domainName
         self.recommenderConfig = recommenderConfig
         self.recommenderName = recommenderName
+        self.recommenderVersionName = recommenderVersionName
     }
 }
 
 extension UpdateRecommenderInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateRecommenderInput(domainName: \(Swift.String(describing: domainName)), recommenderConfig: \(Swift.String(describing: recommenderConfig)), recommenderName: \(Swift.String(describing: recommenderName)), description: \"CONTENT_REDACTED\")"}
+        "UpdateRecommenderInput(domainName: \(Swift.String(describing: domainName)), recommenderConfig: \(Swift.String(describing: recommenderConfig)), recommenderName: \(Swift.String(describing: recommenderName)), recommenderVersionName: \(Swift.String(describing: recommenderVersionName)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateRecommenderOutput: Swift.Sendable {
@@ -14286,6 +14400,7 @@ extension GetProfileRecommendationsInput {
         guard let value else { return }
         try writer["CandidateIds"].writeList(value.candidateIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Context"].writeMap(value.context, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["DiversityConfig"].write(value.diversityConfig, with: CustomerProfilesClientTypes.RecommendationDiversityConfig.write(value:to:))
         try writer["MaxResults"].write(value.maxResults)
         try writer["MetadataConfig"].write(value.metadataConfig, with: CustomerProfilesClientTypes.MetadataConfig.write(value:to:))
         try writer["RecommenderFilters"].writeList(value.recommenderFilters, memberWritingClosure: CustomerProfilesClientTypes.RecommenderFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -14521,6 +14636,7 @@ extension UpdateRecommenderInput {
         guard let value else { return }
         try writer["Description"].write(value.description)
         try writer["RecommenderConfig"].write(value.recommenderConfig, with: CustomerProfilesClientTypes.RecommenderConfig.write(value:to:))
+        try writer["RecommenderVersionName"].write(value.recommenderVersionName)
     }
 }
 
@@ -15282,6 +15398,7 @@ extension GetRecommenderOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetRecommenderOutput()
+        value.activeRecommenderVersionName = try reader["ActiveRecommenderVersionName"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
         value.failureReason = try reader["FailureReason"].readIfPresent()
@@ -18592,6 +18709,40 @@ extension CustomerProfilesClientTypes.Dimension {
     }
 }
 
+extension CustomerProfilesClientTypes.DiversityColumn {
+
+    static func write(value: CustomerProfilesClientTypes.DiversityColumn?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapType"].write(value.capType)
+        try writer["Name"].write(value.name)
+        try writer["Target"].write(value.target)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.DiversityColumn {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.DiversityColumn()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.capType = try reader["CapType"].readIfPresent() ?? .sdkUnknown("")
+        value.target = try reader["Target"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.DiversityConfig {
+
+    static func write(value: CustomerProfilesClientTypes.DiversityConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DiversityColumns"].writeList(value.diversityColumns, memberWritingClosure: CustomerProfilesClientTypes.DiversityColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.DiversityConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.DiversityConfig()
+        value.diversityColumns = try reader["DiversityColumns"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.DiversityColumn.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension CustomerProfilesClientTypes.DomainObjectTypeField {
 
     static func write(value: CustomerProfilesClientTypes.DomainObjectTypeField?, to writer: SmithyJSON.Writer) throws {
@@ -19617,10 +19768,20 @@ extension CustomerProfilesClientTypes.Recommendation {
     }
 }
 
+extension CustomerProfilesClientTypes.RecommendationDiversityConfig {
+
+    static func write(value: CustomerProfilesClientTypes.RecommendationDiversityConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["Values"].writeMap(value.values, valueWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CustomerProfilesClientTypes.RecommenderConfig {
 
     static func write(value: CustomerProfilesClientTypes.RecommenderConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DiversityConfig"].write(value.diversityConfig, with: CustomerProfilesClientTypes.DiversityConfig.write(value:to:))
         try writer["EventsConfig"].write(value.eventsConfig, with: CustomerProfilesClientTypes.EventsConfig.write(value:to:))
         try writer["ExcludedColumns"].writeMap(value.excludedColumns, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["IncludedColumns"].writeMap(value.includedColumns, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -19636,6 +19797,7 @@ extension CustomerProfilesClientTypes.RecommenderConfig {
         value.inferenceConfig = try reader["InferenceConfig"].readIfPresent(with: CustomerProfilesClientTypes.InferenceConfig.read(from:))
         value.includedColumns = try reader["IncludedColumns"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.excludedColumns = try reader["ExcludedColumns"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.diversityConfig = try reader["DiversityConfig"].readIfPresent(with: CustomerProfilesClientTypes.DiversityConfig.read(from:))
         return value
     }
 }
@@ -19750,6 +19912,7 @@ extension CustomerProfilesClientTypes.RecommenderUpdate {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.recommenderVersionName = try reader["RecommenderVersionName"].readIfPresent()
         return value
     }
 }
@@ -20018,6 +20181,7 @@ extension CustomerProfilesClientTypes.TrainingMetrics {
         var value = CustomerProfilesClientTypes.TrainingMetrics()
         value.time = try reader["Time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.recommenderVersionName = try reader["RecommenderVersionName"].readIfPresent()
         return value
     }
 }

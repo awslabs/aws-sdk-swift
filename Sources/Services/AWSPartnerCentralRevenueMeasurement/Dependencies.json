@@ -1,0 +1,17 @@
+{
+  "modelPath": "codegen/sdk-codegen/aws-models/partnercentral-revenue-measurement.json",
+  "dependencies": [
+    "AWSClientRuntime",
+    "AWSSDKChecksums",
+    "AWSSDKHTTPAuth",
+    "AWSSDKIdentity",
+    "ClientRuntime",
+    "Smithy",
+    "SmithyHTTPAPI",
+    "SmithyHTTPAuthAPI",
+    "SmithyIdentity",
+    "SmithyRPCv2CBOR",
+    "SmithyRetries",
+    "SmithyRetriesAPI"
+  ]
+}

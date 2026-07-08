@@ -18,7 +18,7 @@ class BlobEncodeGeneratorTests {
     @Test
     fun `001 encode blobs`() {
         val context = setupTests("awsquery/query-blobs.smithy", "aws.protocoltests.query#AwsQuery")
-        val contents = getFileContents(context.manifest, "Sources/Example/models/BlobInputParamsInput+Write.swift")
+        val contents = getFileContents(context.manifest, "Example/Sources/Example/models/BlobInputParamsInput+Write.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension BlobInputParamsInput {

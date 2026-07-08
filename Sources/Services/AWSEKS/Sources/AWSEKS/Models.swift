@@ -1370,6 +1370,57 @@ public struct AssociateEncryptionConfigInput: Swift.Sendable {
 
 extension EKSClientTypes {
 
+    public enum CancellationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case successful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CancellationStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .successful
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case .successful: return "Successful"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Contains information about the latest cancellation of an update to an Amazon EKS cluster.
+    public struct Cancellation: Swift.Sendable {
+        /// A message providing additional details about the cancellation, such as the reason for the cancellation or failure details.
+        public var reason: Swift.String?
+        /// The current status of the cancellation. Valid values are InProgress, Failed, and Successful.
+        public var status: EKSClientTypes.CancellationStatus?
+
+        public init(
+            reason: Swift.String? = nil,
+            status: EKSClientTypes.CancellationStatus? = nil
+        ) {
+            self.reason = reason
+            self.status = status
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     public enum ErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessDenied
         case admissionRequestDenied
@@ -1487,6 +1538,7 @@ extension EKSClientTypes {
         case clusterLogging
         case computeConfig
         case configurationValues
+        case controlPlaneEgressMode
         case deletionProtection
         case desiredSize
         case encryptionConfig
@@ -1502,6 +1554,7 @@ extension EKSClientTypes {
         case maxUnavailable
         case maxUnavailablePercentage
         case minSize
+        case networkAccess
         case nodeRepairConfig
         case nodeRepairEnabled
         case platformVersion
@@ -1511,6 +1564,9 @@ extension EKSClientTypes {
         case releaseVersion
         case remoteNetworkConfig
         case resolveConflicts
+        case roleArn
+        case roleMappingsToAddOrUpdate
+        case roleMappingsToRemove
         case securityGroups
         case serviceAccountRoleArn
         case storageConfig
@@ -1537,6 +1593,7 @@ extension EKSClientTypes {
                 .clusterLogging,
                 .computeConfig,
                 .configurationValues,
+                .controlPlaneEgressMode,
                 .deletionProtection,
                 .desiredSize,
                 .encryptionConfig,
@@ -1552,6 +1609,7 @@ extension EKSClientTypes {
                 .maxUnavailable,
                 .maxUnavailablePercentage,
                 .minSize,
+                .networkAccess,
                 .nodeRepairConfig,
                 .nodeRepairEnabled,
                 .platformVersion,
@@ -1561,6 +1619,9 @@ extension EKSClientTypes {
                 .releaseVersion,
                 .remoteNetworkConfig,
                 .resolveConflicts,
+                .roleArn,
+                .roleMappingsToAddOrUpdate,
+                .roleMappingsToRemove,
                 .securityGroups,
                 .serviceAccountRoleArn,
                 .storageConfig,
@@ -1593,6 +1654,7 @@ extension EKSClientTypes {
             case .clusterLogging: return "ClusterLogging"
             case .computeConfig: return "ComputeConfig"
             case .configurationValues: return "ConfigurationValues"
+            case .controlPlaneEgressMode: return "ControlPlaneEgressMode"
             case .deletionProtection: return "DeletionProtection"
             case .desiredSize: return "DesiredSize"
             case .encryptionConfig: return "EncryptionConfig"
@@ -1608,6 +1670,7 @@ extension EKSClientTypes {
             case .maxUnavailable: return "MaxUnavailable"
             case .maxUnavailablePercentage: return "MaxUnavailablePercentage"
             case .minSize: return "MinSize"
+            case .networkAccess: return "NetworkAccess"
             case .nodeRepairConfig: return "NodeRepairConfig"
             case .nodeRepairEnabled: return "NodeRepairEnabled"
             case .platformVersion: return "PlatformVersion"
@@ -1617,6 +1680,9 @@ extension EKSClientTypes {
             case .releaseVersion: return "ReleaseVersion"
             case .remoteNetworkConfig: return "RemoteNetworkConfig"
             case .resolveConflicts: return "ResolveConflicts"
+            case .roleArn: return "RoleArn"
+            case .roleMappingsToAddOrUpdate: return "RoleMappingsToAddOrUpdate"
+            case .roleMappingsToRemove: return "RoleMappingsToRemove"
             case .securityGroups: return "SecurityGroups"
             case .serviceAccountRoleArn: return "ServiceAccountRoleArn"
             case .storageConfig: return "StorageConfig"
@@ -1702,7 +1768,9 @@ extension EKSClientTypes {
         case associateEncryptionConfig
         case associateIdentityProviderConfig
         case autoModeUpdate
+        case capabilityUpdate
         case configUpdate
+        case controlPlaneEgressUpdate
         case controlPlaneScalingConfigUpdate
         case deletionProtectionUpdate
         case disassociateIdentityProviderConfig
@@ -1711,6 +1779,7 @@ extension EKSClientTypes {
         case remoteNetworkConfigUpdate
         case upgradePolicyUpdate
         case vendedLogsUpdate
+        case versionRollback
         case versionUpdate
         case vpcConfigUpdate
         case zonalShiftConfigUpdate
@@ -1723,7 +1792,9 @@ extension EKSClientTypes {
                 .associateEncryptionConfig,
                 .associateIdentityProviderConfig,
                 .autoModeUpdate,
+                .capabilityUpdate,
                 .configUpdate,
+                .controlPlaneEgressUpdate,
                 .controlPlaneScalingConfigUpdate,
                 .deletionProtectionUpdate,
                 .disassociateIdentityProviderConfig,
@@ -1732,6 +1803,7 @@ extension EKSClientTypes {
                 .remoteNetworkConfigUpdate,
                 .upgradePolicyUpdate,
                 .vendedLogsUpdate,
+                .versionRollback,
                 .versionUpdate,
                 .vpcConfigUpdate,
                 .zonalShiftConfigUpdate
@@ -1750,7 +1822,9 @@ extension EKSClientTypes {
             case .associateEncryptionConfig: return "AssociateEncryptionConfig"
             case .associateIdentityProviderConfig: return "AssociateIdentityProviderConfig"
             case .autoModeUpdate: return "AutoModeUpdate"
+            case .capabilityUpdate: return "CapabilityUpdate"
             case .configUpdate: return "ConfigUpdate"
+            case .controlPlaneEgressUpdate: return "ControlPlaneEgressUpdate"
             case .controlPlaneScalingConfigUpdate: return "ControlPlaneScalingConfigUpdate"
             case .deletionProtectionUpdate: return "DeletionProtectionUpdate"
             case .disassociateIdentityProviderConfig: return "DisassociateIdentityProviderConfig"
@@ -1759,6 +1833,7 @@ extension EKSClientTypes {
             case .remoteNetworkConfigUpdate: return "RemoteNetworkConfigUpdate"
             case .upgradePolicyUpdate: return "UpgradePolicyUpdate"
             case .vendedLogsUpdate: return "VendedLogsUpdate"
+            case .versionRollback: return "VersionRollback"
             case .versionUpdate: return "VersionUpdate"
             case .vpcConfigUpdate: return "VpcConfigUpdate"
             case .zonalShiftConfigUpdate: return "ZonalShiftConfigUpdate"
@@ -1772,6 +1847,8 @@ extension EKSClientTypes {
 
     /// An object representing an asynchronous update.
     public struct Update: Swift.Sendable {
+        /// The latest cancellation information for the update. This field is present only if any cancellation is attempted for the update.
+        public var cancellation: EKSClientTypes.Cancellation?
         /// The Unix epoch timestamp at object creation.
         public var createdAt: Foundation.Date?
         /// Any errors associated with a Failed update.
@@ -1786,6 +1863,7 @@ extension EKSClientTypes {
         public var type: EKSClientTypes.UpdateType?
 
         public init(
+            cancellation: EKSClientTypes.Cancellation? = nil,
             createdAt: Foundation.Date? = nil,
             errors: [EKSClientTypes.ErrorDetail]? = nil,
             id: Swift.String? = nil,
@@ -1793,6 +1871,7 @@ extension EKSClientTypes {
             status: EKSClientTypes.UpdateStatus? = nil,
             type: EKSClientTypes.UpdateType? = nil
         ) {
+            self.cancellation = cancellation
             self.createdAt = createdAt
             self.errors = errors
             self.id = id
@@ -1912,6 +1991,65 @@ extension EKSClientTypes {
         ) {
             self.name = name
         }
+    }
+}
+
+/// Amazon EKS detected upgrade readiness issues. Call the [ListInsights](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListInsights.html) API to view detected upgrade blocking issues. Pass the [force](https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateClusterVersion.html#API_UpdateClusterVersion_RequestBody) flag when updating to override upgrade readiness errors.
+public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The Amazon EKS cluster associated with the exception.
+        public internal(set) var clusterName: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidStateException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.clusterName = clusterName
+        self.properties.message = message
+    }
+}
+
+public struct CancelUpdateInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientRequestToken: Swift.String?
+    /// The name of the Amazon EKS cluster associated with the update.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The ID of the update to cancel.
+    /// This member is required.
+    public var updateId: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        name: Swift.String? = nil,
+        updateId: Swift.String? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.name = name
+        self.updateId = updateId
+    }
+}
+
+public struct CancelUpdateOutput: Swift.Sendable {
+    /// The full description of the specified update.
+    public var update: EKSClientTypes.Update?
+
+    public init(
+        update: EKSClientTypes.Update? = nil
+    ) {
+        self.update = update
     }
 }
 
@@ -2766,15 +2904,63 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    public enum SpreadLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case host
+        case rack
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SpreadLevel] {
+            return [
+                .host,
+                .rack
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .host: return "host"
+            case .rack: return "rack"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// The placement configuration for all the control plane instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
     public struct ControlPlanePlacementRequest: Swift.Sendable {
         /// The name of the placement group for the Kubernetes control plane instances. This setting can't be changed after cluster creation.
         public var groupName: Swift.String?
+        /// Optional parameter to specify the placement group spread level for control plane instances. If not provided, Amazon EKS will deploy control plane instances without a placement group.
+        public var spreadLevel: EKSClientTypes.SpreadLevel?
 
         public init(
-            groupName: Swift.String? = nil
+            groupName: Swift.String? = nil,
+            spreadLevel: EKSClientTypes.SpreadLevel? = nil
         ) {
             self.groupName = groupName
+            self.spreadLevel = spreadLevel
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The placement configuration for the etcd instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
+    public struct EtcdPlacementRequest: Swift.Sendable {
+        /// Optional parameter to specify the placement group spread level for etcd instances. If not provided, Amazon EKS will deploy etcd instances without a placement group.
+        public var spreadLevel: EKSClientTypes.SpreadLevel?
+
+        public init(
+            spreadLevel: EKSClientTypes.SpreadLevel? = nil
+        ) {
+            self.spreadLevel = spreadLevel
         }
     }
 }
@@ -2783,11 +2969,15 @@ extension EKSClientTypes {
 
     /// The configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a cluster on an Outpost, review [Creating a local cluster on an Outpost](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-create.html) in the Amazon EKS User Guide. This API isn't available for Amazon EKS clusters on the Amazon Web Services cloud.
     public struct OutpostConfigRequest: Swift.Sendable {
-        /// The Amazon EC2 instance type that you want to use for your local Amazon EKS cluster on Outposts. Choose an instance type based on the number of nodes that your cluster will have. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide. The instance type that you specify is used for all Kubernetes control plane instances. The instance type can't be changed after cluster creation. The control plane is not automatically scaled by Amazon EKS.
+        /// The Amazon EC2 instance type for the Kubernetes control plane instances of your local Amazon EKS cluster on Amazon Web Services Outposts. This instance type applies to all control plane instances and cannot be changed after cluster creation. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
         /// This member is required.
         public var controlPlaneInstanceType: Swift.String?
         /// An object representing the placement configuration for all the control plane instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
         public var controlPlanePlacement: EKSClientTypes.ControlPlanePlacementRequest?
+        /// The Amazon EC2 instance type for etcd instances of your local Amazon EKS cluster on Amazon Web Services Outposts. This instance type applies to all etcd instances and cannot be changed after cluster creation.
+        public var etcdInstanceType: Swift.String?
+        /// An object representing the placement configuration for the etcd instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
+        public var etcdPlacement: EKSClientTypes.EtcdPlacementRequest?
         /// The ARN of the Outpost that you want to use for your local Amazon EKS cluster on Outposts. Only a single Outpost ARN is supported.
         /// This member is required.
         public var outpostArns: [Swift.String]?
@@ -2795,10 +2985,14 @@ extension EKSClientTypes {
         public init(
             controlPlaneInstanceType: Swift.String? = nil,
             controlPlanePlacement: EKSClientTypes.ControlPlanePlacementRequest? = nil,
+            etcdInstanceType: Swift.String? = nil,
+            etcdPlacement: EKSClientTypes.EtcdPlacementRequest? = nil,
             outpostArns: [Swift.String]? = nil
         ) {
             self.controlPlaneInstanceType = controlPlaneInstanceType
             self.controlPlanePlacement = controlPlanePlacement
+            self.etcdInstanceType = etcdInstanceType
+            self.etcdPlacement = etcdPlacement
             self.outpostArns = outpostArns
         }
     }
@@ -2903,8 +3097,42 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    public enum ControlPlaneEgressModeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsManaged
+        case customerIsolated
+        case customerRouted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ControlPlaneEgressModeType] {
+            return [
+                .awsManaged,
+                .customerIsolated,
+                .customerRouted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsManaged: return "AWS_MANAGED"
+            case .customerIsolated: return "CUSTOMER_ISOLATED"
+            case .customerRouted: return "CUSTOMER_ROUTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// An object representing the VPC configuration to use for an Amazon EKS cluster.
     public struct VpcConfigRequest: Swift.Sendable {
+        /// Specifies the control plane egress routing mode for the cluster. If the cluster is set to AWS_MANAGED, Amazon EKS manages the egress path from the control plane and you don't need to configure NAT gateways or other routing infrastructure for control plane traffic. If the cluster is set to CUSTOMER_ROUTED, you manage the egress path from the control plane in your VPC subnets. You are responsible for ensuring that the control plane can reach required endpoints such as webhook servers and OIDC providers. The default value is AWS_MANAGED. Once set to CUSTOMER_ROUTED, this setting cannot be changed back to AWS_MANAGED on the same cluster. [Learn more about control plane egress routing in the Amazon EKS User Guide.](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-egress.html)
+        public var controlPlaneEgressMode: EKSClientTypes.ControlPlaneEgressModeType?
         /// Set this value to true to enable private access for your cluster's Kubernetes API server endpoint. If you enable private access, Kubernetes API requests from within your cluster's VPC use the private VPC endpoint. The default value for this parameter is false, which disables private access for your Kubernetes API server. If you disable private access and you have nodes or Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see [Cluster API server endpoint](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide .
         public var endpointPrivateAccess: Swift.Bool?
         /// Set this value to false to disable public access to your cluster's Kubernetes API server endpoint. If you disable public access, your cluster's Kubernetes API server can only receive requests from within the cluster VPC. The default value for this parameter is true, which enables public access for your Kubernetes API server. The endpoint domain name and IP address family depends on the value of the ipFamily for the cluster. For more information, see [Cluster API server endpoint](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide .
@@ -2917,12 +3145,14 @@ extension EKSClientTypes {
         public var subnetIds: [Swift.String]?
 
         public init(
+            controlPlaneEgressMode: EKSClientTypes.ControlPlaneEgressModeType? = nil,
             endpointPrivateAccess: Swift.Bool? = nil,
             endpointPublicAccess: Swift.Bool? = nil,
             publicAccessCidrs: [Swift.String]? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
         ) {
+            self.controlPlaneEgressMode = controlPlaneEgressMode
             self.endpointPrivateAccess = endpointPrivateAccess
             self.endpointPublicAccess = endpointPublicAccess
             self.publicAccessCidrs = publicAccessCidrs
@@ -3357,11 +3587,30 @@ extension EKSClientTypes {
     public struct ControlPlanePlacementResponse: Swift.Sendable {
         /// The name of the placement group for the Kubernetes control plane instances.
         public var groupName: Swift.String?
+        /// The spread level used with the placement group for control plane instances on your local Amazon EKS cluster on Amazon Web Services Outposts.
+        public var spreadLevel: EKSClientTypes.SpreadLevel?
 
         public init(
-            groupName: Swift.String? = nil
+            groupName: Swift.String? = nil,
+            spreadLevel: EKSClientTypes.SpreadLevel? = nil
         ) {
             self.groupName = groupName
+            self.spreadLevel = spreadLevel
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The placement configuration for the etcd instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
+    public struct EtcdPlacementResponse: Swift.Sendable {
+        /// The spread level used with the placement group for etcd instances on your local Amazon EKS cluster on Amazon Web Services Outposts.
+        public var spreadLevel: EKSClientTypes.SpreadLevel?
+
+        public init(
+            spreadLevel: EKSClientTypes.SpreadLevel? = nil
+        ) {
+            self.spreadLevel = spreadLevel
         }
     }
 }
@@ -3370,11 +3619,15 @@ extension EKSClientTypes {
 
     /// An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. This API isn't available for Amazon EKS clusters on the Amazon Web Services cloud.
     public struct OutpostConfigResponse: Swift.Sendable {
-        /// The Amazon EC2 instance type used for the control plane. The instance type is the same for all control plane instances.
+        /// The Amazon EC2 instance type for the Kubernetes control plane instances of your local Amazon EKS cluster on Amazon Web Services Outposts. The instance type is the same for all control plane instances.
         /// This member is required.
         public var controlPlaneInstanceType: Swift.String?
         /// An object representing the placement configuration for all the control plane instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
         public var controlPlanePlacement: EKSClientTypes.ControlPlanePlacementResponse?
+        /// The Amazon EC2 instance type for etcd instances of your local Amazon EKS cluster on Amazon Web Services Outposts. The instance type is the same for all etcd instances.
+        public var etcdInstanceType: Swift.String?
+        /// An object representing the placement configuration for the etcd instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
+        public var etcdPlacement: EKSClientTypes.EtcdPlacementResponse?
         /// The ARN of the Outpost that you specified for use with your local Amazon EKS cluster on Outposts.
         /// This member is required.
         public var outpostArns: [Swift.String]?
@@ -3382,10 +3635,14 @@ extension EKSClientTypes {
         public init(
             controlPlaneInstanceType: Swift.String? = nil,
             controlPlanePlacement: EKSClientTypes.ControlPlanePlacementResponse? = nil,
+            etcdInstanceType: Swift.String? = nil,
+            etcdPlacement: EKSClientTypes.EtcdPlacementResponse? = nil,
             outpostArns: [Swift.String]? = nil
         ) {
             self.controlPlaneInstanceType = controlPlaneInstanceType
             self.controlPlanePlacement = controlPlanePlacement
+            self.etcdInstanceType = etcdInstanceType
+            self.etcdPlacement = etcdPlacement
             self.outpostArns = outpostArns
         }
     }
@@ -3416,6 +3673,8 @@ extension EKSClientTypes {
     public struct VpcConfigResponse: Swift.Sendable {
         /// The cluster security group that was created by Amazon EKS for the cluster. Managed node groups use this security group for control-plane-to-data-plane communication.
         public var clusterSecurityGroupId: Swift.String?
+        /// The current control plane egress routing mode for the cluster. If the cluster is set to AWS_MANAGED, Amazon EKS manages the egress path from the control plane. If the cluster is set to CUSTOMER_ROUTED, you manage the egress path from the control plane in your VPC subnets. [Learn more about control plane egress routing in the Amazon EKS User Guide.](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-egress.html)
+        public var controlPlaneEgressMode: EKSClientTypes.ControlPlaneEgressModeType?
         /// This parameter indicates whether the Amazon EKS private API server endpoint is enabled. If the Amazon EKS private API server endpoint is enabled, Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint instead of traversing the internet. If this value is disabled and you have nodes or Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see [Cluster API server endpoint](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide .
         public var endpointPrivateAccess: Swift.Bool
         /// Whether the public API server endpoint is enabled.
@@ -3431,6 +3690,7 @@ extension EKSClientTypes {
 
         public init(
             clusterSecurityGroupId: Swift.String? = nil,
+            controlPlaneEgressMode: EKSClientTypes.ControlPlaneEgressModeType? = nil,
             endpointPrivateAccess: Swift.Bool = false,
             endpointPublicAccess: Swift.Bool = false,
             publicAccessCidrs: [Swift.String]? = nil,
@@ -3439,6 +3699,7 @@ extension EKSClientTypes {
             vpcId: Swift.String? = nil
         ) {
             self.clusterSecurityGroupId = clusterSecurityGroupId
+            self.controlPlaneEgressMode = controlPlaneEgressMode
             self.endpointPrivateAccess = endpointPrivateAccess
             self.endpointPublicAccess = endpointPublicAccess
             self.publicAccessCidrs = publicAccessCidrs
@@ -5924,12 +6185,14 @@ extension EKSClientTypes {
 
     public enum Category: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case misconfiguration
+        case rollbackReadiness
         case upgradeReadiness
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Category] {
             return [
                 .misconfiguration,
+                .rollbackReadiness,
                 .upgradeReadiness
             ]
         }
@@ -5942,6 +6205,7 @@ extension EKSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .misconfiguration: return "MISCONFIGURATION"
+            case .rollbackReadiness: return "ROLLBACK_READINESS"
             case .upgradeReadiness: return "UPGRADE_READINESS"
             case let .sdkUnknown(s): return s
             }
@@ -7585,7 +7849,7 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
     public var name: Swift.String?
     /// The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this configuration after the cluster is created.
     public var remoteNetworkConfig: EKSClientTypes.RemoteNetworkConfigRequest?
-    /// An object representing the VPC configuration to use for an Amazon EKS cluster.
+    /// An object representing the VPC configuration to use for the cluster update. You can use this parameter to update the control plane egress mode, the subnets used by the cluster, the security groups, and the endpoint access settings.
     public var resourcesVpcConfig: EKSClientTypes.VpcConfigRequest?
     /// Update the configuration of the block storage capability of your EKS Auto Mode cluster. For example, enable the capability.
     public var storageConfig: EKSClientTypes.StorageConfigRequest?
@@ -7636,41 +7900,31 @@ public struct UpdateClusterConfigOutput: Swift.Sendable {
     }
 }
 
-/// Amazon EKS detected upgrade readiness issues. Call the [ListInsights](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListInsights.html) API to view detected upgrade blocking issues. Pass the [force](https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateClusterVersion.html#API_UpdateClusterVersion_RequestBody) flag when updating to override upgrade readiness errors.
-public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension EKSClientTypes {
 
-    public struct Properties: Swift.Sendable {
-        /// The Amazon EKS cluster associated with the exception.
-        public internal(set) var clusterName: Swift.String? = nil
-        public internal(set) var message: Swift.String? = nil
-    }
+    /// The rollback configuration for the cluster version rollback.
+    public struct RollbackConfig: Swift.Sendable {
+        /// The length of time in minutes to wait before cancelling the update. Timeout is a minimum-bound property, meaning the timeout occurs no sooner than the time you specify, but can occur shortly thereafter. This value can be between 120 (2 hours) and 10080 (7 days). Default: 720 (12 hours) if not specified.
+        public var timeoutMinutes: Swift.Int?
 
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidStateException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        clusterName: Swift.String? = nil,
-        message: Swift.String? = nil
-    ) {
-        self.properties.clusterName = clusterName
-        self.properties.message = message
+        public init(
+            timeoutMinutes: Swift.Int? = nil
+        ) {
+            self.timeoutMinutes = timeoutMinutes
+        }
     }
 }
 
 public struct UpdateClusterVersionInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
-    /// Set this value to true to override upgrade-blocking readiness checks when updating a cluster.
+    /// Set this value to true to override upgrade-blocking or rollback-blocking readiness checks when updating a cluster.
     public var force: Swift.Bool?
     /// The name of the Amazon EKS cluster to update.
     /// This member is required.
     public var name: Swift.String?
+    /// The rollback configuration for the cluster version rollback.
+    public var rollbackConfig: EKSClientTypes.RollbackConfig?
     /// The desired Kubernetes version following a successful update.
     /// This member is required.
     public var version: Swift.String?
@@ -7679,11 +7933,13 @@ public struct UpdateClusterVersionInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         force: Swift.Bool? = false,
         name: Swift.String? = nil,
+        rollbackConfig: EKSClientTypes.RollbackConfig? = nil,
         version: Swift.String? = nil
     ) {
         self.clientRequestToken = clientRequestToken
         self.force = force
         self.name = name
+        self.rollbackConfig = rollbackConfig
         self.version = version
     }
 }
@@ -7955,6 +8211,19 @@ extension AssociateIdentityProviderConfigInput {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/identity-provider-configs/associate"
+    }
+}
+
+extension CancelUpdateInput {
+
+    static func urlPathProvider(_ value: CancelUpdateInput) -> Swift.String? {
+        guard let name = value.name else {
+            return nil
+        }
+        guard let updateId = value.updateId else {
+            return nil
+        }
+        return "/clusters/\(name.urlPercentEncoding())/updates/\(updateId.urlPercentEncoding())/cancel-update"
     }
 }
 
@@ -9018,6 +9287,14 @@ extension AssociateIdentityProviderConfigInput {
     }
 }
 
+extension CancelUpdateInput {
+
+    static func write(value: CancelUpdateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientRequestToken"].write(value.clientRequestToken)
+    }
+}
+
 extension CreateAccessEntryInput {
 
     static func write(value: CreateAccessEntryInput?, to writer: SmithyJSON.Writer) throws {
@@ -9260,6 +9537,7 @@ extension UpdateClusterVersionInput {
         guard let value else { return }
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["force"].write(value.force)
+        try writer["rollbackConfig"].write(value.rollbackConfig, with: EKSClientTypes.RollbackConfig.write(value:to:))
         try writer["version"].write(value.version)
     }
 }
@@ -9345,6 +9623,18 @@ extension AssociateIdentityProviderConfigOutput {
         let reader = responseReader
         var value = AssociateIdentityProviderConfigOutput()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.update = try reader["update"].readIfPresent(with: EKSClientTypes.Update.read(from:))
+        return value
+    }
+}
+
+extension CancelUpdateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelUpdateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CancelUpdateOutput()
         value.update = try reader["update"].readIfPresent(with: EKSClientTypes.Update.read(from:))
         return value
     }
@@ -10134,6 +10424,27 @@ enum AssociateIdentityProviderConfigOutputError {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CancelUpdateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "InvalidStateException": return try InvalidStateException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
@@ -11333,6 +11644,20 @@ extension ThrottlingException {
     }
 }
 
+extension InvalidStateException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidStateException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidStateException()
+        value.properties.clusterName = try reader["clusterName"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceLimitExceededException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceLimitExceededException {
@@ -11422,20 +11747,6 @@ extension ResourcePropagationDelayException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourcePropagationDelayException {
         let reader = baseError.errorBodyReader
         var value = ResourcePropagationDelayException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidStateException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidStateException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidStateException()
-        value.properties.clusterName = try reader["clusterName"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11747,6 +12058,17 @@ extension EKSClientTypes.BlockStorage {
     }
 }
 
+extension EKSClientTypes.Cancellation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Cancellation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.Cancellation()
+        value.status = try reader["status"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        return value
+    }
+}
+
 extension EKSClientTypes.Capability {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Capability {
@@ -11986,6 +12308,7 @@ extension EKSClientTypes.ControlPlanePlacementRequest {
     static func write(value: EKSClientTypes.ControlPlanePlacementRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["groupName"].write(value.groupName)
+        try writer["spreadLevel"].write(value.spreadLevel)
     }
 }
 
@@ -11995,6 +12318,7 @@ extension EKSClientTypes.ControlPlanePlacementResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EKSClientTypes.ControlPlanePlacementResponse()
         value.groupName = try reader["groupName"].readIfPresent()
+        value.spreadLevel = try reader["spreadLevel"].readIfPresent()
         return value
     }
 }
@@ -12116,6 +12440,24 @@ extension EKSClientTypes.ErrorDetail {
         value.errorCode = try reader["errorCode"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.resourceIds = try reader["resourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.EtcdPlacementRequest {
+
+    static func write(value: EKSClientTypes.EtcdPlacementRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["spreadLevel"].write(value.spreadLevel)
+    }
+}
+
+extension EKSClientTypes.EtcdPlacementResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.EtcdPlacementResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.EtcdPlacementResponse()
+        value.spreadLevel = try reader["spreadLevel"].readIfPresent()
         return value
     }
 }
@@ -12596,6 +12938,8 @@ extension EKSClientTypes.OutpostConfigRequest {
         guard let value else { return }
         try writer["controlPlaneInstanceType"].write(value.controlPlaneInstanceType)
         try writer["controlPlanePlacement"].write(value.controlPlanePlacement, with: EKSClientTypes.ControlPlanePlacementRequest.write(value:to:))
+        try writer["etcdInstanceType"].write(value.etcdInstanceType)
+        try writer["etcdPlacement"].write(value.etcdPlacement, with: EKSClientTypes.EtcdPlacementRequest.write(value:to:))
         try writer["outpostArns"].writeList(value.outpostArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -12608,6 +12952,8 @@ extension EKSClientTypes.OutpostConfigResponse {
         value.outpostArns = try reader["outpostArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.controlPlaneInstanceType = try reader["controlPlaneInstanceType"].readIfPresent() ?? ""
         value.controlPlanePlacement = try reader["controlPlanePlacement"].readIfPresent(with: EKSClientTypes.ControlPlanePlacementResponse.read(from:))
+        value.etcdInstanceType = try reader["etcdInstanceType"].readIfPresent()
+        value.etcdPlacement = try reader["etcdPlacement"].readIfPresent(with: EKSClientTypes.EtcdPlacementResponse.read(from:))
         return value
     }
 }
@@ -12732,6 +13078,14 @@ extension EKSClientTypes.RemotePodNetwork {
     }
 }
 
+extension EKSClientTypes.RollbackConfig {
+
+    static func write(value: EKSClientTypes.RollbackConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["timeoutMinutes"].write(value.timeoutMinutes)
+    }
+}
+
 extension EKSClientTypes.SsoIdentity {
 
     static func write(value: EKSClientTypes.SsoIdentity?, to writer: SmithyJSON.Writer) throws {
@@ -12797,6 +13151,7 @@ extension EKSClientTypes.Update {
         value.params = try reader["params"].readListIfPresent(memberReadingClosure: EKSClientTypes.UpdateParam.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: EKSClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cancellation = try reader["cancellation"].readIfPresent(with: EKSClientTypes.Cancellation.read(from:))
         return value
     }
 }
@@ -12886,6 +13241,7 @@ extension EKSClientTypes.VpcConfigRequest {
 
     static func write(value: EKSClientTypes.VpcConfigRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["controlPlaneEgressMode"].write(value.controlPlaneEgressMode)
         try writer["endpointPrivateAccess"].write(value.endpointPrivateAccess)
         try writer["endpointPublicAccess"].write(value.endpointPublicAccess)
         try writer["publicAccessCidrs"].writeList(value.publicAccessCidrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -12906,6 +13262,7 @@ extension EKSClientTypes.VpcConfigResponse {
         value.endpointPublicAccess = try reader["endpointPublicAccess"].readIfPresent() ?? false
         value.endpointPrivateAccess = try reader["endpointPrivateAccess"].readIfPresent() ?? false
         value.publicAccessCidrs = try reader["publicAccessCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlPlaneEgressMode = try reader["controlPlaneEgressMode"].readIfPresent()
         return value
     }
 }

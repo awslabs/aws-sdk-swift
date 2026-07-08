@@ -3128,15 +3128,43 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The MLflow tracking configuration for logging metrics and parameters to a SageMaker managed MLflow tracking server.
+    public struct AIMlflowConfig: Swift.Sendable {
+        /// The MLflow experiment name used for tracking.
+        public var mlflowExperimentName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the SageMaker managed MLflow resource.
+        /// This member is required.
+        public var mlflowResourceArn: Swift.String?
+        /// The MLflow run name used for tracking.
+        public var mlflowRunName: Swift.String?
+
+        public init(
+            mlflowExperimentName: Swift.String? = nil,
+            mlflowResourceArn: Swift.String? = nil,
+            mlflowRunName: Swift.String? = nil
+        ) {
+            self.mlflowExperimentName = mlflowExperimentName
+            self.mlflowResourceArn = mlflowResourceArn
+            self.mlflowRunName = mlflowRunName
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// The output configuration for an AI benchmark job.
     public struct AIBenchmarkOutputConfig: Swift.Sendable {
+        /// The MLflow tracking configuration for the job. If you don't specify this parameter, MLflow tracking is disabled.
+        public var mlflowConfig: SageMakerClientTypes.AIMlflowConfig?
         /// The Amazon S3 URI where benchmark results are stored.
         /// This member is required.
         public var s3OutputLocation: Swift.String?
 
         public init(
+            mlflowConfig: SageMakerClientTypes.AIMlflowConfig? = nil,
             s3OutputLocation: Swift.String? = nil
         ) {
+            self.mlflowConfig = mlflowConfig
             self.s3OutputLocation = s3OutputLocation
         }
     }
@@ -3167,15 +3195,19 @@ extension SageMakerClientTypes {
     public struct AIBenchmarkOutputResult: Swift.Sendable {
         /// The CloudWatch log information for the benchmark job.
         public var cloudWatchLogs: [SageMakerClientTypes.AICloudWatchLogs]?
+        /// The MLflow tracking configuration for the job.
+        public var mlflowConfig: SageMakerClientTypes.AIMlflowConfig?
         /// The Amazon S3 URI where benchmark results are stored.
         /// This member is required.
         public var s3OutputLocation: Swift.String?
 
         public init(
             cloudWatchLogs: [SageMakerClientTypes.AICloudWatchLogs]? = nil,
+            mlflowConfig: SageMakerClientTypes.AIMlflowConfig? = nil,
             s3OutputLocation: Swift.String? = nil
         ) {
             self.cloudWatchLogs = cloudWatchLogs
+            self.mlflowConfig = mlflowConfig
             self.s3OutputLocation = s3OutputLocation
         }
     }
@@ -3867,15 +3899,19 @@ extension SageMakerClientTypes {
 
     /// The output configuration for an AI recommendation job.
     public struct AIRecommendationOutputConfig: Swift.Sendable {
+        /// The MLflow tracking configuration for the job. If you don't specify this parameter, MLflow tracking is disabled.
+        public var mlflowConfig: SageMakerClientTypes.AIMlflowConfig?
         /// The name or Amazon Resource Name (ARN) of the model package group where the optimized model is registered as a new model package version.
         public var modelPackageGroupIdentifier: Swift.String?
         /// The Amazon S3 URI where recommendation results are stored.
         public var s3OutputLocation: Swift.String?
 
         public init(
+            mlflowConfig: SageMakerClientTypes.AIMlflowConfig? = nil,
             modelPackageGroupIdentifier: Swift.String? = nil,
             s3OutputLocation: Swift.String? = nil
         ) {
+            self.mlflowConfig = mlflowConfig
             self.modelPackageGroupIdentifier = modelPackageGroupIdentifier
             self.s3OutputLocation = s3OutputLocation
         }
@@ -3886,6 +3922,8 @@ extension SageMakerClientTypes {
 
     /// The output configuration for an AI recommendation job, including the S3 location for results and the model package group for deployment.
     public struct AIRecommendationOutputResult: Swift.Sendable {
+        /// The MLflow tracking configuration for the job.
+        public var mlflowConfig: SageMakerClientTypes.AIMlflowConfig?
         /// The name or Amazon Resource Name (ARN) of the model package group where deployment-ready model packages are registered.
         public var modelPackageGroupIdentifier: Swift.String?
         /// The Amazon S3 URI where the recommendation job writes its output results.
@@ -3893,9 +3931,11 @@ extension SageMakerClientTypes {
         public var s3OutputLocation: Swift.String?
 
         public init(
+            mlflowConfig: SageMakerClientTypes.AIMlflowConfig? = nil,
             modelPackageGroupIdentifier: Swift.String? = nil,
             s3OutputLocation: Swift.String? = nil
         ) {
+            self.mlflowConfig = mlflowConfig
             self.modelPackageGroupIdentifier = modelPackageGroupIdentifier
             self.s3OutputLocation = s3OutputLocation
         }
@@ -6556,6 +6596,12 @@ extension SageMakerClientTypes {
         case mlG64xlarge
         case mlG68xlarge
         case mlG6Xlarge
+        case mlG7e12xlarge
+        case mlG7e24xlarge
+        case mlG7e2xlarge
+        case mlG7e48xlarge
+        case mlG7e4xlarge
+        case mlG7e8xlarge
         case mlGeospatialInteractive
         case mlM5d12xlarge
         case mlM5d16xlarge
@@ -6724,6 +6770,12 @@ extension SageMakerClientTypes {
                 .mlG64xlarge,
                 .mlG68xlarge,
                 .mlG6Xlarge,
+                .mlG7e12xlarge,
+                .mlG7e24xlarge,
+                .mlG7e2xlarge,
+                .mlG7e48xlarge,
+                .mlG7e4xlarge,
+                .mlG7e8xlarge,
                 .mlGeospatialInteractive,
                 .mlM5d12xlarge,
                 .mlM5d16xlarge,
@@ -6898,6 +6950,12 @@ extension SageMakerClientTypes {
             case .mlG64xlarge: return "ml.g6.4xlarge"
             case .mlG68xlarge: return "ml.g6.8xlarge"
             case .mlG6Xlarge: return "ml.g6.xlarge"
+            case .mlG7e12xlarge: return "ml.g7e.12xlarge"
+            case .mlG7e24xlarge: return "ml.g7e.24xlarge"
+            case .mlG7e2xlarge: return "ml.g7e.2xlarge"
+            case .mlG7e48xlarge: return "ml.g7e.48xlarge"
+            case .mlG7e4xlarge: return "ml.g7e.4xlarge"
+            case .mlG7e8xlarge: return "ml.g7e.8xlarge"
             case .mlGeospatialInteractive: return "ml.geospatial.interactive"
             case .mlM5d12xlarge: return "ml.m5d.12xlarge"
             case .mlM5d16xlarge: return "ml.m5d.16xlarge"
@@ -12926,6 +12984,164 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The configurations that SageMaker uses when updating the AMI versions.
+    public struct RollingDeploymentPolicy: Swift.Sendable {
+        /// The maximum amount of instances in the cluster that SageMaker can update at a time.
+        /// This member is required.
+        public var maximumBatchSize: SageMakerClientTypes.CapacitySizeConfig?
+        /// The maximum amount of instances in the cluster that SageMaker can roll back at a time.
+        public var rollbackMaximumBatchSize: SageMakerClientTypes.CapacitySizeConfig?
+
+        public init(
+            maximumBatchSize: SageMakerClientTypes.CapacitySizeConfig? = nil,
+            rollbackMaximumBatchSize: SageMakerClientTypes.CapacitySizeConfig? = nil
+        ) {
+            self.maximumBatchSize = maximumBatchSize
+            self.rollbackMaximumBatchSize = rollbackMaximumBatchSize
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The configuration to use when updating the AMI versions.
+    public struct DeploymentConfiguration: Swift.Sendable {
+        /// An array that contains the alarms that SageMaker monitors to know whether to roll back the AMI update.
+        public var autoRollbackConfiguration: [SageMakerClientTypes.AlarmDetails]?
+        /// The policy that SageMaker uses when updating the AMI versions of the cluster.
+        public var rollingUpdatePolicy: SageMakerClientTypes.RollingDeploymentPolicy?
+        /// The duration in seconds that SageMaker waits before updating more instances in the cluster.
+        public var waitIntervalInSeconds: Swift.Int?
+
+        public init(
+            autoRollbackConfiguration: [SageMakerClientTypes.AlarmDetails]? = nil,
+            rollingUpdatePolicy: SageMakerClientTypes.RollingDeploymentPolicy? = nil,
+            waitIntervalInSeconds: Swift.Int? = nil
+        ) {
+            self.autoRollbackConfiguration = autoRollbackConfiguration
+            self.rollingUpdatePolicy = rollingUpdatePolicy
+            self.waitIntervalInSeconds = waitIntervalInSeconds
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The strategy for applying automatic patches to instances.
+    ///
+    /// * WhenIdle: Cordons all instances and patches each instance as it becomes idle (no running jobs). Each instance is uncordoned immediately after patching and becomes available for new jobs. If instances do not become idle, they remain on the previous AMI version. You can then use UpdateClusterSoftware with the desired ImageReleaseVersion to manually update the remaining instances.
+    ///
+    /// * WhenAllIdle: Cordons all instances and waits for all to become idle before patching. All instances are uncordoned after patching completes. If not all instances become idle, no patching occurs and all instances remain on the previous AMI version.
+    public enum ClusterPatchingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case whenAllIdle
+        case whenIdle
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterPatchingStrategy] {
+            return [
+                .whenAllIdle,
+                .whenIdle
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .whenAllIdle: return "WhenAllIdle"
+            case .whenIdle: return "WhenIdle"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The schedule configuration for automatic patching.
+    public struct ClusterPatchSchedule: Swift.Sendable {
+        /// The date and time of the next scheduled automatic patch. The system sets this automatically when a patch is detected. Use this field to reschedule the patch to a different date.
+        public var nextPatchDate: Foundation.Date?
+
+        public init(
+            nextPatchDate: Foundation.Date? = nil
+        ) {
+            self.nextPatchDate = nextPatchDate
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The configuration for automatic patching of the instance group. When configured, the system automatically applies security patch AMI updates to the instance group.
+    public struct ClusterAutoPatchConfig: Swift.Sendable {
+        /// The deployment configuration for rolling patch updates, including rollback settings and batch sizes. Only applicable when using a rolling patching strategy.
+        public var deploymentConfig: SageMakerClientTypes.DeploymentConfiguration?
+        /// The schedule for automatic patching, including the next patch date.
+        public var patchSchedule: SageMakerClientTypes.ClusterPatchSchedule?
+        /// The strategy for applying patches to instances in the group.
+        /// This member is required.
+        public var patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy?
+
+        public init(
+            deploymentConfig: SageMakerClientTypes.DeploymentConfiguration? = nil,
+            patchSchedule: SageMakerClientTypes.ClusterPatchSchedule? = nil,
+            patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy? = nil
+        ) {
+            self.deploymentConfig = deploymentConfig
+            self.patchSchedule = patchSchedule
+            self.patchingStrategy = patchingStrategy
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The schedule details for automatic patching, including the next scheduled patch date.
+    public struct ClusterPatchScheduleDetails: Swift.Sendable {
+        /// The date and time of the next scheduled automatic patch.
+        public var nextPatchDate: Foundation.Date?
+
+        public init(
+            nextPatchDate: Foundation.Date? = nil
+        ) {
+            self.nextPatchDate = nextPatchDate
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The auto-patching configuration details for the instance group, including the patching strategy and schedule.
+    public struct ClusterAutoPatchConfigDetails: Swift.Sendable {
+        /// The currently active patch schedule that the system will execute.
+        public var currentPatchSchedule: SageMakerClientTypes.ClusterPatchScheduleDetails?
+        /// The deployment configuration for rolling patch updates.
+        public var deploymentConfig: SageMakerClientTypes.DeploymentConfiguration?
+        /// The requested patch schedule. Differs from CurrentPatchSchedule when a reschedule request is pending.
+        public var desiredPatchSchedule: SageMakerClientTypes.ClusterPatchScheduleDetails?
+        /// The strategy used for applying patches to instances in the group.
+        public var patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy?
+
+        public init(
+            currentPatchSchedule: SageMakerClientTypes.ClusterPatchScheduleDetails? = nil,
+            deploymentConfig: SageMakerClientTypes.DeploymentConfiguration? = nil,
+            desiredPatchSchedule: SageMakerClientTypes.ClusterPatchScheduleDetails? = nil,
+            patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy? = nil
+        ) {
+            self.currentPatchSchedule = currentPatchSchedule
+            self.deploymentConfig = deploymentConfig
+            self.desiredPatchSchedule = desiredPatchSchedule
+            self.patchingStrategy = patchingStrategy
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum ClusterAutoScalerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case karpenter
         case sdkUnknown(Swift.String)
@@ -13625,13 +13841,21 @@ extension SageMakerClientTypes {
     /// * UpToDate: The resource is running the latest available AMI version.
     ///
     /// * UpdateAvailable: A newer AMI version is available for the resource.
+    ///
+    /// * SecurityUpdateRequired: The current AMI has known security vulnerabilities, and a patched version is available.
+    ///
+    /// * EndOfLife: The AMI variant has reached end of support and an upgrade is required.
     public enum ClusterImageVersionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case endOfLife
+        case securityUpdateRequired
         case updateAvailable
         case upToDate
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ClusterImageVersionStatus] {
             return [
+                .endOfLife,
+                .securityUpdateRequired,
                 .updateAvailable,
                 .upToDate
             ]
@@ -13644,53 +13868,12 @@ extension SageMakerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .endOfLife: return "EndOfLife"
+            case .securityUpdateRequired: return "SecurityUpdateRequired"
             case .updateAvailable: return "UpdateAvailable"
             case .upToDate: return "UpToDate"
             case let .sdkUnknown(s): return s
             }
-        }
-    }
-}
-
-extension SageMakerClientTypes {
-
-    /// The configurations that SageMaker uses when updating the AMI versions.
-    public struct RollingDeploymentPolicy: Swift.Sendable {
-        /// The maximum amount of instances in the cluster that SageMaker can update at a time.
-        /// This member is required.
-        public var maximumBatchSize: SageMakerClientTypes.CapacitySizeConfig?
-        /// The maximum amount of instances in the cluster that SageMaker can roll back at a time.
-        public var rollbackMaximumBatchSize: SageMakerClientTypes.CapacitySizeConfig?
-
-        public init(
-            maximumBatchSize: SageMakerClientTypes.CapacitySizeConfig? = nil,
-            rollbackMaximumBatchSize: SageMakerClientTypes.CapacitySizeConfig? = nil
-        ) {
-            self.maximumBatchSize = maximumBatchSize
-            self.rollbackMaximumBatchSize = rollbackMaximumBatchSize
-        }
-    }
-}
-
-extension SageMakerClientTypes {
-
-    /// The configuration to use when updating the AMI versions.
-    public struct DeploymentConfiguration: Swift.Sendable {
-        /// An array that contains the alarms that SageMaker monitors to know whether to roll back the AMI update.
-        public var autoRollbackConfiguration: [SageMakerClientTypes.AlarmDetails]?
-        /// The policy that SageMaker uses when updating the AMI versions of the cluster.
-        public var rollingUpdatePolicy: SageMakerClientTypes.RollingDeploymentPolicy?
-        /// The duration in seconds that SageMaker waits before updating more instances in the cluster.
-        public var waitIntervalInSeconds: Swift.Int?
-
-        public init(
-            autoRollbackConfiguration: [SageMakerClientTypes.AlarmDetails]? = nil,
-            rollingUpdatePolicy: SageMakerClientTypes.RollingDeploymentPolicy? = nil,
-            waitIntervalInSeconds: Swift.Int? = nil
-        ) {
-            self.autoRollbackConfiguration = autoRollbackConfiguration
-            self.rollingUpdatePolicy = rollingUpdatePolicy
-            self.waitIntervalInSeconds = waitIntervalInSeconds
         }
     }
 }
@@ -14096,14 +14279,20 @@ extension SageMakerClientTypes {
         public var activeOperations: [Swift.String: Swift.Int]?
         /// The configuration to use when updating the AMI versions.
         public var activeSoftwareUpdateConfig: SageMakerClientTypes.DeploymentConfiguration?
+        /// The auto-patching configuration for the instance group, including the current patching strategy and next scheduled patch date.
+        public var autoPatchConfig: SageMakerClientTypes.ClusterAutoPatchConfigDetails?
         /// The instance capacity requirements for the instance group.
         public var capacityRequirements: SageMakerClientTypes.ClusterCapacityRequirements?
         /// The number of instances that are currently in the instance group of a SageMaker HyperPod cluster.
         public var currentCount: Swift.Int?
         /// The ID of the Amazon Machine Image (AMI) currently in use by the instance group.
         public var currentImageId: Swift.String?
+        /// The version of the HyperPod-managed AMI currently running on the instance group.
+        public var currentImageReleaseVersion: Swift.String?
         /// The ID of the Amazon Machine Image (AMI) desired for the instance group.
         public var desiredImageId: Swift.String?
+        /// The desired version of the HyperPod-managed AMI for the instance group. This may differ from the current version when an update is pending.
+        public var desiredImageReleaseVersion: Swift.String?
         /// The execution role for the instance group to assume.
         public var executionRole: Swift.String?
         /// The status of the image version for the instance group. Indicates whether the instance group is running the latest image version or if an update is available.
@@ -14174,10 +14363,13 @@ extension SageMakerClientTypes {
         public init(
             activeOperations: [Swift.String: Swift.Int]? = nil,
             activeSoftwareUpdateConfig: SageMakerClientTypes.DeploymentConfiguration? = nil,
+            autoPatchConfig: SageMakerClientTypes.ClusterAutoPatchConfigDetails? = nil,
             capacityRequirements: SageMakerClientTypes.ClusterCapacityRequirements? = nil,
             currentCount: Swift.Int? = nil,
             currentImageId: Swift.String? = nil,
+            currentImageReleaseVersion: Swift.String? = nil,
             desiredImageId: Swift.String? = nil,
+            desiredImageReleaseVersion: Swift.String? = nil,
             executionRole: Swift.String? = nil,
             imageVersionStatus: SageMakerClientTypes.ClusterImageVersionStatus? = nil,
             instanceGroupName: Swift.String? = nil,
@@ -14203,10 +14395,13 @@ extension SageMakerClientTypes {
         ) {
             self.activeOperations = activeOperations
             self.activeSoftwareUpdateConfig = activeSoftwareUpdateConfig
+            self.autoPatchConfig = autoPatchConfig
             self.capacityRequirements = capacityRequirements
             self.currentCount = currentCount
             self.currentImageId = currentImageId
+            self.currentImageReleaseVersion = currentImageReleaseVersion
             self.desiredImageId = desiredImageId
+            self.desiredImageReleaseVersion = desiredImageReleaseVersion
             self.executionRole = executionRole
             self.imageVersionStatus = imageVersionStatus
             self.instanceGroupName = instanceGroupName
@@ -14314,6 +14509,8 @@ extension SageMakerClientTypes {
 
     /// The specifications of an instance group that you need to define.
     public struct ClusterInstanceGroupSpecification: Swift.Sendable {
+        /// The configuration for automatic OS security patching. If present, the system automatically applies PATCH AMI updates to this instance group.
+        public var autoPatchConfig: SageMakerClientTypes.ClusterAutoPatchConfig?
         /// Specifies the capacity requirements for the instance group.
         public var capacityRequirements: SageMakerClientTypes.ClusterCapacityRequirements?
         /// Specifies an IAM execution role to be assumed by the instance group.
@@ -14339,6 +14536,8 @@ extension SageMakerClientTypes {
         ///
         /// When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input. Note that if you don't specify an instance group in your UpdateClusterSoftware request, then all of the instance groups are patched with the specified image.
         public var imageId: Swift.String?
+        /// The version of the HyperPod-managed AMI to use for the instance group. Uses semantic versioning in the format MAJOR.MINOR.PATCH (for example, 1.2.3). If omitted, the latest available version is used.
+        public var imageReleaseVersion: Swift.String?
         /// Specifies the number of instances to add to the instance group of a SageMaker HyperPod cluster.
         /// This member is required.
         public var instanceCount: Swift.Int?
@@ -14386,9 +14585,11 @@ extension SageMakerClientTypes {
         public var trainingPlanArn: Swift.String?
 
         public init(
+            autoPatchConfig: SageMakerClientTypes.ClusterAutoPatchConfig? = nil,
             capacityRequirements: SageMakerClientTypes.ClusterCapacityRequirements? = nil,
             executionRole: Swift.String? = nil,
             imageId: Swift.String? = nil,
+            imageReleaseVersion: Swift.String? = nil,
             instanceCount: Swift.Int? = nil,
             instanceGroupName: Swift.String? = nil,
             instanceRequirements: SageMakerClientTypes.ClusterInstanceRequirements? = nil,
@@ -14405,9 +14606,11 @@ extension SageMakerClientTypes {
             threadsPerCore: Swift.Int? = nil,
             trainingPlanArn: Swift.String? = nil
         ) {
+            self.autoPatchConfig = autoPatchConfig
             self.capacityRequirements = capacityRequirements
             self.executionRole = executionRole
             self.imageId = imageId
+            self.imageReleaseVersion = imageReleaseVersion
             self.instanceCount = instanceCount
             self.instanceGroupName = instanceGroupName
             self.instanceRequirements = instanceRequirements
@@ -14520,8 +14723,12 @@ extension SageMakerClientTypes {
         public var capacityType: SageMakerClientTypes.ClusterCapacityType?
         /// The ID of the Amazon Machine Image (AMI) currently in use by the node.
         public var currentImageId: Swift.String?
+        /// The version of the HyperPod-managed AMI currently running on the node.
+        public var currentImageReleaseVersion: Swift.String?
         /// The ID of the Amazon Machine Image (AMI) desired for the node.
         public var desiredImageId: Swift.String?
+        /// The desired version of the HyperPod-managed AMI for the node. This may differ from the current version when an update is pending.
+        public var desiredImageReleaseVersion: Swift.String?
         /// The status of the image version for the cluster node.
         public var imageVersionStatus: SageMakerClientTypes.ClusterImageVersionStatus?
         /// The instance group name in which the instance is.
@@ -14564,7 +14771,9 @@ extension SageMakerClientTypes {
         public init(
             capacityType: SageMakerClientTypes.ClusterCapacityType? = nil,
             currentImageId: Swift.String? = nil,
+            currentImageReleaseVersion: Swift.String? = nil,
             desiredImageId: Swift.String? = nil,
+            desiredImageReleaseVersion: Swift.String? = nil,
             imageVersionStatus: SageMakerClientTypes.ClusterImageVersionStatus? = nil,
             instanceGroupName: Swift.String? = nil,
             instanceId: Swift.String? = nil,
@@ -14587,7 +14796,9 @@ extension SageMakerClientTypes {
         ) {
             self.capacityType = capacityType
             self.currentImageId = currentImageId
+            self.currentImageReleaseVersion = currentImageReleaseVersion
             self.desiredImageId = desiredImageId
+            self.desiredImageReleaseVersion = desiredImageReleaseVersion
             self.imageVersionStatus = imageVersionStatus
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
@@ -14670,6 +14881,8 @@ extension SageMakerClientTypes {
 
     /// Lists a summary of the properties of an instance (also called a node interchangeably) of a SageMaker HyperPod cluster.
     public struct ClusterNodeSummary: Swift.Sendable {
+        /// The version of the HyperPod-managed AMI currently running on the node.
+        public var currentImageReleaseVersion: Swift.String?
         /// The status of the image version for the cluster node.
         public var imageVersionStatus: SageMakerClientTypes.ClusterImageVersionStatus?
         /// The name of the instance group in which the instance is.
@@ -14697,6 +14910,7 @@ extension SageMakerClientTypes {
         public var ultraServerInfo: SageMakerClientTypes.UltraServerInfo?
 
         public init(
+            currentImageReleaseVersion: Swift.String? = nil,
             imageVersionStatus: SageMakerClientTypes.ClusterImageVersionStatus? = nil,
             instanceGroupName: Swift.String? = nil,
             instanceId: Swift.String? = nil,
@@ -14708,6 +14922,7 @@ extension SageMakerClientTypes {
             privateDnsHostname: Swift.String? = nil,
             ultraServerInfo: SageMakerClientTypes.UltraServerInfo? = nil
         ) {
+            self.currentImageReleaseVersion = currentImageReleaseVersion
             self.imageVersionStatus = imageVersionStatus
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
@@ -15273,6 +15488,8 @@ extension SageMakerClientTypes {
         /// The time when the SageMaker HyperPod cluster is created.
         /// This member is required.
         public var creationTime: Foundation.Date?
+        /// The aggregate status of the image version across the cluster's instance groups.
+        public var imageVersionStatus: SageMakerClientTypes.ClusterImageVersionStatus?
         /// A list of Amazon Resource Names (ARNs) of the training plans associated with this cluster. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
         public var trainingPlanArns: [Swift.String]?
 
@@ -15281,12 +15498,14 @@ extension SageMakerClientTypes {
             clusterName: Swift.String? = nil,
             clusterStatus: SageMakerClientTypes.ClusterStatus? = nil,
             creationTime: Foundation.Date? = nil,
+            imageVersionStatus: SageMakerClientTypes.ClusterImageVersionStatus? = nil,
             trainingPlanArns: [Swift.String]? = nil
         ) {
             self.clusterArn = clusterArn
             self.clusterName = clusterName
             self.clusterStatus = clusterStatus
             self.creationTime = creationTime
+            self.imageVersionStatus = imageVersionStatus
             self.trainingPlanArns = trainingPlanArns
         }
     }
@@ -16260,6 +16479,89 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
+public enum MetricPublishFrequencyInSeconds: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    /// Metrics publishing at 10 seconds frequency
+    case freq10S
+    /// Metrics publishing at 120 seconds frequency
+    case freq120S
+    /// Metrics publishing at 180 seconds frequency
+    case freq180S
+    /// Metrics publishing at 240 seconds frequency
+    case freq240S
+    /// Metrics publishing at 300 seconds frequency
+    case freq300S
+    /// Metrics publishing at 30 seconds frequency
+    case freq30S
+    /// Metrics publishing at 60 seconds frequency
+    case freq60S
+    case sdkUnknown(Swift.Int)
+
+    public static var allCases: [MetricPublishFrequencyInSeconds] {
+        return [
+            .freq10S,
+            .freq120S,
+            .freq180S,
+            .freq240S,
+            .freq300S,
+            .freq30S,
+            .freq60S
+        ]
+    }
+
+    public init(rawValue: Swift.Int) {
+        let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+        self = value ?? Self.sdkUnknown(rawValue)
+    }
+
+    public var rawValue: Swift.Int {
+        switch self {
+        case .freq10S: return 10
+        case .freq120S: return 120
+        case .freq180S: return 180
+        case .freq240S: return 240
+        case .freq300S: return 300
+        case .freq30S: return 30
+        case .freq60S: return 60
+        case let .sdkUnknown(s): return s
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Specifies a metrics endpoint for a container, including the path where the container exposes Prometheus-formatted metrics and the frequency at which to publish them to Amazon CloudWatch.
+    public struct MetricsEndpoint: Swift.Sendable {
+        /// The interval, in seconds, at which container metrics scraped from the endpoint are published to Amazon CloudWatch. Valid values: 10, 30, 60, 120, 180, 240, 300. Defaults to 60.
+        public var metricPublishFrequencyInSeconds: MetricPublishFrequencyInSeconds?
+        /// The path to the metrics endpoint exposed by the container. For example, /metrics or /server/metrics. The path must start with / and can contain alphanumeric characters, forward slashes, underscores, hyphens, and periods. Maximum length is 256 characters. If not specified, defaults to /metrics.
+        /// This member is required.
+        public var metricsEndpointPath: Swift.String?
+
+        public init(
+            metricPublishFrequencyInSeconds: MetricPublishFrequencyInSeconds? = nil,
+            metricsEndpointPath: Swift.String? = nil
+        ) {
+            self.metricPublishFrequencyInSeconds = metricPublishFrequencyInSeconds
+            self.metricsEndpointPath = metricsEndpointPath
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The configuration for container-level metrics scraping. Use this configuration to specify a custom metrics endpoint path and publishing frequency for container metrics. When EnableDetailedObservability is set to True in MetricsConfig, metrics are scraped from the container's Prometheus endpoint. If this configuration is not provided, the default path /metrics on port 8080 is used with a default publishing frequency of 60 seconds. For first-party and Deep Learning Containers (DLC), the endpoint path is determined automatically and this configuration is optional.
+    public struct ContainerMetricsConfig: Swift.Sendable {
+        /// A list of metrics endpoints to scrape from the container. Each endpoint specifies the path where the container exposes Prometheus-formatted metrics and the frequency at which to publish them. You can specify a maximum of 1 endpoint.
+        public var metricsEndpoints: [SageMakerClientTypes.MetricsEndpoint]?
+
+        public init(
+            metricsEndpoints: [SageMakerClientTypes.MetricsEndpoint]? = nil
+        ) {
+            self.metricsEndpoints = metricsEndpoints
+        }
+    }
+}
+
 extension SageMakerClientTypes {
 
     public enum RepositoryAccessMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -16410,6 +16712,8 @@ extension SageMakerClientTypes {
         public var additionalModelDataSources: [SageMakerClientTypes.AdditionalModelDataSource]?
         /// This parameter is ignored for models that contain only a PrimaryContainer. When a ContainerDefinition is part of an inference pipeline, the value of the parameter uniquely identifies the container for the purposes of logging and metrics. For information, see [Use Logs and Metrics to Monitor an Inference Pipeline](https://docs.aws.amazon.com/sagemaker/latest/dg/inference-pipeline-logs-metrics.html). If you don't specify a value for this parameter for a ContainerDefinition that is part of an inference pipeline, a unique name is automatically assigned based on the position of the ContainerDefinition in the pipeline. If you specify a value for the ContainerHostName for any ContainerDefinition that is part of an inference pipeline, you must specify a value for the ContainerHostName parameter of every ContainerDefinition in that pipeline.
         public var containerHostname: Swift.String?
+        /// The configuration for container metrics scraping. Specifies the metrics endpoint path and publishing frequency. If not specified when EnableDetailedObservability is True, the default path /metrics on port 8080 is used. For first-party and Deep Learning Containers (DLC), the endpoint path is determined automatically and this configuration is optional.
+        public var containerMetricsConfig: SageMakerClientTypes.ContainerMetricsConfig?
         /// The environment variables to set in the Docker container. Don't include any sensitive data in your environment variables. The maximum length of each key and value in the Environment map is 1024 bytes. The maximum length of all keys and values in the map, combined, is 32 KB. If you pass multiple containers to a CreateModel request, then the maximum length of all of their maps, combined, is also 32 KB.
         public var environment: [Swift.String: Swift.String]?
         /// The path where inference code is stored. This can be either in Amazon EC2 Container Registry or in a Docker registry that is accessible from the same VPC that you configure for your endpoint. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html). The model artifacts in an Amazon S3 bucket and the Docker image for inference container in Amazon EC2 Container Registry must be in the same region as the model or endpoint you are creating.
@@ -16432,6 +16736,7 @@ extension SageMakerClientTypes {
         public init(
             additionalModelDataSources: [SageMakerClientTypes.AdditionalModelDataSource]? = nil,
             containerHostname: Swift.String? = nil,
+            containerMetricsConfig: SageMakerClientTypes.ContainerMetricsConfig? = nil,
             environment: [Swift.String: Swift.String]? = nil,
             image: Swift.String? = nil,
             imageConfig: SageMakerClientTypes.ImageConfig? = nil,
@@ -16444,6 +16749,7 @@ extension SageMakerClientTypes {
         ) {
             self.additionalModelDataSources = additionalModelDataSources
             self.containerHostname = containerHostname
+            self.containerMetricsConfig = containerMetricsConfig
             self.environment = environment
             self.image = image
             self.imageConfig = imageConfig
@@ -20779,67 +21085,34 @@ extension SageMakerClientTypes {
     }
 }
 
-public enum MetricPublishFrequencyInSeconds: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-    /// Metrics publishing at 10 seconds frequency
-    case freq10S
-    /// Metrics publishing at 120 seconds frequency
-    case freq120S
-    /// Metrics publishing at 180 seconds frequency
-    case freq180S
-    /// Metrics publishing at 240 seconds frequency
-    case freq240S
-    /// Metrics publishing at 300 seconds frequency
-    case freq300S
-    /// Metrics publishing at 30 seconds frequency
-    case freq30S
-    /// Metrics publishing at 60 seconds frequency
-    case freq60S
-    case sdkUnknown(Swift.Int)
-
-    public static var allCases: [MetricPublishFrequencyInSeconds] {
-        return [
-            .freq10S,
-            .freq120S,
-            .freq180S,
-            .freq240S,
-            .freq300S,
-            .freq30S,
-            .freq60S
-        ]
-    }
-
-    public init(rawValue: Swift.Int) {
-        let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-        self = value ?? Self.sdkUnknown(rawValue)
-    }
-
-    public var rawValue: Swift.Int {
-        switch self {
-        case .freq10S: return 10
-        case .freq120S: return 120
-        case .freq180S: return 180
-        case .freq240S: return 240
-        case .freq300S: return 300
-        case .freq30S: return 30
-        case .freq60S: return 60
-        case let .sdkUnknown(s): return s
-        }
-    }
-}
-
 extension SageMakerClientTypes {
 
     /// The configuration for Utilization metrics.
     public struct MetricsConfig: Swift.Sendable {
+        /// Indicates whether detailed observability is enabled for the endpoint. When set to True, the following metrics are published at the configured frequency:
+        ///
+        /// * Container-level inference metrics scraped from the container's Prometheus endpoint (such as request latency, error counts, and throughput). Available metrics vary by framework.
+        ///
+        /// * Per-GPU metrics (utilization, memory, and temperature) attributed to individual inference components.
+        ///
+        /// * Per-instance host metrics (CPU, memory, and disk utilization).
+        ///
+        /// * Inference component placement metrics (copy count per Availability Zone).
+        ///
+        ///
+        /// For first-party and Deep Learning Containers (DLC), the Prometheus endpoint path is determined automatically. For Bring-Your-Own-Container (BYOC) cases, you can optionally set ContainerMetricsConfig to specify a custom endpoint path. If not specified, the default path /metrics on port 8080 is used. When set to False, these additional metrics are not published. Standard invocation and utilization metrics controlled by EnableEnhancedMetrics are unaffected. The default value for new endpoint configurations is True. For existing endpoint configurations created before this feature, the value is False unless explicitly set.
+        public var enableDetailedObservability: Swift.Bool?
         /// Specifies whether to enable enhanced metrics for the endpoint. Enhanced metrics provide utilization and invocation data at instance and container granularity. Container granularity is supported for Inference Components. The default is False.
         public var enableEnhancedMetrics: Swift.Bool?
-        /// The interval, in seconds, at which metrics are published to Amazon CloudWatch. Defaults to 60. Valid values: 10, 30, 60, 120, 180, 240, 300. When EnableEnhancedMetrics is set to False, this interval applies to utilization metrics only; invocation metrics continue to be published at the default 60-second interval. When EnableEnhancedMetrics is set to True, this interval applies to both utilization and invocation metrics.
+        /// The interval, in seconds, at which metrics are published to Amazon CloudWatch. Defaults to 60. Valid values: 10, 30, 60, 120, 180, 240, 300. When EnableEnhancedMetrics is set to False, this interval applies to utilization metrics only. Invocation metrics continue to be published at the default 60-second interval. When EnableEnhancedMetrics is set to True, this interval applies to both utilization and invocation metrics. When EnableDetailedObservability is set to True, this interval applies to per-GPU metrics, per-instance host metrics, container metrics, and fleet-level inference component lifecycle and placement metrics.
         public var metricPublishFrequencyInSeconds: MetricPublishFrequencyInSeconds?
 
         public init(
+            enableDetailedObservability: Swift.Bool? = nil,
             enableEnhancedMetrics: Swift.Bool? = nil,
             metricPublishFrequencyInSeconds: MetricPublishFrequencyInSeconds? = nil
         ) {
+            self.enableDetailedObservability = enableDetailedObservability
             self.enableEnhancedMetrics = enableEnhancedMetrics
             self.metricPublishFrequencyInSeconds = metricPublishFrequencyInSeconds
         }
@@ -21338,7 +21611,7 @@ public struct CreateEndpointConfigInput: Swift.Sendable {
     /// * Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
     ///
     ///
-    /// The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint, UpdateEndpoint requests. For more information, refer to the Amazon Web Services Key Management Service section[ Using Key Policies in Amazon Web Services KMS ](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html) Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a KmsKeyId when using an instance type with local storage. If any of the models that you specify in the ProductionVariants parameter use nitro-based instances with local storage, do not specify a value for the KmsKeyId parameter. If you specify a value for KmsKeyId when using any nitro-based instances with local storage, the call to CreateEndpointConfig fails. For a list of instance types that support local instance storage, see [Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes). For more information about local instance storage encryption, see [SSD Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html).
+    /// The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint, UpdateEndpoint requests. For more information, refer to the Amazon Web Services Key Management Service section[ Using Key Policies in Amazon Web Services KMS ](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html) Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. If any of the models that you specify in the ProductionVariants parameter use nitro-based instances with local storage, the KmsKeyId parameter does not encrypt instance local storage. For a list of instance types that support local instance storage, see [Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes). For more information about local instance storage encryption, see [SSD Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html).
     public var kmsKeyId: Swift.String?
     /// The configuration parameters for utilization metrics.
     public var metricsConfig: SageMakerClientTypes.MetricsConfig?
@@ -23655,6 +23928,8 @@ extension SageMakerClientTypes {
     public struct InferenceComponentContainerSpecification: Swift.Sendable {
         /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).
         public var artifactUrl: Swift.String?
+        /// The configuration for container metrics scraping. Specifies the metrics endpoint path and publishing frequency for the inference component's container. If not specified when EnableDetailedObservability is True, the default path /metrics on port 8080 is used. For first-party and Deep Learning Containers (DLC), the endpoint path is determined automatically and this configuration is optional.
+        public var containerMetricsConfig: SageMakerClientTypes.ContainerMetricsConfig?
         /// The environment variables to set in the Docker container. Each key and value in the Environment string-to-string map can have length of up to 1024. We support up to 16 entries in the map.
         public var environment: [Swift.String: Swift.String]?
         /// The Amazon Elastic Container Registry (Amazon ECR) path where the Docker image for the model is stored.
@@ -23662,10 +23937,12 @@ extension SageMakerClientTypes {
 
         public init(
             artifactUrl: Swift.String? = nil,
+            containerMetricsConfig: SageMakerClientTypes.ContainerMetricsConfig? = nil,
             environment: [Swift.String: Swift.String]? = nil,
             image: Swift.String? = nil
         ) {
             self.artifactUrl = artifactUrl
+            self.containerMetricsConfig = containerMetricsConfig
             self.environment = environment
             self.image = image
         }
@@ -24703,6 +24980,83 @@ public struct CreateInferenceRecommendationsJobInput: Swift.Sendable {
 
 public struct CreateInferenceRecommendationsJobOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the recommendation job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+
+    public init(
+        jobArn: Swift.String? = nil
+    ) {
+        self.jobArn = jobArn
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum JobCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agentRft
+        case agentRftEvaluation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobCategory] {
+            return [
+                .agentRft,
+                .agentRftEvaluation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agentRft: return "AgentRFT"
+            case .agentRftEvaluation: return "AgentRFTEvaluation"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateJobInput: Swift.Sendable {
+    /// The category of the job. The category determines the type of workload that the job runs.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// The JSON configuration document for the job. The document must conform to the schema specified by JobConfigSchemaVersion. Use DescribeJobSchemaVersion to retrieve the schema for validation.
+    /// This member is required.
+    public var jobConfigDocument: Swift.String?
+    /// The version of the configuration schema to use for the job configuration document. Use ListJobSchemaVersions to get available schema versions for a job category.
+    /// This member is required.
+    public var jobConfigSchemaVersion: Swift.String?
+    /// The name of the job. The name must be unique within your account and Amazon Web Services Region.
+    /// This member is required.
+    public var jobName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker assumes to perform the job. The role must have the necessary permissions to access the resources required by the job configuration.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// An array of key-value pairs to apply to the job as tags. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+    public var tags: [SageMakerClientTypes.Tag]?
+
+    public init(
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        jobConfigDocument: Swift.String? = nil,
+        jobConfigSchemaVersion: Swift.String? = nil,
+        jobName: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil
+    ) {
+        self.jobCategory = jobCategory
+        self.jobConfigDocument = jobConfigDocument
+        self.jobConfigSchemaVersion = jobConfigSchemaVersion
+        self.jobName = jobName
+        self.roleArn = roleArn
+        self.tags = tags
+    }
+}
+
+public struct CreateJobOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the job.
     /// This member is required.
     public var jobArn: Swift.String?
 
@@ -27664,6 +28018,14 @@ extension SageMakerClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlG6e12xlarge
+        case mlG6e16xlarge
+        case mlG6e24xlarge
+        case mlG6e2xlarge
+        case mlG6e48xlarge
+        case mlG6e4xlarge
+        case mlG6e8xlarge
+        case mlG6eXlarge
         case mlG612xlarge
         case mlG616xlarge
         case mlG624xlarge
@@ -27843,6 +28205,14 @@ extension SageMakerClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlG6e12xlarge,
+                .mlG6e16xlarge,
+                .mlG6e24xlarge,
+                .mlG6e2xlarge,
+                .mlG6e48xlarge,
+                .mlG6e4xlarge,
+                .mlG6e8xlarge,
+                .mlG6eXlarge,
                 .mlG612xlarge,
                 .mlG616xlarge,
                 .mlG624xlarge,
@@ -28028,6 +28398,14 @@ extension SageMakerClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlG6e12xlarge: return "ml.g6e.12xlarge"
+            case .mlG6e16xlarge: return "ml.g6e.16xlarge"
+            case .mlG6e24xlarge: return "ml.g6e.24xlarge"
+            case .mlG6e2xlarge: return "ml.g6e.2xlarge"
+            case .mlG6e48xlarge: return "ml.g6e.48xlarge"
+            case .mlG6e4xlarge: return "ml.g6e.4xlarge"
+            case .mlG6e8xlarge: return "ml.g6e.8xlarge"
+            case .mlG6eXlarge: return "ml.g6e.xlarge"
             case .mlG612xlarge: return "ml.g6.12xlarge"
             case .mlG616xlarge: return "ml.g6.16xlarge"
             case .mlG624xlarge: return "ml.g6.24xlarge"
@@ -32609,6 +32987,28 @@ public struct DeleteInferenceExperimentOutput: Swift.Sendable {
     ) {
         self.inferenceExperimentArn = inferenceExperimentArn
     }
+}
+
+public struct DeleteJobInput: Swift.Sendable {
+    /// The category of the job to delete.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// The name of the job to delete.
+    /// This member is required.
+    public var jobName: Swift.String?
+
+    public init(
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        jobName: Swift.String? = nil
+    ) {
+        self.jobCategory = jobCategory
+        self.jobName = jobName
+    }
+}
+
+public struct DeleteJobOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteMlflowAppInput: Swift.Sendable {
@@ -37696,6 +38096,8 @@ extension SageMakerClientTypes {
     public struct InferenceComponentContainerSpecificationSummary: Swift.Sendable {
         /// The Amazon S3 path where the model artifacts are stored.
         public var artifactUrl: Swift.String?
+        /// The container metrics scraping configuration for this inference component, including the metrics endpoint path and publishing frequency.
+        public var containerMetricsConfig: SageMakerClientTypes.ContainerMetricsConfig?
         /// Gets the Amazon EC2 Container Registry path of the docker image of the model that is hosted in this [ProductionVariant](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ProductionVariant.html). If you used the registry/repository[:tag] form to specify the image path of the primary container when you created the model hosted in this ProductionVariant, the path resolves to a path of the form registry/repository[@digest]. A digest is a hash value that identifies a specific version of an image. For information about Amazon ECR paths, see [Pulling an Image](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-pull-ecr-image.html) in the Amazon ECR User Guide.
         public var deployedImage: SageMakerClientTypes.DeployedImage?
         /// The environment variables to set in the Docker container.
@@ -37703,10 +38105,12 @@ extension SageMakerClientTypes {
 
         public init(
             artifactUrl: Swift.String? = nil,
+            containerMetricsConfig: SageMakerClientTypes.ContainerMetricsConfig? = nil,
             deployedImage: SageMakerClientTypes.DeployedImage? = nil,
             environment: [Swift.String: Swift.String]? = nil
         ) {
             self.artifactUrl = artifactUrl
+            self.containerMetricsConfig = containerMetricsConfig
             self.deployedImage = deployedImage
             self.environment = environment
         }
@@ -38423,6 +38827,275 @@ public struct DescribeInferenceRecommendationsJobOutput: Swift.Sendable {
         self.roleArn = roleArn
         self.status = status
         self.stoppingConditions = stoppingConditions
+    }
+}
+
+public struct DescribeJobInput: Swift.Sendable {
+    /// The category of the job.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// The name of the job to describe.
+    /// This member is required.
+    public var jobName: Swift.String?
+
+    public init(
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        jobName: Swift.String? = nil
+    ) {
+        self.jobCategory = jobCategory
+        self.jobName = jobName
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum JobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case deleteFailed
+        case deleting
+        case failed
+        case inProgress
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobStatus] {
+            return [
+                .completed,
+                .deleteFailed,
+                .deleting,
+                .failed,
+                .inProgress,
+                .stopped,
+                .stopping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "Completed"
+            case .deleteFailed: return "DeleteFailed"
+            case .deleting: return "Deleting"
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case .stopped: return "Stopped"
+            case .stopping: return "Stopping"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum JobSecondaryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case deleteFailed
+        case deleting
+        case downloading
+        case evaluating
+        case failed
+        case interrupted
+        case maxRuntimeExceeded
+        case pending
+        case restarting
+        case starting
+        case stopped
+        case stopping
+        case training
+        case uploading
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobSecondaryStatus] {
+            return [
+                .completed,
+                .deleteFailed,
+                .deleting,
+                .downloading,
+                .evaluating,
+                .failed,
+                .interrupted,
+                .maxRuntimeExceeded,
+                .pending,
+                .restarting,
+                .starting,
+                .stopped,
+                .stopping,
+                .training,
+                .uploading
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "Completed"
+            case .deleteFailed: return "DeleteFailed"
+            case .deleting: return "Deleting"
+            case .downloading: return "Downloading"
+            case .evaluating: return "Evaluating"
+            case .failed: return "Failed"
+            case .interrupted: return "Interrupted"
+            case .maxRuntimeExceeded: return "MaxRuntimeExceeded"
+            case .pending: return "Pending"
+            case .restarting: return "Restarting"
+            case .starting: return "Starting"
+            case .stopped: return "Stopped"
+            case .stopping: return "Stopping"
+            case .training: return "Training"
+            case .uploading: return "Uploading"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Represents a secondary status transition for a job. Jobs progress through multiple secondary statuses during execution. Each transition records the status, start time, optional end time, and an optional message with additional details.
+    public struct JobSecondaryStatusTransition: Swift.Sendable {
+        /// The date and time that the status transition ended.
+        public var endTime: Foundation.Date?
+        /// The date and time that the status transition started.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+        /// The secondary status of the job at this transition point.
+        /// This member is required.
+        public var status: SageMakerClientTypes.JobSecondaryStatus?
+        /// A detailed message about the status transition.
+        public var statusMessage: Swift.String?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil,
+            status: SageMakerClientTypes.JobSecondaryStatus? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.endTime = endTime
+            self.startTime = startTime
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+public struct DescribeJobOutput: Swift.Sendable {
+    /// The date and time that the job was created.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// The date and time that the job ended.
+    public var endTime: Foundation.Date?
+    /// If the job failed, the reason it failed.
+    public var failureReason: Swift.String?
+    /// The Amazon Resource Name (ARN) of the job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+    /// The category of the job.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// The JSON configuration document for the job.
+    public var jobConfigDocument: Swift.String?
+    /// The schema version used for the job configuration document.
+    /// This member is required.
+    public var jobConfigSchemaVersion: Swift.String?
+    /// The name of the job.
+    /// This member is required.
+    public var jobName: Swift.String?
+    /// The current status of the job.
+    /// This member is required.
+    public var jobStatus: SageMakerClientTypes.JobStatus?
+    /// The date and time that the job was last modified.
+    /// This member is required.
+    public var lastModifiedTime: Foundation.Date?
+    /// The ARN of the IAM role associated with the job.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The detailed secondary status of the job, providing more granular information about the job's progress. Secondary statuses may change between releases.
+    /// This member is required.
+    public var secondaryStatus: SageMakerClientTypes.JobSecondaryStatus?
+    /// A list of secondary status transitions for the job, with timestamps and optional status messages.
+    /// This member is required.
+    public var secondaryStatusTransitions: [SageMakerClientTypes.JobSecondaryStatusTransition]?
+    /// The tags associated with the job.
+    public var tags: [SageMakerClientTypes.Tag]?
+
+    public init(
+        creationTime: Foundation.Date? = nil,
+        endTime: Foundation.Date? = nil,
+        failureReason: Swift.String? = nil,
+        jobArn: Swift.String? = nil,
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        jobConfigDocument: Swift.String? = nil,
+        jobConfigSchemaVersion: Swift.String? = nil,
+        jobName: Swift.String? = nil,
+        jobStatus: SageMakerClientTypes.JobStatus? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        roleArn: Swift.String? = nil,
+        secondaryStatus: SageMakerClientTypes.JobSecondaryStatus? = nil,
+        secondaryStatusTransitions: [SageMakerClientTypes.JobSecondaryStatusTransition]? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil
+    ) {
+        self.creationTime = creationTime
+        self.endTime = endTime
+        self.failureReason = failureReason
+        self.jobArn = jobArn
+        self.jobCategory = jobCategory
+        self.jobConfigDocument = jobConfigDocument
+        self.jobConfigSchemaVersion = jobConfigSchemaVersion
+        self.jobName = jobName
+        self.jobStatus = jobStatus
+        self.lastModifiedTime = lastModifiedTime
+        self.roleArn = roleArn
+        self.secondaryStatus = secondaryStatus
+        self.secondaryStatusTransitions = secondaryStatusTransitions
+        self.tags = tags
+    }
+}
+
+public struct DescribeJobSchemaVersionInput: Swift.Sendable {
+    /// The category of the job schema to describe.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// The version of the schema to retrieve. If not specified, the latest version is returned.
+    public var jobConfigSchemaVersion: Swift.String?
+
+    public init(
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        jobConfigSchemaVersion: Swift.String? = nil
+    ) {
+        self.jobCategory = jobCategory
+        self.jobConfigSchemaVersion = jobConfigSchemaVersion
+    }
+}
+
+public struct DescribeJobSchemaVersionOutput: Swift.Sendable {
+    /// The category of the job schema.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// The JSON schema document that defines the structure of the job configuration.
+    /// This member is required.
+    public var jobConfigSchema: Swift.String?
+    /// The version of the schema.
+    /// This member is required.
+    public var jobConfigSchemaVersion: Swift.String?
+
+    public init(
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        jobConfigSchema: Swift.String? = nil,
+        jobConfigSchemaVersion: Swift.String? = nil
+    ) {
+        self.jobCategory = jobCategory
+        self.jobConfigSchema = jobConfigSchema
+        self.jobConfigSchemaVersion = jobConfigSchemaVersion
     }
 }
 
@@ -39238,7 +39911,45 @@ public struct DescribeModelBiasJobDefinitionOutput: Swift.Sendable {
     }
 }
 
+extension SageMakerClientTypes {
+
+    public enum IncludedData: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allData
+        case metadataOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IncludedData] {
+            return [
+                .allData,
+                .metadataOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allData: return "AllData"
+            case .metadataOnly: return "MetadataOnly"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct DescribeModelCardInput: Swift.Sendable {
+    /// Specifies the level of model card data to include in the response. Use this parameter to call DescribeModelCard without requiring kms:Decrypt permission on the customer-managed Amazon Web Services KMS key.
+    ///
+    /// * AllData: Returns the full model card Content. This option requires kms:Decrypt permission on the customer-managed key, if one is associated with the model card. This is the default.
+    ///
+    /// * MetadataOnly: Returns the model card with sanitized Content that includes only a small set of unencrypted metadata fields. This option does not require kms:Decrypt permission. For the list of fields preserved in the response, see Content.
+    ///
+    ///
+    /// If you don't specify a value, SageMaker returns AllData.
+    public var includedData: SageMakerClientTypes.IncludedData?
     /// The name or Amazon Resource Name (ARN) of the model card to describe.
     /// This member is required.
     public var modelCardName: Swift.String?
@@ -39246,9 +39957,11 @@ public struct DescribeModelCardInput: Swift.Sendable {
     public var modelCardVersion: Swift.Int?
 
     public init(
+        includedData: SageMakerClientTypes.IncludedData? = nil,
         modelCardName: Swift.String? = nil,
         modelCardVersion: Swift.Int? = nil
     ) {
+        self.includedData = includedData
         self.modelCardName = modelCardName
         self.modelCardVersion = modelCardVersion
     }
@@ -39296,7 +40009,20 @@ extension SageMakerClientTypes {
 }
 
 public struct DescribeModelCardOutput: Swift.Sendable {
-    /// The content of the model card.
+    /// The content of the model card. Content is provided as a string in the [model card JSON schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-cards.html#model-cards-json-schema). When you set IncludedData to MetadataOnly in the request, SageMaker returns a sanitized version of Content that includes only the following JSON paths, when present in the model card:
+    ///
+    /// * model_overview.model_id
+    ///
+    /// * model_overview.model_name
+    ///
+    /// * intended_uses.risk_rating
+    ///
+    /// * model_package_details.model_package_group_name
+    ///
+    /// * model_package_details.model_package_arn
+    ///
+    ///
+    /// All other fields are removed from Content when IncludedData is MetadataOnly, including model description, training details, evaluation details, business details, and additional information. To retrieve the complete Content, set IncludedData to AllData or omit the parameter.
     /// This member is required.
     public var content: Swift.String?
     /// Information about the user who created or modified a SageMaker resource.
@@ -39566,13 +40292,24 @@ public struct DescribeModelExplainabilityJobDefinitionOutput: Swift.Sendable {
 }
 
 public struct DescribeModelPackageInput: Swift.Sendable {
+    /// Specifies the level of model package data to include in the response. Use this parameter to call DescribeModelPackage on a model package that has an associated model card without requiring kms:Decrypt permission on the customer-managed KMS key associated with the embedded model card.
+    ///
+    /// * AllData: Returns the full model package response, including the unredacted ModelCard.ModelCardContent. This option requires kms:Decrypt permission on the customer-managed key, if one is associated with the embedded model card. This is the default.
+    ///
+    /// * MetadataOnly: Returns the full model package response, but with the embedded ModelCard.ModelCardContent sanitized to include only a small set of unencrypted metadata fields. This option does not require kms:Decrypt permission. All other top-level response fields, including InferenceSpecification, ModelMetrics, DriftCheckBaselines, and SecurityConfig, are returned unchanged. For the list of fields preserved within ModelCardContent, see [ModelCard](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeModelPackage.html#sagemaker-DescribeModelPackage-response-ModelCard).
+    ///
+    ///
+    /// If you don't specify a value, SageMaker returns AllData.
+    public var includedData: SageMakerClientTypes.IncludedData?
     /// The name or Amazon Resource Name (ARN) of the model package to describe. When you specify a name, the name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
     /// This member is required.
     public var modelPackageName: Swift.String?
 
     public init(
+        includedData: SageMakerClientTypes.IncludedData? = nil,
         modelPackageName: Swift.String? = nil
     ) {
+        self.includedData = includedData
         self.modelPackageName = modelPackageName
     }
 }
@@ -39687,7 +40424,20 @@ public struct DescribeModelPackageOutput: Swift.Sendable {
     public var metadataProperties: SageMakerClientTypes.MetadataProperties?
     /// The approval status of the model package.
     public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
-    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html). When you set IncludedData to MetadataOnly in the request, ModelCardStatus is preserved and ModelCardContent is sanitized to include only the following JSON paths, when present in the model card:
+    ///
+    /// * model_overview.model_id
+    ///
+    /// * model_overview.model_name
+    ///
+    /// * intended_uses.risk_rating
+    ///
+    /// * model_package_details.model_package_group_name
+    ///
+    /// * model_package_details.model_package_arn
+    ///
+    ///
+    /// Because the ModelPackageModelCard schema does not include model_package_details and limits model_overview to model_creator and model_artifact, the sanitized ModelCardContent for a model package typically contains only intended_uses.risk_rating if it was provided when the model card was created. To retrieve the complete ModelCardContent, set IncludedData to AllData or omit the parameter.
     public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
     /// A structure describing the current state of the model in its life cycle.
     public var modelLifeCycle: SageMakerClientTypes.ModelLifeCycle?
@@ -45482,6 +46232,7 @@ extension SageMakerClientTypes {
         case hyperParameterTuningJob
         case image
         case imageVersion
+        case job
         case model
         case modelCard
         case modelPackage
@@ -45504,6 +46255,7 @@ extension SageMakerClientTypes {
                 .hyperParameterTuningJob,
                 .image,
                 .imageVersion,
+                .job,
                 .model,
                 .modelCard,
                 .modelPackage,
@@ -45532,6 +46284,7 @@ extension SageMakerClientTypes {
             case .hyperParameterTuningJob: return "HyperParameterTuningJob"
             case .image: return "Image"
             case .imageVersion: return "ImageVersion"
+            case .job: return "Job"
             case .model: return "Model"
             case .modelCard: return "ModelCard"
             case .modelPackage: return "ModelPackage"
@@ -46656,6 +47409,154 @@ extension SageMakerClientTypes {
             self.jobName = jobName
             self.status = status
             self.stepType = stepType
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The properties of a job returned by the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API.
+    public struct Job: Swift.Sendable {
+        /// The date and time that the job was created.
+        public var creationTime: Foundation.Date?
+        /// The date and time that the job ended.
+        public var endTime: Foundation.Date?
+        /// If the job failed, the reason it failed.
+        public var failureReason: Swift.String?
+        /// The Amazon Resource Name (ARN) of the job.
+        public var jobArn: Swift.String?
+        /// The category of the job.
+        public var jobCategory: SageMakerClientTypes.JobCategory?
+        /// The JSON configuration document for the job.
+        public var jobConfigDocument: Swift.String?
+        /// The schema version used for the job configuration document.
+        public var jobConfigSchemaVersion: Swift.String?
+        /// The name of the job.
+        public var jobName: Swift.String?
+        /// The current status of the job.
+        public var jobStatus: SageMakerClientTypes.JobStatus?
+        /// The date and time that the job was last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// The ARN of the IAM role associated with the job.
+        public var roleArn: Swift.String?
+        /// The detailed secondary status of the job, providing more granular information about the job's progress.
+        public var secondaryStatus: SageMakerClientTypes.JobSecondaryStatus?
+        /// A list of secondary status transitions for the job, with timestamps and optional status messages.
+        public var secondaryStatusTransitions: [SageMakerClientTypes.JobSecondaryStatusTransition]?
+        /// The tags associated with the job.
+        public var tags: [SageMakerClientTypes.Tag]?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
+            failureReason: Swift.String? = nil,
+            jobArn: Swift.String? = nil,
+            jobCategory: SageMakerClientTypes.JobCategory? = nil,
+            jobConfigDocument: Swift.String? = nil,
+            jobConfigSchemaVersion: Swift.String? = nil,
+            jobName: Swift.String? = nil,
+            jobStatus: SageMakerClientTypes.JobStatus? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            roleArn: Swift.String? = nil,
+            secondaryStatus: SageMakerClientTypes.JobSecondaryStatus? = nil,
+            secondaryStatusTransitions: [SageMakerClientTypes.JobSecondaryStatusTransition]? = nil,
+            tags: [SageMakerClientTypes.Tag]? = nil
+        ) {
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.failureReason = failureReason
+            self.jobArn = jobArn
+            self.jobCategory = jobCategory
+            self.jobConfigDocument = jobConfigDocument
+            self.jobConfigSchemaVersion = jobConfigSchemaVersion
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.lastModifiedTime = lastModifiedTime
+            self.roleArn = roleArn
+            self.secondaryStatus = secondaryStatus
+            self.secondaryStatusTransitions = secondaryStatusTransitions
+            self.tags = tags
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Provides summary information about a job configuration schema version.
+    public struct JobConfigSchemaVersionSummary: Swift.Sendable {
+        /// The version of the job configuration schema.
+        /// This member is required.
+        public var jobConfigSchemaVersion: Swift.String?
+
+        public init(
+            jobConfigSchemaVersion: Swift.String? = nil
+        ) {
+            self.jobConfigSchemaVersion = jobConfigSchemaVersion
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Metadata for a SageMaker job step.
+    public struct JobStepMetadata: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the SageMaker job that was run by this step execution.
+        public var arn: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil
+        ) {
+            self.arn = arn
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Provides summary information about a job, returned by the ListJobs operation. Use DescribeJob to get full details for a specific job.
+    public struct JobSummary: Swift.Sendable {
+        /// The date and time that the job was created.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The date and time that the job ended.
+        public var endTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the job.
+        /// This member is required.
+        public var jobArn: Swift.String?
+        /// The category of the job.
+        /// This member is required.
+        public var jobCategory: SageMakerClientTypes.JobCategory?
+        /// The name of the job.
+        /// This member is required.
+        public var jobName: Swift.String?
+        /// The secondary status of the job, providing more granular information about the job's progress. Secondary statuses may change between releases.
+        /// This member is required.
+        public var jobSecondaryStatus: SageMakerClientTypes.JobSecondaryStatus?
+        /// The current status of the job.
+        /// This member is required.
+        public var jobStatus: SageMakerClientTypes.JobStatus?
+        /// The date and time that the job was last modified.
+        /// This member is required.
+        public var lastModifiedTime: Foundation.Date?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
+            jobArn: Swift.String? = nil,
+            jobCategory: SageMakerClientTypes.JobCategory? = nil,
+            jobName: Swift.String? = nil,
+            jobSecondaryStatus: SageMakerClientTypes.JobSecondaryStatus? = nil,
+            jobStatus: SageMakerClientTypes.JobStatus? = nil,
+            lastModifiedTime: Foundation.Date? = nil
+        ) {
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.jobArn = jobArn
+            self.jobCategory = jobCategory
+            self.jobName = jobName
+            self.jobSecondaryStatus = jobSecondaryStatus
+            self.jobStatus = jobStatus
+            self.lastModifiedTime = lastModifiedTime
         }
     }
 }
@@ -49962,6 +50863,110 @@ extension SageMakerClientTypes {
     }
 }
 
+public struct ListJobsInput: Swift.Sendable {
+    /// A filter that returns only jobs created after the specified time.
+    public var creationTimeAfter: Foundation.Date?
+    /// A filter that returns only jobs created before the specified time.
+    public var creationTimeBefore: Foundation.Date?
+    /// The category of jobs to list.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// A filter that returns only jobs modified after the specified time.
+    public var lastModifiedTimeAfter: Foundation.Date?
+    /// A filter that returns only jobs modified before the specified time.
+    public var lastModifiedTimeBefore: Foundation.Date?
+    /// The maximum number of jobs to return in the response. The default value is 50.
+    public var maxResults: Swift.Int?
+    /// A string in the job name to filter results. Only jobs whose name contains the specified string are returned.
+    public var nameContains: Swift.String?
+    /// If the previous response was truncated, this token retrieves the next set of results.
+    public var nextToken: Swift.String?
+    /// The field to sort results by.
+    public var sortBy: SageMakerClientTypes.SortBy?
+    /// The sort order for results. Valid values are Ascending and Descending.
+    public var sortOrder: SageMakerClientTypes.SortOrder?
+    /// A filter that returns only jobs with the specified status.
+    public var statusEquals: SageMakerClientTypes.JobStatus?
+
+    public init(
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nameContains: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: SageMakerClientTypes.SortBy? = nil,
+        sortOrder: SageMakerClientTypes.SortOrder? = nil,
+        statusEquals: SageMakerClientTypes.JobStatus? = nil
+    ) {
+        self.creationTimeAfter = creationTimeAfter
+        self.creationTimeBefore = creationTimeBefore
+        self.jobCategory = jobCategory
+        self.lastModifiedTimeAfter = lastModifiedTimeAfter
+        self.lastModifiedTimeBefore = lastModifiedTimeBefore
+        self.maxResults = maxResults
+        self.nameContains = nameContains
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.statusEquals = statusEquals
+    }
+}
+
+public struct ListJobsOutput: Swift.Sendable {
+    /// An array of JobSummary objects that provide summary information about the jobs.
+    /// This member is required.
+    public var jobSummaries: [SageMakerClientTypes.JobSummary]?
+    /// If the response is truncated, this token retrieves the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobSummaries: [SageMakerClientTypes.JobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.jobSummaries = jobSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListJobSchemaVersionsInput: Swift.Sendable {
+    /// The category of job schemas to list.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// The maximum number of schema versions to return in the response. The default value is 5.
+    public var maxResults: Swift.Int?
+    /// If the previous response was truncated, this token retrieves the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.jobCategory = jobCategory
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListJobSchemaVersionsOutput: Swift.Sendable {
+    /// An array of JobConfigSchemaVersionSummary objects listing the available schema versions.
+    /// This member is required.
+    public var jobConfigSchemas: [SageMakerClientTypes.JobConfigSchemaVersionSummary]?
+    /// If the response is truncated, this token retrieves the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobConfigSchemas: [SageMakerClientTypes.JobConfigSchemaVersionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.jobConfigSchemas = jobConfigSchemas
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListLabelingJobsInput: Swift.Sendable {
     /// A filter that returns only labeling jobs created after the specified time (timestamp).
     public var creationTimeAfter: Foundation.Date?
@@ -53025,6 +54030,8 @@ extension SageMakerClientTypes {
         public var fail: SageMakerClientTypes.FailStepMetadata?
         /// The metadata of the inference component used in pipeline execution step.
         public var inferenceComponent: SageMakerClientTypes.InferenceComponentMetadata?
+        /// The metadata for a SageMaker job used in a pipeline execution step.
+        public var job: SageMakerClientTypes.JobStepMetadata?
         /// The Amazon Resource Name (ARN) of the Lambda function that was run by this step execution and a list of output parameters.
         public var lambda: SageMakerClientTypes.LambdaStepMetadata?
         /// The metadata of the lineage used in pipeline execution step.
@@ -53074,6 +54081,7 @@ extension SageMakerClientTypes {
             endpointConfig: SageMakerClientTypes.EndpointConfigStepMetadata? = nil,
             fail: SageMakerClientTypes.FailStepMetadata? = nil,
             inferenceComponent: SageMakerClientTypes.InferenceComponentMetadata? = nil,
+            job: SageMakerClientTypes.JobStepMetadata? = nil,
             lambda: SageMakerClientTypes.LambdaStepMetadata? = nil,
             lineage: SageMakerClientTypes.LineageMetadata? = nil,
             model: SageMakerClientTypes.ModelStepMetadata? = nil,
@@ -53097,6 +54105,7 @@ extension SageMakerClientTypes {
             self.endpointConfig = endpointConfig
             self.fail = fail
             self.inferenceComponent = inferenceComponent
+            self.job = job
             self.lambda = lambda
             self.lineage = lineage
             self.model = model
@@ -57547,6 +58556,8 @@ extension SageMakerClientTypes {
         public var featureMetadata: SageMakerClientTypes.FeatureMetadata?
         /// The properties of a hyperparameter tuning job.
         public var hyperParameterTuningJob: SageMakerClientTypes.HyperParameterTuningJobSearchEntity?
+        /// The properties of a job.
+        public var job: SageMakerClientTypes.Job?
         /// A model displayed in the Amazon SageMaker Model Dashboard.
         public var model: SageMakerClientTypes.ModelDashboardModel?
         /// An Amazon SageMaker Model Card that documents details about a machine learning model.
@@ -57583,6 +58594,7 @@ extension SageMakerClientTypes {
             featureGroup: SageMakerClientTypes.FeatureGroup? = nil,
             featureMetadata: SageMakerClientTypes.FeatureMetadata? = nil,
             hyperParameterTuningJob: SageMakerClientTypes.HyperParameterTuningJobSearchEntity? = nil,
+            job: SageMakerClientTypes.Job? = nil,
             model: SageMakerClientTypes.ModelDashboardModel? = nil,
             modelCard: SageMakerClientTypes.ModelCard? = nil,
             modelPackage: SageMakerClientTypes.ModelPackage? = nil,
@@ -57600,6 +58612,7 @@ extension SageMakerClientTypes {
             self.featureGroup = featureGroup
             self.featureMetadata = featureMetadata
             self.hyperParameterTuningJob = hyperParameterTuningJob
+            self.job = job
             self.model = model
             self.modelCard = modelCard
             self.modelPackage = modelPackage
@@ -58263,6 +59276,28 @@ public struct StopInferenceRecommendationsJobInput: Swift.Sendable {
     }
 }
 
+public struct StopJobInput: Swift.Sendable {
+    /// The category of the job to stop.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// The name of the job to stop.
+    /// This member is required.
+    public var jobName: Swift.String?
+
+    public init(
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        jobName: Swift.String? = nil
+    ) {
+        self.jobCategory = jobCategory
+        self.jobName = jobName
+    }
+}
+
+public struct StopJobOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct StopLabelingJobInput: Swift.Sendable {
     /// The name of the labeling job to stop.
     /// This member is required.
@@ -58617,13 +59652,17 @@ extension SageMakerClientTypes {
 
     /// The configuration that describes specifications of the instance groups to update.
     public struct UpdateClusterSoftwareInstanceGroupSpecification: Swift.Sendable {
+        /// The version of the HyperPod-managed AMI to update to for the instance group. Uses semantic versioning in the format MAJOR.MINOR.PATCH.
+        public var imageReleaseVersion: Swift.String?
         /// The name of the instance group to update.
         /// This member is required.
         public var instanceGroupName: Swift.String?
 
         public init(
+            imageReleaseVersion: Swift.String? = nil,
             instanceGroupName: Swift.String? = nil
         ) {
+            self.imageReleaseVersion = imageReleaseVersion
             self.instanceGroupName = instanceGroupName
         }
     }

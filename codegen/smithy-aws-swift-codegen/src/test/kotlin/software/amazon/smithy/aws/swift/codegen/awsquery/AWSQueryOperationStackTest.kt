@@ -18,7 +18,7 @@ class AWSQueryOperationStackTest {
     @Test
     fun `operation stack has required middlewares`() {
         val context = setupTests("awsquery/query-empty-input-output.smithy", "aws.protocoltests.query#AwsQuery")
-        val contents = getFileContents(context.manifest, "Sources/Example/QueryProtocolClient.swift")
+        val contents = getFileContents(context.manifest, "Example/Sources/Example/QueryProtocolClient.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
         let builder = ClientRuntime.OrchestratorBuilder<NoInputAndOutputInput, NoInputAndOutputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()

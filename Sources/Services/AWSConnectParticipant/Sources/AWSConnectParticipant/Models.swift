@@ -534,7 +534,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the resource.
         public internal(set) var resourceId: Swift.String? = nil
-        /// The type of Amazon Connect resource.
+        /// The type of Connect Customer resource.
         public internal(set) var resourceType: ConnectParticipantClientTypes.ResourceType? = nil
     }
 
@@ -702,7 +702,7 @@ public struct GetAttachmentOutput: Swift.Sendable {
     public var urlExpiry: Swift.String?
 
     public init(
-        attachmentSizeInBytes: Swift.Int? = 0,
+        attachmentSizeInBytes: Swift.Int? = nil,
         url: Swift.String? = nil,
         urlExpiry: Swift.String? = nil
     ) {
@@ -846,7 +846,7 @@ public struct GetTranscriptInput: Swift.Sendable {
     public init(
         connectionToken: Swift.String? = nil,
         contactId: Swift.String? = nil,
-        maxResults: Swift.Int? = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         scanDirection: ConnectParticipantClientTypes.ScanDirection? = nil,
         sortOrder: ConnectParticipantClientTypes.SortKey? = nil,

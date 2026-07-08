@@ -9,8 +9,12 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
+import org.gradle.process.ExecOperations
+import javax.inject.Inject
 
-open class ProtocolTestTask : DefaultTask() {
+abstract class ProtocolTestTask @Inject constructor(
+    private val execOps: ExecOperations
+) : DefaultTask() {
     @get:Input
     var protocol: String = ""
 
@@ -22,20 +26,20 @@ open class ProtocolTestTask : DefaultTask() {
         require(protocol.isNotEmpty()) { "protocol name must be specified" }
         require(plugin.isNotEmpty()) { "plugin name must be specified" }
 
-        val generatedBuildDir = project.file("${project.buildDir}/smithyprojections/${project.name}/$protocol/$plugin")
+        val generatedBuildDir = project.layout.buildDirectory.dir("smithyprojections/${project.name}/$protocol/$plugin").get().asFile
         println("[$protocol] buildDir: $generatedBuildDir")
         if (!generatedBuildDir.exists()) {
             throw GradleException("$generatedBuildDir does not exist")
         }
 
-        project.exec {
+        execOps.exec {
             workingDir = generatedBuildDir
             executable = "cat"
             args = listOf("Package.swift")
         }
 
         // build including tests
-        project.exec {
+        execOps.exec {
             workingDir = generatedBuildDir
             executable = "swift"
             args = listOf("build", "--build-tests")
@@ -43,14 +47,14 @@ open class ProtocolTestTask : DefaultTask() {
 
         // run tests if test target exists
         // test target directory ends with "Tests"
-        val testTargetDir = generatedBuildDir.listFiles().firstOrNull { it.name.endsWith("Tests") }
+        val testTargetDir = generatedBuildDir.listFiles()?.firstOrNull { it.name.endsWith("Tests") }
         if (testTargetDir == null) {
             println("[$protocol] no test target found")
             return
         }
 
         // test without building
-        project.exec {
+        execOps.exec {
             workingDir = generatedBuildDir
             executable = "swift"
             args = listOf("test", "--skip-build")

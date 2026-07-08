@@ -73,6 +73,7 @@ public final class MarketplaceMeteringClient: AWSClientRuntime.AWSServiceClient 
     let client: ClientRuntime.SdkHttpClient
     public let config: MarketplaceMeteringClient.MarketplaceMeteringClientConfig
     let serviceName = "Marketplace Metering"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use MarketplaceMeteringClient.MarketplaceMeteringClientConfig instead")
     public typealias Config = MarketplaceMeteringClient.MarketplaceMeteringClientConfiguration
@@ -82,6 +83,7 @@ public final class MarketplaceMeteringClient: AWSClientRuntime.AWSServiceClient 
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: MarketplaceMeteringClient.MarketplaceMeteringClientConfig) instead")
@@ -196,7 +198,7 @@ extension MarketplaceMeteringClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Marketplace Metering")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -251,7 +253,7 @@ extension MarketplaceMeteringClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Marketplace Metering")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -427,7 +429,7 @@ extension MarketplaceMeteringClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Marketplace Metering")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -482,7 +484,7 @@ extension MarketplaceMeteringClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Marketplace Metering")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -613,7 +615,7 @@ extension MarketplaceMeteringClient {
 extension MarketplaceMeteringClient {
     /// Performs the `BatchMeterUsage` operation on the `MarketplaceMetering` service.
     ///
-    /// Amazon Web Services Marketplace is introducing Concurrent Agreements, enabling buyers to make multiple purchases per Amazon Web Services account. Starting June 1, 2026, new SaaS products must use CustomerAWSAccountId (instead of CustomerIdentifier), LicenseArn (instead of ProductCode) to support this feature. Existing integrations will continue to work. Review the new integration for Concurrent Agreements [here](https://catalog.workshops.aws/mpseller/en-US/saas/integration-for-concurrent-agreements). To post metering records for customers, SaaS applications call BatchMeterUsage, which is used for metering SaaS flexible consumption pricing (FCP). Identical requests are idempotent and can be retried with the same records or a subset of records. Each BatchMeterUsage request is for only one product. If you want to meter usage for multiple products, you must make multiple BatchMeterUsage calls. Usage records should be submitted in quick succession following a recorded event. Usage records aren't accepted 6 hours or more after an event. BatchMeterUsage can process up to 25 UsageRecords at a time, and each request must be less than 1 MB in size. Optionally, you can have multiple usage allocations for usage data that's split into buckets according to predefined tags. BatchMeterUsage returns a list of UsageRecordResult objects, which have each UsageRecord. It also returns a list of UnprocessedRecords, which indicate errors on the service side that should be retried. For Amazon Web Services Regions that support BatchMeterUsage, see [BatchMeterUsage Region support](https://docs.aws.amazon.com/marketplace/latest/APIReference/metering-regions.html#batchmeterusage-region-support). For an example of BatchMeterUsage, see [ BatchMeterUsage code example](https://docs.aws.amazon.com/marketplace/latest/userguide/saas-code-examples.html#saas-batchmeterusage-example) in the Amazon Web Services Marketplace Seller Guide.
+    /// Amazon Web Services Marketplace is introducing Concurrent Agreements, enabling buyers to make multiple purchases per Amazon Web Services account. Starting June 1, 2026, new SaaS products must use CustomerAWSAccountId (instead of CustomerIdentifier), LicenseArn (instead of ProductCode) to support this feature. Existing integrations will continue to work. Review the new integration for Concurrent Agreements [here](https://catalog.workshops.aws/mpseller/en-US/saas/integration-for-concurrent-agreements). To post metering records for customers, SaaS applications call BatchMeterUsage, which is used for metering SaaS flexible consumption pricing (FCP). Identical requests are idempotent and can be retried with the same records or a subset of records. Each BatchMeterUsage request is for only one product. If you want to meter usage for multiple products, you must make multiple BatchMeterUsage calls. Usage records should be submitted in quick succession following a recorded event. Usage records aren't accepted 24 hours or more after an event. At the end of each billing cycle, a 6-hour grace period applies. We accept usage records for the previous billing month until 06:00 UTC on the first day of the next month. For example, you must submit March usage records before 06:00 UTC on April 1. After this grace period, we return a TimestampOutOfBoundsException error. BatchMeterUsage can process up to 25 UsageRecords at a time, and each request must be less than 1 MB in size. Optionally, you can have multiple usage allocations for usage data that's split into buckets according to predefined tags. BatchMeterUsage returns a list of UsageRecordResult objects, which have each UsageRecord. It also returns a list of UnprocessedRecords, which indicate errors on the service side that should be retried. For Amazon Web Services Regions that support BatchMeterUsage, see [BatchMeterUsage Region support](https://docs.aws.amazon.com/marketplace/latest/APIReference/metering-regions.html#batchmeterusage-region-support). For an example of BatchMeterUsage, see [ BatchMeterUsage code example](https://docs.aws.amazon.com/marketplace/latest/userguide/saas-code-examples.html#saas-batchmeterusage-example) in the Amazon Web Services Marketplace Seller Guide.
     ///
     /// - Parameter input: A BatchMeterUsageRequest contains UsageRecords, which indicate quantities of usage within your application. (Type: `BatchMeterUsageInput`)
     ///
@@ -665,8 +667,6 @@ extension MarketplaceMeteringClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchMeterUsageInput, BatchMeterUsageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchMeterUsageInput, BatchMeterUsageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchMeterUsageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Metering", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -678,6 +678,8 @@ extension MarketplaceMeteringClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchMeterUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchMeterUsageInput, BatchMeterUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchMeterUsageInput, BatchMeterUsageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Metering"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchMeterUsageInput, BatchMeterUsageOutput>(serviceID: serviceName, version: MarketplaceMeteringClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceMetering")
@@ -768,8 +770,6 @@ extension MarketplaceMeteringClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<MeterUsageInput, MeterUsageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<MeterUsageInput, MeterUsageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<MeterUsageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Metering", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -781,6 +781,8 @@ extension MarketplaceMeteringClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<MeterUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<MeterUsageInput, MeterUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<MeterUsageInput, MeterUsageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Metering"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<MeterUsageInput, MeterUsageOutput>(serviceID: serviceName, version: MarketplaceMeteringClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceMetering")
@@ -853,8 +855,6 @@ extension MarketplaceMeteringClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterUsageInput, RegisterUsageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterUsageInput, RegisterUsageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterUsageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Metering", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -866,6 +866,8 @@ extension MarketplaceMeteringClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterUsageInput, RegisterUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterUsageInput, RegisterUsageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Metering"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterUsageInput, RegisterUsageOutput>(serviceID: serviceName, version: MarketplaceMeteringClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceMetering")
@@ -931,8 +933,6 @@ extension MarketplaceMeteringClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResolveCustomerInput, ResolveCustomerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResolveCustomerInput, ResolveCustomerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResolveCustomerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Metering", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -944,6 +944,8 @@ extension MarketplaceMeteringClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResolveCustomerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResolveCustomerInput, ResolveCustomerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResolveCustomerInput, ResolveCustomerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Metering"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ResolveCustomerInput, ResolveCustomerOutput>(serviceID: serviceName, version: MarketplaceMeteringClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceMetering")

@@ -177,11 +177,11 @@ extension SFNClientTypes {
         public var timeoutInSeconds: Swift.Int?
 
         public init(
-            heartbeatInSeconds: Swift.Int? = 0,
+            heartbeatInSeconds: Swift.Int? = nil,
             input: Swift.String? = nil,
             inputDetails: SFNClientTypes.HistoryEventExecutionDataDetails? = nil,
             resource: Swift.String? = nil,
-            timeoutInSeconds: Swift.Int? = 0
+            timeoutInSeconds: Swift.Int? = nil
         ) {
             self.heartbeatInSeconds = heartbeatInSeconds
             self.input = input
@@ -2411,7 +2411,7 @@ extension SFNClientTypes {
             inputDetails: SFNClientTypes.HistoryEventExecutionDataDetails? = nil,
             resource: Swift.String? = nil,
             taskCredentials: SFNClientTypes.TaskCredentials? = nil,
-            timeoutInSeconds: Swift.Int? = 0
+            timeoutInSeconds: Swift.Int? = nil
         ) {
             self.input = input
             self.inputDetails = inputDetails
@@ -2711,13 +2711,13 @@ extension SFNClientTypes {
         public var timeoutInSeconds: Swift.Int?
 
         public init(
-            heartbeatInSeconds: Swift.Int? = 0,
+            heartbeatInSeconds: Swift.Int? = nil,
             parameters: Swift.String? = nil,
             region: Swift.String? = nil,
             resource: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             taskCredentials: SFNClientTypes.TaskCredentials? = nil,
-            timeoutInSeconds: Swift.Int? = 0
+            timeoutInSeconds: Swift.Int? = nil
         ) {
             self.heartbeatInSeconds = heartbeatInSeconds
             self.parameters = parameters
@@ -3443,7 +3443,7 @@ extension SFNClientTypes {
 
         public init(
             executionArn: Swift.String? = nil,
-            itemCount: Swift.Int? = 0,
+            itemCount: Swift.Int? = nil,
             mapRunArn: Swift.String? = nil,
             name: Swift.String? = nil,
             redriveCount: Swift.Int? = nil,
@@ -4795,9 +4795,9 @@ public struct UpdateMapRunInput: Swift.Sendable {
 
     public init(
         mapRunArn: Swift.String? = nil,
-        maxConcurrency: Swift.Int? = 0,
-        toleratedFailureCount: Swift.Int? = 0,
-        toleratedFailurePercentage: Swift.Float? = 0.0
+        maxConcurrency: Swift.Int? = nil,
+        toleratedFailureCount: Swift.Int? = nil,
+        toleratedFailurePercentage: Swift.Float? = nil
     ) {
         self.mapRunArn = mapRunArn
         self.maxConcurrency = maxConcurrency

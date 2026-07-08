@@ -2304,6 +2304,50 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes {
 
+    public enum ResaleAuthorizationResellerRoleString: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case channelpartner
+        case distributor
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResaleAuthorizationResellerRoleString] {
+            return [
+                .channelpartner,
+                .distributor
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .channelpartner: return "ChannelPartner"
+            case .distributor: return "Distributor"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Allows filtering on the ResellerRole of a ResaleAuthorization.
+    public struct ResaleAuthorizationResellerRoleFilter: Swift.Sendable {
+        /// Allows filtering on the ResellerRole of a ResaleAuthorization with list input.
+        public var valueList: [MarketplaceCatalogClientTypes.ResaleAuthorizationResellerRoleString]?
+
+        public init(
+            valueList: [MarketplaceCatalogClientTypes.ResaleAuthorizationResellerRoleString]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
     public enum ResaleAuthorizationStatusString: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case draft
@@ -2377,6 +2421,8 @@ extension MarketplaceCatalogClientTypes {
         public var resellerAccountID: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerAccountIDFilter?
         /// Allows filtering on the ResellerLegalName of a ResaleAuthorization.
         public var resellerLegalName: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilter?
+        /// Allows filtering on the ResellerRole of a ResaleAuthorization.
+        public var resellerRole: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerRoleFilter?
         /// Allows filtering on the Status of a ResaleAuthorization.
         public var status: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter?
 
@@ -2393,6 +2439,7 @@ extension MarketplaceCatalogClientTypes {
             productName: MarketplaceCatalogClientTypes.ResaleAuthorizationProductNameFilter? = nil,
             resellerAccountID: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerAccountIDFilter? = nil,
             resellerLegalName: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilter? = nil,
+            resellerRole: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerRoleFilter? = nil,
             status: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter? = nil
         ) {
             self.availabilityEndDate = availabilityEndDate
@@ -2407,6 +2454,7 @@ extension MarketplaceCatalogClientTypes {
             self.productName = productName
             self.resellerAccountID = resellerAccountID
             self.resellerLegalName = resellerLegalName
+            self.resellerRole = resellerRole
             self.status = status
         }
     }
@@ -3277,6 +3325,8 @@ extension MarketplaceCatalogClientTypes {
         public var resellerAccountID: Swift.String?
         /// The reseller legal name of the ResaleAuthorization
         public var resellerLegalName: Swift.String?
+        /// The reseller role of the ResaleAuthorization.
+        public var resellerRole: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerRoleString?
         /// The status of the ResaleAuthorization.
         public var status: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusString?
 
@@ -3291,6 +3341,7 @@ extension MarketplaceCatalogClientTypes {
             productName: Swift.String? = nil,
             resellerAccountID: Swift.String? = nil,
             resellerLegalName: Swift.String? = nil,
+            resellerRole: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerRoleString? = nil,
             status: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusString? = nil
         ) {
             self.availabilityEndDate = availabilityEndDate
@@ -3303,6 +3354,7 @@ extension MarketplaceCatalogClientTypes {
             self.productName = productName
             self.resellerAccountID = resellerAccountID
             self.resellerLegalName = resellerLegalName
+            self.resellerRole = resellerRole
             self.status = status
         }
     }
@@ -5207,6 +5259,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationFilters {
         try writer["ProductName"].write(value.productName, with: MarketplaceCatalogClientTypes.ResaleAuthorizationProductNameFilter.write(value:to:))
         try writer["ResellerAccountID"].write(value.resellerAccountID, with: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerAccountIDFilter.write(value:to:))
         try writer["ResellerLegalName"].write(value.resellerLegalName, with: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilter.write(value:to:))
+        try writer["ResellerRole"].write(value.resellerRole, with: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerRoleFilter.write(value:to:))
         try writer["Status"].write(value.status, with: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter.write(value:to:))
     }
 }
@@ -5299,6 +5352,14 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilt
     }
 }
 
+extension MarketplaceCatalogClientTypes.ResaleAuthorizationResellerRoleFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerRoleFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.ResaleAuthorizationResellerRoleString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension MarketplaceCatalogClientTypes.ResaleAuthorizationSort {
 
     static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationSort?, to writer: SmithyJSON.Writer) throws {
@@ -5332,6 +5393,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationSummary {
         value.offerExtendedStatus = try reader["OfferExtendedStatus"].readIfPresent()
         value.createdDate = try reader["CreatedDate"].readIfPresent()
         value.availabilityEndDate = try reader["AvailabilityEndDate"].readIfPresent()
+        value.resellerRole = try reader["ResellerRole"].readIfPresent()
         return value
     }
 }

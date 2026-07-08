@@ -4332,7 +4332,7 @@ public struct UpdateContainerInstancesStateOutput: Swift.Sendable {
     }
 }
 
-/// The service deploy ARN that you specified in the StopServiceDeployment doesn't exist. You can use ListServiceDeployments to retrieve the service deployment ARNs.
+/// The service deploy ARN that you specified in the ContinueServiceDeployment doesn't exist. You can use ListServiceDeployments to retrieve the service deployment ARNs.
 public struct ServiceDeploymentNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -5241,7 +5241,7 @@ public struct ListDaemonDeploymentsOutput: Swift.Sendable {
 public struct ListDaemonsInput: Swift.Sendable {
     /// The Amazon Resource Names (ARNs) of the capacity providers to filter daemons by. Only daemons associated with the specified capacity providers are returned.
     public var capacityProviderArns: [Swift.String]?
-    /// The Amazon Resource Name (ARN) of the cluster to filter daemons by. If not specified, daemons from all clusters are returned.
+    /// The Amazon Resource Name (ARN) of the cluster to filter daemons by. If you do not specify a cluster, the default cluster is assumed.
     public var clusterArn: Swift.String?
     /// The maximum number of daemon results that ListDaemons returned in paginated output. When this parameter is used, ListDaemons only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDaemons request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListDaemons returns up to 100 results and a nextToken value if applicable.
     public var maxResults: Swift.Int?
@@ -6369,6 +6369,68 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    public enum DaemonIpcMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The daemon gets its own isolated IPC namespace.
+        case `none`
+        /// The daemon shares the IPC namespace with co-located tasks on the same container instance.
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DaemonIpcMode] {
+            return [
+                .none,
+                .shared
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "none"
+            case .shared: return "shared"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum DaemonPidMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The daemon gets its own isolated PID namespace.
+        case `none`
+        /// The daemon shares the PID namespace with co-located tasks on the same container instance.
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DaemonPidMode] {
+            return [
+                .none,
+                .shared
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "none"
+            case .shared: return "shared"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     public enum DaemonTaskDefinitionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case deleted
@@ -6449,8 +6511,12 @@ extension ECSClientTypes {
         public var executionRoleArn: Swift.String?
         /// The name of a family that this daemon task definition is registered to.
         public var family: Swift.String?
+        /// The IPC namespace mode for the daemon. The valid values are none and shared. The default is none. If none is specified or no value is provided, the daemon runs with its own IPC namespace, isolated from other tasks. If shared is specified, the daemon joins the host IPC namespace, making it accessible to non-daemon tasks that use ipcMode: "host" or other daemons that use ipcMode: "shared".
+        public var ipcMode: ECSClientTypes.DaemonIpcMode?
         /// The amount of memory (in MiB) used by the daemon task.
         public var memory: Swift.String?
+        /// The PID namespace mode for the daemon. The valid values are none and shared. The default is none. If none is specified or no value is provided, the daemon runs with its own PID namespace, isolated from other tasks. If shared is specified, the daemon joins the host PID namespace, making it accessible to non-daemon tasks that use pidMode: "host" or other daemons that use pidMode: "shared".
+        public var pidMode: ECSClientTypes.DaemonPidMode?
         /// The Unix timestamp for the time when the daemon task definition was registered.
         public var registeredAt: Foundation.Date?
         /// The principal that registered the daemon task definition.
@@ -6471,7 +6537,9 @@ extension ECSClientTypes {
             deleteRequestedAt: Foundation.Date? = nil,
             executionRoleArn: Swift.String? = nil,
             family: Swift.String? = nil,
+            ipcMode: ECSClientTypes.DaemonIpcMode? = nil,
             memory: Swift.String? = nil,
+            pidMode: ECSClientTypes.DaemonPidMode? = nil,
             registeredAt: Foundation.Date? = nil,
             registeredBy: Swift.String? = nil,
             revision: Swift.Int = 0,
@@ -6485,7 +6553,9 @@ extension ECSClientTypes {
             self.deleteRequestedAt = deleteRequestedAt
             self.executionRoleArn = executionRoleArn
             self.family = family
+            self.ipcMode = ipcMode
             self.memory = memory
+            self.pidMode = pidMode
             self.registeredAt = registeredAt
             self.registeredBy = registeredBy
             self.revision = revision
@@ -6686,8 +6756,12 @@ public struct RegisterDaemonTaskDefinitionInput: Swift.Sendable {
     /// You must specify a family for a daemon task definition. This family is used as a name for your daemon task definition. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
     /// This member is required.
     public var family: Swift.String?
+    /// The IPC namespace mode for the daemon. The valid values are none and shared. The default is none. If none is specified or no value is provided, the daemon runs with its own IPC namespace, isolated from other tasks. If shared is specified, the daemon joins the host IPC namespace, making it accessible to non-daemon tasks that use ipcMode: "host" or other daemons that use ipcMode: "shared".
+    public var ipcMode: ECSClientTypes.DaemonIpcMode?
     /// The amount of memory (in MiB) used by the daemon task. It can be expressed as an integer using MiB (for example, 1024).
     public var memory: Swift.String?
+    /// The PID namespace mode for the daemon. The valid values are none and shared. The default is none. If none is specified or no value is provided, the daemon runs with its own PID namespace, isolated from other tasks. If shared is specified, the daemon joins the host PID namespace, making it accessible to non-daemon tasks that use pidMode: "host" or other daemons that use pidMode: "shared".
+    public var pidMode: ECSClientTypes.DaemonPidMode?
     /// The metadata that you apply to the daemon task definition to help you categorize and organize them. Each tag consists of a key and an optional value. You define both of them. The following basic restrictions apply to tags:
     ///
     /// * Maximum number of tags per resource - 50
@@ -6714,7 +6788,9 @@ public struct RegisterDaemonTaskDefinitionInput: Swift.Sendable {
         cpu: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
         family: Swift.String? = nil,
+        ipcMode: ECSClientTypes.DaemonIpcMode? = nil,
         memory: Swift.String? = nil,
+        pidMode: ECSClientTypes.DaemonPidMode? = nil,
         tags: [ECSClientTypes.Tag]? = nil,
         taskRoleArn: Swift.String? = nil,
         volumes: [ECSClientTypes.DaemonVolume]? = nil
@@ -6723,7 +6799,9 @@ public struct RegisterDaemonTaskDefinitionInput: Swift.Sendable {
         self.cpu = cpu
         self.executionRoleArn = executionRoleArn
         self.family = family
+        self.ipcMode = ipcMode
         self.memory = memory
+        self.pidMode = pidMode
         self.tags = tags
         self.taskRoleArn = taskRoleArn
         self.volumes = volumes
@@ -8757,11 +8835,68 @@ extension ECSClientTypes {
         public var canaryPercent: Swift.Double?
 
         public init(
-            canaryBakeTimeInMinutes: Swift.Int? = 0,
-            canaryPercent: Swift.Double? = 0.0
+            canaryBakeTimeInMinutes: Swift.Int? = nil,
+            canaryPercent: Swift.Double? = nil
         ) {
             self.canaryBakeTimeInMinutes = canaryBakeTimeInMinutes
             self.canaryPercent = canaryPercent
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Determines how the deployment circuit breaker calculates the task failure threshold from the threshold value.
+    public enum ThresholdType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Amazon ECS calculates the failure threshold by multiplying value by the latest service desired count, then clamps the result to a minimum of 3 and a maximum of 200. This is the default threshold type.
+        case boundedPercent
+        /// Amazon ECS uses the integer provided in value directly as the failure threshold.
+        case count
+        /// Amazon ECS calculates the failure threshold by multiplying value by the latest service desired count, without applying the 3-to-200 bounds. Use this when the desired count is large enough that the calculated threshold should be allowed to exceed 200.
+        case unboundedPercent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThresholdType] {
+            return [
+                .boundedPercent,
+                .count,
+                .unboundedPercent
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .boundedPercent: return "BOUNDED_PERCENT"
+            case .count: return "COUNT"
+            case .unboundedPercent: return "UNBOUNDED_PERCENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Defines the failure threshold that the deployment circuit breaker uses to monitor a deployment. The type and value together determine the number of task failures that are tolerated before the circuit breaker triggers. By default, the threshold configuration uses a type of BOUNDED_PERCENT with a value of 50.
+    public struct ThresholdConfiguration: Swift.Sendable {
+        /// Determines how value is used to calculate the failure threshold. For the percentage types (BOUNDED_PERCENT and UNBOUNDED_PERCENT), value is multiplied by the latest service desired count; for COUNT, value is used directly. The default is BOUNDED_PERCENT.
+        /// This member is required.
+        public var type: ECSClientTypes.ThresholdType?
+        /// The integer used to calculate the failure threshold. When type is COUNT, this is the failure threshold itself. When type is a percentage type, this is the percentage that Amazon ECS multiplies by the latest service desired count to calculate the failure threshold.
+        /// This member is required.
+        public var value: Swift.Int
+
+        public init(
+            type: ECSClientTypes.ThresholdType? = nil,
+            value: Swift.Int = 0
+        ) {
+            self.type = type
+            self.value = value
         }
     }
 }
@@ -8773,16 +8908,24 @@ extension ECSClientTypes {
         /// Determines whether to use the deployment circuit breaker logic for the service.
         /// This member is required.
         public var enable: Swift.Bool
+        /// Determines whether the deployment circuit breaker resets its failure count when a task reaches a healthy state. When set to true, a healthy task resets the failure count to 0; when false, it doesn't.
+        public var resetOnHealthyTask: Swift.Bool?
         /// Determines whether to configure Amazon ECS to roll back the service if a service deployment fails. If rollback is on, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
         /// This member is required.
         public var rollback: Swift.Bool
+        /// The threshold configuration that controls when the deployment circuit breaker triggers.
+        public var thresholdConfiguration: ECSClientTypes.ThresholdConfiguration?
 
         public init(
             enable: Swift.Bool = false,
-            rollback: Swift.Bool = false
+            resetOnHealthyTask: Swift.Bool? = nil,
+            rollback: Swift.Bool = false,
+            thresholdConfiguration: ECSClientTypes.ThresholdConfiguration? = nil
         ) {
             self.enable = enable
+            self.resetOnHealthyTask = resetOnHealthyTask
             self.rollback = rollback
+            self.thresholdConfiguration = thresholdConfiguration
         }
     }
 }
@@ -8872,8 +9015,11 @@ extension ECSClientTypes {
         /// * CONTINUE - Proceeds the deployment to the next lifecycle stage.
         ///
         /// * ROLLBACK - Rolls back the deployment to the previous service revision.
+        ///
+        ///
+        /// Default: ROLLBACK
         public var action: ECSClientTypes.DeploymentLifecycleHookAction?
-        /// The number of minutes Amazon ECS waits for the lifecycle hook to complete before taking the timeout action.
+        /// The number of minutes Amazon ECS waits for the lifecycle hook to complete before taking the timeout action. Default: 1440 (24 hours)
         public var timeoutInMinutes: Swift.Int?
 
         public init(
@@ -8888,11 +9034,11 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// A deployment lifecycle hook runs custom logic at specific stages of the deployment process. Currently, you can use Lambda functions as hook targets. For more information, see [Lifecycle hooks for Amazon ECS service deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-lifecycle-hooks.html) in the Amazon Elastic Container Service Developer Guide.
+    /// A deployment lifecycle hook runs custom logic or pauses the deployment at specific stages of the deployment process. You can use Lambda functions or pause hooks as hook targets. For more information, see [Lifecycle hooks for Amazon ECS service deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-lifecycle-hooks.html) in the Amazon Elastic Container Service Developer Guide.
     public struct DeploymentLifecycleHook: Swift.Sendable {
-        /// Use this field to specify custom parameters that Amazon ECS will pass to your hook target invocations (such as a Lambda function).
+        /// Use this field to specify custom parameters that Amazon ECS passes to your Lambda function on each invocation. This field is not used for PAUSE hooks.
         public var hookDetails: Smithy.Document?
-        /// The Amazon Resource Name (ARN) of the hook target. Currently, only Lambda function ARNs are supported. You must provide this parameter when configuring a deployment lifecycle hook.
+        /// The Amazon Resource Name (ARN) of the hook target. For AWS_LAMBDA hooks, this is the Lambda function ARN. This field is not applicable for PAUSE hooks. You must provide this parameter when configuring an AWS_LAMBDA lifecycle hook.
         public var hookTargetArn: Swift.String?
         /// The lifecycle stages at which to run the hook. Choose from these valid values:
         ///
@@ -8906,12 +9052,14 @@ extension ECSClientTypes {
         ///
         /// * POST_TEST_TRAFFIC_SHIFT The test traffic shift is complete. The green service revision handles 100% of the test traffic. You can use a lifecycle hook for this stage.
         ///
-        /// * PRODUCTION_TRAFFIC_SHIFT Production traffic is shifting to the green service revision. The green service revision is migrating from 0% to 100% of production traffic. You can use a lifecycle hook for this stage.
+        /// * PRE_PRODUCTION_TRAFFIC_SHIFT Occurs before production traffic shift. For linear and canary deployments, this stage is invoked before every traffic shift step. You can use a lifecycle hook for this stage.
+        ///
+        /// * PRODUCTION_TRAFFIC_SHIFT Production traffic is shifting to the green service revision. The green service revision is migrating from 0% to 100% of production traffic. For linear and canary deployments, this stage is invoked at every traffic shift step. You can use a lifecycle hook for this stage.
         ///
         /// * POST_PRODUCTION_TRAFFIC_SHIFT The production traffic shift is complete. You can use a lifecycle hook for this stage.
         ///
         ///
-        /// You must provide this parameter when configuring a deployment lifecycle hook.
+        /// PAUSE hooks cannot be configured at TEST_TRAFFIC_SHIFT or PRODUCTION_TRAFFIC_SHIFT stages. These stages are only valid for AWS_LAMBDA hooks. You must provide this parameter when configuring a deployment lifecycle hook.
         public var lifecycleStages: [ECSClientTypes.DeploymentLifecycleHookStage]?
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon ECS permission to call Lambda functions on your behalf. For more information, see [Permissions required for Lambda functions in Amazon ECS blue/green deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/blue-green-permissions.html) in the Amazon Elastic Container Service Developer Guide.
         public var roleArn: Swift.String?
@@ -8955,8 +9103,8 @@ extension ECSClientTypes {
         public var stepPercent: Swift.Double?
 
         public init(
-            stepBakeTimeInMinutes: Swift.Int? = 0,
-            stepPercent: Swift.Double? = 0.0
+            stepBakeTimeInMinutes: Swift.Int? = nil,
+            stepPercent: Swift.Double? = nil
         ) {
             self.stepBakeTimeInMinutes = stepBakeTimeInMinutes
             self.stepPercent = stepPercent
@@ -9011,7 +9159,7 @@ extension ECSClientTypes {
         public var canaryConfiguration: ECSClientTypes.CanaryConfiguration?
         /// The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type. The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If you use the deployment circuit breaker, a service deployment will transition to a failed state and stop launching new tasks. If you use the rollback option, when a service deployment fails, the service is rolled back to the last deployment that completed successfully. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide
         public var deploymentCircuitBreaker: ECSClientTypes.DeploymentCircuitBreaker?
-        /// An array of deployment lifecycle hook objects to run custom logic at specific stages of the deployment lifecycle.
+        /// An array of deployment lifecycle hook objects to run custom logic or pause the deployment at specific stages of the deployment lifecycle.
         public var lifecycleHooks: [ECSClientTypes.DeploymentLifecycleHook]?
         /// Configuration for linear deployment strategy. Only valid when the deployment strategy is LINEAR. This configuration enables progressive traffic shifting in equal percentage increments with configurable bake times between each step.
         public var linearConfiguration: ECSClientTypes.LinearConfiguration?
@@ -9116,11 +9264,7 @@ extension ECSClientTypes {
         public var expiresAt: Foundation.Date?
         /// The ID of the lifecycle hook. Use this value when calling ContinueServiceDeployment to continue or roll back a paused deployment.
         public var hookId: Swift.String?
-        /// The status of the lifecycle hook. Valid values depend on the hook type:
-        ///
-        /// * For AWS_LAMBDA hooks: IN_PROGRESS, SUCCEEDED, FAILED, and TIMED_OUT.
-        ///
-        /// * For PAUSE hooks: AWAITING_ACTION, SUCCEEDED, FAILED, and TIMED_OUT.
+        /// The status of the lifecycle hook. Valid values include AWAITING_ACTION, IN_PROGRESS, SUCCEEDED, FAILED, and TIMED_OUT.
         public var status: ECSClientTypes.DeploymentLifecycleHookStatus?
         /// The Amazon Resource Name (ARN) of the hook target. For AWS_LAMBDA hooks, this is the Lambda function ARN. For PAUSE hooks, this field is not set.
         public var targetArn: Swift.String?
@@ -9243,9 +9387,9 @@ extension ECSClientTypes {
         public init(
             arn: Swift.String? = nil,
             pendingTaskCount: Swift.Int = 0,
-            requestedProductionTrafficWeight: Swift.Double? = 0.0,
+            requestedProductionTrafficWeight: Swift.Double? = nil,
             requestedTaskCount: Swift.Int = 0,
-            requestedTestTrafficWeight: Swift.Double? = 0.0,
+            requestedTestTrafficWeight: Swift.Double? = nil,
             runningTaskCount: Swift.Int = 0
         ) {
             self.arn = arn
@@ -9340,7 +9484,9 @@ extension ECSClientTypes {
         ///
         /// * POST_TEST_TRAFFIC_SHIFT The test traffic shift is complete. The green service revision handles 100% of the test traffic.
         ///
-        /// * PRODUCTION_TRAFFIC_SHIFT Production traffic is shifting to the green service revision. The green service revision is migrating from 0% to 100% of production traffic.
+        /// * PRE_PRODUCTION_TRAFFIC_SHIFT Occurs before production traffic shift. For linear and canary deployments, this stage is invoked before every traffic shift step.
+        ///
+        /// * PRODUCTION_TRAFFIC_SHIFT Production traffic is shifting to the green service revision. The green service revision is migrating from 0% to 100% of production traffic. For linear and canary deployments, this stage is invoked at every traffic shift step.
         ///
         /// * POST_PRODUCTION_TRAFFIC_SHIFT The production traffic shift is complete.
         ///
@@ -9614,7 +9760,6 @@ public struct CreateExpressGatewayServiceInput: Swift.Sendable {
     /// The number of CPU units used by the task. This parameter determines the CPU allocation for each task in the Express service. The default value for an Express service is 256 (.25 vCPU).
     public var cpu: Swift.String?
     /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. This role is required for Amazon ECS to pull container images from Amazon ECR, send container logs to Amazon CloudWatch Logs, and retrieve sensitive data from Amazon Web Services Systems Manager Parameter Store or Amazon Web Services Secrets Manager. The execution role must include the AmazonECSTaskExecutionRolePolicy managed policy or equivalent permissions. For Express services, this role is used during task startup and runtime for container management operations.
-    /// This member is required.
     public var executionRoleArn: Swift.String?
     /// The path on the container that the Application Load Balancer uses for health checks. This should be a valid HTTP endpoint that returns a successful response (HTTP 200) when the application is healthy. If not specified, the default health check path is /ping. The health check path must start with a forward slash and can include query parameters. Examples: /health, /api/status, /ping?format=json.
     public var healthCheckPath: Swift.String?
@@ -9626,7 +9771,6 @@ public struct CreateExpressGatewayServiceInput: Swift.Sendable {
     /// The network configuration for the Express service tasks. This specifies the VPC subnets and security groups for the tasks. For Express services, you can specify custom security groups and subnets. If not provided, Amazon ECS will use the default VPC configuration and create appropriate security groups automatically. The network configuration determines how your service integrates with your VPC and what network access it has.
     public var networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration?
     /// The primary container configuration for the Express service. This defines the main application container that will receive traffic from the Application Load Balancer. The primary container must specify at minimum a container image. You can also configure the container port (defaults to 80), logging configuration, environment variables, secrets, and startup commands. The container image can be from Amazon ECR, Docker Hub, or any other container registry accessible to your execution role.
-    /// This member is required.
     public var primaryContainer: ECSClientTypes.ExpressGatewayContainer?
     /// The auto-scaling configuration for the Express service. This defines how the service automatically adjusts the number of running tasks based on demand. You can specify the minimum and maximum number of tasks, the scaling metric (CPU utilization, memory utilization, or request count per target), and the target value for the metric. If not specified, the default target value for an Express service is 60.
     public var scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget?
@@ -9634,6 +9778,8 @@ public struct CreateExpressGatewayServiceInput: Swift.Sendable {
     public var serviceName: Swift.String?
     /// The metadata that you apply to the Express service to help categorize and organize it. Each tag consists of a key and an optional value. You can apply up to 50 tags to a service.
     public var tags: [ECSClientTypes.Tag]?
+    /// The Amazon Resource Name (ARN) of a task definition to use to create the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, or memory.
+    public var taskDefinitionArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. This role allows your application code to access other Amazon Web Services services securely. The task role is different from the execution role. While the execution role is used by the Amazon ECS agent to set up the task, the task role is used by your application code running inside the container to make Amazon Web Services API calls. If your application doesn't need to access Amazon Web Services services, you can omit this parameter.
     public var taskRoleArn: Swift.String?
 
@@ -9649,6 +9795,7 @@ public struct CreateExpressGatewayServiceInput: Swift.Sendable {
         scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget? = nil,
         serviceName: Swift.String? = nil,
         tags: [ECSClientTypes.Tag]? = nil,
+        taskDefinitionArn: Swift.String? = nil,
         taskRoleArn: Swift.String? = nil
     ) {
         self.cluster = cluster
@@ -9662,6 +9809,7 @@ public struct CreateExpressGatewayServiceInput: Swift.Sendable {
         self.scalingTarget = scalingTarget
         self.serviceName = serviceName
         self.tags = tags
+        self.taskDefinitionArn = taskDefinitionArn
         self.taskRoleArn = taskRoleArn
     }
 }
@@ -9711,6 +9859,8 @@ extension ECSClientTypes {
         public var scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget?
         /// The ARN of the service revision.
         public var serviceRevisionArn: Swift.String?
+        /// The ARN of the task definition used by this service revision. This is present for all Express services and reflects the task definition in use, whether managed by Amazon ECS or provided by the customer.
+        public var taskDefinitionArn: Swift.String?
         /// The ARN of the task role for the service revision.
         public var taskRoleArn: Swift.String?
 
@@ -9725,6 +9875,7 @@ extension ECSClientTypes {
             primaryContainer: ECSClientTypes.ExpressGatewayContainer? = nil,
             scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget? = nil,
             serviceRevisionArn: Swift.String? = nil,
+            taskDefinitionArn: Swift.String? = nil,
             taskRoleArn: Swift.String? = nil
         ) {
             self.cpu = cpu
@@ -9737,6 +9888,7 @@ extension ECSClientTypes {
             self.primaryContainer = primaryContainer
             self.scalingTarget = scalingTarget
             self.serviceRevisionArn = serviceRevisionArn
+            self.taskDefinitionArn = taskDefinitionArn
             self.taskRoleArn = taskRoleArn
         }
     }
@@ -10002,6 +10154,42 @@ extension ECSClientTypes {
             self.containerPort = containerPort
             self.loadBalancerName = loadBalancerName
             self.targetGroupArn = targetGroupArn
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The configuration for a specific set of metrics to collect for a service.
+    public struct MetricConfiguration: Swift.Sendable {
+        /// The list of metric names to configure. The supported metric names are CPUUtilization and MemoryUtilization.
+        /// This member is required.
+        public var metricNames: [Swift.String]?
+        /// The resolution, in seconds, at which to collect the metrics. The valid values are 20 and 60.
+        /// This member is required.
+        public var resolutionSeconds: Swift.Int?
+
+        public init(
+            metricNames: [Swift.String]? = nil,
+            resolutionSeconds: Swift.Int? = nil
+        ) {
+            self.metricNames = metricNames
+            self.resolutionSeconds = resolutionSeconds
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The optional monitoring configuration for a service, which defines the resolution for the service-level CPUUtilization and MemoryUtilization Amazon CloudWatch metrics. When not specified, Amazon ECS uses the default resolution of 60 seconds.
+    public struct MonitoringConfiguration: Swift.Sendable {
+        /// The list of metric configurations for the service monitoring.
+        public var metricConfigurations: [ECSClientTypes.MetricConfiguration]?
+
+        public init(
+            metricConfigurations: [ECSClientTypes.MetricConfiguration]? = nil
+        ) {
+            self.metricConfigurations = metricConfigurations
         }
     }
 }
@@ -10799,6 +10987,8 @@ public struct CreateServiceInput: Swift.Sendable {
     public var launchType: ECSClientTypes.LaunchType?
     /// A load balancer object representing the load balancers to use with your service. For more information, see [Service load balancing](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html) in the Amazon Elastic Container Service Developer Guide. If the service uses the ECS deployment controller and using either an Application Load Balancer or Network Load Balancer, you must specify one or more target group ARNs to attach to the service. The service-linked role is required for services that use multiple target groups. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide. If the service uses the CODE_DEPLOY deployment controller, the service is required to use either an Application Load Balancer or Network Load Balancer. When creating an CodeDeploy deployment group, you specify two target groups (referred to as a targetGroupPair). During a deployment, CodeDeploy determines which task set in your service has the status PRIMARY, and it associates one target group with it. Then, it also associates the other target group with the replacement task set. The load balancer can also have up to two listeners: a required listener for production traffic and an optional listener that you can use to perform validation tests with Lambda functions before routing production traffic to it. If you use the CODE_DEPLOY deployment controller, these values can be changed when updating the service. For Application Load Balancers and Network Load Balancers, this object must contain the load balancer target group ARN, the container name, and the container port to access from the load balancer. The container name must be as it appears in a container definition. The load balancer name parameter must be omitted. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group that's specified here. For Classic Load Balancers, this object must contain the load balancer name, the container name , and the container port to access from the load balancer. The container name must be as it appears in a container definition. The target group ARN parameter must be omitted. When a task from this service is placed on a container instance, the container instance is registered with the load balancer that's specified here. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers aren't supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance. This is because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
     public var loadBalancers: [ECSClientTypes.LoadBalancer]?
+    /// The optional monitoring configuration for the service, which defines the resolution for the service-level CPUUtilization and MemoryUtilization Amazon CloudWatch metrics. When not specified, Amazon ECS uses the default resolution of 60 seconds.
+    public var monitoring: ECSClientTypes.MonitoringConfiguration?
     /// The network configuration for the service. This parameter is required for task definitions that use the awsvpc network mode to receive their own elastic network interface, and it isn't supported for other network modes. For more information, see [Task networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide.
     public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
     /// An array of placement constraint objects to use for tasks in your service. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime.
@@ -10860,6 +11050,7 @@ public struct CreateServiceInput: Swift.Sendable {
         healthCheckGracePeriodSeconds: Swift.Int? = nil,
         launchType: ECSClientTypes.LaunchType? = nil,
         loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
+        monitoring: ECSClientTypes.MonitoringConfiguration? = nil,
         networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
         placementConstraints: [ECSClientTypes.PlacementConstraint]? = nil,
         placementStrategy: [ECSClientTypes.PlacementStrategy]? = nil,
@@ -10887,6 +11078,7 @@ public struct CreateServiceInput: Swift.Sendable {
         self.healthCheckGracePeriodSeconds = healthCheckGracePeriodSeconds
         self.launchType = launchType
         self.loadBalancers = loadBalancers
+        self.monitoring = monitoring
         self.networkConfiguration = networkConfiguration
         self.placementConstraints = placementConstraints
         self.placementStrategy = placementStrategy
@@ -12019,6 +12211,8 @@ public struct UpdateExpressGatewayServiceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Express service to update.
     /// This member is required.
     public var serviceArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of a task definition to use to update the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, or memory.
+    public var taskDefinitionArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role for containers in this task.
     public var taskRoleArn: Swift.String?
 
@@ -12031,6 +12225,7 @@ public struct UpdateExpressGatewayServiceInput: Swift.Sendable {
         primaryContainer: ECSClientTypes.ExpressGatewayContainer? = nil,
         scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget? = nil,
         serviceArn: Swift.String? = nil,
+        taskDefinitionArn: Swift.String? = nil,
         taskRoleArn: Swift.String? = nil
     ) {
         self.cpu = cpu
@@ -12041,6 +12236,7 @@ public struct UpdateExpressGatewayServiceInput: Swift.Sendable {
         self.primaryContainer = primaryContainer
         self.scalingTarget = scalingTarget
         self.serviceArn = serviceArn
+        self.taskDefinitionArn = taskDefinitionArn
         self.taskRoleArn = taskRoleArn
     }
 }
@@ -12139,6 +12335,8 @@ public struct UpdateServiceInput: Swift.Sendable {
     public var healthCheckGracePeriodSeconds: Swift.Int?
     /// You must have a service-linked role when you update this property A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the container name, and the container port to access from the load balancer. The container name is as it appears in a container definition. When you add, update, or remove a load balancer configuration, Amazon ECS starts new tasks with the updated Elastic Load Balancing configuration, and then stops the old tasks when the new tasks are running. For services that use rolling updates, you can add, update, or remove Elastic Load Balancing target groups. You can update from a single target group to multiple target groups and from multiple target groups to a single target group. For services that use blue/green deployments, you can update Elastic Load Balancing target groups by using [CreateDeployment](https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html) through CodeDeploy. Note that multiple target groups are not supported for blue/green deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. For services that use the external deployment controller, you can add, update, or remove load balancers by using [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). Note that multiple target groups are not supported for external deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. You can remove existing loadBalancers by passing an empty list. This parameter triggers a new service deployment.
     public var loadBalancers: [ECSClientTypes.LoadBalancer]?
+    /// The optional monitoring configuration for the service, which defines the resolution for the service-level CPUUtilization and MemoryUtilization Amazon CloudWatch metrics. When not specified, Amazon ECS uses the default resolution of 60 seconds.
+    public var monitoring: ECSClientTypes.MonitoringConfiguration?
     /// An object representing the network configuration for the service. This parameter triggers a new service deployment.
     public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
     /// An array of task placement constraint objects to update the service to use. If no value is specified, the existing placement constraints for the service will remain unchanged. If this value is specified, it will override any existing placement constraints defined for the service. To remove all existing placement constraints, specify an empty array. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime. This parameter doesn't trigger a new service deployment.
@@ -12175,6 +12373,7 @@ public struct UpdateServiceInput: Swift.Sendable {
         forceNewDeployment: Swift.Bool? = false,
         healthCheckGracePeriodSeconds: Swift.Int? = nil,
         loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
+        monitoring: ECSClientTypes.MonitoringConfiguration? = nil,
         networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
         placementConstraints: [ECSClientTypes.PlacementConstraint]? = nil,
         placementStrategy: [ECSClientTypes.PlacementStrategy]? = nil,
@@ -12198,6 +12397,7 @@ public struct UpdateServiceInput: Swift.Sendable {
         self.forceNewDeployment = forceNewDeployment
         self.healthCheckGracePeriodSeconds = healthCheckGracePeriodSeconds
         self.loadBalancers = loadBalancers
+        self.monitoring = monitoring
         self.networkConfiguration = networkConfiguration
         self.placementConstraints = placementConstraints
         self.placementStrategy = placementStrategy
@@ -12858,6 +13058,8 @@ extension ECSClientTypes {
         public var launchType: ECSClientTypes.LaunchType?
         /// The load balancers the service revision uses.
         public var loadBalancers: [ECSClientTypes.LoadBalancer]?
+        /// The optional monitoring configuration for the service, which defines the resolution for the service-level CPUUtilization and MemoryUtilization Amazon CloudWatch metrics. When not specified, Amazon ECS uses the default resolution of 60 seconds.
+        public var monitoring: ECSClientTypes.MonitoringConfiguration?
         /// The network configuration for a task or service.
         public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
         /// The platform family the service revision uses.
@@ -12891,6 +13093,7 @@ extension ECSClientTypes {
             guardDutyEnabled: Swift.Bool = false,
             launchType: ECSClientTypes.LaunchType? = nil,
             loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
+            monitoring: ECSClientTypes.MonitoringConfiguration? = nil,
             networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
             platformFamily: Swift.String? = nil,
             platformVersion: Swift.String? = nil,
@@ -12912,6 +13115,7 @@ extension ECSClientTypes {
             self.guardDutyEnabled = guardDutyEnabled
             self.launchType = launchType
             self.loadBalancers = loadBalancers
+            self.monitoring = monitoring
             self.networkConfiguration = networkConfiguration
             self.platformFamily = platformFamily
             self.platformVersion = platformVersion

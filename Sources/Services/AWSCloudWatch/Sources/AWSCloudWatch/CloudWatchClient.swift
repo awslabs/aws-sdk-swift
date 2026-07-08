@@ -21,11 +21,11 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
+import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultClockSkewProvider
-import enum ClientRuntime.DefaultRetryErrorInfoProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -73,6 +73,7 @@ public final class CloudWatchClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: CloudWatchClient.CloudWatchClientConfig
     let serviceName = "CloudWatch"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use CloudWatchClient.CloudWatchClientConfig instead")
     public typealias Config = CloudWatchClient.CloudWatchClientConfiguration
@@ -82,6 +83,7 @@ public final class CloudWatchClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: CloudWatchClient.CloudWatchClientConfig) instead")
@@ -196,7 +198,7 @@ extension CloudWatchClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "CloudWatch")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -251,7 +253,7 @@ extension CloudWatchClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "CloudWatch")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -427,7 +429,7 @@ extension CloudWatchClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "CloudWatch")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -482,7 +484,7 @@ extension CloudWatchClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "CloudWatch")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -611,6 +613,103 @@ extension CloudWatchClient {
 }
 
 extension CloudWatchClient {
+    /// Performs the `AssociateDatasetKmsKey` operation on the `CloudWatch` service.
+    ///
+    /// Associates an Amazon Web Services Key Management Service (Amazon Web Services KMS) customer managed key with the specified dataset. After this operation completes, all data published to the dataset is encrypted at rest using the specified KMS key. Callers must have kms:Decrypt permission on the key to read the encrypted data. Only the default dataset is supported. The default dataset is implicit for every account in every Region — you do not need to create it before calling this operation. You can call AssociateDatasetKmsKey on a dataset that is already associated with a KMS key to replace the existing key with a different one. To replace a key, the caller must have kms:Decrypt permission on both the current key and the new key. The KMS key that you specify must meet all of the following requirements:
+    ///
+    /// * It must be a symmetric encryption KMS key (key spec SYMMETRIC_DEFAULT, key usage ENCRYPT_DECRYPT). Asymmetric keys, HMAC keys, and key material types other than SYMMETRIC_DEFAULT are not supported.
+    ///
+    /// * It must be enabled and not pending deletion.
+    ///
+    /// * Its key policy must grant the CloudWatch service principal (cloudwatch.amazonaws.com) these permissions: kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt*. Amazon CloudWatch requires these permissions to manage the data on your behalf.
+    ///
+    /// * The calling principal must have kms:Decrypt permission on the key.
+    ///
+    /// * It must be specified as a fully qualified key ARN. Key IDs, aliases, and alias ARNs are not accepted.
+    ///
+    /// * It must be in the same Amazon Web Services Region as the dataset.
+    ///
+    ///
+    /// Before completing the association, Amazon CloudWatch validates the key by performing a series of dry-run KMS operations. Service-principal checks run first to verify that the key policy grants the required access to Amazon CloudWatch. These checks include kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt*. After those succeed, a kms:Decrypt dry-run is run with the caller's credentials to verify that the calling principal can use the key. When you are replacing an existing key, the caller's kms:Decrypt dry-run is run on the current key first, and only then on the new key. If any of these checks fails, the operation fails and the existing key association (if any) remains unchanged. Common failure causes include the key being disabled, the key policy not granting the required permissions to Amazon CloudWatch, or the caller lacking kms:Decrypt permission on the key. For more information about using customer managed keys with Amazon CloudWatch, see [Encryption at rest with customer managed keys](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cmk-encryption.html) in the Amazon CloudWatch User Guide.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateDatasetKmsKeyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateDatasetKmsKeyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : This operation attempted to create a resource that already exists.
+    /// - `KmsAccessDeniedException` : The operation was denied because either the calling principal lacks the required Amazon Web Services Key Management Service (Amazon Web Services KMS) permission on the key, or the key policy does not grant Amazon CloudWatch the permissions it needs to use the key. Verify that the caller has kms:Decrypt permission on the key, and that the key policy grants the CloudWatch service principal the kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt* permissions described in [AssociateDatasetKmsKey](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_AssociateDatasetKmsKey.html).
+    /// - `KmsKeyDisabledException` : The specified Amazon Web Services Key Management Service (Amazon Web Services KMS) key is disabled or pending deletion. Re-enable the key (or restore it, if it is pending deletion) and retry the operation.
+    /// - `KmsKeyNotFoundException` : The specified Amazon Web Services Key Management Service (Amazon Web Services KMS) key could not be found. Verify that the key Amazon Resource Name (ARN) is correct, that the key exists, and that it is in the same Amazon Web Services Region as the resource.
+    /// - `ResourceNotFoundException` : The named resource does not exist.
+    public func associateDatasetKmsKey(input: AssociateDatasetKmsKeyInput) async throws -> AssociateDatasetKmsKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchClient.associateDatasetKmsKeyOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateDatasetKmsKey")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "monitoring")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateDatasetKmsKeyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateDatasetKmsKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>(additional: ["x-amzn-query-mode": "true"]))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateDatasetKmsKey")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteAlarmMuteRule` operation on the `CloudWatch` service.
     ///
     /// Deletes a specific alarm mute rule. When you delete a mute rule, any alarms that are currently being muted by that rule are immediately unmuted. If those alarms are in an ALARM state, their configured actions will trigger. This operation is idempotent. If you delete a mute rule that does not exist, the operation succeeds without returning an error. Permissions To delete a mute rule, you need the cloudwatch:DeleteAlarmMuteRule permission on the alarm mute rule resource.
@@ -652,8 +751,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAlarmMuteRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -668,6 +765,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -686,7 +785,7 @@ extension CloudWatchClient {
 
     /// Performs the `DeleteAlarms` operation on the `CloudWatch` service.
     ///
-    /// Deletes the specified alarms. You can delete up to 100 alarms in one operation. However, this total can include no more than one composite alarm. For example, you could delete 99 metric alarms and one composite alarms with one operation, but you can't delete two composite alarms with one operation. If you specify any incorrect alarm names, the alarms you specify with correct names are still deleted. Other syntax errors might result in no alarms being deleted. To confirm that alarms were deleted successfully, you can use the [DescribeAlarms](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarms.html) operation after using DeleteAlarms. It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one of the alarms to false. Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path.
+    /// Deletes the specified alarms. You can delete up to 100 alarms in one operation. However, this total can include no more than one composite alarm. For example, you could delete 99 metric alarms and one composite alarms with one operation, but you can't delete two composite alarms with one operation. Log alarms cannot be batch deleted. If you specify any incorrect alarm names, the alarms you specify with correct names are still deleted. Other syntax errors might result in no alarms being deleted. To confirm that alarms were deleted successfully, you can use the [DescribeAlarms](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarms.html) operation after using DeleteAlarms. It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one of the alarms to false. Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteAlarmsInput`)
     ///
@@ -695,6 +794,7 @@ extension CloudWatchClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ResourceConflict` : The operation could not be completed because the request conflicts with the current state of the alarm or its underlying scheduled query resource.
     /// - `ResourceNotFound` : The named resource does not exist.
     public func deleteAlarms(input: DeleteAlarmsInput) async throws -> DeleteAlarmsOutput {
         var config = config
@@ -730,8 +830,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAlarmsInput, DeleteAlarmsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAlarmsInput, DeleteAlarmsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAlarmsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -746,6 +844,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAlarmsInput, DeleteAlarmsOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAlarmsInput, DeleteAlarmsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAlarmsInput, DeleteAlarmsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAlarmsInput, DeleteAlarmsOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -812,8 +912,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAnomalyDetectorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -828,6 +926,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -892,8 +992,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDashboardsInput, DeleteDashboardsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDashboardsInput, DeleteDashboardsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDashboardsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -908,6 +1006,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDashboardsInput, DeleteDashboardsOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDashboardsInput, DeleteDashboardsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDashboardsInput, DeleteDashboardsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDashboardsInput, DeleteDashboardsOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -971,8 +1071,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInsightRulesInput, DeleteInsightRulesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInsightRulesInput, DeleteInsightRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInsightRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -987,6 +1085,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteInsightRulesInput, DeleteInsightRulesOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteInsightRulesInput, DeleteInsightRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteInsightRulesInput, DeleteInsightRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteInsightRulesInput, DeleteInsightRulesOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -1051,8 +1151,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMetricStreamInput, DeleteMetricStreamOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMetricStreamInput, DeleteMetricStreamOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMetricStreamOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1067,6 +1165,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMetricStreamInput, DeleteMetricStreamOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMetricStreamInput, DeleteMetricStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMetricStreamInput, DeleteMetricStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMetricStreamInput, DeleteMetricStreamOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -1130,8 +1230,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAlarmContributorsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1146,6 +1244,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -1208,8 +1308,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAlarmHistoryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1224,6 +1322,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -1286,8 +1386,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAlarmsInput, DescribeAlarmsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlarmsInput, DescribeAlarmsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAlarmsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1302,6 +1400,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAlarmsInput, DescribeAlarmsOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAlarmsInput, DescribeAlarmsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAlarmsInput, DescribeAlarmsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAlarmsInput, DescribeAlarmsOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -1359,8 +1459,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAlarmsForMetricInput, DescribeAlarmsForMetricOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlarmsForMetricInput, DescribeAlarmsForMetricOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAlarmsForMetricOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1375,6 +1473,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAlarmsForMetricInput, DescribeAlarmsForMetricOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAlarmsForMetricInput, DescribeAlarmsForMetricOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAlarmsForMetricInput, DescribeAlarmsForMetricOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAlarmsForMetricInput, DescribeAlarmsForMetricOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -1440,8 +1540,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAnomalyDetectorsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1456,6 +1554,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -1518,8 +1618,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInsightRulesInput, DescribeInsightRulesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInsightRulesInput, DescribeInsightRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInsightRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1534,6 +1632,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeInsightRulesInput, DescribeInsightRulesOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInsightRulesInput, DescribeInsightRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInsightRulesInput, DescribeInsightRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInsightRulesInput, DescribeInsightRulesOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -1591,8 +1691,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableAlarmActionsInput, DisableAlarmActionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableAlarmActionsInput, DisableAlarmActionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableAlarmActionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1607,6 +1705,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableAlarmActionsInput, DisableAlarmActionsOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableAlarmActionsInput, DisableAlarmActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableAlarmActionsInput, DisableAlarmActionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableAlarmActionsInput, DisableAlarmActionsOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -1670,8 +1770,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableInsightRulesInput, DisableInsightRulesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableInsightRulesInput, DisableInsightRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableInsightRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1686,10 +1784,91 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableInsightRulesInput, DisableInsightRulesOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableInsightRulesInput, DisableInsightRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableInsightRulesInput, DisableInsightRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableInsightRulesInput, DisableInsightRulesOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableInsightRules")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DisassociateDatasetKmsKey` operation on the `CloudWatch` service.
+    ///
+    /// Removes the customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key association from the specified dataset. After this operation completes, data that you publish to the dataset is encrypted at rest using an Amazon Web Services owned key managed by Amazon CloudWatch. Only the default dataset is supported. To call this operation, the dataset must currently have a customer managed KMS key associated with it. If the dataset has no associated KMS key, the operation fails with ResourceNotFoundException. Amazon CloudWatch performs a dry-run kms:Decrypt call on the key as part of this operation. This verifies that the caller is authorized to use the currently associated key. The caller must have kms:Decrypt permission on the currently associated key, and the key must be enabled and accessible. If the key has been disabled or scheduled for deletion, you must first re-enable or restore it before you can disassociate it from the dataset. Disassociating a KMS key from a dataset does not immediately remove the kms:Decrypt requirement on data plane operations. For up to three hours after disassociation, callers must continue to have kms:Decrypt permission on the previously associated key. Some data may still be encrypted with that key during this window. After this enforcement window elapses, the kms:Decrypt requirement is lifted. For more information about using customer managed keys with Amazon CloudWatch, see [Encryption at rest with customer managed keys](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cmk-encryption.html) in the Amazon CloudWatch User Guide.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateDatasetKmsKeyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateDatasetKmsKeyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : This operation attempted to create a resource that already exists.
+    /// - `ResourceNotFoundException` : The named resource does not exist.
+    public func disassociateDatasetKmsKey(input: DisassociateDatasetKmsKeyInput) async throws -> DisassociateDatasetKmsKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchClient.disassociateDatasetKmsKeyOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateDatasetKmsKey")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "monitoring")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateDatasetKmsKeyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateDatasetKmsKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>(additional: ["x-amzn-query-mode": "true"]))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateDatasetKmsKey")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1743,8 +1922,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableAlarmActionsInput, EnableAlarmActionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableAlarmActionsInput, EnableAlarmActionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableAlarmActionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1759,6 +1936,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableAlarmActionsInput, EnableAlarmActionsOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableAlarmActionsInput, EnableAlarmActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableAlarmActionsInput, EnableAlarmActionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableAlarmActionsInput, EnableAlarmActionsOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -1823,8 +2002,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableInsightRulesInput, EnableInsightRulesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableInsightRulesInput, EnableInsightRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableInsightRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1839,6 +2016,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableInsightRulesInput, EnableInsightRulesOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableInsightRulesInput, EnableInsightRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableInsightRulesInput, EnableInsightRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableInsightRulesInput, EnableInsightRulesOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -1910,8 +2089,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAlarmMuteRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1926,6 +2103,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -1990,8 +2169,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDashboardInput, GetDashboardOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDashboardInput, GetDashboardOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDashboardOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2006,10 +2183,90 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDashboardInput, GetDashboardOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDashboardInput, GetDashboardOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDashboardInput, GetDashboardOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDashboardInput, GetDashboardOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDashboard")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetDataset` operation on the `CloudWatch` service.
+    ///
+    /// Returns information about the specified dataset. This includes its identifier, Amazon Resource Name (ARN), and any customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that is currently associated with it. Only the default dataset is supported. The default dataset is implicit for every account in every Region — you can call GetDataset for it without first creating it. If no customer managed KMS key has been associated with the dataset, the response omits the KmsKeyArn field, indicating that data is encrypted at rest using an Amazon Web Services owned key managed by Amazon CloudWatch. To associate a customer managed KMS key with a dataset, use [AssociateDatasetKmsKey](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_AssociateDatasetKmsKey.html). To remove the association, use [DisassociateDatasetKmsKey](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DisassociateDatasetKmsKey.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetDatasetInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetDatasetOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The named resource does not exist.
+    public func getDataset(input: GetDatasetInput) async throws -> GetDatasetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchClient.getDatasetOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDataset")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "monitoring")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDatasetInput, GetDatasetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDatasetInput, GetDatasetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDatasetInput, GetDatasetOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDatasetInput, GetDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDatasetOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDatasetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDatasetInput, GetDatasetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetDatasetInput, GetDatasetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDatasetInput, GetDatasetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDatasetInput, GetDatasetOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDatasetOutput>())
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDatasetInput, GetDatasetOutput>(additional: ["x-amzn-query-mode": "true"]))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDatasetInput, GetDatasetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDatasetInput, GetDatasetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDatasetInput, GetDatasetOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDataset")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2084,8 +2341,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInsightRuleReportInput, GetInsightRuleReportOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInsightRuleReportInput, GetInsightRuleReportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInsightRuleReportOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2100,6 +2355,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetInsightRuleReportInput, GetInsightRuleReportOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetInsightRuleReportInput, GetInsightRuleReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetInsightRuleReportInput, GetInsightRuleReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetInsightRuleReportInput, GetInsightRuleReportOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -2173,8 +2430,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricDataInput, GetMetricDataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricDataInput, GetMetricDataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricDataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2189,6 +2444,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMetricDataInput, GetMetricDataOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMetricDataInput, GetMetricDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMetricDataInput, GetMetricDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMetricDataInput, GetMetricDataOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -2272,8 +2529,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricStatisticsInput, GetMetricStatisticsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricStatisticsInput, GetMetricStatisticsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricStatisticsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2288,6 +2543,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMetricStatisticsInput, GetMetricStatisticsOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMetricStatisticsInput, GetMetricStatisticsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMetricStatisticsInput, GetMetricStatisticsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMetricStatisticsInput, GetMetricStatisticsOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -2354,8 +2611,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricStreamInput, GetMetricStreamOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricStreamInput, GetMetricStreamOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricStreamOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2370,6 +2625,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMetricStreamInput, GetMetricStreamOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMetricStreamInput, GetMetricStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMetricStreamInput, GetMetricStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMetricStreamInput, GetMetricStreamOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -2431,8 +2688,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricWidgetImageInput, GetMetricWidgetImageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricWidgetImageInput, GetMetricWidgetImageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricWidgetImageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2447,6 +2702,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMetricWidgetImageInput, GetMetricWidgetImageOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMetricWidgetImageInput, GetMetricWidgetImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMetricWidgetImageInput, GetMetricWidgetImageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMetricWidgetImageInput, GetMetricWidgetImageOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -2503,8 +2760,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOTelEnrichmentInput, GetOTelEnrichmentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOTelEnrichmentInput, GetOTelEnrichmentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOTelEnrichmentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2519,6 +2774,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOTelEnrichmentInput, GetOTelEnrichmentOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOTelEnrichmentInput, GetOTelEnrichmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOTelEnrichmentInput, GetOTelEnrichmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOTelEnrichmentInput, GetOTelEnrichmentOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -2582,8 +2839,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAlarmMuteRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2598,6 +2853,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -2661,8 +2918,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDashboardsInput, ListDashboardsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDashboardsInput, ListDashboardsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDashboardsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2677,6 +2932,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDashboardsInput, ListDashboardsOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDashboardsInput, ListDashboardsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDashboardsInput, ListDashboardsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDashboardsInput, ListDashboardsOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -2741,8 +2998,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListManagedInsightRulesInput, ListManagedInsightRulesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedInsightRulesInput, ListManagedInsightRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedInsightRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2757,6 +3012,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListManagedInsightRulesInput, ListManagedInsightRulesOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListManagedInsightRulesInput, ListManagedInsightRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListManagedInsightRulesInput, ListManagedInsightRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListManagedInsightRulesInput, ListManagedInsightRulesOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -2822,8 +3079,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMetricStreamsInput, ListMetricStreamsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMetricStreamsInput, ListMetricStreamsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMetricStreamsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2838,6 +3093,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMetricStreamsInput, ListMetricStreamsOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMetricStreamsInput, ListMetricStreamsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMetricStreamsInput, ListMetricStreamsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMetricStreamsInput, ListMetricStreamsOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -2901,8 +3158,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMetricsInput, ListMetricsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMetricsInput, ListMetricsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMetricsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2917,6 +3172,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMetricsInput, ListMetricsOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMetricsInput, ListMetricsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMetricsInput, ListMetricsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMetricsInput, ListMetricsOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -2981,8 +3238,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2997,6 +3252,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -3059,8 +3316,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAlarmMuteRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3075,6 +3330,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -3141,8 +3398,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAnomalyDetectorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3157,6 +3412,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -3230,8 +3487,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutCompositeAlarmInput, PutCompositeAlarmOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutCompositeAlarmInput, PutCompositeAlarmOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutCompositeAlarmOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3246,6 +3501,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutCompositeAlarmInput, PutCompositeAlarmOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutCompositeAlarmInput, PutCompositeAlarmOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutCompositeAlarmInput, PutCompositeAlarmOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutCompositeAlarmInput, PutCompositeAlarmOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -3310,8 +3567,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDashboardInput, PutDashboardOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDashboardInput, PutDashboardOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDashboardOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3326,6 +3581,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutDashboardInput, PutDashboardOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutDashboardInput, PutDashboardOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutDashboardInput, PutDashboardOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutDashboardInput, PutDashboardOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -3390,8 +3647,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutInsightRuleInput, PutInsightRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutInsightRuleInput, PutInsightRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutInsightRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3406,10 +3661,91 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutInsightRuleInput, PutInsightRuleOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutInsightRuleInput, PutInsightRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutInsightRuleInput, PutInsightRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutInsightRuleInput, PutInsightRuleOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutInsightRule")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutLogAlarm` operation on the `CloudWatch` service.
+    ///
+    /// Creates or updates a log alarm. A log alarm evaluates the results of a CloudWatch Logs scheduled query against the configured threshold and comparison operator to determine its state. When you create a log alarm, the operation creates a service-managed CloudWatch Logs scheduled query that runs the query string you provide on the schedule you configure. Each scheduled query execution returns one or more aggregated values determined by the AggregationExpression, and each aggregated value is compared against the alarm Threshold to determine the alarm state. The alarm uses M-out-of-N evaluation: if QueryResultsToAlarm out of the most recent QueryResultsToEvaluate query results breach the threshold, the alarm transitions to ALARM. Log alarms support the alarm states (OK, ALARM, INSUFFICIENT_DATA). Configure transition actions using OKActions, AlarmActions, and InsufficientDataActions. If you call this operation with the name of an existing log alarm, the operation replaces the previous configuration of that alarm. Permissions To create or update a log alarm, you must have the cloudwatch:PutLogAlarm permission. The IAM role specified in ScheduledQueryRoleARN must grant the CloudWatch Alarms service permission to execute scheduled queries on the specified log groups. If you set ActionLogLineCount, the role specified in ActionLogLineRoleArn must grant permission to retrieve log events for inclusion in alarm notifications.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutLogAlarmInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutLogAlarmOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `LimitExceededFault` : The quota for alarms for this customer has already been reached.
+    /// - `ResourceConflict` : The operation could not be completed because the request conflicts with the current state of the alarm or its underlying scheduled query resource.
+    public func putLogAlarm(input: PutLogAlarmInput) async throws -> PutLogAlarmOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchClient.putLogAlarmOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putLogAlarm")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "monitoring")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutLogAlarmInput, PutLogAlarmOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutLogAlarmInput, PutLogAlarmOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLogAlarmInput, PutLogAlarmOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLogAlarmInput, PutLogAlarmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutLogAlarmOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutLogAlarmOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutLogAlarmInput, PutLogAlarmOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutLogAlarmInput, PutLogAlarmOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutLogAlarmInput, PutLogAlarmOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLogAlarmInput, PutLogAlarmOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutLogAlarmOutput>())
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutLogAlarmInput, PutLogAlarmOutput>(additional: ["x-amzn-query-mode": "true"]))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutLogAlarmInput, PutLogAlarmOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutLogAlarmInput, PutLogAlarmOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutLogAlarmInput, PutLogAlarmOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutLogAlarm")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3469,8 +3805,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutManagedInsightRulesInput, PutManagedInsightRulesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutManagedInsightRulesInput, PutManagedInsightRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutManagedInsightRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3485,6 +3819,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutManagedInsightRulesInput, PutManagedInsightRulesOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutManagedInsightRulesInput, PutManagedInsightRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutManagedInsightRulesInput, PutManagedInsightRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutManagedInsightRulesInput, PutManagedInsightRulesOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -3558,8 +3894,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMetricAlarmInput, PutMetricAlarmOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMetricAlarmInput, PutMetricAlarmOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMetricAlarmOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3574,6 +3908,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutMetricAlarmInput, PutMetricAlarmOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutMetricAlarmInput, PutMetricAlarmOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutMetricAlarmInput, PutMetricAlarmOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutMetricAlarmInput, PutMetricAlarmOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -3643,8 +3979,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMetricDataInput, PutMetricDataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMetricDataInput, PutMetricDataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMetricDataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3659,6 +3993,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutMetricDataInput, PutMetricDataOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutMetricDataInput, PutMetricDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutMetricDataInput, PutMetricDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutMetricDataInput, PutMetricDataOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -3734,8 +4070,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMetricStreamInput, PutMetricStreamOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMetricStreamInput, PutMetricStreamOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMetricStreamOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3750,6 +4084,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutMetricStreamInput, PutMetricStreamOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutMetricStreamInput, PutMetricStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutMetricStreamInput, PutMetricStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutMetricStreamInput, PutMetricStreamOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -3813,8 +4149,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetAlarmStateInput, SetAlarmStateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetAlarmStateInput, SetAlarmStateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetAlarmStateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3829,6 +4163,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetAlarmStateInput, SetAlarmStateOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetAlarmStateInput, SetAlarmStateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetAlarmStateInput, SetAlarmStateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetAlarmStateInput, SetAlarmStateOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -3893,8 +4229,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMetricStreamsInput, StartMetricStreamsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMetricStreamsInput, StartMetricStreamsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMetricStreamsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3909,6 +4243,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMetricStreamsInput, StartMetricStreamsOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMetricStreamsInput, StartMetricStreamsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMetricStreamsInput, StartMetricStreamsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMetricStreamsInput, StartMetricStreamsOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -3965,8 +4301,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartOTelEnrichmentInput, StartOTelEnrichmentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartOTelEnrichmentInput, StartOTelEnrichmentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartOTelEnrichmentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3981,6 +4315,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartOTelEnrichmentInput, StartOTelEnrichmentOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartOTelEnrichmentInput, StartOTelEnrichmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartOTelEnrichmentInput, StartOTelEnrichmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartOTelEnrichmentInput, StartOTelEnrichmentOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -4045,8 +4381,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopMetricStreamsInput, StopMetricStreamsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopMetricStreamsInput, StopMetricStreamsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopMetricStreamsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4061,6 +4395,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopMetricStreamsInput, StopMetricStreamsOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopMetricStreamsInput, StopMetricStreamsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopMetricStreamsInput, StopMetricStreamsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopMetricStreamsInput, StopMetricStreamsOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -4117,8 +4453,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopOTelEnrichmentInput, StopOTelEnrichmentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopOTelEnrichmentInput, StopOTelEnrichmentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopOTelEnrichmentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4133,6 +4467,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopOTelEnrichmentInput, StopOTelEnrichmentOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopOTelEnrichmentInput, StopOTelEnrichmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopOTelEnrichmentInput, StopOTelEnrichmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopOTelEnrichmentInput, StopOTelEnrichmentOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -4199,8 +4535,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4215,6 +4549,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
@@ -4281,8 +4617,6 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4297,6 +4631,8 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")

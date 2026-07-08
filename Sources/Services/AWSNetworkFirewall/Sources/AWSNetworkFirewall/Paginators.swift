@@ -77,6 +77,36 @@ extension PaginatorSequence where OperationStackInput == ListAnalysisReportsInpu
     }
 }
 extension NetworkFirewallClient {
+    /// Paginate over `[ListContainerAssociationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContainerAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContainerAssociationsOutput`
+    public func listContainerAssociationsPaginated(input: ListContainerAssociationsInput) -> ClientRuntime.PaginatorSequence<ListContainerAssociationsInput, ListContainerAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListContainerAssociationsInput, ListContainerAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContainerAssociations(input:))
+    }
+}
+
+extension ListContainerAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListContainerAssociationsInput {
+        return ListContainerAssociationsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListContainerAssociationsInput, OperationStackOutput == ListContainerAssociationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listContainerAssociationsPaginated`
+    /// to access the nested member `[NetworkFirewallClientTypes.ContainerAssociationSummary]`
+    /// - Returns: `[NetworkFirewallClientTypes.ContainerAssociationSummary]`
+    public func containerAssociations() async throws -> [NetworkFirewallClientTypes.ContainerAssociationSummary] {
+        return try await self.asyncCompactMap { item in item.containerAssociations }
+    }
+}
+extension NetworkFirewallClient {
     /// Paginate over `[ListFirewallPoliciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

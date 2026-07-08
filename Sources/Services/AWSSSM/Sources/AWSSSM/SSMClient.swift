@@ -73,6 +73,7 @@ public final class SSMClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: SSMClient.SSMClientConfig
     let serviceName = "SSM"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use SSMClient.SSMClientConfig instead")
     public typealias Config = SSMClient.SSMClientConfiguration
@@ -82,6 +83,7 @@ public final class SSMClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: SSMClient.SSMClientConfig) instead")
@@ -196,7 +198,7 @@ extension SSMClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "SSM")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -251,7 +253,7 @@ extension SSMClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "SSM")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -427,7 +429,7 @@ extension SSMClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "SSM")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -482,7 +484,7 @@ extension SSMClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "SSM")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -675,8 +677,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsToResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -688,6 +688,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddTagsToResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -754,8 +756,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateOpsItemRelatedItemInput, AssociateOpsItemRelatedItemOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateOpsItemRelatedItemInput, AssociateOpsItemRelatedItemOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateOpsItemRelatedItemOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -767,6 +767,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateOpsItemRelatedItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateOpsItemRelatedItemInput, AssociateOpsItemRelatedItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateOpsItemRelatedItemInput, AssociateOpsItemRelatedItemOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateOpsItemRelatedItemInput, AssociateOpsItemRelatedItemOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -839,8 +841,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelCommandInput, CancelCommandOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelCommandInput, CancelCommandOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelCommandOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -852,6 +852,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelCommandOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelCommandInput, CancelCommandOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelCommandInput, CancelCommandOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelCommandInput, CancelCommandOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -914,8 +916,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelMaintenanceWindowExecutionInput, CancelMaintenanceWindowExecutionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMaintenanceWindowExecutionInput, CancelMaintenanceWindowExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMaintenanceWindowExecutionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -927,6 +927,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelMaintenanceWindowExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelMaintenanceWindowExecutionInput, CancelMaintenanceWindowExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelMaintenanceWindowExecutionInput, CancelMaintenanceWindowExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelMaintenanceWindowExecutionInput, CancelMaintenanceWindowExecutionOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -989,8 +991,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateActivationInput, CreateActivationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateActivationInput, CreateActivationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateActivationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1002,6 +1002,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateActivationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateActivationInput, CreateActivationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateActivationInput, CreateActivationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateActivationInput, CreateActivationOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -1083,8 +1085,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAssociationInput, CreateAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAssociationInput, CreateAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1096,6 +1096,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAssociationInput, CreateAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAssociationInput, CreateAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAssociationInput, CreateAssociationOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -1176,8 +1178,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAssociationBatchInput, CreateAssociationBatchOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAssociationBatchInput, CreateAssociationBatchOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAssociationBatchOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1189,10 +1189,88 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAssociationBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAssociationBatchInput, CreateAssociationBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAssociationBatchInput, CreateAssociationBatchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAssociationBatchInput, CreateAssociationBatchOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAssociationBatch")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateCloudConnector` operation on the `SSM` service.
+    ///
+    /// Creates a cloud connector that establishes a connection between Systems Manager and a third-party cloud environment.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateCloudConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateCloudConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : An error occurred because of a conflict with a concurrent request or the current state of the resource. Retry your request.
+    /// - `InternalServerError` : An error occurred on the server side.
+    /// - `ServiceQuotaExceededException` : The request exceeds the service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account.
+    public func createCloudConnector(input: CreateCloudConnectorInput) async throws -> CreateCloudConnectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SSMClient.createCloudConnectorOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCloudConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ssm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCloudConnectorInput, CreateCloudConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCloudConnectorInput, CreateCloudConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCloudConnectorInput, CreateCloudConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateCloudConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCloudConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCloudConnectorInput, CreateCloudConnectorOutput>(overrides: ["X-Amz-Target": "AmazonSSM.CreateCloudConnector"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCloudConnectorInput, CreateCloudConnectorOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCloudConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCloudConnectorInput, CreateCloudConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCloudConnectorInput, CreateCloudConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCloudConnectorInput, CreateCloudConnectorOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCloudConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1257,8 +1335,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDocumentInput, CreateDocumentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDocumentInput, CreateDocumentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDocumentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1270,6 +1346,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDocumentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDocumentInput, CreateDocumentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDocumentInput, CreateDocumentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDocumentInput, CreateDocumentOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -1334,8 +1412,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMaintenanceWindowInput, CreateMaintenanceWindowOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMaintenanceWindowInput, CreateMaintenanceWindowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMaintenanceWindowOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1347,6 +1423,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMaintenanceWindowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateMaintenanceWindowInput, CreateMaintenanceWindowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateMaintenanceWindowInput, CreateMaintenanceWindowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateMaintenanceWindowInput, CreateMaintenanceWindowOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -1412,8 +1490,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOpsItemInput, CreateOpsItemOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOpsItemInput, CreateOpsItemOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOpsItemOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1425,6 +1501,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOpsItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateOpsItemInput, CreateOpsItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateOpsItemInput, CreateOpsItemOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateOpsItemInput, CreateOpsItemOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -1490,8 +1568,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOpsMetadataInput, CreateOpsMetadataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOpsMetadataInput, CreateOpsMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOpsMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1503,6 +1579,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOpsMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateOpsMetadataInput, CreateOpsMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateOpsMetadataInput, CreateOpsMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateOpsMetadataInput, CreateOpsMetadataOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -1567,8 +1645,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePatchBaselineInput, CreatePatchBaselineOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePatchBaselineInput, CreatePatchBaselineOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePatchBaselineOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1580,6 +1656,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePatchBaselineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePatchBaselineInput, CreatePatchBaselineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePatchBaselineInput, CreatePatchBaselineOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePatchBaselineInput, CreatePatchBaselineOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -1644,8 +1722,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceDataSyncInput, CreateResourceDataSyncOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceDataSyncInput, CreateResourceDataSyncOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceDataSyncOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1657,6 +1733,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateResourceDataSyncOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateResourceDataSyncInput, CreateResourceDataSyncOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateResourceDataSyncInput, CreateResourceDataSyncOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateResourceDataSyncInput, CreateResourceDataSyncOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -1721,8 +1799,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteActivationInput, DeleteActivationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteActivationInput, DeleteActivationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteActivationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1734,6 +1810,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteActivationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteActivationInput, DeleteActivationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteActivationInput, DeleteActivationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteActivationInput, DeleteActivationOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -1807,8 +1885,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAssociationInput, DeleteAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssociationInput, DeleteAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1820,10 +1896,88 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAssociationInput, DeleteAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAssociationInput, DeleteAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAssociationInput, DeleteAssociationOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteCloudConnector` operation on the `SSM` service.
+    ///
+    /// Deletes a cloud connector.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteCloudConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteCloudConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : An error occurred because of a conflict with a concurrent request or the current state of the resource. Retry your request.
+    /// - `InternalServerError` : An error occurred on the server side.
+    /// - `ResourceNotFoundException` : The specified parameter to be shared could not be found.
+    public func deleteCloudConnector(input: DeleteCloudConnectorInput) async throws -> DeleteCloudConnectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SSMClient.deleteCloudConnectorOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteCloudConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ssm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCloudConnectorInput, DeleteCloudConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCloudConnectorInput, DeleteCloudConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCloudConnectorInput, DeleteCloudConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCloudConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCloudConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCloudConnectorInput, DeleteCloudConnectorOutput>(overrides: ["X-Amz-Target": "AmazonSSM.DeleteCloudConnector"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCloudConnectorInput, DeleteCloudConnectorOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCloudConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCloudConnectorInput, DeleteCloudConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCloudConnectorInput, DeleteCloudConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCloudConnectorInput, DeleteCloudConnectorOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCloudConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1885,8 +2039,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDocumentInput, DeleteDocumentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDocumentInput, DeleteDocumentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDocumentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1898,6 +2050,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDocumentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDocumentInput, DeleteDocumentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDocumentInput, DeleteDocumentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDocumentInput, DeleteDocumentOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -1964,8 +2118,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInventoryInput, DeleteInventoryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInventoryInput, DeleteInventoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInventoryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1977,6 +2129,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInventoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteInventoryInput, DeleteInventoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteInventoryInput, DeleteInventoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteInventoryInput, DeleteInventoryOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -2038,8 +2192,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMaintenanceWindowInput, DeleteMaintenanceWindowOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMaintenanceWindowInput, DeleteMaintenanceWindowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMaintenanceWindowOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2051,6 +2203,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMaintenanceWindowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMaintenanceWindowInput, DeleteMaintenanceWindowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMaintenanceWindowInput, DeleteMaintenanceWindowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMaintenanceWindowInput, DeleteMaintenanceWindowOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -2121,8 +2275,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOpsItemInput, DeleteOpsItemOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOpsItemInput, DeleteOpsItemOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOpsItemOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2134,6 +2286,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOpsItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOpsItemInput, DeleteOpsItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteOpsItemInput, DeleteOpsItemOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOpsItemInput, DeleteOpsItemOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -2197,8 +2351,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOpsMetadataInput, DeleteOpsMetadataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOpsMetadataInput, DeleteOpsMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOpsMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2210,6 +2362,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOpsMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOpsMetadataInput, DeleteOpsMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteOpsMetadataInput, DeleteOpsMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOpsMetadataInput, DeleteOpsMetadataOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -2272,8 +2426,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteParameterInput, DeleteParameterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteParameterInput, DeleteParameterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteParameterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2285,6 +2437,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteParameterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteParameterInput, DeleteParameterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteParameterInput, DeleteParameterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteParameterInput, DeleteParameterOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -2346,8 +2500,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteParametersInput, DeleteParametersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteParametersInput, DeleteParametersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteParametersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2359,6 +2511,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteParametersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteParametersInput, DeleteParametersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteParametersInput, DeleteParametersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteParametersInput, DeleteParametersOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -2421,8 +2575,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePatchBaselineInput, DeletePatchBaselineOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePatchBaselineInput, DeletePatchBaselineOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePatchBaselineOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2434,6 +2586,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePatchBaselineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePatchBaselineInput, DeletePatchBaselineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePatchBaselineInput, DeletePatchBaselineOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePatchBaselineInput, DeletePatchBaselineOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -2497,8 +2651,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourceDataSyncInput, DeleteResourceDataSyncOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceDataSyncInput, DeleteResourceDataSyncOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceDataSyncOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2510,6 +2662,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourceDataSyncOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourceDataSyncInput, DeleteResourceDataSyncOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourceDataSyncInput, DeleteResourceDataSyncOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourceDataSyncInput, DeleteResourceDataSyncOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -2580,8 +2734,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2593,6 +2745,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -2663,8 +2817,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterManagedInstanceInput, DeregisterManagedInstanceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterManagedInstanceInput, DeregisterManagedInstanceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterManagedInstanceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2676,6 +2828,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterManagedInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterManagedInstanceInput, DeregisterManagedInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterManagedInstanceInput, DeregisterManagedInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterManagedInstanceInput, DeregisterManagedInstanceOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -2738,8 +2892,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterPatchBaselineForPatchGroupInput, DeregisterPatchBaselineForPatchGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterPatchBaselineForPatchGroupInput, DeregisterPatchBaselineForPatchGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterPatchBaselineForPatchGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2751,6 +2903,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterPatchBaselineForPatchGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterPatchBaselineForPatchGroupInput, DeregisterPatchBaselineForPatchGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterPatchBaselineForPatchGroupInput, DeregisterPatchBaselineForPatchGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterPatchBaselineForPatchGroupInput, DeregisterPatchBaselineForPatchGroupOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -2814,8 +2968,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterTargetFromMaintenanceWindowInput, DeregisterTargetFromMaintenanceWindowOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterTargetFromMaintenanceWindowInput, DeregisterTargetFromMaintenanceWindowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterTargetFromMaintenanceWindowOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2827,6 +2979,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterTargetFromMaintenanceWindowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterTargetFromMaintenanceWindowInput, DeregisterTargetFromMaintenanceWindowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterTargetFromMaintenanceWindowInput, DeregisterTargetFromMaintenanceWindowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterTargetFromMaintenanceWindowInput, DeregisterTargetFromMaintenanceWindowOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -2889,8 +3043,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterTaskFromMaintenanceWindowInput, DeregisterTaskFromMaintenanceWindowOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterTaskFromMaintenanceWindowInput, DeregisterTaskFromMaintenanceWindowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterTaskFromMaintenanceWindowOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2902,6 +3054,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterTaskFromMaintenanceWindowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterTaskFromMaintenanceWindowInput, DeregisterTaskFromMaintenanceWindowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterTaskFromMaintenanceWindowInput, DeregisterTaskFromMaintenanceWindowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterTaskFromMaintenanceWindowInput, DeregisterTaskFromMaintenanceWindowOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -2965,8 +3119,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeActivationsInput, DescribeActivationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeActivationsInput, DescribeActivationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeActivationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2978,6 +3130,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeActivationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeActivationsInput, DescribeActivationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeActivationsInput, DescribeActivationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeActivationsInput, DescribeActivationsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -3051,8 +3205,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAssociationInput, DescribeAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAssociationInput, DescribeAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3064,6 +3216,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAssociationInput, DescribeAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAssociationInput, DescribeAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAssociationInput, DescribeAssociationOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -3128,8 +3282,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAssociationExecutionTargetsInput, DescribeAssociationExecutionTargetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAssociationExecutionTargetsInput, DescribeAssociationExecutionTargetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAssociationExecutionTargetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3141,6 +3293,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAssociationExecutionTargetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAssociationExecutionTargetsInput, DescribeAssociationExecutionTargetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAssociationExecutionTargetsInput, DescribeAssociationExecutionTargetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAssociationExecutionTargetsInput, DescribeAssociationExecutionTargetsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -3204,8 +3358,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAssociationExecutionsInput, DescribeAssociationExecutionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAssociationExecutionsInput, DescribeAssociationExecutionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAssociationExecutionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3217,6 +3369,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAssociationExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAssociationExecutionsInput, DescribeAssociationExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAssociationExecutionsInput, DescribeAssociationExecutionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAssociationExecutionsInput, DescribeAssociationExecutionsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -3281,8 +3435,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAutomationExecutionsInput, DescribeAutomationExecutionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAutomationExecutionsInput, DescribeAutomationExecutionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAutomationExecutionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3294,6 +3446,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAutomationExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAutomationExecutionsInput, DescribeAutomationExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAutomationExecutionsInput, DescribeAutomationExecutionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAutomationExecutionsInput, DescribeAutomationExecutionsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -3359,8 +3513,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAutomationStepExecutionsInput, DescribeAutomationStepExecutionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAutomationStepExecutionsInput, DescribeAutomationStepExecutionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAutomationStepExecutionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3372,6 +3524,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAutomationStepExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAutomationStepExecutionsInput, DescribeAutomationStepExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAutomationStepExecutionsInput, DescribeAutomationStepExecutionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAutomationStepExecutionsInput, DescribeAutomationStepExecutionsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -3433,8 +3587,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAvailablePatchesInput, DescribeAvailablePatchesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAvailablePatchesInput, DescribeAvailablePatchesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAvailablePatchesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3446,6 +3598,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAvailablePatchesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAvailablePatchesInput, DescribeAvailablePatchesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAvailablePatchesInput, DescribeAvailablePatchesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAvailablePatchesInput, DescribeAvailablePatchesOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -3509,8 +3663,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDocumentInput, DescribeDocumentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDocumentInput, DescribeDocumentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDocumentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3522,6 +3674,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDocumentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDocumentInput, DescribeDocumentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDocumentInput, DescribeDocumentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDocumentInput, DescribeDocumentOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -3587,8 +3741,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDocumentPermissionInput, DescribeDocumentPermissionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDocumentPermissionInput, DescribeDocumentPermissionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDocumentPermissionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3600,6 +3752,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDocumentPermissionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDocumentPermissionInput, DescribeDocumentPermissionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDocumentPermissionInput, DescribeDocumentPermissionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDocumentPermissionInput, DescribeDocumentPermissionOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -3671,8 +3825,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEffectiveInstanceAssociationsInput, DescribeEffectiveInstanceAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEffectiveInstanceAssociationsInput, DescribeEffectiveInstanceAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEffectiveInstanceAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3684,6 +3836,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEffectiveInstanceAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEffectiveInstanceAssociationsInput, DescribeEffectiveInstanceAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeEffectiveInstanceAssociationsInput, DescribeEffectiveInstanceAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEffectiveInstanceAssociationsInput, DescribeEffectiveInstanceAssociationsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -3748,8 +3902,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEffectivePatchesForPatchBaselineInput, DescribeEffectivePatchesForPatchBaselineOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEffectivePatchesForPatchBaselineInput, DescribeEffectivePatchesForPatchBaselineOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEffectivePatchesForPatchBaselineOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3761,6 +3913,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEffectivePatchesForPatchBaselineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEffectivePatchesForPatchBaselineInput, DescribeEffectivePatchesForPatchBaselineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeEffectivePatchesForPatchBaselineInput, DescribeEffectivePatchesForPatchBaselineOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEffectivePatchesForPatchBaselineInput, DescribeEffectivePatchesForPatchBaselineOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -3832,8 +3986,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstanceAssociationsStatusInput, DescribeInstanceAssociationsStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceAssociationsStatusInput, DescribeInstanceAssociationsStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceAssociationsStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3845,6 +3997,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInstanceAssociationsStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInstanceAssociationsStatusInput, DescribeInstanceAssociationsStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInstanceAssociationsStatusInput, DescribeInstanceAssociationsStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInstanceAssociationsStatusInput, DescribeInstanceAssociationsStatusOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -3918,8 +4072,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstanceInformationInput, DescribeInstanceInformationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceInformationInput, DescribeInstanceInformationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceInformationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3931,6 +4083,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInstanceInformationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInstanceInformationInput, DescribeInstanceInformationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInstanceInformationInput, DescribeInstanceInformationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInstanceInformationInput, DescribeInstanceInformationOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -3993,8 +4147,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstancePatchStatesInput, DescribeInstancePatchStatesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstancePatchStatesInput, DescribeInstancePatchStatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstancePatchStatesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4006,6 +4158,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInstancePatchStatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInstancePatchStatesInput, DescribeInstancePatchStatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInstancePatchStatesInput, DescribeInstancePatchStatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInstancePatchStatesInput, DescribeInstancePatchStatesOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -4069,8 +4223,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstancePatchStatesForPatchGroupInput, DescribeInstancePatchStatesForPatchGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstancePatchStatesForPatchGroupInput, DescribeInstancePatchStatesForPatchGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstancePatchStatesForPatchGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4082,6 +4234,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInstancePatchStatesForPatchGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInstancePatchStatesForPatchGroupInput, DescribeInstancePatchStatesForPatchGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInstancePatchStatesForPatchGroupInput, DescribeInstancePatchStatesForPatchGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInstancePatchStatesForPatchGroupInput, DescribeInstancePatchStatesForPatchGroupOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -4154,8 +4308,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstancePatchesInput, DescribeInstancePatchesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstancePatchesInput, DescribeInstancePatchesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstancePatchesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4167,6 +4319,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInstancePatchesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInstancePatchesInput, DescribeInstancePatchesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInstancePatchesInput, DescribeInstancePatchesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInstancePatchesInput, DescribeInstancePatchesOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -4242,8 +4396,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstancePropertiesInput, DescribeInstancePropertiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstancePropertiesInput, DescribeInstancePropertiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstancePropertiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4255,6 +4407,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInstancePropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInstancePropertiesInput, DescribeInstancePropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInstancePropertiesInput, DescribeInstancePropertiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInstancePropertiesInput, DescribeInstancePropertiesOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -4318,8 +4472,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInventoryDeletionsInput, DescribeInventoryDeletionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInventoryDeletionsInput, DescribeInventoryDeletionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInventoryDeletionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4331,6 +4483,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInventoryDeletionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInventoryDeletionsInput, DescribeInventoryDeletionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInventoryDeletionsInput, DescribeInventoryDeletionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInventoryDeletionsInput, DescribeInventoryDeletionsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -4393,8 +4547,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMaintenanceWindowExecutionTaskInvocationsInput, DescribeMaintenanceWindowExecutionTaskInvocationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowExecutionTaskInvocationsInput, DescribeMaintenanceWindowExecutionTaskInvocationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMaintenanceWindowExecutionTaskInvocationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4406,6 +4558,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMaintenanceWindowExecutionTaskInvocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMaintenanceWindowExecutionTaskInvocationsInput, DescribeMaintenanceWindowExecutionTaskInvocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMaintenanceWindowExecutionTaskInvocationsInput, DescribeMaintenanceWindowExecutionTaskInvocationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMaintenanceWindowExecutionTaskInvocationsInput, DescribeMaintenanceWindowExecutionTaskInvocationsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -4468,8 +4622,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMaintenanceWindowExecutionTasksInput, DescribeMaintenanceWindowExecutionTasksOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowExecutionTasksInput, DescribeMaintenanceWindowExecutionTasksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMaintenanceWindowExecutionTasksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4481,6 +4633,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMaintenanceWindowExecutionTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMaintenanceWindowExecutionTasksInput, DescribeMaintenanceWindowExecutionTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMaintenanceWindowExecutionTasksInput, DescribeMaintenanceWindowExecutionTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMaintenanceWindowExecutionTasksInput, DescribeMaintenanceWindowExecutionTasksOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -4542,8 +4696,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMaintenanceWindowExecutionsInput, DescribeMaintenanceWindowExecutionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowExecutionsInput, DescribeMaintenanceWindowExecutionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMaintenanceWindowExecutionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4555,6 +4707,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMaintenanceWindowExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMaintenanceWindowExecutionsInput, DescribeMaintenanceWindowExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMaintenanceWindowExecutionsInput, DescribeMaintenanceWindowExecutionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMaintenanceWindowExecutionsInput, DescribeMaintenanceWindowExecutionsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -4617,8 +4771,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMaintenanceWindowScheduleInput, DescribeMaintenanceWindowScheduleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowScheduleInput, DescribeMaintenanceWindowScheduleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMaintenanceWindowScheduleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4630,6 +4782,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMaintenanceWindowScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMaintenanceWindowScheduleInput, DescribeMaintenanceWindowScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMaintenanceWindowScheduleInput, DescribeMaintenanceWindowScheduleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMaintenanceWindowScheduleInput, DescribeMaintenanceWindowScheduleOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -4692,8 +4846,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMaintenanceWindowTargetsInput, DescribeMaintenanceWindowTargetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowTargetsInput, DescribeMaintenanceWindowTargetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMaintenanceWindowTargetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4705,6 +4857,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMaintenanceWindowTargetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMaintenanceWindowTargetsInput, DescribeMaintenanceWindowTargetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMaintenanceWindowTargetsInput, DescribeMaintenanceWindowTargetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMaintenanceWindowTargetsInput, DescribeMaintenanceWindowTargetsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -4767,8 +4921,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMaintenanceWindowTasksInput, DescribeMaintenanceWindowTasksOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowTasksInput, DescribeMaintenanceWindowTasksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMaintenanceWindowTasksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4780,6 +4932,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMaintenanceWindowTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMaintenanceWindowTasksInput, DescribeMaintenanceWindowTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMaintenanceWindowTasksInput, DescribeMaintenanceWindowTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMaintenanceWindowTasksInput, DescribeMaintenanceWindowTasksOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -4841,8 +4995,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMaintenanceWindowsInput, DescribeMaintenanceWindowsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowsInput, DescribeMaintenanceWindowsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMaintenanceWindowsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4854,6 +5006,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMaintenanceWindowsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMaintenanceWindowsInput, DescribeMaintenanceWindowsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMaintenanceWindowsInput, DescribeMaintenanceWindowsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMaintenanceWindowsInput, DescribeMaintenanceWindowsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -4915,8 +5069,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMaintenanceWindowsForTargetInput, DescribeMaintenanceWindowsForTargetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowsForTargetInput, DescribeMaintenanceWindowsForTargetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMaintenanceWindowsForTargetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4928,6 +5080,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMaintenanceWindowsForTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMaintenanceWindowsForTargetInput, DescribeMaintenanceWindowsForTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMaintenanceWindowsForTargetInput, DescribeMaintenanceWindowsForTargetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMaintenanceWindowsForTargetInput, DescribeMaintenanceWindowsForTargetOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -4989,8 +5143,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOpsItemsInput, DescribeOpsItemsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOpsItemsInput, DescribeOpsItemsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOpsItemsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5002,6 +5154,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOpsItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOpsItemsInput, DescribeOpsItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeOpsItemsInput, DescribeOpsItemsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOpsItemsInput, DescribeOpsItemsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -5067,8 +5221,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeParametersInput, DescribeParametersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeParametersInput, DescribeParametersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeParametersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5080,6 +5232,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeParametersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeParametersInput, DescribeParametersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeParametersInput, DescribeParametersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeParametersInput, DescribeParametersOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -5141,8 +5295,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePatchBaselinesInput, DescribePatchBaselinesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePatchBaselinesInput, DescribePatchBaselinesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePatchBaselinesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5154,6 +5306,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePatchBaselinesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePatchBaselinesInput, DescribePatchBaselinesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePatchBaselinesInput, DescribePatchBaselinesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePatchBaselinesInput, DescribePatchBaselinesOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -5216,8 +5370,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePatchGroupStateInput, DescribePatchGroupStateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePatchGroupStateInput, DescribePatchGroupStateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePatchGroupStateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5229,6 +5381,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePatchGroupStateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePatchGroupStateInput, DescribePatchGroupStateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePatchGroupStateInput, DescribePatchGroupStateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePatchGroupStateInput, DescribePatchGroupStateOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -5290,8 +5444,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePatchGroupsInput, DescribePatchGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePatchGroupsInput, DescribePatchGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePatchGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5303,6 +5455,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePatchGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePatchGroupsInput, DescribePatchGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePatchGroupsInput, DescribePatchGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePatchGroupsInput, DescribePatchGroupsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -5364,8 +5518,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePatchPropertiesInput, DescribePatchPropertiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePatchPropertiesInput, DescribePatchPropertiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePatchPropertiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5377,6 +5529,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePatchPropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePatchPropertiesInput, DescribePatchPropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePatchPropertiesInput, DescribePatchPropertiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePatchPropertiesInput, DescribePatchPropertiesOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -5440,8 +5594,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSessionsInput, DescribeSessionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSessionsInput, DescribeSessionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSessionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5453,6 +5605,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSessionsInput, DescribeSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSessionsInput, DescribeSessionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSessionsInput, DescribeSessionsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -5518,8 +5672,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateOpsItemRelatedItemInput, DisassociateOpsItemRelatedItemOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateOpsItemRelatedItemInput, DisassociateOpsItemRelatedItemOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateOpsItemRelatedItemOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5531,6 +5683,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateOpsItemRelatedItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateOpsItemRelatedItemInput, DisassociateOpsItemRelatedItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateOpsItemRelatedItemInput, DisassociateOpsItemRelatedItemOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateOpsItemRelatedItemInput, DisassociateOpsItemRelatedItemOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -5596,8 +5750,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccessTokenInput, GetAccessTokenOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessTokenInput, GetAccessTokenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessTokenOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5609,6 +5761,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAccessTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAccessTokenInput, GetAccessTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAccessTokenInput, GetAccessTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAccessTokenInput, GetAccessTokenOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -5671,8 +5825,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAutomationExecutionInput, GetAutomationExecutionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutomationExecutionInput, GetAutomationExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutomationExecutionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5684,6 +5836,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAutomationExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAutomationExecutionInput, GetAutomationExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAutomationExecutionInput, GetAutomationExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAutomationExecutionInput, GetAutomationExecutionOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -5748,8 +5902,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCalendarStateInput, GetCalendarStateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCalendarStateInput, GetCalendarStateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCalendarStateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5761,10 +5913,87 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCalendarStateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCalendarStateInput, GetCalendarStateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCalendarStateInput, GetCalendarStateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCalendarStateInput, GetCalendarStateOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCalendarState")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetCloudConnector` operation on the `SSM` service.
+    ///
+    /// Returns detailed information about a cloud connector.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetCloudConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetCloudConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An error occurred on the server side.
+    /// - `ResourceNotFoundException` : The specified parameter to be shared could not be found.
+    public func getCloudConnector(input: GetCloudConnectorInput) async throws -> GetCloudConnectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SSMClient.getCloudConnectorOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCloudConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ssm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCloudConnectorInput, GetCloudConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCloudConnectorInput, GetCloudConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudConnectorInput, GetCloudConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCloudConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCloudConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCloudConnectorInput, GetCloudConnectorOutput>(overrides: ["X-Amz-Target": "AmazonSSM.GetCloudConnector"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCloudConnectorInput, GetCloudConnectorOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCloudConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCloudConnectorInput, GetCloudConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCloudConnectorInput, GetCloudConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCloudConnectorInput, GetCloudConnectorOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCloudConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5834,8 +6063,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCommandInvocationInput, GetCommandInvocationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCommandInvocationInput, GetCommandInvocationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCommandInvocationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5847,6 +6074,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCommandInvocationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCommandInvocationInput, GetCommandInvocationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCommandInvocationInput, GetCommandInvocationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCommandInvocationInput, GetCommandInvocationOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -5908,8 +6137,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetConnectionStatusInput, GetConnectionStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectionStatusInput, GetConnectionStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectionStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5921,6 +6148,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConnectionStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConnectionStatusInput, GetConnectionStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConnectionStatusInput, GetConnectionStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConnectionStatusInput, GetConnectionStatusOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -5982,8 +6211,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDefaultPatchBaselineInput, GetDefaultPatchBaselineOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDefaultPatchBaselineInput, GetDefaultPatchBaselineOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDefaultPatchBaselineOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5995,6 +6222,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDefaultPatchBaselineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDefaultPatchBaselineInput, GetDefaultPatchBaselineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDefaultPatchBaselineInput, GetDefaultPatchBaselineOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDefaultPatchBaselineInput, GetDefaultPatchBaselineOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -6058,8 +6287,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeployablePatchSnapshotForInstanceInput, GetDeployablePatchSnapshotForInstanceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeployablePatchSnapshotForInstanceInput, GetDeployablePatchSnapshotForInstanceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeployablePatchSnapshotForInstanceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6071,6 +6298,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeployablePatchSnapshotForInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDeployablePatchSnapshotForInstanceInput, GetDeployablePatchSnapshotForInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDeployablePatchSnapshotForInstanceInput, GetDeployablePatchSnapshotForInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDeployablePatchSnapshotForInstanceInput, GetDeployablePatchSnapshotForInstanceOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -6134,8 +6363,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDocumentInput, GetDocumentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDocumentInput, GetDocumentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDocumentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6147,6 +6374,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDocumentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDocumentInput, GetDocumentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDocumentInput, GetDocumentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDocumentInput, GetDocumentOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -6209,8 +6438,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetExecutionPreviewInput, GetExecutionPreviewOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExecutionPreviewInput, GetExecutionPreviewOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExecutionPreviewOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6222,6 +6449,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetExecutionPreviewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetExecutionPreviewInput, GetExecutionPreviewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetExecutionPreviewInput, GetExecutionPreviewOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetExecutionPreviewInput, GetExecutionPreviewOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -6289,8 +6518,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInventoryInput, GetInventoryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInventoryInput, GetInventoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInventoryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6302,6 +6529,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInventoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetInventoryInput, GetInventoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetInventoryInput, GetInventoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetInventoryInput, GetInventoryOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -6365,8 +6594,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInventorySchemaInput, GetInventorySchemaOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInventorySchemaInput, GetInventorySchemaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInventorySchemaOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6378,6 +6605,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInventorySchemaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetInventorySchemaInput, GetInventorySchemaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetInventorySchemaInput, GetInventorySchemaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetInventorySchemaInput, GetInventorySchemaOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -6440,8 +6669,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMaintenanceWindowInput, GetMaintenanceWindowOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMaintenanceWindowInput, GetMaintenanceWindowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMaintenanceWindowOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6453,6 +6680,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMaintenanceWindowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMaintenanceWindowInput, GetMaintenanceWindowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMaintenanceWindowInput, GetMaintenanceWindowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMaintenanceWindowInput, GetMaintenanceWindowOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -6515,8 +6744,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMaintenanceWindowExecutionInput, GetMaintenanceWindowExecutionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMaintenanceWindowExecutionInput, GetMaintenanceWindowExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMaintenanceWindowExecutionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6528,6 +6755,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMaintenanceWindowExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMaintenanceWindowExecutionInput, GetMaintenanceWindowExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMaintenanceWindowExecutionInput, GetMaintenanceWindowExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMaintenanceWindowExecutionInput, GetMaintenanceWindowExecutionOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -6590,8 +6819,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMaintenanceWindowExecutionTaskInput, GetMaintenanceWindowExecutionTaskOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMaintenanceWindowExecutionTaskInput, GetMaintenanceWindowExecutionTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMaintenanceWindowExecutionTaskOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6603,6 +6830,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMaintenanceWindowExecutionTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMaintenanceWindowExecutionTaskInput, GetMaintenanceWindowExecutionTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMaintenanceWindowExecutionTaskInput, GetMaintenanceWindowExecutionTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMaintenanceWindowExecutionTaskInput, GetMaintenanceWindowExecutionTaskOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -6665,8 +6894,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMaintenanceWindowExecutionTaskInvocationInput, GetMaintenanceWindowExecutionTaskInvocationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMaintenanceWindowExecutionTaskInvocationInput, GetMaintenanceWindowExecutionTaskInvocationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMaintenanceWindowExecutionTaskInvocationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6678,6 +6905,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMaintenanceWindowExecutionTaskInvocationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMaintenanceWindowExecutionTaskInvocationInput, GetMaintenanceWindowExecutionTaskInvocationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMaintenanceWindowExecutionTaskInvocationInput, GetMaintenanceWindowExecutionTaskInvocationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMaintenanceWindowExecutionTaskInvocationInput, GetMaintenanceWindowExecutionTaskInvocationOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -6740,8 +6969,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMaintenanceWindowTaskInput, GetMaintenanceWindowTaskOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMaintenanceWindowTaskInput, GetMaintenanceWindowTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMaintenanceWindowTaskOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6753,6 +6980,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMaintenanceWindowTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMaintenanceWindowTaskInput, GetMaintenanceWindowTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMaintenanceWindowTaskInput, GetMaintenanceWindowTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMaintenanceWindowTaskInput, GetMaintenanceWindowTaskOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -6816,8 +7045,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOpsItemInput, GetOpsItemOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOpsItemInput, GetOpsItemOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOpsItemOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6829,6 +7056,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOpsItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOpsItemInput, GetOpsItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOpsItemInput, GetOpsItemOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOpsItemInput, GetOpsItemOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -6892,8 +7121,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOpsMetadataInput, GetOpsMetadataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOpsMetadataInput, GetOpsMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOpsMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6905,6 +7132,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOpsMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOpsMetadataInput, GetOpsMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOpsMetadataInput, GetOpsMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOpsMetadataInput, GetOpsMetadataOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -6971,8 +7200,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOpsSummaryInput, GetOpsSummaryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOpsSummaryInput, GetOpsSummaryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOpsSummaryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6984,6 +7211,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOpsSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOpsSummaryInput, GetOpsSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOpsSummaryInput, GetOpsSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOpsSummaryInput, GetOpsSummaryOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -7002,7 +7231,7 @@ extension SSMClient {
 
     /// Performs the `GetParameter` operation on the `SSM` service.
     ///
-    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. To get information about more than one parameter at a time, use the [GetParameters] operation.
+    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. To get information about more than one parameter at a time, use the [GetParameters] operation. Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see [Changing Parameter Store throughput](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-throughput.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `GetParameterInput`)
     ///
@@ -7048,8 +7277,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetParameterInput, GetParameterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetParameterInput, GetParameterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetParameterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7061,6 +7288,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetParameterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetParameterInput, GetParameterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetParameterInput, GetParameterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetParameterInput, GetParameterOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -7125,8 +7354,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetParameterHistoryInput, GetParameterHistoryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetParameterHistoryInput, GetParameterHistoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetParameterHistoryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7138,6 +7365,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetParameterHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetParameterHistoryInput, GetParameterHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetParameterHistoryInput, GetParameterHistoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetParameterHistoryInput, GetParameterHistoryOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -7156,7 +7385,7 @@ extension SSMClient {
 
     /// Performs the `GetParameters` operation on the `SSM` service.
     ///
-    /// Get information about one or more parameters by specifying multiple parameter names. To get information about a single parameter, you can use the [GetParameter] operation instead. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
+    /// Get information about one or more parameters by specifying multiple parameter names. To get information about a single parameter, you can use the [GetParameter] operation instead. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see [Changing Parameter Store throughput](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-throughput.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `GetParametersInput`)
     ///
@@ -7200,8 +7429,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetParametersInput, GetParametersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetParametersInput, GetParametersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetParametersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7213,6 +7440,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetParametersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetParametersInput, GetParametersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetParametersInput, GetParametersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetParametersInput, GetParametersOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -7279,8 +7508,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetParametersByPathInput, GetParametersByPathOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetParametersByPathInput, GetParametersByPathOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetParametersByPathOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7292,6 +7519,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetParametersByPathOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetParametersByPathInput, GetParametersByPathOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetParametersByPathInput, GetParametersByPathOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetParametersByPathInput, GetParametersByPathOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -7355,8 +7584,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPatchBaselineInput, GetPatchBaselineOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPatchBaselineInput, GetPatchBaselineOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPatchBaselineOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7368,6 +7595,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPatchBaselineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPatchBaselineInput, GetPatchBaselineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPatchBaselineInput, GetPatchBaselineOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPatchBaselineInput, GetPatchBaselineOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -7429,8 +7658,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPatchBaselineForPatchGroupInput, GetPatchBaselineForPatchGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPatchBaselineForPatchGroupInput, GetPatchBaselineForPatchGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPatchBaselineForPatchGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7442,6 +7669,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPatchBaselineForPatchGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPatchBaselineForPatchGroupInput, GetPatchBaselineForPatchGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPatchBaselineForPatchGroupInput, GetPatchBaselineForPatchGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPatchBaselineForPatchGroupInput, GetPatchBaselineForPatchGroupOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -7505,8 +7734,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePoliciesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7518,6 +7745,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -7580,8 +7809,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceSettingInput, GetServiceSettingOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceSettingInput, GetServiceSettingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceSettingOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7593,6 +7820,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetServiceSettingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetServiceSettingInput, GetServiceSettingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetServiceSettingInput, GetServiceSettingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetServiceSettingInput, GetServiceSettingOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -7676,8 +7905,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<LabelParameterVersionInput, LabelParameterVersionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<LabelParameterVersionInput, LabelParameterVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<LabelParameterVersionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7689,6 +7916,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<LabelParameterVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<LabelParameterVersionInput, LabelParameterVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<LabelParameterVersionInput, LabelParameterVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<LabelParameterVersionInput, LabelParameterVersionOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -7752,8 +7981,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssociationVersionsInput, ListAssociationVersionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociationVersionsInput, ListAssociationVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssociationVersionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7765,6 +7992,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAssociationVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAssociationVersionsInput, ListAssociationVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAssociationVersionsInput, ListAssociationVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAssociationVersionsInput, ListAssociationVersionsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -7827,8 +8056,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssociationsInput, ListAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociationsInput, ListAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7840,10 +8067,86 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAssociationsInput, ListAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAssociationsInput, ListAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAssociationsInput, ListAssociationsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAssociations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListCloudConnectors` operation on the `SSM` service.
+    ///
+    /// Returns a list of cloud connectors in the current Amazon Web Services account and Amazon Web Services Region.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListCloudConnectorsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListCloudConnectorsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An error occurred on the server side.
+    public func listCloudConnectors(input: ListCloudConnectorsInput) async throws -> ListCloudConnectorsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SSMClient.listCloudConnectorsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCloudConnectors")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ssm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCloudConnectorsInput, ListCloudConnectorsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCloudConnectorsInput, ListCloudConnectorsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCloudConnectorsInput, ListCloudConnectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCloudConnectorsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCloudConnectorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCloudConnectorsInput, ListCloudConnectorsOutput>(overrides: ["X-Amz-Target": "AmazonSSM.ListCloudConnectors"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCloudConnectorsInput, ListCloudConnectorsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCloudConnectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCloudConnectorsInput, ListCloudConnectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCloudConnectorsInput, ListCloudConnectorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCloudConnectorsInput, ListCloudConnectorsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCloudConnectors")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -7913,8 +8216,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCommandInvocationsInput, ListCommandInvocationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCommandInvocationsInput, ListCommandInvocationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCommandInvocationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7926,6 +8227,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCommandInvocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCommandInvocationsInput, ListCommandInvocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCommandInvocationsInput, ListCommandInvocationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCommandInvocationsInput, ListCommandInvocationsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -7999,8 +8302,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCommandsInput, ListCommandsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCommandsInput, ListCommandsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCommandsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8012,6 +8313,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCommandsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCommandsInput, ListCommandsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCommandsInput, ListCommandsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCommandsInput, ListCommandsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -8077,8 +8380,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComplianceItemsInput, ListComplianceItemsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComplianceItemsInput, ListComplianceItemsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComplianceItemsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8090,6 +8391,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListComplianceItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListComplianceItemsInput, ListComplianceItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListComplianceItemsInput, ListComplianceItemsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListComplianceItemsInput, ListComplianceItemsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -8153,8 +8456,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComplianceSummariesInput, ListComplianceSummariesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComplianceSummariesInput, ListComplianceSummariesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComplianceSummariesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8166,6 +8467,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListComplianceSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListComplianceSummariesInput, ListComplianceSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListComplianceSummariesInput, ListComplianceSummariesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListComplianceSummariesInput, ListComplianceSummariesOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -8230,8 +8533,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDocumentMetadataHistoryInput, ListDocumentMetadataHistoryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDocumentMetadataHistoryInput, ListDocumentMetadataHistoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDocumentMetadataHistoryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8243,6 +8544,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDocumentMetadataHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDocumentMetadataHistoryInput, ListDocumentMetadataHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDocumentMetadataHistoryInput, ListDocumentMetadataHistoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDocumentMetadataHistoryInput, ListDocumentMetadataHistoryOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -8306,8 +8609,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDocumentVersionsInput, ListDocumentVersionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDocumentVersionsInput, ListDocumentVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDocumentVersionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8319,6 +8620,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDocumentVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDocumentVersionsInput, ListDocumentVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDocumentVersionsInput, ListDocumentVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDocumentVersionsInput, ListDocumentVersionsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -8382,8 +8685,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDocumentsInput, ListDocumentsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDocumentsInput, ListDocumentsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDocumentsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8395,6 +8696,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDocumentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDocumentsInput, ListDocumentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDocumentsInput, ListDocumentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDocumentsInput, ListDocumentsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -8468,8 +8771,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInventoryEntriesInput, ListInventoryEntriesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInventoryEntriesInput, ListInventoryEntriesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInventoryEntriesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8481,6 +8782,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInventoryEntriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListInventoryEntriesInput, ListInventoryEntriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListInventoryEntriesInput, ListInventoryEntriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListInventoryEntriesInput, ListInventoryEntriesOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -8546,8 +8849,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListNodesInput, ListNodesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNodesInput, ListNodesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNodesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8559,6 +8860,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListNodesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListNodesInput, ListNodesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListNodesInput, ListNodesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListNodesInput, ListNodesOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -8625,8 +8928,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListNodesSummaryInput, ListNodesSummaryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNodesSummaryInput, ListNodesSummaryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNodesSummaryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8638,6 +8939,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListNodesSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListNodesSummaryInput, ListNodesSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListNodesSummaryInput, ListNodesSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListNodesSummaryInput, ListNodesSummaryOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -8702,8 +9005,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOpsItemEventsInput, ListOpsItemEventsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOpsItemEventsInput, ListOpsItemEventsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOpsItemEventsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8715,6 +9016,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOpsItemEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOpsItemEventsInput, ListOpsItemEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOpsItemEventsInput, ListOpsItemEventsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOpsItemEventsInput, ListOpsItemEventsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -8777,8 +9080,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOpsItemRelatedItemsInput, ListOpsItemRelatedItemsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOpsItemRelatedItemsInput, ListOpsItemRelatedItemsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOpsItemRelatedItemsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8790,6 +9091,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOpsItemRelatedItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOpsItemRelatedItemsInput, ListOpsItemRelatedItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOpsItemRelatedItemsInput, ListOpsItemRelatedItemsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOpsItemRelatedItemsInput, ListOpsItemRelatedItemsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -8852,8 +9155,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOpsMetadataInput, ListOpsMetadataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOpsMetadataInput, ListOpsMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOpsMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8865,6 +9166,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOpsMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOpsMetadataInput, ListOpsMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOpsMetadataInput, ListOpsMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOpsMetadataInput, ListOpsMetadataOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -8928,8 +9231,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceComplianceSummariesInput, ListResourceComplianceSummariesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceComplianceSummariesInput, ListResourceComplianceSummariesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceComplianceSummariesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8941,6 +9242,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResourceComplianceSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResourceComplianceSummariesInput, ListResourceComplianceSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResourceComplianceSummariesInput, ListResourceComplianceSummariesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResourceComplianceSummariesInput, ListResourceComplianceSummariesOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -9004,8 +9307,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceDataSyncInput, ListResourceDataSyncOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceDataSyncInput, ListResourceDataSyncOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceDataSyncOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9017,6 +9318,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResourceDataSyncOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResourceDataSyncInput, ListResourceDataSyncOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResourceDataSyncInput, ListResourceDataSyncOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResourceDataSyncInput, ListResourceDataSyncOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -9080,8 +9383,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9093,6 +9394,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -9158,8 +9461,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDocumentPermissionInput, ModifyDocumentPermissionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDocumentPermissionInput, ModifyDocumentPermissionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDocumentPermissionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9171,6 +9472,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyDocumentPermissionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyDocumentPermissionInput, ModifyDocumentPermissionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyDocumentPermissionInput, ModifyDocumentPermissionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyDocumentPermissionInput, ModifyDocumentPermissionOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -9268,8 +9571,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutComplianceItemsInput, PutComplianceItemsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutComplianceItemsInput, PutComplianceItemsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutComplianceItemsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9281,6 +9582,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutComplianceItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutComplianceItemsInput, PutComplianceItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutComplianceItemsInput, PutComplianceItemsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutComplianceItemsInput, PutComplianceItemsOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -9361,8 +9664,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutInventoryInput, PutInventoryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutInventoryInput, PutInventoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutInventoryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9374,6 +9675,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutInventoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutInventoryInput, PutInventoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutInventoryInput, PutInventoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutInventoryInput, PutInventoryOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -9392,7 +9695,7 @@ extension SSMClient {
 
     /// Performs the `PutParameter` operation on the `SSM` service.
     ///
-    /// Create or update a parameter in Parameter Store.
+    /// Create or update a parameter in Parameter Store. Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see [Changing Parameter Store throughput](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-throughput.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `PutParameterInput`)
     ///
@@ -9449,8 +9752,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutParameterInput, PutParameterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutParameterInput, PutParameterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutParameterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9462,6 +9763,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutParameterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutParameterInput, PutParameterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutParameterInput, PutParameterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutParameterInput, PutParameterOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -9533,8 +9836,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9546,6 +9847,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -9609,8 +9912,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterDefaultPatchBaselineInput, RegisterDefaultPatchBaselineOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterDefaultPatchBaselineInput, RegisterDefaultPatchBaselineOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterDefaultPatchBaselineOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9622,6 +9923,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterDefaultPatchBaselineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterDefaultPatchBaselineInput, RegisterDefaultPatchBaselineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterDefaultPatchBaselineInput, RegisterDefaultPatchBaselineOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterDefaultPatchBaselineInput, RegisterDefaultPatchBaselineOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -9687,8 +9990,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterPatchBaselineForPatchGroupInput, RegisterPatchBaselineForPatchGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterPatchBaselineForPatchGroupInput, RegisterPatchBaselineForPatchGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterPatchBaselineForPatchGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9700,6 +10001,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterPatchBaselineForPatchGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterPatchBaselineForPatchGroupInput, RegisterPatchBaselineForPatchGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterPatchBaselineForPatchGroupInput, RegisterPatchBaselineForPatchGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterPatchBaselineForPatchGroupInput, RegisterPatchBaselineForPatchGroupOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -9765,8 +10068,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterTargetWithMaintenanceWindowInput, RegisterTargetWithMaintenanceWindowOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterTargetWithMaintenanceWindowInput, RegisterTargetWithMaintenanceWindowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterTargetWithMaintenanceWindowOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9778,6 +10079,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterTargetWithMaintenanceWindowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterTargetWithMaintenanceWindowInput, RegisterTargetWithMaintenanceWindowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterTargetWithMaintenanceWindowInput, RegisterTargetWithMaintenanceWindowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterTargetWithMaintenanceWindowInput, RegisterTargetWithMaintenanceWindowOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -9844,8 +10147,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterTaskWithMaintenanceWindowInput, RegisterTaskWithMaintenanceWindowOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterTaskWithMaintenanceWindowInput, RegisterTaskWithMaintenanceWindowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterTaskWithMaintenanceWindowOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9857,6 +10158,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterTaskWithMaintenanceWindowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterTaskWithMaintenanceWindowInput, RegisterTaskWithMaintenanceWindowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterTaskWithMaintenanceWindowInput, RegisterTaskWithMaintenanceWindowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterTaskWithMaintenanceWindowInput, RegisterTaskWithMaintenanceWindowOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -9921,8 +10224,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsFromResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9934,6 +10235,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveTagsFromResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -9997,8 +10300,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetServiceSettingInput, ResetServiceSettingOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetServiceSettingInput, ResetServiceSettingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetServiceSettingOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10010,6 +10311,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResetServiceSettingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResetServiceSettingInput, ResetServiceSettingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResetServiceSettingInput, ResetServiceSettingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ResetServiceSettingInput, ResetServiceSettingOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -10072,8 +10375,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResumeSessionInput, ResumeSessionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumeSessionInput, ResumeSessionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResumeSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10085,6 +10386,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResumeSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResumeSessionInput, ResumeSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResumeSessionInput, ResumeSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ResumeSessionInput, ResumeSessionOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -10149,8 +10452,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendAutomationSignalInput, SendAutomationSignalOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendAutomationSignalInput, SendAutomationSignalOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendAutomationSignalOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10162,6 +10463,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendAutomationSignalOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendAutomationSignalInput, SendAutomationSignalOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendAutomationSignalInput, SendAutomationSignalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendAutomationSignalInput, SendAutomationSignalOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -10241,8 +10544,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendCommandInput, SendCommandOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendCommandInput, SendCommandOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendCommandOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10254,6 +10555,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendCommandOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendCommandInput, SendCommandOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendCommandInput, SendCommandOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendCommandInput, SendCommandOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -10320,8 +10623,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAccessRequestInput, StartAccessRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAccessRequestInput, StartAccessRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAccessRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10333,6 +10634,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAccessRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAccessRequestInput, StartAccessRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartAccessRequestInput, StartAccessRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartAccessRequestInput, StartAccessRequestOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -10395,8 +10698,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAssociationsOnceInput, StartAssociationsOnceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAssociationsOnceInput, StartAssociationsOnceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAssociationsOnceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10408,6 +10709,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAssociationsOnceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAssociationsOnceInput, StartAssociationsOnceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartAssociationsOnceInput, StartAssociationsOnceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartAssociationsOnceInput, StartAssociationsOnceOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -10475,8 +10778,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAutomationExecutionInput, StartAutomationExecutionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAutomationExecutionInput, StartAutomationExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAutomationExecutionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10488,6 +10789,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAutomationExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAutomationExecutionInput, StartAutomationExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartAutomationExecutionInput, StartAutomationExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartAutomationExecutionInput, StartAutomationExecutionOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -10556,8 +10859,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartChangeRequestExecutionInput, StartChangeRequestExecutionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartChangeRequestExecutionInput, StartChangeRequestExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartChangeRequestExecutionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10569,6 +10870,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartChangeRequestExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartChangeRequestExecutionInput, StartChangeRequestExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartChangeRequestExecutionInput, StartChangeRequestExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartChangeRequestExecutionInput, StartChangeRequestExecutionOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -10631,8 +10934,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartExecutionPreviewInput, StartExecutionPreviewOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartExecutionPreviewInput, StartExecutionPreviewOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartExecutionPreviewOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10644,6 +10945,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartExecutionPreviewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartExecutionPreviewInput, StartExecutionPreviewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartExecutionPreviewInput, StartExecutionPreviewOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartExecutionPreviewInput, StartExecutionPreviewOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -10707,8 +11010,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSessionInput, StartSessionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSessionInput, StartSessionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10720,6 +11021,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartSessionInput, StartSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartSessionInput, StartSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartSessionInput, StartSessionOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -10783,8 +11086,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopAutomationExecutionInput, StopAutomationExecutionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopAutomationExecutionInput, StopAutomationExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopAutomationExecutionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10796,6 +11097,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopAutomationExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopAutomationExecutionInput, StopAutomationExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopAutomationExecutionInput, StopAutomationExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopAutomationExecutionInput, StopAutomationExecutionOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -10857,8 +11160,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateSessionInput, TerminateSessionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateSessionInput, TerminateSessionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10870,6 +11171,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TerminateSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TerminateSessionInput, TerminateSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TerminateSessionInput, TerminateSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TerminateSessionInput, TerminateSessionOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -10934,8 +11237,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UnlabelParameterVersionInput, UnlabelParameterVersionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnlabelParameterVersionInput, UnlabelParameterVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UnlabelParameterVersionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10947,6 +11248,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UnlabelParameterVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UnlabelParameterVersionInput, UnlabelParameterVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UnlabelParameterVersionInput, UnlabelParameterVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UnlabelParameterVersionInput, UnlabelParameterVersionOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -11020,8 +11323,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAssociationInput, UpdateAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAssociationInput, UpdateAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11033,6 +11334,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAssociationInput, UpdateAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAssociationInput, UpdateAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAssociationInput, UpdateAssociationOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -11107,8 +11410,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAssociationStatusInput, UpdateAssociationStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAssociationStatusInput, UpdateAssociationStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAssociationStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11120,10 +11421,88 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAssociationStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAssociationStatusInput, UpdateAssociationStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAssociationStatusInput, UpdateAssociationStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAssociationStatusInput, UpdateAssociationStatusOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAssociationStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateCloudConnector` operation on the `SSM` service.
+    ///
+    /// Updates an existing cloud connector with new configuration details.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateCloudConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateCloudConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : An error occurred because of a conflict with a concurrent request or the current state of the resource. Retry your request.
+    /// - `InternalServerError` : An error occurred on the server side.
+    /// - `ResourceNotFoundException` : The specified parameter to be shared could not be found.
+    public func updateCloudConnector(input: UpdateCloudConnectorInput) async throws -> UpdateCloudConnectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SSMClient.updateCloudConnectorOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCloudConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ssm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCloudConnectorInput, UpdateCloudConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCloudConnectorInput, UpdateCloudConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCloudConnectorInput, UpdateCloudConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCloudConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCloudConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCloudConnectorInput, UpdateCloudConnectorOutput>(overrides: ["X-Amz-Target": "AmazonSSM.UpdateCloudConnector"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCloudConnectorInput, UpdateCloudConnectorOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCloudConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCloudConnectorInput, UpdateCloudConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCloudConnectorInput, UpdateCloudConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCloudConnectorInput, UpdateCloudConnectorOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCloudConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -11190,8 +11569,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDocumentInput, UpdateDocumentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDocumentInput, UpdateDocumentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDocumentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11203,6 +11580,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDocumentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDocumentInput, UpdateDocumentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDocumentInput, UpdateDocumentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDocumentInput, UpdateDocumentOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -11267,8 +11646,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDocumentDefaultVersionInput, UpdateDocumentDefaultVersionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDocumentDefaultVersionInput, UpdateDocumentDefaultVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDocumentDefaultVersionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11280,6 +11657,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDocumentDefaultVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDocumentDefaultVersionInput, UpdateDocumentDefaultVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDocumentDefaultVersionInput, UpdateDocumentDefaultVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDocumentDefaultVersionInput, UpdateDocumentDefaultVersionOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -11345,8 +11724,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDocumentMetadataInput, UpdateDocumentMetadataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDocumentMetadataInput, UpdateDocumentMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDocumentMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11358,6 +11735,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDocumentMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDocumentMetadataInput, UpdateDocumentMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDocumentMetadataInput, UpdateDocumentMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDocumentMetadataInput, UpdateDocumentMetadataOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -11420,8 +11799,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMaintenanceWindowInput, UpdateMaintenanceWindowOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMaintenanceWindowInput, UpdateMaintenanceWindowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMaintenanceWindowOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11433,6 +11810,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMaintenanceWindowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMaintenanceWindowInput, UpdateMaintenanceWindowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateMaintenanceWindowInput, UpdateMaintenanceWindowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateMaintenanceWindowInput, UpdateMaintenanceWindowOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -11510,8 +11889,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMaintenanceWindowTargetInput, UpdateMaintenanceWindowTargetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMaintenanceWindowTargetInput, UpdateMaintenanceWindowTargetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMaintenanceWindowTargetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11523,6 +11900,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMaintenanceWindowTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMaintenanceWindowTargetInput, UpdateMaintenanceWindowTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateMaintenanceWindowTargetInput, UpdateMaintenanceWindowTargetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateMaintenanceWindowTargetInput, UpdateMaintenanceWindowTargetOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -11600,8 +11979,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMaintenanceWindowTaskInput, UpdateMaintenanceWindowTaskOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMaintenanceWindowTaskInput, UpdateMaintenanceWindowTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMaintenanceWindowTaskOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11613,6 +11990,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMaintenanceWindowTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMaintenanceWindowTaskInput, UpdateMaintenanceWindowTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateMaintenanceWindowTaskInput, UpdateMaintenanceWindowTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateMaintenanceWindowTaskInput, UpdateMaintenanceWindowTaskOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -11683,8 +12062,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateManagedInstanceRoleInput, UpdateManagedInstanceRoleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateManagedInstanceRoleInput, UpdateManagedInstanceRoleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateManagedInstanceRoleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11696,6 +12073,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateManagedInstanceRoleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateManagedInstanceRoleInput, UpdateManagedInstanceRoleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateManagedInstanceRoleInput, UpdateManagedInstanceRoleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateManagedInstanceRoleInput, UpdateManagedInstanceRoleOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -11763,8 +12142,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOpsItemInput, UpdateOpsItemOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOpsItemInput, UpdateOpsItemOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOpsItemOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11776,6 +12153,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateOpsItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateOpsItemInput, UpdateOpsItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateOpsItemInput, UpdateOpsItemOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateOpsItemInput, UpdateOpsItemOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -11841,8 +12220,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOpsMetadataInput, UpdateOpsMetadataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOpsMetadataInput, UpdateOpsMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOpsMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11854,6 +12231,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateOpsMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateOpsMetadataInput, UpdateOpsMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateOpsMetadataInput, UpdateOpsMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateOpsMetadataInput, UpdateOpsMetadataOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -11916,8 +12295,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePatchBaselineInput, UpdatePatchBaselineOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePatchBaselineInput, UpdatePatchBaselineOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePatchBaselineOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11929,6 +12306,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePatchBaselineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePatchBaselineInput, UpdatePatchBaselineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePatchBaselineInput, UpdatePatchBaselineOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePatchBaselineInput, UpdatePatchBaselineOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -11993,8 +12372,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourceDataSyncInput, UpdateResourceDataSyncOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourceDataSyncInput, UpdateResourceDataSyncOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourceDataSyncOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12006,6 +12383,8 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateResourceDataSyncOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateResourceDataSyncInput, UpdateResourceDataSyncOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateResourceDataSyncInput, UpdateResourceDataSyncOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateResourceDataSyncInput, UpdateResourceDataSyncOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
@@ -12069,8 +12448,6 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceSettingInput, UpdateServiceSettingOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceSettingInput, UpdateServiceSettingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceSettingOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12082,10 +12459,87 @@ extension SSMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServiceSettingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateServiceSettingInput, UpdateServiceSettingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateServiceSettingInput, UpdateServiceSettingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateServiceSettingInput, UpdateServiceSettingOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateServiceSetting")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ValidateCloudConnector` operation on the `SSM` service.
+    ///
+    /// Validates the configuration and connectivity of a cloud connector.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ValidateCloudConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ValidateCloudConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An error occurred on the server side.
+    /// - `ResourceNotFoundException` : The specified parameter to be shared could not be found.
+    public func validateCloudConnector(input: ValidateCloudConnectorInput) async throws -> ValidateCloudConnectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SSMClient.validateCloudConnectorOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "validateCloudConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ssm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ValidateCloudConnectorInput, ValidateCloudConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateCloudConnectorInput, ValidateCloudConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidateCloudConnectorInput, ValidateCloudConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ValidateCloudConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ValidateCloudConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ValidateCloudConnectorInput, ValidateCloudConnectorOutput>(overrides: ["X-Amz-Target": "AmazonSSM.ValidateCloudConnector"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ValidateCloudConnectorInput, ValidateCloudConnectorOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ValidateCloudConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ValidateCloudConnectorInput, ValidateCloudConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ValidateCloudConnectorInput, ValidateCloudConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ValidateCloudConnectorInput, ValidateCloudConnectorOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ValidateCloudConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

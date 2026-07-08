@@ -24,6 +24,7 @@ extension WAFV2ClientTypes {
         case challenge
         case count
         case excludedAsCount
+        case monetize
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ActionValue] {
@@ -33,7 +34,8 @@ extension WAFV2ClientTypes {
                 .captcha,
                 .challenge,
                 .count,
-                .excludedAsCount
+                .excludedAsCount,
+                .monetize
             ]
         }
 
@@ -50,6 +52,7 @@ extension WAFV2ClientTypes {
             case .challenge: return "CHALLENGE"
             case .count: return "COUNT"
             case .excludedAsCount: return "EXCLUDED_AS_COUNT"
+            case .monetize: return "MONETIZE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2760,6 +2763,21 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
+    /// Specifies the monetize action settings for a rule. When WAF applies this action, it returns an HTTP 402 Payment Required response containing pricing information that the requesting client uses to complete payment and gain access to the resource. This is a terminating action-if the client does not complete the 402 payment flow, the request is blocked. This action is available only for web ACLs associated with Amazon CloudFront distributions. You must configure a MonetizationConfig on the web ACL or rule group before adding rules that use this action. You cannot use the Monetize action for rate-based rules.
+    public struct MonetizeAction: Swift.Sendable {
+        /// An integer multiplier applied to the base price defined in the web ACL's MonetizationConfig. The effective price for the request is the base price multiplied by this value. Specify as a string. Valid values: 1 to 100.
+        public var priceMultiplier: Swift.String?
+
+        public init(
+            priceMultiplier: Swift.String? = nil
+        ) {
+            self.priceMultiplier = priceMultiplier
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
     /// The action that WAF should take on a web request when it matches a rule's statement. Settings at the web ACL level can override the rule action setting.
     public struct RuleAction: Swift.Sendable {
         /// Instructs WAF to allow the web request.
@@ -2772,19 +2790,23 @@ extension WAFV2ClientTypes {
         public var challenge: WAFV2ClientTypes.ChallengeAction?
         /// Instructs WAF to count the web request and then continue evaluating the request using the remaining rules in the web ACL.
         public var count: WAFV2ClientTypes.CountAction?
+        /// Instructs WAF to return an HTTP 402 Payment Required response with a price manifest. The requesting client can complete payment and resubmit the request to gain access. This is a terminating action-requests that do not complete payment are blocked. This action is available only for web ACLs associated with Amazon CloudFront distributions and requires a MonetizationConfig on the web ACL.
+        public var monetize: WAFV2ClientTypes.MonetizeAction?
 
         public init(
             allow: WAFV2ClientTypes.AllowAction? = nil,
             block: WAFV2ClientTypes.BlockAction? = nil,
             captcha: WAFV2ClientTypes.CaptchaAction? = nil,
             challenge: WAFV2ClientTypes.ChallengeAction? = nil,
-            count: WAFV2ClientTypes.CountAction? = nil
+            count: WAFV2ClientTypes.CountAction? = nil,
+            monetize: WAFV2ClientTypes.MonetizeAction? = nil
         ) {
             self.allow = allow
             self.block = block
             self.captcha = captcha
             self.challenge = challenge
             self.count = count
+            self.monetize = monetize
         }
     }
 }
@@ -3378,6 +3400,7 @@ extension WAFV2ClientTypes {
 extension WAFV2ClientTypes {
 
     public enum AssociatedResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agentcoreGateway
         case apiGateway
         case appRunnerService
         case cloudfront
@@ -3387,6 +3410,7 @@ extension WAFV2ClientTypes {
 
         public static var allCases: [AssociatedResourceType] {
             return [
+                .agentcoreGateway,
                 .apiGateway,
                 .appRunnerService,
                 .cloudfront,
@@ -3402,6 +3426,7 @@ extension WAFV2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .agentcoreGateway: return "AGENTCORE_GATEWAY"
             case .apiGateway: return "API_GATEWAY"
             case .appRunnerService: return "APP_RUNNER_SERVICE"
             case .cloudfront: return "CLOUDFRONT"
@@ -3551,12 +3576,15 @@ extension WAFV2ClientTypes {
         case managedRuleSetStatement
         case mapMatchScope
         case metricName
+        case monetizationConfig
         case notStatement
         case orStatement
         case overrideAction
         case oversizeHandling
         case payloadType
+        case paymentNetwork
         case position
+        case priceAmount
         case rateBasedStatement
         case regexPatternReferenceStatement
         case regexPatternSet
@@ -3578,6 +3606,7 @@ extension WAFV2ClientTypes {
         case tagKeys
         case textTransformation
         case tokenDomain
+        case walletAddress
         case webAcl
         case xssMatchStatement
         case sdkUnknown(Swift.String)
@@ -3627,12 +3656,15 @@ extension WAFV2ClientTypes {
                 .managedRuleSetStatement,
                 .mapMatchScope,
                 .metricName,
+                .monetizationConfig,
                 .notStatement,
                 .orStatement,
                 .overrideAction,
                 .oversizeHandling,
                 .payloadType,
+                .paymentNetwork,
                 .position,
+                .priceAmount,
                 .rateBasedStatement,
                 .regexPatternReferenceStatement,
                 .regexPatternSet,
@@ -3654,6 +3686,7 @@ extension WAFV2ClientTypes {
                 .tagKeys,
                 .textTransformation,
                 .tokenDomain,
+                .walletAddress,
                 .webAcl,
                 .xssMatchStatement
             ]
@@ -3709,12 +3742,15 @@ extension WAFV2ClientTypes {
             case .managedRuleSetStatement: return "MANAGED_RULE_SET_STATEMENT"
             case .mapMatchScope: return "MAP_MATCH_SCOPE"
             case .metricName: return "METRIC_NAME"
+            case .monetizationConfig: return "MONETIZATION_CONFIG"
             case .notStatement: return "NOT_STATEMENT"
             case .orStatement: return "OR_STATEMENT"
             case .overrideAction: return "OVERRIDE_ACTION"
             case .oversizeHandling: return "OVERSIZE_HANDLING"
             case .payloadType: return "PAYLOAD_TYPE"
+            case .paymentNetwork: return "PAYMENT_NETWORK"
             case .position: return "POSITION"
+            case .priceAmount: return "PRICE_AMOUNT"
             case .rateBasedStatement: return "RATE_BASED_STATEMENT"
             case .regexPatternReferenceStatement: return "REGEX_PATTERN_REFERENCE_STATEMENT"
             case .regexPatternSet: return "REGEX_PATTERN_SET"
@@ -3736,6 +3772,7 @@ extension WAFV2ClientTypes {
             case .tagKeys: return "TAG_KEYS"
             case .textTransformation: return "TEXT_TRANSFORMATION"
             case .tokenDomain: return "TOKEN_DOMAIN"
+            case .walletAddress: return "WALLET_ADDRESS"
             case .webAcl: return "WEB_ACL"
             case .xssMatchStatement: return "XSS_MATCH_STATEMENT"
             case let .sdkUnknown(s): return s
@@ -3876,6 +3913,8 @@ public struct AssociateWebACLInput: Swift.Sendable {
     /// * For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id
     ///
     /// * For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
+    ///
+    /// * For an Amazon Bedrock AgentCore Gateway: arn:partition:bedrock-agentcore:region:account-id:gateway/gateway-id
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
@@ -4586,6 +4625,178 @@ extension WAFV2ClientTypes {
         ) {
             self.content = content
             self.contentType = contentType
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum BlockchainChain: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case base
+        case baseSepolia
+        case solana
+        case solanaDevnet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BlockchainChain] {
+            return [
+                .base,
+                .baseSepolia,
+                .solana,
+                .solanaDevnet
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .base: return "BASE"
+            case .baseSepolia: return "BASE_SEPOLIA"
+            case .solana: return "SOLANA"
+            case .solanaDevnet: return "SOLANA_DEVNET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum CryptoCurrency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case usdc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CryptoCurrency] {
+            return [
+                .usdc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .usdc: return "USDC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// The price per request for a payment network, specifying the amount and cryptocurrency.
+    public struct Price: Swift.Sendable {
+        /// The price per request as a decimal string in the specified currency. Minimum: 0.001. Maximum: 999999999.999. Supports up to 3 decimal places.
+        /// This member is required.
+        public var amount: Swift.String?
+        /// The cryptocurrency for payment. Currently only USDC is supported.
+        /// This member is required.
+        public var currency: WAFV2ClientTypes.CryptoCurrency?
+
+        public init(
+            amount: Swift.String? = nil,
+            currency: WAFV2ClientTypes.CryptoCurrency? = nil
+        ) {
+            self.amount = amount
+            self.currency = currency
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A blockchain payment network configuration for receiving AI bot monetization payments. Specifies the blockchain chain, your wallet address on that chain, and the price per request.
+    public struct PaymentNetwork: Swift.Sendable {
+        /// The blockchain network for receiving payments. Production networks: BASE (Base mainnet), SOLANA (Solana mainnet). Test networks: BASE_SEPOLIA (Base Sepolia testnet), SOLANA_DEVNET (Solana Devnet).
+        /// This member is required.
+        public var chain: WAFV2ClientTypes.BlockchainChain?
+        /// The price configuration for this payment network. Currently supports a single price entry in USDC.
+        /// This member is required.
+        public var prices: [WAFV2ClientTypes.Price]?
+        /// Your wallet address on the specified blockchain where payments are sent. For EVM chains (Base, Base Sepolia), provide a valid Ethereum address (42 characters including 0x prefix). For Solana chains, provide a valid Base58-encoded public key (32-44 characters). For EVM addresses, WAF performs EIP-55 checksum validation for typo detection when the address uses a mix of lower and upper case letters. You can bypass this validation by providing the address in all lowercase or all uppercase.
+        /// This member is required.
+        public var walletAddress: Swift.String?
+
+        public init(
+            chain: WAFV2ClientTypes.BlockchainChain? = nil,
+            prices: [WAFV2ClientTypes.Price]? = nil,
+            walletAddress: Swift.String? = nil
+        ) {
+            self.chain = chain
+            self.prices = prices
+            self.walletAddress = walletAddress
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// The cryptocurrency payment configuration for AI bot monetization. Contains the list of blockchain payment networks where you receive payments.
+    public struct CryptoConfig: Swift.Sendable {
+        /// The blockchain payment networks configured to receive payments. You can specify 1 to 2 networks. All networks must be in the same environment-either all production networks (Base, Solana) or all test networks (Base Sepolia, Solana Devnet).
+        /// This member is required.
+        public var paymentNetworks: [WAFV2ClientTypes.PaymentNetwork]?
+
+        public init(
+            paymentNetworks: [WAFV2ClientTypes.PaymentNetwork]? = nil
+        ) {
+            self.paymentNetworks = paymentNetworks
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum CurrencyMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case real
+        case test
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CurrencyMode] {
+            return [
+                .real,
+                .test
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .real: return "REAL"
+            case .test: return "TEST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// The monetization configuration for a web ACL or rule group. Specifies the cryptocurrency payment networks and currency mode for AI bot monetization. You must provide this configuration when any rule in the web ACL or rule group uses the Monetize action.
+    public struct MonetizationConfig: Swift.Sendable {
+        /// The cryptocurrency payment configuration, including the blockchain networks and wallet addresses where you receive payments.
+        public var cryptoConfig: WAFV2ClientTypes.CryptoConfig?
+        /// Specifies whether the configuration uses real or test currency. Set to REAL to settle payments in USDC on production blockchain networks (Base, Solana). Set to TEST to settle on testnet networks (Base Sepolia, Solana Devnet) with tokens that have no monetary value. If not specified, defaults to REAL.
+        public var currencyMode: WAFV2ClientTypes.CurrencyMode?
+
+        public init(
+            cryptoConfig: WAFV2ClientTypes.CryptoConfig? = nil,
+            currencyMode: WAFV2ClientTypes.CurrencyMode? = nil
+        ) {
+            self.cryptoConfig = cryptoConfig
+            self.currencyMode = currencyMode
         }
     }
 }
@@ -5447,6 +5658,8 @@ public struct DisassociateWebACLInput: Swift.Sendable {
     /// * For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id
     ///
     /// * For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
+    ///
+    /// * For an Amazon Bedrock AgentCore Gateway: arn:partition:bedrock-agentcore:region:account-id:gateway/gateway-id
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -6238,6 +6451,638 @@ public struct GetRegexPatternSetOutput: Swift.Sendable {
     }
 }
 
+extension WAFV2ClientTypes {
+
+    public enum Currency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case usdc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Currency] {
+            return [
+                .usdc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .usdc: return "USDC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A filter for narrowing monetization statistics and settlement record results. Specify a filter name and one or more values to match. Filter behavior:
+    ///
+    /// * Multiple values within one filter: OR (match any)
+    ///
+    /// * Multiple filters: AND (all must match)
+    ///
+    /// * No duplicate filter names allowed (rejected with error)
+    ///
+    /// * Duplicate values within a filter are silently deduplicated
+    ///
+    /// * If no CurrencyMode filter is specified, defaults to REAL
+    public struct MonetizationFilter: Swift.Sendable {
+        /// The filter name. Format: Key is a string, Value is a list of strings. Enum-restricted (invalid values rejected):
+        ///
+        /// * CurrencyMode: REAL, TEST
+        ///
+        /// * ChainName: BASE, SOLANA, BASE_SEPOLIA, SOLANA_DEVNET
+        ///
+        /// * SettlementStatus: SETTLED, PENDING, FAILED, SERVICE_ERROR, SKIPPED_ORIGIN_ERROR, DUPLICATE
+        ///
+        /// * HttpSourceName: CF, ALB, APIGW, APPRUNNER, COGNITO, VERIFIED_ACCESS
+        ///
+        ///
+        /// ARN-validated:
+        ///
+        /// * WebACLArn: valid WAFv2 web ACL ARN
+        ///
+        ///
+        /// Free-text (any string up to 256 chars):
+        ///
+        /// * SourceName: The name of the bot. Populated from Bot Control verified bot labels.
+        ///
+        /// * SourceCategory: The category classification of the bot. From Bot Control categorization.
+        ///
+        /// * Intent: The declared intent of the bot request.
+        ///
+        /// * Organization: The organization operating the bot.
+        ///
+        /// * UriPathPrefix: The URI path of the request that was monetized.
+        ///
+        /// * RequestId: The WAF request ID associated with the transaction. Matches the requestId in WAF logs. Pattern: ^[a-zA-Z0-9:._\-=+/]+$
+        ///
+        /// * TransactionId: The blockchain transaction identifier. Pattern: ^[a-zA-Z0-9:._\-=+/]+$
+        ///
+        /// * TerminatingRuleName: The name of the WAF rule that triggered the Monetize action.
+        ///
+        /// * PayerAddress: The blockchain wallet address of the paying client. Pattern: ^[a-zA-Z0-9:._\-=+/]+$
+        ///
+        /// * HttpSourceId: The identifier of the Amazon Web Services resource associated with the web ACL (for example, CloudFront distribution ID).
+        /// This member is required.
+        public var name: Swift.String?
+        /// The values to filter on. Specify as a list of strings. Results match any of the specified values (OR logic). Duplicate values are silently deduplicated. Maximum: 20 values per filter.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum GroupByType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case category
+        case intent
+        case name
+        case organization
+        case webacl
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GroupByType] {
+            return [
+                .category,
+                .intent,
+                .name,
+                .organization,
+                .webacl
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .category: return "CATEGORY"
+            case .intent: return "INTENT"
+            case .name: return "NAME"
+            case .organization: return "ORGANIZATION"
+            case .webacl: return "WEBACL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum RankingSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case name
+        case percentage
+        case revenue
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RankingSortBy] {
+            return [
+                .name,
+                .percentage,
+                .revenue
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .name: return "NAME"
+            case .percentage: return "PERCENTAGE"
+            case .revenue: return "REVENUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .asc,
+                .desc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "ASC"
+            case .desc: return "DESC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum RankingStatisticType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case topPathsByRevenue
+        case topSourcesByRevenue
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RankingStatisticType] {
+            return [
+                .topPathsByRevenue,
+                .topSourcesByRevenue
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .topPathsByRevenue: return "TOP_PATHS_BY_REVENUE"
+            case .topSourcesByRevenue: return "TOP_SOURCES_BY_REVENUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// In a [GetSampledRequests] request, the StartTime and EndTime objects specify the time range for which you want WAF to return a sample of web requests. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours. In a [GetSampledRequests] response, the StartTime and EndTime objects specify the time range for which WAF actually returned a sample of web requests. WAF gets the specified number of requests from among the first 5,000 requests that your Amazon Web Services resource receives during the specified time period. If your resource receives more than 5,000 requests during that period, WAF stops sampling after the 5,000th request. In that case, EndTime is the time that WAF received the 5,000th request.
+    public struct TimeWindow: Swift.Sendable {
+        /// The end of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
+        /// This member is required.
+        public var endTime: Foundation.Date?
+        /// The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+}
+
+public struct GetRevenueStatisticsInput: Swift.Sendable {
+    /// The currency for the revenue amounts in the response.
+    /// This member is required.
+    public var currency: WAFV2ClientTypes.Currency?
+    /// Optional filters to narrow the results.
+    public var filters: [WAFV2ClientTypes.MonetizationFilter]?
+    /// The dimension to group results by: NAME, CATEGORY, INTENT, ORGANIZATION, or WEBACL. Required when StatisticType is TOP_SOURCES_BY_REVENUE. Not required for TOP_PATHS_BY_REVENUE, where results are grouped by content path. If StatisticType is TOP_SOURCES_BY_REVENUE and GroupBy is omitted, the request is rejected with a WAFInvalidParameterException.
+    public var groupBy: WAFV2ClientTypes.GroupByType?
+    /// The maximum number of results to return.
+    public var limit: Swift.Int?
+    /// When you get a paginated response, this marker indicates that additional results are available. Use it in a subsequent request to retrieve the next page of results.
+    public var nextMarker: Swift.String?
+    /// Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT) or for a regional application (REGIONAL).
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+    /// The field to sort results by: REVENUE, PERCENTAGE, or NAME.
+    public var sortBy: WAFV2ClientTypes.RankingSortBy?
+    /// The sort order: ASC for ascending or DESC for descending.
+    public var sortOrder: WAFV2ClientTypes.SortOrder?
+    /// TOP_SOURCES_BY_REVENUE ranks revenue from AI bot traffic, grouped by the dimension you specify in the GroupBy parameter (NAME, CATEGORY, INTENT, ORGANIZATION, or WEBACL); GroupBy is required for this statistic type. TOP_PATHS_BY_REVENUE ranks revenue by path.
+    /// This member is required.
+    public var statisticType: WAFV2ClientTypes.RankingStatisticType?
+    /// The time range for the query. Specify start and end timestamps.
+    /// This member is required.
+    public var timeWindow: WAFV2ClientTypes.TimeWindow?
+
+    public init(
+        currency: WAFV2ClientTypes.Currency? = nil,
+        filters: [WAFV2ClientTypes.MonetizationFilter]? = nil,
+        groupBy: WAFV2ClientTypes.GroupByType? = nil,
+        limit: Swift.Int? = nil,
+        nextMarker: Swift.String? = nil,
+        scope: WAFV2ClientTypes.Scope? = nil,
+        sortBy: WAFV2ClientTypes.RankingSortBy? = nil,
+        sortOrder: WAFV2ClientTypes.SortOrder? = nil,
+        statisticType: WAFV2ClientTypes.RankingStatisticType? = nil,
+        timeWindow: WAFV2ClientTypes.TimeWindow? = nil
+    ) {
+        self.currency = currency
+        self.filters = filters
+        self.groupBy = groupBy
+        self.limit = limit
+        self.nextMarker = nextMarker
+        self.scope = scope
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.statisticType = statisticType
+        self.timeWindow = timeWindow
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Revenue statistics for a single content path, including the path, revenue amount, and request count.
+    public struct RevenuePathStatistics: Swift.Sendable {
+        /// The total revenue amount from this path in the specified currency.
+        /// This member is required.
+        public var amount: Swift.String?
+        /// The URI path.
+        /// This member is required.
+        public var path: Swift.String?
+        /// The percentage of total revenue from this path.
+        /// This member is required.
+        public var percentage: Swift.Double
+        /// The number of monetized requests to this path.
+        /// This member is required.
+        public var requestCount: Swift.Int
+
+        public init(
+            amount: Swift.String? = nil,
+            path: Swift.String? = nil,
+            percentage: Swift.Double = 0.0,
+            requestCount: Swift.Int = 0
+        ) {
+            self.amount = amount
+            self.path = path
+            self.percentage = percentage
+            self.requestCount = requestCount
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Revenue statistics for a single AI bot source, including the bot name, revenue amount, request count, and verification status.
+    public struct SourceStatistics: Swift.Sendable {
+        /// The total revenue amount from this source in the specified currency.
+        /// This member is required.
+        public var amount: Swift.String?
+        /// The value for the group-by dimension, when grouping is applied.
+        public var groupByValue: Swift.String?
+        /// The declared intent of the AI bot (for example, summarize, index, or train).
+        public var intent: Swift.String?
+        /// The organization associated with the AI bot.
+        public var organization: Swift.String?
+        /// The percentage of total revenue from this source.
+        /// This member is required.
+        public var percentage: Swift.Double
+        /// The number of monetized requests from this source.
+        /// This member is required.
+        public var requestCount: Swift.Int
+        /// The category of this AI bot source.
+        public var sourceCategory: Swift.String?
+        /// The name of the AI bot.
+        /// This member is required.
+        public var sourceName: Swift.String?
+        /// Indicates whether the AI bot's identity was verified — for example, through a cryptographically signed request (Web Bot Auth) or another published verification method. This value is meaningful only when GroupBy is NAME, where each result represents a single, identifiable bot. For all other GroupBy values (CATEGORY, INTENT, ORGANIZATION, or WEBACL), a result aggregates multiple bots that may have different verification states, so Verified is always returned as false and should be ignored. Type and required-ness are unchanged (Boolean, optional).
+        public var verified: Swift.Bool
+
+        public init(
+            amount: Swift.String? = nil,
+            groupByValue: Swift.String? = nil,
+            intent: Swift.String? = nil,
+            organization: Swift.String? = nil,
+            percentage: Swift.Double = 0.0,
+            requestCount: Swift.Int = 0,
+            sourceCategory: Swift.String? = nil,
+            sourceName: Swift.String? = nil,
+            verified: Swift.Bool = false
+        ) {
+            self.amount = amount
+            self.groupByValue = groupByValue
+            self.intent = intent
+            self.organization = organization
+            self.percentage = percentage
+            self.requestCount = requestCount
+            self.sourceCategory = sourceCategory
+            self.sourceName = sourceName
+            self.verified = verified
+        }
+    }
+}
+
+public struct GetRevenueStatisticsOutput: Swift.Sendable {
+    /// When you get a paginated response, this marker indicates that additional results are available.
+    public var nextMarker: Swift.String?
+    /// Statistics for top revenue paths. Populated when StatisticType is TOP_PATHS_BY_REVENUE.
+    public var revenuePathStatistics: [WAFV2ClientTypes.RevenuePathStatistics]?
+    /// Statistics for top revenue sources (AI bots). Populated when StatisticType is TOP_SOURCES_BY_REVENUE.
+    public var sourceStatistics: [WAFV2ClientTypes.SourceStatistics]?
+
+    public init(
+        nextMarker: Swift.String? = nil,
+        revenuePathStatistics: [WAFV2ClientTypes.RevenuePathStatistics]? = nil,
+        sourceStatistics: [WAFV2ClientTypes.SourceStatistics]? = nil
+    ) {
+        self.nextMarker = nextMarker
+        self.revenuePathStatistics = revenuePathStatistics
+        self.sourceStatistics = sourceStatistics
+    }
+}
+
+public struct GetRevenueStatisticsSummaryInput: Swift.Sendable {
+    /// The currency for the revenue amounts in the response. Currently only USDC is supported.
+    /// This member is required.
+    public var currency: WAFV2ClientTypes.Currency?
+    /// Optional filters to narrow the results. You can filter by source name, category, organization, intent, verified status, content path, web ACL ARN, or currency mode.
+    public var filters: [WAFV2ClientTypes.MonetizationFilter]?
+    /// Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT) or for a regional application (REGIONAL). AI bot monetization is only available for CLOUDFRONT scope.
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+    /// The time range for the revenue summary query. Specify start and end timestamps.
+    /// This member is required.
+    public var timeWindow: WAFV2ClientTypes.TimeWindow?
+
+    public init(
+        currency: WAFV2ClientTypes.Currency? = nil,
+        filters: [WAFV2ClientTypes.MonetizationFilter]? = nil,
+        scope: WAFV2ClientTypes.Scope? = nil,
+        timeWindow: WAFV2ClientTypes.TimeWindow? = nil
+    ) {
+        self.currency = currency
+        self.filters = filters
+        self.scope = scope
+        self.timeWindow = timeWindow
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A summary of AI bot monetization revenue, including total revenue, revenue by verification tier, and request counts.
+    public struct RevenueBreakdown: Swift.Sendable {
+        /// The currency of the revenue amounts.
+        public var currency: WAFV2ClientTypes.Currency?
+        /// The total revenue amount in the specified currency.
+        public var totalAmount: Swift.String?
+        /// The total number of HTTP 402 Payment Required responses served to AI agents.
+        public var totalMonetizeServed: Swift.Int
+        /// The total number of successfully settled payment transactions.
+        public var totalSettled: Swift.Int
+        /// The revenue amount from unverified AI bots.
+        public var unverifiedAmount: Swift.String?
+        /// The revenue amount from verified AI bots.
+        public var verifiedAmount: Swift.String?
+
+        public init(
+            currency: WAFV2ClientTypes.Currency? = nil,
+            totalAmount: Swift.String? = nil,
+            totalMonetizeServed: Swift.Int = 0,
+            totalSettled: Swift.Int = 0,
+            unverifiedAmount: Swift.String? = nil,
+            verifiedAmount: Swift.String? = nil
+        ) {
+            self.currency = currency
+            self.totalAmount = totalAmount
+            self.totalMonetizeServed = totalMonetizeServed
+            self.totalSettled = totalSettled
+            self.unverifiedAmount = unverifiedAmount
+            self.verifiedAmount = verifiedAmount
+        }
+    }
+}
+
+public struct GetRevenueStatisticsSummaryOutput: Swift.Sendable {
+    /// The revenue breakdown summary for the specified time window and filters.
+    public var revenueBreakdown: WAFV2ClientTypes.RevenueBreakdown?
+
+    public init(
+        revenueBreakdown: WAFV2ClientTypes.RevenueBreakdown? = nil
+    ) {
+        self.revenueBreakdown = revenueBreakdown
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum IntervalType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case daily
+        case fiveMinutely
+        case hourly
+        case minutely
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntervalType] {
+            return [
+                .daily,
+                .fiveMinutely,
+                .hourly,
+                .minutely
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .daily: return "DAILY"
+            case .fiveMinutely: return "FIVE_MINUTELY"
+            case .hourly: return "HOURLY"
+            case .minutely: return "MINUTELY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum TimeSeriesStatisticType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dateHistogram
+        case paymentTraffic
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TimeSeriesStatisticType] {
+            return [
+                .dateHistogram,
+                .paymentTraffic
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dateHistogram: return "DATE_HISTOGRAM"
+            case .paymentTraffic: return "PAYMENT_TRAFFIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetRevenueStatisticsTimeSeriesInput: Swift.Sendable {
+    /// The currency for the amounts in the response.
+    /// This member is required.
+    public var currency: WAFV2ClientTypes.Currency?
+    /// Optional filters to narrow the results.
+    public var filters: [WAFV2ClientTypes.MonetizationFilter]?
+    /// The dimension to group results by.
+    public var groupBy: WAFV2ClientTypes.GroupByType?
+    /// The time interval for aggregating data points: MINUTELY, FIVE_MINUTELY, HOURLY, or DAILY.
+    /// This member is required.
+    public var interval: WAFV2ClientTypes.IntervalType?
+    /// The maximum number of data points to return. Minimum: 1. Maximum: 10000.
+    public var limit: Swift.Int?
+    /// When you get a paginated response, this marker indicates that additional results are available.
+    public var nextMarker: Swift.String?
+    /// Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT) or for a regional application (REGIONAL).
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+    /// The type of time series data to retrieve: DATE_HISTOGRAM for revenue over time, or PAYMENT_TRAFFIC for payment traffic patterns.
+    /// This member is required.
+    public var statisticType: WAFV2ClientTypes.TimeSeriesStatisticType?
+    /// The time range for the query. Specify start and end timestamps.
+    /// This member is required.
+    public var timeWindow: WAFV2ClientTypes.TimeWindow?
+
+    public init(
+        currency: WAFV2ClientTypes.Currency? = nil,
+        filters: [WAFV2ClientTypes.MonetizationFilter]? = nil,
+        groupBy: WAFV2ClientTypes.GroupByType? = nil,
+        interval: WAFV2ClientTypes.IntervalType? = nil,
+        limit: Swift.Int? = nil,
+        nextMarker: Swift.String? = nil,
+        scope: WAFV2ClientTypes.Scope? = nil,
+        statisticType: WAFV2ClientTypes.TimeSeriesStatisticType? = nil,
+        timeWindow: WAFV2ClientTypes.TimeWindow? = nil
+    ) {
+        self.currency = currency
+        self.filters = filters
+        self.groupBy = groupBy
+        self.interval = interval
+        self.limit = limit
+        self.nextMarker = nextMarker
+        self.scope = scope
+        self.statisticType = statisticType
+        self.timeWindow = timeWindow
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A single data point in a revenue time series, representing aggregated monetization metrics for a specific time interval.
+    public struct DataPointEntry: Swift.Sendable {
+        /// The bot category for this data point, when grouped by category.
+        public var category: Swift.String?
+        /// The timestamp for this data point.
+        public var date: Foundation.Date?
+        /// The group-by dimension value for this data point.
+        public var groupByValue: Swift.String?
+        /// The intent classification for this data point, when grouped by intent.
+        public var intent: Swift.String?
+        /// The number of HTTP 402 Payment Required responses served during this interval.
+        public var monetizeServedCount: Swift.Int
+        /// The number of successfully settled payments during this interval.
+        public var settledCount: Swift.Int
+        /// The total revenue amount during this interval in the specified currency.
+        public var totalAmount: Swift.String?
+
+        public init(
+            category: Swift.String? = nil,
+            date: Foundation.Date? = nil,
+            groupByValue: Swift.String? = nil,
+            intent: Swift.String? = nil,
+            monetizeServedCount: Swift.Int = 0,
+            settledCount: Swift.Int = 0,
+            totalAmount: Swift.String? = nil
+        ) {
+            self.category = category
+            self.date = date
+            self.groupByValue = groupByValue
+            self.intent = intent
+            self.monetizeServedCount = monetizeServedCount
+            self.settledCount = settledCount
+            self.totalAmount = totalAmount
+        }
+    }
+}
+
+public struct GetRevenueStatisticsTimeSeriesOutput: Swift.Sendable {
+    /// The list of time series data points.
+    public var dataPoints: [WAFV2ClientTypes.DataPointEntry]?
+    /// When you get a paginated response, this marker indicates that additional results are available.
+    public var nextMarker: Swift.String?
+
+    public init(
+        dataPoints: [WAFV2ClientTypes.DataPointEntry]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.dataPoints = dataPoints
+        self.nextMarker = nextMarker
+    }
+}
+
 public struct GetRuleGroupInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the entity.
     public var arn: Swift.String?
@@ -6262,27 +7107,6 @@ public struct GetRuleGroupInput: Swift.Sendable {
         self.id = id
         self.name = name
         self.scope = scope
-    }
-}
-
-extension WAFV2ClientTypes {
-
-    /// In a [GetSampledRequests] request, the StartTime and EndTime objects specify the time range for which you want WAF to return a sample of web requests. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours. In a [GetSampledRequests] response, the StartTime and EndTime objects specify the time range for which WAF actually returned a sample of web requests. WAF gets the specified number of requests from among the first 5,000 requests that your Amazon Web Services resource receives during the specified time period. If your resource receives more than 5,000 requests during that period, WAF stops sampling after the 5,000th request. In that case, EndTime is the time that WAF received the 5,000th request.
-    public struct TimeWindow: Swift.Sendable {
-        /// The end of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
-        /// This member is required.
-        public var endTime: Foundation.Date?
-        /// The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
-        /// This member is required.
-        public var startTime: Foundation.Date?
-
-        public init(
-            endTime: Foundation.Date? = nil,
-            startTime: Foundation.Date? = nil
-        ) {
-            self.endTime = endTime
-            self.startTime = startTime
-        }
     }
 }
 
@@ -6740,6 +7564,8 @@ public struct GetWebACLForResourceInput: Swift.Sendable {
     /// * For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id
     ///
     /// * For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
+    ///
+    /// * For an Amazon Bedrock AgentCore Gateway: arn:partition:bedrock-agentcore:region:account-id:gateway/gateway-id
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -7187,6 +8013,7 @@ public struct ListRegexPatternSetsOutput: Swift.Sendable {
 extension WAFV2ClientTypes {
 
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agentcoreGateway
         case amplify
         case apiGateway
         case applicationLoadBalancer
@@ -7198,6 +8025,7 @@ extension WAFV2ClientTypes {
 
         public static var allCases: [ResourceType] {
             return [
+                .agentcoreGateway,
                 .amplify,
                 .apiGateway,
                 .applicationLoadBalancer,
@@ -7215,6 +8043,7 @@ extension WAFV2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .agentcoreGateway: return "AGENTCORE_GATEWAY"
             case .amplify: return "AMPLIFY"
             case .apiGateway: return "API_GATEWAY"
             case .applicationLoadBalancer: return "APPLICATION_LOAD_BALANCER"
@@ -7291,6 +8120,233 @@ public struct ListRuleGroupsOutput: Swift.Sendable {
     ) {
         self.nextMarker = nextMarker
         self.ruleGroups = ruleGroups
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum SettlementSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amount
+        case name
+        case status
+        case timestamp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SettlementSortBy] {
+            return [
+                .amount,
+                .name,
+                .status,
+                .timestamp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .amount: return "AMOUNT"
+            case .name: return "NAME"
+            case .status: return "STATUS"
+            case .timestamp: return "TIMESTAMP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListSettlementRecordsInput: Swift.Sendable {
+    /// The currency for the amounts in the response.
+    /// This member is required.
+    public var currency: WAFV2ClientTypes.Currency?
+    /// Optional filters to narrow the results. You can filter by payer address, status, source name, network, or other settlement fields.
+    public var filters: [WAFV2ClientTypes.MonetizationFilter]?
+    /// The maximum number of settlement records to return. Minimum: 1. Maximum: 100.
+    public var limit: Swift.Int?
+    /// When you get a paginated response, this marker indicates that additional results are available.
+    public var nextMarker: Swift.String?
+    /// Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT) or for a regional application (REGIONAL).
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+    /// The field to sort settlement records by: TIMESTAMP, AMOUNT, NAME, or STATUS.
+    public var sortBy: WAFV2ClientTypes.SettlementSortBy?
+    /// The sort order: ASC for ascending or DESC for descending.
+    public var sortOrder: WAFV2ClientTypes.SortOrder?
+    /// The time range for the query. Specify start and end timestamps.
+    /// This member is required.
+    public var timeWindow: WAFV2ClientTypes.TimeWindow?
+
+    public init(
+        currency: WAFV2ClientTypes.Currency? = nil,
+        filters: [WAFV2ClientTypes.MonetizationFilter]? = nil,
+        limit: Swift.Int? = nil,
+        nextMarker: Swift.String? = nil,
+        scope: WAFV2ClientTypes.Scope? = nil,
+        sortBy: WAFV2ClientTypes.SettlementSortBy? = nil,
+        sortOrder: WAFV2ClientTypes.SortOrder? = nil,
+        timeWindow: WAFV2ClientTypes.TimeWindow? = nil
+    ) {
+        self.currency = currency
+        self.filters = filters
+        self.limit = limit
+        self.nextMarker = nextMarker
+        self.scope = scope
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.timeWindow = timeWindow
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum SettlementStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case duplicate
+        case failed
+        case pending
+        case serviceError
+        case settled
+        case skippedOriginError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SettlementStatus] {
+            return [
+                .duplicate,
+                .failed,
+                .pending,
+                .serviceError,
+                .settled,
+                .skippedOriginError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .duplicate: return "DUPLICATE"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .serviceError: return "SERVICE_ERROR"
+            case .settled: return "SETTLED"
+            case .skippedOriginError: return "SKIPPED_ORIGIN_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A single settlement transaction record for AI bot monetization. Contains details about the payment including timestamp, amount, status, and the parties involved.
+    public struct SettlementRecord: Swift.Sendable {
+        /// The payment amount in the specified currency.
+        /// This member is required.
+        public var amount: Swift.String?
+        /// The content path that was accessed.
+        public var contentPath: Swift.String?
+        /// The currency of the payment amount.
+        public var currency: WAFV2ClientTypes.Currency?
+        /// The declared intent of the AI bot request.
+        public var intent: Swift.String?
+        /// The blockchain network on which the settlement occurred.
+        public var network: Swift.String?
+        /// The organization associated with the AI bot.
+        public var organization: Swift.String?
+        /// The blockchain wallet address of the paying AI agent.
+        public var payerAddress: Swift.String?
+        /// The WAF request ID associated with this settlement.
+        public var requestId: Swift.String?
+        /// The timestamp of the original web request.
+        public var requestTimestamp: Foundation.Date?
+        /// The category of the AI bot source.
+        public var sourceCategory: Swift.String?
+        /// The name of the AI bot that made the payment.
+        public var sourceName: Swift.String?
+        /// The status of the settlement. Possible values:
+        ///
+        /// * SETTLED - The payment was successfully settled on the blockchain and the transfer from the payer's wallet to the publisher's wallet is confirmed. The TransactionId field contains the on-chain transaction hash. Content is served to the client.
+        ///
+        /// * PENDING - The blockchain transaction has been submitted but not yet confirmed on-chain. This is a transient state that automatically resolves to either SETTLED or FAILED. No action is required. While pending, content is not served and the API returns a 402 response. Clients can retry the request.
+        ///
+        /// * FAILED - The payment settlement was attempted but failed. Possible causes include insufficient funds, an expired payment authorization, or a reverted blockchain transaction. The failureReason field contains a machine-readable error code. Content is not served.
+        ///
+        /// * SERVICE_ERROR - Settlement could not be completed due to an internal service issue or an issue with the payment network. Content is not served. The client's payment authorization remains valid and the request can be retried.
+        ///
+        /// * SKIPPED_ORIGIN_ERROR - The origin returned a non-2xx response, so settlement was intentionally skipped. The client is not charged.
+        ///
+        /// * DUPLICATE - A prior request with the same payment payload has already been settled. This status typically appears when a previous attempt timed out but the payment was ultimately processed. The client is not charged again.
+        /// This member is required.
+        public var status: WAFV2ClientTypes.SettlementStatus?
+        /// The timestamp when the settlement was recorded.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+        /// The blockchain transaction identifier. You can use this to verify the transaction on a blockchain explorer.
+        public var transactionId: Swift.String?
+        /// Whether the AI bot's identity was verified.
+        public var verified: Swift.Bool
+        /// Your receiving wallet address.
+        public var walletAddress: Swift.String?
+        /// The ARN of the web ACL that processed the request.
+        public var webAclArn: Swift.String?
+
+        public init(
+            amount: Swift.String? = nil,
+            contentPath: Swift.String? = nil,
+            currency: WAFV2ClientTypes.Currency? = nil,
+            intent: Swift.String? = nil,
+            network: Swift.String? = nil,
+            organization: Swift.String? = nil,
+            payerAddress: Swift.String? = nil,
+            requestId: Swift.String? = nil,
+            requestTimestamp: Foundation.Date? = nil,
+            sourceCategory: Swift.String? = nil,
+            sourceName: Swift.String? = nil,
+            status: WAFV2ClientTypes.SettlementStatus? = nil,
+            timestamp: Foundation.Date? = nil,
+            transactionId: Swift.String? = nil,
+            verified: Swift.Bool = false,
+            walletAddress: Swift.String? = nil,
+            webAclArn: Swift.String? = nil
+        ) {
+            self.amount = amount
+            self.contentPath = contentPath
+            self.currency = currency
+            self.intent = intent
+            self.network = network
+            self.organization = organization
+            self.payerAddress = payerAddress
+            self.requestId = requestId
+            self.requestTimestamp = requestTimestamp
+            self.sourceCategory = sourceCategory
+            self.sourceName = sourceName
+            self.status = status
+            self.timestamp = timestamp
+            self.transactionId = transactionId
+            self.verified = verified
+            self.walletAddress = walletAddress
+            self.webAclArn = webAclArn
+        }
+    }
+}
+
+public struct ListSettlementRecordsOutput: Swift.Sendable {
+    /// When you get a paginated response, this marker indicates that additional results are available.
+    public var nextMarker: Swift.String?
+    /// The list of settlement records.
+    public var settlements: [WAFV2ClientTypes.SettlementRecord]?
+
+    public init(
+        nextMarker: Swift.String? = nil,
+        settlements: [WAFV2ClientTypes.SettlementRecord]? = nil
+    ) {
+        self.nextMarker = nextMarker
+        self.settlements = settlements
     }
 }
 
@@ -8305,6 +9361,8 @@ extension WAFV2ClientTypes {
         ///
         /// * When a rule with a label matches a web request, WAF adds the fully qualified label to the request. A fully qualified label is made up of the label namespace from the rule group or web ACL where the rule is defined and the label from the rule, separated by a colon: :
         public var labelNamespace: Swift.String?
+        /// The monetization configuration for the rule group. Required when any rule in the rule group uses the Monetize action. When a rule group with a MonetizationConfig is used in a web ACL, the rule group's configuration applies to rules within that group unless overridden at the web ACL level.
+        public var monetizationConfig: WAFV2ClientTypes.MonetizationConfig?
         /// The name of the rule group. You cannot change the name of a rule group after you create it.
         /// This member is required.
         public var name: Swift.String?
@@ -8323,6 +9381,7 @@ extension WAFV2ClientTypes {
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             labelNamespace: Swift.String? = nil,
+            monetizationConfig: WAFV2ClientTypes.MonetizationConfig? = nil,
             name: Swift.String? = nil,
             rules: [WAFV2ClientTypes.Rule]? = nil,
             visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
@@ -8335,6 +9394,7 @@ extension WAFV2ClientTypes {
             self.description = description
             self.id = id
             self.labelNamespace = labelNamespace
+            self.monetizationConfig = monetizationConfig
             self.name = name
             self.rules = rules
             self.visibilityConfig = visibilityConfig
@@ -8371,6 +9431,8 @@ public struct CreateRuleGroupInput: Swift.Sendable {
     public var customResponseBodies: [Swift.String: WAFV2ClientTypes.CustomResponseBody]?
     /// A description of the rule group that helps with identification.
     public var description: Swift.String?
+    /// The monetization configuration for the rule group. Provide this when any rule in the rule group uses the Monetize action.
+    public var monetizationConfig: WAFV2ClientTypes.MonetizationConfig?
     /// The name of the rule group. You cannot change the name of a rule group after you create it.
     /// This member is required.
     public var name: Swift.String?
@@ -8393,6 +9455,7 @@ public struct CreateRuleGroupInput: Swift.Sendable {
         capacity: Swift.Int? = nil,
         customResponseBodies: [Swift.String: WAFV2ClientTypes.CustomResponseBody]? = nil,
         description: Swift.String? = nil,
+        monetizationConfig: WAFV2ClientTypes.MonetizationConfig? = nil,
         name: Swift.String? = nil,
         rules: [WAFV2ClientTypes.Rule]? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
@@ -8402,6 +9465,7 @@ public struct CreateRuleGroupInput: Swift.Sendable {
         self.capacity = capacity
         self.customResponseBodies = customResponseBodies
         self.description = description
+        self.monetizationConfig = monetizationConfig
         self.name = name
         self.rules = rules
         self.scope = scope
@@ -8428,6 +9492,8 @@ public struct CreateWebACLInput: Swift.Sendable {
     public var defaultAction: WAFV2ClientTypes.DefaultAction?
     /// A description of the web ACL that helps with identification.
     public var description: Swift.String?
+    /// The monetization configuration for the web ACL. Provide this when any rule in the web ACL uses the Monetize action.
+    public var monetizationConfig: WAFV2ClientTypes.MonetizationConfig?
     /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
     /// This member is required.
     public var name: Swift.String?
@@ -8459,6 +9525,7 @@ public struct CreateWebACLInput: Swift.Sendable {
         dataProtectionConfig: WAFV2ClientTypes.DataProtectionConfig? = nil,
         defaultAction: WAFV2ClientTypes.DefaultAction? = nil,
         description: Swift.String? = nil,
+        monetizationConfig: WAFV2ClientTypes.MonetizationConfig? = nil,
         name: Swift.String? = nil,
         onSourceDDoSProtectionConfig: WAFV2ClientTypes.OnSourceDDoSProtectionConfig? = nil,
         rules: [WAFV2ClientTypes.Rule]? = nil,
@@ -8475,6 +9542,7 @@ public struct CreateWebACLInput: Swift.Sendable {
         self.dataProtectionConfig = dataProtectionConfig
         self.defaultAction = defaultAction
         self.description = description
+        self.monetizationConfig = monetizationConfig
         self.name = name
         self.onSourceDDoSProtectionConfig = onSourceDDoSProtectionConfig
         self.rules = rules
@@ -8496,6 +9564,8 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
     /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
     /// This member is required.
     public var lockToken: Swift.String?
+    /// The monetization configuration for the rule group. Provide this when any rule in the rule group uses the Monetize action.
+    public var monetizationConfig: WAFV2ClientTypes.MonetizationConfig?
     /// The name of the rule group. You cannot change the name of a rule group after you create it.
     /// This member is required.
     public var name: Swift.String?
@@ -8517,6 +9587,7 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         lockToken: Swift.String? = nil,
+        monetizationConfig: WAFV2ClientTypes.MonetizationConfig? = nil,
         name: Swift.String? = nil,
         rules: [WAFV2ClientTypes.Rule]? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
@@ -8526,6 +9597,7 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
         self.description = description
         self.id = id
         self.lockToken = lockToken
+        self.monetizationConfig = monetizationConfig
         self.name = name
         self.rules = rules
         self.scope = scope
@@ -8561,6 +9633,8 @@ public struct UpdateWebACLInput: Swift.Sendable {
     /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
     /// This member is required.
     public var lockToken: Swift.String?
+    /// The monetization configuration for the web ACL. Provide this when any rule in the web ACL uses the Monetize action.
+    public var monetizationConfig: WAFV2ClientTypes.MonetizationConfig?
     /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
     /// This member is required.
     public var name: Swift.String?
@@ -8592,6 +9666,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         lockToken: Swift.String? = nil,
+        monetizationConfig: WAFV2ClientTypes.MonetizationConfig? = nil,
         name: Swift.String? = nil,
         onSourceDDoSProtectionConfig: WAFV2ClientTypes.OnSourceDDoSProtectionConfig? = nil,
         rules: [WAFV2ClientTypes.Rule]? = nil,
@@ -8609,6 +9684,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
         self.description = description
         self.id = id
         self.lockToken = lockToken
+        self.monetizationConfig = monetizationConfig
         self.name = name
         self.onSourceDDoSProtectionConfig = onSourceDDoSProtectionConfig
         self.rules = rules
@@ -8670,6 +9746,8 @@ extension WAFV2ClientTypes {
         public var labelNamespace: Swift.String?
         /// Indicates whether this web ACL was created by Firewall Manager and is being managed by Firewall Manager. If true, then only Firewall Manager can delete the web ACL or any Firewall Manager rule groups in the web ACL. See also the properties RetrofittedByFirewallManager, PreProcessFirewallManagerRuleGroups, and PostProcessFirewallManagerRuleGroups.
         public var managedByFirewallManager: Swift.Bool
+        /// The monetization configuration for the web ACL. Required when any rule in the web ACL uses the Monetize action. Specifies the cryptocurrency payment networks and currency mode for AI bot monetization.
+        public var monetizationConfig: WAFV2ClientTypes.MonetizationConfig?
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         /// This member is required.
         public var name: Swift.String?
@@ -8703,6 +9781,7 @@ extension WAFV2ClientTypes {
             id: Swift.String? = nil,
             labelNamespace: Swift.String? = nil,
             managedByFirewallManager: Swift.Bool = false,
+            monetizationConfig: WAFV2ClientTypes.MonetizationConfig? = nil,
             name: Swift.String? = nil,
             onSourceDDoSProtectionConfig: WAFV2ClientTypes.OnSourceDDoSProtectionConfig? = nil,
             postProcessFirewallManagerRuleGroups: [WAFV2ClientTypes.FirewallManagerRuleGroup]? = nil,
@@ -8725,6 +9804,7 @@ extension WAFV2ClientTypes {
             self.id = id
             self.labelNamespace = labelNamespace
             self.managedByFirewallManager = managedByFirewallManager
+            self.monetizationConfig = monetizationConfig
             self.name = name
             self.onSourceDDoSProtectionConfig = onSourceDDoSProtectionConfig
             self.postProcessFirewallManagerRuleGroups = postProcessFirewallManagerRuleGroups

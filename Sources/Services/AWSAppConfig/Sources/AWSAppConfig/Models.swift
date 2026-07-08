@@ -53,6 +53,11 @@ public struct DeleteEnvironmentOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteExperimentDefinitionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteExtensionAssociationOutput: Swift.Sendable {
 
     public init() { }
@@ -98,11 +103,26 @@ extension AppConfigClientTypes {
         public var protectionPeriodInMinutes: Swift.Int?
 
         public init(
-            enabled: Swift.Bool? = false,
+            enabled: Swift.Bool? = nil,
             protectionPeriodInMinutes: Swift.Int? = nil
         ) {
             self.enabled = enabled
             self.protectionPeriodInMinutes = protectionPeriodInMinutes
+        }
+    }
+}
+
+extension AppConfigClientTypes {
+
+    /// Configuration settings for vended metrics.
+    public struct VendedMetricsSettings: Swift.Sendable {
+        /// Whether vended metrics are enabled for the account.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
         }
     }
 }
@@ -359,7 +379,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-/// The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
+/// The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -668,7 +688,7 @@ extension AppConfigClientTypes {
 }
 
 public struct CreateDeploymentStrategyInput: Swift.Sendable {
-    /// Total amount of time for a deployment to last.
+    /// Total amount of time for a deployment to last. AppConfig Agent supports deploying feature flag or free-form configuration data to specific segments or individual users during a gradual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the deployment period, regardless of which compute resource serves their requests. For more information, see [Using AppConfig Agent for user-based or entity-based gradual deployments](https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-agent-how-to-use.html#appconfig-entity-based-gradual-deployments)
     /// This member is required.
     public var deploymentDurationInMinutes: Swift.Int?
     /// A description of the deployment strategy.
@@ -692,7 +712,7 @@ public struct CreateDeploymentStrategyInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
-        deploymentDurationInMinutes: Swift.Int? = 0,
+        deploymentDurationInMinutes: Swift.Int? = nil,
         description: Swift.String? = nil,
         finalBakeTimeInMinutes: Swift.Int? = 0,
         growthFactor: Swift.Float? = nil,
@@ -894,6 +914,265 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension AppConfigClientTypes {
 
+    /// A value for a feature flag attribute. Only one of the members can be set.
+    public enum AttributeValue: Swift.Sendable {
+        /// A string value for the attribute.
+        case stringvalue(Swift.String)
+        /// A numeric value for the attribute.
+        case numbervalue(Swift.Double)
+        /// A Boolean value for the attribute.
+        case booleanvalue(Swift.Bool)
+        /// An array of string values for the attribute.
+        case stringarray([Swift.String])
+        /// An array of numeric values for the attribute.
+        case numberarray([Swift.Double])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension AppConfigClientTypes {
+
+    /// The feature flag value configuration for a treatment, including the enabled state and attribute values.
+    public struct FlagValue: Swift.Sendable {
+        /// The attribute values associated with this flag value.
+        public var attributeValues: [Swift.String: AppConfigClientTypes.AttributeValue]?
+        /// Whether the feature flag is enabled for this treatment.
+        /// This member is required.
+        public var enabled: Swift.Bool
+
+        public init(
+            attributeValues: [Swift.String: AppConfigClientTypes.AttributeValue]? = nil,
+            enabled: Swift.Bool = false
+        ) {
+            self.attributeValues = attributeValues
+            self.enabled = enabled
+        }
+    }
+}
+
+extension AppConfigClientTypes {
+
+    /// Input structure for defining a treatment when creating or updating an experiment definition.
+    public struct TreatmentInput: Swift.Sendable {
+        /// A description of the treatment.
+        public var description: Swift.String?
+        /// The feature flag value to serve to users assigned to this treatment.
+        /// This member is required.
+        public var flagValue: AppConfigClientTypes.FlagValue?
+        /// The traffic allocation weight for this treatment.
+        /// This member is required.
+        public var weight: Swift.Float
+
+        public init(
+            description: Swift.String? = nil,
+            flagValue: AppConfigClientTypes.FlagValue? = nil,
+            weight: Swift.Float = 0.0
+        ) {
+            self.description = description
+            self.flagValue = flagValue
+            self.weight = weight
+        }
+    }
+}
+
+public struct CreateExperimentDefinitionInput: Swift.Sendable {
+    /// The application ID or name.
+    /// This member is required.
+    public var applicationIdentifier: Swift.String?
+    /// A description of the intended audience for the experiment.
+    public var audienceDescription: Swift.String?
+    /// A rule that defines which users are eligible to be assigned to treatments during the experiment.
+    /// This member is required.
+    public var audienceRule: Swift.String?
+    /// The configuration profile ID or name that stores the feature flag.
+    /// This member is required.
+    public var configurationProfileIdentifier: Swift.String?
+    /// The control treatment that represents the baseline experience for comparison.
+    /// This member is required.
+    public var control: AppConfigClientTypes.TreatmentInput?
+    /// The environment ID or name where the experiment will run.
+    /// This member is required.
+    public var environmentIdentifier: Swift.String?
+    /// The key of the existing feature flag to use with the experiment.
+    /// This member is required.
+    public var flagKey: Swift.String?
+    /// A description of the goal or hypothesis the experiment is designed to validate.
+    public var hypothesis: Swift.String?
+    /// Information about the conditions under which you would launch the winning treatment.
+    public var launchCriteria: Swift.String?
+    /// A name for the experiment definition.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The tags to assign to the experiment definition. Tags help organize and categorize your AppConfig resources.
+    public var tags: [Swift.String: Swift.String]?
+    /// A list of treatments to evaluate during the experiment. Each treatment defines a distinct variation compared to the control.
+    /// This member is required.
+    public var treatments: [AppConfigClientTypes.TreatmentInput]?
+
+    public init(
+        applicationIdentifier: Swift.String? = nil,
+        audienceDescription: Swift.String? = nil,
+        audienceRule: Swift.String? = nil,
+        configurationProfileIdentifier: Swift.String? = nil,
+        control: AppConfigClientTypes.TreatmentInput? = nil,
+        environmentIdentifier: Swift.String? = nil,
+        flagKey: Swift.String? = nil,
+        hypothesis: Swift.String? = nil,
+        launchCriteria: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        treatments: [AppConfigClientTypes.TreatmentInput]? = nil
+    ) {
+        self.applicationIdentifier = applicationIdentifier
+        self.audienceDescription = audienceDescription
+        self.audienceRule = audienceRule
+        self.configurationProfileIdentifier = configurationProfileIdentifier
+        self.control = control
+        self.environmentIdentifier = environmentIdentifier
+        self.flagKey = flagKey
+        self.hypothesis = hypothesis
+        self.launchCriteria = launchCriteria
+        self.name = name
+        self.tags = tags
+        self.treatments = treatments
+    }
+}
+
+extension AppConfigClientTypes {
+
+    /// Describes a treatment in an experiment, including its traffic allocation weight and feature flag value.
+    public struct Treatment: Swift.Sendable {
+        /// A description of the treatment.
+        public var description: Swift.String?
+        /// The feature flag value served to users assigned to this treatment.
+        /// This member is required.
+        public var flagValue: AppConfigClientTypes.FlagValue?
+        /// The unique key that identifies this treatment.
+        public var key: Swift.String?
+        /// The traffic allocation weight for this treatment.
+        /// This member is required.
+        public var weight: Swift.Float
+
+        public init(
+            description: Swift.String? = nil,
+            flagValue: AppConfigClientTypes.FlagValue? = nil,
+            key: Swift.String? = nil,
+            weight: Swift.Float = 0.0
+        ) {
+            self.description = description
+            self.flagValue = flagValue
+            self.key = key
+            self.weight = weight
+        }
+    }
+}
+
+extension AppConfigClientTypes {
+
+    public enum ExperimentDefinitionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case archived
+        case idle
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExperimentDefinitionStatus] {
+            return [
+                .active,
+                .archived,
+                .idle
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .archived: return "ARCHIVED"
+            case .idle: return "IDLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Describes an experiment definition, including the target audience, feature flag, treatments, and current status.
+public struct CreateExperimentDefinitionOutput: Swift.Sendable {
+    /// The application ID.
+    public var applicationId: Swift.String?
+    /// A description of the intended audience for the experiment.
+    public var audienceDescription: Swift.String?
+    /// The rule that defines which users are eligible to be assigned to treatments.
+    public var audienceRule: Swift.String?
+    /// The configuration profile ID associated with the experiment.
+    public var configurationProfileId: Swift.String?
+    /// The control treatment used as the baseline for comparison.
+    public var control: AppConfigClientTypes.Treatment?
+    /// The date and time the experiment definition was created, in ISO 8601 format.
+    public var createdAt: Foundation.Date?
+    /// The environment ID where the experiment runs.
+    public var environmentId: Swift.String?
+    /// The key of the feature flag used by the experiment.
+    public var flagKey: Swift.String?
+    /// The hypothesis that the experiment is designed to validate.
+    public var hypothesis: Swift.String?
+    /// The experiment definition ID.
+    public var id: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt experiment data.
+    public var kmsKeyIdentifier: Swift.String?
+    /// The conditions under which the winning treatment should be launched.
+    public var launchCriteria: Swift.String?
+    /// The name of the experiment definition.
+    public var name: Swift.String?
+    /// The current status of the experiment definition. Valid values: ACTIVE, IDLE, ARCHIVED.
+    public var status: AppConfigClientTypes.ExperimentDefinitionStatus?
+    /// The list of treatments defined for the experiment.
+    public var treatments: [AppConfigClientTypes.Treatment]?
+    /// The date and time the experiment definition was last updated, in ISO 8601 format.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        audienceDescription: Swift.String? = nil,
+        audienceRule: Swift.String? = nil,
+        configurationProfileId: Swift.String? = nil,
+        control: AppConfigClientTypes.Treatment? = nil,
+        createdAt: Foundation.Date? = nil,
+        environmentId: Swift.String? = nil,
+        flagKey: Swift.String? = nil,
+        hypothesis: Swift.String? = nil,
+        id: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
+        launchCriteria: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: AppConfigClientTypes.ExperimentDefinitionStatus? = nil,
+        treatments: [AppConfigClientTypes.Treatment]? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.applicationId = applicationId
+        self.audienceDescription = audienceDescription
+        self.audienceRule = audienceRule
+        self.configurationProfileId = configurationProfileId
+        self.control = control
+        self.createdAt = createdAt
+        self.environmentId = environmentId
+        self.flagKey = flagKey
+        self.hypothesis = hypothesis
+        self.id = id
+        self.kmsKeyIdentifier = kmsKeyIdentifier
+        self.launchCriteria = launchCriteria
+        self.name = name
+        self.status = status
+        self.treatments = treatments
+        self.updatedAt = updatedAt
+    }
+}
+
+extension AppConfigClientTypes {
+
     /// A value such as an Amazon Resource Name (ARN) or an Amazon Simple Notification Service topic entered in an extension when invoked. Parameter values are specified in an extension association. For more information about extensions, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     public struct Parameter: Swift.Sendable {
         /// Information about the parameter.
@@ -934,7 +1213,7 @@ public struct CreateExtensionInput: Swift.Sendable {
     public init(
         actions: [Swift.String: [AppConfigClientTypes.Action]]? = nil,
         description: Swift.String? = nil,
-        latestVersionNumber: Swift.Int? = 0,
+        latestVersionNumber: Swift.Int? = nil,
         name: Swift.String? = nil,
         parameters: [Swift.String: AppConfigClientTypes.Parameter]? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -999,7 +1278,7 @@ public struct CreateExtensionAssociationInput: Swift.Sendable {
 
     public init(
         extensionIdentifier: Swift.String? = nil,
-        extensionVersionNumber: Swift.Int? = 0,
+        extensionVersionNumber: Swift.Int? = nil,
         parameters: [Swift.String: Swift.String]? = nil,
         resourceIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -1114,7 +1393,7 @@ public struct CreateHostedConfigurationVersionInput: Swift.Sendable {
     /// A standard MIME type describing the format of the configuration content. For more information, see [Content-Type](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17).
     /// This member is required.
     public var contentType: Swift.String?
-    /// A description of the configuration.
+    /// A description of the configuration. Due to HTTP limitations, this field only supports ASCII characters.
     public var description: Swift.String?
     /// An optional locking token used to prevent race conditions from overwriting configuration updates when creating a new version. To ensure your data is not overwritten when creating multiple hosted configuration versions in rapid succession, specify the version number of the latest hosted configuration version.
     public var latestVersionNumber: Swift.Int?
@@ -1127,7 +1406,7 @@ public struct CreateHostedConfigurationVersionInput: Swift.Sendable {
         content: Foundation.Data? = nil,
         contentType: Swift.String? = nil,
         description: Swift.String? = nil,
-        latestVersionNumber: Swift.Int? = 0,
+        latestVersionNumber: Swift.Int? = nil,
         versionLabel: Swift.String? = nil
     ) {
         self.applicationId = applicationId
@@ -1299,6 +1578,56 @@ public struct DeleteEnvironmentInput: Swift.Sendable {
     }
 }
 
+extension AppConfigClientTypes {
+
+    public enum DeleteType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case archive
+        case destroy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeleteType] {
+            return [
+                .archive,
+                .destroy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .archive: return "ARCHIVE"
+            case .destroy: return "DESTROY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DeleteExperimentDefinitionInput: Swift.Sendable {
+    /// The application ID or name.
+    /// This member is required.
+    public var applicationIdentifier: Swift.String?
+    /// The type of deletion to perform. Valid values include archive (hide but preserve) and permanent (delete permanently).
+    public var deleteType: AppConfigClientTypes.DeleteType?
+    /// The experiment definition ID or name.
+    /// This member is required.
+    public var experimentDefinitionIdentifier: Swift.String?
+
+    public init(
+        applicationIdentifier: Swift.String? = nil,
+        deleteType: AppConfigClientTypes.DeleteType? = nil,
+        experimentDefinitionIdentifier: Swift.String? = nil
+    ) {
+        self.applicationIdentifier = applicationIdentifier
+        self.deleteType = deleteType
+        self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+    }
+}
+
 public struct DeleteExtensionInput: Swift.Sendable {
     /// The name, ID, or Amazon Resource Name (ARN) of the extension you want to delete.
     /// This member is required.
@@ -1308,7 +1637,7 @@ public struct DeleteExtensionInput: Swift.Sendable {
 
     public init(
         extensionIdentifier: Swift.String? = nil,
-        versionNumber: Swift.Int? = 0
+        versionNumber: Swift.Int? = nil
     ) {
         self.extensionIdentifier = extensionIdentifier
         self.versionNumber = versionNumber
@@ -1341,7 +1670,7 @@ public struct DeleteHostedConfigurationVersionInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         configurationProfileId: Swift.String? = nil,
-        versionNumber: Swift.Int? = 0
+        versionNumber: Swift.Int? = nil
     ) {
         self.applicationId = applicationId
         self.configurationProfileId = configurationProfileId
@@ -1352,11 +1681,15 @@ public struct DeleteHostedConfigurationVersionInput: Swift.Sendable {
 public struct GetAccountSettingsOutput: Swift.Sendable {
     /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. The default interval for ProtectionPeriodInMinutes is 60.
     public var deletionProtection: AppConfigClientTypes.DeletionProtectionSettings?
+    /// Configuration for vended metrics in the account.
+    public var vendedMetrics: AppConfigClientTypes.VendedMetricsSettings?
 
     public init(
-        deletionProtection: AppConfigClientTypes.DeletionProtectionSettings? = nil
+        deletionProtection: AppConfigClientTypes.DeletionProtectionSettings? = nil,
+        vendedMetrics: AppConfigClientTypes.VendedMetricsSettings? = nil
     ) {
         self.deletionProtection = deletionProtection
+        self.vendedMetrics = vendedMetrics
     }
 }
 
@@ -1524,7 +1857,7 @@ public struct GetDeploymentInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil,
-        deploymentNumber: Swift.Int? = 0,
+        deploymentNumber: Swift.Int? = nil,
         environmentId: Swift.String? = nil
     ) {
         self.applicationId = applicationId
@@ -1914,6 +2247,294 @@ public struct GetEnvironmentOutput: Swift.Sendable {
     }
 }
 
+public struct GetExperimentDefinitionInput: Swift.Sendable {
+    /// The application ID or name.
+    /// This member is required.
+    public var applicationIdentifier: Swift.String?
+    /// The experiment definition ID or name.
+    /// This member is required.
+    public var experimentDefinitionIdentifier: Swift.String?
+
+    public init(
+        applicationIdentifier: Swift.String? = nil,
+        experimentDefinitionIdentifier: Swift.String? = nil
+    ) {
+        self.applicationIdentifier = applicationIdentifier
+        self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+    }
+}
+
+/// Describes an experiment definition, including the target audience, feature flag, treatments, and current status.
+public struct GetExperimentDefinitionOutput: Swift.Sendable {
+    /// The application ID.
+    public var applicationId: Swift.String?
+    /// A description of the intended audience for the experiment.
+    public var audienceDescription: Swift.String?
+    /// The rule that defines which users are eligible to be assigned to treatments.
+    public var audienceRule: Swift.String?
+    /// The configuration profile ID associated with the experiment.
+    public var configurationProfileId: Swift.String?
+    /// The control treatment used as the baseline for comparison.
+    public var control: AppConfigClientTypes.Treatment?
+    /// The date and time the experiment definition was created, in ISO 8601 format.
+    public var createdAt: Foundation.Date?
+    /// The environment ID where the experiment runs.
+    public var environmentId: Swift.String?
+    /// The key of the feature flag used by the experiment.
+    public var flagKey: Swift.String?
+    /// The hypothesis that the experiment is designed to validate.
+    public var hypothesis: Swift.String?
+    /// The experiment definition ID.
+    public var id: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt experiment data.
+    public var kmsKeyIdentifier: Swift.String?
+    /// The conditions under which the winning treatment should be launched.
+    public var launchCriteria: Swift.String?
+    /// The name of the experiment definition.
+    public var name: Swift.String?
+    /// The current status of the experiment definition. Valid values: ACTIVE, IDLE, ARCHIVED.
+    public var status: AppConfigClientTypes.ExperimentDefinitionStatus?
+    /// The list of treatments defined for the experiment.
+    public var treatments: [AppConfigClientTypes.Treatment]?
+    /// The date and time the experiment definition was last updated, in ISO 8601 format.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        audienceDescription: Swift.String? = nil,
+        audienceRule: Swift.String? = nil,
+        configurationProfileId: Swift.String? = nil,
+        control: AppConfigClientTypes.Treatment? = nil,
+        createdAt: Foundation.Date? = nil,
+        environmentId: Swift.String? = nil,
+        flagKey: Swift.String? = nil,
+        hypothesis: Swift.String? = nil,
+        id: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
+        launchCriteria: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: AppConfigClientTypes.ExperimentDefinitionStatus? = nil,
+        treatments: [AppConfigClientTypes.Treatment]? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.applicationId = applicationId
+        self.audienceDescription = audienceDescription
+        self.audienceRule = audienceRule
+        self.configurationProfileId = configurationProfileId
+        self.control = control
+        self.createdAt = createdAt
+        self.environmentId = environmentId
+        self.flagKey = flagKey
+        self.hypothesis = hypothesis
+        self.id = id
+        self.kmsKeyIdentifier = kmsKeyIdentifier
+        self.launchCriteria = launchCriteria
+        self.name = name
+        self.status = status
+        self.treatments = treatments
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct GetExperimentRunInput: Swift.Sendable {
+    /// The application ID or name.
+    /// This member is required.
+    public var applicationIdentifier: Swift.String?
+    /// The experiment definition ID or name.
+    /// This member is required.
+    public var experimentDefinitionIdentifier: Swift.String?
+    /// The run number to retrieve.
+    /// This member is required.
+    public var run: Swift.Int?
+
+    public init(
+        applicationIdentifier: Swift.String? = nil,
+        experimentDefinitionIdentifier: Swift.String? = nil,
+        run: Swift.Int? = nil
+    ) {
+        self.applicationIdentifier = applicationIdentifier
+        self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+        self.run = run
+    }
+}
+
+extension AppConfigClientTypes {
+
+    /// A snapshot of the experiment definition captured at the time an experiment run was started. This preserves the configuration that was active during the run.
+    public struct ExperimentDefinitionSnapshot: Swift.Sendable {
+        /// The application ID at the time the run was started.
+        public var applicationId: Swift.String?
+        /// The audience description at the time the run was started.
+        public var audienceDescription: Swift.String?
+        /// The audience rule at the time the run was started.
+        public var audienceRule: Swift.String?
+        /// The configuration profile ID at the time the run was started.
+        public var configurationProfileId: Swift.String?
+        /// The control treatment at the time the run was started.
+        public var control: AppConfigClientTypes.Treatment?
+        /// The environment ID at the time the run was started.
+        public var environmentId: Swift.String?
+        /// The feature flag key at the time the run was started.
+        public var flagKey: Swift.String?
+        /// The hypothesis at the time the run was started.
+        public var hypothesis: Swift.String?
+        /// The experiment definition ID.
+        public var id: Swift.String?
+        /// The launch criteria at the time the run was started.
+        public var launchCriteria: Swift.String?
+        /// The name of the experiment definition at the time the run was started.
+        public var name: Swift.String?
+        /// The treatments at the time the run was started.
+        public var treatments: [AppConfigClientTypes.Treatment]?
+
+        public init(
+            applicationId: Swift.String? = nil,
+            audienceDescription: Swift.String? = nil,
+            audienceRule: Swift.String? = nil,
+            configurationProfileId: Swift.String? = nil,
+            control: AppConfigClientTypes.Treatment? = nil,
+            environmentId: Swift.String? = nil,
+            flagKey: Swift.String? = nil,
+            hypothesis: Swift.String? = nil,
+            id: Swift.String? = nil,
+            launchCriteria: Swift.String? = nil,
+            name: Swift.String? = nil,
+            treatments: [AppConfigClientTypes.Treatment]? = nil
+        ) {
+            self.applicationId = applicationId
+            self.audienceDescription = audienceDescription
+            self.audienceRule = audienceRule
+            self.configurationProfileId = configurationProfileId
+            self.control = control
+            self.environmentId = environmentId
+            self.flagKey = flagKey
+            self.hypothesis = hypothesis
+            self.id = id
+            self.launchCriteria = launchCriteria
+            self.name = name
+            self.treatments = treatments
+        }
+    }
+}
+
+extension AppConfigClientTypes {
+
+    /// The result of an experiment run, including the executive summary and launch decision rationale.
+    public struct ExperimentRunResult: Swift.Sendable {
+        /// A summary of the experiment outcome and key findings.
+        public var executiveSummary: Swift.String?
+        /// Evidence against launching the treatment.
+        public var reasonsNotToLaunch: Swift.String?
+        /// Evidence in favor of launching the winning treatment.
+        public var reasonsToLaunch: Swift.String?
+
+        public init(
+            executiveSummary: Swift.String? = nil,
+            reasonsNotToLaunch: Swift.String? = nil,
+            reasonsToLaunch: Swift.String? = nil
+        ) {
+            self.executiveSummary = executiveSummary
+            self.reasonsNotToLaunch = reasonsNotToLaunch
+            self.reasonsToLaunch = reasonsToLaunch
+        }
+    }
+}
+
+extension AppConfigClientTypes {
+
+    public enum ExperimentRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case done
+        case running
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExperimentRunStatus] {
+            return [
+                .done,
+                .running
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .done: return "DONE"
+            case .running: return "RUNNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppConfigClientTypes {
+
+    /// Treatment assignment overrides that assign specific entity IDs to treatments, bypassing random assignment.
+    public enum TreatmentOverrides: Swift.Sendable {
+        /// A map of entity IDs to treatment keys. Each entry assigns the specified entity to the specified treatment, bypassing random assignment.
+        case inline([Swift.String: Swift.String])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+/// Describes an experiment run, including its status, exposure settings, and treatment overrides.
+public struct GetExperimentRunOutput: Swift.Sendable {
+    /// The application ID.
+    public var applicationId: Swift.String?
+    /// A description of the experiment run.
+    public var description: Swift.String?
+    /// The date and time the experiment run ended, in ISO 8601 format.
+    public var endedAt: Foundation.Date?
+    /// The experiment definition ID.
+    public var experimentDefinitionId: Swift.String?
+    /// A snapshot of the experiment definition at the time the run was started.
+    public var experimentDefinitionSnapshot: AppConfigClientTypes.ExperimentDefinitionSnapshot?
+    /// The percentage of the target audience exposed to treatments.
+    public var exposurePercentage: Swift.Float?
+    /// The result of the experiment run, including the executive summary and launch decision rationale.
+    public var result: AppConfigClientTypes.ExperimentRunResult?
+    /// The experiment run number.
+    public var run: Swift.Int
+    /// The date and time the experiment run started, in ISO 8601 format.
+    public var startedAt: Foundation.Date?
+    /// The current status of the experiment run. Valid values: RUNNING, DONE.
+    public var status: AppConfigClientTypes.ExperimentRunStatus?
+    /// Treatment assignment overrides that assign specific entity IDs to treatments.
+    public var treatmentOverrides: AppConfigClientTypes.TreatmentOverrides?
+    /// The date and time the experiment run was last updated, in ISO 8601 format.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        endedAt: Foundation.Date? = nil,
+        experimentDefinitionId: Swift.String? = nil,
+        experimentDefinitionSnapshot: AppConfigClientTypes.ExperimentDefinitionSnapshot? = nil,
+        exposurePercentage: Swift.Float? = nil,
+        result: AppConfigClientTypes.ExperimentRunResult? = nil,
+        run: Swift.Int = 0,
+        startedAt: Foundation.Date? = nil,
+        status: AppConfigClientTypes.ExperimentRunStatus? = nil,
+        treatmentOverrides: AppConfigClientTypes.TreatmentOverrides? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.applicationId = applicationId
+        self.description = description
+        self.endedAt = endedAt
+        self.experimentDefinitionId = experimentDefinitionId
+        self.experimentDefinitionSnapshot = experimentDefinitionSnapshot
+        self.exposurePercentage = exposurePercentage
+        self.result = result
+        self.run = run
+        self.startedAt = startedAt
+        self.status = status
+        self.treatmentOverrides = treatmentOverrides
+        self.updatedAt = updatedAt
+    }
+}
+
 public struct GetExtensionInput: Swift.Sendable {
     /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
     /// This member is required.
@@ -1923,7 +2544,7 @@ public struct GetExtensionInput: Swift.Sendable {
 
     public init(
         extensionIdentifier: Swift.String? = nil,
-        versionNumber: Swift.Int? = 0
+        versionNumber: Swift.Int? = nil
     ) {
         self.extensionIdentifier = extensionIdentifier
         self.versionNumber = versionNumber
@@ -2022,7 +2643,7 @@ public struct GetHostedConfigurationVersionInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         configurationProfileId: Swift.String? = nil,
-        versionNumber: Swift.Int? = 0
+        versionNumber: Swift.Int? = nil
     ) {
         self.applicationId = applicationId
         self.configurationProfileId = configurationProfileId
@@ -2228,12 +2849,43 @@ public struct ListDeploymentsInput: Swift.Sendable {
 
 extension AppConfigClientTypes {
 
+    public enum DeploymentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case managed
+        case user
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentType] {
+            return [
+                .managed,
+                .user
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .managed: return "MANAGED"
+            case .user: return "USER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppConfigClientTypes {
+
     /// Information about the deployment.
     public struct DeploymentSummary: Swift.Sendable {
         /// Time the deployment completed.
         public var completedAt: Foundation.Date?
         /// The name of the configuration.
         public var configurationName: Swift.String?
+        /// The ID of the configuration profile that was deployed.
+        public var configurationProfileId: Swift.String?
         /// The version of the configuration.
         public var configurationVersion: Swift.String?
         /// Total amount of time the deployment lasted.
@@ -2252,12 +2904,15 @@ extension AppConfigClientTypes {
         public var startedAt: Foundation.Date?
         /// The state of the deployment.
         public var state: AppConfigClientTypes.DeploymentState?
+        /// The type of deployment.
+        public var type: AppConfigClientTypes.DeploymentType?
         /// A user-defined label for an AppConfig hosted configuration version.
         public var versionLabel: Swift.String?
 
         public init(
             completedAt: Foundation.Date? = nil,
             configurationName: Swift.String? = nil,
+            configurationProfileId: Swift.String? = nil,
             configurationVersion: Swift.String? = nil,
             deploymentDurationInMinutes: Swift.Int = 0,
             deploymentNumber: Swift.Int = 0,
@@ -2267,10 +2922,12 @@ extension AppConfigClientTypes {
             percentageComplete: Swift.Float? = nil,
             startedAt: Foundation.Date? = nil,
             state: AppConfigClientTypes.DeploymentState? = nil,
+            type: AppConfigClientTypes.DeploymentType? = nil,
             versionLabel: Swift.String? = nil
         ) {
             self.completedAt = completedAt
             self.configurationName = configurationName
+            self.configurationProfileId = configurationProfileId
             self.configurationVersion = configurationVersion
             self.deploymentDurationInMinutes = deploymentDurationInMinutes
             self.deploymentNumber = deploymentNumber
@@ -2280,6 +2937,7 @@ extension AppConfigClientTypes {
             self.percentageComplete = percentageComplete
             self.startedAt = startedAt
             self.state = state
+            self.type = type
             self.versionLabel = versionLabel
         }
     }
@@ -2441,6 +3099,308 @@ public struct ListEnvironmentsOutput: Swift.Sendable {
     }
 }
 
+public struct ListExperimentDefinitionsInput: Swift.Sendable {
+    /// The application ID or name to filter results.
+    public var applicationIdentifier: Swift.String?
+    /// The configuration profile ID or name to filter results.
+    public var configurationProfileIdentifier: Swift.String?
+    /// The environment ID or name to filter results.
+    public var environmentIdentifier: Swift.String?
+    /// The maximum number of items to return for this call.
+    public var maxResults: Swift.Int?
+    /// A token to start the list from a previously truncated response.
+    public var nextToken: Swift.String?
+    /// A filter for the experiment definition status.
+    public var status: AppConfigClientTypes.ExperimentDefinitionStatus?
+
+    public init(
+        applicationIdentifier: Swift.String? = nil,
+        configurationProfileIdentifier: Swift.String? = nil,
+        environmentIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: AppConfigClientTypes.ExperimentDefinitionStatus? = nil
+    ) {
+        self.applicationIdentifier = applicationIdentifier
+        self.configurationProfileIdentifier = configurationProfileIdentifier
+        self.environmentIdentifier = environmentIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+extension AppConfigClientTypes {
+
+    /// Summary information about an experiment definition.
+    public struct ExperimentDefinitionSummary: Swift.Sendable {
+        /// The application ID.
+        public var applicationId: Swift.String?
+        /// The configuration profile ID associated with the experiment.
+        public var configurationProfileId: Swift.String?
+        /// The date and time the experiment definition was created, in ISO 8601 format.
+        public var createdAt: Foundation.Date?
+        /// The environment ID where the experiment runs.
+        public var environmentId: Swift.String?
+        /// The key of the feature flag used by the experiment.
+        public var flagKey: Swift.String?
+        /// The hypothesis that the experiment is designed to validate.
+        public var hypothesis: Swift.String?
+        /// The experiment definition ID.
+        public var id: Swift.String?
+        /// The name of the experiment definition.
+        public var name: Swift.String?
+        /// The current status of the experiment definition.
+        public var status: AppConfigClientTypes.ExperimentDefinitionStatus?
+        /// The date and time the experiment definition was last updated, in ISO 8601 format.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            applicationId: Swift.String? = nil,
+            configurationProfileId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            environmentId: Swift.String? = nil,
+            flagKey: Swift.String? = nil,
+            hypothesis: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: AppConfigClientTypes.ExperimentDefinitionStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.applicationId = applicationId
+            self.configurationProfileId = configurationProfileId
+            self.createdAt = createdAt
+            self.environmentId = environmentId
+            self.flagKey = flagKey
+            self.hypothesis = hypothesis
+            self.id = id
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// The response for a list experiment definitions request.
+public struct ListExperimentDefinitionsOutput: Swift.Sendable {
+    /// The list of experiment definitions.
+    public var items: [AppConfigClientTypes.ExperimentDefinitionSummary]?
+    /// A token to use for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [AppConfigClientTypes.ExperimentDefinitionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListExperimentRunEventsInput: Swift.Sendable {
+    /// The application ID or name.
+    /// This member is required.
+    public var applicationIdentifier: Swift.String?
+    /// The experiment definition ID or name.
+    /// This member is required.
+    public var experimentDefinitionIdentifier: Swift.String?
+    /// The maximum number of items to return.
+    public var maxResults: Swift.Int?
+    /// A token to start the list from a previously truncated response.
+    public var nextToken: Swift.String?
+    /// The run number.
+    /// This member is required.
+    public var run: Swift.Int?
+
+    public init(
+        applicationIdentifier: Swift.String? = nil,
+        experimentDefinitionIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        run: Swift.Int? = nil
+    ) {
+        self.applicationIdentifier = applicationIdentifier
+        self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.run = run
+    }
+}
+
+extension AppConfigClientTypes {
+
+    public enum ExperimentRunEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exposureUpdated
+        case overridesUpdated
+        case runStarted
+        case runStopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExperimentRunEventType] {
+            return [
+                .exposureUpdated,
+                .overridesUpdated,
+                .runStarted,
+                .runStopped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exposureUpdated: return "EXPOSURE_UPDATED"
+            case .overridesUpdated: return "OVERRIDES_UPDATED"
+            case .runStarted: return "RUN_STARTED"
+            case .runStopped: return "RUN_STOPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppConfigClientTypes {
+
+    /// Describes an event that occurred during an experiment run.
+    public struct ExperimentRunEvent: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the deployment associated with this event.
+        public var associatedDeployment: Swift.String?
+        /// A description of the event.
+        public var description: Swift.String?
+        /// The type of event. Valid values: RUN_STARTED, EXPOSURE_UPDATED, OVERRIDES_UPDATED, RUN_STOPPED.
+        public var eventType: AppConfigClientTypes.ExperimentRunEventType?
+        /// The exposure percentage at the time of the event.
+        public var exposurePercentage: Swift.Float?
+        /// The date and time the event occurred, in ISO 8601 format.
+        public var occurredAt: Foundation.Date?
+        /// The treatment overrides at the time of the event.
+        public var treatmentOverrides: AppConfigClientTypes.TreatmentOverrides?
+        /// The principal that triggered the event.
+        public var triggeredBy: AppConfigClientTypes.TriggeredBy?
+
+        public init(
+            associatedDeployment: Swift.String? = nil,
+            description: Swift.String? = nil,
+            eventType: AppConfigClientTypes.ExperimentRunEventType? = nil,
+            exposurePercentage: Swift.Float? = nil,
+            occurredAt: Foundation.Date? = nil,
+            treatmentOverrides: AppConfigClientTypes.TreatmentOverrides? = nil,
+            triggeredBy: AppConfigClientTypes.TriggeredBy? = nil
+        ) {
+            self.associatedDeployment = associatedDeployment
+            self.description = description
+            self.eventType = eventType
+            self.exposurePercentage = exposurePercentage
+            self.occurredAt = occurredAt
+            self.treatmentOverrides = treatmentOverrides
+            self.triggeredBy = triggeredBy
+        }
+    }
+}
+
+/// The response for a list experiment run events request.
+public struct ListExperimentRunEventsOutput: Swift.Sendable {
+    /// The list of experiment run events.
+    public var items: [AppConfigClientTypes.ExperimentRunEvent]?
+    /// A token to use for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [AppConfigClientTypes.ExperimentRunEvent]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListExperimentRunsInput: Swift.Sendable {
+    /// The application ID or name.
+    /// This member is required.
+    public var applicationIdentifier: Swift.String?
+    /// The experiment definition ID or name.
+    /// This member is required.
+    public var experimentDefinitionIdentifier: Swift.String?
+    /// The maximum number of items to return.
+    public var maxResults: Swift.Int?
+    /// A token to start the list from a previously truncated response.
+    public var nextToken: Swift.String?
+    /// A filter for the experiment run status.
+    public var status: AppConfigClientTypes.ExperimentRunStatus?
+
+    public init(
+        applicationIdentifier: Swift.String? = nil,
+        experimentDefinitionIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: AppConfigClientTypes.ExperimentRunStatus? = nil
+    ) {
+        self.applicationIdentifier = applicationIdentifier
+        self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+extension AppConfigClientTypes {
+
+    /// Summary information about an experiment run.
+    public struct ExperimentRunSummary: Swift.Sendable {
+        /// A description of the experiment run.
+        public var description: Swift.String?
+        /// The date and time the experiment run ended, in ISO 8601 format.
+        public var endedAt: Foundation.Date?
+        /// The experiment definition ID.
+        public var experimentDefinitionId: Swift.String?
+        /// The experiment run number.
+        public var run: Swift.Int
+        /// The date and time the experiment run started, in ISO 8601 format.
+        public var startedAt: Foundation.Date?
+        /// The current status of the experiment run.
+        public var status: AppConfigClientTypes.ExperimentRunStatus?
+        /// The date and time the experiment run was last updated, in ISO 8601 format.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            description: Swift.String? = nil,
+            endedAt: Foundation.Date? = nil,
+            experimentDefinitionId: Swift.String? = nil,
+            run: Swift.Int = 0,
+            startedAt: Foundation.Date? = nil,
+            status: AppConfigClientTypes.ExperimentRunStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.description = description
+            self.endedAt = endedAt
+            self.experimentDefinitionId = experimentDefinitionId
+            self.run = run
+            self.startedAt = startedAt
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// The response for a list experiment runs request.
+public struct ListExperimentRunsOutput: Swift.Sendable {
+    /// The list of experiment runs.
+    public var items: [AppConfigClientTypes.ExperimentRunSummary]?
+    /// A token to use for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [AppConfigClientTypes.ExperimentRunSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListExtensionAssociationsInput: Swift.Sendable {
     /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
     public var extensionIdentifier: Swift.String?
@@ -2455,7 +3415,7 @@ public struct ListExtensionAssociationsInput: Swift.Sendable {
 
     public init(
         extensionIdentifier: Swift.String? = nil,
-        extensionVersionNumber: Swift.Int? = 0,
+        extensionVersionNumber: Swift.Int? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil
@@ -2699,6 +3659,8 @@ public struct StartDeploymentInput: Swift.Sendable {
     public var environmentId: Swift.String?
     /// The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses this ID to encrypt the configuration data using a customer managed key.
     public var kmsKeyIdentifier: Swift.String?
+    /// The number of the latest deployment. Use this value to ensure that the deployment starts from the expected state and to prevent conflicting updates.
+    public var latestDeploymentNumber: Swift.Int?
     /// Metadata to assign to the deployment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
     public var tags: [Swift.String: Swift.String]?
 
@@ -2711,6 +3673,7 @@ public struct StartDeploymentInput: Swift.Sendable {
         dynamicExtensionParameters: [Swift.String: Swift.String]? = nil,
         environmentId: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
+        latestDeploymentNumber: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.applicationId = applicationId
@@ -2721,13 +3684,14 @@ public struct StartDeploymentInput: Swift.Sendable {
         self.dynamicExtensionParameters = dynamicExtensionParameters
         self.environmentId = environmentId
         self.kmsKeyIdentifier = kmsKeyIdentifier
+        self.latestDeploymentNumber = latestDeploymentNumber
         self.tags = tags
     }
 }
 
 extension StartDeploymentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartDeploymentInput(applicationId: \(Swift.String(describing: applicationId)), configurationProfileId: \(Swift.String(describing: configurationProfileId)), configurationVersion: \(Swift.String(describing: configurationVersion)), deploymentStrategyId: \(Swift.String(describing: deploymentStrategyId)), description: \(Swift.String(describing: description)), environmentId: \(Swift.String(describing: environmentId)), kmsKeyIdentifier: \(Swift.String(describing: kmsKeyIdentifier)), tags: \(Swift.String(describing: tags)), dynamicExtensionParameters: \"CONTENT_REDACTED\")"}
+        "StartDeploymentInput(applicationId: \(Swift.String(describing: applicationId)), configurationProfileId: \(Swift.String(describing: configurationProfileId)), configurationVersion: \(Swift.String(describing: configurationVersion)), deploymentStrategyId: \(Swift.String(describing: deploymentStrategyId)), description: \(Swift.String(describing: description)), environmentId: \(Swift.String(describing: environmentId)), kmsKeyIdentifier: \(Swift.String(describing: kmsKeyIdentifier)), latestDeploymentNumber: \(Swift.String(describing: latestDeploymentNumber)), tags: \(Swift.String(describing: tags)), dynamicExtensionParameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartDeploymentOutput: Swift.Sendable {
@@ -2825,6 +3789,123 @@ public struct StartDeploymentOutput: Swift.Sendable {
     }
 }
 
+extension AppConfigClientTypes {
+
+    /// Optional deployment parameters for an experiment run, including extension parameters and tags.
+    public struct DeploymentParameters: Swift.Sendable {
+        /// A map of extension parameters for the deployment.
+        public var dynamicExtensionParameters: [Swift.String: Swift.String]?
+        /// The tags to assign to the deployment.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            dynamicExtensionParameters: [Swift.String: Swift.String]? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.dynamicExtensionParameters = dynamicExtensionParameters
+            self.tags = tags
+        }
+    }
+}
+
+extension AppConfigClientTypes.DeploymentParameters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DeploymentParameters(tags: \(Swift.String(describing: tags)), dynamicExtensionParameters: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartExperimentRunInput: Swift.Sendable {
+    /// The application ID or name.
+    /// This member is required.
+    public var applicationIdentifier: Swift.String?
+    /// Optional deployment parameters including a KMS key for encryption.
+    public var deploymentParameters: AppConfigClientTypes.DeploymentParameters?
+    /// A description of this experiment run.
+    public var description: Swift.String?
+    /// The experiment definition ID or name.
+    /// This member is required.
+    public var experimentDefinitionIdentifier: Swift.String?
+    /// The percentage of the target audience to expose to treatments. Set to 0 to validate the experiment before exposing production users.
+    public var exposurePercentage: Swift.Float?
+    /// The tags to assign to the experiment run.
+    public var tags: [Swift.String: Swift.String]?
+    /// Treatment assignment overrides that assign specific entity IDs to treatments directly, bypassing random assignment.
+    public var treatmentOverrides: AppConfigClientTypes.TreatmentOverrides?
+
+    public init(
+        applicationIdentifier: Swift.String? = nil,
+        deploymentParameters: AppConfigClientTypes.DeploymentParameters? = nil,
+        description: Swift.String? = nil,
+        experimentDefinitionIdentifier: Swift.String? = nil,
+        exposurePercentage: Swift.Float? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        treatmentOverrides: AppConfigClientTypes.TreatmentOverrides? = nil
+    ) {
+        self.applicationIdentifier = applicationIdentifier
+        self.deploymentParameters = deploymentParameters
+        self.description = description
+        self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+        self.exposurePercentage = exposurePercentage
+        self.tags = tags
+        self.treatmentOverrides = treatmentOverrides
+    }
+}
+
+/// Describes an experiment run, including its status, exposure settings, and treatment overrides.
+public struct StartExperimentRunOutput: Swift.Sendable {
+    /// The application ID.
+    public var applicationId: Swift.String?
+    /// A description of the experiment run.
+    public var description: Swift.String?
+    /// The date and time the experiment run ended, in ISO 8601 format.
+    public var endedAt: Foundation.Date?
+    /// The experiment definition ID.
+    public var experimentDefinitionId: Swift.String?
+    /// A snapshot of the experiment definition at the time the run was started.
+    public var experimentDefinitionSnapshot: AppConfigClientTypes.ExperimentDefinitionSnapshot?
+    /// The percentage of the target audience exposed to treatments.
+    public var exposurePercentage: Swift.Float?
+    /// The result of the experiment run, including the executive summary and launch decision rationale.
+    public var result: AppConfigClientTypes.ExperimentRunResult?
+    /// The experiment run number.
+    public var run: Swift.Int
+    /// The date and time the experiment run started, in ISO 8601 format.
+    public var startedAt: Foundation.Date?
+    /// The current status of the experiment run. Valid values: RUNNING, DONE.
+    public var status: AppConfigClientTypes.ExperimentRunStatus?
+    /// Treatment assignment overrides that assign specific entity IDs to treatments.
+    public var treatmentOverrides: AppConfigClientTypes.TreatmentOverrides?
+    /// The date and time the experiment run was last updated, in ISO 8601 format.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        endedAt: Foundation.Date? = nil,
+        experimentDefinitionId: Swift.String? = nil,
+        experimentDefinitionSnapshot: AppConfigClientTypes.ExperimentDefinitionSnapshot? = nil,
+        exposurePercentage: Swift.Float? = nil,
+        result: AppConfigClientTypes.ExperimentRunResult? = nil,
+        run: Swift.Int = 0,
+        startedAt: Foundation.Date? = nil,
+        status: AppConfigClientTypes.ExperimentRunStatus? = nil,
+        treatmentOverrides: AppConfigClientTypes.TreatmentOverrides? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.applicationId = applicationId
+        self.description = description
+        self.endedAt = endedAt
+        self.experimentDefinitionId = experimentDefinitionId
+        self.experimentDefinitionSnapshot = experimentDefinitionSnapshot
+        self.exposurePercentage = exposurePercentage
+        self.result = result
+        self.run = run
+        self.startedAt = startedAt
+        self.status = status
+        self.treatmentOverrides = treatmentOverrides
+        self.updatedAt = updatedAt
+    }
+}
+
 public struct StopDeploymentInput: Swift.Sendable {
     /// A Boolean that enables AppConfig to rollback a COMPLETED deployment to the previous configuration version. This action moves the deployment to a status of REVERTED.
     public var allowRevert: Swift.Bool?
@@ -2839,9 +3920,9 @@ public struct StopDeploymentInput: Swift.Sendable {
     public var environmentId: Swift.String?
 
     public init(
-        allowRevert: Swift.Bool? = false,
+        allowRevert: Swift.Bool? = nil,
         applicationId: Swift.String? = nil,
-        deploymentNumber: Swift.Int? = 0,
+        deploymentNumber: Swift.Int? = nil,
         environmentId: Swift.String? = nil
     ) {
         self.allowRevert = allowRevert
@@ -2946,6 +4027,92 @@ public struct StopDeploymentOutput: Swift.Sendable {
     }
 }
 
+public struct StopExperimentRunInput: Swift.Sendable {
+    /// The application ID or name.
+    /// This member is required.
+    public var applicationIdentifier: Swift.String?
+    /// Optional deployment parameters for the stop operation.
+    public var deploymentParameters: AppConfigClientTypes.DeploymentParameters?
+    /// The experiment definition ID or name.
+    /// This member is required.
+    public var experimentDefinitionIdentifier: Swift.String?
+    /// The result of the experiment run, including an executive summary and reasons for or against launching.
+    public var result: AppConfigClientTypes.ExperimentRunResult?
+    /// The run number to stop.
+    /// This member is required.
+    public var run: Swift.Int?
+
+    public init(
+        applicationIdentifier: Swift.String? = nil,
+        deploymentParameters: AppConfigClientTypes.DeploymentParameters? = nil,
+        experimentDefinitionIdentifier: Swift.String? = nil,
+        result: AppConfigClientTypes.ExperimentRunResult? = nil,
+        run: Swift.Int? = nil
+    ) {
+        self.applicationIdentifier = applicationIdentifier
+        self.deploymentParameters = deploymentParameters
+        self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+        self.result = result
+        self.run = run
+    }
+}
+
+/// Describes an experiment run, including its status, exposure settings, and treatment overrides.
+public struct StopExperimentRunOutput: Swift.Sendable {
+    /// The application ID.
+    public var applicationId: Swift.String?
+    /// A description of the experiment run.
+    public var description: Swift.String?
+    /// The date and time the experiment run ended, in ISO 8601 format.
+    public var endedAt: Foundation.Date?
+    /// The experiment definition ID.
+    public var experimentDefinitionId: Swift.String?
+    /// A snapshot of the experiment definition at the time the run was started.
+    public var experimentDefinitionSnapshot: AppConfigClientTypes.ExperimentDefinitionSnapshot?
+    /// The percentage of the target audience exposed to treatments.
+    public var exposurePercentage: Swift.Float?
+    /// The result of the experiment run, including the executive summary and launch decision rationale.
+    public var result: AppConfigClientTypes.ExperimentRunResult?
+    /// The experiment run number.
+    public var run: Swift.Int
+    /// The date and time the experiment run started, in ISO 8601 format.
+    public var startedAt: Foundation.Date?
+    /// The current status of the experiment run. Valid values: RUNNING, DONE.
+    public var status: AppConfigClientTypes.ExperimentRunStatus?
+    /// Treatment assignment overrides that assign specific entity IDs to treatments.
+    public var treatmentOverrides: AppConfigClientTypes.TreatmentOverrides?
+    /// The date and time the experiment run was last updated, in ISO 8601 format.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        endedAt: Foundation.Date? = nil,
+        experimentDefinitionId: Swift.String? = nil,
+        experimentDefinitionSnapshot: AppConfigClientTypes.ExperimentDefinitionSnapshot? = nil,
+        exposurePercentage: Swift.Float? = nil,
+        result: AppConfigClientTypes.ExperimentRunResult? = nil,
+        run: Swift.Int = 0,
+        startedAt: Foundation.Date? = nil,
+        status: AppConfigClientTypes.ExperimentRunStatus? = nil,
+        treatmentOverrides: AppConfigClientTypes.TreatmentOverrides? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.applicationId = applicationId
+        self.description = description
+        self.endedAt = endedAt
+        self.experimentDefinitionId = experimentDefinitionId
+        self.experimentDefinitionSnapshot = experimentDefinitionSnapshot
+        self.exposurePercentage = exposurePercentage
+        self.result = result
+        self.run = run
+        self.startedAt = startedAt
+        self.status = status
+        self.treatmentOverrides = treatmentOverrides
+        self.updatedAt = updatedAt
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The ARN of the resource for which to retrieve tags.
     /// This member is required.
@@ -2983,22 +4150,30 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UpdateAccountSettingsInput: Swift.Sendable {
     /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. The default interval for ProtectionPeriodInMinutes is 60.
     public var deletionProtection: AppConfigClientTypes.DeletionProtectionSettings?
+    /// Configuration for vended metrics in the account.
+    public var vendedMetrics: AppConfigClientTypes.VendedMetricsSettings?
 
     public init(
-        deletionProtection: AppConfigClientTypes.DeletionProtectionSettings? = nil
+        deletionProtection: AppConfigClientTypes.DeletionProtectionSettings? = nil,
+        vendedMetrics: AppConfigClientTypes.VendedMetricsSettings? = nil
     ) {
         self.deletionProtection = deletionProtection
+        self.vendedMetrics = vendedMetrics
     }
 }
 
 public struct UpdateAccountSettingsOutput: Swift.Sendable {
     /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. The default interval for ProtectionPeriodInMinutes is 60.
     public var deletionProtection: AppConfigClientTypes.DeletionProtectionSettings?
+    /// Configuration for vended metrics in the account.
+    public var vendedMetrics: AppConfigClientTypes.VendedMetricsSettings?
 
     public init(
-        deletionProtection: AppConfigClientTypes.DeletionProtectionSettings? = nil
+        deletionProtection: AppConfigClientTypes.DeletionProtectionSettings? = nil,
+        vendedMetrics: AppConfigClientTypes.VendedMetricsSettings? = nil
     ) {
         self.deletionProtection = deletionProtection
+        self.vendedMetrics = vendedMetrics
     }
 }
 
@@ -3145,10 +4320,10 @@ public struct UpdateDeploymentStrategyInput: Swift.Sendable {
     public var growthType: AppConfigClientTypes.GrowthType?
 
     public init(
-        deploymentDurationInMinutes: Swift.Int? = 0,
+        deploymentDurationInMinutes: Swift.Int? = nil,
         deploymentStrategyId: Swift.String? = nil,
         description: Swift.String? = nil,
-        finalBakeTimeInMinutes: Swift.Int? = 0,
+        finalBakeTimeInMinutes: Swift.Int? = nil,
         growthFactor: Swift.Float? = nil,
         growthType: AppConfigClientTypes.GrowthType? = nil
     ) {
@@ -3260,6 +4435,213 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateExperimentDefinitionInput: Swift.Sendable {
+    /// The application ID or name.
+    /// This member is required.
+    public var applicationIdentifier: Swift.String?
+    /// An updated audience description.
+    public var audienceDescription: Swift.String?
+    /// An updated audience rule.
+    public var audienceRule: Swift.String?
+    /// An updated control treatment.
+    public var control: AppConfigClientTypes.TreatmentInput?
+    /// The experiment definition ID or name.
+    /// This member is required.
+    public var experimentDefinitionIdentifier: Swift.String?
+    /// An updated hypothesis.
+    public var hypothesis: Swift.String?
+    /// Updated launch criteria.
+    public var launchCriteria: Swift.String?
+    /// An updated list of treatments.
+    public var treatments: [AppConfigClientTypes.TreatmentInput]?
+
+    public init(
+        applicationIdentifier: Swift.String? = nil,
+        audienceDescription: Swift.String? = nil,
+        audienceRule: Swift.String? = nil,
+        control: AppConfigClientTypes.TreatmentInput? = nil,
+        experimentDefinitionIdentifier: Swift.String? = nil,
+        hypothesis: Swift.String? = nil,
+        launchCriteria: Swift.String? = nil,
+        treatments: [AppConfigClientTypes.TreatmentInput]? = nil
+    ) {
+        self.applicationIdentifier = applicationIdentifier
+        self.audienceDescription = audienceDescription
+        self.audienceRule = audienceRule
+        self.control = control
+        self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+        self.hypothesis = hypothesis
+        self.launchCriteria = launchCriteria
+        self.treatments = treatments
+    }
+}
+
+/// Describes an experiment definition, including the target audience, feature flag, treatments, and current status.
+public struct UpdateExperimentDefinitionOutput: Swift.Sendable {
+    /// The application ID.
+    public var applicationId: Swift.String?
+    /// A description of the intended audience for the experiment.
+    public var audienceDescription: Swift.String?
+    /// The rule that defines which users are eligible to be assigned to treatments.
+    public var audienceRule: Swift.String?
+    /// The configuration profile ID associated with the experiment.
+    public var configurationProfileId: Swift.String?
+    /// The control treatment used as the baseline for comparison.
+    public var control: AppConfigClientTypes.Treatment?
+    /// The date and time the experiment definition was created, in ISO 8601 format.
+    public var createdAt: Foundation.Date?
+    /// The environment ID where the experiment runs.
+    public var environmentId: Swift.String?
+    /// The key of the feature flag used by the experiment.
+    public var flagKey: Swift.String?
+    /// The hypothesis that the experiment is designed to validate.
+    public var hypothesis: Swift.String?
+    /// The experiment definition ID.
+    public var id: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt experiment data.
+    public var kmsKeyIdentifier: Swift.String?
+    /// The conditions under which the winning treatment should be launched.
+    public var launchCriteria: Swift.String?
+    /// The name of the experiment definition.
+    public var name: Swift.String?
+    /// The current status of the experiment definition. Valid values: ACTIVE, IDLE, ARCHIVED.
+    public var status: AppConfigClientTypes.ExperimentDefinitionStatus?
+    /// The list of treatments defined for the experiment.
+    public var treatments: [AppConfigClientTypes.Treatment]?
+    /// The date and time the experiment definition was last updated, in ISO 8601 format.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        audienceDescription: Swift.String? = nil,
+        audienceRule: Swift.String? = nil,
+        configurationProfileId: Swift.String? = nil,
+        control: AppConfigClientTypes.Treatment? = nil,
+        createdAt: Foundation.Date? = nil,
+        environmentId: Swift.String? = nil,
+        flagKey: Swift.String? = nil,
+        hypothesis: Swift.String? = nil,
+        id: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
+        launchCriteria: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: AppConfigClientTypes.ExperimentDefinitionStatus? = nil,
+        treatments: [AppConfigClientTypes.Treatment]? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.applicationId = applicationId
+        self.audienceDescription = audienceDescription
+        self.audienceRule = audienceRule
+        self.configurationProfileId = configurationProfileId
+        self.control = control
+        self.createdAt = createdAt
+        self.environmentId = environmentId
+        self.flagKey = flagKey
+        self.hypothesis = hypothesis
+        self.id = id
+        self.kmsKeyIdentifier = kmsKeyIdentifier
+        self.launchCriteria = launchCriteria
+        self.name = name
+        self.status = status
+        self.treatments = treatments
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct UpdateExperimentRunInput: Swift.Sendable {
+    /// The application ID or name.
+    /// This member is required.
+    public var applicationIdentifier: Swift.String?
+    /// Updated deployment parameters.
+    public var deploymentParameters: AppConfigClientTypes.DeploymentParameters?
+    /// An updated description for the experiment run.
+    public var description: Swift.String?
+    /// The experiment definition ID or name.
+    /// This member is required.
+    public var experimentDefinitionIdentifier: Swift.String?
+    /// The new exposure percentage. This value can only be increased from the current setting.
+    public var exposurePercentage: Swift.Float?
+    /// The run number to update.
+    /// This member is required.
+    public var run: Swift.Int?
+    /// Updated treatment assignment overrides.
+    public var treatmentOverrides: AppConfigClientTypes.TreatmentOverrides?
+
+    public init(
+        applicationIdentifier: Swift.String? = nil,
+        deploymentParameters: AppConfigClientTypes.DeploymentParameters? = nil,
+        description: Swift.String? = nil,
+        experimentDefinitionIdentifier: Swift.String? = nil,
+        exposurePercentage: Swift.Float? = nil,
+        run: Swift.Int? = nil,
+        treatmentOverrides: AppConfigClientTypes.TreatmentOverrides? = nil
+    ) {
+        self.applicationIdentifier = applicationIdentifier
+        self.deploymentParameters = deploymentParameters
+        self.description = description
+        self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+        self.exposurePercentage = exposurePercentage
+        self.run = run
+        self.treatmentOverrides = treatmentOverrides
+    }
+}
+
+/// Describes an experiment run, including its status, exposure settings, and treatment overrides.
+public struct UpdateExperimentRunOutput: Swift.Sendable {
+    /// The application ID.
+    public var applicationId: Swift.String?
+    /// A description of the experiment run.
+    public var description: Swift.String?
+    /// The date and time the experiment run ended, in ISO 8601 format.
+    public var endedAt: Foundation.Date?
+    /// The experiment definition ID.
+    public var experimentDefinitionId: Swift.String?
+    /// A snapshot of the experiment definition at the time the run was started.
+    public var experimentDefinitionSnapshot: AppConfigClientTypes.ExperimentDefinitionSnapshot?
+    /// The percentage of the target audience exposed to treatments.
+    public var exposurePercentage: Swift.Float?
+    /// The result of the experiment run, including the executive summary and launch decision rationale.
+    public var result: AppConfigClientTypes.ExperimentRunResult?
+    /// The experiment run number.
+    public var run: Swift.Int
+    /// The date and time the experiment run started, in ISO 8601 format.
+    public var startedAt: Foundation.Date?
+    /// The current status of the experiment run. Valid values: RUNNING, DONE.
+    public var status: AppConfigClientTypes.ExperimentRunStatus?
+    /// Treatment assignment overrides that assign specific entity IDs to treatments.
+    public var treatmentOverrides: AppConfigClientTypes.TreatmentOverrides?
+    /// The date and time the experiment run was last updated, in ISO 8601 format.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        endedAt: Foundation.Date? = nil,
+        experimentDefinitionId: Swift.String? = nil,
+        experimentDefinitionSnapshot: AppConfigClientTypes.ExperimentDefinitionSnapshot? = nil,
+        exposurePercentage: Swift.Float? = nil,
+        result: AppConfigClientTypes.ExperimentRunResult? = nil,
+        run: Swift.Int = 0,
+        startedAt: Foundation.Date? = nil,
+        status: AppConfigClientTypes.ExperimentRunStatus? = nil,
+        treatmentOverrides: AppConfigClientTypes.TreatmentOverrides? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.applicationId = applicationId
+        self.description = description
+        self.endedAt = endedAt
+        self.experimentDefinitionId = experimentDefinitionId
+        self.experimentDefinitionSnapshot = experimentDefinitionSnapshot
+        self.exposurePercentage = exposurePercentage
+        self.result = result
+        self.run = run
+        self.startedAt = startedAt
+        self.status = status
+        self.treatmentOverrides = treatmentOverrides
+        self.updatedAt = updatedAt
+    }
+}
+
 public struct UpdateExtensionInput: Swift.Sendable {
     /// The actions defined in the extension.
     public var actions: [Swift.String: [AppConfigClientTypes.Action]]?
@@ -3278,7 +4660,7 @@ public struct UpdateExtensionInput: Swift.Sendable {
         description: Swift.String? = nil,
         extensionIdentifier: Swift.String? = nil,
         parameters: [Swift.String: AppConfigClientTypes.Parameter]? = nil,
-        versionNumber: Swift.Int? = 0
+        versionNumber: Swift.Int? = nil
     ) {
         self.actions = actions
         self.description = description
@@ -3426,6 +4808,16 @@ extension CreateEnvironmentInput {
     }
 }
 
+extension CreateExperimentDefinitionInput {
+
+    static func urlPathProvider(_ value: CreateExperimentDefinitionInput) -> Swift.String? {
+        guard let applicationIdentifier = value.applicationIdentifier else {
+            return nil
+        }
+        return "/applications/\(applicationIdentifier.urlPercentEncoding())/experimentdefinitions"
+    }
+}
+
 extension CreateExtensionInput {
 
     static func urlPathProvider(_ value: CreateExtensionInput) -> Swift.String? {
@@ -3547,6 +4939,31 @@ extension DeleteEnvironmentInput {
         var items = SmithyHTTPAPI.Headers()
         if let deletionProtectionCheck = value.deletionProtectionCheck {
             items.add(SmithyHTTPAPI.Header(name: "x-amzn-deletion-protection-check", value: Swift.String(deletionProtectionCheck.rawValue)))
+        }
+        return items
+    }
+}
+
+extension DeleteExperimentDefinitionInput {
+
+    static func urlPathProvider(_ value: DeleteExperimentDefinitionInput) -> Swift.String? {
+        guard let applicationIdentifier = value.applicationIdentifier else {
+            return nil
+        }
+        guard let experimentDefinitionIdentifier = value.experimentDefinitionIdentifier else {
+            return nil
+        }
+        return "/applications/\(applicationIdentifier.urlPercentEncoding())/experimentdefinitions/\(experimentDefinitionIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteExperimentDefinitionInput {
+
+    static func queryItemProvider(_ value: DeleteExperimentDefinitionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let deleteType = value.deleteType {
+            let deleteTypeQueryItem = Smithy.URIQueryItem(name: "delete_type".urlPercentEncoding(), value: Swift.String(deleteType.rawValue).urlPercentEncoding())
+            items.append(deleteTypeQueryItem)
         }
         return items
     }
@@ -3700,6 +5117,35 @@ extension GetEnvironmentInput {
             return nil
         }
         return "/applications/\(applicationId.urlPercentEncoding())/environments/\(environmentId.urlPercentEncoding())"
+    }
+}
+
+extension GetExperimentDefinitionInput {
+
+    static func urlPathProvider(_ value: GetExperimentDefinitionInput) -> Swift.String? {
+        guard let applicationIdentifier = value.applicationIdentifier else {
+            return nil
+        }
+        guard let experimentDefinitionIdentifier = value.experimentDefinitionIdentifier else {
+            return nil
+        }
+        return "/applications/\(applicationIdentifier.urlPercentEncoding())/experimentdefinitions/\(experimentDefinitionIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension GetExperimentRunInput {
+
+    static func urlPathProvider(_ value: GetExperimentRunInput) -> Swift.String? {
+        guard let applicationIdentifier = value.applicationIdentifier else {
+            return nil
+        }
+        guard let experimentDefinitionIdentifier = value.experimentDefinitionIdentifier else {
+            return nil
+        }
+        guard let run = value.run else {
+            return nil
+        }
+        return "/applications/\(applicationIdentifier.urlPercentEncoding())/experimentdefinitions/\(experimentDefinitionIdentifier.urlPercentEncoding())/experimentruns/\(run)"
     }
 }
 
@@ -3882,6 +5328,110 @@ extension ListEnvironmentsInput {
     }
 }
 
+extension ListExperimentDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListExperimentDefinitionsInput) -> Swift.String? {
+        return "/experimentdefinitions"
+    }
+}
+
+extension ListExperimentDefinitionsInput {
+
+    static func queryItemProvider(_ value: ListExperimentDefinitionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let configurationProfileIdentifier = value.configurationProfileIdentifier {
+            let configurationProfileIdentifierQueryItem = Smithy.URIQueryItem(name: "configuration_profile_identifier".urlPercentEncoding(), value: Swift.String(configurationProfileIdentifier).urlPercentEncoding())
+            items.append(configurationProfileIdentifierQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        if let environmentIdentifier = value.environmentIdentifier {
+            let environmentIdentifierQueryItem = Smithy.URIQueryItem(name: "environment_identifier".urlPercentEncoding(), value: Swift.String(environmentIdentifier).urlPercentEncoding())
+            items.append(environmentIdentifierQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let applicationIdentifier = value.applicationIdentifier {
+            let applicationIdentifierQueryItem = Smithy.URIQueryItem(name: "application_identifier".urlPercentEncoding(), value: Swift.String(applicationIdentifier).urlPercentEncoding())
+            items.append(applicationIdentifierQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListExperimentRunEventsInput {
+
+    static func urlPathProvider(_ value: ListExperimentRunEventsInput) -> Swift.String? {
+        guard let applicationIdentifier = value.applicationIdentifier else {
+            return nil
+        }
+        guard let experimentDefinitionIdentifier = value.experimentDefinitionIdentifier else {
+            return nil
+        }
+        guard let run = value.run else {
+            return nil
+        }
+        return "/applications/\(applicationIdentifier.urlPercentEncoding())/experimentdefinitions/\(experimentDefinitionIdentifier.urlPercentEncoding())/experimentruns/\(run)/events"
+    }
+}
+
+extension ListExperimentRunEventsInput {
+
+    static func queryItemProvider(_ value: ListExperimentRunEventsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListExperimentRunsInput {
+
+    static func urlPathProvider(_ value: ListExperimentRunsInput) -> Swift.String? {
+        guard let applicationIdentifier = value.applicationIdentifier else {
+            return nil
+        }
+        guard let experimentDefinitionIdentifier = value.experimentDefinitionIdentifier else {
+            return nil
+        }
+        return "/applications/\(applicationIdentifier.urlPercentEncoding())/experimentdefinitions/\(experimentDefinitionIdentifier.urlPercentEncoding())/experimentruns"
+    }
+}
+
+extension ListExperimentRunsInput {
+
+    static func queryItemProvider(_ value: ListExperimentRunsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListExtensionAssociationsInput {
 
     static func urlPathProvider(_ value: ListExtensionAssociationsInput) -> Swift.String? {
@@ -4000,6 +5550,19 @@ extension StartDeploymentInput {
     }
 }
 
+extension StartExperimentRunInput {
+
+    static func urlPathProvider(_ value: StartExperimentRunInput) -> Swift.String? {
+        guard let applicationIdentifier = value.applicationIdentifier else {
+            return nil
+        }
+        guard let experimentDefinitionIdentifier = value.experimentDefinitionIdentifier else {
+            return nil
+        }
+        return "/applications/\(applicationIdentifier.urlPercentEncoding())/experimentdefinitions/\(experimentDefinitionIdentifier.urlPercentEncoding())/experimentruns"
+    }
+}
+
 extension StopDeploymentInput {
 
     static func urlPathProvider(_ value: StopDeploymentInput) -> Swift.String? {
@@ -4024,6 +5587,22 @@ extension StopDeploymentInput {
             items.add(SmithyHTTPAPI.Header(name: "Allow-Revert", value: Swift.String(allowRevert)))
         }
         return items
+    }
+}
+
+extension StopExperimentRunInput {
+
+    static func urlPathProvider(_ value: StopExperimentRunInput) -> Swift.String? {
+        guard let applicationIdentifier = value.applicationIdentifier else {
+            return nil
+        }
+        guard let experimentDefinitionIdentifier = value.experimentDefinitionIdentifier else {
+            return nil
+        }
+        guard let run = value.run else {
+            return nil
+        }
+        return "/applications/\(applicationIdentifier.urlPercentEncoding())/experimentdefinitions/\(experimentDefinitionIdentifier.urlPercentEncoding())/experimentruns/\(run)/stop"
     }
 }
 
@@ -4113,6 +5692,35 @@ extension UpdateEnvironmentInput {
             return nil
         }
         return "/applications/\(applicationId.urlPercentEncoding())/environments/\(environmentId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateExperimentDefinitionInput {
+
+    static func urlPathProvider(_ value: UpdateExperimentDefinitionInput) -> Swift.String? {
+        guard let applicationIdentifier = value.applicationIdentifier else {
+            return nil
+        }
+        guard let experimentDefinitionIdentifier = value.experimentDefinitionIdentifier else {
+            return nil
+        }
+        return "/applications/\(applicationIdentifier.urlPercentEncoding())/experimentdefinitions/\(experimentDefinitionIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension UpdateExperimentRunInput {
+
+    static func urlPathProvider(_ value: UpdateExperimentRunInput) -> Swift.String? {
+        guard let applicationIdentifier = value.applicationIdentifier else {
+            return nil
+        }
+        guard let experimentDefinitionIdentifier = value.experimentDefinitionIdentifier else {
+            return nil
+        }
+        guard let run = value.run else {
+            return nil
+        }
+        return "/applications/\(applicationIdentifier.urlPercentEncoding())/experimentdefinitions/\(experimentDefinitionIdentifier.urlPercentEncoding())/experimentruns/\(run)/update"
     }
 }
 
@@ -4214,6 +5822,24 @@ extension CreateEnvironmentInput {
     }
 }
 
+extension CreateExperimentDefinitionInput {
+
+    static func write(value: CreateExperimentDefinitionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AudienceDescription"].write(value.audienceDescription)
+        try writer["AudienceRule"].write(value.audienceRule)
+        try writer["ConfigurationProfileIdentifier"].write(value.configurationProfileIdentifier)
+        try writer["Control"].write(value.control, with: AppConfigClientTypes.TreatmentInput.write(value:to:))
+        try writer["EnvironmentIdentifier"].write(value.environmentIdentifier)
+        try writer["FlagKey"].write(value.flagKey)
+        try writer["Hypothesis"].write(value.hypothesis)
+        try writer["LaunchCriteria"].write(value.launchCriteria)
+        try writer["Name"].write(value.name)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Treatments"].writeList(value.treatments, memberWritingClosure: AppConfigClientTypes.TreatmentInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateExtensionInput {
 
     static func write(value: CreateExtensionInput?, to writer: SmithyJSON.Writer) throws {
@@ -4256,7 +5882,29 @@ extension StartDeploymentInput {
         try writer["Description"].write(value.description)
         try writer["DynamicExtensionParameters"].writeMap(value.dynamicExtensionParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["KmsKeyIdentifier"].write(value.kmsKeyIdentifier)
+        try writer["LatestDeploymentNumber"].write(value.latestDeploymentNumber)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension StartExperimentRunInput {
+
+    static func write(value: StartExperimentRunInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeploymentParameters"].write(value.deploymentParameters, with: AppConfigClientTypes.DeploymentParameters.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["ExposurePercentage"].write(value.exposurePercentage)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TreatmentOverrides"].write(value.treatmentOverrides, with: AppConfigClientTypes.TreatmentOverrides.write(value:to:))
+    }
+}
+
+extension StopExperimentRunInput {
+
+    static func write(value: StopExperimentRunInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeploymentParameters"].write(value.deploymentParameters, with: AppConfigClientTypes.DeploymentParameters.write(value:to:))
+        try writer["Result"].write(value.result, with: AppConfigClientTypes.ExperimentRunResult.write(value:to:))
     }
 }
 
@@ -4273,6 +5921,7 @@ extension UpdateAccountSettingsInput {
     static func write(value: UpdateAccountSettingsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DeletionProtection"].write(value.deletionProtection, with: AppConfigClientTypes.DeletionProtectionSettings.write(value:to:))
+        try writer["VendedMetrics"].write(value.vendedMetrics, with: AppConfigClientTypes.VendedMetricsSettings.write(value:to:))
     }
 }
 
@@ -4316,6 +5965,30 @@ extension UpdateEnvironmentInput {
         try writer["Description"].write(value.description)
         try writer["Monitors"].writeList(value.monitors, memberWritingClosure: AppConfigClientTypes.Monitor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
+    }
+}
+
+extension UpdateExperimentDefinitionInput {
+
+    static func write(value: UpdateExperimentDefinitionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AudienceDescription"].write(value.audienceDescription)
+        try writer["AudienceRule"].write(value.audienceRule)
+        try writer["Control"].write(value.control, with: AppConfigClientTypes.TreatmentInput.write(value:to:))
+        try writer["Hypothesis"].write(value.hypothesis)
+        try writer["LaunchCriteria"].write(value.launchCriteria)
+        try writer["Treatments"].writeList(value.treatments, memberWritingClosure: AppConfigClientTypes.TreatmentInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateExperimentRunInput {
+
+    static func write(value: UpdateExperimentRunInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeploymentParameters"].write(value.deploymentParameters, with: AppConfigClientTypes.DeploymentParameters.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["ExposurePercentage"].write(value.exposurePercentage)
+        try writer["TreatmentOverrides"].write(value.treatmentOverrides, with: AppConfigClientTypes.TreatmentOverrides.write(value:to:))
     }
 }
 
@@ -4405,6 +6078,33 @@ extension CreateEnvironmentOutput {
         value.monitors = try reader["Monitors"].readListIfPresent(memberReadingClosure: AppConfigClientTypes.Monitor.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["Name"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateExperimentDefinitionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateExperimentDefinitionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateExperimentDefinitionOutput()
+        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.audienceDescription = try reader["AudienceDescription"].readIfPresent()
+        value.audienceRule = try reader["AudienceRule"].readIfPresent()
+        value.configurationProfileId = try reader["ConfigurationProfileId"].readIfPresent()
+        value.control = try reader["Control"].readIfPresent(with: AppConfigClientTypes.Treatment.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.environmentId = try reader["EnvironmentId"].readIfPresent()
+        value.flagKey = try reader["FlagKey"].readIfPresent()
+        value.hypothesis = try reader["Hypothesis"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.kmsKeyIdentifier = try reader["KmsKeyIdentifier"].readIfPresent()
+        value.launchCriteria = try reader["LaunchCriteria"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.treatments = try reader["Treatments"].readListIfPresent(memberReadingClosure: AppConfigClientTypes.Treatment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -4509,6 +6209,13 @@ extension DeleteEnvironmentOutput {
     }
 }
 
+extension DeleteExperimentDefinitionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteExperimentDefinitionOutput {
+        return DeleteExperimentDefinitionOutput()
+    }
+}
+
 extension DeleteExtensionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteExtensionOutput {
@@ -4538,6 +6245,7 @@ extension GetAccountSettingsOutput {
         let reader = responseReader
         var value = GetAccountSettingsOutput()
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent(with: AppConfigClientTypes.DeletionProtectionSettings.read(from:))
+        value.vendedMetrics = try reader["VendedMetrics"].readIfPresent(with: AppConfigClientTypes.VendedMetricsSettings.read(from:))
         return value
     }
 }
@@ -4664,6 +6372,56 @@ extension GetEnvironmentOutput {
         value.monitors = try reader["Monitors"].readListIfPresent(memberReadingClosure: AppConfigClientTypes.Monitor.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["Name"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension GetExperimentDefinitionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetExperimentDefinitionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetExperimentDefinitionOutput()
+        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.audienceDescription = try reader["AudienceDescription"].readIfPresent()
+        value.audienceRule = try reader["AudienceRule"].readIfPresent()
+        value.configurationProfileId = try reader["ConfigurationProfileId"].readIfPresent()
+        value.control = try reader["Control"].readIfPresent(with: AppConfigClientTypes.Treatment.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.environmentId = try reader["EnvironmentId"].readIfPresent()
+        value.flagKey = try reader["FlagKey"].readIfPresent()
+        value.hypothesis = try reader["Hypothesis"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.kmsKeyIdentifier = try reader["KmsKeyIdentifier"].readIfPresent()
+        value.launchCriteria = try reader["LaunchCriteria"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.treatments = try reader["Treatments"].readListIfPresent(memberReadingClosure: AppConfigClientTypes.Treatment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension GetExperimentRunOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetExperimentRunOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetExperimentRunOutput()
+        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.experimentDefinitionId = try reader["ExperimentDefinitionId"].readIfPresent()
+        value.experimentDefinitionSnapshot = try reader["ExperimentDefinitionSnapshot"].readIfPresent(with: AppConfigClientTypes.ExperimentDefinitionSnapshot.read(from:))
+        value.exposurePercentage = try reader["ExposurePercentage"].readIfPresent()
+        value.result = try reader["Result"].readIfPresent(with: AppConfigClientTypes.ExperimentRunResult.read(from:))
+        value.run = try reader["Run"].readIfPresent() ?? 0
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["Status"].readIfPresent()
+        value.treatmentOverrides = try reader["TreatmentOverrides"].readIfPresent(with: AppConfigClientTypes.TreatmentOverrides.read(from:))
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -4805,6 +6563,45 @@ extension ListEnvironmentsOutput {
     }
 }
 
+extension ListExperimentDefinitionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListExperimentDefinitionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListExperimentDefinitionsOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: AppConfigClientTypes.ExperimentDefinitionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListExperimentRunEventsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListExperimentRunEventsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListExperimentRunEventsOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: AppConfigClientTypes.ExperimentRunEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListExperimentRunsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListExperimentRunsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListExperimentRunsOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: AppConfigClientTypes.ExperimentRunSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListExtensionAssociationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListExtensionAssociationsOutput {
@@ -4889,6 +6686,29 @@ extension StartDeploymentOutput {
     }
 }
 
+extension StartExperimentRunOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartExperimentRunOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartExperimentRunOutput()
+        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.experimentDefinitionId = try reader["ExperimentDefinitionId"].readIfPresent()
+        value.experimentDefinitionSnapshot = try reader["ExperimentDefinitionSnapshot"].readIfPresent(with: AppConfigClientTypes.ExperimentDefinitionSnapshot.read(from:))
+        value.exposurePercentage = try reader["ExposurePercentage"].readIfPresent()
+        value.result = try reader["Result"].readIfPresent(with: AppConfigClientTypes.ExperimentRunResult.read(from:))
+        value.run = try reader["Run"].readIfPresent() ?? 0
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["Status"].readIfPresent()
+        value.treatmentOverrides = try reader["TreatmentOverrides"].readIfPresent(with: AppConfigClientTypes.TreatmentOverrides.read(from:))
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension StopDeploymentOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopDeploymentOutput {
@@ -4922,6 +6742,29 @@ extension StopDeploymentOutput {
     }
 }
 
+extension StopExperimentRunOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopExperimentRunOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopExperimentRunOutput()
+        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.experimentDefinitionId = try reader["ExperimentDefinitionId"].readIfPresent()
+        value.experimentDefinitionSnapshot = try reader["ExperimentDefinitionSnapshot"].readIfPresent(with: AppConfigClientTypes.ExperimentDefinitionSnapshot.read(from:))
+        value.exposurePercentage = try reader["ExposurePercentage"].readIfPresent()
+        value.result = try reader["Result"].readIfPresent(with: AppConfigClientTypes.ExperimentRunResult.read(from:))
+        value.run = try reader["Run"].readIfPresent() ?? 0
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["Status"].readIfPresent()
+        value.treatmentOverrides = try reader["TreatmentOverrides"].readIfPresent(with: AppConfigClientTypes.TreatmentOverrides.read(from:))
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -4944,6 +6787,7 @@ extension UpdateAccountSettingsOutput {
         let reader = responseReader
         var value = UpdateAccountSettingsOutput()
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent(with: AppConfigClientTypes.DeletionProtectionSettings.read(from:))
+        value.vendedMetrics = try reader["VendedMetrics"].readIfPresent(with: AppConfigClientTypes.VendedMetricsSettings.read(from:))
         return value
     }
 }
@@ -5015,6 +6859,56 @@ extension UpdateEnvironmentOutput {
         value.monitors = try reader["Monitors"].readListIfPresent(memberReadingClosure: AppConfigClientTypes.Monitor.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["Name"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateExperimentDefinitionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateExperimentDefinitionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateExperimentDefinitionOutput()
+        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.audienceDescription = try reader["AudienceDescription"].readIfPresent()
+        value.audienceRule = try reader["AudienceRule"].readIfPresent()
+        value.configurationProfileId = try reader["ConfigurationProfileId"].readIfPresent()
+        value.control = try reader["Control"].readIfPresent(with: AppConfigClientTypes.Treatment.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.environmentId = try reader["EnvironmentId"].readIfPresent()
+        value.flagKey = try reader["FlagKey"].readIfPresent()
+        value.hypothesis = try reader["Hypothesis"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.kmsKeyIdentifier = try reader["KmsKeyIdentifier"].readIfPresent()
+        value.launchCriteria = try reader["LaunchCriteria"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.treatments = try reader["Treatments"].readListIfPresent(memberReadingClosure: AppConfigClientTypes.Treatment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension UpdateExperimentRunOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateExperimentRunOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateExperimentRunOutput()
+        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.experimentDefinitionId = try reader["ExperimentDefinitionId"].readIfPresent()
+        value.experimentDefinitionSnapshot = try reader["ExperimentDefinitionSnapshot"].readIfPresent(with: AppConfigClientTypes.ExperimentDefinitionSnapshot.read(from:))
+        value.exposurePercentage = try reader["ExposurePercentage"].readIfPresent()
+        value.result = try reader["Result"].readIfPresent(with: AppConfigClientTypes.ExperimentRunResult.read(from:))
+        value.run = try reader["Run"].readIfPresent() ?? 0
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["Status"].readIfPresent()
+        value.treatmentOverrides = try reader["TreatmentOverrides"].readIfPresent(with: AppConfigClientTypes.TreatmentOverrides.read(from:))
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -5127,6 +7021,24 @@ enum CreateEnvironmentOutputError {
     }
 }
 
+enum CreateExperimentDefinitionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateExtensionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5230,6 +7142,23 @@ enum DeleteDeploymentStrategyOutputError {
 }
 
 enum DeleteEnvironmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteExperimentDefinitionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5405,6 +7334,38 @@ enum GetEnvironmentOutputError {
     }
 }
 
+enum GetExperimentDefinitionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetExperimentRunOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetExtensionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5531,6 +7492,54 @@ enum ListEnvironmentsOutputError {
     }
 }
 
+enum ListExperimentDefinitionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListExperimentRunEventsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListExperimentRunsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListExtensionAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5610,7 +7619,40 @@ enum StartDeploymentOutputError {
     }
 }
 
+enum StartExperimentRunOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopDeploymentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopExperimentRunOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5730,6 +7772,40 @@ enum UpdateEnvironmentOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateExperimentDefinitionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateExperimentRunOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5932,6 +8008,46 @@ extension AppConfigClientTypes.AppliedExtension {
     }
 }
 
+extension AppConfigClientTypes.AttributeValue {
+
+    static func write(value: AppConfigClientTypes.AttributeValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .booleanvalue(booleanvalue):
+                try writer["BooleanValue"].write(booleanvalue)
+            case let .numberarray(numberarray):
+                try writer["NumberArray"].writeList(numberarray, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .numbervalue(numbervalue):
+                try writer["NumberValue"].write(numbervalue)
+            case let .stringarray(stringarray):
+                try writer["StringArray"].writeList(stringarray, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .stringvalue(stringvalue):
+                try writer["StringValue"].write(stringvalue)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.AttributeValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "StringValue":
+                return .stringvalue(try reader["StringValue"].read())
+            case "NumberValue":
+                return .numbervalue(try reader["NumberValue"].read())
+            case "BooleanValue":
+                return .booleanvalue(try reader["BooleanValue"].read())
+            case "StringArray":
+                return .stringarray(try reader["StringArray"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false))
+            case "NumberArray":
+                return .numberarray(try reader["NumberArray"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension AppConfigClientTypes.BadRequestDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.BadRequestDetails {
@@ -5992,6 +8108,15 @@ extension AppConfigClientTypes.DeploymentEvent {
     }
 }
 
+extension AppConfigClientTypes.DeploymentParameters {
+
+    static func write(value: AppConfigClientTypes.DeploymentParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DynamicExtensionParameters"].writeMap(value.dynamicExtensionParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension AppConfigClientTypes.DeploymentStrategy {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.DeploymentStrategy {
@@ -6015,6 +8140,7 @@ extension AppConfigClientTypes.DeploymentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppConfigClientTypes.DeploymentSummary()
         value.deploymentNumber = try reader["DeploymentNumber"].readIfPresent() ?? 0
+        value.configurationProfileId = try reader["ConfigurationProfileId"].readIfPresent()
         value.configurationName = try reader["ConfigurationName"].readIfPresent()
         value.configurationVersion = try reader["ConfigurationVersion"].readIfPresent()
         value.deploymentDurationInMinutes = try reader["DeploymentDurationInMinutes"].readIfPresent() ?? 0
@@ -6026,6 +8152,7 @@ extension AppConfigClientTypes.DeploymentSummary {
         value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.completedAt = try reader["CompletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.versionLabel = try reader["VersionLabel"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -6041,6 +8168,97 @@ extension AppConfigClientTypes.Environment {
         value.description = try reader["Description"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
         value.monitors = try reader["Monitors"].readListIfPresent(memberReadingClosure: AppConfigClientTypes.Monitor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AppConfigClientTypes.ExperimentDefinitionSnapshot {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.ExperimentDefinitionSnapshot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppConfigClientTypes.ExperimentDefinitionSnapshot()
+        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.hypothesis = try reader["Hypothesis"].readIfPresent()
+        value.configurationProfileId = try reader["ConfigurationProfileId"].readIfPresent()
+        value.environmentId = try reader["EnvironmentId"].readIfPresent()
+        value.flagKey = try reader["FlagKey"].readIfPresent()
+        value.audienceRule = try reader["AudienceRule"].readIfPresent()
+        value.audienceDescription = try reader["AudienceDescription"].readIfPresent()
+        value.launchCriteria = try reader["LaunchCriteria"].readIfPresent()
+        value.treatments = try reader["Treatments"].readListIfPresent(memberReadingClosure: AppConfigClientTypes.Treatment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.control = try reader["Control"].readIfPresent(with: AppConfigClientTypes.Treatment.read(from:))
+        return value
+    }
+}
+
+extension AppConfigClientTypes.ExperimentDefinitionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.ExperimentDefinitionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppConfigClientTypes.ExperimentDefinitionSummary()
+        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.hypothesis = try reader["Hypothesis"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.configurationProfileId = try reader["ConfigurationProfileId"].readIfPresent()
+        value.environmentId = try reader["EnvironmentId"].readIfPresent()
+        value.flagKey = try reader["FlagKey"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension AppConfigClientTypes.ExperimentRunEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.ExperimentRunEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppConfigClientTypes.ExperimentRunEvent()
+        value.description = try reader["Description"].readIfPresent()
+        value.associatedDeployment = try reader["AssociatedDeployment"].readIfPresent()
+        value.eventType = try reader["EventType"].readIfPresent()
+        value.occurredAt = try reader["OccurredAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.triggeredBy = try reader["TriggeredBy"].readIfPresent()
+        value.exposurePercentage = try reader["ExposurePercentage"].readIfPresent()
+        value.treatmentOverrides = try reader["TreatmentOverrides"].readIfPresent(with: AppConfigClientTypes.TreatmentOverrides.read(from:))
+        return value
+    }
+}
+
+extension AppConfigClientTypes.ExperimentRunResult {
+
+    static func write(value: AppConfigClientTypes.ExperimentRunResult?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExecutiveSummary"].write(value.executiveSummary)
+        try writer["ReasonsNotToLaunch"].write(value.reasonsNotToLaunch)
+        try writer["ReasonsToLaunch"].write(value.reasonsToLaunch)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.ExperimentRunResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppConfigClientTypes.ExperimentRunResult()
+        value.executiveSummary = try reader["ExecutiveSummary"].readIfPresent()
+        value.reasonsToLaunch = try reader["ReasonsToLaunch"].readIfPresent()
+        value.reasonsNotToLaunch = try reader["ReasonsNotToLaunch"].readIfPresent()
+        return value
+    }
+}
+
+extension AppConfigClientTypes.ExperimentRunSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.ExperimentRunSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppConfigClientTypes.ExperimentRunSummary()
+        value.experimentDefinitionId = try reader["ExperimentDefinitionId"].readIfPresent()
+        value.run = try reader["Run"].readIfPresent() ?? 0
+        value.description = try reader["Description"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -6067,6 +8285,23 @@ extension AppConfigClientTypes.ExtensionSummary {
         value.versionNumber = try reader["VersionNumber"].readIfPresent() ?? 0
         value.arn = try reader["Arn"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension AppConfigClientTypes.FlagValue {
+
+    static func write(value: AppConfigClientTypes.FlagValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeValues"].writeMap(value.attributeValues, valueWritingClosure: AppConfigClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.FlagValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppConfigClientTypes.FlagValue()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.attributeValues = try reader["AttributeValues"].readMapIfPresent(valueReadingClosure: AppConfigClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -6137,6 +8372,53 @@ extension AppConfigClientTypes.Parameter {
     }
 }
 
+extension AppConfigClientTypes.Treatment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.Treatment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppConfigClientTypes.Treatment()
+        value.key = try reader["Key"].readIfPresent()
+        value.weight = try reader["Weight"].readIfPresent() ?? 0
+        value.description = try reader["Description"].readIfPresent()
+        value.flagValue = try reader["FlagValue"].readIfPresent(with: AppConfigClientTypes.FlagValue.read(from:))
+        return value
+    }
+}
+
+extension AppConfigClientTypes.TreatmentInput {
+
+    static func write(value: AppConfigClientTypes.TreatmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["FlagValue"].write(value.flagValue, with: AppConfigClientTypes.FlagValue.write(value:to:))
+        try writer["Weight"].write(value.weight)
+    }
+}
+
+extension AppConfigClientTypes.TreatmentOverrides {
+
+    static func write(value: AppConfigClientTypes.TreatmentOverrides?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .inline(inline):
+                try writer["Inline"].writeMap(inline, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.TreatmentOverrides {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Inline":
+                return .inline(try reader["Inline"].readMap(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension AppConfigClientTypes.Validator {
 
     static func write(value: AppConfigClientTypes.Validator?, to writer: SmithyJSON.Writer) throws {
@@ -6150,6 +8432,21 @@ extension AppConfigClientTypes.Validator {
         var value = AppConfigClientTypes.Validator()
         value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.content = try reader["Content"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppConfigClientTypes.VendedMetricsSettings {
+
+    static func write(value: AppConfigClientTypes.VendedMetricsSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.VendedMetricsSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppConfigClientTypes.VendedMetricsSettings()
+        value.enabled = try reader["Enabled"].readIfPresent()
         return value
     }
 }

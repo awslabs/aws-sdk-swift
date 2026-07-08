@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 import software.amazon.smithy.gradle.tasks.ProtocolTestTask
-import software.amazon.smithy.gradle.tasks.SmithyBuild
 import software.amazon.smithy.model.shapes.ShapeId
 
 plugins {
-    id("software.amazon.smithy") version "0.5.3"
+    java
+    id("software.amazon.smithy.gradle.smithy-base")
 }
 
 description = "Smithy protocol test suite"
@@ -51,11 +51,7 @@ val enabledProtocols = listOf(
 // This project doesn't produce a JAR.
 tasks["jar"].enabled = false
 
-// Run the SmithyBuild task manually since this project needs the built JAR
-// from smithy-aws-swift-codegen.
-tasks["smithyBuildJar"].enabled = false
-
-task("generateSmithyBuild") {
+tasks.register("generateSmithyBuild") {
     group = "codegen"
     description = "generate smithy-build.json"
     val buildFile = projectDir.resolve("smithy-build.json")
@@ -69,17 +65,11 @@ tasks["clean"].doFirst {
     delete("smithy-build.json")
 }
 
-tasks.create<SmithyBuild>("buildSdk") {
-    addRuntimeClasspath = true
-    dependsOn(tasks["generateSmithyBuild"])
+tasks.named("smithyBuild") {
+    dependsOn("generateSmithyBuild")
     inputs.file(projectDir.resolve("smithy-build.json"))
+    outputs.upToDateWhen { false }
 }
-
-// Run the `buildSdk` automatically.
-tasks["build"].finalizedBy(tasks["buildSdk"])
-
-// force rebuild every time while developing
-tasks["buildSdk"].outputs.upToDateWhen { false }
 
 enabledProtocols.forEach {
     tasks.register<ProtocolTestTask>("testProtocol-${it.projectionName}") {
@@ -95,7 +85,7 @@ data class ProtocolTest(val projectionName: String,
                         val serviceShapeId: String,
                         val moduleName: String) {
     val packageName: String
-        get() = projectionName.toLowerCase().filter { it.isLetterOrDigit() }
+        get() = projectionName.lowercase().filter { it.isLetterOrDigit() }
 }
 fun generateSmithyBuild(tests: List<ProtocolTest>): String {
     val projections = tests.joinToString(",") { test ->

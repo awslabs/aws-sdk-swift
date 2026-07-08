@@ -1896,6 +1896,21 @@ extension MarketplaceAgreementClientTypes {
 
 extension MarketplaceAgreementClientTypes {
 
+    /// Represents an entitlement associated with an agreement.
+    public struct Entitlement: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the AWS License Manager license associated with the entitlement.
+        public var licenseArn: Swift.String?
+
+        public init(
+            licenseArn: Swift.String? = nil
+        ) {
+            self.licenseArn = licenseArn
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
     /// A summary of the proposal received from the proposer.
     public struct ProposalSummary: Swift.Sendable {
         /// The unique identifier of the offer in AWS Marketplace.
@@ -1946,6 +1961,8 @@ extension MarketplaceAgreementClientTypes {
         public var agreementType: Swift.String?
         /// The date and time when the agreement ends. The field is null for pay-as-you-go agreements, which don’t have end dates.
         public var endTime: Foundation.Date?
+        /// A list of entitlements associated with the agreement.
+        public var entitlements: [MarketplaceAgreementClientTypes.Entitlement]?
         /// A summary of the proposal
         public var proposalSummary: MarketplaceAgreementClientTypes.ProposalSummary?
         /// Details of the party proposing the agreement terms, most commonly the seller for PurchaseAgreement.
@@ -1961,6 +1978,7 @@ extension MarketplaceAgreementClientTypes {
             agreementId: Swift.String? = nil,
             agreementType: Swift.String? = nil,
             endTime: Foundation.Date? = nil,
+            entitlements: [MarketplaceAgreementClientTypes.Entitlement]? = nil,
             proposalSummary: MarketplaceAgreementClientTypes.ProposalSummary? = nil,
             proposer: MarketplaceAgreementClientTypes.Proposer? = nil,
             startTime: Foundation.Date? = nil,
@@ -1971,6 +1989,7 @@ extension MarketplaceAgreementClientTypes {
             self.agreementId = agreementId
             self.agreementType = agreementType
             self.endTime = endTime
+            self.entitlements = entitlements
             self.proposalSummary = proposalSummary
             self.proposer = proposer
             self.startTime = startTime

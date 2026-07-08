@@ -72,6 +72,7 @@ public final class MigrationHubClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: MigrationHubClient.MigrationHubClientConfig
     let serviceName = "Migration Hub"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use MigrationHubClient.MigrationHubClientConfig instead")
     public typealias Config = MigrationHubClient.MigrationHubClientConfiguration
@@ -81,6 +82,7 @@ public final class MigrationHubClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: MigrationHubClient.MigrationHubClientConfig) instead")
@@ -195,7 +197,7 @@ extension MigrationHubClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Migration Hub")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -250,7 +252,7 @@ extension MigrationHubClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Migration Hub")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -426,7 +428,7 @@ extension MigrationHubClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Migration Hub")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -481,7 +483,7 @@ extension MigrationHubClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Migration Hub")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -669,8 +671,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateCreatedArtifactInput, AssociateCreatedArtifactOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateCreatedArtifactInput, AssociateCreatedArtifactOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateCreatedArtifactOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -682,6 +682,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateCreatedArtifactOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateCreatedArtifactInput, AssociateCreatedArtifactOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateCreatedArtifactInput, AssociateCreatedArtifactOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateCreatedArtifactInput, AssociateCreatedArtifactOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -752,8 +754,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDiscoveredResourceInput, AssociateDiscoveredResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateDiscoveredResourceInput, AssociateDiscoveredResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateDiscoveredResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -765,6 +765,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateDiscoveredResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateDiscoveredResourceInput, AssociateDiscoveredResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateDiscoveredResourceInput, AssociateDiscoveredResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateDiscoveredResourceInput, AssociateDiscoveredResourceOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -833,8 +835,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSourceResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -846,6 +846,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateSourceResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -914,8 +916,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProgressUpdateStreamInput, CreateProgressUpdateStreamOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProgressUpdateStreamInput, CreateProgressUpdateStreamOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProgressUpdateStreamOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -927,6 +927,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProgressUpdateStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProgressUpdateStreamInput, CreateProgressUpdateStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProgressUpdateStreamInput, CreateProgressUpdateStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProgressUpdateStreamInput, CreateProgressUpdateStreamOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -1006,8 +1008,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProgressUpdateStreamInput, DeleteProgressUpdateStreamOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProgressUpdateStreamInput, DeleteProgressUpdateStreamOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProgressUpdateStreamOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1019,6 +1019,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProgressUpdateStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProgressUpdateStreamInput, DeleteProgressUpdateStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProgressUpdateStreamInput, DeleteProgressUpdateStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProgressUpdateStreamInput, DeleteProgressUpdateStreamOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -1087,8 +1089,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationStateInput, DescribeApplicationStateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationStateInput, DescribeApplicationStateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationStateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1100,6 +1100,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeApplicationStateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeApplicationStateInput, DescribeApplicationStateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeApplicationStateInput, DescribeApplicationStateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeApplicationStateInput, DescribeApplicationStateOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -1167,8 +1169,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMigrationTaskInput, DescribeMigrationTaskOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMigrationTaskInput, DescribeMigrationTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMigrationTaskOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1180,6 +1180,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMigrationTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMigrationTaskInput, DescribeMigrationTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMigrationTaskInput, DescribeMigrationTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMigrationTaskInput, DescribeMigrationTaskOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -1255,8 +1257,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateCreatedArtifactInput, DisassociateCreatedArtifactOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateCreatedArtifactInput, DisassociateCreatedArtifactOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateCreatedArtifactOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1268,6 +1268,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateCreatedArtifactOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateCreatedArtifactInput, DisassociateCreatedArtifactOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateCreatedArtifactInput, DisassociateCreatedArtifactOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateCreatedArtifactInput, DisassociateCreatedArtifactOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -1337,8 +1339,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateDiscoveredResourceInput, DisassociateDiscoveredResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateDiscoveredResourceInput, DisassociateDiscoveredResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateDiscoveredResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1350,6 +1350,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateDiscoveredResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateDiscoveredResourceInput, DisassociateDiscoveredResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateDiscoveredResourceInput, DisassociateDiscoveredResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateDiscoveredResourceInput, DisassociateDiscoveredResourceOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -1418,8 +1420,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSourceResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1431,6 +1431,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateSourceResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -1500,8 +1502,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportMigrationTaskInput, ImportMigrationTaskOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportMigrationTaskInput, ImportMigrationTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportMigrationTaskOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1513,6 +1513,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportMigrationTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportMigrationTaskInput, ImportMigrationTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ImportMigrationTaskInput, ImportMigrationTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ImportMigrationTaskInput, ImportMigrationTaskOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -1579,8 +1581,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationStatesInput, ListApplicationStatesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationStatesInput, ListApplicationStatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationStatesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1592,6 +1592,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListApplicationStatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListApplicationStatesInput, ListApplicationStatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListApplicationStatesInput, ListApplicationStatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListApplicationStatesInput, ListApplicationStatesOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -1665,8 +1667,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCreatedArtifactsInput, ListCreatedArtifactsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCreatedArtifactsInput, ListCreatedArtifactsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCreatedArtifactsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1678,6 +1678,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCreatedArtifactsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCreatedArtifactsInput, ListCreatedArtifactsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCreatedArtifactsInput, ListCreatedArtifactsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCreatedArtifactsInput, ListCreatedArtifactsOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -1745,8 +1747,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDiscoveredResourcesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1758,6 +1758,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDiscoveredResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -1824,8 +1826,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMigrationTaskUpdatesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1837,6 +1837,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMigrationTaskUpdatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -1911,8 +1913,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMigrationTasksInput, ListMigrationTasksOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMigrationTasksInput, ListMigrationTasksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMigrationTasksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1924,6 +1924,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMigrationTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMigrationTasksInput, ListMigrationTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMigrationTasksInput, ListMigrationTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMigrationTasksInput, ListMigrationTasksOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -1990,8 +1992,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProgressUpdateStreamsInput, ListProgressUpdateStreamsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProgressUpdateStreamsInput, ListProgressUpdateStreamsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProgressUpdateStreamsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2003,6 +2003,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProgressUpdateStreamsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProgressUpdateStreamsInput, ListProgressUpdateStreamsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProgressUpdateStreamsInput, ListProgressUpdateStreamsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProgressUpdateStreamsInput, ListProgressUpdateStreamsOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -2069,8 +2071,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSourceResourcesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2082,6 +2082,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSourceResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -2152,8 +2154,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<NotifyApplicationStateInput, NotifyApplicationStateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<NotifyApplicationStateInput, NotifyApplicationStateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<NotifyApplicationStateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2165,6 +2165,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<NotifyApplicationStateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<NotifyApplicationStateInput, NotifyApplicationStateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<NotifyApplicationStateInput, NotifyApplicationStateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<NotifyApplicationStateInput, NotifyApplicationStateOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -2240,8 +2242,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<NotifyMigrationTaskStateInput, NotifyMigrationTaskStateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<NotifyMigrationTaskStateInput, NotifyMigrationTaskStateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<NotifyMigrationTaskStateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2253,6 +2253,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<NotifyMigrationTaskStateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<NotifyMigrationTaskStateInput, NotifyMigrationTaskStateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<NotifyMigrationTaskStateInput, NotifyMigrationTaskStateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<NotifyMigrationTaskStateInput, NotifyMigrationTaskStateOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
@@ -2329,8 +2331,6 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourceAttributesInput, PutResourceAttributesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourceAttributesInput, PutResourceAttributesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourceAttributesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Migration Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2342,6 +2342,8 @@ extension MigrationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourceAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourceAttributesInput, PutResourceAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourceAttributesInput, PutResourceAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Migration Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourceAttributesInput, PutResourceAttributesOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")

@@ -72,6 +72,7 @@ public final class AutoScalingPlansClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: AutoScalingPlansClient.AutoScalingPlansClientConfig
     let serviceName = "Auto Scaling Plans"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use AutoScalingPlansClient.AutoScalingPlansClientConfig instead")
     public typealias Config = AutoScalingPlansClient.AutoScalingPlansClientConfiguration
@@ -81,6 +82,7 @@ public final class AutoScalingPlansClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: AutoScalingPlansClient.AutoScalingPlansClientConfig) instead")
@@ -195,7 +197,7 @@ extension AutoScalingPlansClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Auto Scaling Plans")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -250,7 +252,7 @@ extension AutoScalingPlansClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Auto Scaling Plans")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -426,7 +428,7 @@ extension AutoScalingPlansClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Auto Scaling Plans")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -481,7 +483,7 @@ extension AutoScalingPlansClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Auto Scaling Plans")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -658,8 +660,6 @@ extension AutoScalingPlansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScalingPlanInput, CreateScalingPlanOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateScalingPlanInput, CreateScalingPlanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateScalingPlanOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Auto Scaling Plans", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -671,6 +671,8 @@ extension AutoScalingPlansClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateScalingPlanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateScalingPlanInput, CreateScalingPlanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateScalingPlanInput, CreateScalingPlanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Auto Scaling Plans"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateScalingPlanInput, CreateScalingPlanOutput>(serviceID: serviceName, version: AutoScalingPlansClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AutoScalingPlans")
@@ -735,8 +737,6 @@ extension AutoScalingPlansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteScalingPlanInput, DeleteScalingPlanOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScalingPlanInput, DeleteScalingPlanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScalingPlanOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Auto Scaling Plans", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -748,6 +748,8 @@ extension AutoScalingPlansClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteScalingPlanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteScalingPlanInput, DeleteScalingPlanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteScalingPlanInput, DeleteScalingPlanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Auto Scaling Plans"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteScalingPlanInput, DeleteScalingPlanOutput>(serviceID: serviceName, version: AutoScalingPlansClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AutoScalingPlans")
@@ -812,8 +814,6 @@ extension AutoScalingPlansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeScalingPlanResourcesInput, DescribeScalingPlanResourcesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScalingPlanResourcesInput, DescribeScalingPlanResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScalingPlanResourcesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Auto Scaling Plans", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -825,6 +825,8 @@ extension AutoScalingPlansClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeScalingPlanResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeScalingPlanResourcesInput, DescribeScalingPlanResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeScalingPlanResourcesInput, DescribeScalingPlanResourcesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Auto Scaling Plans"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeScalingPlanResourcesInput, DescribeScalingPlanResourcesOutput>(serviceID: serviceName, version: AutoScalingPlansClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AutoScalingPlans")
@@ -889,8 +891,6 @@ extension AutoScalingPlansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeScalingPlansInput, DescribeScalingPlansOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScalingPlansInput, DescribeScalingPlansOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScalingPlansOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Auto Scaling Plans", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -902,6 +902,8 @@ extension AutoScalingPlansClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeScalingPlansOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeScalingPlansInput, DescribeScalingPlansOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeScalingPlansInput, DescribeScalingPlansOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Auto Scaling Plans"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeScalingPlansInput, DescribeScalingPlansOutput>(serviceID: serviceName, version: AutoScalingPlansClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AutoScalingPlans")
@@ -964,8 +966,6 @@ extension AutoScalingPlansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetScalingPlanResourceForecastDataInput, GetScalingPlanResourceForecastDataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetScalingPlanResourceForecastDataInput, GetScalingPlanResourceForecastDataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetScalingPlanResourceForecastDataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Auto Scaling Plans", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -977,6 +977,8 @@ extension AutoScalingPlansClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetScalingPlanResourceForecastDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetScalingPlanResourceForecastDataInput, GetScalingPlanResourceForecastDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetScalingPlanResourceForecastDataInput, GetScalingPlanResourceForecastDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Auto Scaling Plans"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetScalingPlanResourceForecastDataInput, GetScalingPlanResourceForecastDataOutput>(serviceID: serviceName, version: AutoScalingPlansClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AutoScalingPlans")
@@ -1041,8 +1043,6 @@ extension AutoScalingPlansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateScalingPlanInput, UpdateScalingPlanOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateScalingPlanInput, UpdateScalingPlanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateScalingPlanOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Auto Scaling Plans", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1054,6 +1054,8 @@ extension AutoScalingPlansClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateScalingPlanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateScalingPlanInput, UpdateScalingPlanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateScalingPlanInput, UpdateScalingPlanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Auto Scaling Plans"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateScalingPlanInput, UpdateScalingPlanOutput>(serviceID: serviceName, version: AutoScalingPlansClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AutoScalingPlans")

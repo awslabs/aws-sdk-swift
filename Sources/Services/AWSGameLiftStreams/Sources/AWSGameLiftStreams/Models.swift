@@ -1875,6 +1875,72 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     }
 }
 
+/// The terminal connection to the stream session is not yet available. Wait before retrying the request.
+public struct StreamSessionAccessNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Description of the error.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "StreamSessionAccessNotReadyException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct CreateStreamSessionAdminShellInput: Swift.Sendable {
+    /// The stream group that runs this stream session. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamsession/sg-1AB2C3De4/ABC123def4567. Example ID: ABC123def4567.
+    /// This member is required.
+    public var streamSessionIdentifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil,
+        streamSessionIdentifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+        self.streamSessionIdentifier = streamSessionIdentifier
+    }
+}
+
+public struct CreateStreamSessionAdminShellOutput: Swift.Sendable {
+    /// An Amazon Web Services Systems Manager session identifier that uniquely identifies the requested terminal session. Use this value with the Amazon Web Services Systems Manager Session Manager plugin.
+    public var sessionId: Swift.String?
+    /// An Amazon Web Services Systems Manager WebSocket connection endpoint for the requested terminal session.
+    public var streamUrl: Swift.String?
+    /// An Amazon Web Services Systems Manager authentication token that authenticates your access to the session ID and WebSocket URL. This token must be treated with the same level of security as other user credentials. The token value is only valid for establishing a new connection within 60 seconds of generation.
+    public var tokenValue: Swift.String?
+
+    public init(
+        sessionId: Swift.String? = nil,
+        streamUrl: Swift.String? = nil,
+        tokenValue: Swift.String? = nil
+    ) {
+        self.sessionId = sessionId
+        self.streamUrl = streamUrl
+        self.tokenValue = tokenValue
+    }
+}
+
+extension CreateStreamSessionAdminShellOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateStreamSessionAdminShellOutput(sessionId: \(Swift.String(describing: sessionId)), streamUrl: \(Swift.String(describing: streamUrl)), tokenValue: \"CONTENT_REDACTED\")"}
+}
+
 public struct CreateStreamSessionConnectionInput: Swift.Sendable {
     /// A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field.
     public var clientToken: Swift.String?
@@ -3796,6 +3862,19 @@ extension CreateStreamGroupInput {
     }
 }
 
+extension CreateStreamSessionAdminShellInput {
+
+    static func urlPathProvider(_ value: CreateStreamSessionAdminShellInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        guard let streamSessionIdentifier = value.streamSessionIdentifier else {
+            return nil
+        }
+        return "/streamgroups/\(identifier.urlPercentEncoding())/streamsessions/\(streamSessionIdentifier.urlPercentEncoding())/access"
+    }
+}
+
 extension CreateStreamSessionConnectionInput {
 
     static func urlPathProvider(_ value: CreateStreamSessionConnectionInput) -> Swift.String? {
@@ -4301,6 +4380,20 @@ extension CreateStreamGroupOutput {
     }
 }
 
+extension CreateStreamSessionAdminShellOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateStreamSessionAdminShellOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateStreamSessionAdminShellOutput()
+        value.sessionId = try reader["SessionId"].readIfPresent()
+        value.streamUrl = try reader["StreamUrl"].readIfPresent()
+        value.tokenValue = try reader["TokenValue"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateStreamSessionConnectionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateStreamSessionConnectionOutput {
@@ -4669,6 +4762,25 @@ enum CreateStreamGroupOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateStreamSessionAdminShellOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "StreamSessionAccessNotReadyException": return try StreamSessionAccessNotReadyException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5119,6 +5231,19 @@ extension ConflictException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension StreamSessionAccessNotReadyException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> StreamSessionAccessNotReadyException {
+        let reader = baseError.errorBodyReader
+        var value = StreamSessionAccessNotReadyException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

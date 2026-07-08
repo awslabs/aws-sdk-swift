@@ -524,6 +524,7 @@ extension EC2ClientTypes {
         case capacityBlock
         case capacityManagerDataExport
         case capacityReservation
+        case capacityReservationCancellationQuote
         case capacityReservationFleet
         case carrierGateway
         case clientVpnEndpoint
@@ -636,6 +637,7 @@ extension EC2ClientTypes {
                 .capacityBlock,
                 .capacityManagerDataExport,
                 .capacityReservation,
+                .capacityReservationCancellationQuote,
                 .capacityReservationFleet,
                 .carrierGateway,
                 .clientVpnEndpoint,
@@ -754,6 +756,7 @@ extension EC2ClientTypes {
             case .capacityBlock: return "capacity-block"
             case .capacityManagerDataExport: return "capacity-manager-data-export"
             case .capacityReservation: return "capacity-reservation"
+            case .capacityReservationCancellationQuote: return "capacity-reservation-cancellation-quote"
             case .capacityReservationFleet: return "capacity-reservation-fleet"
             case .carrierGateway: return "carrier-gateway"
             case .clientVpnEndpoint: return "client-vpn-endpoint"
@@ -3278,6 +3281,214 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum VpcEncryptionControlExclusionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case disabling
+        case enabled
+        case enabling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VpcEncryptionControlExclusionState] {
+            return [
+                .disabled,
+                .disabling,
+                .enabled,
+                .enabling
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .disabling: return "disabling"
+            case .enabled: return "enabled"
+            case .enabling: return "enabling"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the exclusion configurations for the various resource types in the account-level VPC Encryption Control configuration. For more information, see [Enforce VPC encryption in transit](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-encryption-controls.html) in the Amazon VPC User Guide.
+    public struct AccountVpcEncryptionControlExclusions: Swift.Sendable {
+        /// The exclusion configuration for egress-only internet gateway resource.
+        public var egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusionState?
+        /// The exclusion configuration for Elastic File System service.
+        public var elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusionState?
+        /// The exclusion configuration for internet gateway resource.
+        public var internetGateway: EC2ClientTypes.VpcEncryptionControlExclusionState?
+        /// The exclusion configuration for Lambda service.
+        public var lambda: EC2ClientTypes.VpcEncryptionControlExclusionState?
+        /// The exclusion configuration for NAT gateway resource.
+        public var natGateway: EC2ClientTypes.VpcEncryptionControlExclusionState?
+        /// The exclusion configuration for virtual private gateway resource.
+        public var virtualPrivateGateway: EC2ClientTypes.VpcEncryptionControlExclusionState?
+        /// The exclusion configuration for VPC Lattice service.
+        public var vpcLattice: EC2ClientTypes.VpcEncryptionControlExclusionState?
+        /// The exclusion configuration for VPC peering connection resource.
+        public var vpcPeering: EC2ClientTypes.VpcEncryptionControlExclusionState?
+
+        public init(
+            egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
+            elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
+            internetGateway: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
+            lambda: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
+            natGateway: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
+            virtualPrivateGateway: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
+            vpcLattice: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
+            vpcPeering: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil
+        ) {
+            self.egressOnlyInternetGateway = egressOnlyInternetGateway
+            self.elasticFileSystem = elasticFileSystem
+            self.internetGateway = internetGateway
+            self.lambda = lambda
+            self.natGateway = natGateway
+            self.virtualPrivateGateway = virtualPrivateGateway
+            self.vpcLattice = vpcLattice
+            self.vpcPeering = vpcPeering
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum ManagedBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case account
+        case declarativePolicy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedBy] {
+            return [
+                .account,
+                .declarativePolicy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "account"
+            case .declarativePolicy: return "declarative-policy"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum AccountVpcEncryptionControlMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attemptEnforce
+        case attemptMonitor
+        case unmanaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccountVpcEncryptionControlMode] {
+            return [
+                .attemptEnforce,
+                .attemptMonitor,
+                .unmanaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attemptEnforce: return "attempt-enforce"
+            case .attemptMonitor: return "attempt-monitor"
+            case .unmanaged: return "unmanaged"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum AccountVpcEncryptionControlState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case defaultState
+        case transitionsFailed
+        case transitionsInProgress
+        case transitionsPartiallySuccessful
+        case transitionsSuccessful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccountVpcEncryptionControlState] {
+            return [
+                .defaultState,
+                .transitionsFailed,
+                .transitionsInProgress,
+                .transitionsPartiallySuccessful,
+                .transitionsSuccessful
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .defaultState: return "default-state"
+            case .transitionsFailed: return "transitions-failed"
+            case .transitionsInProgress: return "transitions-in-progress"
+            case .transitionsPartiallySuccessful: return "transitions-partially-successful"
+            case .transitionsSuccessful: return "transitions-successful"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the account-level VPC Encryption Control configuration, including its mode, state, and exclusions. For more information, see [Enforce VPC encryption in transit](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-encryption-controls.html) in the Amazon VPC User Guide.
+    public struct AccountVpcEncryptionControl: Swift.Sendable {
+        /// Information about the traffic exclusions for the account-level VPC Encryption Control configuration.
+        public var exclusions: EC2ClientTypes.AccountVpcEncryptionControlExclusions?
+        /// The date and time when the account-level VPC Encryption Control configuration was last updated.
+        public var lastUpdateTimestamp: Foundation.Date?
+        /// The entity that manages the account-level VPC Encryption Control configuration.
+        public var managedBy: EC2ClientTypes.ManagedBy?
+        /// The encryption mode for the account-level VPC Encryption Control configuration.
+        public var mode: EC2ClientTypes.AccountVpcEncryptionControlMode?
+        /// The current state of the account-level VPC Encryption Control configuration.
+        public var state: EC2ClientTypes.AccountVpcEncryptionControlState?
+
+        public init(
+            exclusions: EC2ClientTypes.AccountVpcEncryptionControlExclusions? = nil,
+            lastUpdateTimestamp: Foundation.Date? = nil,
+            managedBy: EC2ClientTypes.ManagedBy? = nil,
+            mode: EC2ClientTypes.AccountVpcEncryptionControlMode? = nil,
+            state: EC2ClientTypes.AccountVpcEncryptionControlState? = nil
+        ) {
+            self.exclusions = exclusions
+            self.lastUpdateTimestamp = lastUpdateTimestamp
+            self.managedBy = managedBy
+            self.mode = mode
+            self.state = state
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum InstanceHealthStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case healthyStatus
         case unhealthyStatus
@@ -4205,6 +4416,50 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum AmdSevSnp: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AmdSevSnp] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .enabled: return "enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Contains the CPU configuration options for a Dedicated Host allocation request. Options include AMD Secure Encrypted Virtualization-Secure Nested Paging (AMD SEV-SNP) settings.
+    public struct HostCpuOptionsRequest: Swift.Sendable {
+        /// Specifies whether AMD Secure Encrypted Virtualization-Secure Nested Paging (AMD SEV-SNP) is enabled or disabled for the Dedicated Host. If you don't specify a value, AMD SEV-SNP is disabled.
+        public var amdSevSnp: EC2ClientTypes.AmdSevSnp?
+
+        public init(
+            amdSevSnp: EC2ClientTypes.AmdSevSnp? = nil
+        ) {
+            self.amdSevSnp = amdSevSnp
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum HostMaintenance: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case off
         case on
@@ -4276,6 +4531,8 @@ public struct AllocateHostsInput: Swift.Sendable {
     public var availabilityZoneId: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
+    /// The CPU configuration options to apply to the Dedicated Host.
+    public var cpuOptions: EC2ClientTypes.HostCpuOptionsRequest?
     /// Indicates whether to enable or disable host maintenance for the Dedicated Host. For more information, see [Host maintenance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-maintenance.html) in the Amazon EC2 User Guide.
     public var hostMaintenance: EC2ClientTypes.HostMaintenance?
     /// Indicates whether to enable or disable host recovery for the Dedicated Host. Host recovery is disabled by default. For more information, see [ Host recovery](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-recovery.html) in the Amazon EC2 User Guide. Default: off
@@ -4297,6 +4554,7 @@ public struct AllocateHostsInput: Swift.Sendable {
         availabilityZone: Swift.String? = nil,
         availabilityZoneId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
+        cpuOptions: EC2ClientTypes.HostCpuOptionsRequest? = nil,
         hostMaintenance: EC2ClientTypes.HostMaintenance? = nil,
         hostRecovery: EC2ClientTypes.HostRecovery? = nil,
         instanceFamily: Swift.String? = nil,
@@ -4310,6 +4568,7 @@ public struct AllocateHostsInput: Swift.Sendable {
         self.availabilityZone = availabilityZone
         self.availabilityZoneId = availabilityZoneId
         self.clientToken = clientToken
+        self.cpuOptions = cpuOptions
         self.hostMaintenance = hostMaintenance
         self.hostRecovery = hostRecovery
         self.instanceFamily = instanceFamily
@@ -4496,6 +4755,7 @@ extension EC2ClientTypes {
 
     public enum AllocationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
+        case configuring
         case pending
         case permanentFailure
         case released
@@ -4506,6 +4766,7 @@ extension EC2ClientTypes {
         public static var allCases: [AllocationState] {
             return [
                 .available,
+                .configuring,
                 .pending,
                 .permanentFailure,
                 .released,
@@ -4522,6 +4783,7 @@ extension EC2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .available: return "available"
+            case .configuring: return "configuring"
             case .pending: return "pending"
             case .permanentFailure: return "permanent-failure"
             case .released: return "released"
@@ -4574,12 +4836,14 @@ extension EC2ClientTypes {
 extension EC2ClientTypes {
 
     public enum AllocationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelling
         case future
         case used
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AllocationType] {
             return [
+                .cancelling,
                 .future,
                 .used
             ]
@@ -4592,6 +4856,7 @@ extension EC2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .cancelling: return "cancelling"
             case .future: return "future"
             case .used: return "used"
             case let .sdkUnknown(s): return s
@@ -6896,6 +7161,38 @@ public struct AttachClassicLinkVpcOutput: Swift.Sendable {
     }
 }
 
+public struct AttachImageWatermarkInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the AMI.
+    /// This member is required.
+    public var imageId: Swift.String?
+    /// The name for the watermark. Combined with the caller's account ID to form the WatermarkKey (accountId:watermarkName). Constraints: 3-128 alphanumeric characters, parentheses (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-), single quotes ('), at-signs (@), or underscores(_)
+    /// This member is required.
+    public var watermarkName: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        imageId: Swift.String? = nil,
+        watermarkName: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.imageId = imageId
+        self.watermarkName = watermarkName
+    }
+}
+
+public struct AttachImageWatermarkOutput: Swift.Sendable {
+    /// The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).
+    public var watermarkKey: Swift.String?
+
+    public init(
+        watermarkKey: Swift.String? = nil
+    ) {
+        self.watermarkKey = watermarkKey
+    }
+}
+
 public struct AttachInternetGatewayInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -8297,19 +8594,53 @@ public struct CancelBundleTaskOutput: Swift.Sendable {
     }
 }
 
+extension EC2ClientTypes {
+
+    public enum ApplyCancellationCharges: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case commitmentWindDown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplyCancellationCharges] {
+            return [
+                .commitmentWindDown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .commitmentWindDown: return "commitment-wind-down"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CancelCapacityReservationInput: Swift.Sendable {
+    /// Specifies the cancellation charge type to apply when cancelling a future-dated Capacity Reservation during its commitment duration. Possible values include commitment-wind-down, which continues billing for the remaining commitment duration without delivering capacity.
+    public var applyCancellationCharges: EC2ClientTypes.ApplyCancellationCharges?
     /// The ID of the Capacity Reservation to be cancelled.
     /// This member is required.
     public var capacityReservationId: Swift.String?
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
+    /// The ID of the cancellation quote to use for the cancellation. You can generate a cancellation quote by using the CreateCapacityReservationCancellationQuote action. The cancellation quote must be in an active state.
+    public var quoteId: Swift.String?
 
     public init(
+        applyCancellationCharges: EC2ClientTypes.ApplyCancellationCharges? = nil,
         capacityReservationId: Swift.String? = nil,
-        dryRun: Swift.Bool? = nil
+        dryRun: Swift.Bool? = nil,
+        quoteId: Swift.String? = nil
     ) {
+        self.applyCancellationCharges = applyCancellationCharges
         self.capacityReservationId = capacityReservationId
         self.dryRun = dryRun
+        self.quoteId = quoteId
     }
 }
 
@@ -10313,6 +10644,7 @@ extension EC2ClientTypes {
         case active
         case assessing
         case cancelled
+        case cancelling
         case delayed
         case expired
         case failed
@@ -10329,6 +10661,7 @@ extension EC2ClientTypes {
                 .active,
                 .assessing,
                 .cancelled,
+                .cancelling,
                 .delayed,
                 .expired,
                 .failed,
@@ -10351,6 +10684,7 @@ extension EC2ClientTypes {
             case .active: return "active"
             case .assessing: return "assessing"
             case .cancelled: return "cancelled"
+            case .cancelling: return "cancelling"
             case .delayed: return "delayed"
             case .expired: return "expired"
             case .failed: return "failed"
@@ -10453,6 +10787,8 @@ extension EC2ClientTypes {
         /// * delayed - (Future-dated Capacity Reservations) Amazon EC2 encountered a delay in provisioning the requested future-dated Capacity Reservation. Amazon EC2 is unable to deliver the requested capacity by the requested start date and time.
         ///
         /// * unsupported - (Future-dated Capacity Reservations) Amazon EC2 can't support the future-dated Capacity Reservation request due to capacity constraints. You can view unsupported requests for 30 days. The Capacity Reservation will not be delivered.
+        ///
+        /// * cancelling - (Future-dated Capacity Reservations) The Capacity Reservation is being cancelled. Capacity has been released but charges continue for the commitment wind-down period. The reservation transitions to cancelled when the wind-down completes.
         public var state: EC2ClientTypes.CapacityReservationState?
         /// Any tags assigned to the Capacity Reservation.
         public var tags: [EC2ClientTypes.Tag]?
@@ -10591,6 +10927,166 @@ public struct CreateCapacityReservationBySplittingOutput: Swift.Sendable {
         self.destinationCapacityReservation = destinationCapacityReservation
         self.instanceCount = instanceCount
         self.sourceCapacityReservation = sourceCapacityReservation
+    }
+}
+
+public struct CreateCapacityReservationCancellationQuoteInput: Swift.Sendable {
+    /// The ID of the Capacity Reservation.
+    /// This member is required.
+    public var capacityReservationId: Swift.String?
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensure Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The tags to apply to the cancellation quote.
+    public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
+
+    public init(
+        capacityReservationId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil
+    ) {
+        self.capacityReservationId = capacityReservationId
+        self.clientToken = clientToken
+        self.dryRun = dryRun
+        self.tagSpecifications = tagSpecifications
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the cancellation terms for cancelling a future-dated Capacity Reservation during its commitment duration.
+    public struct CancellationTerms: Swift.Sendable {
+        /// The type of cancellation charge. Possible values include commitment-wind-down.
+        public var cancellationType: EC2ClientTypes.ApplyCancellationCharges?
+        /// The number of hours for which cancellation charges will apply.
+        public var chargeCommitmentDurationHours: Swift.Int?
+        /// The date and time at which cancellation charges will stop.
+        public var chargeEndDate: Foundation.Date?
+        /// The number of instances under commitment after cancellation.
+        public var committedInstanceCount: Swift.Int?
+        /// The state that the Capacity Reservation will transition to after cancellation.
+        public var reservationState: Swift.String?
+
+        public init(
+            cancellationType: EC2ClientTypes.ApplyCancellationCharges? = nil,
+            chargeCommitmentDurationHours: Swift.Int? = nil,
+            chargeEndDate: Foundation.Date? = nil,
+            committedInstanceCount: Swift.Int? = nil,
+            reservationState: Swift.String? = nil
+        ) {
+            self.cancellationType = cancellationType
+            self.chargeCommitmentDurationHours = chargeCommitmentDurationHours
+            self.chargeEndDate = chargeEndDate
+            self.committedInstanceCount = committedInstanceCount
+            self.reservationState = reservationState
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the configuration of a Capacity Reservation.
+    public struct CapacityReservationConfiguration: Swift.Sendable {
+        /// The number of instances in the Capacity Reservation.
+        public var instanceCount: Swift.Int?
+        /// The current state of the Capacity Reservation.
+        public var reservationState: Swift.String?
+
+        public init(
+            instanceCount: Swift.Int? = nil,
+            reservationState: Swift.String? = nil
+        ) {
+            self.instanceCount = instanceCount
+            self.reservationState = reservationState
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum CapacityReservationCancellationQuoteState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case expired
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationCancellationQuoteState] {
+            return [
+                .active,
+                .expired,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "active"
+            case .expired: return "expired"
+            case .pending: return "pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a Capacity Reservation cancellation quote, which provides the cancellation terms for cancelling a future-dated Capacity Reservation during its commitment duration.
+    public struct CapacityReservationCancellationQuote: Swift.Sendable {
+        /// The cancellation terms associated with the quote, including the fee type and charge details.
+        public var cancellationTerms: [EC2ClientTypes.CancellationTerms]?
+        /// The ID of the cancellation quote.
+        public var capacityReservationCancellationQuoteId: Swift.String?
+        /// The ID of the Capacity Reservation associated with the cancellation quote.
+        public var capacityReservationId: Swift.String?
+        /// The date and time at which the cancellation quote was created.
+        public var createTime: Foundation.Date?
+        /// The current configuration of the Capacity Reservation.
+        public var currentConfiguration: EC2ClientTypes.CapacityReservationConfiguration?
+        /// The date and time at which the cancellation quote expires.
+        public var expirationTime: Foundation.Date?
+        /// The state of the cancellation quote. Possible values include pending, active, and expired.
+        public var quoteState: EC2ClientTypes.CapacityReservationCancellationQuoteState?
+        /// The tags assigned to the cancellation quote.
+        public var tags: [EC2ClientTypes.Tag]?
+
+        public init(
+            cancellationTerms: [EC2ClientTypes.CancellationTerms]? = nil,
+            capacityReservationCancellationQuoteId: Swift.String? = nil,
+            capacityReservationId: Swift.String? = nil,
+            createTime: Foundation.Date? = nil,
+            currentConfiguration: EC2ClientTypes.CapacityReservationConfiguration? = nil,
+            expirationTime: Foundation.Date? = nil,
+            quoteState: EC2ClientTypes.CapacityReservationCancellationQuoteState? = nil,
+            tags: [EC2ClientTypes.Tag]? = nil
+        ) {
+            self.cancellationTerms = cancellationTerms
+            self.capacityReservationCancellationQuoteId = capacityReservationCancellationQuoteId
+            self.capacityReservationId = capacityReservationId
+            self.createTime = createTime
+            self.currentConfiguration = currentConfiguration
+            self.expirationTime = expirationTime
+            self.quoteState = quoteState
+            self.tags = tags
+        }
+    }
+}
+
+public struct CreateCapacityReservationCancellationQuoteOutput: Swift.Sendable {
+    /// Information about the Capacity Reservation cancellation quote.
+    public var capacityReservationCancellationQuote: EC2ClientTypes.CapacityReservationCancellationQuote?
+
+    public init(
+        capacityReservationCancellationQuote: EC2ClientTypes.CapacityReservationCancellationQuote? = nil
+    ) {
+        self.capacityReservationCancellationQuote = capacityReservationCancellationQuote
     }
 }
 
@@ -14356,7 +14852,6 @@ public struct CreateCapacityReservationFleetInput: Swift.Sendable {
     /// Indicates the type of instance launches that the Capacity Reservation Fleet accepts. All Capacity Reservations in the Fleet inherit this instance matching criteria. Currently, Capacity Reservation Fleets support open instance matching criteria only. This means that instances that have matching attributes (instance type, platform, and Availability Zone) run in the Capacity Reservations automatically. Instances do not need to explicitly target a Capacity Reservation Fleet to use its reserved capacity.
     public var instanceMatchCriteria: EC2ClientTypes.FleetInstanceMatchCriteria?
     /// Information about the instance types for which to reserve the capacity.
-    /// This member is required.
     public var instanceTypeSpecifications: [EC2ClientTypes.ReservationFleetInstanceSpecification]?
     /// The tags to assign to the Capacity Reservation Fleet. The tags are automatically assigned to the Capacity Reservations in the Fleet.
     public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
@@ -15796,41 +16291,6 @@ extension EC2ClientTypes {
             switch self {
             case .enforce: return "enforce"
             case .monitor: return "monitor"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    public enum VpcEncryptionControlExclusionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case disabling
-        case enabled
-        case enabling
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [VpcEncryptionControlExclusionState] {
-            return [
-                .disabled,
-                .disabling,
-                .enabled,
-                .enabling
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "disabled"
-            case .disabling: return "disabling"
-            case .enabled: return "enabled"
-            case .enabling: return "enabling"
             case let .sdkUnknown(s): return s
             }
         }
@@ -18913,6 +19373,57 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum TaggableResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case autoScalingGroup
+        case instance
+        case networkInterface
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TaggableResourceType] {
+            return [
+                .autoScalingGroup,
+                .instance,
+                .networkInterface
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .autoScalingGroup: return "auto-scaling-group"
+            case .instance: return "instance"
+            case .networkInterface: return "network-interface"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// A single resource's tag configuration associated with the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
+    public struct TagFieldSpecificationRequest: Swift.Sendable {
+        /// The resource type for the tag keys associated with the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
+        public var resourceType: EC2ClientTypes.TaggableResourceType?
+        /// The tag keys on your tagged resources to be displayed by the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
+        public var tagKeys: [Swift.String]?
+
+        public init(
+            resourceType: EC2ClientTypes.TaggableResourceType? = nil,
+            tagKeys: [Swift.String]? = nil
+        ) {
+            self.resourceType = resourceType
+            self.tagKeys = tagKeys
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum TrafficType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accept
         case all
@@ -18976,6 +19487,8 @@ public struct CreateFlowLogsInput: Swift.Sendable {
     /// The type of resource to monitor.
     /// This member is required.
     public var resourceType: EC2ClientTypes.FlowLogsResourceType?
+    /// The tag configuration associated with the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
+    public var tagFieldSpecifications: [EC2ClientTypes.TagFieldSpecificationRequest]?
     /// The tags to apply to the flow logs.
     public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
     /// The type of traffic to monitor (accepted traffic, rejected traffic, or all traffic). This parameter is not supported for transit gateway resource types. It is required for the other resource types.
@@ -18994,6 +19507,7 @@ public struct CreateFlowLogsInput: Swift.Sendable {
         maxAggregationInterval: Swift.Int? = nil,
         resourceIds: [Swift.String]? = nil,
         resourceType: EC2ClientTypes.FlowLogsResourceType? = nil,
+        tagFieldSpecifications: [EC2ClientTypes.TagFieldSpecificationRequest]? = nil,
         tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil,
         trafficType: EC2ClientTypes.TrafficType? = nil
     ) {
@@ -19009,6 +19523,7 @@ public struct CreateFlowLogsInput: Swift.Sendable {
         self.maxAggregationInterval = maxAggregationInterval
         self.resourceIds = resourceIds
         self.resourceType = resourceType
+        self.tagFieldSpecifications = tagFieldSpecifications
         self.tagSpecifications = tagSpecifications
         self.trafficType = trafficType
     }
@@ -23141,7 +23656,7 @@ extension EC2ClientTypes {
 
     /// A security group connection tracking specification request that enables you to set the idle timeout for connection tracking on an Elastic network interface. For more information, see [Connection tracking timeouts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-connection-tracking.html#connection-tracking-timeouts) in the Amazon EC2 User Guide.
     public struct ConnectionTrackingSpecificationRequest: Swift.Sendable {
-        /// Timeout (in seconds) for idle TCP connections in an established state. Min: 60 seconds. Max: 432000 seconds (5 days). Default: 432000 seconds. Recommended: Less than 432000 seconds.
+        /// Timeout (in seconds) for idle TCP connections in an established state. Min: 60 seconds. Max: 432000 seconds (5 days). Default: 350 seconds for Nitro v6 instance types (excluding P6e-GB200); 432000 seconds for all other instance types (including P6e-GB200). Recommended: Less than 432000 seconds.
         public var tcpEstablishedTimeout: Swift.Int?
         /// Timeout (in seconds) for idle UDP flows classified as streams which have seen more than one request-response transaction. Min: 60 seconds. Max: 180 seconds (3 minutes). Default: 180 seconds.
         public var udpStreamTimeout: Swift.Int?
@@ -24355,7 +24870,7 @@ extension EC2ClientTypes {
 
     /// A security group connection tracking specification that enables you to set the idle timeout for connection tracking on an Elastic network interface. For more information, see [Connection tracking timeouts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-connection-tracking.html#connection-tracking-timeouts) in the Amazon EC2 User Guide.
     public struct ConnectionTrackingSpecification: Swift.Sendable {
-        /// Timeout (in seconds) for idle TCP connections in an established state. Min: 60 seconds. Max: 432000 seconds (5 days). Default: 432000 seconds. Recommended: Less than 432000 seconds.
+        /// Timeout (in seconds) for idle TCP connections in an established state. Min: 60 seconds. Max: 432000 seconds (5 days). Default: 350 seconds for Nitro v6 instance types (excluding P6e-GB200); 432000 seconds for all other instance types (including P6e-GB200). Recommended: Less than 432000 seconds.
         public var tcpEstablishedTimeout: Swift.Int?
         /// Timeout (in seconds) for idle UDP flows classified as streams which have seen more than one request-response transaction. Min: 60 seconds. Max: 180 seconds (3 minutes). Default: 180 seconds.
         public var udpStreamTimeout: Swift.Int?
@@ -27320,7 +27835,7 @@ extension EC2ClientTypes {
 
     /// A security group connection tracking configuration that enables you to set the idle timeout for connection tracking on an Elastic network interface. For more information, see [Connection tracking timeouts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-connection-tracking.html#connection-tracking-timeouts) in the Amazon EC2 User Guide.
     public struct ConnectionTrackingConfiguration: Swift.Sendable {
-        /// Timeout (in seconds) for idle TCP connections in an established state. Min: 60 seconds. Max: 432000 seconds (5 days). Default: 432000 seconds. Recommended: Less than 432000 seconds.
+        /// Timeout (in seconds) for idle TCP connections in an established state. Min: 60 seconds. Max: 432000 seconds (5 days). Default: 350 seconds for Nitro v6 instance types (excluding P6e-GB200); 432000 seconds for all other instance types (including P6e-GB200). Recommended: Less than 432000 seconds.
         public var tcpEstablishedTimeout: Swift.Int?
         /// Timeout (in seconds) for idle UDP flows classified as streams which have seen more than one request-response transaction. Min: 60 seconds. Max: 180 seconds (3 minutes). Default: 180 seconds.
         public var udpStreamTimeout: Swift.Int?
@@ -27913,6 +28428,7 @@ extension EC2ClientTypes {
     public enum PlacementStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cluster
         case partition
+        case precisionTime
         case spread
         case sdkUnknown(Swift.String)
 
@@ -27920,6 +28436,7 @@ extension EC2ClientTypes {
             return [
                 .cluster,
                 .partition,
+                .precisionTime,
                 .spread
             ]
         }
@@ -27933,6 +28450,7 @@ extension EC2ClientTypes {
             switch self {
             case .cluster: return "cluster"
             case .partition: return "partition"
+            case .precisionTime: return "precision-time"
             case .spread: return "spread"
             case let .sdkUnknown(s): return s
             }
@@ -27949,6 +28467,8 @@ public struct CreatePlacementGroupInput: Swift.Sendable {
     public var linkedGroupId: Swift.String?
     /// Reserved for internal use.
     public var `operator`: EC2ClientTypes.OperatorRequest?
+    /// The ID of a parent placement group. Valid only when Strategy is set to cluster.
+    public var parentGroupId: Swift.String?
     /// The number of partitions. Valid only when Strategy is set to partition.
     public var partitionCount: Swift.Int?
     /// Determines how placement groups spread instances.
@@ -27967,6 +28487,7 @@ public struct CreatePlacementGroupInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         linkedGroupId: Swift.String? = nil,
         `operator`: EC2ClientTypes.OperatorRequest? = nil,
+        parentGroupId: Swift.String? = nil,
         partitionCount: Swift.Int? = nil,
         spreadLevel: EC2ClientTypes.SpreadLevel? = nil,
         strategy: EC2ClientTypes.PlacementStrategy? = nil,
@@ -27976,6 +28497,7 @@ public struct CreatePlacementGroupInput: Swift.Sendable {
         self.groupName = groupName
         self.linkedGroupId = linkedGroupId
         self.`operator` = `operator`
+        self.parentGroupId = parentGroupId
         self.partitionCount = partitionCount
         self.spreadLevel = spreadLevel
         self.strategy = strategy
@@ -28032,6 +28554,8 @@ extension EC2ClientTypes {
         public var linkedGroupId: Swift.String?
         /// The service provider that manages the Placement Group.
         public var `operator`: EC2ClientTypes.OperatorResponse?
+        /// The ID of the parent placement group.
+        public var parentGroupId: Swift.String?
         /// The number of partitions. Valid only if strategy is set to partition.
         public var partitionCount: Swift.Int?
         /// The spread level for the placement group. Only Outpost placement groups can be spread across hosts.
@@ -28049,6 +28573,7 @@ extension EC2ClientTypes {
             groupName: Swift.String? = nil,
             linkedGroupId: Swift.String? = nil,
             `operator`: EC2ClientTypes.OperatorResponse? = nil,
+            parentGroupId: Swift.String? = nil,
             partitionCount: Swift.Int? = nil,
             spreadLevel: EC2ClientTypes.SpreadLevel? = nil,
             state: EC2ClientTypes.PlacementGroupState? = nil,
@@ -28060,6 +28585,7 @@ extension EC2ClientTypes {
             self.groupName = groupName
             self.linkedGroupId = linkedGroupId
             self.`operator` = `operator`
+            self.parentGroupId = parentGroupId
             self.partitionCount = partitionCount
             self.spreadLevel = spreadLevel
             self.state = state
@@ -35270,6 +35796,80 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum PayerResponsibilityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case vpcendpointaccount
+        case vpcendpointserviceaccount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PayerResponsibilityType] {
+            return [
+                .vpcendpointaccount,
+                .vpcendpointserviceaccount
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .vpcendpointaccount: return "vpc-endpoint-account"
+            case .vpcendpointserviceaccount: return "vpc-endpoint-service-account"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum PayerResponsibilityScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case vpcendpointcharges
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PayerResponsibilityScope] {
+            return [
+                .vpcendpointcharges
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .vpcendpointcharges: return "vpc-endpoint-charges"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a payer responsibility setting for a VPC endpoint.
+    public struct PayerResponsibilityEntry: Swift.Sendable {
+        /// The Amazon Web Services account to which the usage is charged.
+        public var payerResponsibilityType: EC2ClientTypes.PayerResponsibilityType?
+        /// The scope of usage/charges.
+        public var scope: EC2ClientTypes.PayerResponsibilityScope?
+
+        public init(
+            payerResponsibilityType: EC2ClientTypes.PayerResponsibilityType? = nil,
+            scope: EC2ClientTypes.PayerResponsibilityScope? = nil
+        ) {
+            self.payerResponsibilityType = payerResponsibilityType
+            self.scope = scope
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum State: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case deleted
@@ -35344,6 +35944,8 @@ extension EC2ClientTypes {
         public var networkInterfaceIds: [Swift.String]?
         /// The ID of the Amazon Web Services account that owns the endpoint.
         public var ownerId: Swift.String?
+        /// The payer responsibility settings for the endpoint.
+        public var payerResponsibilities: [EC2ClientTypes.PayerResponsibilityEntry]?
         /// The policy document associated with the endpoint, if applicable.
         public var policyDocument: Swift.String?
         /// (Interface endpoint) Indicates whether the VPC is associated with a private hosted zone.
@@ -35385,6 +35987,7 @@ extension EC2ClientTypes {
             lastError: EC2ClientTypes.LastError? = nil,
             networkInterfaceIds: [Swift.String]? = nil,
             ownerId: Swift.String? = nil,
+            payerResponsibilities: [EC2ClientTypes.PayerResponsibilityEntry]? = nil,
             policyDocument: Swift.String? = nil,
             privateDnsEnabled: Swift.Bool? = nil,
             requesterManaged: Swift.Bool? = nil,
@@ -35411,6 +36014,7 @@ extension EC2ClientTypes {
             self.lastError = lastError
             self.networkInterfaceIds = networkInterfaceIds
             self.ownerId = ownerId
+            self.payerResponsibilities = payerResponsibilities
             self.policyDocument = policyDocument
             self.privateDnsEnabled = privateDnsEnabled
             self.requesterManaged = requesterManaged
@@ -40668,6 +41272,28 @@ public struct DescribeAccountAttributesOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeAccountVpcEncryptionControlInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+
+    public init(
+        dryRun: Swift.Bool? = nil
+    ) {
+        self.dryRun = dryRun
+    }
+}
+
+public struct DescribeAccountVpcEncryptionControlOutput: Swift.Sendable {
+    /// Information about the account-level VPC Encryption Control configuration.
+    public var accountVpcEncryptionControl: EC2ClientTypes.AccountVpcEncryptionControl?
+
+    public init(
+        accountVpcEncryptionControl: EC2ClientTypes.AccountVpcEncryptionControl? = nil
+    ) {
+        self.accountVpcEncryptionControl = accountVpcEncryptionControl
+    }
+}
+
 extension EC2ClientTypes {
 
     /// A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND, and the request returns only results that match all of the specified filters. For more information, see [List and filter using the CLI and API](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Filtering.html#Filtering_Resources_CLI) in the Amazon EC2 User Guide.
@@ -42390,6 +43016,48 @@ public struct DescribeCapacityReservationBillingRequestsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.capacityReservationBillingRequests = capacityReservationBillingRequests
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeCapacityReservationCancellationQuotesInput: Swift.Sendable {
+    /// The IDs of the cancellation quotes to describe.
+    public var capacityReservationCancellationQuoteIds: [Swift.String]?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// One or more filters. Filter names and values are case-sensitive.
+    public var filters: [EC2ClientTypes.Filter]?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
+    public var maxResults: Swift.Int?
+    /// The token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        capacityReservationCancellationQuoteIds: [Swift.String]? = nil,
+        dryRun: Swift.Bool? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.capacityReservationCancellationQuoteIds = capacityReservationCancellationQuoteIds
+        self.dryRun = dryRun
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeCapacityReservationCancellationQuotesOutput: Swift.Sendable {
+    /// Information about the Capacity Reservation cancellation quotes.
+    public var capacityReservationCancellationQuotes: [EC2ClientTypes.CapacityReservationCancellationQuote]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        capacityReservationCancellationQuotes: [EC2ClientTypes.CapacityReservationCancellationQuote]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.capacityReservationCancellationQuotes = capacityReservationCancellationQuotes
         self.nextToken = nextToken
     }
 }
@@ -45721,6 +46389,25 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// A single resource's tag configuration associated with the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
+    public struct TagFieldSpecificationResponse: Swift.Sendable {
+        /// The resource type for the tag keys associated with the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
+        public var resourceType: EC2ClientTypes.TaggableResourceType?
+        /// The tag keys on your tagged resources to be displayed by the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
+        public var tagKeys: [Swift.String]?
+
+        public init(
+            resourceType: EC2ClientTypes.TaggableResourceType? = nil,
+            tagKeys: [Swift.String]? = nil
+        ) {
+            self.resourceType = resourceType
+            self.tagKeys = tagKeys
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// Describes a flow log.
     public struct FlowLog: Swift.Sendable {
         /// The date and time the flow log was created.
@@ -45751,6 +46438,8 @@ extension EC2ClientTypes {
         public var maxAggregationInterval: Swift.Int?
         /// The ID of the resource being monitored.
         public var resourceId: Swift.String?
+        /// The tag configuration associated with the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
+        public var tagFieldSpecifications: [EC2ClientTypes.TagFieldSpecificationResponse]?
         /// The tags for the flow log.
         public var tags: [EC2ClientTypes.Tag]?
         /// The type of traffic captured for the flow log.
@@ -45771,6 +46460,7 @@ extension EC2ClientTypes {
             logGroupName: Swift.String? = nil,
             maxAggregationInterval: Swift.Int? = nil,
             resourceId: Swift.String? = nil,
+            tagFieldSpecifications: [EC2ClientTypes.TagFieldSpecificationResponse]? = nil,
             tags: [EC2ClientTypes.Tag]? = nil,
             trafficType: EC2ClientTypes.TrafficType? = nil
         ) {
@@ -45788,6 +46478,7 @@ extension EC2ClientTypes {
             self.logGroupName = logGroupName
             self.maxAggregationInterval = maxAggregationInterval
             self.resourceId = resourceId
+            self.tagFieldSpecifications = tagFieldSpecifications
             self.tags = tags
             self.trafficType = trafficType
         }
@@ -46605,6 +47296,21 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// Contains the CPU options for a Dedicated Host, including AMD Secure Encrypted Virtualization-Secure Nested Paging (AMD SEV-SNP) settings.
+    public struct HostCpuOptions: Swift.Sendable {
+        /// Specifies whether AMD Secure Encrypted Virtualization-Secure Nested Paging (AMD SEV-SNP) is enabled or disabled for the Dedicated Host. If you don't specify a value, AMD SEV-SNP is disabled.
+        public var amdSevSnp: EC2ClientTypes.AmdSevSnp?
+
+        public init(
+            amdSevSnp: EC2ClientTypes.AmdSevSnp? = nil
+        ) {
+            self.amdSevSnp = amdSevSnp
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// Describes the properties of a Dedicated Host.
     public struct HostProperties: Swift.Sendable {
         /// The number of cores on the Dedicated Host.
@@ -46677,6 +47383,8 @@ extension EC2ClientTypes {
         public var availableCapacity: EC2ClientTypes.AvailableCapacity?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
         public var clientToken: Swift.String?
+        /// The CPU options for the Dedicated Host, including AMD Secure Encrypted Virtualization-Secure Nested Paging (AMD SEV-SNP) settings.
+        public var cpuOptions: EC2ClientTypes.HostCpuOptions?
         /// The ID of the Dedicated Host.
         public var hostId: Swift.String?
         /// Indicates whether host maintenance is enabled or disabled for the Dedicated Host.
@@ -46711,6 +47419,7 @@ extension EC2ClientTypes {
             availabilityZoneId: Swift.String? = nil,
             availableCapacity: EC2ClientTypes.AvailableCapacity? = nil,
             clientToken: Swift.String? = nil,
+            cpuOptions: EC2ClientTypes.HostCpuOptions? = nil,
             hostId: Swift.String? = nil,
             hostMaintenance: EC2ClientTypes.HostMaintenance? = nil,
             hostProperties: EC2ClientTypes.HostProperties? = nil,
@@ -46732,6 +47441,7 @@ extension EC2ClientTypes {
             self.availabilityZoneId = availabilityZoneId
             self.availableCapacity = availableCapacity
             self.clientToken = clientToken
+            self.cpuOptions = cpuOptions
             self.hostId = hostId
             self.hostMaintenance = hostMaintenance
             self.hostProperties = hostProperties
@@ -47264,6 +47974,16 @@ public struct DescribeImagesInput: Swift.Sendable {
     ///
     /// * image-id - The ID of the image.
     ///
+    /// * image-watermark.source-image-creation-time - The creation date of the source AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.
+    ///
+    /// * image-watermark.source-image-id - The ID of the AMI to which the watermark was originally attached.
+    ///
+    /// * image-watermark.source-image-region - The Region where the watermark was originally attached.
+    ///
+    /// * image-watermark.watermark-creation-time - The date and time the watermark was attached to the AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.
+    ///
+    /// * image-watermark.watermark-key - The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).
+    ///
     /// * image-type - The image type (machine | kernel | ramdisk).
     ///
     /// * is-public - A Boolean that indicates whether the image is public.
@@ -47283,6 +48003,8 @@ public struct DescribeImagesInput: Swift.Sendable {
     /// * product-code - The product code.
     ///
     /// * product-code.type - The type of the product code (marketplace).
+    ///
+    /// * public-ssm-parameter-name - The name of a public Systems Manager parameter associated with the AMI. The parameter must be in a trusted Amazon Web Services namespace under aws/service/. Returns all AMIs that have ever been associated with the parameter, including previous versions.
     ///
     /// * ramdisk-id - The RAM disk ID.
     ///
@@ -47473,6 +48195,37 @@ extension EC2ClientTypes {
             case .ramdisk: return "ramdisk"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a watermark attached to an AMI.
+    public struct ImageWatermark: Swift.Sendable {
+        /// The creation date of the source AMI, in the following format: YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM.
+        public var sourceImageCreationTime: Foundation.Date?
+        /// The ID of the AMI to which the watermark was originally attached.
+        public var sourceImageId: Swift.String?
+        /// The Region where the watermark was originally attached.
+        public var sourceImageRegion: Swift.String?
+        /// The date and time the watermark was attached to the AMI, in the following format: YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM.
+        public var watermarkCreationTime: Foundation.Date?
+        /// The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi). The accountId portion is the Amazon Web Services account ID of the watermark creator. The watermarkName portion is customer-provided.
+        public var watermarkKey: Swift.String?
+
+        public init(
+            sourceImageCreationTime: Foundation.Date? = nil,
+            sourceImageId: Swift.String? = nil,
+            sourceImageRegion: Swift.String? = nil,
+            watermarkCreationTime: Foundation.Date? = nil,
+            watermarkKey: Swift.String? = nil
+        ) {
+            self.sourceImageCreationTime = sourceImageCreationTime
+            self.sourceImageId = sourceImageId
+            self.sourceImageRegion = sourceImageRegion
+            self.watermarkCreationTime = watermarkCreationTime
+            self.watermarkKey = watermarkKey
         }
     }
 }
@@ -47672,6 +48425,8 @@ extension EC2ClientTypes {
         public var imageOwnerAlias: Swift.String?
         /// The type of image.
         public var imageType: EC2ClientTypes.ImageTypeValues?
+        /// The watermarks attached to the AMI.
+        public var imageWatermarks: [EC2ClientTypes.ImageWatermark]?
         /// If v2.0, it indicates that IMDSv2 is specified in the AMI. Instances launched from this AMI will have HttpTokens automatically set to required so that, by default, the instance requires that IMDSv2 is used when requesting instance metadata. In addition, HttpPutResponseHopLimit is set to 2. For more information, see [Configure the AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-new-instances.html#configure-IMDS-new-instances-ami-configuration) in the Amazon EC2 User Guide.
         public var imdsSupport: EC2ClientTypes.ImdsSupportValues?
         /// The kernel associated with the image, if any. Only applicable for machine images.
@@ -47690,6 +48445,8 @@ extension EC2ClientTypes {
         public var productCodes: [EC2ClientTypes.ProductCode]?
         /// Indicates whether the image has public launch permissions. The value is true if this image has public launch permissions or false if it has only implicit and explicit launch permissions.
         public var `public`: Swift.Bool?
+        /// The name of the public Systems Manager parameter that resolves to this AMI, under the aws/service/ namespace.
+        public var publicSsmParameterName: Swift.String?
         /// The RAM disk associated with the image, if any. Only applicable for machine images.
         public var ramdiskId: Swift.String?
         /// The device name of the root device volume (for example, /dev/sda1).
@@ -47733,6 +48490,7 @@ extension EC2ClientTypes {
             imageLocation: Swift.String? = nil,
             imageOwnerAlias: Swift.String? = nil,
             imageType: EC2ClientTypes.ImageTypeValues? = nil,
+            imageWatermarks: [EC2ClientTypes.ImageWatermark]? = nil,
             imdsSupport: EC2ClientTypes.ImdsSupportValues? = nil,
             kernelId: Swift.String? = nil,
             lastLaunchedTime: Swift.String? = nil,
@@ -47742,6 +48500,7 @@ extension EC2ClientTypes {
             platformDetails: Swift.String? = nil,
             productCodes: [EC2ClientTypes.ProductCode]? = nil,
             `public`: Swift.Bool? = nil,
+            publicSsmParameterName: Swift.String? = nil,
             ramdiskId: Swift.String? = nil,
             rootDeviceName: Swift.String? = nil,
             rootDeviceType: EC2ClientTypes.DeviceType? = nil,
@@ -47771,6 +48530,7 @@ extension EC2ClientTypes {
             self.imageLocation = imageLocation
             self.imageOwnerAlias = imageOwnerAlias
             self.imageType = imageType
+            self.imageWatermarks = imageWatermarks
             self.imdsSupport = imdsSupport
             self.kernelId = kernelId
             self.lastLaunchedTime = lastLaunchedTime
@@ -47780,6 +48540,7 @@ extension EC2ClientTypes {
             self.platformDetails = platformDetails
             self.productCodes = productCodes
             self.`public` = `public`
+            self.publicSsmParameterName = publicSsmParameterName
             self.ramdiskId = ramdiskId
             self.rootDeviceName = rootDeviceName
             self.rootDeviceType = rootDeviceType
@@ -48909,6 +49670,8 @@ extension EC2ClientTypes {
         public var imageId: Swift.String?
         /// The alias of the AMI owner. Valid values: amazon | aws-backup-vault | aws-marketplace
         public var imageOwnerAlias: Swift.String?
+        /// The watermarks attached to the AMI.
+        public var imageWatermarks: [EC2ClientTypes.ImageWatermark]?
         /// Indicates whether the AMI has public launch permissions. A value of true means this AMI has public launch permissions, while false means it has only implicit (AMI owner) or explicit (shared with your account) launch permissions.
         public var isPublic: Swift.Bool?
         /// The name of the AMI.
@@ -48924,6 +49687,7 @@ extension EC2ClientTypes {
             imageAllowed: Swift.Bool? = nil,
             imageId: Swift.String? = nil,
             imageOwnerAlias: Swift.String? = nil,
+            imageWatermarks: [EC2ClientTypes.ImageWatermark]? = nil,
             isPublic: Swift.Bool? = nil,
             name: Swift.String? = nil,
             ownerId: Swift.String? = nil,
@@ -48934,6 +49698,7 @@ extension EC2ClientTypes {
             self.imageAllowed = imageAllowed
             self.imageId = imageId
             self.imageOwnerAlias = imageOwnerAlias
+            self.imageWatermarks = imageWatermarks
             self.isPublic = isPublic
             self.name = name
             self.ownerId = ownerId
@@ -50014,7 +50779,7 @@ extension EC2ClientTypes {
 
     /// A security group connection tracking specification response that enables you to set the idle timeout for connection tracking on an Elastic network interface. For more information, see [Connection tracking timeouts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-connection-tracking.html#connection-tracking-timeouts) in the Amazon EC2 User Guide.
     public struct ConnectionTrackingSpecificationResponse: Swift.Sendable {
-        /// Timeout (in seconds) for idle TCP connections in an established state. Min: 60 seconds. Max: 432000 seconds (5 days). Default: 432000 seconds. Recommended: Less than 432000 seconds.
+        /// Timeout (in seconds) for idle TCP connections in an established state. Min: 60 seconds. Max: 432000 seconds (5 days). Default: 350 seconds for Nitro v6 instance types (excluding P6e-GB200); 432000 seconds for all other instance types (including P6e-GB200). Recommended: Less than 432000 seconds.
         public var tcpEstablishedTimeout: Swift.Int?
         /// Timeout (in seconds) for idle UDP flows classified as streams which have seen more than one request-response transaction. Min: 60 seconds. Max: 180 seconds (3 minutes). Default: 180 seconds.
         public var udpStreamTimeout: Swift.Int?
@@ -55723,7 +56488,7 @@ public struct DescribePlacementGroupsInput: Swift.Sendable {
     ///
     /// * state - The state of the placement group (pending | available | deleting | deleted).
     ///
-    /// * strategy - The strategy of the placement group (cluster | spread | partition).
+    /// * strategy - The strategy of the placement group (cluster | spread | partition | precision-time).
     ///
     /// * tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
     ///
@@ -61945,6 +62710,8 @@ public struct DescribeVolumesModificationsInput: Swift.Sendable {
     ///
     /// * volume-id - The ID of the volume.
     public var filters: [EC2ClientTypes.Filter]?
+    /// Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
+    public var includeManagedResources: Swift.Bool?
     /// The maximum number of results (up to a limit of 500) to be returned in a paginated request. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
     public var maxResults: Swift.Int?
     /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -61955,12 +62722,14 @@ public struct DescribeVolumesModificationsInput: Swift.Sendable {
     public init(
         dryRun: Swift.Bool? = nil,
         filters: [EC2ClientTypes.Filter]? = nil,
+        includeManagedResources: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         volumeIds: [Swift.String]? = nil
     ) {
         self.dryRun = dryRun
         self.filters = filters
+        self.includeManagedResources = includeManagedResources
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.volumeIds = volumeIds
@@ -62010,7 +62779,7 @@ extension EC2ClientTypes {
         public var endTime: Foundation.Date?
         /// The current modification state.
         public var modificationState: EC2ClientTypes.VolumeModificationState?
-        /// Describes whether the resource is managed by a service provider and, if so, describes the service provider that manages it.
+        /// The service provider that manages the resource.
         public var `operator`: EC2ClientTypes.OperatorResponse?
         /// The original IOPS rate of the volume.
         public var originalIops: Swift.Int?
@@ -62674,35 +63443,6 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
-    public enum ManagedBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case account
-        case declarativePolicy
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ManagedBy] {
-            return [
-                .account,
-                .declarativePolicy
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .account: return "account"
-            case .declarativePolicy: return "declarative-policy"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
     public enum VpcBlockPublicAccessState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case defaultState
         case updateComplete
@@ -63171,6 +63911,8 @@ extension EC2ClientTypes {
         public var ipAddressType: EC2ClientTypes.IpAddressType?
         /// The Amazon Resource Names (ARNs) of the network load balancers for the service.
         public var networkLoadBalancerArns: [Swift.String]?
+        /// The payer responsibility settings for the endpoint.
+        public var payerResponsibilities: [EC2ClientTypes.PayerResponsibilityEntry]?
         /// The ID of the service to which the endpoint is connected.
         public var serviceId: Swift.String?
         /// The tags.
@@ -63192,6 +63934,7 @@ extension EC2ClientTypes {
             gatewayLoadBalancerArns: [Swift.String]? = nil,
             ipAddressType: EC2ClientTypes.IpAddressType? = nil,
             networkLoadBalancerArns: [Swift.String]? = nil,
+            payerResponsibilities: [EC2ClientTypes.PayerResponsibilityEntry]? = nil,
             serviceId: Swift.String? = nil,
             tags: [EC2ClientTypes.Tag]? = nil,
             vpcEndpointConnectionId: Swift.String? = nil,
@@ -63205,6 +63948,7 @@ extension EC2ClientTypes {
             self.gatewayLoadBalancerArns = gatewayLoadBalancerArns
             self.ipAddressType = ipAddressType
             self.networkLoadBalancerArns = networkLoadBalancerArns
+            self.payerResponsibilities = payerResponsibilities
             self.serviceId = serviceId
             self.tags = tags
             self.vpcEndpointConnectionId = vpcEndpointConnectionId
@@ -63858,6 +64602,38 @@ public struct DetachClassicLinkVpcInput: Swift.Sendable {
 }
 
 public struct DetachClassicLinkVpcOutput: Swift.Sendable {
+    /// Returns true if the request succeeds; otherwise, it returns an error.
+    public var `return`: Swift.Bool?
+
+    public init(
+        `return`: Swift.Bool? = nil
+    ) {
+        self.`return` = `return`
+    }
+}
+
+public struct DetachImageWatermarkInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the AMI.
+    /// This member is required.
+    public var imageId: Swift.String?
+    /// The watermark key to remove, in accountId:watermarkName format (for example, 123456789012:approvedAmi).
+    /// This member is required.
+    public var watermarkKey: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        imageId: Swift.String? = nil,
+        watermarkKey: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.imageId = imageId
+        self.watermarkKey = watermarkKey
+    }
+}
+
+public struct DetachImageWatermarkOutput: Swift.Sendable {
     /// Returns true if the request succeeds; otherwise, it returns an error.
     public var `return`: Swift.Bool?
 
@@ -66942,6 +67718,33 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// The watermark filter criteria for an allowed image. Each entry can specify one or more fields. All specified fields must match the same watermark on the image.
+    public struct ImageWatermarkFilterResponse: Swift.Sendable {
+        /// The maximum number of days that have elapsed since the source image was created. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maximumDaysSinceSourceImageCreated: Swift.Int?
+        /// The maximum number of days that have elapsed since the watermark was attached to the image. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maximumDaysSinceWatermarkCreated: Swift.Int?
+        /// The Region where the watermark was originally created. Supports wildcards (*, ?).
+        public var sourceImageRegion: Swift.String?
+        /// The accountId:name of the watermark. Supports wildcards (*, ?).
+        public var watermarkKey: Swift.String?
+
+        public init(
+            maximumDaysSinceSourceImageCreated: Swift.Int? = nil,
+            maximumDaysSinceWatermarkCreated: Swift.Int? = nil,
+            sourceImageRegion: Swift.String? = nil,
+            watermarkKey: Swift.String? = nil
+        ) {
+            self.maximumDaysSinceSourceImageCreated = maximumDaysSinceSourceImageCreated
+            self.maximumDaysSinceWatermarkCreated = maximumDaysSinceWatermarkCreated
+            self.sourceImageRegion = sourceImageRegion
+            self.watermarkKey = watermarkKey
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// The criteria that are evaluated to determine which AMIs are discoverable and usable in your account for the specified Amazon Web Services Region. For more information, see [How Allowed AMIs works](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html#how-allowed-amis-works) in the Amazon EC2 User Guide.
     public struct ImageCriterion: Swift.Sendable {
         /// The maximum age for allowed images.
@@ -66976,6 +67779,8 @@ extension EC2ClientTypes {
         ///
         /// Maximum: 200 values
         public var imageProviders: [Swift.String]?
+        /// The watermark criteria that an AMI must match to be allowed. An AMI is allowed if it carries at least one watermark that satisfies an ImageWatermarkFilter. A watermark satisfies a filter when all specified fields in the ImageWatermarkFilter match the corresponding values on the watermark of the AMI. Maximum: 50 values
+        public var imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterResponse]?
         /// The Amazon Web Services Marketplace product codes for allowed images. Length: 1-25 characters Valid characters: Letters (A–Z, a–z) and numbers (0–9) Maximum: 50 values
         public var marketplaceProductCodes: [Swift.String]?
 
@@ -66984,12 +67789,14 @@ extension EC2ClientTypes {
             deprecationTimeCondition: EC2ClientTypes.DeprecationTimeCondition? = nil,
             imageNames: [Swift.String]? = nil,
             imageProviders: [Swift.String]? = nil,
+            imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterResponse]? = nil,
             marketplaceProductCodes: [Swift.String]? = nil
         ) {
             self.creationDateCondition = creationDateCondition
             self.deprecationTimeCondition = deprecationTimeCondition
             self.imageNames = imageNames
             self.imageProviders = imageProviders
+            self.imageWatermarks = imageWatermarks
             self.marketplaceProductCodes = marketplaceProductCodes
         }
     }
@@ -68289,6 +69096,8 @@ public struct GetCapacityReservationUsageOutput: Swift.Sendable {
     /// * delayed - (Future-dated Capacity Reservations) Amazon EC2 encountered a delay in provisioning the requested future-dated Capacity Reservation. Amazon EC2 is unable to deliver the requested capacity by the requested start date and time.
     ///
     /// * unsupported - (Future-dated Capacity Reservations) Amazon EC2 can't support the future-dated Capacity Reservation request due to capacity constraints. You can view unsupported requests for 30 days. The Capacity Reservation will not be delivered.
+    ///
+    /// * cancelling - (Future-dated Capacity Reservations) The Capacity Reservation is being cancelled. Capacity has been released but charges continue for the commitment wind-down period. The reservation transitions to cancelled when the wind-down completes.
     public var state: EC2ClientTypes.CapacityReservationState?
     /// The number of instances for which the Capacity Reservation reserves capacity.
     public var totalInstanceCount: Swift.Int?
@@ -74059,6 +74868,64 @@ public struct LockSnapshotOutput: Swift.Sendable {
     }
 }
 
+public struct ModifyAccountVpcEncryptionControlInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// Specifies whether to exclude egress-only internet gateway resource from account-level encryption enforcement.
+    public var egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
+    /// Specifies whether to exclude Elastic File System service from account-level encryption enforcement.
+    public var elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
+    /// Specifies whether to exclude internet gateway resource from account-level encryption enforcement.
+    public var internetGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
+    /// Specifies whether to exclude Lambda service from account-level encryption enforcement.
+    public var lambda: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
+    /// The encryption mode for the account encryption control configuration.
+    public var mode: EC2ClientTypes.AccountVpcEncryptionControlMode?
+    /// Specifies whether to exclude NAT gateway resource from account-level encryption enforcement.
+    public var natGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
+    /// Specifies whether to exclude virtual private gateway resource from account-level encryption enforcement.
+    public var virtualPrivateGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
+    /// Specifies whether to exclude VPC Lattice service from account-level encryption enforcement.
+    public var vpcLattice: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
+    /// Specifies whether to exclude VPC peering connection resource from account-level encryption enforcement.
+    public var vpcPeering: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
+        elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
+        internetGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
+        lambda: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
+        mode: EC2ClientTypes.AccountVpcEncryptionControlMode? = nil,
+        natGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
+        virtualPrivateGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
+        vpcLattice: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
+        vpcPeering: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil
+    ) {
+        self.dryRun = dryRun
+        self.egressOnlyInternetGateway = egressOnlyInternetGateway
+        self.elasticFileSystem = elasticFileSystem
+        self.internetGateway = internetGateway
+        self.lambda = lambda
+        self.mode = mode
+        self.natGateway = natGateway
+        self.virtualPrivateGateway = virtualPrivateGateway
+        self.vpcLattice = vpcLattice
+        self.vpcPeering = vpcPeering
+    }
+}
+
+public struct ModifyAccountVpcEncryptionControlOutput: Swift.Sendable {
+    /// Information about the account-level VPC Encryption Control configuration.
+    public var accountVpcEncryptionControl: EC2ClientTypes.AccountVpcEncryptionControl?
+
+    public init(
+        accountVpcEncryptionControl: EC2ClientTypes.AccountVpcEncryptionControl? = nil
+    ) {
+        self.accountVpcEncryptionControl = accountVpcEncryptionControl
+    }
+}
+
 public struct ModifyAddressAttributeInput: Swift.Sendable {
     /// [EC2-VPC] The allocation ID.
     /// This member is required.
@@ -77221,6 +78088,10 @@ extension EC2ClientTypes {
         ///
         /// * Connect
         ///
+        /// * VPN Concentrator
+        ///
+        /// * Client VPN
+        ///
         ///
         /// You must first delete all transit gateway attachments configured prior to modifying the ASN on the transit gateway.
         public var amazonSideAsn: Swift.Int?
@@ -78440,6 +79311,51 @@ public struct ModifyVpcEndpointConnectionNotificationOutput: Swift.Sendable {
         returnValue: Swift.Bool? = nil
     ) {
         self.returnValue = returnValue
+    }
+}
+
+public struct ModifyVpcEndpointPayerResponsibilityInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The Amazon Web Services account to which the usage of VPC endpoint is charged.
+    /// This member is required.
+    public var payerResponsibility: EC2ClientTypes.PayerResponsibilityType?
+    /// The scope of usage/charges for which the billing account is being modified.
+    /// This member is required.
+    public var scope: EC2ClientTypes.PayerResponsibilityScope?
+    /// The ID of the VPC endpoint service.
+    public var serviceId: Swift.String?
+    /// The ID of the VPC endpoint.
+    /// This member is required.
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        payerResponsibility: EC2ClientTypes.PayerResponsibilityType? = nil,
+        scope: EC2ClientTypes.PayerResponsibilityScope? = nil,
+        serviceId: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.payerResponsibility = payerResponsibility
+        self.scope = scope
+        self.serviceId = serviceId
+        self.vpcEndpointId = vpcEndpointId
+    }
+}
+
+public struct ModifyVpcEndpointPayerResponsibilityOutput: Swift.Sendable {
+    /// The payer responsibility settings for the VPC endpoint.
+    public var payerResponsibilities: [EC2ClientTypes.PayerResponsibilityEntry]?
+    /// The ID of the VPC endpoint.
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        payerResponsibilities: [EC2ClientTypes.PayerResponsibilityEntry]? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.payerResponsibilities = payerResponsibilities
+        self.vpcEndpointId = vpcEndpointId
     }
 }
 
@@ -80353,6 +81269,33 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// The watermark filter criteria for an allowed image. Each entry can specify one or more fields. All specified fields must match the same watermark on the image.
+    public struct ImageWatermarkFilterRequest: Swift.Sendable {
+        /// The maximum number of days that have elapsed since the source image was created. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maximumDaysSinceSourceImageCreated: Swift.Int?
+        /// The maximum number of days that have elapsed since the watermark was attached to the image. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maximumDaysSinceWatermarkCreated: Swift.Int?
+        /// The Region where the watermark was originally created. Supports wildcards (*, ?).
+        public var sourceImageRegion: Swift.String?
+        /// The accountId:name of the watermark. Supports wildcards (*, ?).
+        public var watermarkKey: Swift.String?
+
+        public init(
+            maximumDaysSinceSourceImageCreated: Swift.Int? = nil,
+            maximumDaysSinceWatermarkCreated: Swift.Int? = nil,
+            sourceImageRegion: Swift.String? = nil,
+            watermarkKey: Swift.String? = nil
+        ) {
+            self.maximumDaysSinceSourceImageCreated = maximumDaysSinceSourceImageCreated
+            self.maximumDaysSinceWatermarkCreated = maximumDaysSinceWatermarkCreated
+            self.sourceImageRegion = sourceImageRegion
+            self.watermarkKey = watermarkKey
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// The criteria that are evaluated to determine which AMIs are discoverable and usable in your account for the specified Amazon Web Services Region. The ImageCriteria can include up to:
     ///
     /// * 10 ImageCriterion
@@ -80365,6 +81308,8 @@ extension EC2ClientTypes {
     /// * 50 values for ImageNames
     ///
     /// * 50 values for MarketplaceProductCodes
+    ///
+    /// * 50 values for ImageWatermarks
     ///
     ///
     /// For more information, see [How Allowed AMIs works](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html#how-allowed-amis-works) in the Amazon EC2 User Guide.
@@ -80401,6 +81346,8 @@ extension EC2ClientTypes {
         ///
         /// Maximum: 200 values
         public var imageProviders: [Swift.String]?
+        /// The watermark criteria that an AMI must match to be allowed. An AMI is allowed if it carries at least one watermark that satisfies an ImageWatermarkFilter. A watermark satisfies a filter when all specified fields in the ImageWatermarkFilter match the corresponding values on the watermark of the AMI. Maximum: 50 values
+        public var imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterRequest]?
         /// The Amazon Web Services Marketplace product codes for allowed images. Length: 1-25 characters Valid characters: Letters (A–Z, a–z) and numbers (0–9) Maximum: 50 values
         public var marketplaceProductCodes: [Swift.String]?
 
@@ -80409,12 +81356,14 @@ extension EC2ClientTypes {
             deprecationTimeCondition: EC2ClientTypes.DeprecationTimeConditionRequest? = nil,
             imageNames: [Swift.String]? = nil,
             imageProviders: [Swift.String]? = nil,
+            imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterRequest]? = nil,
             marketplaceProductCodes: [Swift.String]? = nil
         ) {
             self.creationDateCondition = creationDateCondition
             self.deprecationTimeCondition = deprecationTimeCondition
             self.imageNames = imageNames
             self.imageProviders = imageProviders
+            self.imageWatermarks = imageWatermarks
             self.marketplaceProductCodes = marketplaceProductCodes
         }
     }
@@ -83875,6 +84824,13 @@ extension AttachClassicLinkVpcInput {
     }
 }
 
+extension AttachImageWatermarkInput {
+
+    static func urlPathProvider(_ value: AttachImageWatermarkInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension AttachInternetGatewayInput {
 
     static func urlPathProvider(_ value: AttachInternetGatewayInput) -> Swift.String? {
@@ -84067,6 +85023,13 @@ extension CreateCapacityReservationInput {
 extension CreateCapacityReservationBySplittingInput {
 
     static func urlPathProvider(_ value: CreateCapacityReservationBySplittingInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateCapacityReservationCancellationQuoteInput {
+
+    static func urlPathProvider(_ value: CreateCapacityReservationCancellationQuoteInput) -> Swift.String? {
         return "/"
     }
 }
@@ -85492,6 +86455,13 @@ extension DescribeAccountAttributesInput {
     }
 }
 
+extension DescribeAccountVpcEncryptionControlInput {
+
+    static func urlPathProvider(_ value: DescribeAccountVpcEncryptionControlInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeAddressesInput {
 
     static func urlPathProvider(_ value: DescribeAddressesInput) -> Swift.String? {
@@ -85593,6 +86563,13 @@ extension DescribeCapacityManagerDataExportsInput {
 extension DescribeCapacityReservationBillingRequestsInput {
 
     static func urlPathProvider(_ value: DescribeCapacityReservationBillingRequestsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeCapacityReservationCancellationQuotesInput {
+
+    static func urlPathProvider(_ value: DescribeCapacityReservationCancellationQuotesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -86794,6 +87771,13 @@ extension DetachClassicLinkVpcInput {
     }
 }
 
+extension DetachImageWatermarkInput {
+
+    static func urlPathProvider(_ value: DetachImageWatermarkInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DetachInternetGatewayInput {
 
     static func urlPathProvider(_ value: DetachInternetGatewayInput) -> Swift.String? {
@@ -87858,6 +88842,13 @@ extension LockSnapshotInput {
     }
 }
 
+extension ModifyAccountVpcEncryptionControlInput {
+
+    static func urlPathProvider(_ value: ModifyAccountVpcEncryptionControlInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ModifyAddressAttributeInput {
 
     static func urlPathProvider(_ value: ModifyAddressAttributeInput) -> Swift.String? {
@@ -88344,6 +89335,13 @@ extension ModifyVpcEndpointInput {
 extension ModifyVpcEndpointConnectionNotificationInput {
 
     static func urlPathProvider(_ value: ModifyVpcEndpointConnectionNotificationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyVpcEndpointPayerResponsibilityInput {
+
+    static func urlPathProvider(_ value: ModifyVpcEndpointPayerResponsibilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -89128,6 +90126,7 @@ extension AllocateHostsInput {
         try writer["AvailabilityZone"].write(value.availabilityZone)
         try writer["AvailabilityZoneId"].write(value.availabilityZoneId)
         try writer["ClientToken"].write(value.clientToken)
+        try writer["CpuOptions"].write(value.cpuOptions, with: EC2ClientTypes.HostCpuOptionsRequest.write(value:to:))
         try writer["HostMaintenance"].write(value.hostMaintenance)
         try writer["HostRecovery"].write(value.hostRecovery)
         try writer["InstanceFamily"].write(value.instanceFamily)
@@ -89510,6 +90509,18 @@ extension AttachClassicLinkVpcInput {
     }
 }
 
+extension AttachImageWatermarkInput {
+
+    static func write(value: AttachImageWatermarkInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["ImageId"].write(value.imageId)
+        try writer["WatermarkName"].write(value.watermarkName)
+        try writer["Action"].write("AttachImageWatermark")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension AttachInternetGatewayInput {
 
     static func write(value: AttachInternetGatewayInput?, to writer: SmithyFormURL.Writer) throws {
@@ -89667,8 +90678,10 @@ extension CancelCapacityReservationInput {
 
     static func write(value: CancelCapacityReservationInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["ApplyCancellationCharges"].write(value.applyCancellationCharges)
         try writer["CapacityReservationId"].write(value.capacityReservationId)
         try writer["DryRun"].write(value.dryRun)
+        try writer["QuoteId"].write(value.quoteId)
         try writer["Action"].write("CancelCapacityReservation")
         try writer["Version"].write("2016-11-15")
     }
@@ -89939,6 +90952,21 @@ extension CreateCapacityReservationBySplittingInput {
     }
 }
 
+extension CreateCapacityReservationCancellationQuoteInput {
+
+    static func write(value: CreateCapacityReservationCancellationQuoteInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityReservationId"].write(value.capacityReservationId)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.tagSpecifications?.isEmpty ?? true) {
+            try writer["TagSpecification"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("CreateCapacityReservationCancellationQuote")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension CreateCapacityReservationFleetInput {
 
     static func write(value: CreateCapacityReservationFleetInput?, to writer: SmithyFormURL.Writer) throws {
@@ -90193,6 +91221,9 @@ extension CreateFlowLogsInput {
             try writer["ResourceId"].writeList(value.resourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["ResourceType"].write(value.resourceType)
+        if !(value.tagFieldSpecifications?.isEmpty ?? true) {
+            try writer["TagFieldSpecification"].writeList(value.tagFieldSpecifications, memberWritingClosure: EC2ClientTypes.TagFieldSpecificationRequest.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
         if !(value.tagSpecifications?.isEmpty ?? true) {
             try writer["TagSpecification"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
@@ -90853,6 +91884,7 @@ extension CreatePlacementGroupInput {
         try writer["GroupName"].write(value.groupName)
         try writer["LinkedGroupId"].write(value.linkedGroupId)
         try writer["Operator"].write(value.`operator`, with: EC2ClientTypes.OperatorRequest.write(value:to:))
+        try writer["ParentGroupId"].write(value.parentGroupId)
         try writer["PartitionCount"].write(value.partitionCount)
         try writer["SpreadLevel"].write(value.spreadLevel)
         try writer["Strategy"].write(value.strategy)
@@ -92991,6 +94023,16 @@ extension DescribeAccountAttributesInput {
     }
 }
 
+extension DescribeAccountVpcEncryptionControlInput {
+
+    static func write(value: DescribeAccountVpcEncryptionControlInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["Action"].write("DescribeAccountVpcEncryptionControl")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension DescribeAddressesInput {
 
     static func write(value: DescribeAddressesInput?, to writer: SmithyFormURL.Writer) throws {
@@ -93235,6 +94277,24 @@ extension DescribeCapacityReservationBillingRequestsInput {
         try writer["NextToken"].write(value.nextToken)
         try writer["Role"].write(value.role)
         try writer["Action"].write("DescribeCapacityReservationBillingRequests")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DescribeCapacityReservationCancellationQuotesInput {
+
+    static func write(value: DescribeCapacityReservationCancellationQuotesInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.capacityReservationCancellationQuoteIds?.isEmpty ?? true) {
+            try writer["CapacityReservationCancellationQuoteId"].writeList(value.capacityReservationCancellationQuoteIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filter"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("DescribeCapacityReservationCancellationQuotes")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -95881,6 +96941,7 @@ extension DescribeVolumesModificationsInput {
         if !(value.filters?.isEmpty ?? true) {
             try writer["Filter"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
         }
+        try writer["IncludeManagedResources"].write(value.includeManagedResources)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         if !(value.volumeIds?.isEmpty ?? true) {
@@ -96217,6 +97278,18 @@ extension DetachClassicLinkVpcInput {
         try writer["InstanceId"].write(value.instanceId)
         try writer["VpcId"].write(value.vpcId)
         try writer["Action"].write("DetachClassicLinkVpc")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DetachImageWatermarkInput {
+
+    static func write(value: DetachImageWatermarkInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["ImageId"].write(value.imageId)
+        try writer["WatermarkKey"].write(value.watermarkKey)
+        try writer["Action"].write("DetachImageWatermark")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -98236,6 +99309,25 @@ extension LockSnapshotInput {
     }
 }
 
+extension ModifyAccountVpcEncryptionControlInput {
+
+    static func write(value: ModifyAccountVpcEncryptionControlInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["EgressOnlyInternetGateway"].write(value.egressOnlyInternetGateway)
+        try writer["ElasticFileSystem"].write(value.elasticFileSystem)
+        try writer["InternetGateway"].write(value.internetGateway)
+        try writer["Lambda"].write(value.lambda)
+        try writer["Mode"].write(value.mode)
+        try writer["NatGateway"].write(value.natGateway)
+        try writer["VirtualPrivateGateway"].write(value.virtualPrivateGateway)
+        try writer["VpcLattice"].write(value.vpcLattice)
+        try writer["VpcPeering"].write(value.vpcPeering)
+        try writer["Action"].write("ModifyAccountVpcEncryptionControl")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension ModifyAddressAttributeInput {
 
     static func write(value: ModifyAddressAttributeInput?, to writer: SmithyFormURL.Writer) throws {
@@ -99384,6 +100476,20 @@ extension ModifyVpcEndpointConnectionNotificationInput {
         try writer["ConnectionNotificationId"].write(value.connectionNotificationId)
         try writer["DryRun"].write(value.dryRun)
         try writer["Action"].write("ModifyVpcEndpointConnectionNotification")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension ModifyVpcEndpointPayerResponsibilityInput {
+
+    static func write(value: ModifyVpcEndpointPayerResponsibilityInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["PayerResponsibility"].write(value.payerResponsibility)
+        try writer["Scope"].write(value.scope)
+        try writer["ServiceId"].write(value.serviceId)
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
+        try writer["Action"].write("ModifyVpcEndpointPayerResponsibility")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -101206,6 +102312,18 @@ extension AttachClassicLinkVpcOutput {
     }
 }
 
+extension AttachImageWatermarkOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AttachImageWatermarkOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = AttachImageWatermarkOutput()
+        value.watermarkKey = try reader["watermarkKey"].readIfPresent()
+        return value
+    }
+}
+
 extension AttachInternetGatewayOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AttachInternetGatewayOutput {
@@ -101543,6 +102661,18 @@ extension CreateCapacityReservationBySplittingOutput {
         value.destinationCapacityReservation = try reader["destinationCapacityReservation"].readIfPresent(with: EC2ClientTypes.CapacityReservation.read(from:))
         value.instanceCount = try reader["instanceCount"].readIfPresent()
         value.sourceCapacityReservation = try reader["sourceCapacityReservation"].readIfPresent(with: EC2ClientTypes.CapacityReservation.read(from:))
+        return value
+    }
+}
+
+extension CreateCapacityReservationCancellationQuoteOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCapacityReservationCancellationQuoteOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCapacityReservationCancellationQuoteOutput()
+        value.capacityReservationCancellationQuote = try reader["capacityReservationCancellationQuote"].readIfPresent(with: EC2ClientTypes.CapacityReservationCancellationQuote.read(from:))
         return value
     }
 }
@@ -103973,6 +105103,18 @@ extension DescribeAccountAttributesOutput {
     }
 }
 
+extension DescribeAccountVpcEncryptionControlOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAccountVpcEncryptionControlOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeAccountVpcEncryptionControlOutput()
+        value.accountVpcEncryptionControl = try reader["accountVpcEncryptionControl"].readIfPresent(with: EC2ClientTypes.AccountVpcEncryptionControl.read(from:))
+        return value
+    }
+}
+
 extension DescribeAddressesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAddressesOutput {
@@ -104160,6 +105302,19 @@ extension DescribeCapacityReservationBillingRequestsOutput {
         let reader = responseReader
         var value = DescribeCapacityReservationBillingRequestsOutput()
         value.capacityReservationBillingRequests = try reader["capacityReservationBillingRequestSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.CapacityReservationBillingRequest.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeCapacityReservationCancellationQuotesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCapacityReservationCancellationQuotesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeCapacityReservationCancellationQuotesOutput()
+        value.capacityReservationCancellationQuotes = try reader["capacityReservationCancellationQuoteSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.CapacityReservationCancellationQuote.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -106414,6 +107569,18 @@ extension DetachClassicLinkVpcOutput {
     }
 }
 
+extension DetachImageWatermarkOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DetachImageWatermarkOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DetachImageWatermarkOutput()
+        value.`return` = try reader["return"].readIfPresent()
+        return value
+    }
+}
+
 extension DetachInternetGatewayOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DetachInternetGatewayOutput {
@@ -108381,6 +109548,18 @@ extension LockSnapshotOutput {
     }
 }
 
+extension ModifyAccountVpcEncryptionControlOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyAccountVpcEncryptionControlOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyAccountVpcEncryptionControlOutput()
+        value.accountVpcEncryptionControl = try reader["accountVpcEncryptionControl"].readIfPresent(with: EC2ClientTypes.AccountVpcEncryptionControl.read(from:))
+        return value
+    }
+}
+
 extension ModifyAddressAttributeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyAddressAttributeOutput {
@@ -109186,6 +110365,19 @@ extension ModifyVpcEndpointConnectionNotificationOutput {
         let reader = responseReader
         var value = ModifyVpcEndpointConnectionNotificationOutput()
         value.returnValue = try reader["return"].readIfPresent()
+        return value
+    }
+}
+
+extension ModifyVpcEndpointPayerResponsibilityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyVpcEndpointPayerResponsibilityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyVpcEndpointPayerResponsibilityOutput()
+        value.payerResponsibilities = try reader["payerResponsibilitySet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.PayerResponsibilityEntry.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
         return value
     }
 }
@@ -110734,6 +111926,19 @@ enum AttachClassicLinkVpcOutputError {
     }
 }
 
+enum AttachImageWatermarkOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum AttachInternetGatewayOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -111086,6 +112291,19 @@ enum CreateCapacityReservationOutputError {
 }
 
 enum CreateCapacityReservationBySplittingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateCapacityReservationCancellationQuoteOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -113737,6 +114955,19 @@ enum DescribeAccountAttributesOutputError {
     }
 }
 
+enum DescribeAccountVpcEncryptionControlOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeAddressesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -113920,6 +115151,19 @@ enum DescribeCapacityManagerDataExportsOutputError {
 }
 
 enum DescribeCapacityReservationBillingRequestsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeCapacityReservationCancellationQuotesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -116155,6 +117399,19 @@ enum DetachClassicLinkVpcOutputError {
     }
 }
 
+enum DetachImageWatermarkOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DetachInternetGatewayOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -118131,6 +119388,19 @@ enum LockSnapshotOutputError {
     }
 }
 
+enum ModifyAccountVpcEncryptionControlOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ModifyAddressAttributeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -119029,6 +120299,19 @@ enum ModifyVpcEndpointOutputError {
 }
 
 enum ModifyVpcEndpointConnectionNotificationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyVpcEndpointPayerResponsibilityOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -120308,6 +121591,37 @@ extension EC2ClientTypes.AccountAttributeValue {
     }
 }
 
+extension EC2ClientTypes.AccountVpcEncryptionControl {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.AccountVpcEncryptionControl {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.AccountVpcEncryptionControl()
+        value.state = try reader["state"].readIfPresent()
+        value.mode = try reader["mode"].readIfPresent()
+        value.exclusions = try reader["exclusions"].readIfPresent(with: EC2ClientTypes.AccountVpcEncryptionControlExclusions.read(from:))
+        value.managedBy = try reader["managedBy"].readIfPresent()
+        value.lastUpdateTimestamp = try reader["lastUpdateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension EC2ClientTypes.AccountVpcEncryptionControlExclusions {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.AccountVpcEncryptionControlExclusions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.AccountVpcEncryptionControlExclusions()
+        value.internetGateway = try reader["internetGateway"].readIfPresent()
+        value.egressOnlyInternetGateway = try reader["egressOnlyInternetGateway"].readIfPresent()
+        value.natGateway = try reader["natGateway"].readIfPresent()
+        value.virtualPrivateGateway = try reader["virtualPrivateGateway"].readIfPresent()
+        value.vpcPeering = try reader["vpcPeering"].readIfPresent()
+        value.lambda = try reader["lambda"].readIfPresent()
+        value.vpcLattice = try reader["vpcLattice"].readIfPresent()
+        value.elasticFileSystem = try reader["elasticFileSystem"].readIfPresent()
+        return value
+    }
+}
+
 extension EC2ClientTypes.ActiveInstance {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ActiveInstance {
@@ -120979,6 +122293,20 @@ extension EC2ClientTypes.CancelCapacityReservationFleetError {
     }
 }
 
+extension EC2ClientTypes.CancellationTerms {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.CancellationTerms {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.CancellationTerms()
+        value.cancellationType = try reader["cancellationType"].readIfPresent()
+        value.reservationState = try reader["reservationState"].readIfPresent()
+        value.committedInstanceCount = try reader["committedInstanceCount"].readIfPresent()
+        value.chargeCommitmentDurationHours = try reader["chargeCommitmentDurationHours"].readIfPresent()
+        value.chargeEndDate = try reader["chargeEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension EC2ClientTypes.CancelledSpotInstanceRequest {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.CancelledSpotInstanceRequest {
@@ -121286,6 +122614,23 @@ extension EC2ClientTypes.CapacityReservationBillingRequest {
     }
 }
 
+extension EC2ClientTypes.CapacityReservationCancellationQuote {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.CapacityReservationCancellationQuote {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.CapacityReservationCancellationQuote()
+        value.capacityReservationCancellationQuoteId = try reader["capacityReservationCancellationQuoteId"].readIfPresent()
+        value.capacityReservationId = try reader["capacityReservationId"].readIfPresent()
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.expirationTime = try reader["expirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.quoteState = try reader["quoteState"].readIfPresent()
+        value.currentConfiguration = try reader["currentConfiguration"].readIfPresent(with: EC2ClientTypes.CapacityReservationConfiguration.read(from:))
+        value.cancellationTerms = try reader["cancellationTermSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.CancellationTerms.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
 extension EC2ClientTypes.CapacityReservationCommitmentInfo {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.CapacityReservationCommitmentInfo {
@@ -121293,6 +122638,17 @@ extension EC2ClientTypes.CapacityReservationCommitmentInfo {
         var value = EC2ClientTypes.CapacityReservationCommitmentInfo()
         value.committedInstanceCount = try reader["committedInstanceCount"].readIfPresent()
         value.commitmentEndDate = try reader["commitmentEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension EC2ClientTypes.CapacityReservationConfiguration {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.CapacityReservationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.CapacityReservationConfiguration()
+        value.instanceCount = try reader["instanceCount"].readIfPresent()
+        value.reservationState = try reader["reservationState"].readIfPresent()
         return value
     }
 }
@@ -123673,6 +125029,7 @@ extension EC2ClientTypes.FlowLog {
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.maxAggregationInterval = try reader["maxAggregationInterval"].readIfPresent()
         value.destinationOptions = try reader["destinationOptions"].readIfPresent(with: EC2ClientTypes.DestinationOptionsResponse.read(from:))
+        value.tagFieldSpecifications = try reader["tagFieldSpecificationSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.TagFieldSpecificationResponse.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -123882,7 +125239,26 @@ extension EC2ClientTypes.Host {
         value.outpostArn = try reader["outpostArn"].readIfPresent()
         value.hostMaintenance = try reader["hostMaintenance"].readIfPresent()
         value.assetId = try reader["assetId"].readIfPresent()
+        value.cpuOptions = try reader["cpuOptions"].readIfPresent(with: EC2ClientTypes.HostCpuOptions.read(from:))
         return value
+    }
+}
+
+extension EC2ClientTypes.HostCpuOptions {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.HostCpuOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.HostCpuOptions()
+        value.amdSevSnp = try reader["amdSevSnp"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.HostCpuOptionsRequest {
+
+    static func write(value: EC2ClientTypes.HostCpuOptionsRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AmdSevSnp"].write(value.amdSevSnp)
     }
 }
 
@@ -124070,6 +125446,8 @@ extension EC2ClientTypes.Image {
         value.sourceImageId = try reader["sourceImageId"].readIfPresent()
         value.sourceImageRegion = try reader["sourceImageRegion"].readIfPresent()
         value.freeTierEligible = try reader["freeTierEligible"].readIfPresent()
+        value.publicSsmParameterName = try reader["publicSsmParameterName"].readIfPresent()
+        value.imageWatermarks = try reader["imageWatermarkSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ImageWatermark.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.imageId = try reader["imageId"].readIfPresent()
         value.imageLocation = try reader["imageLocation"].readIfPresent()
         value.state = try reader["imageState"].readIfPresent()
@@ -124110,6 +125488,7 @@ extension EC2ClientTypes.ImageCriterion {
         value.imageNames = try reader["imageNameSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
         value.deprecationTimeCondition = try reader["deprecationTimeCondition"].readIfPresent(with: EC2ClientTypes.DeprecationTimeCondition.read(from:))
         value.creationDateCondition = try reader["creationDateCondition"].readIfPresent(with: EC2ClientTypes.CreationDateCondition.read(from:))
+        value.imageWatermarks = try reader["imageWatermarkSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ImageWatermarkFilterResponse.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -124125,6 +125504,9 @@ extension EC2ClientTypes.ImageCriterionRequest {
         }
         if !(value.imageProviders?.isEmpty ?? true) {
             try writer["ImageProvider"].writeList(value.imageProviders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.imageWatermarks?.isEmpty ?? true) {
+            try writer["ImageWatermark"].writeList(value.imageWatermarks, memberWritingClosure: EC2ClientTypes.ImageWatermarkFilterRequest.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         if !(value.marketplaceProductCodes?.isEmpty ?? true) {
             try writer["MarketplaceProductCode"].writeList(value.marketplaceProductCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
@@ -124159,6 +125541,7 @@ extension EC2ClientTypes.ImageMetadata {
         value.deprecationTime = try reader["deprecationTime"].readIfPresent()
         value.imageAllowed = try reader["imageAllowed"].readIfPresent()
         value.isPublic = try reader["isPublic"].readIfPresent()
+        value.imageWatermarks = try reader["imageWatermarkSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ImageWatermark.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -124263,6 +125646,44 @@ extension EC2ClientTypes.ImageUsageResourceTypeRequest {
         if !(value.resourceTypeOptions?.isEmpty ?? true) {
             try writer["ResourceTypeOption"].writeList(value.resourceTypeOptions, memberWritingClosure: EC2ClientTypes.ImageUsageResourceTypeOptionRequest.write(value:to:), memberNodeInfo: "Member", isFlattened: true)
         }
+    }
+}
+
+extension EC2ClientTypes.ImageWatermark {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ImageWatermark {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ImageWatermark()
+        value.watermarkKey = try reader["watermarkKey"].readIfPresent()
+        value.sourceImageRegion = try reader["sourceImageRegion"].readIfPresent()
+        value.sourceImageId = try reader["sourceImageId"].readIfPresent()
+        value.sourceImageCreationTime = try reader["sourceImageCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.watermarkCreationTime = try reader["watermarkCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension EC2ClientTypes.ImageWatermarkFilterRequest {
+
+    static func write(value: EC2ClientTypes.ImageWatermarkFilterRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MaximumDaysSinceSourceImageCreated"].write(value.maximumDaysSinceSourceImageCreated)
+        try writer["MaximumDaysSinceWatermarkCreated"].write(value.maximumDaysSinceWatermarkCreated)
+        try writer["SourceImageRegion"].write(value.sourceImageRegion)
+        try writer["WatermarkKey"].write(value.watermarkKey)
+    }
+}
+
+extension EC2ClientTypes.ImageWatermarkFilterResponse {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ImageWatermarkFilterResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ImageWatermarkFilterResponse()
+        value.watermarkKey = try reader["watermarkKey"].readIfPresent()
+        value.sourceImageRegion = try reader["sourceImageRegion"].readIfPresent()
+        value.maximumDaysSinceSourceImageCreated = try reader["maximumDaysSinceSourceImageCreated"].readIfPresent()
+        value.maximumDaysSinceWatermarkCreated = try reader["maximumDaysSinceWatermarkCreated"].readIfPresent()
+        return value
     }
 }
 
@@ -128338,6 +129759,17 @@ extension EC2ClientTypes.PathStatementRequest {
     }
 }
 
+extension EC2ClientTypes.PayerResponsibilityEntry {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.PayerResponsibilityEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.PayerResponsibilityEntry()
+        value.scope = try reader["scope"].readIfPresent()
+        value.payerResponsibilityType = try reader["payerResponsibilityType"].readIfPresent()
+        return value
+    }
+}
+
 extension EC2ClientTypes.PciId {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.PciId {
@@ -128576,6 +130008,7 @@ extension EC2ClientTypes.PlacementGroup {
         value.spreadLevel = try reader["spreadLevel"].readIfPresent()
         value.linkedGroupId = try reader["linkedGroupId"].readIfPresent()
         value.`operator` = try reader["operator"].readIfPresent(with: EC2ClientTypes.OperatorResponse.read(from:))
+        value.parentGroupId = try reader["parentGroupId"].readIfPresent()
         return value
     }
 }
@@ -131117,6 +132550,28 @@ extension EC2ClientTypes.TagDescription {
     }
 }
 
+extension EC2ClientTypes.TagFieldSpecificationRequest {
+
+    static func write(value: EC2ClientTypes.TagFieldSpecificationRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceType"].write(value.resourceType)
+        if !(value.tagKeys?.isEmpty ?? true) {
+            try writer["TagKey"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+    }
+}
+
+extension EC2ClientTypes.TagFieldSpecificationResponse {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.TagFieldSpecificationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.TagFieldSpecificationResponse()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.tagKeys = try reader["tagKeySet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
 extension EC2ClientTypes.TagSpecification {
 
     static func write(value: EC2ClientTypes.TagSpecification?, to writer: SmithyFormURL.Writer) throws {
@@ -133057,6 +134512,7 @@ extension EC2ClientTypes.VpcEndpoint {
         value.serviceNetworkArn = try reader["serviceNetworkArn"].readIfPresent()
         value.resourceConfigurationArn = try reader["resourceConfigurationArn"].readIfPresent()
         value.serviceRegion = try reader["serviceRegion"].readIfPresent()
+        value.payerResponsibilities = try reader["payerResponsibilitySet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.PayerResponsibilityEntry.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -133099,6 +134555,7 @@ extension EC2ClientTypes.VpcEndpointConnection {
         value.vpcEndpointConnectionId = try reader["vpcEndpointConnectionId"].readIfPresent()
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.vpcEndpointRegion = try reader["vpcEndpointRegion"].readIfPresent()
+        value.payerResponsibilities = try reader["payerResponsibilitySet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.PayerResponsibilityEntry.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }

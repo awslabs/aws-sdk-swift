@@ -28,6 +28,7 @@ import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
+import enum Smithy.ClientError
 import func ClientRuntime.initialize
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
@@ -52,6 +53,7 @@ import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
+import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
@@ -72,6 +74,7 @@ public final class ACMClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: ACMClient.ACMClientConfig
     let serviceName = "ACM"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use ACMClient.ACMClientConfig instead")
     public typealias Config = ACMClient.ACMClientConfiguration
@@ -81,6 +84,7 @@ public final class ACMClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: ACMClient.ACMClientConfig) instead")
@@ -121,6 +125,7 @@ extension ACMClient {
         public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
+        public var serviceType: Swift.String?
         public var endpointResolver: EndpointResolver
         public var telemetryProvider: ClientRuntime.TelemetryProvider
         public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
@@ -167,6 +172,7 @@ extension ACMClient {
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
+            serviceType: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
             telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
             retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
@@ -193,9 +199,10 @@ extension ACMClient {
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
+            self.serviceType = serviceType
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ACM")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -222,6 +229,7 @@ extension ACMClient {
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
+            serviceType: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
             telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
             retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
@@ -248,9 +256,10 @@ extension ACMClient {
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.serviceType = serviceType
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ACM")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -278,6 +287,7 @@ extension ACMClient {
                 ignoreConfiguredEndpointURLs: nil,
                 region: nil,
                 signingRegion: nil,
+                serviceType: nil,
                 endpointResolver: nil,
                 telemetryProvider: nil,
                 retryStrategyOptions: nil,
@@ -308,6 +318,7 @@ extension ACMClient {
                 ignoreConfiguredEndpointURLs: nil,
                 region: region,
                 signingRegion: region,
+                serviceType: nil,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
                 retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
@@ -352,6 +363,7 @@ extension ACMClient {
         public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
+        public var serviceType: Swift.String?
         public var endpointResolver: EndpointResolver
         public var telemetryProvider: ClientRuntime.TelemetryProvider
         public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
@@ -398,6 +410,7 @@ extension ACMClient {
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
+            serviceType: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
             telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
             retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
@@ -424,9 +437,10 @@ extension ACMClient {
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
+            self.serviceType = serviceType
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ACM")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -453,6 +467,7 @@ extension ACMClient {
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
+            serviceType: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
             telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
             retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
@@ -479,9 +494,10 @@ extension ACMClient {
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.serviceType = serviceType
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ACM")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -509,6 +525,7 @@ extension ACMClient {
                 ignoreConfiguredEndpointURLs: nil,
                 region: nil,
                 signingRegion: nil,
+                serviceType: nil,
                 endpointResolver: nil,
                 telemetryProvider: nil,
                 retryStrategyOptions: nil,
@@ -539,6 +556,7 @@ extension ACMClient {
                 ignoreConfiguredEndpointURLs: nil,
                 region: region,
                 signingRegion: region,
+                serviceType: nil,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
                 retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
@@ -573,6 +591,7 @@ extension ACMClient {
                 ignoreConfiguredEndpointURLs: self.ignoreConfiguredEndpointURLs,
                 region: self.region,
                 signingRegion: self.signingRegion,
+                serviceType: self.serviceType,
                 endpointResolver: self.endpointResolver,
                 telemetryProvider: self.telemetryProvider,
                 retryStrategyOptions: self.retryStrategyOptions,
@@ -612,7 +631,7 @@ extension ACMClient {
 extension ACMClient {
     /// Performs the `AddTagsToCertificate` operation on the `ACM` service.
     ///
-    /// Adds one or more tags to an ACM certificate. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value. You specify the certificate on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair. You can apply a tag to just one certificate if you want to identify a specific characteristic of that certificate, or you can apply the same tag to multiple certificates if you want to filter for a common relationship among those certificates. Similarly, you can apply the same tag to multiple resources if you want to specify a relationship among those resources. For example, you can add the same tag to an ACM certificate and an Elastic Load Balancing load balancer to indicate that they are both used by the same website. For more information, see [Tagging ACM certificates](https://docs.aws.amazon.com/acm/latest/userguide/tags.html). To remove one or more tags, use the [RemoveTagsFromCertificate] action. To view all of the tags that have been applied to the certificate, use the [ListTagsForCertificate] action.
+    /// Adds one or more tags to an ACM certificate. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value. You specify the certificate on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair. This action applies only to the certificate resource type. For all other ACM resource types, use [TagResource] instead. You can apply a tag to just one certificate if you want to identify a specific characteristic of that certificate, or you can apply the same tag to multiple certificates if you want to filter for a common relationship among those certificates. Similarly, you can apply the same tag to multiple resources if you want to specify a relationship among those resources. For example, you can add the same tag to an ACM certificate and an Elastic Load Balancing load balancer to indicate that they are both used by the same website. For more information, see [Tagging ACM certificates](https://docs.aws.amazon.com/acm/latest/userguide/tags.html). To remove one or more tags, use the [RemoveTagsFromCertificate] action. To view all of the tags that have been applied to the certificate, use the [ListTagsForCertificate] action.
     ///
     /// - Parameter input: [no documentation found] (Type: `AddTagsToCertificateInput`)
     ///
@@ -628,6 +647,7 @@ extension ACMClient {
     /// - `TagPolicyException` : A specified tag did not comply with an existing tag policy and was rejected.
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
     /// - `TooManyTagsException` : The request contains too many tags. Try the request again with fewer tags.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
     public func addTagsToCertificate(input: AddTagsToCertificateInput) async throws -> AddTagsToCertificateOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -661,12 +681,13 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsToCertificateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddTagsToCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.AddTagsToCertificate"]))
@@ -674,6 +695,8 @@ extension ACMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddTagsToCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
@@ -690,9 +713,502 @@ extension ACMClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateAcmeDomainValidation` operation on the `ACM` service.
+    ///
+    /// Creates a domain validation for an ACME endpoint. Domain validations authorize the endpoint to issue certificates for specified domain names. You configure prevalidation to prove domain ownership.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateAcmeDomainValidationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateAcmeDomainValidationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `ConflictException` : You are trying to update a resource or configuration that is already being created or updated. Wait for the previous operation to finish and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ServiceQuotaExceededException` : A service quota has been exceeded.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func createAcmeDomainValidation(input: CreateAcmeDomainValidationInput) async throws -> CreateAcmeDomainValidationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.createAcmeDomainValidationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createAcmeDomainValidation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAcmeDomainValidationInput, CreateAcmeDomainValidationOutput>(keyPath: \.idempotencyToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAcmeDomainValidationInput, CreateAcmeDomainValidationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAcmeDomainValidationInput, CreateAcmeDomainValidationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAcmeDomainValidationInput, CreateAcmeDomainValidationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateAcmeDomainValidationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAcmeDomainValidationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAcmeDomainValidationInput, CreateAcmeDomainValidationOutput>(overrides: ["X-Amz-Target": "CertificateManager.CreateAcmeDomainValidation"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAcmeDomainValidationInput, CreateAcmeDomainValidationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAcmeDomainValidationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAcmeDomainValidationInput, CreateAcmeDomainValidationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAcmeDomainValidationInput, CreateAcmeDomainValidationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAcmeDomainValidationInput, CreateAcmeDomainValidationOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAcmeDomainValidation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateAcmeEndpoint` operation on the `ACM` service.
+    ///
+    /// Creates an ACME endpoint, which is a managed ACME server with a unique endpoint URL. After creation, ACME clients can use the endpoint URL to automate certificate issuance using the ACME protocol.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateAcmeEndpointInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateAcmeEndpointOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `ConflictException` : You are trying to update a resource or configuration that is already being created or updated. Wait for the previous operation to finish and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ServiceQuotaExceededException` : A service quota has been exceeded.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func createAcmeEndpoint(input: CreateAcmeEndpointInput) async throws -> CreateAcmeEndpointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.createAcmeEndpointOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createAcmeEndpoint")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAcmeEndpointInput, CreateAcmeEndpointOutput>(keyPath: \.idempotencyToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAcmeEndpointInput, CreateAcmeEndpointOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAcmeEndpointInput, CreateAcmeEndpointOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAcmeEndpointInput, CreateAcmeEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateAcmeEndpointOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAcmeEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAcmeEndpointInput, CreateAcmeEndpointOutput>(overrides: ["X-Amz-Target": "CertificateManager.CreateAcmeEndpoint"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAcmeEndpointInput, CreateAcmeEndpointOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAcmeEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAcmeEndpointInput, CreateAcmeEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAcmeEndpointInput, CreateAcmeEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAcmeEndpointInput, CreateAcmeEndpointOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAcmeEndpoint")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateAcmeExternalAccountBinding` operation on the `ACM` service.
+    ///
+    /// Creates an external account binding (EAB) for an ACME endpoint. An EAB provides credentials that authorize an ACME client to register an account with the endpoint. Each EAB is associated with an IAM role that controls what certificate operations the ACME client can perform.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateAcmeExternalAccountBindingInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateAcmeExternalAccountBindingOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `ConflictException` : You are trying to update a resource or configuration that is already being created or updated. Wait for the previous operation to finish and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ServiceQuotaExceededException` : A service quota has been exceeded.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func createAcmeExternalAccountBinding(input: CreateAcmeExternalAccountBindingInput) async throws -> CreateAcmeExternalAccountBindingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.createAcmeExternalAccountBindingOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createAcmeExternalAccountBinding")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAcmeExternalAccountBindingInput, CreateAcmeExternalAccountBindingOutput>(keyPath: \.idempotencyToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAcmeExternalAccountBindingInput, CreateAcmeExternalAccountBindingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAcmeExternalAccountBindingInput, CreateAcmeExternalAccountBindingOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAcmeExternalAccountBindingInput, CreateAcmeExternalAccountBindingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateAcmeExternalAccountBindingOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAcmeExternalAccountBindingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAcmeExternalAccountBindingInput, CreateAcmeExternalAccountBindingOutput>(overrides: ["X-Amz-Target": "CertificateManager.CreateAcmeExternalAccountBinding"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAcmeExternalAccountBindingInput, CreateAcmeExternalAccountBindingOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAcmeExternalAccountBindingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAcmeExternalAccountBindingInput, CreateAcmeExternalAccountBindingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAcmeExternalAccountBindingInput, CreateAcmeExternalAccountBindingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAcmeExternalAccountBindingInput, CreateAcmeExternalAccountBindingOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAcmeExternalAccountBinding")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteAcmeDomainValidation` operation on the `ACM` service.
+    ///
+    /// Deletes a domain validation. After deletion, the ACME endpoint can no longer issue certificates for the associated domain.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAcmeDomainValidationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteAcmeDomainValidationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `ConflictException` : You are trying to update a resource or configuration that is already being created or updated. Wait for the previous operation to finish and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func deleteAcmeDomainValidation(input: DeleteAcmeDomainValidationInput) async throws -> DeleteAcmeDomainValidationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.deleteAcmeDomainValidationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAcmeDomainValidation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAcmeDomainValidationInput, DeleteAcmeDomainValidationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAcmeDomainValidationInput, DeleteAcmeDomainValidationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAcmeDomainValidationInput, DeleteAcmeDomainValidationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAcmeDomainValidationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAcmeDomainValidationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAcmeDomainValidationInput, DeleteAcmeDomainValidationOutput>(overrides: ["X-Amz-Target": "CertificateManager.DeleteAcmeDomainValidation"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAcmeDomainValidationInput, DeleteAcmeDomainValidationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAcmeDomainValidationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAcmeDomainValidationInput, DeleteAcmeDomainValidationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAcmeDomainValidationInput, DeleteAcmeDomainValidationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAcmeDomainValidationInput, DeleteAcmeDomainValidationOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAcmeDomainValidation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteAcmeEndpoint` operation on the `ACM` service.
+    ///
+    /// Deletes an ACME endpoint. After deletion, the endpoint URL is no longer accessible and ACME clients cannot issue certificates through it. Any existing external account bindings and domain validations associated with the endpoint are also deleted.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAcmeEndpointInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteAcmeEndpointOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `ConflictException` : You are trying to update a resource or configuration that is already being created or updated. Wait for the previous operation to finish and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func deleteAcmeEndpoint(input: DeleteAcmeEndpointInput) async throws -> DeleteAcmeEndpointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.deleteAcmeEndpointOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAcmeEndpoint")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAcmeEndpointInput, DeleteAcmeEndpointOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAcmeEndpointInput, DeleteAcmeEndpointOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAcmeEndpointInput, DeleteAcmeEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAcmeEndpointOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAcmeEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAcmeEndpointInput, DeleteAcmeEndpointOutput>(overrides: ["X-Amz-Target": "CertificateManager.DeleteAcmeEndpoint"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAcmeEndpointInput, DeleteAcmeEndpointOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAcmeEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAcmeEndpointInput, DeleteAcmeEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAcmeEndpointInput, DeleteAcmeEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAcmeEndpointInput, DeleteAcmeEndpointOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAcmeEndpoint")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteAcmeExternalAccountBinding` operation on the `ACM` service.
+    ///
+    /// Deletes an external account binding. Previously fetched credentials for this binding will no longer be usable for account registration. A deleted binding cannot be recovered.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAcmeExternalAccountBindingInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteAcmeExternalAccountBindingOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func deleteAcmeExternalAccountBinding(input: DeleteAcmeExternalAccountBindingInput) async throws -> DeleteAcmeExternalAccountBindingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.deleteAcmeExternalAccountBindingOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAcmeExternalAccountBinding")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAcmeExternalAccountBindingInput, DeleteAcmeExternalAccountBindingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAcmeExternalAccountBindingInput, DeleteAcmeExternalAccountBindingOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAcmeExternalAccountBindingInput, DeleteAcmeExternalAccountBindingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAcmeExternalAccountBindingOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAcmeExternalAccountBindingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAcmeExternalAccountBindingInput, DeleteAcmeExternalAccountBindingOutput>(overrides: ["X-Amz-Target": "CertificateManager.DeleteAcmeExternalAccountBinding"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAcmeExternalAccountBindingInput, DeleteAcmeExternalAccountBindingOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAcmeExternalAccountBindingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAcmeExternalAccountBindingInput, DeleteAcmeExternalAccountBindingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAcmeExternalAccountBindingInput, DeleteAcmeExternalAccountBindingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAcmeExternalAccountBindingInput, DeleteAcmeExternalAccountBindingOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAcmeExternalAccountBinding")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteCertificate` operation on the `ACM` service.
     ///
-    /// Deletes a certificate and its associated private key. If this action succeeds, the certificate is not available for use by Amazon Web Services services integrated with ACM. Deleting a certificate is eventually consistent. The may be a short delay before the certificate no longer appears in the list that can be displayed by calling the [ListCertificates] action or be retrieved by calling the [GetCertificate] action. You cannot delete an ACM certificate that is being used by another Amazon Web Services service. To delete a certificate that is in use, you must first remove the certificate association using the console or the CLI for the associated service. Deleting a certificate issued by a private certificate authority (CA) has no effect on the CA. You will continue to be charged for the CA until it is deleted. For more information, see [ Deleting Your Private CA](https://docs.aws.amazon.com/privateca/latest/userguide/PCADeleteCA.html) in the Private Certificate Authority User Guide. Deleting a certificate issued by a private certificate authority (CA) has no effect on the CA. You will continue to be charged for the CA until it is deleted. For more information, see [Deleting your private CA](https://docs.aws.amazon.com/privateca/latest/userguide/PCADeleteCA.html) in the Amazon Web Services Private Certificate Authority User Guide.
+    /// Deletes a certificate and its associated private key. If this action succeeds, the certificate is not available for use by Amazon Web Services services integrated with ACM. Deleting a certificate is eventually consistent. The may be a short delay before the certificate no longer appears in the list that can be displayed by calling the [ListCertificates] action or be retrieved by calling the [GetCertificate] action. You cannot delete an ACM certificate that is being used by another Amazon Web Services service. To delete a certificate that is in use, you must first remove the certificate association using the console or the CLI for the associated service. Deleting a certificate issued by a private certificate authority (CA) has no effect on the CA. You will continue to be charged for the CA until it is deleted. For more information, see [ Deleting Your Private CA](https://docs.aws.amazon.com/privateca/latest/userguide/PCADeleteCA.html) in the Private Certificate Authority User Guide. You cannot delete a certificate with a CertificateKeyPairOrigin of ACME. ACM automatically deletes these certificates 1 year after they expire. Deleting a certificate issued by a private certificate authority (CA) has no effect on the CA. You will continue to be charged for the CA until it is deleted. For more information, see [Deleting your private CA](https://docs.aws.amazon.com/privateca/latest/userguide/PCADeleteCA.html) in the Amazon Web Services Private Certificate Authority User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteCertificateInput`)
     ///
@@ -707,6 +1223,7 @@ extension ACMClient {
     /// - `ResourceInUseException` : The certificate is in use by another Amazon Web Services service in the caller's account. Remove the association and try again.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
     public func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -740,12 +1257,13 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCertificateInput, DeleteCertificateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCertificateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.DeleteCertificate"]))
@@ -753,10 +1271,336 @@ extension ACMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCertificateInput, DeleteCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCertificate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeAcmeAccount` operation on the `ACM` service.
+    ///
+    /// Returns detailed metadata about the specified ACME account, including its status, public key thumbprint, and associated external account binding.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeAcmeAccountInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeAcmeAccountOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func describeAcmeAccount(input: DescribeAcmeAccountInput) async throws -> DescribeAcmeAccountOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.describeAcmeAccountOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAcmeAccount")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAcmeAccountInput, DescribeAcmeAccountOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAcmeAccountInput, DescribeAcmeAccountOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAcmeAccountInput, DescribeAcmeAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAcmeAccountOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAcmeAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAcmeAccountInput, DescribeAcmeAccountOutput>(overrides: ["X-Amz-Target": "CertificateManager.DescribeAcmeAccount"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAcmeAccountInput, DescribeAcmeAccountOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAcmeAccountOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAcmeAccountInput, DescribeAcmeAccountOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAcmeAccountInput, DescribeAcmeAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAcmeAccountInput, DescribeAcmeAccountOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAcmeAccount")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeAcmeDomainValidation` operation on the `ACM` service.
+    ///
+    /// Returns detailed metadata about the specified domain validation, including its status, domain scope, and DNS resource records required for validation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeAcmeDomainValidationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeAcmeDomainValidationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func describeAcmeDomainValidation(input: DescribeAcmeDomainValidationInput) async throws -> DescribeAcmeDomainValidationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.describeAcmeDomainValidationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAcmeDomainValidation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAcmeDomainValidationInput, DescribeAcmeDomainValidationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAcmeDomainValidationInput, DescribeAcmeDomainValidationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAcmeDomainValidationInput, DescribeAcmeDomainValidationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAcmeDomainValidationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAcmeDomainValidationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAcmeDomainValidationInput, DescribeAcmeDomainValidationOutput>(overrides: ["X-Amz-Target": "CertificateManager.DescribeAcmeDomainValidation"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAcmeDomainValidationInput, DescribeAcmeDomainValidationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAcmeDomainValidationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAcmeDomainValidationInput, DescribeAcmeDomainValidationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAcmeDomainValidationInput, DescribeAcmeDomainValidationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAcmeDomainValidationInput, DescribeAcmeDomainValidationOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAcmeDomainValidation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeAcmeEndpoint` operation on the `ACM` service.
+    ///
+    /// Returns detailed metadata about the specified ACME endpoint, including its status, URL, authorization behavior, and certificate authority configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeAcmeEndpointInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeAcmeEndpointOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func describeAcmeEndpoint(input: DescribeAcmeEndpointInput) async throws -> DescribeAcmeEndpointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.describeAcmeEndpointOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAcmeEndpoint")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAcmeEndpointInput, DescribeAcmeEndpointOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAcmeEndpointInput, DescribeAcmeEndpointOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAcmeEndpointInput, DescribeAcmeEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAcmeEndpointOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAcmeEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAcmeEndpointInput, DescribeAcmeEndpointOutput>(overrides: ["X-Amz-Target": "CertificateManager.DescribeAcmeEndpoint"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAcmeEndpointInput, DescribeAcmeEndpointOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAcmeEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAcmeEndpointInput, DescribeAcmeEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAcmeEndpointInput, DescribeAcmeEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAcmeEndpointInput, DescribeAcmeEndpointOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAcmeEndpoint")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeAcmeExternalAccountBinding` operation on the `ACM` service.
+    ///
+    /// Returns detailed metadata about the specified external account binding, including the associated IAM role, expiration time, and usage history.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeAcmeExternalAccountBindingInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeAcmeExternalAccountBindingOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func describeAcmeExternalAccountBinding(input: DescribeAcmeExternalAccountBindingInput) async throws -> DescribeAcmeExternalAccountBindingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.describeAcmeExternalAccountBindingOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAcmeExternalAccountBinding")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAcmeExternalAccountBindingInput, DescribeAcmeExternalAccountBindingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAcmeExternalAccountBindingInput, DescribeAcmeExternalAccountBindingOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAcmeExternalAccountBindingInput, DescribeAcmeExternalAccountBindingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAcmeExternalAccountBindingOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAcmeExternalAccountBindingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAcmeExternalAccountBindingInput, DescribeAcmeExternalAccountBindingOutput>(overrides: ["X-Amz-Target": "CertificateManager.DescribeAcmeExternalAccountBinding"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAcmeExternalAccountBindingInput, DescribeAcmeExternalAccountBindingOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAcmeExternalAccountBindingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAcmeExternalAccountBindingInput, DescribeAcmeExternalAccountBindingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAcmeExternalAccountBindingInput, DescribeAcmeExternalAccountBindingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAcmeExternalAccountBindingInput, DescribeAcmeExternalAccountBindingOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAcmeExternalAccountBinding")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -782,6 +1626,7 @@ extension ACMClient {
     /// __Possible Exceptions:__
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
     public func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -815,12 +1660,13 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCertificateInput, DescribeCertificateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCertificateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.DescribeCertificate"]))
@@ -828,6 +1674,8 @@ extension ACMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCertificateInput, DescribeCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
@@ -859,6 +1707,7 @@ extension ACMClient {
     /// - `RequestInProgressException` : The certificate request is in process and the certificate in your account has not yet been issued.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
     public func exportCertificate(input: ExportCertificateInput) async throws -> ExportCertificateOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -892,12 +1741,13 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportCertificateInput, ExportCertificateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportCertificateInput, ExportCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportCertificateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExportCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExportCertificateInput, ExportCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.ExportCertificate"]))
@@ -905,6 +1755,8 @@ extension ACMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExportCertificateInput, ExportCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ExportCertificateInput, ExportCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ExportCertificateInput, ExportCertificateOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
@@ -967,12 +1819,13 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAccountConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>(overrides: ["X-Amz-Target": "CertificateManager.GetAccountConfiguration"]))
@@ -980,10 +1833,93 @@ extension ACMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAccountConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAccountConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAcmeExternalAccountBindingCredentials` operation on the `ACM` service.
+    ///
+    /// Retrieves the key ID and MAC key credentials for an external account binding. These credentials are used by ACME clients during account registration to bind to the endpoint.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAcmeExternalAccountBindingCredentialsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAcmeExternalAccountBindingCredentialsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func getAcmeExternalAccountBindingCredentials(input: GetAcmeExternalAccountBindingCredentialsInput) async throws -> GetAcmeExternalAccountBindingCredentialsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.getAcmeExternalAccountBindingCredentialsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAcmeExternalAccountBindingCredentials")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAcmeExternalAccountBindingCredentialsInput, GetAcmeExternalAccountBindingCredentialsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAcmeExternalAccountBindingCredentialsInput, GetAcmeExternalAccountBindingCredentialsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAcmeExternalAccountBindingCredentialsInput, GetAcmeExternalAccountBindingCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAcmeExternalAccountBindingCredentialsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAcmeExternalAccountBindingCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAcmeExternalAccountBindingCredentialsInput, GetAcmeExternalAccountBindingCredentialsOutput>(overrides: ["X-Amz-Target": "CertificateManager.GetAcmeExternalAccountBindingCredentials"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAcmeExternalAccountBindingCredentialsInput, GetAcmeExternalAccountBindingCredentialsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAcmeExternalAccountBindingCredentialsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAcmeExternalAccountBindingCredentialsInput, GetAcmeExternalAccountBindingCredentialsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAcmeExternalAccountBindingCredentialsInput, GetAcmeExternalAccountBindingCredentialsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAcmeExternalAccountBindingCredentialsInput, GetAcmeExternalAccountBindingCredentialsOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAcmeExternalAccountBindingCredentials")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1010,6 +1946,7 @@ extension ACMClient {
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `RequestInProgressException` : The certificate request is in process and the certificate in your account has not yet been issued.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
     public func getCertificate(input: GetCertificateInput) async throws -> GetCertificateOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1043,12 +1980,13 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCertificateInput, GetCertificateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCertificateInput, GetCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCertificateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCertificateInput, GetCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.GetCertificate"]))
@@ -1056,6 +1994,8 @@ extension ACMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCertificateInput, GetCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCertificateInput, GetCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCertificateInput, GetCertificateOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
@@ -1116,6 +2056,7 @@ extension ACMClient {
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     /// - `TagPolicyException` : A specified tag did not comply with an existing tag policy and was rejected.
     /// - `TooManyTagsException` : The request contains too many tags. Try the request again with fewer tags.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
     public func importCertificate(input: ImportCertificateInput) async throws -> ImportCertificateOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1149,12 +2090,13 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportCertificateInput, ImportCertificateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportCertificateInput, ImportCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportCertificateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportCertificateInput, ImportCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.ImportCertificate"]))
@@ -1162,6 +2104,8 @@ extension ACMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportCertificateInput, ImportCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ImportCertificateInput, ImportCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ImportCertificateInput, ImportCertificateOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
@@ -1178,9 +2122,332 @@ extension ACMClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListAcmeAccounts` operation on the `ACM` service.
+    ///
+    /// Retrieves a list of ACME accounts registered with the specified ACME endpoint. ACME accounts are created when clients use external account binding credentials to register.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAcmeAccountsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAcmeAccountsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func listAcmeAccounts(input: ListAcmeAccountsInput) async throws -> ListAcmeAccountsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.listAcmeAccountsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAcmeAccounts")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAcmeAccountsInput, ListAcmeAccountsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAcmeAccountsInput, ListAcmeAccountsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAcmeAccountsInput, ListAcmeAccountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAcmeAccountsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAcmeAccountsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAcmeAccountsInput, ListAcmeAccountsOutput>(overrides: ["X-Amz-Target": "CertificateManager.ListAcmeAccounts"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAcmeAccountsInput, ListAcmeAccountsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAcmeAccountsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAcmeAccountsInput, ListAcmeAccountsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAcmeAccountsInput, ListAcmeAccountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAcmeAccountsInput, ListAcmeAccountsOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAcmeAccounts")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListAcmeDomainValidations` operation on the `ACM` service.
+    ///
+    /// Retrieves a list of domain validations for the specified ACME endpoint.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAcmeDomainValidationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAcmeDomainValidationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func listAcmeDomainValidations(input: ListAcmeDomainValidationsInput) async throws -> ListAcmeDomainValidationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.listAcmeDomainValidationsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAcmeDomainValidations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAcmeDomainValidationsInput, ListAcmeDomainValidationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAcmeDomainValidationsInput, ListAcmeDomainValidationsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAcmeDomainValidationsInput, ListAcmeDomainValidationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAcmeDomainValidationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAcmeDomainValidationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAcmeDomainValidationsInput, ListAcmeDomainValidationsOutput>(overrides: ["X-Amz-Target": "CertificateManager.ListAcmeDomainValidations"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAcmeDomainValidationsInput, ListAcmeDomainValidationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAcmeDomainValidationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAcmeDomainValidationsInput, ListAcmeDomainValidationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAcmeDomainValidationsInput, ListAcmeDomainValidationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAcmeDomainValidationsInput, ListAcmeDomainValidationsOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAcmeDomainValidations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListAcmeEndpoints` operation on the `ACM` service.
+    ///
+    /// Retrieves a list of ACME endpoints in your account. Use this operation to view all configured ACME endpoints and their current status.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAcmeEndpointsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAcmeEndpointsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func listAcmeEndpoints(input: ListAcmeEndpointsInput) async throws -> ListAcmeEndpointsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.listAcmeEndpointsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAcmeEndpoints")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAcmeEndpointsInput, ListAcmeEndpointsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAcmeEndpointsInput, ListAcmeEndpointsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAcmeEndpointsInput, ListAcmeEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAcmeEndpointsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAcmeEndpointsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAcmeEndpointsInput, ListAcmeEndpointsOutput>(overrides: ["X-Amz-Target": "CertificateManager.ListAcmeEndpoints"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAcmeEndpointsInput, ListAcmeEndpointsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAcmeEndpointsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAcmeEndpointsInput, ListAcmeEndpointsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAcmeEndpointsInput, ListAcmeEndpointsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAcmeEndpointsInput, ListAcmeEndpointsOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAcmeEndpoints")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListAcmeExternalAccountBindings` operation on the `ACM` service.
+    ///
+    /// Retrieves a list of external account bindings for the specified ACME endpoint.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAcmeExternalAccountBindingsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAcmeExternalAccountBindingsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func listAcmeExternalAccountBindings(input: ListAcmeExternalAccountBindingsInput) async throws -> ListAcmeExternalAccountBindingsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.listAcmeExternalAccountBindingsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAcmeExternalAccountBindings")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAcmeExternalAccountBindingsInput, ListAcmeExternalAccountBindingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAcmeExternalAccountBindingsInput, ListAcmeExternalAccountBindingsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAcmeExternalAccountBindingsInput, ListAcmeExternalAccountBindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAcmeExternalAccountBindingsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAcmeExternalAccountBindingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAcmeExternalAccountBindingsInput, ListAcmeExternalAccountBindingsOutput>(overrides: ["X-Amz-Target": "CertificateManager.ListAcmeExternalAccountBindings"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAcmeExternalAccountBindingsInput, ListAcmeExternalAccountBindingsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAcmeExternalAccountBindingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAcmeExternalAccountBindingsInput, ListAcmeExternalAccountBindingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAcmeExternalAccountBindingsInput, ListAcmeExternalAccountBindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAcmeExternalAccountBindingsInput, ListAcmeExternalAccountBindingsOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAcmeExternalAccountBindings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListCertificates` operation on the `ACM` service.
     ///
-    /// Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only RSA_2048 certificates. For more information, see [Filters].
+    /// Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only RSA_2048 certificates. For more information, see [Filters]. By default, this action does not return certificates with a CertificateKeyPairOrigin of ACME. To include ACME certificates, specify ACME in the CertificateKeyPairOrigins filter.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListCertificatesInput`)
     ///
@@ -1224,12 +2491,13 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCertificatesInput, ListCertificatesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCertificatesInput, ListCertificatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCertificatesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCertificatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCertificatesInput, ListCertificatesOutput>(overrides: ["X-Amz-Target": "CertificateManager.ListCertificates"]))
@@ -1237,6 +2505,8 @@ extension ACMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCertificatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCertificatesInput, ListCertificatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCertificatesInput, ListCertificatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCertificatesInput, ListCertificatesOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
@@ -1255,7 +2525,7 @@ extension ACMClient {
 
     /// Performs the `ListTagsForCertificate` operation on the `ACM` service.
     ///
-    /// Lists the tags that have been applied to the ACM certificate. Use the certificate's Amazon Resource Name (ARN) to specify the certificate. To add a tag to an ACM certificate, use the [AddTagsToCertificate] action. To delete a tag, use the [RemoveTagsFromCertificate] action.
+    /// Lists the tags that have been applied to the ACM certificate. Use the certificate's Amazon Resource Name (ARN) to specify the certificate. To add a tag to an ACM certificate, use the [AddTagsToCertificate] action. To delete a tag, use the [RemoveTagsFromCertificate] action. This action applies only to the certificate resource type. For all other ACM resource types, use [ListTagsForResource] instead.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListTagsForCertificateInput`)
     ///
@@ -1266,6 +2536,7 @@ extension ACMClient {
     /// __Possible Exceptions:__
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
     public func listTagsForCertificate(input: ListTagsForCertificateInput) async throws -> ListTagsForCertificateOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1299,12 +2570,13 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForCertificateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.ListTagsForCertificate"]))
@@ -1312,10 +2584,90 @@ extension ACMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForCertificate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListTagsForResource` operation on the `ACM` service.
+    ///
+    /// Lists the tags associated with an ACM resource. Use this action for all ACM resource types except the certificate resource type. For certificate resources, use [ListTagsForCertificate] instead. To add one or more tags, use the [TagResource] action. To remove one or more tags, use the [UntagResource] action.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.listTagsForResourceOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listTagsForResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "CertificateManager.ListTagsForResource"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1376,12 +2728,13 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAccountConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutput>(overrides: ["X-Amz-Target": "CertificateManager.PutAccountConfiguration"]))
@@ -1389,6 +2742,8 @@ extension ACMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAccountConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
@@ -1407,7 +2762,7 @@ extension ACMClient {
 
     /// Performs the `RemoveTagsFromCertificate` operation on the `ACM` service.
     ///
-    /// Remove one or more tags from an ACM certificate. A tag consists of a key-value pair. If you do not specify the value portion of the tag when calling this function, the tag will be removed regardless of value. If you specify a value, the tag is removed only if it is associated with the specified value. To add tags to a certificate, use the [AddTagsToCertificate] action. To view all of the tags that have been applied to a specific ACM certificate, use the [ListTagsForCertificate] action.
+    /// Remove one or more tags from an ACM certificate. A tag consists of a key-value pair. If you do not specify the value portion of the tag when calling this function, the tag will be removed regardless of value. If you specify a value, the tag is removed only if it is associated with the specified value. This action applies only to the certificate resource type. For all other ACM resource types, use [UntagResource] instead. To add tags to a certificate, use the [AddTagsToCertificate] action. To view all of the tags that have been applied to a specific ACM certificate, use the [ListTagsForCertificate] action.
     ///
     /// - Parameter input: [no documentation found] (Type: `RemoveTagsFromCertificateInput`)
     ///
@@ -1422,6 +2777,7 @@ extension ACMClient {
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     /// - `TagPolicyException` : A specified tag did not comply with an existing tag policy and was rejected.
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
     public func removeTagsFromCertificate(input: RemoveTagsFromCertificateInput) async throws -> RemoveTagsFromCertificateOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1455,12 +2811,13 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsFromCertificateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveTagsFromCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.RemoveTagsFromCertificate"]))
@@ -1468,6 +2825,8 @@ extension ACMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveTagsFromCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
@@ -1498,6 +2857,7 @@ extension ACMClient {
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `RequestInProgressException` : The certificate request is in process and the certificate in your account has not yet been issued.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
     public func renewCertificate(input: RenewCertificateInput) async throws -> RenewCertificateOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1531,12 +2891,13 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RenewCertificateInput, RenewCertificateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RenewCertificateInput, RenewCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RenewCertificateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RenewCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RenewCertificateInput, RenewCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.RenewCertificate"]))
@@ -1544,6 +2905,8 @@ extension ACMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RenewCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RenewCertificateInput, RenewCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RenewCertificateInput, RenewCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RenewCertificateInput, RenewCertificateOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
@@ -1611,12 +2974,13 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RequestCertificateInput, RequestCertificateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RequestCertificateInput, RequestCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RequestCertificateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RequestCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RequestCertificateInput, RequestCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.RequestCertificate"]))
@@ -1624,6 +2988,8 @@ extension ACMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RequestCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RequestCertificateInput, RequestCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RequestCertificateInput, RequestCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RequestCertificateInput, RequestCertificateOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
@@ -1655,6 +3021,7 @@ extension ACMClient {
     /// - `InvalidDomainValidationOptionsException` : One or more values in the [DomainValidationOption] structure is incorrect.
     /// - `InvalidStateException` : Processing has reached an invalid state.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
     public func resendValidationEmail(input: ResendValidationEmailInput) async throws -> ResendValidationEmailOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1688,12 +3055,13 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResendValidationEmailInput, ResendValidationEmailOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResendValidationEmailInput, ResendValidationEmailOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResendValidationEmailOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResendValidationEmailOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResendValidationEmailInput, ResendValidationEmailOutput>(overrides: ["X-Amz-Target": "CertificateManager.ResendValidationEmail"]))
@@ -1701,10 +3069,176 @@ extension ACMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResendValidationEmailOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResendValidationEmailInput, ResendValidationEmailOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResendValidationEmailInput, ResendValidationEmailOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ResendValidationEmailInput, ResendValidationEmailOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ResendValidationEmail")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `RevokeAcmeAccount` operation on the `ACM` service.
+    ///
+    /// Revokes an ACME account, preventing it from requesting or revoking certificates. This operation is irreversible.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RevokeAcmeAccountInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RevokeAcmeAccountOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `ConflictException` : You are trying to update a resource or configuration that is already being created or updated. Wait for the previous operation to finish and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func revokeAcmeAccount(input: RevokeAcmeAccountInput) async throws -> RevokeAcmeAccountOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.revokeAcmeAccountOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "revokeAcmeAccount")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RevokeAcmeAccountInput, RevokeAcmeAccountOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeAcmeAccountInput, RevokeAcmeAccountOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeAcmeAccountInput, RevokeAcmeAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RevokeAcmeAccountOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RevokeAcmeAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RevokeAcmeAccountInput, RevokeAcmeAccountOutput>(overrides: ["X-Amz-Target": "CertificateManager.RevokeAcmeAccount"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RevokeAcmeAccountInput, RevokeAcmeAccountOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RevokeAcmeAccountOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RevokeAcmeAccountInput, RevokeAcmeAccountOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RevokeAcmeAccountInput, RevokeAcmeAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RevokeAcmeAccountInput, RevokeAcmeAccountOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RevokeAcmeAccount")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `RevokeAcmeExternalAccountBinding` operation on the `ACM` service.
+    ///
+    /// Revokes an external account binding, preventing new ACME accounts from being registered using this binding. Existing ACME accounts that were previously registered using the binding are not affected and must be revoked separately.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RevokeAcmeExternalAccountBindingInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RevokeAcmeExternalAccountBindingOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `ConflictException` : You are trying to update a resource or configuration that is already being created or updated. Wait for the previous operation to finish and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func revokeAcmeExternalAccountBinding(input: RevokeAcmeExternalAccountBindingInput) async throws -> RevokeAcmeExternalAccountBindingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.revokeAcmeExternalAccountBindingOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "revokeAcmeExternalAccountBinding")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RevokeAcmeExternalAccountBindingInput, RevokeAcmeExternalAccountBindingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeAcmeExternalAccountBindingInput, RevokeAcmeExternalAccountBindingOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeAcmeExternalAccountBindingInput, RevokeAcmeExternalAccountBindingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RevokeAcmeExternalAccountBindingOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RevokeAcmeExternalAccountBindingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RevokeAcmeExternalAccountBindingInput, RevokeAcmeExternalAccountBindingOutput>(overrides: ["X-Amz-Target": "CertificateManager.RevokeAcmeExternalAccountBinding"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RevokeAcmeExternalAccountBindingInput, RevokeAcmeExternalAccountBindingOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RevokeAcmeExternalAccountBindingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RevokeAcmeExternalAccountBindingInput, RevokeAcmeExternalAccountBindingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RevokeAcmeExternalAccountBindingInput, RevokeAcmeExternalAccountBindingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RevokeAcmeExternalAccountBindingInput, RevokeAcmeExternalAccountBindingOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RevokeAcmeExternalAccountBinding")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1734,6 +3268,7 @@ extension ACMClient {
     /// - `ResourceInUseException` : The certificate is in use by another Amazon Web Services service in the caller's account. Remove the association and try again.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
     public func revokeCertificate(input: RevokeCertificateInput) async throws -> RevokeCertificateOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1767,12 +3302,13 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeCertificateInput, RevokeCertificateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeCertificateInput, RevokeCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeCertificateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RevokeCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RevokeCertificateInput, RevokeCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.RevokeCertificate"]))
@@ -1780,6 +3316,8 @@ extension ACMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RevokeCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RevokeCertificateInput, RevokeCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RevokeCertificateInput, RevokeCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RevokeCertificateInput, RevokeCertificateOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
@@ -1843,12 +3381,13 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchCertificatesInput, SearchCertificatesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchCertificatesInput, SearchCertificatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchCertificatesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchCertificatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchCertificatesInput, SearchCertificatesOutput>(overrides: ["X-Amz-Target": "CertificateManager.SearchCertificates"]))
@@ -1856,6 +3395,8 @@ extension ACMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchCertificatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchCertificatesInput, SearchCertificatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchCertificatesInput, SearchCertificatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchCertificatesInput, SearchCertificatesOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
@@ -1872,9 +3413,330 @@ extension ACMClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `TagResource` operation on the `ACM` service.
+    ///
+    /// Adds one or more tags to an ACM resource. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value. Use this action for all ACM resource types except the certificate resource type. For certificate resources, use [AddTagsToCertificate] instead. To remove one or more tags, use the [UntagResource] action. To view all of the tags that have been applied to a resource, use the [ListTagsForResource] action.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ServiceQuotaExceededException` : A service quota has been exceeded.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.tagResourceOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "tagResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "CertificateManager.TagResource"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UntagResource` operation on the `ACM` service.
+    ///
+    /// Removes one or more tags from an ACM resource. Use this action for all ACM resource types except the certificate resource type. For certificate resources, use [RemoveTagsFromCertificate] instead. To add one or more tags, use the [TagResource] action. To view all of the tags that have been applied to a resource, use the [ListTagsForResource] action.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.untagResourceOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "untagResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "CertificateManager.UntagResource"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateAcmeDomainValidation` operation on the `ACM` service.
+    ///
+    /// Updates the prevalidation configuration of an existing domain validation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateAcmeDomainValidationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateAcmeDomainValidationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `ConflictException` : You are trying to update a resource or configuration that is already being created or updated. Wait for the previous operation to finish and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func updateAcmeDomainValidation(input: UpdateAcmeDomainValidationInput) async throws -> UpdateAcmeDomainValidationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.updateAcmeDomainValidationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateAcmeDomainValidation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAcmeDomainValidationInput, UpdateAcmeDomainValidationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAcmeDomainValidationInput, UpdateAcmeDomainValidationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAcmeDomainValidationInput, UpdateAcmeDomainValidationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAcmeDomainValidationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAcmeDomainValidationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAcmeDomainValidationInput, UpdateAcmeDomainValidationOutput>(overrides: ["X-Amz-Target": "CertificateManager.UpdateAcmeDomainValidation"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAcmeDomainValidationInput, UpdateAcmeDomainValidationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAcmeDomainValidationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAcmeDomainValidationInput, UpdateAcmeDomainValidationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAcmeDomainValidationInput, UpdateAcmeDomainValidationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAcmeDomainValidationInput, UpdateAcmeDomainValidationOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAcmeDomainValidation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateAcmeEndpoint` operation on the `ACM` service.
+    ///
+    /// Updates the configuration of an existing ACME endpoint. You can change the authorization behavior, contact requirement, or certificate authority settings.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateAcmeEndpointInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateAcmeEndpointOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have access required to perform this action.
+    /// - `ConflictException` : You are trying to update a resource or configuration that is already being created or updated. Wait for the previous operation to finish and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ThrottlingException` : The request was denied because it exceeded a quota.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
+    public func updateAcmeEndpoint(input: UpdateAcmeEndpointInput) async throws -> UpdateAcmeEndpointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.updateAcmeEndpointOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateAcmeEndpoint")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "acm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAcmeEndpointInput, UpdateAcmeEndpointOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAcmeEndpointInput, UpdateAcmeEndpointOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAcmeEndpointInput, UpdateAcmeEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAcmeEndpointOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM-ACME", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAcmeEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAcmeEndpointInput, UpdateAcmeEndpointOutput>(overrides: ["X-Amz-Target": "CertificateManager.UpdateAcmeEndpoint"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAcmeEndpointInput, UpdateAcmeEndpointOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAcmeEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAcmeEndpointInput, UpdateAcmeEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAcmeEndpointInput, UpdateAcmeEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAcmeEndpointInput, UpdateAcmeEndpointOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAcmeEndpoint")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateCertificateOptions` operation on the `ACM` service.
     ///
-    /// Updates a certificate. You can use this function to specify whether to opt in to or out of recording your certificate in a certificate transparency log and exporting. For more information, see [ Opting Out of Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-bestpractices.html#best-practices-transparency) and [Certificate Manager Exportable Managed Certificates](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
+    /// Updates a certificate. You can use this function to specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. For more information, see [Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency) and [Certificate Manager Exportable Managed Certificates](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateCertificateOptionsInput`)
     ///
@@ -1887,6 +3749,7 @@ extension ACMClient {
     /// - `InvalidStateException` : Processing has reached an invalid state.
     /// - `LimitExceededException` : An ACM quota has been exceeded.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
+    /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
     public func updateCertificateOptions(input: UpdateCertificateOptionsInput) async throws -> UpdateCertificateOptionsOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1920,12 +3783,13 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCertificateOptionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, region: region, serviceType: "ACM", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCertificateOptionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutput>(overrides: ["X-Amz-Target": "CertificateManager.UpdateCertificateOptions"]))
@@ -1933,6 +3797,8 @@ extension ACMClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCertificateOptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutput>(serviceID: serviceName, version: ACMClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACM")

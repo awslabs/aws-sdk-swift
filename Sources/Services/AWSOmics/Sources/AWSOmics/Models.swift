@@ -2357,6 +2357,8 @@ extension OmicsClientTypes {
 
     /// A per-run configuration that overrides or merges with fields from DefaultRunSetting for a specific run.
     public struct InlineSetting: Swift.Sendable {
+        /// Per-run engine-specific settings. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles). Overrides defaultRunSetting.engineSettings for this run.
+        public var engineSettings: Smithy.Document?
         /// An optional user-friendly name for this run.
         public var name: Swift.String?
         /// The expected AWS account ID of the owner of the output S3 bucket for this run.
@@ -2374,6 +2376,7 @@ extension OmicsClientTypes {
         public var runTags: [Swift.String: Swift.String]?
 
         public init(
+            engineSettings: Smithy.Document? = nil,
             name: Swift.String? = nil,
             outputBucketOwnerId: Swift.String? = nil,
             outputUri: Swift.String? = nil,
@@ -2382,6 +2385,7 @@ extension OmicsClientTypes {
             runSettingId: Swift.String? = nil,
             runTags: [Swift.String: Swift.String]? = nil
         ) {
+            self.engineSettings = engineSettings
             self.name = name
             self.outputBucketOwnerId = outputBucketOwnerId
             self.outputUri = outputUri
@@ -4208,6 +4212,35 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes {
 
+    public enum ScratchStorageMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case local
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScratchStorageMode] {
+            return [
+                .local,
+                .shared
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .local: return "LOCAL"
+            case .shared: return "SHARED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
     public enum WorkflowType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `private`
         case ready2run
@@ -4245,6 +4278,8 @@ extension OmicsClientTypes {
         public var cacheId: Swift.String?
         /// Optional configuration name to use for the workflow run.
         public var configurationName: Swift.String?
+        /// Engine-specific settings for the workflow run. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles).
+        public var engineSettings: Smithy.Document?
         /// The verbosity level for CloudWatch Logs emitted during each run.
         public var logLevel: OmicsClientTypes.RunLogLevel?
         /// An optional user-friendly name applied to each workflow run. Can be overridden per run.
@@ -4268,6 +4303,8 @@ extension OmicsClientTypes {
         public var runGroupId: Swift.String?
         /// AWS tags to associate with each workflow run. Merged with per-run runTags; run-specific values take precedence when keys overlap.
         public var runTags: [Swift.String: Swift.String]?
+        /// Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If not specified, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL.
+        public var scratchStorageMode: OmicsClientTypes.ScratchStorageMode?
         /// The filesystem size in gibibytes (GiB) provisioned for each workflow run and shared by all tasks in that run. Defaults to 1200 GiB if not specified.
         public var storageCapacity: Swift.Int?
         /// The storage type for the workflow runs.
@@ -4286,6 +4323,7 @@ extension OmicsClientTypes {
             cacheBehavior: OmicsClientTypes.CacheBehavior? = nil,
             cacheId: Swift.String? = nil,
             configurationName: Swift.String? = nil,
+            engineSettings: Smithy.Document? = nil,
             logLevel: OmicsClientTypes.RunLogLevel? = nil,
             name: Swift.String? = nil,
             networkingMode: OmicsClientTypes.NetworkingMode? = nil,
@@ -4297,6 +4335,7 @@ extension OmicsClientTypes {
             roleArn: Swift.String? = nil,
             runGroupId: Swift.String? = nil,
             runTags: [Swift.String: Swift.String]? = nil,
+            scratchStorageMode: OmicsClientTypes.ScratchStorageMode? = nil,
             storageCapacity: Swift.Int? = nil,
             storageType: OmicsClientTypes.StorageType? = nil,
             workflowId: Swift.String? = nil,
@@ -4307,6 +4346,7 @@ extension OmicsClientTypes {
             self.cacheBehavior = cacheBehavior
             self.cacheId = cacheId
             self.configurationName = configurationName
+            self.engineSettings = engineSettings
             self.logLevel = logLevel
             self.name = name
             self.networkingMode = networkingMode
@@ -4318,6 +4358,7 @@ extension OmicsClientTypes {
             self.roleArn = roleArn
             self.runGroupId = runGroupId
             self.runTags = runTags
+            self.scratchStorageMode = scratchStorageMode
             self.storageCapacity = storageCapacity
             self.storageType = storageType
             self.workflowId = workflowId
@@ -6334,6 +6375,8 @@ public struct GetRunOutput: Swift.Sendable {
     public var runId: Swift.String?
     /// The destination for workflow outputs.
     public var runOutputUri: Swift.String?
+    /// Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If absent, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL.
+    public var scratchStorageMode: OmicsClientTypes.ScratchStorageMode?
     /// When the run started.
     public var startTime: Foundation.Date?
     /// Who started the run.
@@ -6392,6 +6435,7 @@ public struct GetRunOutput: Swift.Sendable {
         runGroupId: Swift.String? = nil,
         runId: Swift.String? = nil,
         runOutputUri: Swift.String? = nil,
+        scratchStorageMode: OmicsClientTypes.ScratchStorageMode? = nil,
         startTime: Foundation.Date? = nil,
         startedBy: Swift.String? = nil,
         status: OmicsClientTypes.RunStatus? = nil,
@@ -6434,6 +6478,7 @@ public struct GetRunOutput: Swift.Sendable {
         self.runGroupId = runGroupId
         self.runId = runId
         self.runOutputUri = runOutputUri
+        self.scratchStorageMode = scratchStorageMode
         self.startTime = startTime
         self.startedBy = startedBy
         self.status = status
@@ -8528,6 +8573,8 @@ extension OmicsClientTypes {
         public var storageType: OmicsClientTypes.StorageType?
         /// The run's workflow ID.
         public var workflowId: Swift.String?
+        /// The name of the workflow.
+        public var workflowName: Swift.String?
         /// The name of the workflow version.
         public var workflowVersionName: Swift.String?
 
@@ -8544,6 +8591,7 @@ extension OmicsClientTypes {
             storageCapacity: Swift.Int? = nil,
             storageType: OmicsClientTypes.StorageType? = nil,
             workflowId: Swift.String? = nil,
+            workflowName: Swift.String? = nil,
             workflowVersionName: Swift.String? = nil
         ) {
             self.arn = arn
@@ -8558,6 +8606,7 @@ extension OmicsClientTypes {
             self.storageCapacity = storageCapacity
             self.storageType = storageType
             self.workflowId = workflowId
+            self.workflowName = workflowName
             self.workflowVersionName = workflowVersionName
         }
     }
@@ -9696,6 +9745,8 @@ public struct StartRunInput: Swift.Sendable {
     public var runGroupId: Swift.String?
     /// The ID of a run to duplicate.
     public var runId: Swift.String?
+    /// Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If not specified, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL.
+    public var scratchStorageMode: OmicsClientTypes.ScratchStorageMode?
     /// The STATIC storage capacity (in gibibytes, GiB) for this run. The default run storage capacity is 1200 GiB. If your requested storage capacity is unavailable, the system rounds up the value to the nearest 1200 GiB multiple. If the requested storage capacity is still unavailable, the system rounds up the value to the nearest 2400 GiB multiple. This field is not required if the storage type is DYNAMIC (the system ignores any value that you enter).
     public var storageCapacity: Swift.Int?
     /// The storage type for the run. If you set the storage type to DYNAMIC, Amazon Web Services HealthOmics dynamically scales the storage up or down, based on file system utilization. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. For more information about DYNAMIC and STATIC storage, see [Run storage types](https://docs.aws.amazon.com/omics/latest/dev/workflows-run-types.html) in the Amazon Web Services HealthOmics User Guide.
@@ -9727,6 +9778,7 @@ public struct StartRunInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         runGroupId: Swift.String? = nil,
         runId: Swift.String? = nil,
+        scratchStorageMode: OmicsClientTypes.ScratchStorageMode? = nil,
         storageCapacity: Swift.Int? = nil,
         storageType: OmicsClientTypes.StorageType? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -9750,6 +9802,7 @@ public struct StartRunInput: Swift.Sendable {
         self.roleArn = roleArn
         self.runGroupId = runGroupId
         self.runId = runId
+        self.scratchStorageMode = scratchStorageMode
         self.storageCapacity = storageCapacity
         self.storageType = storageType
         self.tags = tags
@@ -12519,6 +12572,7 @@ extension StartRunInput {
         try writer["roleArn"].write(value.roleArn)
         try writer["runGroupId"].write(value.runGroupId)
         try writer["runId"].write(value.runId)
+        try writer["scratchStorageMode"].write(value.scratchStorageMode)
         try writer["storageCapacity"].write(value.storageCapacity)
         try writer["storageType"].write(value.storageType)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -13391,6 +13445,7 @@ extension GetRunOutput {
         value.runGroupId = try reader["runGroupId"].readIfPresent()
         value.runId = try reader["runId"].readIfPresent()
         value.runOutputUri = try reader["runOutputUri"].readIfPresent()
+        value.scratchStorageMode = try reader["scratchStorageMode"].readIfPresent()
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.startedBy = try reader["startedBy"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -16719,6 +16774,7 @@ extension OmicsClientTypes.DefaultRunSetting {
         try writer["cacheBehavior"].write(value.cacheBehavior)
         try writer["cacheId"].write(value.cacheId)
         try writer["configurationName"].write(value.configurationName)
+        try writer["engineSettings"].write(value.engineSettings)
         try writer["logLevel"].write(value.logLevel)
         try writer["name"].write(value.name)
         try writer["networkingMode"].write(value.networkingMode)
@@ -16730,6 +16786,7 @@ extension OmicsClientTypes.DefaultRunSetting {
         try writer["roleArn"].write(value.roleArn)
         try writer["runGroupId"].write(value.runGroupId)
         try writer["runTags"].writeMap(value.runTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["scratchStorageMode"].write(value.scratchStorageMode)
         try writer["storageCapacity"].write(value.storageCapacity)
         try writer["storageType"].write(value.storageType)
         try writer["workflowId"].write(value.workflowId)
@@ -16761,6 +16818,8 @@ extension OmicsClientTypes.DefaultRunSetting {
         value.workflowVersionName = try reader["workflowVersionName"].readIfPresent()
         value.networkingMode = try reader["networkingMode"].readIfPresent()
         value.configurationName = try reader["configurationName"].readIfPresent()
+        value.engineSettings = try reader["engineSettings"].readIfPresent()
+        value.scratchStorageMode = try reader["scratchStorageMode"].readIfPresent()
         return value
     }
 }
@@ -17018,6 +17077,7 @@ extension OmicsClientTypes.InlineSetting {
 
     static func write(value: OmicsClientTypes.InlineSetting?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["engineSettings"].write(value.engineSettings)
         try writer["name"].write(value.name)
         try writer["outputBucketOwnerId"].write(value.outputBucketOwnerId)
         try writer["outputUri"].write(value.outputUri)
@@ -17414,6 +17474,7 @@ extension OmicsClientTypes.RunListItem {
         value.stopTime = try reader["stopTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.storageType = try reader["storageType"].readIfPresent()
         value.workflowVersionName = try reader["workflowVersionName"].readIfPresent()
+        value.workflowName = try reader["workflowName"].readIfPresent()
         return value
     }
 }

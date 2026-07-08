@@ -300,7 +300,7 @@ extension MarketplaceMeteringClientTypes {
         public var licenseArn: Swift.String?
         /// The quantity of usage consumed by the customer for the given dimension and time. Defaults to 0 if not specified.
         public var quantity: Swift.Int?
-        /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to six hours in the past. Make sure the timestamp value is not before the start of the software usage.
+        /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to 24 hours in the past. Make sure the timestamp value is not before the start of the software usage. At the end of each billing cycle, you have a 6-hour grace period to submit usage records for the previous billing month before 06:00 UTC on the first day of the next month.
         /// This member is required.
         public var timestamp: Foundation.Date?
         /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the Quantity of the UsageRecord.

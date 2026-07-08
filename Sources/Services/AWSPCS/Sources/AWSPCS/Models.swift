@@ -1492,7 +1492,7 @@ extension PCSClientTypes {
         /// The software PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11 | 25.05 | 25.11
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. You can upgrade this version using the UpdateCluster API action. For more information, see [Upgrading the Slurm version on a cluster](https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_upgrade.html) and [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11 | 25.05 | 25.11
         /// This member is required.
         public var version: Swift.String?
 
@@ -2309,6 +2309,22 @@ public struct RegisterComputeNodeGroupInstanceOutput: Swift.Sendable {
 
 extension PCSClientTypes {
 
+    /// The scheduler configuration for updating a cluster. Use this to specify the Slurm version to upgrade to.
+    public struct UpdateSchedulerRequest: Swift.Sendable {
+        /// The Slurm version to upgrade the cluster to. You can only upgrade to a newer version. For more information about supported versions and upgrade paths, see [Upgrading the Slurm version on a cluster](https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_upgrade.html) in the PCS User Guide. Valid Values: 24.05 | 24.11 | 25.05 | 25.11
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            version: Swift.String? = nil
+        ) {
+            self.version = version
+        }
+    }
+}
+
+extension PCSClientTypes {
+
     /// The accounting configuration includes configurable settings for Slurm accounting.
     public struct UpdateAccountingRequest: Swift.Sendable {
         /// The default value for all purge settings for slurmdbd.conf. For more information, see the [slurmdbd.conf documentation at SchedMD](https://slurm.schedmd.com/slurmdbd.conf.html). The default value for defaultPurgeTimeInDays is -1. A value of -1 means there is no purge time and records persist as long as the cluster exists. 0 isn't a valid value.
@@ -2382,16 +2398,20 @@ public struct UpdateClusterInput: Swift.Sendable {
     /// The name or ID of the cluster to update.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
+    /// The scheduler configuration to update for the cluster. Use this to upgrade the Slurm version. For more information, see [Upgrading the Slurm version on a cluster](https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_upgrade.html) in the PCS User Guide.
+    public var scheduler: PCSClientTypes.UpdateSchedulerRequest?
     /// Additional options related to the Slurm scheduler.
     public var slurmConfiguration: PCSClientTypes.UpdateClusterSlurmConfigurationRequest?
 
     public init(
         clientToken: Swift.String? = nil,
         clusterIdentifier: Swift.String? = nil,
+        scheduler: PCSClientTypes.UpdateSchedulerRequest? = nil,
         slurmConfiguration: PCSClientTypes.UpdateClusterSlurmConfigurationRequest? = nil
     ) {
         self.clientToken = clientToken
         self.clusterIdentifier = clusterIdentifier
+        self.scheduler = scheduler
         self.slurmConfiguration = slurmConfiguration
     }
 }

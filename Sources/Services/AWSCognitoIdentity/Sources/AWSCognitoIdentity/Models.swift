@@ -222,7 +222,7 @@ extension CognitoIdentityClientTypes {
         public init(
             clientId: Swift.String? = nil,
             providerName: Swift.String? = nil,
-            serverSideTokenCheck: Swift.Bool? = false
+            serverSideTokenCheck: Swift.Bool? = nil
         ) {
             self.clientId = clientId
             self.providerName = providerName

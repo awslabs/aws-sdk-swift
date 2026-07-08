@@ -403,6 +403,8 @@ extension DevOpsAgentClientTypes {
         /// MCP server endpoint URL.
         /// This member is required.
         public var endpoint: Swift.String?
+        /// AWS IAM role ARN.
+        public var mcpRoleArn: Swift.String?
         /// MCP server name.
         /// This member is required.
         public var name: Swift.String?
@@ -411,6 +413,7 @@ extension DevOpsAgentClientTypes {
         public var region: Swift.String?
         /// IAM role ARN to assume for SigV4 signing.
         /// This member is required.
+        @available(*, deprecated, message: "Use mcpRoleArn instead. API deprecated since 2026-05-27")
         public var roleArn: Swift.String?
         /// AWS service name for SigV4 signing.
         /// This member is required.
@@ -420,14 +423,16 @@ extension DevOpsAgentClientTypes {
             customHeaders: [Swift.String: Swift.String]? = nil,
             description: Swift.String? = nil,
             endpoint: Swift.String? = nil,
+            mcpRoleArn: Swift.String? = nil,
             name: Swift.String? = nil,
             region: Swift.String? = nil,
-            roleArn: Swift.String? = nil,
+            roleArn: Swift.String? = "",
             service: Swift.String? = nil
         ) {
             self.customHeaders = customHeaders
             self.description = description
             self.endpoint = endpoint
+            self.mcpRoleArn = mcpRoleArn
             self.name = name
             self.region = region
             self.roleArn = roleArn
@@ -438,7 +443,7 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RegisteredMCPServerSigV4Details(endpoint: \(Swift.String(describing: endpoint)), name: \(Swift.String(describing: name)), region: \(Swift.String(describing: region)), roleArn: \(Swift.String(describing: roleArn)), service: \(Swift.String(describing: service)), customHeaders: [keys: \(Swift.String(describing: customHeaders?.keys)), values: \"CONTENT_REDACTED\"], description: \"CONTENT_REDACTED\")"}
+        "RegisteredMCPServerSigV4Details(endpoint: \(Swift.String(describing: endpoint)), mcpRoleArn: \(Swift.String(describing: mcpRoleArn)), name: \(Swift.String(describing: name)), region: \(Swift.String(describing: region)), roleArn: \(Swift.String(describing: roleArn)), service: \(Swift.String(describing: service)), customHeaders: [keys: \(Swift.String(describing: customHeaders?.keys)), values: \"CONTENT_REDACTED\"], description: \"CONTENT_REDACTED\")"}
 }
 
 extension DevOpsAgentClientTypes {
@@ -455,6 +460,125 @@ extension DevOpsAgentClientTypes {
             self.scopes = scopes
         }
     }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Supported authorization methods for remote A2A agents.
+    public enum RemoteAgentAuthorizationMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// API key-based authentication.
+        case apiKey
+        /// Bearer token authentication (RFC 6750).
+        case bearerToken
+        /// OAuth 2.0 client credentials flow.
+        case oauthClientCredentials
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RemoteAgentAuthorizationMethod] {
+            return [
+                .apiKey,
+                .bearerToken,
+                .oauthClientCredentials
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .apiKey: return "api-key"
+            case .bearerToken: return "bearer-token"
+            case .oauthClientCredentials: return "oauth-client-credentials"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Details specific to a registered token-based remote A2A agent.
+    public struct RegisteredRemoteAgentDetails: Swift.Sendable {
+        /// If the remote agent uses API key authentication, the header name.
+        public var apiKeyHeader: Swift.String?
+        /// The authorization method used by the remote agent.
+        /// This member is required.
+        public var authorizationMethod: DevOpsAgentClientTypes.RemoteAgentAuthorizationMethod?
+        /// Description field
+        public var description: Swift.String?
+        /// HTTPS endpoint URL for a remote A2A agent.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// Name identifier for a remote A2A agent.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            apiKeyHeader: Swift.String? = nil,
+            authorizationMethod: DevOpsAgentClientTypes.RemoteAgentAuthorizationMethod? = nil,
+            description: Swift.String? = nil,
+            endpoint: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.apiKeyHeader = apiKeyHeader
+            self.authorizationMethod = authorizationMethod
+            self.description = description
+            self.endpoint = endpoint
+            self.name = name
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.RegisteredRemoteAgentDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegisteredRemoteAgentDetails(apiKeyHeader: \(Swift.String(describing: apiKeyHeader)), authorizationMethod: \(Swift.String(describing: authorizationMethod)), endpoint: \(Swift.String(describing: endpoint)), name: \(Swift.String(describing: name)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Details specific to a registered SigV4-authenticated remote A2A agent.
+    public struct RegisteredRemoteAgentSigV4Details: Swift.Sendable {
+        /// Description field
+        public var description: Swift.String?
+        /// HTTPS endpoint URL for a remote A2A agent.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// Name identifier for a remote A2A agent.
+        /// This member is required.
+        public var name: Swift.String?
+        /// AWS region identifier or wildcard (*) for SigV4a multi-region signing.
+        /// This member is required.
+        public var region: Swift.String?
+        /// AWS IAM role ARN.
+        public var roleArn: Swift.String?
+        /// The AWS service name for SigV4 signing.
+        /// This member is required.
+        public var service: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            endpoint: Swift.String? = nil,
+            name: Swift.String? = nil,
+            region: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            service: Swift.String? = nil
+        ) {
+            self.description = description
+            self.endpoint = endpoint
+            self.name = name
+            self.region = region
+            self.roleArn = roleArn
+            self.service = service
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.RegisteredRemoteAgentSigV4Details: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegisteredRemoteAgentSigV4Details(endpoint: \(Swift.String(describing: endpoint)), name: \(Swift.String(describing: name)), region: \(Swift.String(describing: region)), roleArn: \(Swift.String(describing: roleArn)), service: \(Swift.String(describing: service)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension DevOpsAgentClientTypes {
@@ -523,6 +647,10 @@ extension DevOpsAgentClientTypes {
         case pagerduty(DevOpsAgentClientTypes.RegisteredPagerDutyDetails)
         /// SigV4-authenticated MCP server-specific service details.
         case mcpserversigv4(DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details)
+        /// Remote A2A agent-specific service details (token-based auth).
+        case remoteagent(DevOpsAgentClientTypes.RegisteredRemoteAgentDetails)
+        /// Remote A2A agent-specific service details (SigV4 auth).
+        case remoteagentsigv4(DevOpsAgentClientTypes.RegisteredRemoteAgentSigV4Details)
         case sdkUnknown(Swift.String)
     }
 }
@@ -777,6 +905,53 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension DevOpsAgentClientTypes {
 
+    /// AWS DevOps Agent capability types representing the set of automated capabilities that can be enabled per association.
+    public enum CapabilityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Release readiness review auto-trigger capability.
+        case releaseReadinessReview
+        /// Release readiness review automated testing capability.
+        case releaseReadinessReviewAutomatedTesting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapabilityType] {
+            return [
+                .releaseReadinessReview,
+                .releaseReadinessReviewAutomatedTesting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .releaseReadinessReview: return "RELEASE_READINESS_REVIEW"
+            case .releaseReadinessReviewAutomatedTesting: return "RELEASE_READINESS_REVIEW_AUTOMATED_TESTING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Capability configuration for the AWS DevOps Agent.
+    public struct CapabilityConfiguration: Swift.Sendable {
+        /// Whether the capability is enabled.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// AWS association type for monitoring account.
     public enum MonitorAccountType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case monitor
@@ -917,19 +1092,23 @@ extension DevOpsAgentClientTypes {
         /// Associated Github repo name
         /// This member is required.
         public var repoName: Swift.String?
+        /// Optional role ARN that AIDevOps assumes at runtime for automatic verification testing and VPC connectivity on this association.
+        public var runtimeRoleArn: Swift.String?
 
         public init(
             instanceIdentifier: Swift.String? = nil,
             owner: Swift.String? = nil,
             ownerType: DevOpsAgentClientTypes.GithubRepoOwnerType? = nil,
             repoId: Swift.String? = nil,
-            repoName: Swift.String? = nil
+            repoName: Swift.String? = nil,
+            runtimeRoleArn: Swift.String? = nil
         ) {
             self.instanceIdentifier = instanceIdentifier
             self.owner = owner
             self.ownerType = ownerType
             self.repoId = repoId
             self.repoName = repoName
+            self.runtimeRoleArn = runtimeRoleArn
         }
     }
 }
@@ -946,15 +1125,19 @@ extension DevOpsAgentClientTypes {
         /// Full GitLab project path (e.g., namespace/project-name).
         /// This member is required.
         public var projectPath: Swift.String?
+        /// Optional role ARN that AIDevOps assumes at runtime for automatic verification testing and VPC connectivity on this association.
+        public var runtimeRoleArn: Swift.String?
 
         public init(
             instanceIdentifier: Swift.String? = nil,
             projectId: Swift.String? = nil,
-            projectPath: Swift.String? = nil
+            projectPath: Swift.String? = nil,
+            runtimeRoleArn: Swift.String? = nil
         ) {
             self.instanceIdentifier = instanceIdentifier
             self.projectId = projectId
             self.projectPath = projectPath
+            self.runtimeRoleArn = runtimeRoleArn
         }
     }
 }
@@ -1078,6 +1261,24 @@ extension DevOpsAgentClientTypes {
 extension DevOpsAgentClientTypes.PagerDutyConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "PagerDutyConfiguration(services: \(Swift.String(describing: services)), customerEmail: \"CONTENT_REDACTED\")"}
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Configuration for token-based remote A2A agent integration.
+    public struct RemoteAgentConfiguration: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Configuration for SigV4-authenticated remote A2A agent integration.
+    public struct RemoteAgentSigV4Configuration: Swift.Sendable {
+
+        public init() { }
+    }
 }
 
 extension DevOpsAgentClientTypes {
@@ -1260,6 +1461,10 @@ extension DevOpsAgentClientTypes {
         case pagerduty(DevOpsAgentClientTypes.PagerDutyConfiguration)
         /// SigV4-authenticated MCP server integration configuration.
         case mcpserversigv4(DevOpsAgentClientTypes.MCPServerSigV4Configuration)
+        /// Remote A2A agent integration configuration (token-based auth).
+        case remoteagent(DevOpsAgentClientTypes.RemoteAgentConfiguration)
+        /// Remote A2A agent integration configuration (SigV4 auth).
+        case remoteagentsigv4(DevOpsAgentClientTypes.RemoteAgentSigV4Configuration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1269,6 +1474,8 @@ public struct AssociateServiceInput: Swift.Sendable {
     /// The unique identifier of the AgentSpace
     /// This member is required.
     public var agentSpaceId: Swift.String?
+    /// Enabled capabilities for this association.
+    public var capabilities: [Swift.String: DevOpsAgentClientTypes.CapabilityConfiguration]?
     /// The configuration that directs how AgentSpace interacts with the given service.
     /// This member is required.
     public var configuration: DevOpsAgentClientTypes.ServiceConfiguration?
@@ -1278,10 +1485,12 @@ public struct AssociateServiceInput: Swift.Sendable {
 
     public init(
         agentSpaceId: Swift.String? = nil,
+        capabilities: [Swift.String: DevOpsAgentClientTypes.CapabilityConfiguration]? = nil,
         configuration: DevOpsAgentClientTypes.ServiceConfiguration? = nil,
         serviceId: Swift.String? = nil
     ) {
         self.agentSpaceId = agentSpaceId
+        self.capabilities = capabilities
         self.configuration = configuration
         self.serviceId = serviceId
     }
@@ -1333,6 +1542,8 @@ extension DevOpsAgentClientTypes {
         /// The unique identifier of the given association.
         /// This member is required.
         public var associationId: Swift.String?
+        /// Enabled capabilities for this association.
+        public var capabilities: [Swift.String: DevOpsAgentClientTypes.CapabilityConfiguration]?
         /// The configuration that directs how AgentSpace interacts with the given service.
         /// This member is required.
         public var configuration: DevOpsAgentClientTypes.ServiceConfiguration?
@@ -1351,6 +1562,7 @@ extension DevOpsAgentClientTypes {
         public init(
             agentSpaceId: Swift.String? = nil,
             associationId: Swift.String? = nil,
+            capabilities: [Swift.String: DevOpsAgentClientTypes.CapabilityConfiguration]? = nil,
             configuration: DevOpsAgentClientTypes.ServiceConfiguration? = nil,
             createdAt: Foundation.Date? = nil,
             serviceId: Swift.String? = nil,
@@ -1359,6 +1571,7 @@ extension DevOpsAgentClientTypes {
         ) {
             self.agentSpaceId = agentSpaceId
             self.associationId = associationId
+            self.capabilities = capabilities
             self.configuration = configuration
             self.createdAt = createdAt
             self.serviceId = serviceId
@@ -1622,6 +1835,8 @@ public struct UpdateAssociationInput: Swift.Sendable {
     /// The unique identifier of the given association.
     /// This member is required.
     public var associationId: Swift.String?
+    /// Enabled capabilities for this association.
+    public var capabilities: [Swift.String: DevOpsAgentClientTypes.CapabilityConfiguration]?
     /// The configuration that directs how AgentSpace interacts with the given service. The entire configuration is replaced on update.
     /// This member is required.
     public var configuration: DevOpsAgentClientTypes.ServiceConfiguration?
@@ -1629,10 +1844,12 @@ public struct UpdateAssociationInput: Swift.Sendable {
     public init(
         agentSpaceId: Swift.String? = nil,
         associationId: Swift.String? = nil,
+        capabilities: [Swift.String: DevOpsAgentClientTypes.CapabilityConfiguration]? = nil,
         configuration: DevOpsAgentClientTypes.ServiceConfiguration? = nil
     ) {
         self.agentSpaceId = agentSpaceId
         self.associationId = associationId
+        self.capabilities = capabilities
         self.configuration = configuration
     }
 }
@@ -2012,17 +2229,21 @@ public struct EnableOperatorAppOutput: Swift.Sendable {
     public var idc: DevOpsAgentClientTypes.IdcAuthConfiguration?
     /// Configuration for external Identity Provider OIDC authentication flow for the Operator App.
     public var idp: DevOpsAgentClientTypes.IdpAuthConfiguration?
+    /// The URL for operators to access the Operator App
+    public var operatorAppUrl: Swift.String?
 
     public init(
         agentSpaceId: Swift.String? = nil,
         iam: DevOpsAgentClientTypes.IamAuthConfiguration? = nil,
         idc: DevOpsAgentClientTypes.IdcAuthConfiguration? = nil,
-        idp: DevOpsAgentClientTypes.IdpAuthConfiguration? = nil
+        idp: DevOpsAgentClientTypes.IdpAuthConfiguration? = nil,
+        operatorAppUrl: Swift.String? = nil
     ) {
         self.agentSpaceId = agentSpaceId
         self.iam = iam
         self.idc = idc
         self.idp = idp
+        self.operatorAppUrl = operatorAppUrl
     }
 }
 
@@ -2077,15 +2298,19 @@ public struct GetOperatorAppOutput: Swift.Sendable {
     public var idc: DevOpsAgentClientTypes.IdcAuthConfiguration?
     /// Configuration for external Identity Provider OIDC authentication flow for the Operator App.
     public var idp: DevOpsAgentClientTypes.IdpAuthConfiguration?
+    /// The URL for operators to access the Operator App
+    public var operatorAppUrl: Swift.String?
 
     public init(
         iam: DevOpsAgentClientTypes.IamAuthConfiguration? = nil,
         idc: DevOpsAgentClientTypes.IdcAuthConfiguration? = nil,
-        idp: DevOpsAgentClientTypes.IdpAuthConfiguration? = nil
+        idp: DevOpsAgentClientTypes.IdpAuthConfiguration? = nil,
+        operatorAppUrl: Swift.String? = nil
     ) {
         self.iam = iam
         self.idc = idc
         self.idp = idp
+        self.operatorAppUrl = operatorAppUrl
     }
 }
 
@@ -2207,6 +2432,252 @@ public struct UpdateOperatorAppIdpConfigOutput: Swift.Sendable {
 
 extension DevOpsAgentClientTypes {
 
+    /// Represents an asset in an agent space, including its identifier, type, metadata, version, and timestamps.
+    public struct Asset: Swift.Sendable {
+        /// The unique identifier for this asset
+        /// This member is required.
+        public var assetId: Swift.String?
+        /// The type of this asset
+        /// This member is required.
+        public var assetType: Swift.String?
+        /// Timestamp when this asset was created
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The metadata for this asset
+        /// This member is required.
+        public var metadata: Smithy.Document?
+        /// Timestamp when this asset was last updated
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+        /// The version number of this asset
+        /// This member is required.
+        public var version: Swift.Int?
+
+        public init(
+            assetId: Swift.String? = nil,
+            assetType: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            metadata: Smithy.Document? = nil,
+            updatedAt: Foundation.Date? = nil,
+            version: Swift.Int? = nil
+        ) {
+            self.assetId = assetId
+            self.assetType = assetType
+            self.createdAt = createdAt
+            self.metadata = metadata
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Content of an individual asset file
+    public enum AssetFileBody: Swift.Sendable {
+        /// Binary file content
+        case bytes(Foundation.Data)
+        /// Text file content
+        case text(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// A single file with path and content
+    public struct AssetFileContent: Swift.Sendable {
+        /// The file content
+        /// This member is required.
+        public var body: DevOpsAgentClientTypes.AssetFileBody?
+        /// Optional metadata for this file
+        public var metadata: Smithy.Document?
+        /// The path of the file within the asset
+        /// This member is required.
+        public var path: Swift.String?
+
+        public init(
+            body: DevOpsAgentClientTypes.AssetFileBody? = nil,
+            metadata: Smithy.Document? = nil,
+            path: Swift.String? = nil
+        ) {
+            self.body = body
+            self.metadata = metadata
+            self.path = path
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Content for an asset sourced from an external URL.
+    public struct AssetSourceUrlContent: Swift.Sendable {
+        /// The source URL to import asset content from
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            url: Swift.String? = nil
+        ) {
+            self.url = url
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// A zip file containing asset files
+    public struct AssetZipContent: Swift.Sendable {
+        /// The zip file bytes
+        /// This member is required.
+        public var zipFile: Foundation.Data?
+
+        public init(
+            zipFile: Foundation.Data? = nil
+        ) {
+            self.zipFile = zipFile
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Content for an asset: a single file, a zip bundle, or a source URL to import from
+    public enum AssetContent: Swift.Sendable {
+        /// A single file with path and content
+        case file(DevOpsAgentClientTypes.AssetFileContent)
+        /// A zip file containing multiple files
+        case zip(DevOpsAgentClientTypes.AssetZipContent)
+        /// A source URL to import asset content from
+        case sourceurl(DevOpsAgentClientTypes.AssetSourceUrlContent)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Represents a single file within an asset, including its path, content, version, and timestamps.
+    public struct AssetFile: Swift.Sendable {
+        /// The content of this file
+        /// This member is required.
+        public var content: DevOpsAgentClientTypes.AssetFileBody?
+        /// Timestamp when this file was created
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The metadata for this file
+        public var metadata: Smithy.Document?
+        /// The path of this file within the asset
+        /// This member is required.
+        public var path: Swift.String?
+        /// Timestamp when this file was last updated
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+        /// The asset version this file belongs to
+        /// This member is required.
+        public var version: Swift.Int?
+
+        public init(
+            content: DevOpsAgentClientTypes.AssetFileBody? = nil,
+            createdAt: Foundation.Date? = nil,
+            metadata: Smithy.Document? = nil,
+            path: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil,
+            version: Swift.Int? = nil
+        ) {
+            self.content = content
+            self.createdAt = createdAt
+            self.metadata = metadata
+            self.path = path
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Summary of a file within an asset, including its path, version, and timestamps.
+    public struct AssetFileSummary: Swift.Sendable {
+        /// Timestamp when this file was created
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The metadata for this file
+        public var metadata: Smithy.Document?
+        /// The path of this file within the asset
+        /// This member is required.
+        public var path: Swift.String?
+        /// Timestamp when this file was last updated
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+        /// The asset version this file belongs to
+        /// This member is required.
+        public var version: Swift.Int?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            metadata: Smithy.Document? = nil,
+            path: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil,
+            version: Swift.Int? = nil
+        ) {
+            self.createdAt = createdAt
+            self.metadata = metadata
+            self.path = path
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Summary of an asset type, including its identifier and description.
+    public struct AssetTypeSummary: Swift.Sendable {
+        /// The asset type identifier
+        /// This member is required.
+        public var assetType: Swift.String?
+        /// A description of the asset type
+        /// This member is required.
+        public var description: Swift.String?
+
+        public init(
+            assetType: Swift.String? = nil,
+            description: Swift.String? = nil
+        ) {
+            self.assetType = assetType
+            self.description = description
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Metadata for a single version of an asset, including the version number and timestamps.
+    public struct AssetVersionMetadata: Swift.Sendable {
+        /// Timestamp when this asset version was created
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// Timestamp when this asset version was last updated
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+        /// The version number of this asset
+        /// This member is required.
+        public var version: Swift.Int?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            updatedAt: Foundation.Date? = nil,
+            version: Swift.Int? = nil
+        ) {
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// A block of content in an assistant message.
     public enum AssistantMessageBlock: Swift.Sendable {
         /// Text content from the assistant.
@@ -2267,6 +2738,99 @@ public struct ContentSizeExceededException: ClientRuntime.ModeledError, AWSClien
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+/// Request structure for creating a new asset
+public struct CreateAssetInput: Swift.Sendable {
+    /// The unique identifier for the agent space where the asset will be created
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The type of asset to create
+    /// This member is required.
+    public var assetType: Swift.String?
+    /// A unique, case-sensitive identifier used for idempotent asset creation
+    public var clientToken: Swift.String?
+    /// The content for the asset. Provide a single file, a zip bundle, or a sourceUrl to import from an external source.
+    /// This member is required.
+    public var content: DevOpsAgentClientTypes.AssetContent?
+    /// The metadata describing this asset
+    public var metadata: Smithy.Document?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assetType: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        content: DevOpsAgentClientTypes.AssetContent? = nil,
+        metadata: Smithy.Document? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assetType = assetType
+        self.clientToken = clientToken
+        self.content = content
+        self.metadata = metadata
+    }
+}
+
+/// Response structure for creating a new asset
+public struct CreateAssetOutput: Swift.Sendable {
+    /// The asset object
+    /// This member is required.
+    public var asset: DevOpsAgentClientTypes.Asset?
+
+    public init(
+        asset: DevOpsAgentClientTypes.Asset? = nil
+    ) {
+        self.asset = asset
+    }
+}
+
+/// Request structure for creating an asset file
+public struct CreateAssetFileInput: Swift.Sendable {
+    /// The unique identifier for the agent space containing the asset
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the asset to create the file in
+    /// This member is required.
+    public var assetId: Swift.String?
+    /// A unique, case-sensitive identifier used for idempotent asset file creation
+    public var clientToken: Swift.String?
+    /// The content of the file to create
+    /// This member is required.
+    public var content: DevOpsAgentClientTypes.AssetFileBody?
+    /// Optional metadata describing this file
+    public var metadata: Smithy.Document?
+    /// The path of the file within the asset
+    /// This member is required.
+    public var path: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assetId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        content: DevOpsAgentClientTypes.AssetFileBody? = nil,
+        metadata: Smithy.Document? = nil,
+        path: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assetId = assetId
+        self.clientToken = clientToken
+        self.content = content
+        self.metadata = metadata
+        self.path = path
+    }
+}
+
+/// Response structure for creating an asset file
+public struct CreateAssetFileOutput: Swift.Sendable {
+    /// The asset file object
+    /// This member is required.
+    public var file: DevOpsAgentClientTypes.AssetFile?
+
+    public init(
+        file: DevOpsAgentClientTypes.AssetFile? = nil
+    ) {
+        self.file = file
     }
 }
 
@@ -2357,12 +2921,18 @@ extension DevOpsAgentClientTypes {
         case evaluation
         /// Task for investigating issues or requirements
         case investigation
+        /// Task for reviewing changes for production readiness
+        case releaseReadinessReview
+        /// Task for automated release testing
+        case releaseTesting
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TaskType] {
             return [
                 .evaluation,
-                .investigation
+                .investigation,
+                .releaseReadinessReview,
+                .releaseTesting
             ]
         }
 
@@ -2375,6 +2945,8 @@ extension DevOpsAgentClientTypes {
             switch self {
             case .evaluation: return "EVALUATION"
             case .investigation: return "INVESTIGATION"
+            case .releaseReadinessReview: return "RELEASE_READINESS_REVIEW"
+            case .releaseTesting: return "RELEASE_TESTING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2476,6 +3048,8 @@ extension DevOpsAgentClientTypes {
         case pendingStart
         /// Task is awaiting triage analysis
         case pendingTriage
+        /// Task has been skipped by triage
+        case skipped
         /// Task has exceeded its time limit
         case timedOut
         case sdkUnknown(Swift.String)
@@ -2490,6 +3064,7 @@ extension DevOpsAgentClientTypes {
                 .pendingCustomerApproval,
                 .pendingStart,
                 .pendingTriage,
+                .skipped,
                 .timedOut
             ]
         }
@@ -2509,6 +3084,7 @@ extension DevOpsAgentClientTypes {
             case .pendingCustomerApproval: return "PENDING_CUSTOMER_APPROVAL"
             case .pendingStart: return "PENDING_START"
             case .pendingTriage: return "PENDING_TRIAGE"
+            case .skipped: return "SKIPPED"
             case .timedOut: return "TIMED_OUT"
             case let .sdkUnknown(s): return s
             }
@@ -2715,6 +3291,38 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    /// DNS resolution mode for a Resource Gateway.
+    public enum ResourceConfigDnsResolution: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Enable private DNS resolution within VPC for resources behind this resource gateway.
+        case inVpc
+        /// Use public DNS resolution for resources behind this resource gateway.
+        case `public`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceConfigDnsResolution] {
+            return [
+                .inVpc,
+                .public
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inVpc: return "IN_VPC"
+            case .public: return "PUBLIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// IP address type for a Resource Gateway.
     public enum IpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dualStack
@@ -2752,6 +3360,8 @@ extension DevOpsAgentClientTypes {
     public struct ServiceManagedInput: Swift.Sendable {
         /// Certificate for the Private Connection.
         public var certificate: Swift.String?
+        /// DNS resolution mode for the resource gateway. Defaults to PUBLIC when not set.
+        public var dnsResolution: DevOpsAgentClientTypes.ResourceConfigDnsResolution?
         /// IP address or DNS name of the target resource.
         /// This member is required.
         public var hostAddress: Swift.String?
@@ -2772,6 +3382,7 @@ extension DevOpsAgentClientTypes {
 
         public init(
             certificate: Swift.String? = nil,
+            dnsResolution: DevOpsAgentClientTypes.ResourceConfigDnsResolution? = nil,
             hostAddress: Swift.String? = nil,
             ipAddressType: DevOpsAgentClientTypes.IpAddressType? = nil,
             ipv4AddressesPerEni: Swift.Int? = nil,
@@ -2781,6 +3392,7 @@ extension DevOpsAgentClientTypes {
             vpcId: Swift.String? = nil
         ) {
             self.certificate = certificate
+            self.dnsResolution = dnsResolution
             self.hostAddress = hostAddress
             self.ipAddressType = ipAddressType
             self.ipv4AddressesPerEni = ipv4AddressesPerEni
@@ -2899,6 +3511,10 @@ extension DevOpsAgentClientTypes {
 public struct CreatePrivateConnectionOutput: Swift.Sendable {
     /// The expiry time of the certificate associated with the Private Connection. Only present when a certificate is associated.
     public var certificateExpiryTime: Foundation.Date?
+    /// DNS resolution mode for the Private Connection's resource gateway.
+    public var dnsResolution: DevOpsAgentClientTypes.ResourceConfigDnsResolution?
+    /// Message describing the reason for a failed Private Connection creation, if applicable.
+    public var failureMessage: Swift.String?
     /// IP address or DNS name of the target resource. Only present for service-managed Private Connections.
     public var hostAddress: Swift.String?
     /// The name of the Private Connection.
@@ -2921,6 +3537,8 @@ public struct CreatePrivateConnectionOutput: Swift.Sendable {
 
     public init(
         certificateExpiryTime: Foundation.Date? = nil,
+        dnsResolution: DevOpsAgentClientTypes.ResourceConfigDnsResolution? = nil,
+        failureMessage: Swift.String? = nil,
         hostAddress: Swift.String? = nil,
         name: Swift.String? = nil,
         resourceConfigurationId: Swift.String? = nil,
@@ -2931,6 +3549,8 @@ public struct CreatePrivateConnectionOutput: Swift.Sendable {
         vpcId: Swift.String? = nil
     ) {
         self.certificateExpiryTime = certificateExpiryTime
+        self.dnsResolution = dnsResolution
+        self.failureMessage = failureMessage
         self.hostAddress = hostAddress
         self.name = name
         self.resourceConfigurationId = resourceConfigurationId
@@ -2939,6 +3559,132 @@ public struct CreatePrivateConnectionOutput: Swift.Sendable {
         self.tags = tags
         self.type = type
         self.vpcId = vpcId
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Schedule-based condition that fires the Trigger
+    public struct ScheduleCondition: Swift.Sendable {
+        /// The schedule expression
+        /// This member is required.
+        public var expression: Swift.String?
+
+        public init(
+            expression: Swift.String? = nil
+        ) {
+            self.expression = expression
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Defines the firing condition for a Trigger
+    public enum TriggerCondition: Swift.Sendable {
+        /// Time-based firing condition
+        case schedule(DevOpsAgentClientTypes.ScheduleCondition)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+/// Request structure for creating a new Trigger
+public struct CreateTriggerInput: Swift.Sendable {
+    /// The action the new Trigger performs when it fires
+    /// This member is required.
+    public var action: Smithy.Document?
+    /// The unique identifier for the agent space where the Trigger will be created
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// A unique, case-sensitive identifier used for idempotent Trigger creation
+    public var clientToken: Swift.String?
+    /// The condition that fires the new Trigger
+    /// This member is required.
+    public var condition: DevOpsAgentClientTypes.TriggerCondition?
+    /// The initial status of the Trigger
+    public var status: Swift.String?
+    /// How the new Trigger fires
+    /// This member is required.
+    public var type: Swift.String?
+
+    public init(
+        action: Smithy.Document? = nil,
+        agentSpaceId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        condition: DevOpsAgentClientTypes.TriggerCondition? = nil,
+        status: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.action = action
+        self.agentSpaceId = agentSpaceId
+        self.clientToken = clientToken
+        self.condition = condition
+        self.status = status
+        self.type = type
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// A Trigger fires on a schedule and invokes an agent
+    public struct Trigger: Swift.Sendable {
+        /// The action this Trigger performs when it fires
+        /// This member is required.
+        public var action: Smithy.Document?
+        /// The agent space this Trigger belongs to
+        /// This member is required.
+        public var agentSpaceId: Swift.String?
+        /// The condition that fires this Trigger
+        /// This member is required.
+        public var condition: DevOpsAgentClientTypes.TriggerCondition?
+        /// Timestamp when this Trigger was created
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The status of this Trigger
+        /// This member is required.
+        public var status: Swift.String?
+        /// The unique identifier for this Trigger
+        /// This member is required.
+        public var triggerId: Swift.String?
+        /// How this Trigger fires
+        /// This member is required.
+        public var type: Swift.String?
+        /// Timestamp when this Trigger was last updated
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            action: Smithy.Document? = nil,
+            agentSpaceId: Swift.String? = nil,
+            condition: DevOpsAgentClientTypes.TriggerCondition? = nil,
+            createdAt: Foundation.Date? = nil,
+            status: Swift.String? = nil,
+            triggerId: Swift.String? = nil,
+            type: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.action = action
+            self.agentSpaceId = agentSpaceId
+            self.condition = condition
+            self.createdAt = createdAt
+            self.status = status
+            self.triggerId = triggerId
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// Response structure for creating a new Trigger
+public struct CreateTriggerOutput: Swift.Sendable {
+    /// The Trigger object
+    /// This member is required.
+    public var trigger: DevOpsAgentClientTypes.Trigger?
+
+    public init(
+        trigger: DevOpsAgentClientTypes.Trigger? = nil
+    ) {
+        self.trigger = trigger
     }
 }
 
@@ -3003,6 +3749,59 @@ extension DevOpsAgentClientTypes.DatadogServiceDetails: Swift.CustomDebugStringC
         "DatadogServiceDetails(authorizationConfig: \(Swift.String(describing: authorizationConfig)), endpoint: \(Swift.String(describing: endpoint)), name: \(Swift.String(describing: name)), description: \"CONTENT_REDACTED\")"}
 }
 
+/// Request structure for deleting an asset
+public struct DeleteAssetInput: Swift.Sendable {
+    /// The unique identifier for the agent space containing the asset
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the asset to delete
+    /// This member is required.
+    public var assetId: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assetId: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assetId = assetId
+    }
+}
+
+/// Response structure for deleting an asset
+public struct DeleteAssetOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Request structure for deleting an asset file
+public struct DeleteAssetFileInput: Swift.Sendable {
+    /// The unique identifier for the agent space containing the asset
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the asset containing the file
+    /// This member is required.
+    public var assetId: Swift.String?
+    /// The path of the file within the asset to delete
+    /// This member is required.
+    public var path: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assetId: Swift.String? = nil,
+        path: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assetId = assetId
+        self.path = path
+    }
+}
+
+/// Response structure for deleting an asset file
+public struct DeleteAssetFileOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// Input for deleting an existing Private Connection.
 public struct DeletePrivateConnectionInput: Swift.Sendable {
     /// The name of the Private Connection.
@@ -3032,6 +3831,30 @@ public struct DeletePrivateConnectionOutput: Swift.Sendable {
         self.name = name
         self.status = status
     }
+}
+
+/// Request structure for deleting a Trigger
+public struct DeleteTriggerInput: Swift.Sendable {
+    /// The unique identifier for the agent space containing the Trigger
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the Trigger to delete
+    /// This member is required.
+    public var triggerId: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        triggerId: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.triggerId = triggerId
+    }
+}
+
+/// Response structure for deleting a Trigger
+public struct DeleteTriggerOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 /// Input for deregistering a service.
@@ -3070,6 +3893,10 @@ public struct DescribePrivateConnectionInput: Swift.Sendable {
 public struct DescribePrivateConnectionOutput: Swift.Sendable {
     /// The expiry time of the certificate associated with the Private Connection. Only present when a certificate is associated.
     public var certificateExpiryTime: Foundation.Date?
+    /// DNS resolution mode for the Private Connection's resource gateway.
+    public var dnsResolution: DevOpsAgentClientTypes.ResourceConfigDnsResolution?
+    /// Message describing the reason for a failed Private Connection, if applicable.
+    public var failureMessage: Swift.String?
     /// IP address or DNS name of the target resource. Only present for service-managed Private Connections.
     public var hostAddress: Swift.String?
     /// The name of the Private Connection.
@@ -3092,6 +3919,8 @@ public struct DescribePrivateConnectionOutput: Swift.Sendable {
 
     public init(
         certificateExpiryTime: Foundation.Date? = nil,
+        dnsResolution: DevOpsAgentClientTypes.ResourceConfigDnsResolution? = nil,
+        failureMessage: Swift.String? = nil,
         hostAddress: Swift.String? = nil,
         name: Swift.String? = nil,
         resourceConfigurationId: Swift.String? = nil,
@@ -3102,6 +3931,8 @@ public struct DescribePrivateConnectionOutput: Swift.Sendable {
         vpcId: Swift.String? = nil
     ) {
         self.certificateExpiryTime = certificateExpiryTime
+        self.dnsResolution = dnsResolution
+        self.failureMessage = failureMessage
         self.hostAddress = hostAddress
         self.name = name
         self.resourceConfigurationId = resourceConfigurationId
@@ -3122,7 +3953,7 @@ extension DevOpsAgentClientTypes {
 
     /// Represents a usage metric with its configured limit and current usage value.
     public struct UsageMetric: Swift.Sendable {
-        /// Configured limit for this metric.
+        /// Configured limit for this metric. A value of -1 indicates no limit is enforced.
         /// This member is required.
         public var limit: Swift.Int?
         /// Current usage for this metric
@@ -3169,6 +4000,121 @@ public struct GetAccountUsageOutput: Swift.Sendable {
         self.monthlyAccountSystemLearningHours = monthlyAccountSystemLearningHours
         self.usagePeriodEndTime = usagePeriodEndTime
         self.usagePeriodStartTime = usagePeriodStartTime
+    }
+}
+
+/// Request structure for getting an asset
+public struct GetAssetInput: Swift.Sendable {
+    /// The unique identifier for the agent space containing the asset
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the asset to retrieve
+    /// This member is required.
+    public var assetId: Swift.String?
+    /// The specific version of the asset to retrieve. If omitted, the latest version is returned.
+    public var assetVersion: Swift.Int?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assetId: Swift.String? = nil,
+        assetVersion: Swift.Int? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assetId = assetId
+        self.assetVersion = assetVersion
+    }
+}
+
+/// Response structure for getting an asset
+public struct GetAssetOutput: Swift.Sendable {
+    /// The asset object
+    /// This member is required.
+    public var asset: DevOpsAgentClientTypes.Asset?
+
+    public init(
+        asset: DevOpsAgentClientTypes.Asset? = nil
+    ) {
+        self.asset = asset
+    }
+}
+
+/// Request structure for getting an asset's content as a zip bundle
+public struct GetAssetContentInput: Swift.Sendable {
+    /// The unique identifier for the agent space containing the asset
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the asset
+    /// This member is required.
+    public var assetId: Swift.String?
+    /// The specific asset version to export. If omitted, the latest version is returned.
+    public var assetVersion: Swift.Int?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assetId: Swift.String? = nil,
+        assetVersion: Swift.Int? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assetId = assetId
+        self.assetVersion = assetVersion
+    }
+}
+
+/// Response structure for getting an asset's content as a zip bundle
+public struct GetAssetContentOutput: Swift.Sendable {
+    /// The asset content as a zip file
+    /// This member is required.
+    public var content: DevOpsAgentClientTypes.AssetZipContent?
+    /// The asset version this content belongs to
+    /// This member is required.
+    public var version: Swift.Int?
+
+    public init(
+        content: DevOpsAgentClientTypes.AssetZipContent? = nil,
+        version: Swift.Int? = nil
+    ) {
+        self.content = content
+        self.version = version
+    }
+}
+
+/// Request structure for getting an asset file
+public struct GetAssetFileInput: Swift.Sendable {
+    /// The unique identifier for the agent space containing the asset
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the asset containing the file
+    /// This member is required.
+    public var assetId: Swift.String?
+    /// The specific asset version to retrieve the file from. If omitted, the latest version is returned.
+    public var assetVersion: Swift.Int?
+    /// The path of the file within the asset to retrieve
+    /// This member is required.
+    public var path: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assetId: Swift.String? = nil,
+        assetVersion: Swift.Int? = nil,
+        path: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assetId = assetId
+        self.assetVersion = assetVersion
+        self.path = path
+    }
+}
+
+/// Response structure for getting an asset file
+public struct GetAssetFileOutput: Swift.Sendable {
+    /// The asset file object
+    /// This member is required.
+    public var file: DevOpsAgentClientTypes.AssetFile?
+
+    public init(
+        file: DevOpsAgentClientTypes.AssetFile? = nil
+    ) {
+        self.file = file
     }
 }
 
@@ -3420,6 +4366,210 @@ public struct GetRecommendationOutput: Swift.Sendable {
         recommendation: DevOpsAgentClientTypes.Recommendation? = nil
     ) {
         self.recommendation = recommendation
+    }
+}
+
+/// Request structure for getting a Trigger
+public struct GetTriggerInput: Swift.Sendable {
+    /// The unique identifier for the agent space containing the Trigger
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the Trigger to retrieve
+    /// This member is required.
+    public var triggerId: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        triggerId: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.triggerId = triggerId
+    }
+}
+
+/// Response structure for getting a Trigger
+public struct GetTriggerOutput: Swift.Sendable {
+    /// The Trigger object
+    /// This member is required.
+    public var trigger: DevOpsAgentClientTypes.Trigger?
+
+    public init(
+        trigger: DevOpsAgentClientTypes.Trigger? = nil
+    ) {
+        self.trigger = trigger
+    }
+}
+
+/// Request structure for listing asset files
+public struct ListAssetFilesInput: Swift.Sendable {
+    /// The unique identifier for the agent space containing the asset
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the asset whose files to list
+    /// This member is required.
+    public var assetId: Swift.String?
+    /// The specific asset version to list files from. If omitted, files from the latest version are returned.
+    public var assetVersion: Swift.Int?
+    /// The maximum number of results to return in a single response
+    public var maxResults: Swift.Int?
+    /// Pagination token from a previous response to retrieve the next page of results
+    public var nextToken: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assetId: Swift.String? = nil,
+        assetVersion: Swift.Int? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assetId = assetId
+        self.assetVersion = assetVersion
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+/// Response structure for listing asset files
+public struct ListAssetFilesOutput: Swift.Sendable {
+    /// The list of asset file summaries
+    /// This member is required.
+    public var items: [DevOpsAgentClientTypes.AssetFileSummary]?
+    /// Pagination token to retrieve the next page of results. Absent when there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DevOpsAgentClientTypes.AssetFileSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+/// Request structure for listing assets
+public struct ListAssetsInput: Swift.Sendable {
+    /// The unique identifier for the agent space to list assets from
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// Filter results to only assets of this type
+    public var assetType: Swift.String?
+    /// The maximum number of results to return in a single response
+    public var maxResults: Swift.Int?
+    /// Pagination token from a previous response to retrieve the next page of results
+    public var nextToken: Swift.String?
+    /// Filter results to only assets updated after this timestamp
+    public var updatedAfter: Foundation.Date?
+    /// Filter results to only assets updated before this timestamp
+    public var updatedBefore: Foundation.Date?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assetType: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        updatedAfter: Foundation.Date? = nil,
+        updatedBefore: Foundation.Date? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assetType = assetType
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.updatedAfter = updatedAfter
+        self.updatedBefore = updatedBefore
+    }
+}
+
+/// Response structure for listing assets
+public struct ListAssetsOutput: Swift.Sendable {
+    /// The list of assets for the agent space
+    /// This member is required.
+    public var items: [DevOpsAgentClientTypes.Asset]?
+    /// Pagination token to retrieve the next page of results. Absent when there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DevOpsAgentClientTypes.Asset]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+/// Request structure for listing asset types
+public struct ListAssetTypesInput: Swift.Sendable {
+    /// The maximum number of results to return in a single response
+    public var maxResults: Swift.Int?
+    /// Pagination token from a previous response to retrieve the next page of results
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+/// Response structure for listing asset types
+public struct ListAssetTypesOutput: Swift.Sendable {
+    /// The list of supported asset types
+    /// This member is required.
+    public var items: [DevOpsAgentClientTypes.AssetTypeSummary]?
+    /// Pagination token to retrieve the next page of results. Absent when there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DevOpsAgentClientTypes.AssetTypeSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+/// Request structure for listing asset versions
+public struct ListAssetVersionsInput: Swift.Sendable {
+    /// The unique identifier for the agent space containing the asset
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the asset whose versions to list
+    /// This member is required.
+    public var assetId: Swift.String?
+    /// The maximum number of results to return in a single response
+    public var maxResults: Swift.Int?
+    /// Pagination token from a previous response to retrieve the next page of results
+    public var nextToken: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assetId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assetId = assetId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+/// Response structure for listing asset versions
+public struct ListAssetVersionsOutput: Swift.Sendable {
+    /// The list of version metadata for the asset
+    /// This member is required.
+    public var items: [DevOpsAgentClientTypes.AssetVersionMetadata]?
+    /// Pagination token to retrieve the next page of results. Absent when there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DevOpsAgentClientTypes.AssetVersionMetadata]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
     }
 }
 
@@ -4332,6 +5482,48 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+/// Request structure for listing Triggers in an agent space
+public struct ListTriggersInput: Swift.Sendable {
+    /// The unique identifier for the agent space whose Triggers should be listed
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The maximum number of results to return in a single response
+    public var maxResults: Swift.Int?
+    /// Pagination token from a previous response to retrieve the next page of results
+    public var nextToken: Swift.String?
+    /// Filter results to Triggers in this status
+    public var status: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+/// Response structure for listing Triggers
+public struct ListTriggersOutput: Swift.Sendable {
+    /// The list of Triggers
+    /// This member is required.
+    public var items: [DevOpsAgentClientTypes.Trigger]?
+    /// Pagination token to retrieve the next page of results
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DevOpsAgentClientTypes.Trigger]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 /// Input for listing Private Connections in the caller's account.
 public struct ListPrivateConnectionsInput: Swift.Sendable {
 
@@ -4344,6 +5536,10 @@ extension DevOpsAgentClientTypes {
     public struct PrivateConnectionSummary: Swift.Sendable {
         /// The expiry time of the certificate associated with the Private Connection. Only present when a certificate is associated.
         public var certificateExpiryTime: Foundation.Date?
+        /// DNS resolution mode for the Private Connection's resource gateway.
+        public var dnsResolution: DevOpsAgentClientTypes.ResourceConfigDnsResolution?
+        /// Message describing the reason for a failed Private Connection, if applicable.
+        public var failureMessage: Swift.String?
         /// IP address or DNS name of the target resource. Only present for service-managed Private Connections.
         public var hostAddress: Swift.String?
         /// The name of the Private Connection.
@@ -4364,6 +5560,8 @@ extension DevOpsAgentClientTypes {
 
         public init(
             certificateExpiryTime: Foundation.Date? = nil,
+            dnsResolution: DevOpsAgentClientTypes.ResourceConfigDnsResolution? = nil,
+            failureMessage: Swift.String? = nil,
             hostAddress: Swift.String? = nil,
             name: Swift.String? = nil,
             resourceConfigurationId: Swift.String? = nil,
@@ -4373,6 +5571,8 @@ extension DevOpsAgentClientTypes {
             vpcId: Swift.String? = nil
         ) {
             self.certificateExpiryTime = certificateExpiryTime
+            self.dnsResolution = dnsResolution
+            self.failureMessage = failureMessage
             self.hostAddress = hostAddress
             self.name = name
             self.resourceConfigurationId = resourceConfigurationId
@@ -4419,6 +5619,10 @@ public struct UpdatePrivateConnectionCertificateInput: Swift.Sendable {
 public struct UpdatePrivateConnectionCertificateOutput: Swift.Sendable {
     /// The expiry time of the certificate associated with the Private Connection. Only present when a certificate is associated.
     public var certificateExpiryTime: Foundation.Date?
+    /// DNS resolution mode for the Private Connection's resource gateway.
+    public var dnsResolution: DevOpsAgentClientTypes.ResourceConfigDnsResolution?
+    /// Message describing the reason for a failed Private Connection update, if applicable.
+    public var failureMessage: Swift.String?
     /// IP address or DNS name of the target resource. Only present for service-managed Private Connections.
     public var hostAddress: Swift.String?
     /// The name of the Private Connection.
@@ -4439,6 +5643,8 @@ public struct UpdatePrivateConnectionCertificateOutput: Swift.Sendable {
 
     public init(
         certificateExpiryTime: Foundation.Date? = nil,
+        dnsResolution: DevOpsAgentClientTypes.ResourceConfigDnsResolution? = nil,
+        failureMessage: Swift.String? = nil,
         hostAddress: Swift.String? = nil,
         name: Swift.String? = nil,
         resourceConfigurationId: Swift.String? = nil,
@@ -4448,6 +5654,8 @@ public struct UpdatePrivateConnectionCertificateOutput: Swift.Sendable {
         vpcId: Swift.String? = nil
     ) {
         self.certificateExpiryTime = certificateExpiryTime
+        self.dnsResolution = dnsResolution
+        self.failureMessage = failureMessage
         self.hostAddress = hostAddress
         self.name = name
         self.resourceConfigurationId = resourceConfigurationId
@@ -4466,7 +5674,7 @@ extension DevOpsAgentClientTypes {
         public var currentPage: Swift.String?
         /// The ID of the last message in the conversation
         public var lastMessage: Swift.String?
-        /// Response to a UI prompt (not a text conversation message)
+        /// Response to a UI prompt (not a text conversation message). Operator App SDK clients set this to the control-string sentinel `"APPROVAL_ACTION"` when the request is resuming a paused tool call after an operator approval decision; in that case the structured decision context lives on the sibling `approvalAction` member and the chat agent reads from there. Preserved as a String for back-compat: pre-typed-approval clients still encode arbitrary UI-prompt responses as JSON in this field, and the chat agent parses them out during the transition.
         public var userActionResponse: Swift.String?
 
         public init(
@@ -4486,6 +5694,8 @@ public struct SendMessageInput: Swift.Sendable {
     /// The agent space identifier
     /// This member is required.
     public var agentSpaceId: Swift.String?
+    /// Optional list of asset identifiers to attach to the message
+    public var assetIds: [Swift.String]?
     /// The user message content
     /// This member is required.
     public var content: Swift.String?
@@ -4500,12 +5710,14 @@ public struct SendMessageInput: Swift.Sendable {
 
     public init(
         agentSpaceId: Swift.String? = nil,
+        assetIds: [Swift.String]? = nil,
         content: Swift.String? = nil,
         context: DevOpsAgentClientTypes.SendMessageContext? = nil,
         executionId: Swift.String? = nil,
         userId: Swift.String? = nil
     ) {
         self.agentSpaceId = agentSpaceId
+        self.assetIds = assetIds
         self.content = content
         self.context = context
         self.executionId = executionId
@@ -4856,6 +6068,10 @@ extension DevOpsAgentClientTypes {
         /// Splunk MCP server.
         case mcpServerSplunk
         case pagerduty
+        /// Remote A2A agent with token-based authentication (API key or OAuth).
+        case remoteAgent
+        /// Remote A2A agent with SigV4 authentication.
+        case remoteAgentSigv4
         case servicenow
         case slack
         case sdkUnknown(Swift.String)
@@ -4876,6 +6092,8 @@ extension DevOpsAgentClientTypes {
                 .mcpServerSigv4,
                 .mcpServerSplunk,
                 .pagerduty,
+                .remoteAgent,
+                .remoteAgentSigv4,
                 .servicenow,
                 .slack
             ]
@@ -4902,6 +6120,8 @@ extension DevOpsAgentClientTypes {
             case .mcpServerSigv4: return "mcpserversigv4"
             case .mcpServerSplunk: return "mcpserversplunk"
             case .pagerduty: return "pagerduty"
+            case .remoteAgent: return "remoteagent"
+            case .remoteAgentSigv4: return "remoteagentsigv4"
             case .servicenow: return "servicenow"
             case .slack: return "slack"
             case let .sdkUnknown(s): return s
@@ -5027,6 +6247,10 @@ extension DevOpsAgentClientTypes {
         /// Splunk MCP server.
         case mcpServerSplunk
         case pagerduty
+        /// Remote A2A agent with token-based authentication (API key or OAuth).
+        case remoteAgent
+        /// Remote A2A agent with SigV4 authentication.
+        case remoteAgentSigv4
         case servicenow
         case sdkUnknown(Swift.String)
 
@@ -5043,6 +6267,8 @@ extension DevOpsAgentClientTypes {
                 .mcpServerSigv4,
                 .mcpServerSplunk,
                 .pagerduty,
+                .remoteAgent,
+                .remoteAgentSigv4,
                 .servicenow
             ]
         }
@@ -5065,6 +6291,8 @@ extension DevOpsAgentClientTypes {
             case .mcpServerSigv4: return "mcpserversigv4"
             case .mcpServerSplunk: return "mcpserversplunk"
             case .pagerduty: return "pagerduty"
+            case .remoteAgent: return "remoteagent"
+            case .remoteAgentSigv4: return "remoteagentsigv4"
             case .servicenow: return "servicenow"
             case let .sdkUnknown(s): return s
             }
@@ -5542,11 +6770,13 @@ extension DevOpsAgentClientTypes {
     public struct MCPServerSigV4AuthorizationConfig: Swift.Sendable {
         /// Custom headers for the SigV4 MCP server.
         public var customHeaders: [Swift.String: Swift.String]?
+        /// IAM role ARN to assume for SigV4 signing. Optional — when omitted, credentials are resolved at runtime via a monitor account association.
+        public var mcpRoleArn: Swift.String?
         /// AWS region for SigV4 signing. Use '*' for SigV4a multi-region signing.
         /// This member is required.
         public var region: Swift.String?
-        /// IAM role ARN to assume for SigV4 signing.
-        /// This member is required.
+        /// Deprecated — use mcpRoleArn instead. IAM role ARN to assume for SigV4 signing.
+        @available(*, deprecated, message: "Use mcpRoleArn instead. API deprecated since 2026-05-27")
         public var roleArn: Swift.String?
         /// AWS service name for SigV4 signing.
         /// This member is required.
@@ -5554,11 +6784,13 @@ extension DevOpsAgentClientTypes {
 
         public init(
             customHeaders: [Swift.String: Swift.String]? = nil,
+            mcpRoleArn: Swift.String? = nil,
             region: Swift.String? = nil,
-            roleArn: Swift.String? = nil,
+            roleArn: Swift.String? = "",
             service: Swift.String? = nil
         ) {
             self.customHeaders = customHeaders
+            self.mcpRoleArn = mcpRoleArn
             self.region = region
             self.roleArn = roleArn
             self.service = service
@@ -5568,7 +6800,7 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes.MCPServerSigV4AuthorizationConfig: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "MCPServerSigV4AuthorizationConfig(region: \(Swift.String(describing: region)), roleArn: \(Swift.String(describing: roleArn)), service: \(Swift.String(describing: service)), customHeaders: [keys: \(Swift.String(describing: customHeaders?.keys)), values: \"CONTENT_REDACTED\"])"}
+        "MCPServerSigV4AuthorizationConfig(mcpRoleArn: \(Swift.String(describing: mcpRoleArn)), region: \(Swift.String(describing: region)), roleArn: \(Swift.String(describing: roleArn)), service: \(Swift.String(describing: service)), customHeaders: [keys: \(Swift.String(describing: customHeaders?.keys)), values: \"CONTENT_REDACTED\"])"}
 }
 
 extension DevOpsAgentClientTypes {
@@ -5673,6 +6905,219 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    /// API key configuration for remote A2A agent.
+    public struct RemoteAgentAPIKeyConfig: Swift.Sendable {
+        /// HTTP header name to send the API key in requests to the service.
+        /// This member is required.
+        public var apiKeyHeader: Swift.String?
+        /// User friendly API key name specified by end user.
+        /// This member is required.
+        public var apiKeyName: Swift.String?
+        /// API key value for authenticating with the service.
+        /// This member is required.
+        public var apiKeyValue: Swift.String?
+
+        public init(
+            apiKeyHeader: Swift.String? = nil,
+            apiKeyName: Swift.String? = nil,
+            apiKeyValue: Swift.String? = nil
+        ) {
+            self.apiKeyHeader = apiKeyHeader
+            self.apiKeyName = apiKeyName
+            self.apiKeyValue = apiKeyValue
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentAPIKeyConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RemoteAgentAPIKeyConfig(apiKeyHeader: \(Swift.String(describing: apiKeyHeader)), apiKeyName: \(Swift.String(describing: apiKeyName)), apiKeyValue: \"CONTENT_REDACTED\")"}
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Bearer token configuration for remote A2A agent (RFC 6750).
+    public struct RemoteAgentBearerTokenConfig: Swift.Sendable {
+        /// HTTP header name to send the bearer token in requests to the service. Defaults to 'Authorization' per RFC 6750.
+        public var authorizationHeader: Swift.String?
+        /// User friendly bearer token name specified by end user.
+        /// This member is required.
+        public var tokenName: Swift.String?
+        /// Bearer token value in alphanumeric for authenticating with the service.
+        /// This member is required.
+        public var tokenValue: Swift.String?
+
+        public init(
+            authorizationHeader: Swift.String? = "Authorization",
+            tokenName: Swift.String? = nil,
+            tokenValue: Swift.String? = nil
+        ) {
+            self.authorizationHeader = authorizationHeader
+            self.tokenName = tokenName
+            self.tokenValue = tokenValue
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentBearerTokenConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RemoteAgentBearerTokenConfig(authorizationHeader: \(Swift.String(describing: authorizationHeader)), tokenName: \(Swift.String(describing: tokenName)), tokenValue: \"CONTENT_REDACTED\")"}
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// OAuth client credentials configuration for remote A2A agent.
+    public struct RemoteAgentOAuthClientCredentialsConfig: Swift.Sendable {
+        /// OAuth client ID for authenticating with the service.
+        /// This member is required.
+        public var clientId: Swift.String?
+        /// User friendly OAuth client name specified by end user.
+        public var clientName: Swift.String?
+        /// OAuth client secret for authenticating with the service.
+        /// This member is required.
+        public var clientSecret: Swift.String?
+        /// OAuth token exchange parameters for authenticating with the service.
+        public var exchangeParameters: [Swift.String: Swift.String]?
+        /// OAuth token exchange URL.
+        /// This member is required.
+        public var exchangeUrl: Swift.String?
+        /// OAuth scopes for authentication.
+        public var scopes: [Swift.String]?
+
+        public init(
+            clientId: Swift.String? = nil,
+            clientName: Swift.String? = nil,
+            clientSecret: Swift.String? = nil,
+            exchangeParameters: [Swift.String: Swift.String]? = nil,
+            exchangeUrl: Swift.String? = nil,
+            scopes: [Swift.String]? = nil
+        ) {
+            self.clientId = clientId
+            self.clientName = clientName
+            self.clientSecret = clientSecret
+            self.exchangeParameters = exchangeParameters
+            self.exchangeUrl = exchangeUrl
+            self.scopes = scopes
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentOAuthClientCredentialsConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RemoteAgentOAuthClientCredentialsConfig(clientName: \(Swift.String(describing: clientName)), exchangeUrl: \(Swift.String(describing: exchangeUrl)), scopes: \(Swift.String(describing: scopes)), clientId: \"CONTENT_REDACTED\", clientSecret: \"CONTENT_REDACTED\", exchangeParameters: [keys: \(Swift.String(describing: exchangeParameters?.keys)), values: \"CONTENT_REDACTED\"])"}
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Authorization configuration for remote A2A agents with token-based auth (API key, OAuth, bearer token).
+    public enum RemoteAgentAuthorizationConfig: Swift.Sendable {
+        /// Remote agent configuration with API key authentication.
+        case apikey(DevOpsAgentClientTypes.RemoteAgentAPIKeyConfig)
+        /// Remote agent configuration with OAuth client credentials.
+        case oauthclientcredentials(DevOpsAgentClientTypes.RemoteAgentOAuthClientCredentialsConfig)
+        /// Remote agent configuration with Bearer token (RFC 6750).
+        case bearertoken(DevOpsAgentClientTypes.RemoteAgentBearerTokenConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Complete service details for token-based remote A2A agent integration.
+    public struct RemoteAgentServiceDetails: Swift.Sendable {
+        /// Remote agent authorization configuration.
+        /// This member is required.
+        public var authorizationConfig: DevOpsAgentClientTypes.RemoteAgentAuthorizationConfig?
+        /// Description field
+        public var description: Swift.String?
+        /// HTTPS endpoint URL for a remote A2A agent.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// Name identifier for a remote A2A agent.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            authorizationConfig: DevOpsAgentClientTypes.RemoteAgentAuthorizationConfig? = nil,
+            description: Swift.String? = nil,
+            endpoint: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.authorizationConfig = authorizationConfig
+            self.description = description
+            self.endpoint = endpoint
+            self.name = name
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentServiceDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RemoteAgentServiceDetails(authorizationConfig: \(Swift.String(describing: authorizationConfig)), endpoint: \(Swift.String(describing: endpoint)), name: \(Swift.String(describing: name)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// SigV4 authorization configuration for remote A2A agent.
+    public struct RemoteAgentSigV4AuthorizationConfig: Swift.Sendable {
+        /// AWS region identifier or wildcard (*) for SigV4a multi-region signing.
+        /// This member is required.
+        public var region: Swift.String?
+        /// AWS IAM role ARN.
+        public var roleArn: Swift.String?
+        /// The AWS service name for SigV4 signing.
+        /// This member is required.
+        public var service: Swift.String?
+
+        public init(
+            region: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            service: Swift.String? = nil
+        ) {
+            self.region = region
+            self.roleArn = roleArn
+            self.service = service
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Complete service details for SigV4-authenticated remote A2A agent integration.
+    public struct RemoteAgentSigV4ServiceDetails: Swift.Sendable {
+        /// Remote agent SigV4 authorization configuration.
+        /// This member is required.
+        public var authorizationConfig: DevOpsAgentClientTypes.RemoteAgentSigV4AuthorizationConfig?
+        /// Description field
+        public var description: Swift.String?
+        /// HTTPS endpoint URL for a remote A2A agent.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// Name identifier for a remote A2A agent.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            authorizationConfig: DevOpsAgentClientTypes.RemoteAgentSigV4AuthorizationConfig? = nil,
+            description: Swift.String? = nil,
+            endpoint: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.authorizationConfig = authorizationConfig
+            self.description = description
+            self.endpoint = endpoint
+            self.name = name
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentSigV4ServiceDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RemoteAgentSigV4ServiceDetails(authorizationConfig: \(Swift.String(describing: authorizationConfig)), endpoint: \(Swift.String(describing: endpoint)), name: \(Swift.String(describing: name)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension DevOpsAgentClientTypes {
+
     /// OAuth client credentials configuration for ServiceNow.
     public struct ServiceNowOAuthClientCredentialsConfig: Swift.Sendable {
         /// OAuth client ID for authenticating with the service.
@@ -5763,12 +7208,18 @@ extension DevOpsAgentClientTypes {
         case azureidentity(DevOpsAgentClientTypes.RegisteredAzureIdentityDetails)
         /// SigV4-authenticated MCP server-specific service details.
         case mcpserversigv4(DevOpsAgentClientTypes.MCPServerSigV4ServiceDetails)
+        /// Remote A2A agent service details (token-based auth).
+        case remoteagent(DevOpsAgentClientTypes.RemoteAgentServiceDetails)
+        /// Remote A2A agent service details (SigV4 auth).
+        case remoteagentsigv4(DevOpsAgentClientTypes.RemoteAgentSigV4ServiceDetails)
         case sdkUnknown(Swift.String)
     }
 }
 
 /// Input for registering a new service with the platform.
 public struct RegisterServiceInput: Swift.Sendable {
+    /// The name of the private connection to use for OAuth token exchange requests only. Cannot be specified when privateConnectionName is provided.
+    public var exchangeUrlPrivateConnectionName: Swift.String?
     /// The ARN of the AWS Key Management Service (AWS KMS) customer managed key that's used to encrypt resources.
     public var kmsKeyArn: Swift.String?
     /// The display name for the service registration.
@@ -5783,21 +7234,27 @@ public struct RegisterServiceInput: Swift.Sendable {
     public var serviceDetails: DevOpsAgentClientTypes.ServiceDetails?
     /// Tags to add to the Service at registration time.
     public var tags: [Swift.String: Swift.String]?
+    /// The name of the private connection to use for API calls (target URL) only. Cannot be specified when privateConnectionName is provided.
+    public var targetUrlPrivateConnectionName: Swift.String?
 
     public init(
+        exchangeUrlPrivateConnectionName: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         privateConnectionName: Swift.String? = nil,
         service: DevOpsAgentClientTypes.PostRegisterServiceSupportedService? = nil,
         serviceDetails: DevOpsAgentClientTypes.ServiceDetails? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        targetUrlPrivateConnectionName: Swift.String? = nil
     ) {
+        self.exchangeUrlPrivateConnectionName = exchangeUrlPrivateConnectionName
         self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.privateConnectionName = privateConnectionName
         self.service = service
         self.serviceDetails = serviceDetails
         self.tags = tags
+        self.targetUrlPrivateConnectionName = targetUrlPrivateConnectionName
     }
 }
 
@@ -5867,6 +7324,97 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+/// Request structure for updating an asset
+public struct UpdateAssetInput: Swift.Sendable {
+    /// The unique identifier for the agent space containing the asset
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the asset to update
+    /// This member is required.
+    public var assetId: Swift.String?
+    /// A unique, case-sensitive identifier used for idempotent asset update
+    public var clientToken: Swift.String?
+    /// Optional content update. A single file adds or replaces one file; a zip replaces all files; a sourceUrl re-syncs from the original source.
+    public var content: DevOpsAgentClientTypes.AssetContent?
+    /// Metadata fields to update. Only the fields present in this document are updated. Omitted fields retain their current values.
+    public var metadata: Smithy.Document?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assetId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        content: DevOpsAgentClientTypes.AssetContent? = nil,
+        metadata: Smithy.Document? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assetId = assetId
+        self.clientToken = clientToken
+        self.content = content
+        self.metadata = metadata
+    }
+}
+
+/// Response structure for updating an asset
+public struct UpdateAssetOutput: Swift.Sendable {
+    /// The asset object
+    /// This member is required.
+    public var asset: DevOpsAgentClientTypes.Asset?
+
+    public init(
+        asset: DevOpsAgentClientTypes.Asset? = nil
+    ) {
+        self.asset = asset
+    }
+}
+
+/// Request structure for updating an asset file
+public struct UpdateAssetFileInput: Swift.Sendable {
+    /// The unique identifier for the agent space containing the asset
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the asset containing the file
+    /// This member is required.
+    public var assetId: Swift.String?
+    /// A unique, case-sensitive identifier used for idempotent asset file update
+    public var clientToken: Swift.String?
+    /// Updated file content. If omitted, the existing content is unchanged.
+    public var content: DevOpsAgentClientTypes.AssetFileBody?
+    /// Metadata fields to update. Only the fields present in this document are updated. Omitted fields retain their current values.
+    public var metadata: Smithy.Document?
+    /// The path of the file within the asset to update
+    /// This member is required.
+    public var path: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assetId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        content: DevOpsAgentClientTypes.AssetFileBody? = nil,
+        metadata: Smithy.Document? = nil,
+        path: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assetId = assetId
+        self.clientToken = clientToken
+        self.content = content
+        self.metadata = metadata
+        self.path = path
+    }
+}
+
+/// Response structure for updating an asset file
+public struct UpdateAssetFileOutput: Swift.Sendable {
+    /// The asset file object
+    /// This member is required.
+    public var file: DevOpsAgentClientTypes.AssetFile?
+
+    public init(
+        file: DevOpsAgentClientTypes.AssetFile? = nil
+    ) {
+        self.file = file
+    }
 }
 
 /// Request structure for updating a task
@@ -6006,6 +7554,45 @@ public struct UpdateRecommendationOutput: Swift.Sendable {
     }
 }
 
+/// Request structure for updating a Trigger
+public struct UpdateTriggerInput: Swift.Sendable {
+    /// The unique identifier for the agent space containing the Trigger
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// A unique, case-sensitive identifier used for idempotent Trigger update
+    public var clientToken: Swift.String?
+    /// The new status for the Trigger
+    public var status: Swift.String?
+    /// The unique identifier of the Trigger to update
+    /// This member is required.
+    public var triggerId: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        status: Swift.String? = nil,
+        triggerId: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.clientToken = clientToken
+        self.status = status
+        self.triggerId = triggerId
+    }
+}
+
+/// Response structure for updating a Trigger
+public struct UpdateTriggerOutput: Swift.Sendable {
+    /// The Trigger object
+    /// This member is required.
+    public var trigger: DevOpsAgentClientTypes.Trigger?
+
+    public init(
+        trigger: DevOpsAgentClientTypes.Trigger? = nil
+    ) {
+        self.trigger = trigger
+    }
+}
+
 extension AssociateServiceInput {
 
     static func urlPathProvider(_ value: AssociateServiceInput) -> Swift.String? {
@@ -6020,6 +7607,32 @@ extension CreateAgentSpaceInput {
 
     static func urlPathProvider(_ value: CreateAgentSpaceInput) -> Swift.String? {
         return "/v1/agentspaces"
+    }
+}
+
+extension CreateAssetInput {
+
+    static func urlPathProvider(_ value: CreateAssetInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        return "/asset/agent-space/\(agentSpaceId.urlPercentEncoding())/assets"
+    }
+}
+
+extension CreateAssetFileInput {
+
+    static func urlPathProvider(_ value: CreateAssetFileInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let assetId = value.assetId else {
+            return nil
+        }
+        guard let path = value.path else {
+            return nil
+        }
+        return "/asset/agent-space/\(agentSpaceId.urlPercentEncoding())/assets/\(assetId.urlPercentEncoding())/files/\(path.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -6066,6 +7679,16 @@ extension CreatePrivateConnectionInput {
     }
 }
 
+extension CreateTriggerInput {
+
+    static func urlPathProvider(_ value: CreateTriggerInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        return "/trigger/agent-space/\(agentSpaceId.urlPercentEncoding())/triggers"
+    }
+}
+
 extension DeleteAgentSpaceInput {
 
     static func urlPathProvider(_ value: DeleteAgentSpaceInput) -> Swift.String? {
@@ -6076,6 +7699,35 @@ extension DeleteAgentSpaceInput {
     }
 }
 
+extension DeleteAssetInput {
+
+    static func urlPathProvider(_ value: DeleteAssetInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let assetId = value.assetId else {
+            return nil
+        }
+        return "/asset/agent-space/\(agentSpaceId.urlPercentEncoding())/assets/\(assetId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteAssetFileInput {
+
+    static func urlPathProvider(_ value: DeleteAssetFileInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let assetId = value.assetId else {
+            return nil
+        }
+        guard let path = value.path else {
+            return nil
+        }
+        return "/asset/agent-space/\(agentSpaceId.urlPercentEncoding())/assets/\(assetId.urlPercentEncoding())/files/\(path.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
 extension DeletePrivateConnectionInput {
 
     static func urlPathProvider(_ value: DeletePrivateConnectionInput) -> Swift.String? {
@@ -6083,6 +7735,19 @@ extension DeletePrivateConnectionInput {
             return nil
         }
         return "/v1/private-connections/\(name.urlPercentEncoding())"
+    }
+}
+
+extension DeleteTriggerInput {
+
+    static func urlPathProvider(_ value: DeleteTriggerInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let triggerId = value.triggerId else {
+            return nil
+        }
+        return "/trigger/agent-space/\(agentSpaceId.urlPercentEncoding())/triggers/\(triggerId.urlPercentEncoding())"
     }
 }
 
@@ -6167,6 +7832,84 @@ extension GetAgentSpaceInput {
     }
 }
 
+extension GetAssetInput {
+
+    static func urlPathProvider(_ value: GetAssetInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let assetId = value.assetId else {
+            return nil
+        }
+        return "/asset/agent-space/\(agentSpaceId.urlPercentEncoding())/assets/\(assetId.urlPercentEncoding())"
+    }
+}
+
+extension GetAssetInput {
+
+    static func queryItemProvider(_ value: GetAssetInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let assetVersion = value.assetVersion {
+            let assetVersionQueryItem = Smithy.URIQueryItem(name: "assetVersion".urlPercentEncoding(), value: Swift.String(assetVersion).urlPercentEncoding())
+            items.append(assetVersionQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetAssetContentInput {
+
+    static func urlPathProvider(_ value: GetAssetContentInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let assetId = value.assetId else {
+            return nil
+        }
+        return "/asset/agent-space/\(agentSpaceId.urlPercentEncoding())/assets/\(assetId.urlPercentEncoding())/content"
+    }
+}
+
+extension GetAssetContentInput {
+
+    static func queryItemProvider(_ value: GetAssetContentInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let assetVersion = value.assetVersion {
+            let assetVersionQueryItem = Smithy.URIQueryItem(name: "assetVersion".urlPercentEncoding(), value: Swift.String(assetVersion).urlPercentEncoding())
+            items.append(assetVersionQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetAssetFileInput {
+
+    static func urlPathProvider(_ value: GetAssetFileInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let assetId = value.assetId else {
+            return nil
+        }
+        guard let path = value.path else {
+            return nil
+        }
+        return "/asset/agent-space/\(agentSpaceId.urlPercentEncoding())/assets/\(assetId.urlPercentEncoding())/files/\(path.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension GetAssetFileInput {
+
+    static func queryItemProvider(_ value: GetAssetFileInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let assetVersion = value.assetVersion {
+            let assetVersionQueryItem = Smithy.URIQueryItem(name: "assetVersion".urlPercentEncoding(), value: Swift.String(assetVersion).urlPercentEncoding())
+            items.append(assetVersionQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetAssociationInput {
 
     static func urlPathProvider(_ value: GetAssociationInput) -> Swift.String? {
@@ -6238,6 +7981,19 @@ extension GetServiceInput {
     }
 }
 
+extension GetTriggerInput {
+
+    static func urlPathProvider(_ value: GetTriggerInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let triggerId = value.triggerId else {
+            return nil
+        }
+        return "/trigger/agent-space/\(agentSpaceId.urlPercentEncoding())/triggers/\(triggerId.urlPercentEncoding())"
+    }
+}
+
 extension ListAgentSpacesInput {
 
     static func urlPathProvider(_ value: ListAgentSpacesInput) -> Swift.String? {
@@ -6248,6 +8004,129 @@ extension ListAgentSpacesInput {
 extension ListAgentSpacesInput {
 
     static func queryItemProvider(_ value: ListAgentSpacesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAssetFilesInput {
+
+    static func urlPathProvider(_ value: ListAssetFilesInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let assetId = value.assetId else {
+            return nil
+        }
+        return "/asset/agent-space/\(agentSpaceId.urlPercentEncoding())/assets/\(assetId.urlPercentEncoding())/files"
+    }
+}
+
+extension ListAssetFilesInput {
+
+    static func queryItemProvider(_ value: ListAssetFilesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let assetVersion = value.assetVersion {
+            let assetVersionQueryItem = Smithy.URIQueryItem(name: "assetVersion".urlPercentEncoding(), value: Swift.String(assetVersion).urlPercentEncoding())
+            items.append(assetVersionQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAssetsInput {
+
+    static func urlPathProvider(_ value: ListAssetsInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        return "/asset/agent-space/\(agentSpaceId.urlPercentEncoding())/assets"
+    }
+}
+
+extension ListAssetsInput {
+
+    static func queryItemProvider(_ value: ListAssetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let updatedBefore = value.updatedBefore {
+            let updatedBeforeQueryItem = Smithy.URIQueryItem(name: "updatedBefore".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: updatedBefore)).urlPercentEncoding())
+            items.append(updatedBeforeQueryItem)
+        }
+        if let updatedAfter = value.updatedAfter {
+            let updatedAfterQueryItem = Smithy.URIQueryItem(name: "updatedAfter".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: updatedAfter)).urlPercentEncoding())
+            items.append(updatedAfterQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let assetType = value.assetType {
+            let assetTypeQueryItem = Smithy.URIQueryItem(name: "assetType".urlPercentEncoding(), value: Swift.String(assetType).urlPercentEncoding())
+            items.append(assetTypeQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAssetTypesInput {
+
+    static func urlPathProvider(_ value: ListAssetTypesInput) -> Swift.String? {
+        return "/asset/types"
+    }
+}
+
+extension ListAssetTypesInput {
+
+    static func queryItemProvider(_ value: ListAssetTypesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAssetVersionsInput {
+
+    static func urlPathProvider(_ value: ListAssetVersionsInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let assetId = value.assetId else {
+            return nil
+        }
+        return "/asset/agent-space/\(agentSpaceId.urlPercentEncoding())/assets/\(assetId.urlPercentEncoding())/versions"
+    }
+}
+
+extension ListAssetVersionsInput {
+
+    static func queryItemProvider(_ value: ListAssetVersionsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
@@ -6425,6 +8304,36 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension ListTriggersInput {
+
+    static func urlPathProvider(_ value: ListTriggersInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        return "/trigger/agent-space/\(agentSpaceId.urlPercentEncoding())/triggers"
+    }
+}
+
+extension ListTriggersInput {
+
+    static func queryItemProvider(_ value: ListTriggersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListWebhooksInput {
 
     static func urlPathProvider(_ value: ListWebhooksInput) -> Swift.String? {
@@ -6504,6 +8413,35 @@ extension UpdateAgentSpaceInput {
     }
 }
 
+extension UpdateAssetInput {
+
+    static func urlPathProvider(_ value: UpdateAssetInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let assetId = value.assetId else {
+            return nil
+        }
+        return "/asset/agent-space/\(agentSpaceId.urlPercentEncoding())/assets/\(assetId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateAssetFileInput {
+
+    static func urlPathProvider(_ value: UpdateAssetFileInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let assetId = value.assetId else {
+            return nil
+        }
+        guard let path = value.path else {
+            return nil
+        }
+        return "/asset/agent-space/\(agentSpaceId.urlPercentEncoding())/assets/\(assetId.urlPercentEncoding())/files/\(path.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
 extension UpdateAssociationInput {
 
     static func urlPathProvider(_ value: UpdateAssociationInput) -> Swift.String? {
@@ -6576,6 +8514,19 @@ extension UpdateRecommendationInput {
     }
 }
 
+extension UpdateTriggerInput {
+
+    static func urlPathProvider(_ value: UpdateTriggerInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let triggerId = value.triggerId else {
+            return nil
+        }
+        return "/trigger/agent-space/\(agentSpaceId.urlPercentEncoding())/triggers/\(triggerId.urlPercentEncoding())"
+    }
+}
+
 extension ValidateAwsAssociationsInput {
 
     static func urlPathProvider(_ value: ValidateAwsAssociationsInput) -> Swift.String? {
@@ -6590,6 +8541,7 @@ extension AssociateServiceInput {
 
     static func write(value: AssociateServiceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["capabilities"].writeMap(value.capabilities, valueWritingClosure: DevOpsAgentClientTypes.CapabilityConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["configuration"].write(value.configuration, with: DevOpsAgentClientTypes.ServiceConfiguration.write(value:to:))
         try writer["serviceId"].write(value.serviceId)
     }
@@ -6605,6 +8557,27 @@ extension CreateAgentSpaceInput {
         try writer["locale"].write(value.locale)
         try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateAssetInput {
+
+    static func write(value: CreateAssetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetType"].write(value.assetType)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["content"].write(value.content, with: DevOpsAgentClientTypes.AssetContent.write(value:to:))
+        try writer["metadata"].write(value.metadata)
+    }
+}
+
+extension CreateAssetFileInput {
+
+    static func write(value: CreateAssetFileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["content"].write(value.content, with: DevOpsAgentClientTypes.AssetFileBody.write(value:to:))
+        try writer["metadata"].write(value.metadata)
     }
 }
 
@@ -6628,6 +8601,18 @@ extension CreatePrivateConnectionInput {
         try writer["mode"].write(value.mode, with: DevOpsAgentClientTypes.PrivateConnectionMode.write(value:to:))
         try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateTriggerInput {
+
+    static func write(value: CreateTriggerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["condition"].write(value.condition, with: DevOpsAgentClientTypes.TriggerCondition.write(value:to:))
+        try writer["status"].write(value.status)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -6715,11 +8700,13 @@ extension RegisterServiceInput {
 
     static func write(value: RegisterServiceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["exchangeUrlPrivateConnectionName"].write(value.exchangeUrlPrivateConnectionName)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["name"].write(value.name)
         try writer["privateConnectionName"].write(value.privateConnectionName)
         try writer["serviceDetails"].write(value.serviceDetails, with: DevOpsAgentClientTypes.ServiceDetails.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["targetUrlPrivateConnectionName"].write(value.targetUrlPrivateConnectionName)
     }
 }
 
@@ -6727,6 +8714,7 @@ extension SendMessageInput {
 
     static func write(value: SendMessageInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["assetIds"].writeList(value.assetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["content"].write(value.content)
         try writer["context"].write(value.context, with: DevOpsAgentClientTypes.SendMessageContext.write(value:to:))
         try writer["executionId"].write(value.executionId)
@@ -6752,10 +8740,31 @@ extension UpdateAgentSpaceInput {
     }
 }
 
+extension UpdateAssetInput {
+
+    static func write(value: UpdateAssetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["content"].write(value.content, with: DevOpsAgentClientTypes.AssetContent.write(value:to:))
+        try writer["metadata"].write(value.metadata)
+    }
+}
+
+extension UpdateAssetFileInput {
+
+    static func write(value: UpdateAssetFileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["content"].write(value.content, with: DevOpsAgentClientTypes.AssetFileBody.write(value:to:))
+        try writer["metadata"].write(value.metadata)
+    }
+}
+
 extension UpdateAssociationInput {
 
     static func write(value: UpdateAssociationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["capabilities"].writeMap(value.capabilities, valueWritingClosure: DevOpsAgentClientTypes.CapabilityConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["configuration"].write(value.configuration, with: DevOpsAgentClientTypes.ServiceConfiguration.write(value:to:))
     }
 }
@@ -6804,6 +8813,15 @@ extension UpdateRecommendationInput {
     }
 }
 
+extension UpdateTriggerInput {
+
+    static func write(value: UpdateTriggerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["status"].write(value.status)
+    }
+}
+
 extension AssociateServiceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateServiceOutput {
@@ -6826,6 +8844,30 @@ extension CreateAgentSpaceOutput {
         var value = CreateAgentSpaceOutput()
         value.agentSpace = try reader["agentSpace"].readIfPresent(with: DevOpsAgentClientTypes.AgentSpace.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateAssetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAssetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAssetOutput()
+        value.asset = try reader["asset"].readIfPresent(with: DevOpsAgentClientTypes.Asset.read(from:))
+        return value
+    }
+}
+
+extension CreateAssetFileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAssetFileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAssetFileOutput()
+        value.file = try reader["file"].readIfPresent(with: DevOpsAgentClientTypes.AssetFile.read(from:))
         return value
     }
 }
@@ -6863,6 +8905,8 @@ extension CreatePrivateConnectionOutput {
         let reader = responseReader
         var value = CreatePrivateConnectionOutput()
         value.certificateExpiryTime = try reader["certificateExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dnsResolution = try reader["dnsResolution"].readIfPresent()
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
         value.hostAddress = try reader["hostAddress"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.resourceConfigurationId = try reader["resourceConfigurationId"].readIfPresent()
@@ -6875,10 +8919,36 @@ extension CreatePrivateConnectionOutput {
     }
 }
 
+extension CreateTriggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTriggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTriggerOutput()
+        value.trigger = try reader["trigger"].readIfPresent(with: DevOpsAgentClientTypes.Trigger.read(from:))
+        return value
+    }
+}
+
 extension DeleteAgentSpaceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAgentSpaceOutput {
         return DeleteAgentSpaceOutput()
+    }
+}
+
+extension DeleteAssetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAssetOutput {
+        return DeleteAssetOutput()
+    }
+}
+
+extension DeleteAssetFileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAssetFileOutput {
+        return DeleteAssetFileOutput()
     }
 }
 
@@ -6892,6 +8962,13 @@ extension DeletePrivateConnectionOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
+    }
+}
+
+extension DeleteTriggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTriggerOutput {
+        return DeleteTriggerOutput()
     }
 }
 
@@ -6910,6 +8987,8 @@ extension DescribePrivateConnectionOutput {
         let reader = responseReader
         var value = DescribePrivateConnectionOutput()
         value.certificateExpiryTime = try reader["certificateExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dnsResolution = try reader["dnsResolution"].readIfPresent()
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
         value.hostAddress = try reader["hostAddress"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.resourceConfigurationId = try reader["resourceConfigurationId"].readIfPresent()
@@ -6947,6 +9026,7 @@ extension EnableOperatorAppOutput {
         value.iam = try reader["iam"].readIfPresent(with: DevOpsAgentClientTypes.IamAuthConfiguration.read(from:))
         value.idc = try reader["idc"].readIfPresent(with: DevOpsAgentClientTypes.IdcAuthConfiguration.read(from:))
         value.idp = try reader["idp"].readIfPresent(with: DevOpsAgentClientTypes.IdpAuthConfiguration.read(from:))
+        value.operatorAppUrl = try reader["operatorAppUrl"].readIfPresent()
         return value
     }
 }
@@ -6977,6 +9057,43 @@ extension GetAgentSpaceOutput {
         var value = GetAgentSpaceOutput()
         value.agentSpace = try reader["agentSpace"].readIfPresent(with: DevOpsAgentClientTypes.AgentSpace.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetAssetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAssetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAssetOutput()
+        value.asset = try reader["asset"].readIfPresent(with: DevOpsAgentClientTypes.Asset.read(from:))
+        return value
+    }
+}
+
+extension GetAssetContentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAssetContentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAssetContentOutput()
+        value.content = try reader["content"].readIfPresent(with: DevOpsAgentClientTypes.AssetZipContent.read(from:))
+        value.version = try reader["version"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GetAssetFileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAssetFileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAssetFileOutput()
+        value.file = try reader["file"].readIfPresent(with: DevOpsAgentClientTypes.AssetFile.read(from:))
         return value
     }
 }
@@ -7015,6 +9132,7 @@ extension GetOperatorAppOutput {
         value.iam = try reader["iam"].readIfPresent(with: DevOpsAgentClientTypes.IamAuthConfiguration.read(from:))
         value.idc = try reader["idc"].readIfPresent(with: DevOpsAgentClientTypes.IdcAuthConfiguration.read(from:))
         value.idp = try reader["idp"].readIfPresent(with: DevOpsAgentClientTypes.IdpAuthConfiguration.read(from:))
+        value.operatorAppUrl = try reader["operatorAppUrl"].readIfPresent()
         return value
     }
 }
@@ -7044,6 +9162,18 @@ extension GetServiceOutput {
     }
 }
 
+extension GetTriggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTriggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTriggerOutput()
+        value.trigger = try reader["trigger"].readIfPresent(with: DevOpsAgentClientTypes.Trigger.read(from:))
+        return value
+    }
+}
+
 extension ListAgentSpacesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAgentSpacesOutput {
@@ -7052,6 +9182,58 @@ extension ListAgentSpacesOutput {
         let reader = responseReader
         var value = ListAgentSpacesOutput()
         value.agentSpaces = try reader["agentSpaces"].readListIfPresent(memberReadingClosure: DevOpsAgentClientTypes.AgentSpace.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAssetFilesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAssetFilesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAssetFilesOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DevOpsAgentClientTypes.AssetFileSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAssetsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAssetsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAssetsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DevOpsAgentClientTypes.Asset.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAssetTypesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAssetTypesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAssetTypesOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DevOpsAgentClientTypes.AssetTypeSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAssetVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAssetVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAssetVersionsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DevOpsAgentClientTypes.AssetVersionMetadata.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -7200,6 +9382,19 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension ListTriggersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTriggersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTriggersOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DevOpsAgentClientTypes.Trigger.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListWebhooksOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListWebhooksOutput {
@@ -7266,6 +9461,30 @@ extension UpdateAgentSpaceOutput {
     }
 }
 
+extension UpdateAssetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAssetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAssetOutput()
+        value.asset = try reader["asset"].readIfPresent(with: DevOpsAgentClientTypes.Asset.read(from:))
+        return value
+    }
+}
+
+extension UpdateAssetFileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAssetFileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAssetFileOutput()
+        value.file = try reader["file"].readIfPresent(with: DevOpsAgentClientTypes.AssetFile.read(from:))
+        return value
+    }
+}
+
 extension UpdateAssociationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAssociationOutput {
@@ -7324,6 +9543,8 @@ extension UpdatePrivateConnectionCertificateOutput {
         let reader = responseReader
         var value = UpdatePrivateConnectionCertificateOutput()
         value.certificateExpiryTime = try reader["certificateExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dnsResolution = try reader["dnsResolution"].readIfPresent()
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
         value.hostAddress = try reader["hostAddress"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.resourceConfigurationId = try reader["resourceConfigurationId"].readIfPresent()
@@ -7343,6 +9564,18 @@ extension UpdateRecommendationOutput {
         let reader = responseReader
         var value = UpdateRecommendationOutput()
         value.recommendation = try reader["recommendation"].readIfPresent(with: DevOpsAgentClientTypes.Recommendation.read(from:))
+        return value
+    }
+}
+
+extension UpdateTriggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTriggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateTriggerOutput()
+        value.trigger = try reader["trigger"].readIfPresent(with: DevOpsAgentClientTypes.Trigger.read(from:))
         return value
     }
 }
@@ -7408,6 +9641,46 @@ enum CreateAgentSpaceOutputError {
     }
 }
 
+enum CreateAssetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateAssetFileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ContentSizeExceededException": return try ContentSizeExceededException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateBacklogTaskOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7464,6 +9737,26 @@ enum CreatePrivateConnectionOutputError {
     }
 }
 
+enum CreateTriggerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteAgentSpaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7483,6 +9776,45 @@ enum DeleteAgentSpaceOutputError {
     }
 }
 
+enum DeleteAssetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteAssetFileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeletePrivateConnectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7493,6 +9825,26 @@ enum DeletePrivateConnectionOutputError {
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteTriggerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -7631,6 +9983,63 @@ enum GetAgentSpaceOutputError {
     }
 }
 
+enum GetAssetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAssetContentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAssetFileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7723,6 +10132,25 @@ enum GetServiceOutputError {
     }
 }
 
+enum GetTriggerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAgentSpacesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7733,6 +10161,80 @@ enum ListAgentSpacesOutputError {
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAssetFilesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAssetsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAssetTypesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAssetVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7940,6 +10442,25 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum ListTriggersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListWebhooksOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8042,6 +10563,47 @@ enum UpdateAgentSpaceOutputError {
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAssetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAssetFileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ContentSizeExceededException": return try ContentSizeExceededException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -8157,6 +10719,25 @@ enum UpdateRecommendationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateTriggerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -8289,13 +10870,12 @@ extension AccessDeniedException {
     }
 }
 
-extension IdentityCenterServiceException {
+extension ContentSizeExceededException {
 
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> IdentityCenterServiceException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ContentSizeExceededException {
         let reader = baseError.errorBodyReader
-        var value = IdentityCenterServiceException()
+        var value = ContentSizeExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.underlyingErrorCode = try reader["underlyingErrorCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8303,12 +10883,13 @@ extension IdentityCenterServiceException {
     }
 }
 
-extension ContentSizeExceededException {
+extension IdentityCenterServiceException {
 
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ContentSizeExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> IdentityCenterServiceException {
         let reader = baseError.errorBodyReader
-        var value = ContentSizeExceededException()
+        var value = IdentityCenterServiceException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.underlyingErrorCode = try reader["underlyingErrorCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8404,6 +10985,10 @@ extension DevOpsAgentClientTypes.AdditionalServiceDetails {
                 return .pagerduty(try reader["pagerduty"].read(with: DevOpsAgentClientTypes.RegisteredPagerDutyDetails.read(from:)))
             case "mcpserversigv4":
                 return .mcpserversigv4(try reader["mcpserversigv4"].read(with: DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details.read(from:)))
+            case "remoteagent":
+                return .remoteagent(try reader["remoteagent"].read(with: DevOpsAgentClientTypes.RegisteredRemoteAgentDetails.read(from:)))
+            case "remoteagentsigv4":
+                return .remoteagentsigv4(try reader["remoteagentsigv4"].read(with: DevOpsAgentClientTypes.RegisteredRemoteAgentSigV4Details.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -8440,6 +11025,151 @@ extension DevOpsAgentClientTypes.AgentSpace {
     }
 }
 
+extension DevOpsAgentClientTypes.Asset {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.Asset {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.Asset()
+        value.assetId = try reader["assetId"].readIfPresent() ?? ""
+        value.assetType = try reader["assetType"].readIfPresent() ?? ""
+        value.metadata = try reader["metadata"].readIfPresent() ?? [:]
+        value.version = try reader["version"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.AssetContent {
+
+    static func write(value: DevOpsAgentClientTypes.AssetContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .file(file):
+                try writer["file"].write(file, with: DevOpsAgentClientTypes.AssetFileContent.write(value:to:))
+            case let .sourceurl(sourceurl):
+                try writer["sourceUrl"].write(sourceurl, with: DevOpsAgentClientTypes.AssetSourceUrlContent.write(value:to:))
+            case let .zip(zip):
+                try writer["zip"].write(zip, with: DevOpsAgentClientTypes.AssetZipContent.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.AssetFile {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.AssetFile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.AssetFile()
+        value.path = try reader["path"].readIfPresent() ?? ""
+        value.content = try reader["content"].readIfPresent(with: DevOpsAgentClientTypes.AssetFileBody.read(from:))
+        value.metadata = try reader["metadata"].readIfPresent()
+        value.version = try reader["version"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.AssetFileBody {
+
+    static func write(value: DevOpsAgentClientTypes.AssetFileBody?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .bytes(bytes):
+                try writer["bytes"].write(bytes)
+            case let .text(text):
+                try writer["text"].write(text)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.AssetFileBody {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "bytes":
+                return .bytes(try reader["bytes"].read())
+            case "text":
+                return .text(try reader["text"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.AssetFileContent {
+
+    static func write(value: DevOpsAgentClientTypes.AssetFileContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["body"].write(value.body, with: DevOpsAgentClientTypes.AssetFileBody.write(value:to:))
+        try writer["metadata"].write(value.metadata)
+        try writer["path"].write(value.path)
+    }
+}
+
+extension DevOpsAgentClientTypes.AssetFileSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.AssetFileSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.AssetFileSummary()
+        value.path = try reader["path"].readIfPresent() ?? ""
+        value.metadata = try reader["metadata"].readIfPresent()
+        value.version = try reader["version"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.AssetSourceUrlContent {
+
+    static func write(value: DevOpsAgentClientTypes.AssetSourceUrlContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["url"].write(value.url)
+    }
+}
+
+extension DevOpsAgentClientTypes.AssetTypeSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.AssetTypeSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.AssetTypeSummary()
+        value.assetType = try reader["assetType"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.AssetVersionMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.AssetVersionMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.AssetVersionMetadata()
+        value.version = try reader["version"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.AssetZipContent {
+
+    static func write(value: DevOpsAgentClientTypes.AssetZipContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["zipFile"].write(value.zipFile)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.AssetZipContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.AssetZipContent()
+        value.zipFile = try reader["zipFile"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
+        return value
+    }
+}
+
 extension DevOpsAgentClientTypes.AssistantMessageBlock {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.AssistantMessageBlock {
@@ -8468,6 +11198,7 @@ extension DevOpsAgentClientTypes.Association {
         value.associationId = try reader["associationId"].readIfPresent() ?? ""
         value.serviceId = try reader["serviceId"].readIfPresent() ?? ""
         value.configuration = try reader["configuration"].readIfPresent(with: DevOpsAgentClientTypes.ServiceConfiguration.read(from:))
+        value.capabilities = try reader["capabilities"].readMapIfPresent(valueReadingClosure: DevOpsAgentClientTypes.CapabilityConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -8521,6 +11252,21 @@ extension DevOpsAgentClientTypes.AzureDevOpsConfiguration {
         value.organizationName = try reader["organizationName"].readIfPresent() ?? ""
         value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.projectName = try reader["projectName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.CapabilityConfiguration {
+
+    static func write(value: DevOpsAgentClientTypes.CapabilityConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.CapabilityConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.CapabilityConfiguration()
+        value.enabled = try reader["enabled"].readIfPresent()
         return value
     }
 }
@@ -8674,6 +11420,7 @@ extension DevOpsAgentClientTypes.GitHubConfiguration {
         try writer["ownerType"].write(value.ownerType)
         try writer["repoId"].write(value.repoId)
         try writer["repoName"].write(value.repoName)
+        try writer["runtimeRoleArn"].write(value.runtimeRoleArn)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.GitHubConfiguration {
@@ -8684,6 +11431,7 @@ extension DevOpsAgentClientTypes.GitHubConfiguration {
         value.owner = try reader["owner"].readIfPresent() ?? ""
         value.ownerType = try reader["ownerType"].readIfPresent() ?? .sdkUnknown("")
         value.instanceIdentifier = try reader["instanceIdentifier"].readIfPresent()
+        value.runtimeRoleArn = try reader["runtimeRoleArn"].readIfPresent()
         return value
     }
 }
@@ -8695,6 +11443,7 @@ extension DevOpsAgentClientTypes.GitLabConfiguration {
         try writer["instanceIdentifier"].write(value.instanceIdentifier)
         try writer["projectId"].write(value.projectId)
         try writer["projectPath"].write(value.projectPath)
+        try writer["runtimeRoleArn"].write(value.runtimeRoleArn)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.GitLabConfiguration {
@@ -8703,6 +11452,7 @@ extension DevOpsAgentClientTypes.GitLabConfiguration {
         value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.projectPath = try reader["projectPath"].readIfPresent() ?? ""
         value.instanceIdentifier = try reader["instanceIdentifier"].readIfPresent()
+        value.runtimeRoleArn = try reader["runtimeRoleArn"].readIfPresent()
         return value
     }
 }
@@ -8996,6 +11746,7 @@ extension DevOpsAgentClientTypes.MCPServerSigV4AuthorizationConfig {
     static func write(value: DevOpsAgentClientTypes.MCPServerSigV4AuthorizationConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["customHeaders"].writeMap(value.customHeaders, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["mcpRoleArn"].write(value.mcpRoleArn)
         try writer["region"].write(value.region)
         try writer["roleArn"].write(value.roleArn)
         try writer["service"].write(value.service)
@@ -9190,6 +11941,8 @@ extension DevOpsAgentClientTypes.PrivateConnectionSummary {
         value.resourceConfigurationId = try reader["resourceConfigurationId"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.certificateExpiryTime = try reader["certificateExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dnsResolution = try reader["dnsResolution"].readIfPresent()
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
         return value
     }
 }
@@ -9346,6 +12099,7 @@ extension DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details {
         value.region = try reader["region"].readIfPresent() ?? ""
         value.service = try reader["service"].readIfPresent() ?? ""
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.mcpRoleArn = try reader["mcpRoleArn"].readIfPresent()
         value.customHeaders = try reader["customHeaders"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -9369,6 +12123,35 @@ extension DevOpsAgentClientTypes.RegisteredPagerDutyDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsAgentClientTypes.RegisteredPagerDutyDetails()
         value.scopes = try reader["scopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.RegisteredRemoteAgentDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.RegisteredRemoteAgentDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.RegisteredRemoteAgentDetails()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.authorizationMethod = try reader["authorizationMethod"].readIfPresent() ?? .sdkUnknown("")
+        value.apiKeyHeader = try reader["apiKeyHeader"].readIfPresent()
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.RegisteredRemoteAgentSigV4Details {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.RegisteredRemoteAgentSigV4Details {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.RegisteredRemoteAgentSigV4Details()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.region = try reader["region"].readIfPresent() ?? ""
+        value.service = try reader["service"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent()
         return value
     }
 }
@@ -9406,6 +12189,129 @@ extension DevOpsAgentClientTypes.RegisteredSlackServiceDetails {
         var value = DevOpsAgentClientTypes.RegisteredSlackServiceDetails()
         value.teamId = try reader["teamId"].readIfPresent() ?? ""
         value.teamName = try reader["teamName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentAPIKeyConfig {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentAPIKeyConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["apiKeyHeader"].write(value.apiKeyHeader)
+        try writer["apiKeyName"].write(value.apiKeyName)
+        try writer["apiKeyValue"].write(value.apiKeyValue)
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentAuthorizationConfig {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentAuthorizationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .apikey(apikey):
+                try writer["apiKey"].write(apikey, with: DevOpsAgentClientTypes.RemoteAgentAPIKeyConfig.write(value:to:))
+            case let .bearertoken(bearertoken):
+                try writer["bearerToken"].write(bearertoken, with: DevOpsAgentClientTypes.RemoteAgentBearerTokenConfig.write(value:to:))
+            case let .oauthclientcredentials(oauthclientcredentials):
+                try writer["oAuthClientCredentials"].write(oauthclientcredentials, with: DevOpsAgentClientTypes.RemoteAgentOAuthClientCredentialsConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentBearerTokenConfig {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentBearerTokenConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizationHeader"].write(value.authorizationHeader)
+        try writer["tokenName"].write(value.tokenName)
+        try writer["tokenValue"].write(value.tokenValue)
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentConfiguration {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.RemoteAgentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DevOpsAgentClientTypes.RemoteAgentConfiguration()
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentOAuthClientCredentialsConfig {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentOAuthClientCredentialsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientId"].write(value.clientId)
+        try writer["clientName"].write(value.clientName)
+        try writer["clientSecret"].write(value.clientSecret)
+        try writer["exchangeParameters"].writeMap(value.exchangeParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["exchangeUrl"].write(value.exchangeUrl)
+        try writer["scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentServiceDetails {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentServiceDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizationConfig"].write(value.authorizationConfig, with: DevOpsAgentClientTypes.RemoteAgentAuthorizationConfig.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["endpoint"].write(value.endpoint)
+        try writer["name"].write(value.name)
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentSigV4AuthorizationConfig {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentSigV4AuthorizationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["region"].write(value.region)
+        try writer["roleArn"].write(value.roleArn)
+        try writer["service"].write(value.service)
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentSigV4Configuration {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentSigV4Configuration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.RemoteAgentSigV4Configuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DevOpsAgentClientTypes.RemoteAgentSigV4Configuration()
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentSigV4ServiceDetails {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentSigV4ServiceDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizationConfig"].write(value.authorizationConfig, with: DevOpsAgentClientTypes.RemoteAgentSigV4AuthorizationConfig.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["endpoint"].write(value.endpoint)
+        try writer["name"].write(value.name)
+    }
+}
+
+extension DevOpsAgentClientTypes.ScheduleCondition {
+
+    static func write(value: DevOpsAgentClientTypes.ScheduleCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["expression"].write(value.expression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.ScheduleCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.ScheduleCondition()
+        value.expression = try reader["expression"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9616,6 +12522,10 @@ extension DevOpsAgentClientTypes.ServiceConfiguration {
                 try writer["mcpserversplunk"].write(mcpserversplunk, with: DevOpsAgentClientTypes.MCPServerSplunkConfiguration.write(value:to:))
             case let .pagerduty(pagerduty):
                 try writer["pagerduty"].write(pagerduty, with: DevOpsAgentClientTypes.PagerDutyConfiguration.write(value:to:))
+            case let .remoteagent(remoteagent):
+                try writer["remoteagent"].write(remoteagent, with: DevOpsAgentClientTypes.RemoteAgentConfiguration.write(value:to:))
+            case let .remoteagentsigv4(remoteagentsigv4):
+                try writer["remoteagentsigv4"].write(remoteagentsigv4, with: DevOpsAgentClientTypes.RemoteAgentSigV4Configuration.write(value:to:))
             case let .servicenow(servicenow):
                 try writer["servicenow"].write(servicenow, with: DevOpsAgentClientTypes.ServiceNowConfiguration.write(value:to:))
             case let .slack(slack):
@@ -9665,6 +12575,10 @@ extension DevOpsAgentClientTypes.ServiceConfiguration {
                 return .pagerduty(try reader["pagerduty"].read(with: DevOpsAgentClientTypes.PagerDutyConfiguration.read(from:)))
             case "mcpserversigv4":
                 return .mcpserversigv4(try reader["mcpserversigv4"].read(with: DevOpsAgentClientTypes.MCPServerSigV4Configuration.read(from:)))
+            case "remoteagent":
+                return .remoteagent(try reader["remoteagent"].read(with: DevOpsAgentClientTypes.RemoteAgentConfiguration.read(from:)))
+            case "remoteagentsigv4":
+                return .remoteagentsigv4(try reader["remoteagentsigv4"].read(with: DevOpsAgentClientTypes.RemoteAgentSigV4Configuration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -9698,6 +12612,10 @@ extension DevOpsAgentClientTypes.ServiceDetails {
                 try writer["mcpserversplunk"].write(mcpserversplunk, with: DevOpsAgentClientTypes.MCPServerDetails.write(value:to:))
             case let .pagerduty(pagerduty):
                 try writer["pagerduty"].write(pagerduty, with: DevOpsAgentClientTypes.PagerDutyDetails.write(value:to:))
+            case let .remoteagent(remoteagent):
+                try writer["remoteagent"].write(remoteagent, with: DevOpsAgentClientTypes.RemoteAgentServiceDetails.write(value:to:))
+            case let .remoteagentsigv4(remoteagentsigv4):
+                try writer["remoteagentsigv4"].write(remoteagentsigv4, with: DevOpsAgentClientTypes.RemoteAgentSigV4ServiceDetails.write(value:to:))
             case let .servicenow(servicenow):
                 try writer["servicenow"].write(servicenow, with: DevOpsAgentClientTypes.ServiceNowServiceDetails.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -9711,6 +12629,7 @@ extension DevOpsAgentClientTypes.ServiceManagedInput {
     static func write(value: DevOpsAgentClientTypes.ServiceManagedInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["certificate"].write(value.certificate)
+        try writer["dnsResolution"].write(value.dnsResolution)
         try writer["hostAddress"].write(value.hostAddress)
         try writer["ipAddressType"].write(value.ipAddressType)
         try writer["ipv4AddressesPerEni"].write(value.ipv4AddressesPerEni)
@@ -9881,6 +12800,47 @@ extension DevOpsAgentClientTypes.TaskFilter {
         try writer["priority"].writeList(value.priority, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DevOpsAgentClientTypes.Priority>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["status"].writeList(value.status, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DevOpsAgentClientTypes.TaskStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["taskType"].writeList(value.taskType, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DevOpsAgentClientTypes.TaskType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DevOpsAgentClientTypes.Trigger {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.Trigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.Trigger()
+        value.triggerId = try reader["triggerId"].readIfPresent() ?? ""
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.condition = try reader["condition"].readIfPresent(with: DevOpsAgentClientTypes.TriggerCondition.read(from:))
+        value.action = try reader["action"].readIfPresent() ?? [:]
+        value.status = try reader["status"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.TriggerCondition {
+
+    static func write(value: DevOpsAgentClientTypes.TriggerCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .schedule(schedule):
+                try writer["schedule"].write(schedule, with: DevOpsAgentClientTypes.ScheduleCondition.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.TriggerCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "schedule":
+                return .schedule(try reader["schedule"].read(with: DevOpsAgentClientTypes.ScheduleCondition.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

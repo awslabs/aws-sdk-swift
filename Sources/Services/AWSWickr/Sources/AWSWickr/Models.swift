@@ -931,6 +931,34 @@ extension WickrClientTypes {
     }
 }
 
+extension WickrClientTypes {
+
+    /// Consent popup configuration displayed to users on login.
+    public struct ConsentPopupConfig: Swift.Sendable {
+        /// Label for the close button on the consent popup. Maximum 20 characters. Defaults to "Acknowledge" if not provided.
+        public var closeButtonLabel: Swift.String?
+        /// Body content of the consent popup in Markdown format. Maximum 5000 characters.
+        public var content: Swift.String?
+        /// Whether the consent popup is enabled. When set to true, the popup is displayed to users on login.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// Header text displayed at the top of the consent popup. Maximum 100 characters.
+        public var header: Swift.String?
+
+        public init(
+            closeButtonLabel: Swift.String? = nil,
+            content: Swift.String? = nil,
+            enabled: Swift.Bool? = nil,
+            header: Swift.String? = nil
+        ) {
+            self.closeButtonLabel = closeButtonLabel
+            self.content = content
+            self.enabled = enabled
+            self.header = header
+        }
+    }
+}
+
 public struct CreateBotInput: Swift.Sendable {
     /// The password for the bot account.
     /// This member is required.
@@ -1239,11 +1267,11 @@ extension WickrClientTypes {
 
 extension WickrClientTypes {
 
-    /// Configuration for the message shredder feature, which securely deletes messages and files from devices to prevent data recovery.
+    /// Configuration for the Wickr shredder feature, which writes random data over free memory and disk space on client devices. You can configure your Wickr shredder intensity using the parameters below. Secure Shredder will not write over files that are permanently stored on the device or saved outside of the Wickr client. Wickr Network Administrators are able to disable file downloads within Security Group Settings.
     public struct ShredderSettings: Swift.Sendable {
         /// Specifies whether users can manually trigger the shredder to delete content.
         public var canProcessManually: Swift.Bool?
-        /// Prevents Wickr data from being recovered by overwriting deleted Wickr data. Valid Values: Must be one of [0, 20, 60, 100]
+        /// Controls the rate (MB/minute) at which the shredder function runs on clients. Valid Values: Must be one of [0, 20, 60, 100]. A higher intensity setting could lead to higher battery usage on mobile devices.
         public var intensity: Swift.Int?
 
         public init(
@@ -1308,6 +1336,8 @@ extension WickrClientTypes {
         public var maxAutoDownloadSize: Swift.Int?
         /// The maximum burn-on-read (BOR) time in seconds, which determines how long messages remain visible before auto-deletion after being read.
         public var maxBor: Swift.Int?
+        /// Maximum session duration in minutes for non-SSO users. Set to 0 to disable. Valid range is 60 to 525600 (1 hour to 365 days).
+        public var maxNonSsoSessionMinutes: Swift.Int?
         /// The maximum time-to-live (TTL) in seconds for messages, after which they will be automatically deleted from all devices.
         public var maxTtl: Swift.Int?
         /// Enables message forwarding, allowing users to forward messages from one conversation to another.
@@ -1356,6 +1386,7 @@ extension WickrClientTypes {
             lockoutThreshold: Swift.Int? = nil,
             maxAutoDownloadSize: Swift.Int? = nil,
             maxBor: Swift.Int? = nil,
+            maxNonSsoSessionMinutes: Swift.Int? = nil,
             maxTtl: Swift.Int? = nil,
             messageForwardingEnabled: Swift.Bool? = nil,
             passwordRequirements: WickrClientTypes.PasswordRequirements? = nil,
@@ -1392,6 +1423,7 @@ extension WickrClientTypes {
             self.lockoutThreshold = lockoutThreshold
             self.maxAutoDownloadSize = maxAutoDownloadSize
             self.maxBor = maxBor
+            self.maxNonSsoSessionMinutes = maxNonSsoSessionMinutes
             self.maxTtl = maxTtl
             self.messageForwardingEnabled = messageForwardingEnabled
             self.passwordRequirements = passwordRequirements
@@ -2882,6 +2914,8 @@ extension WickrClientTypes {
 
     /// Contains network-level configuration settings that apply to all users and security groups within a Wickr network.
     public struct NetworkSettings: Swift.Sendable {
+        /// Consent popup configuration for the network, displayed to users on login.
+        public var consentPopup: WickrClientTypes.ConsentPopupConfig?
         /// Indicates whether the data retention feature is enabled for the network. When true, messages are captured by the data retention bot for compliance and archiving purposes.
         public var dataRetention: Swift.Bool?
         /// Allows Wickr clients to send anonymized performance and usage metrics to the Wickr backend server for service improvement and troubleshooting.
@@ -2892,11 +2926,13 @@ extension WickrClientTypes {
         public var readReceiptConfig: WickrClientTypes.ReadReceiptConfig?
 
         public init(
+            consentPopup: WickrClientTypes.ConsentPopupConfig? = nil,
             dataRetention: Swift.Bool? = nil,
             enableClientMetrics: Swift.Bool? = nil,
             enableTrustedDataFormat: Swift.Bool? = nil,
             readReceiptConfig: WickrClientTypes.ReadReceiptConfig? = nil
         ) {
+            self.consentPopup = consentPopup
             self.dataRetention = dataRetention
             self.enableClientMetrics = enableClientMetrics
             self.enableTrustedDataFormat = enableTrustedDataFormat
@@ -6350,6 +6386,17 @@ extension WickrClientTypes.CallingSettings {
     }
 }
 
+extension WickrClientTypes.ConsentPopupConfig {
+
+    static func write(value: WickrClientTypes.ConsentPopupConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["closeButtonLabel"].write(value.closeButtonLabel)
+        try writer["content"].write(value.content)
+        try writer["enabled"].write(value.enabled)
+        try writer["header"].write(value.header)
+    }
+}
+
 extension WickrClientTypes.ErrorDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.ErrorDetail {
@@ -6406,6 +6453,7 @@ extension WickrClientTypes.NetworkSettings {
 
     static func write(value: WickrClientTypes.NetworkSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["consentPopup"].write(value.consentPopup, with: WickrClientTypes.ConsentPopupConfig.write(value:to:))
         try writer["dataRetention"].write(value.dataRetention)
         try writer["enableClientMetrics"].write(value.enableClientMetrics)
         try writer["enableTrustedDataFormat"].write(value.enableTrustedDataFormat)
@@ -6545,6 +6593,7 @@ extension WickrClientTypes.SecurityGroupSettings {
         try writer["lockoutThreshold"].write(value.lockoutThreshold)
         try writer["maxAutoDownloadSize"].write(value.maxAutoDownloadSize)
         try writer["maxBor"].write(value.maxBor)
+        try writer["maxNonSsoSessionMinutes"].write(value.maxNonSsoSessionMinutes)
         try writer["maxTtl"].write(value.maxTtl)
         try writer["messageForwardingEnabled"].write(value.messageForwardingEnabled)
         try writer["passwordRequirements"].write(value.passwordRequirements, with: WickrClientTypes.PasswordRequirements.write(value:to:))
@@ -6591,6 +6640,7 @@ extension WickrClientTypes.SecurityGroupSettings {
         value.showMasterRecoveryKey = try reader["showMasterRecoveryKey"].readIfPresent()
         value.shredder = try reader["shredder"].readIfPresent(with: WickrClientTypes.ShredderSettings.read(from:))
         value.ssoMaxIdleMinutes = try reader["ssoMaxIdleMinutes"].readIfPresent()
+        value.maxNonSsoSessionMinutes = try reader["maxNonSsoSessionMinutes"].readIfPresent()
         value.federationMode = try reader["federationMode"].readIfPresent()
         value.lockoutThreshold = try reader["lockoutThreshold"].readIfPresent()
         value.permittedNetworks = try reader["permittedNetworks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)

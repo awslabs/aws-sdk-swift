@@ -6109,7 +6109,7 @@ public struct UpdateDirectorySetupInput: Swift.Sendable {
     public var updateType: DirectoryClientTypes.UpdateType?
 
     public init(
-        createSnapshotBeforeUpdate: Swift.Bool? = false,
+        createSnapshotBeforeUpdate: Swift.Bool? = nil,
         directoryId: Swift.String? = nil,
         directorySizeUpdateSettings: DirectoryClientTypes.DirectorySizeUpdateSettings? = nil,
         networkUpdateSettings: DirectoryClientTypes.NetworkUpdateSettings? = nil,

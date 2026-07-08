@@ -72,6 +72,7 @@ public final class ACMPCAClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: ACMPCAClient.ACMPCAClientConfig
     let serviceName = "ACM PCA"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use ACMPCAClient.ACMPCAClientConfig instead")
     public typealias Config = ACMPCAClient.ACMPCAClientConfiguration
@@ -81,6 +82,7 @@ public final class ACMPCAClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: ACMPCAClient.ACMPCAClientConfig) instead")
@@ -195,7 +197,7 @@ extension ACMPCAClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ACM PCA")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -250,7 +252,7 @@ extension ACMPCAClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ACM PCA")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -426,7 +428,7 @@ extension ACMPCAClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ACM PCA")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -481,7 +483,7 @@ extension ACMPCAClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ACM PCA")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -658,8 +660,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCertificateAuthorityInput, CreateCertificateAuthorityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCertificateAuthorityInput, CreateCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCertificateAuthorityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -671,6 +671,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCertificateAuthorityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCertificateAuthorityInput, CreateCertificateAuthorityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCertificateAuthorityInput, CreateCertificateAuthorityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCertificateAuthorityInput, CreateCertificateAuthorityOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -737,8 +739,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCertificateAuthorityAuditReportInput, CreateCertificateAuthorityAuditReportOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCertificateAuthorityAuditReportInput, CreateCertificateAuthorityAuditReportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCertificateAuthorityAuditReportOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -750,6 +750,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCertificateAuthorityAuditReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCertificateAuthorityAuditReportInput, CreateCertificateAuthorityAuditReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCertificateAuthorityAuditReportInput, CreateCertificateAuthorityAuditReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCertificateAuthorityAuditReportInput, CreateCertificateAuthorityAuditReportOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -822,8 +824,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePermissionInput, CreatePermissionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePermissionInput, CreatePermissionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePermissionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -835,6 +835,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePermissionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePermissionInput, CreatePermissionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePermissionInput, CreatePermissionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePermissionInput, CreatePermissionOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -899,8 +901,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCertificateAuthorityInput, DeleteCertificateAuthorityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCertificateAuthorityInput, DeleteCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCertificateAuthorityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -912,6 +912,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCertificateAuthorityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCertificateAuthorityInput, DeleteCertificateAuthorityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCertificateAuthorityInput, DeleteCertificateAuthorityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCertificateAuthorityInput, DeleteCertificateAuthorityOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -982,8 +984,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePermissionInput, DeletePermissionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePermissionInput, DeletePermissionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePermissionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -995,6 +995,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePermissionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePermissionInput, DeletePermissionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePermissionInput, DeletePermissionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePermissionInput, DeletePermissionOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -1069,8 +1071,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePolicyInput, DeletePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePolicyInput, DeletePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1082,6 +1082,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePolicyInput, DeletePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePolicyInput, DeletePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePolicyInput, DeletePolicyOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -1158,8 +1160,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCertificateAuthorityInput, DescribeCertificateAuthorityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCertificateAuthorityInput, DescribeCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCertificateAuthorityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1171,6 +1171,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCertificateAuthorityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCertificateAuthorityInput, DescribeCertificateAuthorityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCertificateAuthorityInput, DescribeCertificateAuthorityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCertificateAuthorityInput, DescribeCertificateAuthorityOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -1234,8 +1236,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCertificateAuthorityAuditReportInput, DescribeCertificateAuthorityAuditReportOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCertificateAuthorityAuditReportInput, DescribeCertificateAuthorityAuditReportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCertificateAuthorityAuditReportOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1247,6 +1247,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCertificateAuthorityAuditReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCertificateAuthorityAuditReportInput, DescribeCertificateAuthorityAuditReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCertificateAuthorityAuditReportInput, DescribeCertificateAuthorityAuditReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCertificateAuthorityAuditReportInput, DescribeCertificateAuthorityAuditReportOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -1312,8 +1314,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCertificateInput, GetCertificateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCertificateInput, GetCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCertificateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1325,6 +1325,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCertificateInput, GetCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCertificateInput, GetCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCertificateInput, GetCertificateOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -1388,8 +1390,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCertificateAuthorityCertificateInput, GetCertificateAuthorityCertificateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCertificateAuthorityCertificateInput, GetCertificateAuthorityCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCertificateAuthorityCertificateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1401,6 +1401,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCertificateAuthorityCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCertificateAuthorityCertificateInput, GetCertificateAuthorityCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCertificateAuthorityCertificateInput, GetCertificateAuthorityCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCertificateAuthorityCertificateInput, GetCertificateAuthorityCertificateOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -1466,8 +1468,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCertificateAuthorityCsrInput, GetCertificateAuthorityCsrOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCertificateAuthorityCsrInput, GetCertificateAuthorityCsrOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCertificateAuthorityCsrOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1479,6 +1479,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCertificateAuthorityCsrOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCertificateAuthorityCsrInput, GetCertificateAuthorityCsrOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCertificateAuthorityCsrInput, GetCertificateAuthorityCsrOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCertificateAuthorityCsrInput, GetCertificateAuthorityCsrOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -1551,8 +1553,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPolicyInput, GetPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPolicyInput, GetPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1564,6 +1564,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPolicyInput, GetPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPolicyInput, GetPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPolicyInput, GetPolicyOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -1710,8 +1712,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportCertificateAuthorityCertificateInput, ImportCertificateAuthorityCertificateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportCertificateAuthorityCertificateInput, ImportCertificateAuthorityCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportCertificateAuthorityCertificateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1723,6 +1723,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportCertificateAuthorityCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportCertificateAuthorityCertificateInput, ImportCertificateAuthorityCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ImportCertificateAuthorityCertificateInput, ImportCertificateAuthorityCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ImportCertificateAuthorityCertificateInput, ImportCertificateAuthorityCertificateOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -1789,8 +1791,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<IssueCertificateInput, IssueCertificateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<IssueCertificateInput, IssueCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<IssueCertificateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1802,6 +1802,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<IssueCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<IssueCertificateInput, IssueCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<IssueCertificateInput, IssueCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<IssueCertificateInput, IssueCertificateOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -1863,8 +1865,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCertificateAuthoritiesInput, ListCertificateAuthoritiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCertificateAuthoritiesInput, ListCertificateAuthoritiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCertificateAuthoritiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1876,6 +1876,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCertificateAuthoritiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCertificateAuthoritiesInput, ListCertificateAuthoritiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCertificateAuthoritiesInput, ListCertificateAuthoritiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCertificateAuthoritiesInput, ListCertificateAuthoritiesOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -1947,8 +1949,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPermissionsInput, ListPermissionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPermissionsInput, ListPermissionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPermissionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1960,6 +1960,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPermissionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPermissionsInput, ListPermissionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPermissionsInput, ListPermissionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPermissionsInput, ListPermissionsOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -2024,8 +2026,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsInput, ListTagsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsInput, ListTagsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2037,6 +2037,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsInput, ListTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsInput, ListTagsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsInput, ListTagsOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -2112,8 +2114,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPolicyInput, PutPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPolicyInput, PutPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2125,6 +2125,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutPolicyInput, PutPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutPolicyInput, PutPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutPolicyInput, PutPolicyOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -2188,8 +2190,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreCertificateAuthorityInput, RestoreCertificateAuthorityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreCertificateAuthorityInput, RestoreCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreCertificateAuthorityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2201,6 +2201,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestoreCertificateAuthorityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestoreCertificateAuthorityInput, RestoreCertificateAuthorityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RestoreCertificateAuthorityInput, RestoreCertificateAuthorityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestoreCertificateAuthorityInput, RestoreCertificateAuthorityOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -2270,8 +2272,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeCertificateInput, RevokeCertificateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeCertificateInput, RevokeCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeCertificateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2283,6 +2283,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RevokeCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RevokeCertificateInput, RevokeCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RevokeCertificateInput, RevokeCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RevokeCertificateInput, RevokeCertificateOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -2348,8 +2350,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagCertificateAuthorityInput, TagCertificateAuthorityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagCertificateAuthorityInput, TagCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagCertificateAuthorityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2361,6 +2361,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagCertificateAuthorityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagCertificateAuthorityInput, TagCertificateAuthorityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagCertificateAuthorityInput, TagCertificateAuthorityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagCertificateAuthorityInput, TagCertificateAuthorityOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -2425,8 +2427,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagCertificateAuthorityInput, UntagCertificateAuthorityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagCertificateAuthorityInput, UntagCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagCertificateAuthorityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2438,6 +2438,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagCertificateAuthorityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagCertificateAuthorityInput, UntagCertificateAuthorityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagCertificateAuthorityInput, UntagCertificateAuthorityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagCertificateAuthorityInput, UntagCertificateAuthorityOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")
@@ -2504,8 +2506,6 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCertificateAuthorityInput, UpdateCertificateAuthorityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCertificateAuthorityInput, UpdateCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCertificateAuthorityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ACM PCA", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2517,6 +2517,8 @@ extension ACMPCAClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCertificateAuthorityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCertificateAuthorityInput, UpdateCertificateAuthorityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCertificateAuthorityInput, UpdateCertificateAuthorityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ACM PCA"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCertificateAuthorityInput, UpdateCertificateAuthorityOutput>(serviceID: serviceName, version: ACMPCAClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ACMPCA")

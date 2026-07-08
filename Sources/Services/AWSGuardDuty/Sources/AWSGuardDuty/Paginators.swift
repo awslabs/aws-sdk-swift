@@ -218,6 +218,38 @@ extension PaginatorSequence where OperationStackInput == ListFindingsInput, Oper
     }
 }
 extension GuardDutyClient {
+    /// Paginate over `[ListInvestigationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListInvestigationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInvestigationsOutput`
+    public func listInvestigationsPaginated(input: ListInvestigationsInput) -> ClientRuntime.PaginatorSequence<ListInvestigationsInput, ListInvestigationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListInvestigationsInput, ListInvestigationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInvestigations(input:))
+    }
+}
+
+extension ListInvestigationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListInvestigationsInput {
+        return ListInvestigationsInput(
+            detectorId: self.detectorId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortCriteria: self.sortCriteria
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListInvestigationsInput, OperationStackOutput == ListInvestigationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listInvestigationsPaginated`
+    /// to access the nested member `[GuardDutyClientTypes.InvestigationSummary]`
+    /// - Returns: `[GuardDutyClientTypes.InvestigationSummary]`
+    public func investigations() async throws -> [GuardDutyClientTypes.InvestigationSummary] {
+        return try await self.asyncCompactMap { item in item.investigations }
+    }
+}
+extension GuardDutyClient {
     /// Paginate over `[ListInvitationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

@@ -1777,6 +1777,8 @@ public struct CreateServiceInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The custom domain name of the service.
     public var customDomainName: Swift.String?
+    /// The amount of time, in seconds, that a connection can remain idle (no data sent) before VPC Lattice closes it. The valid range is 60 to 600 seconds. If you don't specify a value, the default is 60 seconds. This setting does not change the maximum connection duration of 10 minutes; connections are still closed when they reach that limit.
+    public var idleTimeoutSeconds: Swift.Int?
     /// The name of the service. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
     /// This member is required.
     public var name: Swift.String?
@@ -1788,6 +1790,7 @@ public struct CreateServiceInput: Swift.Sendable {
         certificateArn: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         customDomainName: Swift.String? = nil,
+        idleTimeoutSeconds: Swift.Int? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -1795,6 +1798,7 @@ public struct CreateServiceInput: Swift.Sendable {
         self.certificateArn = certificateArn
         self.clientToken = clientToken
         self.customDomainName = customDomainName
+        self.idleTimeoutSeconds = idleTimeoutSeconds
         self.name = name
         self.tags = tags
     }
@@ -1875,6 +1879,8 @@ public struct CreateServiceOutput: Swift.Sendable {
     public var dnsEntry: VPCLatticeClientTypes.DnsEntry?
     /// The ID of the service.
     public var id: Swift.String?
+    /// The amount of time, in seconds, that a connection can remain idle before VPC Lattice closes it.
+    public var idleTimeoutSeconds: Swift.Int?
     /// The name of the service.
     public var name: Swift.String?
     /// The status. If the status is CREATE_FAILED, you must delete and recreate the service.
@@ -1887,6 +1893,7 @@ public struct CreateServiceOutput: Swift.Sendable {
         customDomainName: Swift.String? = nil,
         dnsEntry: VPCLatticeClientTypes.DnsEntry? = nil,
         id: Swift.String? = nil,
+        idleTimeoutSeconds: Swift.Int? = nil,
         name: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceStatus? = nil
     ) {
@@ -1896,6 +1903,7 @@ public struct CreateServiceOutput: Swift.Sendable {
         self.customDomainName = customDomainName
         self.dnsEntry = dnsEntry
         self.id = id
+        self.idleTimeoutSeconds = idleTimeoutSeconds
         self.name = name
         self.status = status
     }
@@ -3683,7 +3691,7 @@ public struct GetResourceGatewayOutput: Swift.Sendable {
     public var ipv4AddressesPerEni: Swift.Int?
     /// The date and time that the resource gateway was last updated, in ISO-8601 format.
     public var lastUpdatedAt: Foundation.Date?
-    /// The AWS service that manages the resource gateway.
+    /// The Amazon Web Services service that manages the resource gateway.
     public var managedBy: Swift.String?
     /// The name of the resource gateway.
     public var name: Swift.String?
@@ -3691,7 +3699,7 @@ public struct GetResourceGatewayOutput: Swift.Sendable {
     public var resourceConfigDnsResolution: VPCLatticeClientTypes.ResourceConfigDnsResolution?
     /// The security group IDs associated with the resource gateway.
     public var securityGroupIds: [Swift.String]?
-    /// Indicates whether the resource gateway is managed by an AWS service.
+    /// Indicates whether the resource gateway is managed by an Amazon Web Services service.
     public var serviceManaged: Swift.Bool?
     /// The status for the resource gateway.
     public var status: VPCLatticeClientTypes.ResourceGatewayStatus?
@@ -3852,6 +3860,8 @@ public struct GetServiceOutput: Swift.Sendable {
     public var failureMessage: Swift.String?
     /// The ID of the service.
     public var id: Swift.String?
+    /// The amount of time, in seconds, that a connection can remain idle before VPC Lattice closes it.
+    public var idleTimeoutSeconds: Swift.Int?
     /// The date and time that the service was last updated, in ISO-8601 format.
     public var lastUpdatedAt: Foundation.Date?
     /// The name of the service.
@@ -3869,6 +3879,7 @@ public struct GetServiceOutput: Swift.Sendable {
         failureCode: Swift.String? = nil,
         failureMessage: Swift.String? = nil,
         id: Swift.String? = nil,
+        idleTimeoutSeconds: Swift.Int? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceStatus? = nil
@@ -3882,6 +3893,7 @@ public struct GetServiceOutput: Swift.Sendable {
         self.failureCode = failureCode
         self.failureMessage = failureMessage
         self.id = id
+        self.idleTimeoutSeconds = idleTimeoutSeconds
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
         self.status = status
@@ -5838,6 +5850,8 @@ public struct UpdateServiceInput: Swift.Sendable {
     public var authType: VPCLatticeClientTypes.AuthType?
     /// The Amazon Resource Name (ARN) of the certificate.
     public var certificateArn: Swift.String?
+    /// The amount of time, in seconds, that a connection can remain idle (no data sent) before VPC Lattice closes it. The valid range is 60 to 600 seconds. If you don't specify a value, the default is 60 seconds. This setting does not change the maximum connection duration of 10 minutes; connections are still closed when they reach that limit.
+    public var idleTimeoutSeconds: Swift.Int?
     /// The ID or ARN of the service.
     /// This member is required.
     public var serviceIdentifier: Swift.String?
@@ -5845,10 +5859,12 @@ public struct UpdateServiceInput: Swift.Sendable {
     public init(
         authType: VPCLatticeClientTypes.AuthType? = nil,
         certificateArn: Swift.String? = nil,
+        idleTimeoutSeconds: Swift.Int? = nil,
         serviceIdentifier: Swift.String? = nil
     ) {
         self.authType = authType
         self.certificateArn = certificateArn
+        self.idleTimeoutSeconds = idleTimeoutSeconds
         self.serviceIdentifier = serviceIdentifier
     }
 }
@@ -5864,6 +5880,8 @@ public struct UpdateServiceOutput: Swift.Sendable {
     public var customDomainName: Swift.String?
     /// The ID of the service.
     public var id: Swift.String?
+    /// The amount of time, in seconds, that a connection can remain idle before VPC Lattice closes it.
+    public var idleTimeoutSeconds: Swift.Int?
     /// The name of the service.
     public var name: Swift.String?
 
@@ -5873,6 +5891,7 @@ public struct UpdateServiceOutput: Swift.Sendable {
         certificateArn: Swift.String? = nil,
         customDomainName: Swift.String? = nil,
         id: Swift.String? = nil,
+        idleTimeoutSeconds: Swift.Int? = nil,
         name: Swift.String? = nil
     ) {
         self.arn = arn
@@ -5880,6 +5899,7 @@ public struct UpdateServiceOutput: Swift.Sendable {
         self.certificateArn = certificateArn
         self.customDomainName = customDomainName
         self.id = id
+        self.idleTimeoutSeconds = idleTimeoutSeconds
         self.name = name
     }
 }
@@ -7220,6 +7240,7 @@ extension CreateServiceInput {
         try writer["certificateArn"].write(value.certificateArn)
         try writer["clientToken"].write(value.clientToken)
         try writer["customDomainName"].write(value.customDomainName)
+        try writer["idleTimeoutSeconds"].write(value.idleTimeoutSeconds)
         try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -7394,6 +7415,7 @@ extension UpdateServiceInput {
         guard let value else { return }
         try writer["authType"].write(value.authType)
         try writer["certificateArn"].write(value.certificateArn)
+        try writer["idleTimeoutSeconds"].write(value.idleTimeoutSeconds)
     }
 }
 
@@ -7549,6 +7571,7 @@ extension CreateServiceOutput {
         value.customDomainName = try reader["customDomainName"].readIfPresent()
         value.dnsEntry = try reader["dnsEntry"].readIfPresent(with: VPCLatticeClientTypes.DnsEntry.read(from:))
         value.id = try reader["id"].readIfPresent()
+        value.idleTimeoutSeconds = try reader["idleTimeoutSeconds"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         return value
@@ -7988,6 +8011,7 @@ extension GetServiceOutput {
         value.failureCode = try reader["failureCode"].readIfPresent()
         value.failureMessage = try reader["failureMessage"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
+        value.idleTimeoutSeconds = try reader["idleTimeoutSeconds"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -8495,6 +8519,7 @@ extension UpdateServiceOutput {
         value.certificateArn = try reader["certificateArn"].readIfPresent()
         value.customDomainName = try reader["customDomainName"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
+        value.idleTimeoutSeconds = try reader["idleTimeoutSeconds"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         return value
     }

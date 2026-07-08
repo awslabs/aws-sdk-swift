@@ -11,7 +11,7 @@ class PresignerGeneratorTests {
     @Test
     fun `001 presignable on getFooInput`() {
         val context = setupTests("awsjson/presignable.smithy", "smithy.swift.traits#Example")
-        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/GetFooInput+Presigner.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Example/Sources/Example/models/GetFooInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension GetFooInput {
@@ -91,7 +91,7 @@ extension GetFooInput {
     @Test
     fun `002 presignable on postFooInput`() {
         val context = setupTests("awsjson/presignable.smithy", "smithy.swift.traits#Example")
-        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/PostFooInput+Presigner.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Example/Sources/Example/models/PostFooInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension PostFooInput {
@@ -171,7 +171,7 @@ extension PostFooInput {
     @Test
     fun `003 presignable on putFooInput`() {
         val context = setupTests("awsjson/presignable.smithy", "smithy.swift.traits#Example")
-        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/PutFooInput+Presigner.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Example/Sources/Example/models/PutFooInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension PutFooInput {
@@ -251,7 +251,7 @@ extension PutFooInput {
     @Test
     fun `004 presignable on S3`() {
         val context = setupTests("presign-urls-s3.smithy", "com.amazonaws.s3#AmazonS3", RestXMLProtocolGenerator())
-        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/PutObjectInput+Presigner.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Example/Sources/Example/models/PutObjectInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension PutObjectInput {

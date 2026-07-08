@@ -52,6 +52,7 @@ import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
+import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
@@ -73,6 +74,7 @@ public final class GlueClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: GlueClient.GlueClientConfig
     let serviceName = "Glue"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use GlueClient.GlueClientConfig instead")
     public typealias Config = GlueClient.GlueClientConfiguration
@@ -82,6 +84,7 @@ public final class GlueClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: GlueClient.GlueClientConfig) instead")
@@ -196,7 +199,7 @@ extension GlueClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Glue")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -251,7 +254,7 @@ extension GlueClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Glue")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -427,7 +430,7 @@ extension GlueClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Glue")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -482,7 +485,7 @@ extension GlueClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Glue")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -611,6 +614,86 @@ extension GlueClient {
 }
 
 extension GlueClient {
+    /// Performs the `AssociateGlossaryTerms` operation on the `Glue` service.
+    ///
+    /// Associates one or more glossary terms with an asset in Glue Data Catalog.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateGlossaryTermsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateGlossaryTermsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func associateGlossaryTerms(input: AssociateGlossaryTermsInput) async throws -> AssociateGlossaryTermsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.associateGlossaryTermsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateGlossaryTerms")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateGlossaryTermsInput, AssociateGlossaryTermsOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateGlossaryTermsInput, AssociateGlossaryTermsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateGlossaryTermsInput, AssociateGlossaryTermsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateGlossaryTermsInput, AssociateGlossaryTermsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateGlossaryTermsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateGlossaryTermsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateGlossaryTermsInput, AssociateGlossaryTermsOutput>(overrides: ["X-Amz-Target": "AWSGlue.AssociateGlossaryTerms"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateGlossaryTermsInput, AssociateGlossaryTermsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateGlossaryTermsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateGlossaryTermsInput, AssociateGlossaryTermsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateGlossaryTermsInput, AssociateGlossaryTermsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateGlossaryTermsInput, AssociateGlossaryTermsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateGlossaryTerms")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `BatchCreatePartition` operation on the `Glue` service.
     ///
     /// Creates one or more partitions in a batch operation.
@@ -662,8 +745,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreatePartitionInput, BatchCreatePartitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreatePartitionInput, BatchCreatePartitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreatePartitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -675,6 +756,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreatePartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCreatePartitionInput, BatchCreatePartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchCreatePartitionInput, BatchCreatePartitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchCreatePartitionInput, BatchCreatePartitionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -737,8 +820,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteConnectionInput, BatchDeleteConnectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteConnectionInput, BatchDeleteConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteConnectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -750,6 +831,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteConnectionInput, BatchDeleteConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteConnectionInput, BatchDeleteConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteConnectionInput, BatchDeleteConnectionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -814,8 +897,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeletePartitionInput, BatchDeletePartitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeletePartitionInput, BatchDeletePartitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeletePartitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -827,6 +908,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeletePartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeletePartitionInput, BatchDeletePartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeletePartitionInput, BatchDeletePartitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeletePartitionInput, BatchDeletePartitionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -893,8 +976,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteTableInput, BatchDeleteTableOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteTableInput, BatchDeleteTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -906,6 +987,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteTableInput, BatchDeleteTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteTableInput, BatchDeleteTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteTableInput, BatchDeleteTableOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -970,8 +1053,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteTableVersionInput, BatchDeleteTableVersionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteTableVersionInput, BatchDeleteTableVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteTableVersionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -983,6 +1064,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteTableVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteTableVersionInput, BatchDeleteTableVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteTableVersionInput, BatchDeleteTableVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteTableVersionInput, BatchDeleteTableVersionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -1046,8 +1129,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetBlueprintsInput, BatchGetBlueprintsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetBlueprintsInput, BatchGetBlueprintsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetBlueprintsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1059,6 +1140,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetBlueprintsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetBlueprintsInput, BatchGetBlueprintsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetBlueprintsInput, BatchGetBlueprintsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetBlueprintsInput, BatchGetBlueprintsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -1121,8 +1204,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetCrawlersInput, BatchGetCrawlersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCrawlersInput, BatchGetCrawlersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCrawlersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1134,6 +1215,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetCrawlersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetCrawlersInput, BatchGetCrawlersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetCrawlersInput, BatchGetCrawlersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetCrawlersInput, BatchGetCrawlersOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -1197,8 +1280,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetCustomEntityTypesInput, BatchGetCustomEntityTypesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCustomEntityTypesInput, BatchGetCustomEntityTypesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCustomEntityTypesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1210,6 +1291,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetCustomEntityTypesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetCustomEntityTypesInput, BatchGetCustomEntityTypesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetCustomEntityTypesInput, BatchGetCustomEntityTypesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetCustomEntityTypesInput, BatchGetCustomEntityTypesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -1273,8 +1356,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetDataQualityResultInput, BatchGetDataQualityResultOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetDataQualityResultInput, BatchGetDataQualityResultOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetDataQualityResultOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1286,6 +1367,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetDataQualityResultOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetDataQualityResultInput, BatchGetDataQualityResultOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetDataQualityResultInput, BatchGetDataQualityResultOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetDataQualityResultInput, BatchGetDataQualityResultOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -1350,8 +1433,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetDevEndpointsInput, BatchGetDevEndpointsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetDevEndpointsInput, BatchGetDevEndpointsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetDevEndpointsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1363,10 +1444,90 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetDevEndpointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetDevEndpointsInput, BatchGetDevEndpointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetDevEndpointsInput, BatchGetDevEndpointsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetDevEndpointsInput, BatchGetDevEndpointsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetDevEndpoints")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchGetIterableForms` operation on the `Glue` service.
+    ///
+    /// Retrieves multiple items from an iterable form on an asset in Glue Data Catalog in a single request.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchGetIterableFormsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchGetIterableFormsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func batchGetIterableForms(input: BatchGetIterableFormsInput) async throws -> BatchGetIterableFormsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.batchGetIterableFormsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetIterableForms")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetIterableFormsInput, BatchGetIterableFormsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetIterableFormsInput, BatchGetIterableFormsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetIterableFormsInput, BatchGetIterableFormsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetIterableFormsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetIterableFormsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetIterableFormsInput, BatchGetIterableFormsOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchGetIterableForms"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetIterableFormsInput, BatchGetIterableFormsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetIterableFormsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetIterableFormsInput, BatchGetIterableFormsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetIterableFormsInput, BatchGetIterableFormsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetIterableFormsInput, BatchGetIterableFormsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetIterableForms")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1426,8 +1587,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetJobsInput, BatchGetJobsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetJobsInput, BatchGetJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1439,6 +1598,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetJobsInput, BatchGetJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetJobsInput, BatchGetJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetJobsInput, BatchGetJobsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -1507,8 +1668,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetPartitionInput, BatchGetPartitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetPartitionInput, BatchGetPartitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetPartitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1520,6 +1679,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetPartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetPartitionInput, BatchGetPartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetPartitionInput, BatchGetPartitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetPartitionInput, BatchGetPartitionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -1585,8 +1746,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetTableOptimizerInput, BatchGetTableOptimizerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetTableOptimizerInput, BatchGetTableOptimizerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetTableOptimizerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1598,6 +1757,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetTableOptimizerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetTableOptimizerInput, BatchGetTableOptimizerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetTableOptimizerInput, BatchGetTableOptimizerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetTableOptimizerInput, BatchGetTableOptimizerOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -1661,8 +1822,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetTriggersInput, BatchGetTriggersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetTriggersInput, BatchGetTriggersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetTriggersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1674,6 +1833,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetTriggersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetTriggersInput, BatchGetTriggersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetTriggersInput, BatchGetTriggersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetTriggersInput, BatchGetTriggersOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -1737,8 +1898,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetWorkflowsInput, BatchGetWorkflowsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetWorkflowsInput, BatchGetWorkflowsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetWorkflowsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1750,6 +1909,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetWorkflowsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetWorkflowsInput, BatchGetWorkflowsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetWorkflowsInput, BatchGetWorkflowsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetWorkflowsInput, BatchGetWorkflowsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -1814,8 +1975,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchPutDataQualityStatisticAnnotationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1827,6 +1986,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchPutDataQualityStatisticAnnotationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -1890,8 +2051,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchStopJobRunInput, BatchStopJobRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchStopJobRunInput, BatchStopJobRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchStopJobRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1903,6 +2062,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchStopJobRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchStopJobRunInput, BatchStopJobRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchStopJobRunInput, BatchStopJobRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchStopJobRunInput, BatchStopJobRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -1968,8 +2129,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdatePartitionInput, BatchUpdatePartitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdatePartitionInput, BatchUpdatePartitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdatePartitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1981,6 +2140,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdatePartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdatePartitionInput, BatchUpdatePartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdatePartitionInput, BatchUpdatePartitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdatePartitionInput, BatchUpdatePartitionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -2045,8 +2206,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelDataQualityRuleRecommendationRunInput, CancelDataQualityRuleRecommendationRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelDataQualityRuleRecommendationRunInput, CancelDataQualityRuleRecommendationRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelDataQualityRuleRecommendationRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2058,6 +2217,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelDataQualityRuleRecommendationRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelDataQualityRuleRecommendationRunInput, CancelDataQualityRuleRecommendationRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelDataQualityRuleRecommendationRunInput, CancelDataQualityRuleRecommendationRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelDataQualityRuleRecommendationRunInput, CancelDataQualityRuleRecommendationRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -2122,8 +2283,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelDataQualityRulesetEvaluationRunInput, CancelDataQualityRulesetEvaluationRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelDataQualityRulesetEvaluationRunInput, CancelDataQualityRulesetEvaluationRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelDataQualityRulesetEvaluationRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2135,6 +2294,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelDataQualityRulesetEvaluationRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelDataQualityRulesetEvaluationRunInput, CancelDataQualityRulesetEvaluationRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelDataQualityRulesetEvaluationRunInput, CancelDataQualityRulesetEvaluationRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelDataQualityRulesetEvaluationRunInput, CancelDataQualityRulesetEvaluationRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -2199,8 +2360,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelMLTaskRunInput, CancelMLTaskRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMLTaskRunInput, CancelMLTaskRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMLTaskRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2212,6 +2371,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelMLTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelMLTaskRunInput, CancelMLTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelMLTaskRunInput, CancelMLTaskRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelMLTaskRunInput, CancelMLTaskRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -2278,8 +2439,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelStatementInput, CancelStatementOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelStatementInput, CancelStatementOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelStatementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2291,6 +2450,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelStatementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelStatementInput, CancelStatementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelStatementInput, CancelStatementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelStatementInput, CancelStatementOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -2354,8 +2515,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckSchemaVersionValidityInput, CheckSchemaVersionValidityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckSchemaVersionValidityInput, CheckSchemaVersionValidityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CheckSchemaVersionValidityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2367,6 +2526,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CheckSchemaVersionValidityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CheckSchemaVersionValidityInput, CheckSchemaVersionValidityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CheckSchemaVersionValidityInput, CheckSchemaVersionValidityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CheckSchemaVersionValidityInput, CheckSchemaVersionValidityOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -2432,8 +2593,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBlueprintInput, CreateBlueprintOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBlueprintInput, CreateBlueprintOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBlueprintOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2445,6 +2604,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBlueprintOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBlueprintInput, CreateBlueprintOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateBlueprintInput, CreateBlueprintOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBlueprintInput, CreateBlueprintOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -2516,8 +2677,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCatalogInput, CreateCatalogOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCatalogInput, CreateCatalogOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCatalogOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2529,6 +2688,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCatalogOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCatalogInput, CreateCatalogOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCatalogInput, CreateCatalogOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCatalogInput, CreateCatalogOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -2592,8 +2753,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClassifierInput, CreateClassifierOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClassifierInput, CreateClassifierOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClassifierOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2605,6 +2764,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateClassifierOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateClassifierInput, CreateClassifierOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateClassifierInput, CreateClassifierOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateClassifierInput, CreateClassifierOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -2672,8 +2833,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateColumnStatisticsTaskSettingsInput, CreateColumnStatisticsTaskSettingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateColumnStatisticsTaskSettingsInput, CreateColumnStatisticsTaskSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateColumnStatisticsTaskSettingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2685,6 +2844,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateColumnStatisticsTaskSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateColumnStatisticsTaskSettingsInput, CreateColumnStatisticsTaskSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateColumnStatisticsTaskSettingsInput, CreateColumnStatisticsTaskSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateColumnStatisticsTaskSettingsInput, CreateColumnStatisticsTaskSettingsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -2750,8 +2911,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectionInput, CreateConnectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectionInput, CreateConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2763,6 +2922,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConnectionInput, CreateConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateConnectionInput, CreateConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateConnectionInput, CreateConnectionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -2827,8 +2988,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCrawlerInput, CreateCrawlerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCrawlerInput, CreateCrawlerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCrawlerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2840,6 +2999,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCrawlerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCrawlerInput, CreateCrawlerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCrawlerInput, CreateCrawlerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCrawlerInput, CreateCrawlerOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -2907,8 +3068,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomEntityTypeInput, CreateCustomEntityTypeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomEntityTypeInput, CreateCustomEntityTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomEntityTypeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2920,6 +3079,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCustomEntityTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCustomEntityTypeInput, CreateCustomEntityTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCustomEntityTypeInput, CreateCustomEntityTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCustomEntityTypeInput, CreateCustomEntityTypeOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -2985,8 +3146,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataQualityRulesetInput, CreateDataQualityRulesetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataQualityRulesetInput, CreateDataQualityRulesetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataQualityRulesetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2998,6 +3157,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDataQualityRulesetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDataQualityRulesetInput, CreateDataQualityRulesetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDataQualityRulesetInput, CreateDataQualityRulesetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDataQualityRulesetInput, CreateDataQualityRulesetOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -3068,8 +3229,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatabaseInput, CreateDatabaseOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatabaseInput, CreateDatabaseOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatabaseOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3081,6 +3240,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDatabaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDatabaseInput, CreateDatabaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDatabaseInput, CreateDatabaseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDatabaseInput, CreateDatabaseOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -3149,8 +3310,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDevEndpointInput, CreateDevEndpointOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDevEndpointInput, CreateDevEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDevEndpointOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3162,10 +3321,173 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDevEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDevEndpointInput, CreateDevEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDevEndpointInput, CreateDevEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDevEndpointInput, CreateDevEndpointOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDevEndpoint")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateGlossary` operation on the `Glue` service.
+    ///
+    /// Creates a business glossary in Glue Data Catalog. A glossary is a container for glossary terms that define business concepts.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateGlossaryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateGlossaryOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func createGlossary(input: CreateGlossaryInput) async throws -> CreateGlossaryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.createGlossaryOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createGlossary")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateGlossaryInput, CreateGlossaryOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateGlossaryInput, CreateGlossaryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGlossaryInput, CreateGlossaryOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGlossaryInput, CreateGlossaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateGlossaryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateGlossaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateGlossaryInput, CreateGlossaryOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateGlossary"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGlossaryInput, CreateGlossaryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGlossaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGlossaryInput, CreateGlossaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateGlossaryInput, CreateGlossaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateGlossaryInput, CreateGlossaryOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateGlossary")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateGlossaryTerm` operation on the `Glue` service.
+    ///
+    /// Creates a glossary term within a business glossary in Glue Data Catalog.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateGlossaryTermInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateGlossaryTermOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func createGlossaryTerm(input: CreateGlossaryTermInput) async throws -> CreateGlossaryTermOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.createGlossaryTermOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createGlossaryTerm")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateGlossaryTermInput, CreateGlossaryTermOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateGlossaryTermInput, CreateGlossaryTermOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGlossaryTermInput, CreateGlossaryTermOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGlossaryTermInput, CreateGlossaryTermOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateGlossaryTermOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateGlossaryTermOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateGlossaryTermInput, CreateGlossaryTermOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateGlossaryTerm"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGlossaryTermInput, CreateGlossaryTermOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGlossaryTermOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGlossaryTermInput, CreateGlossaryTermOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateGlossaryTermInput, CreateGlossaryTermOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateGlossaryTermInput, CreateGlossaryTermOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateGlossaryTerm")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3228,8 +3550,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGlueIdentityCenterConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3241,6 +3561,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGlueIdentityCenterConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -3313,8 +3635,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIntegrationInput, CreateIntegrationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIntegrationInput, CreateIntegrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIntegrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3326,6 +3646,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIntegrationInput, CreateIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIntegrationInput, CreateIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIntegrationInput, CreateIntegrationOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -3394,8 +3716,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIntegrationResourcePropertyInput, CreateIntegrationResourcePropertyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIntegrationResourcePropertyInput, CreateIntegrationResourcePropertyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIntegrationResourcePropertyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3407,6 +3727,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIntegrationResourcePropertyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIntegrationResourcePropertyInput, CreateIntegrationResourcePropertyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIntegrationResourcePropertyInput, CreateIntegrationResourcePropertyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIntegrationResourcePropertyInput, CreateIntegrationResourcePropertyOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -3474,8 +3796,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIntegrationTablePropertiesInput, CreateIntegrationTablePropertiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIntegrationTablePropertiesInput, CreateIntegrationTablePropertiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIntegrationTablePropertiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3487,6 +3807,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIntegrationTablePropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIntegrationTablePropertiesInput, CreateIntegrationTablePropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIntegrationTablePropertiesInput, CreateIntegrationTablePropertiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIntegrationTablePropertiesInput, CreateIntegrationTablePropertiesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -3554,8 +3876,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobInput, CreateJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobInput, CreateJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3567,6 +3887,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateJobInput, CreateJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateJobInput, CreateJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateJobInput, CreateJobOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -3634,8 +3956,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMLTransformInput, CreateMLTransformOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMLTransformInput, CreateMLTransformOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMLTransformOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3647,6 +3967,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMLTransformOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateMLTransformInput, CreateMLTransformOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateMLTransformInput, CreateMLTransformOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateMLTransformInput, CreateMLTransformOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -3714,8 +4036,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePartitionInput, CreatePartitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePartitionInput, CreatePartitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePartitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3727,6 +4047,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePartitionInput, CreatePartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePartitionInput, CreatePartitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePartitionInput, CreatePartitionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -3794,8 +4116,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePartitionIndexInput, CreatePartitionIndexOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePartitionIndexInput, CreatePartitionIndexOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePartitionIndexOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3807,6 +4127,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePartitionIndexOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePartitionIndexInput, CreatePartitionIndexOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePartitionIndexInput, CreatePartitionIndexOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePartitionIndexInput, CreatePartitionIndexOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -3873,8 +4195,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRegistryInput, CreateRegistryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRegistryInput, CreateRegistryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRegistryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3886,6 +4206,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRegistryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRegistryInput, CreateRegistryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRegistryInput, CreateRegistryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRegistryInput, CreateRegistryOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -3953,8 +4275,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSchemaInput, CreateSchemaOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSchemaInput, CreateSchemaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSchemaOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3966,6 +4286,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSchemaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSchemaInput, CreateSchemaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSchemaInput, CreateSchemaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSchemaInput, CreateSchemaOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -4029,8 +4351,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScriptInput, CreateScriptOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateScriptInput, CreateScriptOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateScriptOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4042,6 +4362,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateScriptInput, CreateScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateScriptInput, CreateScriptOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateScriptInput, CreateScriptOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -4107,8 +4429,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSecurityConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4120,6 +4440,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSecurityConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -4152,6 +4474,7 @@ extension GlueClient {
     /// - `IdempotentParameterMismatchException` : The same unique identifier was associated with two different records.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationNotSupportedException` : The operation is not available in the region.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     /// - `ValidationException` : A value could not be validated.
@@ -4188,8 +4511,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSessionInput, CreateSessionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSessionInput, CreateSessionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4201,6 +4522,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSessionInput, CreateSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSessionInput, CreateSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSessionInput, CreateSessionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -4272,8 +4595,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTableInput, CreateTableOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTableInput, CreateTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4285,6 +4606,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTableInput, CreateTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTableInput, CreateTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTableInput, CreateTableOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -4352,8 +4675,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTableOptimizerInput, CreateTableOptimizerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTableOptimizerInput, CreateTableOptimizerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTableOptimizerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4365,6 +4686,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTableOptimizerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTableOptimizerInput, CreateTableOptimizerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTableOptimizerInput, CreateTableOptimizerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTableOptimizerInput, CreateTableOptimizerOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -4433,8 +4756,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTriggerInput, CreateTriggerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTriggerInput, CreateTriggerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTriggerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4446,6 +4767,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTriggerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTriggerInput, CreateTriggerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTriggerInput, CreateTriggerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTriggerInput, CreateTriggerOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -4512,8 +4835,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUsageProfileInput, CreateUsageProfileOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUsageProfileInput, CreateUsageProfileOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUsageProfileOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4525,6 +4846,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUsageProfileOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateUsageProfileInput, CreateUsageProfileOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateUsageProfileInput, CreateUsageProfileOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateUsageProfileInput, CreateUsageProfileOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -4592,8 +4915,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserDefinedFunctionInput, CreateUserDefinedFunctionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserDefinedFunctionInput, CreateUserDefinedFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserDefinedFunctionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4605,6 +4926,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUserDefinedFunctionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateUserDefinedFunctionInput, CreateUserDefinedFunctionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateUserDefinedFunctionInput, CreateUserDefinedFunctionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateUserDefinedFunctionInput, CreateUserDefinedFunctionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -4671,8 +4994,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkflowInput, CreateWorkflowOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkflowInput, CreateWorkflowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkflowOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4684,10 +5005,247 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWorkflowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateWorkflowInput, CreateWorkflowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateWorkflowInput, CreateWorkflowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateWorkflowInput, CreateWorkflowOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateWorkflow")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteAsset` operation on the `Glue` service.
+    ///
+    /// Deletes an asset from Glue Data Catalog.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssetInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteAssetOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func deleteAsset(input: DeleteAssetInput) async throws -> DeleteAssetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.deleteAssetOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAsset")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssetInput, DeleteAssetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAssetInput, DeleteAssetOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssetInput, DeleteAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssetOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAssetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAssetInput, DeleteAssetOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteAsset"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAssetInput, DeleteAssetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAssetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAssetInput, DeleteAssetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAssetInput, DeleteAssetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAssetInput, DeleteAssetOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAsset")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteAssetType` operation on the `Glue` service.
+    ///
+    /// Deletes an asset type from Glue Data Catalog.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssetTypeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteAssetTypeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func deleteAssetType(input: DeleteAssetTypeInput) async throws -> DeleteAssetTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.deleteAssetTypeOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAssetType")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssetTypeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAssetTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteAssetType"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAssetTypeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAssetType")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteAttachment` operation on the `Glue` service.
+    ///
+    /// Deletes a form attachment from an asset in Glue Data Catalog.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAttachmentInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteAttachmentOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func deleteAttachment(input: DeleteAttachmentInput) async throws -> DeleteAttachmentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.deleteAttachmentOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAttachment")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAttachmentInput, DeleteAttachmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAttachmentInput, DeleteAttachmentOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAttachmentInput, DeleteAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAttachmentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAttachmentInput, DeleteAttachmentOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteAttachment"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAttachmentInput, DeleteAttachmentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAttachmentInput, DeleteAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAttachmentInput, DeleteAttachmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAttachmentInput, DeleteAttachmentOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAttachment")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4747,8 +5305,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBlueprintInput, DeleteBlueprintOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBlueprintInput, DeleteBlueprintOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBlueprintOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4760,6 +5316,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBlueprintOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBlueprintInput, DeleteBlueprintOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteBlueprintInput, DeleteBlueprintOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteBlueprintInput, DeleteBlueprintOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -4828,8 +5386,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCatalogInput, DeleteCatalogOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCatalogInput, DeleteCatalogOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCatalogOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4841,6 +5397,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCatalogOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCatalogInput, DeleteCatalogOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCatalogInput, DeleteCatalogOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCatalogInput, DeleteCatalogOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -4903,8 +5461,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClassifierInput, DeleteClassifierOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClassifierInput, DeleteClassifierOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClassifierOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4916,6 +5472,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteClassifierOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteClassifierInput, DeleteClassifierOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteClassifierInput, DeleteClassifierOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteClassifierInput, DeleteClassifierOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -4981,8 +5539,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteColumnStatisticsForPartitionInput, DeleteColumnStatisticsForPartitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteColumnStatisticsForPartitionInput, DeleteColumnStatisticsForPartitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteColumnStatisticsForPartitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4994,6 +5550,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteColumnStatisticsForPartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteColumnStatisticsForPartitionInput, DeleteColumnStatisticsForPartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteColumnStatisticsForPartitionInput, DeleteColumnStatisticsForPartitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteColumnStatisticsForPartitionInput, DeleteColumnStatisticsForPartitionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -5059,8 +5617,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteColumnStatisticsForTableInput, DeleteColumnStatisticsForTableOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteColumnStatisticsForTableInput, DeleteColumnStatisticsForTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteColumnStatisticsForTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5072,6 +5628,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteColumnStatisticsForTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteColumnStatisticsForTableInput, DeleteColumnStatisticsForTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteColumnStatisticsForTableInput, DeleteColumnStatisticsForTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteColumnStatisticsForTableInput, DeleteColumnStatisticsForTableOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -5135,8 +5693,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteColumnStatisticsTaskSettingsInput, DeleteColumnStatisticsTaskSettingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteColumnStatisticsTaskSettingsInput, DeleteColumnStatisticsTaskSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteColumnStatisticsTaskSettingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5148,6 +5704,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteColumnStatisticsTaskSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteColumnStatisticsTaskSettingsInput, DeleteColumnStatisticsTaskSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteColumnStatisticsTaskSettingsInput, DeleteColumnStatisticsTaskSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteColumnStatisticsTaskSettingsInput, DeleteColumnStatisticsTaskSettingsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -5210,8 +5768,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5223,6 +5779,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -5289,8 +5847,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectionTypeInput, DeleteConnectionTypeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionTypeInput, DeleteConnectionTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectionTypeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5302,6 +5858,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConnectionTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConnectionTypeInput, DeleteConnectionTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConnectionTypeInput, DeleteConnectionTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConnectionTypeInput, DeleteConnectionTypeOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -5366,8 +5924,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCrawlerInput, DeleteCrawlerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCrawlerInput, DeleteCrawlerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCrawlerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5379,6 +5935,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCrawlerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCrawlerInput, DeleteCrawlerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCrawlerInput, DeleteCrawlerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCrawlerInput, DeleteCrawlerOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -5444,8 +6002,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCustomEntityTypeInput, DeleteCustomEntityTypeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomEntityTypeInput, DeleteCustomEntityTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomEntityTypeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5457,6 +6013,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCustomEntityTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCustomEntityTypeInput, DeleteCustomEntityTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCustomEntityTypeInput, DeleteCustomEntityTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCustomEntityTypeInput, DeleteCustomEntityTypeOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -5521,8 +6079,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDataQualityRulesetInput, DeleteDataQualityRulesetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataQualityRulesetInput, DeleteDataQualityRulesetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataQualityRulesetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5534,6 +6090,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDataQualityRulesetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDataQualityRulesetInput, DeleteDataQualityRulesetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDataQualityRulesetInput, DeleteDataQualityRulesetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDataQualityRulesetInput, DeleteDataQualityRulesetOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -5601,8 +6159,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatabaseOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5614,6 +6170,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDatabaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -5678,8 +6236,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDevEndpointInput, DeleteDevEndpointOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDevEndpointInput, DeleteDevEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDevEndpointOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5691,10 +6247,248 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDevEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDevEndpointInput, DeleteDevEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDevEndpointInput, DeleteDevEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDevEndpointInput, DeleteDevEndpointOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDevEndpoint")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteFormType` operation on the `Glue` service.
+    ///
+    /// Deletes a form type from Glue Data Catalog. A form type cannot be deleted if it is still referenced by an asset type.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteFormTypeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteFormTypeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `ConflictException` : The CreatePartitions API was called on a table that has indexes enabled.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func deleteFormType(input: DeleteFormTypeInput) async throws -> DeleteFormTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.deleteFormTypeOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteFormType")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFormTypeInput, DeleteFormTypeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFormTypeInput, DeleteFormTypeOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFormTypeInput, DeleteFormTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFormTypeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFormTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFormTypeInput, DeleteFormTypeOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteFormType"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFormTypeInput, DeleteFormTypeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFormTypeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFormTypeInput, DeleteFormTypeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFormTypeInput, DeleteFormTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteFormTypeInput, DeleteFormTypeOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteFormType")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteGlossary` operation on the `Glue` service.
+    ///
+    /// Deletes a business glossary from Glue Data Catalog. A glossary cannot be deleted if it still contains glossary terms.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteGlossaryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteGlossaryOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `ConflictException` : The CreatePartitions API was called on a table that has indexes enabled.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func deleteGlossary(input: DeleteGlossaryInput) async throws -> DeleteGlossaryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.deleteGlossaryOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteGlossary")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGlossaryInput, DeleteGlossaryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGlossaryInput, DeleteGlossaryOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGlossaryInput, DeleteGlossaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGlossaryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteGlossaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteGlossaryInput, DeleteGlossaryOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteGlossary"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGlossaryInput, DeleteGlossaryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGlossaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteGlossaryInput, DeleteGlossaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteGlossaryInput, DeleteGlossaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteGlossaryInput, DeleteGlossaryOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteGlossary")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteGlossaryTerm` operation on the `Glue` service.
+    ///
+    /// Deletes a glossary term from Glue Data Catalog.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteGlossaryTermInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteGlossaryTermOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func deleteGlossaryTerm(input: DeleteGlossaryTermInput) async throws -> DeleteGlossaryTermOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.deleteGlossaryTermOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteGlossaryTerm")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGlossaryTermInput, DeleteGlossaryTermOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGlossaryTermInput, DeleteGlossaryTermOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGlossaryTermInput, DeleteGlossaryTermOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGlossaryTermOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteGlossaryTermOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteGlossaryTermInput, DeleteGlossaryTermOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteGlossaryTerm"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGlossaryTermInput, DeleteGlossaryTermOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGlossaryTermOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteGlossaryTermInput, DeleteGlossaryTermOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteGlossaryTermInput, DeleteGlossaryTermOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteGlossaryTermInput, DeleteGlossaryTermOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteGlossaryTerm")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5757,8 +6551,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGlueIdentityCenterConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5770,6 +6562,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGlueIdentityCenterConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -5841,8 +6635,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntegrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5854,6 +6646,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -5921,8 +6715,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntegrationResourcePropertyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5934,6 +6726,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIntegrationResourcePropertyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -6001,8 +6795,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIntegrationTablePropertiesInput, DeleteIntegrationTablePropertiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntegrationTablePropertiesInput, DeleteIntegrationTablePropertiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntegrationTablePropertiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6014,6 +6806,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIntegrationTablePropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIntegrationTablePropertiesInput, DeleteIntegrationTablePropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIntegrationTablePropertiesInput, DeleteIntegrationTablePropertiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIntegrationTablePropertiesInput, DeleteIntegrationTablePropertiesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -6077,8 +6871,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteJobInput, DeleteJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteJobInput, DeleteJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6090,6 +6882,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteJobInput, DeleteJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteJobInput, DeleteJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteJobInput, DeleteJobOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -6154,8 +6948,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMLTransformInput, DeleteMLTransformOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMLTransformInput, DeleteMLTransformOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMLTransformOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6167,6 +6959,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMLTransformOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMLTransformInput, DeleteMLTransformOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMLTransformInput, DeleteMLTransformOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMLTransformInput, DeleteMLTransformOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -6231,8 +7025,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePartitionInput, DeletePartitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePartitionInput, DeletePartitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePartitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6244,6 +7036,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePartitionInput, DeletePartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePartitionInput, DeletePartitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePartitionInput, DeletePartitionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -6310,8 +7104,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePartitionIndexInput, DeletePartitionIndexOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePartitionIndexInput, DeletePartitionIndexOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePartitionIndexOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6323,6 +7115,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePartitionIndexOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePartitionIndexInput, DeletePartitionIndexOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePartitionIndexInput, DeletePartitionIndexOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePartitionIndexInput, DeletePartitionIndexOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -6387,8 +7181,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRegistryInput, DeleteRegistryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRegistryInput, DeleteRegistryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRegistryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6400,6 +7192,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRegistryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRegistryInput, DeleteRegistryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRegistryInput, DeleteRegistryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRegistryInput, DeleteRegistryOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -6465,8 +7259,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6478,6 +7270,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -6542,8 +7336,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSchemaInput, DeleteSchemaOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSchemaInput, DeleteSchemaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSchemaOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6555,6 +7347,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSchemaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSchemaInput, DeleteSchemaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSchemaInput, DeleteSchemaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSchemaInput, DeleteSchemaOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -6619,8 +7413,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSchemaVersionsInput, DeleteSchemaVersionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSchemaVersionsInput, DeleteSchemaVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSchemaVersionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6632,6 +7424,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSchemaVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSchemaVersionsInput, DeleteSchemaVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSchemaVersionsInput, DeleteSchemaVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSchemaVersionsInput, DeleteSchemaVersionsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -6696,8 +7490,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSecurityConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6709,6 +7501,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSecurityConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -6775,8 +7569,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSessionInput, DeleteSessionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSessionInput, DeleteSessionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6788,6 +7580,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSessionInput, DeleteSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSessionInput, DeleteSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSessionInput, DeleteSessionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -6856,8 +7650,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTableInput, DeleteTableOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTableInput, DeleteTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6869,6 +7661,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTableInput, DeleteTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTableInput, DeleteTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTableInput, DeleteTableOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -6934,8 +7728,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTableOptimizerInput, DeleteTableOptimizerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTableOptimizerInput, DeleteTableOptimizerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableOptimizerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6947,6 +7739,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTableOptimizerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTableOptimizerInput, DeleteTableOptimizerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTableOptimizerInput, DeleteTableOptimizerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTableOptimizerInput, DeleteTableOptimizerOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -7011,8 +7805,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTableVersionInput, DeleteTableVersionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTableVersionInput, DeleteTableVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableVersionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7024,6 +7816,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTableVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTableVersionInput, DeleteTableVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTableVersionInput, DeleteTableVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTableVersionInput, DeleteTableVersionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -7088,8 +7882,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTriggerInput, DeleteTriggerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTriggerInput, DeleteTriggerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTriggerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7101,6 +7893,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTriggerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTriggerInput, DeleteTriggerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTriggerInput, DeleteTriggerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTriggerInput, DeleteTriggerOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -7165,8 +7959,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUsageProfileInput, DeleteUsageProfileOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUsageProfileInput, DeleteUsageProfileOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUsageProfileOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7178,6 +7970,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUsageProfileOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteUsageProfileInput, DeleteUsageProfileOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteUsageProfileInput, DeleteUsageProfileOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteUsageProfileInput, DeleteUsageProfileOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -7242,8 +8036,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserDefinedFunctionInput, DeleteUserDefinedFunctionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserDefinedFunctionInput, DeleteUserDefinedFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserDefinedFunctionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7255,6 +8047,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserDefinedFunctionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteUserDefinedFunctionInput, DeleteUserDefinedFunctionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteUserDefinedFunctionInput, DeleteUserDefinedFunctionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteUserDefinedFunctionInput, DeleteUserDefinedFunctionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -7319,8 +8113,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkflowOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7332,6 +8124,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWorkflowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -7396,8 +8190,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConnectionTypeInput, DescribeConnectionTypeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectionTypeInput, DescribeConnectionTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectionTypeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7409,6 +8201,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConnectionTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConnectionTypeInput, DescribeConnectionTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConnectionTypeInput, DescribeConnectionTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConnectionTypeInput, DescribeConnectionTypeOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -7476,8 +8270,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEntityInput, DescribeEntityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEntityInput, DescribeEntityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEntityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7489,6 +8281,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEntityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEntityInput, DescribeEntityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeEntityInput, DescribeEntityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEntityInput, DescribeEntityOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -7558,8 +8352,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInboundIntegrationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7571,6 +8363,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInboundIntegrationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -7638,8 +8432,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIntegrationsInput, DescribeIntegrationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIntegrationsInput, DescribeIntegrationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIntegrationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7651,10 +8443,248 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeIntegrationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeIntegrationsInput, DescribeIntegrationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeIntegrationsInput, DescribeIntegrationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeIntegrationsInput, DescribeIntegrationsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeIntegrations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DisassociateGlossaryTerms` operation on the `Glue` service.
+    ///
+    /// Removes the association of one or more glossary terms from an asset in Glue Data Catalog.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateGlossaryTermsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateGlossaryTermsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func disassociateGlossaryTerms(input: DisassociateGlossaryTermsInput) async throws -> DisassociateGlossaryTermsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.disassociateGlossaryTermsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateGlossaryTerms")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisassociateGlossaryTermsInput, DisassociateGlossaryTermsOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateGlossaryTermsInput, DisassociateGlossaryTermsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateGlossaryTermsInput, DisassociateGlossaryTermsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateGlossaryTermsInput, DisassociateGlossaryTermsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateGlossaryTermsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateGlossaryTermsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateGlossaryTermsInput, DisassociateGlossaryTermsOutput>(overrides: ["X-Amz-Target": "AWSGlue.DisassociateGlossaryTerms"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateGlossaryTermsInput, DisassociateGlossaryTermsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateGlossaryTermsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateGlossaryTermsInput, DisassociateGlossaryTermsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateGlossaryTermsInput, DisassociateGlossaryTermsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateGlossaryTermsInput, DisassociateGlossaryTermsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateGlossaryTerms")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAsset` operation on the `Glue` service.
+    ///
+    /// Retrieves the metadata for an asset in Glue Data Catalog, including its forms, additional attachments, and associated glossary terms.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAssetInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAssetOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func getAsset(input: GetAssetInput) async throws -> GetAssetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.getAssetOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAsset")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAssetInput, GetAssetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAssetInput, GetAssetOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssetInput, GetAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAssetOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAssetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAssetInput, GetAssetOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetAsset"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAssetInput, GetAssetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAssetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAssetInput, GetAssetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAssetInput, GetAssetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAssetInput, GetAssetOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAsset")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAssetType` operation on the `Glue` service.
+    ///
+    /// Retrieves an asset type in Glue Data Catalog by its identifier.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAssetTypeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAssetTypeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func getAssetType(input: GetAssetTypeInput) async throws -> GetAssetTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.getAssetTypeOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAssetType")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAssetTypeInput, GetAssetTypeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAssetTypeInput, GetAssetTypeOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssetTypeInput, GetAssetTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAssetTypeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAssetTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAssetTypeInput, GetAssetTypeOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetAssetType"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAssetTypeInput, GetAssetTypeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAssetTypeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAssetTypeInput, GetAssetTypeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAssetTypeInput, GetAssetTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAssetTypeInput, GetAssetTypeOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAssetType")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -7715,8 +8745,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBlueprintInput, GetBlueprintOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBlueprintInput, GetBlueprintOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBlueprintOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7728,6 +8756,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBlueprintOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBlueprintInput, GetBlueprintOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetBlueprintInput, GetBlueprintOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetBlueprintInput, GetBlueprintOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -7791,8 +8821,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBlueprintRunInput, GetBlueprintRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBlueprintRunInput, GetBlueprintRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBlueprintRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7804,6 +8832,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBlueprintRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBlueprintRunInput, GetBlueprintRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetBlueprintRunInput, GetBlueprintRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetBlueprintRunInput, GetBlueprintRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -7868,8 +8898,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBlueprintRunsInput, GetBlueprintRunsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBlueprintRunsInput, GetBlueprintRunsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBlueprintRunsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7881,6 +8909,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBlueprintRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBlueprintRunsInput, GetBlueprintRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetBlueprintRunsInput, GetBlueprintRunsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetBlueprintRunsInput, GetBlueprintRunsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -7949,8 +8979,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCatalogInput, GetCatalogOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCatalogInput, GetCatalogOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCatalogOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7962,6 +8990,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCatalogOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCatalogInput, GetCatalogOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCatalogInput, GetCatalogOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCatalogInput, GetCatalogOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -8024,8 +9054,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCatalogImportStatusInput, GetCatalogImportStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCatalogImportStatusInput, GetCatalogImportStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCatalogImportStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8037,6 +9065,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCatalogImportStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCatalogImportStatusInput, GetCatalogImportStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCatalogImportStatusInput, GetCatalogImportStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCatalogImportStatusInput, GetCatalogImportStatusOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -8105,8 +9135,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCatalogsInput, GetCatalogsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCatalogsInput, GetCatalogsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCatalogsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8118,6 +9146,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCatalogsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCatalogsInput, GetCatalogsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCatalogsInput, GetCatalogsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCatalogsInput, GetCatalogsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -8180,8 +9210,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetClassifierInput, GetClassifierOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClassifierInput, GetClassifierOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClassifierOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8193,6 +9221,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetClassifierOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetClassifierInput, GetClassifierOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetClassifierInput, GetClassifierOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetClassifierInput, GetClassifierOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -8254,8 +9284,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetClassifiersInput, GetClassifiersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClassifiersInput, GetClassifiersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClassifiersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8267,6 +9295,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetClassifiersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetClassifiersInput, GetClassifiersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetClassifiersInput, GetClassifiersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetClassifiersInput, GetClassifiersOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -8332,8 +9362,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetColumnStatisticsForPartitionInput, GetColumnStatisticsForPartitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetColumnStatisticsForPartitionInput, GetColumnStatisticsForPartitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetColumnStatisticsForPartitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8345,6 +9373,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetColumnStatisticsForPartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetColumnStatisticsForPartitionInput, GetColumnStatisticsForPartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetColumnStatisticsForPartitionInput, GetColumnStatisticsForPartitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetColumnStatisticsForPartitionInput, GetColumnStatisticsForPartitionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -8410,8 +9440,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetColumnStatisticsForTableInput, GetColumnStatisticsForTableOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetColumnStatisticsForTableInput, GetColumnStatisticsForTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetColumnStatisticsForTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8423,6 +9451,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetColumnStatisticsForTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetColumnStatisticsForTableInput, GetColumnStatisticsForTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetColumnStatisticsForTableInput, GetColumnStatisticsForTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetColumnStatisticsForTableInput, GetColumnStatisticsForTableOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -8486,8 +9516,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetColumnStatisticsTaskRunInput, GetColumnStatisticsTaskRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetColumnStatisticsTaskRunInput, GetColumnStatisticsTaskRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetColumnStatisticsTaskRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8499,6 +9527,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetColumnStatisticsTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetColumnStatisticsTaskRunInput, GetColumnStatisticsTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetColumnStatisticsTaskRunInput, GetColumnStatisticsTaskRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetColumnStatisticsTaskRunInput, GetColumnStatisticsTaskRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -8560,8 +9590,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetColumnStatisticsTaskRunsInput, GetColumnStatisticsTaskRunsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetColumnStatisticsTaskRunsInput, GetColumnStatisticsTaskRunsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetColumnStatisticsTaskRunsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8573,6 +9601,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetColumnStatisticsTaskRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetColumnStatisticsTaskRunsInput, GetColumnStatisticsTaskRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetColumnStatisticsTaskRunsInput, GetColumnStatisticsTaskRunsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetColumnStatisticsTaskRunsInput, GetColumnStatisticsTaskRunsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -8636,8 +9666,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetColumnStatisticsTaskSettingsInput, GetColumnStatisticsTaskSettingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetColumnStatisticsTaskSettingsInput, GetColumnStatisticsTaskSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetColumnStatisticsTaskSettingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8649,6 +9677,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetColumnStatisticsTaskSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetColumnStatisticsTaskSettingsInput, GetColumnStatisticsTaskSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetColumnStatisticsTaskSettingsInput, GetColumnStatisticsTaskSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetColumnStatisticsTaskSettingsInput, GetColumnStatisticsTaskSettingsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -8713,8 +9743,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetConnectionInput, GetConnectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectionInput, GetConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8726,6 +9754,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConnectionInput, GetConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConnectionInput, GetConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConnectionInput, GetConnectionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -8790,8 +9820,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetConnectionsInput, GetConnectionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectionsInput, GetConnectionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8803,6 +9831,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConnectionsInput, GetConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConnectionsInput, GetConnectionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConnectionsInput, GetConnectionsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -8865,8 +9895,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCrawlerInput, GetCrawlerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCrawlerInput, GetCrawlerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCrawlerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8878,6 +9906,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCrawlerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCrawlerInput, GetCrawlerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCrawlerInput, GetCrawlerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCrawlerInput, GetCrawlerOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -8939,8 +9969,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCrawlerMetricsInput, GetCrawlerMetricsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCrawlerMetricsInput, GetCrawlerMetricsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCrawlerMetricsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8952,6 +9980,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCrawlerMetricsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCrawlerMetricsInput, GetCrawlerMetricsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCrawlerMetricsInput, GetCrawlerMetricsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCrawlerMetricsInput, GetCrawlerMetricsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -9013,8 +10043,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCrawlersInput, GetCrawlersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCrawlersInput, GetCrawlersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCrawlersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9026,6 +10054,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCrawlersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCrawlersInput, GetCrawlersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCrawlersInput, GetCrawlersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCrawlersInput, GetCrawlersOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -9091,8 +10121,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCustomEntityTypeInput, GetCustomEntityTypeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomEntityTypeInput, GetCustomEntityTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomEntityTypeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9104,10 +10132,90 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCustomEntityTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCustomEntityTypeInput, GetCustomEntityTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCustomEntityTypeInput, GetCustomEntityTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCustomEntityTypeInput, GetCustomEntityTypeOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCustomEntityType")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetDashboardUrl` operation on the `Glue` service.
+    ///
+    /// Retrieves the URL for the Spark monitoring dashboard for a Glue resource.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetDashboardUrlInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetDashboardUrlOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationNotSupportedException` : The operation is not available in the region.
+    public func getDashboardUrl(input: GetDashboardUrlInput) async throws -> GetDashboardUrlOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.getDashboardUrlOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDashboardUrl")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDashboardUrlInput, GetDashboardUrlOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDashboardUrlInput, GetDashboardUrlOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDashboardUrlInput, GetDashboardUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDashboardUrlOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDashboardUrlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDashboardUrlInput, GetDashboardUrlOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetDashboardUrl"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDashboardUrlInput, GetDashboardUrlOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDashboardUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDashboardUrlInput, GetDashboardUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDashboardUrlInput, GetDashboardUrlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDashboardUrlInput, GetDashboardUrlOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDashboardUrl")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -9167,8 +10275,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataCatalogEncryptionSettingsInput, GetDataCatalogEncryptionSettingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataCatalogEncryptionSettingsInput, GetDataCatalogEncryptionSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataCatalogEncryptionSettingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9180,6 +10286,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataCatalogEncryptionSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDataCatalogEncryptionSettingsInput, GetDataCatalogEncryptionSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDataCatalogEncryptionSettingsInput, GetDataCatalogEncryptionSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDataCatalogEncryptionSettingsInput, GetDataCatalogEncryptionSettingsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -9244,8 +10352,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataQualityModelOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9257,6 +10363,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataQualityModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -9321,8 +10429,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataQualityModelResultOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9334,6 +10440,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataQualityModelResultOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -9398,8 +10506,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataQualityResultInput, GetDataQualityResultOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataQualityResultInput, GetDataQualityResultOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataQualityResultOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9411,6 +10517,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataQualityResultOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDataQualityResultInput, GetDataQualityResultOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDataQualityResultInput, GetDataQualityResultOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDataQualityResultInput, GetDataQualityResultOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -9475,8 +10583,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataQualityRuleRecommendationRunInput, GetDataQualityRuleRecommendationRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataQualityRuleRecommendationRunInput, GetDataQualityRuleRecommendationRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataQualityRuleRecommendationRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9488,6 +10594,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataQualityRuleRecommendationRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDataQualityRuleRecommendationRunInput, GetDataQualityRuleRecommendationRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDataQualityRuleRecommendationRunInput, GetDataQualityRuleRecommendationRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDataQualityRuleRecommendationRunInput, GetDataQualityRuleRecommendationRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -9552,8 +10660,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataQualityRulesetInput, GetDataQualityRulesetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataQualityRulesetInput, GetDataQualityRulesetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataQualityRulesetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9565,6 +10671,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataQualityRulesetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDataQualityRulesetInput, GetDataQualityRulesetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDataQualityRulesetInput, GetDataQualityRulesetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDataQualityRulesetInput, GetDataQualityRulesetOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -9629,8 +10737,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataQualityRulesetEvaluationRunInput, GetDataQualityRulesetEvaluationRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataQualityRulesetEvaluationRunInput, GetDataQualityRulesetEvaluationRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataQualityRulesetEvaluationRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9642,6 +10748,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataQualityRulesetEvaluationRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDataQualityRulesetEvaluationRunInput, GetDataQualityRulesetEvaluationRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDataQualityRulesetEvaluationRunInput, GetDataQualityRulesetEvaluationRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDataQualityRulesetEvaluationRunInput, GetDataQualityRulesetEvaluationRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -9709,8 +10817,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDatabaseInput, GetDatabaseOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDatabaseInput, GetDatabaseOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDatabaseOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9722,6 +10828,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDatabaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDatabaseInput, GetDatabaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDatabaseInput, GetDatabaseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDatabaseInput, GetDatabaseOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -9789,8 +10897,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDatabasesInput, GetDatabasesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDatabasesInput, GetDatabasesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDatabasesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9802,6 +10908,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDatabasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDatabasesInput, GetDatabasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDatabasesInput, GetDatabasesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDatabasesInput, GetDatabasesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -9865,8 +10973,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataflowGraphInput, GetDataflowGraphOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataflowGraphInput, GetDataflowGraphOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataflowGraphOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9878,6 +10984,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataflowGraphOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDataflowGraphInput, GetDataflowGraphOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDataflowGraphInput, GetDataflowGraphOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDataflowGraphInput, GetDataflowGraphOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -9942,8 +11050,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDevEndpointInput, GetDevEndpointOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDevEndpointInput, GetDevEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDevEndpointOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9955,6 +11061,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDevEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDevEndpointInput, GetDevEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDevEndpointInput, GetDevEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDevEndpointInput, GetDevEndpointOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -10019,8 +11127,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDevEndpointsInput, GetDevEndpointsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDevEndpointsInput, GetDevEndpointsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDevEndpointsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10032,6 +11138,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDevEndpointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDevEndpointsInput, GetDevEndpointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDevEndpointsInput, GetDevEndpointsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDevEndpointsInput, GetDevEndpointsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -10099,8 +11207,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEntityRecordsInput, GetEntityRecordsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEntityRecordsInput, GetEntityRecordsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEntityRecordsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10112,10 +11218,244 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEntityRecordsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEntityRecordsInput, GetEntityRecordsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetEntityRecordsInput, GetEntityRecordsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetEntityRecordsInput, GetEntityRecordsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetEntityRecords")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetFormType` operation on the `Glue` service.
+    ///
+    /// Retrieves a form type in Glue Data Catalog by its identifier.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetFormTypeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetFormTypeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func getFormType(input: GetFormTypeInput) async throws -> GetFormTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.getFormTypeOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getFormType")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFormTypeInput, GetFormTypeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFormTypeInput, GetFormTypeOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFormTypeInput, GetFormTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetFormTypeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFormTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetFormTypeInput, GetFormTypeOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetFormType"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetFormTypeInput, GetFormTypeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFormTypeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFormTypeInput, GetFormTypeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFormTypeInput, GetFormTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFormTypeInput, GetFormTypeOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetFormType")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetGlossary` operation on the `Glue` service.
+    ///
+    /// Retrieves a business glossary in Glue Data Catalog by its identifier.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetGlossaryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetGlossaryOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func getGlossary(input: GetGlossaryInput) async throws -> GetGlossaryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.getGlossaryOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getGlossary")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGlossaryInput, GetGlossaryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGlossaryInput, GetGlossaryOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGlossaryInput, GetGlossaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetGlossaryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetGlossaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetGlossaryInput, GetGlossaryOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetGlossary"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetGlossaryInput, GetGlossaryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetGlossaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetGlossaryInput, GetGlossaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetGlossaryInput, GetGlossaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetGlossaryInput, GetGlossaryOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetGlossary")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetGlossaryTerm` operation on the `Glue` service.
+    ///
+    /// Retrieves a glossary term in Glue Data Catalog by its identifier.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetGlossaryTermInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetGlossaryTermOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func getGlossaryTerm(input: GetGlossaryTermInput) async throws -> GetGlossaryTermOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.getGlossaryTermOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getGlossaryTerm")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGlossaryTermInput, GetGlossaryTermOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGlossaryTermInput, GetGlossaryTermOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGlossaryTermInput, GetGlossaryTermOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetGlossaryTermOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetGlossaryTermOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetGlossaryTermInput, GetGlossaryTermOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetGlossaryTerm"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetGlossaryTermInput, GetGlossaryTermOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetGlossaryTermOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetGlossaryTermInput, GetGlossaryTermOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetGlossaryTermInput, GetGlossaryTermOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetGlossaryTermInput, GetGlossaryTermOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetGlossaryTerm")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -10178,8 +11518,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGlueIdentityCenterConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10191,6 +11529,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetGlueIdentityCenterConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -10258,8 +11598,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIntegrationResourcePropertyInput, GetIntegrationResourcePropertyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntegrationResourcePropertyInput, GetIntegrationResourcePropertyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntegrationResourcePropertyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10271,6 +11609,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIntegrationResourcePropertyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIntegrationResourcePropertyInput, GetIntegrationResourcePropertyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIntegrationResourcePropertyInput, GetIntegrationResourcePropertyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIntegrationResourcePropertyInput, GetIntegrationResourcePropertyOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -10338,8 +11678,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIntegrationTablePropertiesInput, GetIntegrationTablePropertiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntegrationTablePropertiesInput, GetIntegrationTablePropertiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntegrationTablePropertiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10351,6 +11689,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIntegrationTablePropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIntegrationTablePropertiesInput, GetIntegrationTablePropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIntegrationTablePropertiesInput, GetIntegrationTablePropertiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIntegrationTablePropertiesInput, GetIntegrationTablePropertiesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -10415,8 +11755,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetJobInput, GetJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobInput, GetJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10428,6 +11766,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetJobInput, GetJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetJobInput, GetJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetJobInput, GetJobOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -10499,8 +11839,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetJobBookmarkInput, GetJobBookmarkOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobBookmarkInput, GetJobBookmarkOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobBookmarkOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10512,6 +11850,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetJobBookmarkOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetJobBookmarkInput, GetJobBookmarkOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetJobBookmarkInput, GetJobBookmarkOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetJobBookmarkInput, GetJobBookmarkOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -10576,8 +11916,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetJobRunInput, GetJobRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobRunInput, GetJobRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10589,6 +11927,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetJobRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetJobRunInput, GetJobRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetJobRunInput, GetJobRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetJobRunInput, GetJobRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -10653,8 +11993,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetJobRunsInput, GetJobRunsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobRunsInput, GetJobRunsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobRunsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10666,6 +12004,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetJobRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetJobRunsInput, GetJobRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetJobRunsInput, GetJobRunsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetJobRunsInput, GetJobRunsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -10730,8 +12070,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetJobsInput, GetJobsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobsInput, GetJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10743,6 +12081,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetJobsInput, GetJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetJobsInput, GetJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetJobsInput, GetJobsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -10807,8 +12147,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMLTaskRunInput, GetMLTaskRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMLTaskRunInput, GetMLTaskRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMLTaskRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10820,6 +12158,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMLTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMLTaskRunInput, GetMLTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMLTaskRunInput, GetMLTaskRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMLTaskRunInput, GetMLTaskRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -10884,8 +12224,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMLTaskRunsInput, GetMLTaskRunsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMLTaskRunsInput, GetMLTaskRunsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMLTaskRunsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10897,6 +12235,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMLTaskRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMLTaskRunsInput, GetMLTaskRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMLTaskRunsInput, GetMLTaskRunsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMLTaskRunsInput, GetMLTaskRunsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -10961,8 +12301,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMLTransformInput, GetMLTransformOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMLTransformInput, GetMLTransformOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMLTransformOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10974,6 +12312,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMLTransformOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMLTransformInput, GetMLTransformOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMLTransformInput, GetMLTransformOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMLTransformInput, GetMLTransformOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -11038,8 +12378,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMLTransformsInput, GetMLTransformsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMLTransformsInput, GetMLTransformsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMLTransformsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11051,6 +12389,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMLTransformsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMLTransformsInput, GetMLTransformsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMLTransformsInput, GetMLTransformsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMLTransformsInput, GetMLTransformsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -11115,8 +12455,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMappingInput, GetMappingOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMappingInput, GetMappingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMappingOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11128,6 +12466,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMappingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMappingInput, GetMappingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMappingInput, GetMappingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMappingInput, GetMappingOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -11192,8 +12532,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMaterializedViewRefreshTaskRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11205,6 +12543,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMaterializedViewRefreshTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -11272,8 +12612,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPartitionInput, GetPartitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPartitionInput, GetPartitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPartitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11285,6 +12623,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPartitionInput, GetPartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPartitionInput, GetPartitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPartitionInput, GetPartitionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -11350,8 +12690,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPartitionIndexesInput, GetPartitionIndexesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPartitionIndexesInput, GetPartitionIndexesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPartitionIndexesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11363,6 +12701,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPartitionIndexesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPartitionIndexesInput, GetPartitionIndexesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPartitionIndexesInput, GetPartitionIndexesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPartitionIndexesInput, GetPartitionIndexesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -11432,8 +12772,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPartitionsInput, GetPartitionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPartitionsInput, GetPartitionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPartitionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11445,6 +12783,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPartitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPartitionsInput, GetPartitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPartitionsInput, GetPartitionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPartitionsInput, GetPartitionsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -11508,8 +12848,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlanInput, GetPlanOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlanInput, GetPlanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPlanOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11521,6 +12859,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPlanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPlanInput, GetPlanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPlanInput, GetPlanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPlanInput, GetPlanOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -11585,8 +12925,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRegistryInput, GetRegistryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRegistryInput, GetRegistryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRegistryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11598,6 +12936,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRegistryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRegistryInput, GetRegistryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRegistryInput, GetRegistryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRegistryInput, GetRegistryOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -11662,8 +13002,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePoliciesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11675,6 +13013,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -11739,8 +13079,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11752,6 +13090,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -11816,8 +13156,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSchemaInput, GetSchemaOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSchemaInput, GetSchemaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSchemaOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11829,6 +13167,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSchemaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSchemaInput, GetSchemaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSchemaInput, GetSchemaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSchemaInput, GetSchemaOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -11893,8 +13233,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSchemaByDefinitionInput, GetSchemaByDefinitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSchemaByDefinitionInput, GetSchemaByDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSchemaByDefinitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11906,6 +13244,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSchemaByDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSchemaByDefinitionInput, GetSchemaByDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSchemaByDefinitionInput, GetSchemaByDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSchemaByDefinitionInput, GetSchemaByDefinitionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -11970,8 +13310,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSchemaVersionInput, GetSchemaVersionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSchemaVersionInput, GetSchemaVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSchemaVersionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11983,6 +13321,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSchemaVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSchemaVersionInput, GetSchemaVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSchemaVersionInput, GetSchemaVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSchemaVersionInput, GetSchemaVersionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -12047,8 +13387,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSchemaVersionsDiffInput, GetSchemaVersionsDiffOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSchemaVersionsDiffInput, GetSchemaVersionsDiffOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSchemaVersionsDiffOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12060,6 +13398,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSchemaVersionsDiffOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSchemaVersionsDiffInput, GetSchemaVersionsDiffOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSchemaVersionsDiffInput, GetSchemaVersionsDiffOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSchemaVersionsDiffInput, GetSchemaVersionsDiffOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -12124,8 +13464,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSecurityConfigurationInput, GetSecurityConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSecurityConfigurationInput, GetSecurityConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSecurityConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12137,6 +13475,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSecurityConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSecurityConfigurationInput, GetSecurityConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSecurityConfigurationInput, GetSecurityConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSecurityConfigurationInput, GetSecurityConfigurationOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -12201,8 +13541,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSecurityConfigurationsInput, GetSecurityConfigurationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSecurityConfigurationsInput, GetSecurityConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSecurityConfigurationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12214,6 +13552,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSecurityConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSecurityConfigurationsInput, GetSecurityConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSecurityConfigurationsInput, GetSecurityConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSecurityConfigurationsInput, GetSecurityConfigurationsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -12279,8 +13619,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSessionInput, GetSessionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionInput, GetSessionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12292,10 +13630,92 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSessionInput, GetSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSessionInput, GetSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSessionInput, GetSessionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSession")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetSessionEndpoint` operation on the `Glue` service.
+    ///
+    /// Returns the Spark Connect endpoint URL and authentication token for an interactive session.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetSessionEndpointInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetSessionEndpointOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IllegalSessionStateException` : The session is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationNotSupportedException` : The operation is not available in the region.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func getSessionEndpoint(input: GetSessionEndpointInput) async throws -> GetSessionEndpointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.getSessionEndpointOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getSessionEndpoint")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSessionEndpointInput, GetSessionEndpointOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSessionEndpointInput, GetSessionEndpointOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionEndpointInput, GetSessionEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionEndpointOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSessionEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSessionEndpointInput, GetSessionEndpointOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetSessionEndpoint"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSessionEndpointInput, GetSessionEndpointOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSessionEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSessionEndpointInput, GetSessionEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSessionEndpointInput, GetSessionEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSessionEndpointInput, GetSessionEndpointOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSessionEndpoint")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -12358,8 +13778,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStatementInput, GetStatementOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStatementInput, GetStatementOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStatementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12371,6 +13789,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetStatementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetStatementInput, GetStatementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetStatementInput, GetStatementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetStatementInput, GetStatementOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -12439,8 +13859,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTableInput, GetTableOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableInput, GetTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12452,6 +13870,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTableInput, GetTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTableInput, GetTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTableInput, GetTableOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -12517,8 +13937,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTableOptimizerInput, GetTableOptimizerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableOptimizerInput, GetTableOptimizerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableOptimizerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12530,6 +13948,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTableOptimizerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTableOptimizerInput, GetTableOptimizerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTableOptimizerInput, GetTableOptimizerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTableOptimizerInput, GetTableOptimizerOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -12595,8 +14015,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTableVersionInput, GetTableVersionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableVersionInput, GetTableVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableVersionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12608,6 +14026,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTableVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTableVersionInput, GetTableVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTableVersionInput, GetTableVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTableVersionInput, GetTableVersionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -12673,8 +14093,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTableVersionsInput, GetTableVersionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableVersionsInput, GetTableVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableVersionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12686,6 +14104,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTableVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTableVersionsInput, GetTableVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTableVersionsInput, GetTableVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTableVersionsInput, GetTableVersionsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -12753,8 +14173,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTablesInput, GetTablesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTablesInput, GetTablesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTablesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12766,6 +14184,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTablesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTablesInput, GetTablesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTablesInput, GetTablesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTablesInput, GetTablesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -12830,8 +14250,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTagsInput, GetTagsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTagsInput, GetTagsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTagsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12843,6 +14261,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTagsInput, GetTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTagsInput, GetTagsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTagsInput, GetTagsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -12907,8 +14327,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTriggerInput, GetTriggerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTriggerInput, GetTriggerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTriggerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12920,6 +14338,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTriggerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTriggerInput, GetTriggerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTriggerInput, GetTriggerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTriggerInput, GetTriggerOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -12984,8 +14404,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTriggersInput, GetTriggersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTriggersInput, GetTriggersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTriggersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12997,6 +14415,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTriggersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTriggersInput, GetTriggersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTriggersInput, GetTriggersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTriggersInput, GetTriggersOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -13065,8 +14485,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUnfilteredPartitionMetadataInput, GetUnfilteredPartitionMetadataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUnfilteredPartitionMetadataInput, GetUnfilteredPartitionMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUnfilteredPartitionMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -13078,6 +14496,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUnfilteredPartitionMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetUnfilteredPartitionMetadataInput, GetUnfilteredPartitionMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetUnfilteredPartitionMetadataInput, GetUnfilteredPartitionMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetUnfilteredPartitionMetadataInput, GetUnfilteredPartitionMetadataOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -13146,8 +14566,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUnfilteredPartitionsMetadataInput, GetUnfilteredPartitionsMetadataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUnfilteredPartitionsMetadataInput, GetUnfilteredPartitionsMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUnfilteredPartitionsMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -13159,6 +14577,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUnfilteredPartitionsMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetUnfilteredPartitionsMetadataInput, GetUnfilteredPartitionsMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetUnfilteredPartitionsMetadataInput, GetUnfilteredPartitionsMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetUnfilteredPartitionsMetadataInput, GetUnfilteredPartitionsMetadataOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -13227,8 +14647,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUnfilteredTableMetadataInput, GetUnfilteredTableMetadataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUnfilteredTableMetadataInput, GetUnfilteredTableMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUnfilteredTableMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -13240,6 +14658,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUnfilteredTableMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetUnfilteredTableMetadataInput, GetUnfilteredTableMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetUnfilteredTableMetadataInput, GetUnfilteredTableMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetUnfilteredTableMetadataInput, GetUnfilteredTableMetadataOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -13305,8 +14725,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUsageProfileInput, GetUsageProfileOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUsageProfileInput, GetUsageProfileOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUsageProfileOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -13318,6 +14736,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUsageProfileOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetUsageProfileInput, GetUsageProfileOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetUsageProfileInput, GetUsageProfileOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetUsageProfileInput, GetUsageProfileOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -13383,8 +14803,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUserDefinedFunctionInput, GetUserDefinedFunctionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserDefinedFunctionInput, GetUserDefinedFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserDefinedFunctionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -13396,6 +14814,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUserDefinedFunctionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetUserDefinedFunctionInput, GetUserDefinedFunctionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetUserDefinedFunctionInput, GetUserDefinedFunctionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetUserDefinedFunctionInput, GetUserDefinedFunctionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -13461,8 +14881,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUserDefinedFunctionsInput, GetUserDefinedFunctionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserDefinedFunctionsInput, GetUserDefinedFunctionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserDefinedFunctionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -13474,6 +14892,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUserDefinedFunctionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetUserDefinedFunctionsInput, GetUserDefinedFunctionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetUserDefinedFunctionsInput, GetUserDefinedFunctionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetUserDefinedFunctionsInput, GetUserDefinedFunctionsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -13538,8 +14958,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkflowInput, GetWorkflowOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowInput, GetWorkflowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -13551,6 +14969,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWorkflowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetWorkflowInput, GetWorkflowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetWorkflowInput, GetWorkflowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetWorkflowInput, GetWorkflowOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -13615,8 +15035,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkflowRunInput, GetWorkflowRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowRunInput, GetWorkflowRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -13628,6 +15046,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWorkflowRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetWorkflowRunInput, GetWorkflowRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetWorkflowRunInput, GetWorkflowRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetWorkflowRunInput, GetWorkflowRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -13692,8 +15112,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkflowRunPropertiesInput, GetWorkflowRunPropertiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowRunPropertiesInput, GetWorkflowRunPropertiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowRunPropertiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -13705,6 +15123,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWorkflowRunPropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetWorkflowRunPropertiesInput, GetWorkflowRunPropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetWorkflowRunPropertiesInput, GetWorkflowRunPropertiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetWorkflowRunPropertiesInput, GetWorkflowRunPropertiesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -13769,8 +15189,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkflowRunsInput, GetWorkflowRunsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowRunsInput, GetWorkflowRunsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowRunsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -13782,6 +15200,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWorkflowRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetWorkflowRunsInput, GetWorkflowRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetWorkflowRunsInput, GetWorkflowRunsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetWorkflowRunsInput, GetWorkflowRunsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -13844,8 +15264,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportCatalogToGlueInput, ImportCatalogToGlueOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportCatalogToGlueInput, ImportCatalogToGlueOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportCatalogToGlueOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -13857,10 +15275,89 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportCatalogToGlueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportCatalogToGlueInput, ImportCatalogToGlueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ImportCatalogToGlueInput, ImportCatalogToGlueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ImportCatalogToGlueInput, ImportCatalogToGlueOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ImportCatalogToGlue")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListAssetTypes` operation on the `Glue` service.
+    ///
+    /// Lists the asset types defined in Glue Data Catalog.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAssetTypesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAssetTypesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func listAssetTypes(input: ListAssetTypesInput) async throws -> ListAssetTypesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.listAssetTypesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAssetTypes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAssetTypesInput, ListAssetTypesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssetTypesInput, ListAssetTypesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssetTypesInput, ListAssetTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAssetTypesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAssetTypesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAssetTypesInput, ListAssetTypesOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListAssetTypes"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAssetTypesInput, ListAssetTypesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAssetTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAssetTypesInput, ListAssetTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAssetTypesInput, ListAssetTypesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAssetTypesInput, ListAssetTypesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAssetTypes")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -13920,8 +15417,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBlueprintsInput, ListBlueprintsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBlueprintsInput, ListBlueprintsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBlueprintsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -13933,6 +15428,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBlueprintsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBlueprintsInput, ListBlueprintsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBlueprintsInput, ListBlueprintsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBlueprintsInput, ListBlueprintsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -13994,8 +15491,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListColumnStatisticsTaskRunsInput, ListColumnStatisticsTaskRunsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListColumnStatisticsTaskRunsInput, ListColumnStatisticsTaskRunsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListColumnStatisticsTaskRunsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -14007,6 +15502,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListColumnStatisticsTaskRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListColumnStatisticsTaskRunsInput, ListColumnStatisticsTaskRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListColumnStatisticsTaskRunsInput, ListColumnStatisticsTaskRunsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListColumnStatisticsTaskRunsInput, ListColumnStatisticsTaskRunsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -14069,8 +15566,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConnectionTypesInput, ListConnectionTypesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectionTypesInput, ListConnectionTypesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectionTypesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -14082,6 +15577,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConnectionTypesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConnectionTypesInput, ListConnectionTypesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConnectionTypesInput, ListConnectionTypesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConnectionTypesInput, ListConnectionTypesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -14143,8 +15640,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCrawlersInput, ListCrawlersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCrawlersInput, ListCrawlersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCrawlersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -14156,6 +15651,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCrawlersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCrawlersInput, ListCrawlersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCrawlersInput, ListCrawlersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCrawlersInput, ListCrawlersOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -14227,8 +15724,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCrawlsInput, ListCrawlsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCrawlsInput, ListCrawlsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCrawlsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -14240,6 +15735,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCrawlsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCrawlsInput, ListCrawlsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCrawlsInput, ListCrawlsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCrawlsInput, ListCrawlsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -14303,8 +15800,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomEntityTypesInput, ListCustomEntityTypesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomEntityTypesInput, ListCustomEntityTypesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomEntityTypesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -14316,6 +15811,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCustomEntityTypesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCustomEntityTypesInput, ListCustomEntityTypesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCustomEntityTypesInput, ListCustomEntityTypesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCustomEntityTypesInput, ListCustomEntityTypesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -14379,8 +15876,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataQualityResultsInput, ListDataQualityResultsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataQualityResultsInput, ListDataQualityResultsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataQualityResultsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -14392,6 +15887,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataQualityResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataQualityResultsInput, ListDataQualityResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataQualityResultsInput, ListDataQualityResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataQualityResultsInput, ListDataQualityResultsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -14455,8 +15952,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataQualityRuleRecommendationRunsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -14468,6 +15963,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataQualityRuleRecommendationRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -14531,8 +16028,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataQualityRulesetEvaluationRunsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -14544,6 +16039,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataQualityRulesetEvaluationRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -14608,8 +16105,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataQualityRulesetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -14621,6 +16116,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataQualityRulesetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -14683,8 +16180,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataQualityStatisticAnnotationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -14696,6 +16191,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataQualityStatisticAnnotationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -14759,8 +16256,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataQualityStatisticsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -14772,6 +16267,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataQualityStatisticsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -14836,8 +16333,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDevEndpointsInput, ListDevEndpointsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDevEndpointsInput, ListDevEndpointsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDevEndpointsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -14849,6 +16344,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDevEndpointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDevEndpointsInput, ListDevEndpointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDevEndpointsInput, ListDevEndpointsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDevEndpointsInput, ListDevEndpointsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -14916,8 +16413,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntitiesInput, ListEntitiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntitiesInput, ListEntitiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEntitiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -14929,10 +16424,243 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEntitiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEntitiesInput, ListEntitiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEntitiesInput, ListEntitiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEntitiesInput, ListEntitiesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEntities")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListFormTypes` operation on the `Glue` service.
+    ///
+    /// Lists the form types defined in Glue Data Catalog.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListFormTypesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListFormTypesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func listFormTypes(input: ListFormTypesInput) async throws -> ListFormTypesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.listFormTypesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listFormTypes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFormTypesInput, ListFormTypesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFormTypesInput, ListFormTypesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFormTypesInput, ListFormTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListFormTypesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFormTypesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFormTypesInput, ListFormTypesOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListFormTypes"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFormTypesInput, ListFormTypesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFormTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFormTypesInput, ListFormTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFormTypesInput, ListFormTypesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFormTypesInput, ListFormTypesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListFormTypes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListGlossaries` operation on the `Glue` service.
+    ///
+    /// Lists business glossaries in Glue Data Catalog.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListGlossariesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListGlossariesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func listGlossaries(input: ListGlossariesInput) async throws -> ListGlossariesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.listGlossariesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listGlossaries")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListGlossariesInput, ListGlossariesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGlossariesInput, ListGlossariesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGlossariesInput, ListGlossariesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListGlossariesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListGlossariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListGlossariesInput, ListGlossariesOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListGlossaries"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGlossariesInput, ListGlossariesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGlossariesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGlossariesInput, ListGlossariesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListGlossariesInput, ListGlossariesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListGlossariesInput, ListGlossariesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListGlossaries")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListGlossaryTerms` operation on the `Glue` service.
+    ///
+    /// Lists glossary terms within a business glossary in Glue Data Catalog.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListGlossaryTermsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListGlossaryTermsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func listGlossaryTerms(input: ListGlossaryTermsInput) async throws -> ListGlossaryTermsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.listGlossaryTermsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listGlossaryTerms")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListGlossaryTermsInput, ListGlossaryTermsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGlossaryTermsInput, ListGlossaryTermsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGlossaryTermsInput, ListGlossaryTermsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListGlossaryTermsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListGlossaryTermsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListGlossaryTermsInput, ListGlossaryTermsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListGlossaryTerms"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGlossaryTermsInput, ListGlossaryTermsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGlossaryTermsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGlossaryTermsInput, ListGlossaryTermsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListGlossaryTermsInput, ListGlossaryTermsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListGlossaryTermsInput, ListGlossaryTermsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListGlossaryTerms")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -14996,8 +16724,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIntegrationResourcePropertiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -15009,10 +16735,90 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIntegrationResourcePropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListIntegrationResourceProperties")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListIterableForms` operation on the `Glue` service.
+    ///
+    /// Lists the items in an iterable form on an asset in Glue Data Catalog. For example, lists the columns of a table asset.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListIterableFormsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListIterableFormsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func listIterableForms(input: ListIterableFormsInput) async throws -> ListIterableFormsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.listIterableFormsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listIterableForms")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListIterableFormsInput, ListIterableFormsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIterableFormsInput, ListIterableFormsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIterableFormsInput, ListIterableFormsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListIterableFormsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListIterableFormsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListIterableFormsInput, ListIterableFormsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListIterableForms"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListIterableFormsInput, ListIterableFormsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIterableFormsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIterableFormsInput, ListIterableFormsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListIterableFormsInput, ListIterableFormsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListIterableFormsInput, ListIterableFormsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListIterableForms")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -15073,8 +16879,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListJobsInput, ListJobsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsInput, ListJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -15086,6 +16890,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListJobsInput, ListJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListJobsInput, ListJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListJobsInput, ListJobsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -15150,8 +16956,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMLTransformsInput, ListMLTransformsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMLTransformsInput, ListMLTransformsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMLTransformsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -15163,6 +16967,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMLTransformsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMLTransformsInput, ListMLTransformsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMLTransformsInput, ListMLTransformsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMLTransformsInput, ListMLTransformsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -15226,8 +17032,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMaterializedViewRefreshTaskRunsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -15239,6 +17043,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMaterializedViewRefreshTaskRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -15302,8 +17108,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRegistriesInput, ListRegistriesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRegistriesInput, ListRegistriesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRegistriesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -15315,6 +17119,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRegistriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRegistriesInput, ListRegistriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRegistriesInput, ListRegistriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRegistriesInput, ListRegistriesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -15379,8 +17185,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSchemaVersionsInput, ListSchemaVersionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSchemaVersionsInput, ListSchemaVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSchemaVersionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -15392,6 +17196,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSchemaVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSchemaVersionsInput, ListSchemaVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSchemaVersionsInput, ListSchemaVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSchemaVersionsInput, ListSchemaVersionsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -15456,8 +17262,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSchemasInput, ListSchemasOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSchemasInput, ListSchemasOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSchemasOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -15469,6 +17273,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSchemasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSchemasInput, ListSchemasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSchemasInput, ListSchemasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSchemasInput, ListSchemasOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -15533,8 +17339,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSessionsInput, ListSessionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSessionsInput, ListSessionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSessionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -15546,6 +17350,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSessionsInput, ListSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSessionsInput, ListSessionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSessionsInput, ListSessionsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -15612,8 +17418,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStatementsInput, ListStatementsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStatementsInput, ListStatementsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStatementsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -15625,6 +17429,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStatementsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListStatementsInput, ListStatementsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListStatementsInput, ListStatementsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListStatementsInput, ListStatementsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -15691,8 +17497,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTableOptimizerRunsInput, ListTableOptimizerRunsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTableOptimizerRunsInput, ListTableOptimizerRunsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTableOptimizerRunsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -15704,6 +17508,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTableOptimizerRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTableOptimizerRunsInput, ListTableOptimizerRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTableOptimizerRunsInput, ListTableOptimizerRunsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTableOptimizerRunsInput, ListTableOptimizerRunsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -15768,8 +17574,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTriggersInput, ListTriggersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTriggersInput, ListTriggersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTriggersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -15781,6 +17585,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTriggersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTriggersInput, ListTriggersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTriggersInput, ListTriggersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTriggersInput, ListTriggersOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -15845,8 +17651,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsageProfilesInput, ListUsageProfilesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsageProfilesInput, ListUsageProfilesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsageProfilesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -15858,6 +17662,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUsageProfilesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListUsageProfilesInput, ListUsageProfilesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListUsageProfilesInput, ListUsageProfilesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListUsageProfilesInput, ListUsageProfilesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -15921,8 +17727,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkflowsInput, ListWorkflowsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkflowsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -15934,6 +17738,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkflowsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListWorkflowsInput, ListWorkflowsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -16005,8 +17811,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyIntegrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -16018,10 +17822,251 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyIntegration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutAsset` operation on the `Glue` service.
+    ///
+    /// Creates or updates an asset in Glue Data Catalog. If the asset already exists, this operation updates it; otherwise, a new asset is created.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutAssetInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutAssetOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func putAsset(input: PutAssetInput) async throws -> PutAssetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.putAssetOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putAsset")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<PutAssetInput, PutAssetOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAssetInput, PutAssetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAssetInput, PutAssetOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAssetInput, PutAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutAssetOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAssetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAssetInput, PutAssetOutput>(overrides: ["X-Amz-Target": "AWSGlue.PutAsset"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAssetInput, PutAssetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAssetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAssetInput, PutAssetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAssetInput, PutAssetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAssetInput, PutAssetOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAsset")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutAssetType` operation on the `Glue` service.
+    ///
+    /// Creates or updates an asset type in Glue Data Catalog. An asset type defines the structure of assets by specifying which forms they include. If an asset type with the given name already exists, it is updated.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutAssetTypeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutAssetTypeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func putAssetType(input: PutAssetTypeInput) async throws -> PutAssetTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.putAssetTypeOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putAssetType")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<PutAssetTypeInput, PutAssetTypeOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAssetTypeInput, PutAssetTypeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAssetTypeInput, PutAssetTypeOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAssetTypeInput, PutAssetTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutAssetTypeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAssetTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAssetTypeInput, PutAssetTypeOutput>(overrides: ["X-Amz-Target": "AWSGlue.PutAssetType"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAssetTypeInput, PutAssetTypeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAssetTypeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAssetTypeInput, PutAssetTypeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAssetTypeInput, PutAssetTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAssetTypeInput, PutAssetTypeOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAssetType")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutAttachment` operation on the `Glue` service.
+    ///
+    /// Attaches a form to an asset or an iterable form item in Glue Data Catalog. If an attachment with the same name already exists, it is overwritten.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutAttachmentInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutAttachmentOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func putAttachment(input: PutAttachmentInput) async throws -> PutAttachmentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.putAttachmentOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putAttachment")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<PutAttachmentInput, PutAttachmentOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAttachmentInput, PutAttachmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAttachmentInput, PutAttachmentOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAttachmentInput, PutAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutAttachmentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAttachmentInput, PutAttachmentOutput>(overrides: ["X-Amz-Target": "AWSGlue.PutAttachment"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAttachmentInput, PutAttachmentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAttachmentInput, PutAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAttachmentInput, PutAttachmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAttachmentInput, PutAttachmentOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAttachment")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -16081,8 +18126,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDataCatalogEncryptionSettingsInput, PutDataCatalogEncryptionSettingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDataCatalogEncryptionSettingsInput, PutDataCatalogEncryptionSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDataCatalogEncryptionSettingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -16094,6 +18137,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutDataCatalogEncryptionSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutDataCatalogEncryptionSettingsInput, PutDataCatalogEncryptionSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutDataCatalogEncryptionSettingsInput, PutDataCatalogEncryptionSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutDataCatalogEncryptionSettingsInput, PutDataCatalogEncryptionSettingsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -16157,8 +18202,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDataQualityProfileAnnotationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -16170,10 +18213,91 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutDataQualityProfileAnnotationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutDataQualityProfileAnnotation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutFormType` operation on the `Glue` service.
+    ///
+    /// Creates or updates a form type in Glue Data Catalog. A form type defines the schema for structured metadata that can be attached to assets.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutFormTypeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutFormTypeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func putFormType(input: PutFormTypeInput) async throws -> PutFormTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.putFormTypeOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putFormType")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<PutFormTypeInput, PutFormTypeOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutFormTypeInput, PutFormTypeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutFormTypeInput, PutFormTypeOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutFormTypeInput, PutFormTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutFormTypeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutFormTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutFormTypeInput, PutFormTypeOutput>(overrides: ["X-Amz-Target": "AWSGlue.PutFormType"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutFormTypeInput, PutFormTypeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutFormTypeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutFormTypeInput, PutFormTypeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutFormTypeInput, PutFormTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutFormTypeInput, PutFormTypeOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutFormType")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -16235,8 +18359,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -16248,6 +18370,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -16313,8 +18437,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSchemaVersionMetadataInput, PutSchemaVersionMetadataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSchemaVersionMetadataInput, PutSchemaVersionMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSchemaVersionMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -16326,6 +18448,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutSchemaVersionMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutSchemaVersionMetadataInput, PutSchemaVersionMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutSchemaVersionMetadataInput, PutSchemaVersionMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutSchemaVersionMetadataInput, PutSchemaVersionMetadataOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -16393,8 +18517,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutWorkflowRunPropertiesInput, PutWorkflowRunPropertiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutWorkflowRunPropertiesInput, PutWorkflowRunPropertiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutWorkflowRunPropertiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -16406,6 +18528,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutWorkflowRunPropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutWorkflowRunPropertiesInput, PutWorkflowRunPropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutWorkflowRunPropertiesInput, PutWorkflowRunPropertiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutWorkflowRunPropertiesInput, PutWorkflowRunPropertiesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -16469,8 +18593,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<QuerySchemaVersionMetadataInput, QuerySchemaVersionMetadataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<QuerySchemaVersionMetadataInput, QuerySchemaVersionMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<QuerySchemaVersionMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -16482,6 +18604,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<QuerySchemaVersionMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<QuerySchemaVersionMetadataInput, QuerySchemaVersionMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<QuerySchemaVersionMetadataInput, QuerySchemaVersionMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<QuerySchemaVersionMetadataInput, QuerySchemaVersionMetadataOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -16548,8 +18672,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterConnectionTypeInput, RegisterConnectionTypeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterConnectionTypeInput, RegisterConnectionTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterConnectionTypeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -16561,6 +18683,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterConnectionTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterConnectionTypeInput, RegisterConnectionTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterConnectionTypeInput, RegisterConnectionTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterConnectionTypeInput, RegisterConnectionTypeOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -16627,8 +18751,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterSchemaVersionInput, RegisterSchemaVersionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterSchemaVersionInput, RegisterSchemaVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterSchemaVersionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -16640,6 +18762,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterSchemaVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterSchemaVersionInput, RegisterSchemaVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterSchemaVersionInput, RegisterSchemaVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterSchemaVersionInput, RegisterSchemaVersionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -16703,8 +18827,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveSchemaVersionMetadataInput, RemoveSchemaVersionMetadataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveSchemaVersionMetadataInput, RemoveSchemaVersionMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveSchemaVersionMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -16716,6 +18838,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveSchemaVersionMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemoveSchemaVersionMetadataInput, RemoveSchemaVersionMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RemoveSchemaVersionMetadataInput, RemoveSchemaVersionMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemoveSchemaVersionMetadataInput, RemoveSchemaVersionMetadataOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -16786,8 +18910,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetJobBookmarkInput, ResetJobBookmarkOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetJobBookmarkInput, ResetJobBookmarkOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetJobBookmarkOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -16799,6 +18921,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResetJobBookmarkOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResetJobBookmarkInput, ResetJobBookmarkOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResetJobBookmarkInput, ResetJobBookmarkOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ResetJobBookmarkInput, ResetJobBookmarkOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -16865,8 +18989,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResumeWorkflowRunInput, ResumeWorkflowRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumeWorkflowRunInput, ResumeWorkflowRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResumeWorkflowRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -16878,6 +19000,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResumeWorkflowRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResumeWorkflowRunInput, ResumeWorkflowRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResumeWorkflowRunInput, ResumeWorkflowRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ResumeWorkflowRunInput, ResumeWorkflowRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -16910,8 +19034,10 @@ extension GlueClient {
     /// - `IllegalSessionStateException` : The session is in an invalid state to perform a requested operation.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationNotSupportedException` : The operation is not available in the region.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    /// - `SessionBusyException` : The session is currently busy processing another request and cannot accept new operations.
     /// - `ValidationException` : A value could not be validated.
     public func runStatement(input: RunStatementInput) async throws -> RunStatementOutput {
         var config = config
@@ -16946,8 +19072,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RunStatementInput, RunStatementOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RunStatementInput, RunStatementOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RunStatementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -16959,10 +19083,89 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RunStatementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RunStatementInput, RunStatementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RunStatementInput, RunStatementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RunStatementInput, RunStatementOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RunStatement")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SearchAssets` operation on the `Glue` service.
+    ///
+    /// Searches for assets in Glue Data Catalog using full-text search, filters, sorting, and aggregations. Returns matching assets with relevance-ranked results.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SearchAssetsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SearchAssetsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func searchAssets(input: SearchAssetsInput) async throws -> SearchAssetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.searchAssetsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchAssets")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchAssetsInput, SearchAssetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchAssetsInput, SearchAssetsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchAssetsInput, SearchAssetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchAssetsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchAssetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchAssetsInput, SearchAssetsOutput>(overrides: ["X-Amz-Target": "AWSGlue.SearchAssets"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchAssetsInput, SearchAssetsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchAssetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchAssetsInput, SearchAssetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchAssetsInput, SearchAssetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchAssetsInput, SearchAssetsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchAssets")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -17022,8 +19225,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchTablesInput, SearchTablesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchTablesInput, SearchTablesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchTablesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -17035,6 +19236,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchTablesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchTablesInput, SearchTablesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchTablesInput, SearchTablesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchTablesInput, SearchTablesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -17101,8 +19304,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBlueprintRunInput, StartBlueprintRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBlueprintRunInput, StartBlueprintRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartBlueprintRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -17114,6 +19315,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartBlueprintRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartBlueprintRunInput, StartBlueprintRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartBlueprintRunInput, StartBlueprintRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartBlueprintRunInput, StartBlueprintRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -17180,8 +19383,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartColumnStatisticsTaskRunInput, StartColumnStatisticsTaskRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartColumnStatisticsTaskRunInput, StartColumnStatisticsTaskRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartColumnStatisticsTaskRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -17193,6 +19394,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartColumnStatisticsTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartColumnStatisticsTaskRunInput, StartColumnStatisticsTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartColumnStatisticsTaskRunInput, StartColumnStatisticsTaskRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartColumnStatisticsTaskRunInput, StartColumnStatisticsTaskRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -17257,8 +19460,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartColumnStatisticsTaskRunScheduleInput, StartColumnStatisticsTaskRunScheduleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartColumnStatisticsTaskRunScheduleInput, StartColumnStatisticsTaskRunScheduleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartColumnStatisticsTaskRunScheduleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -17270,6 +19471,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartColumnStatisticsTaskRunScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartColumnStatisticsTaskRunScheduleInput, StartColumnStatisticsTaskRunScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartColumnStatisticsTaskRunScheduleInput, StartColumnStatisticsTaskRunScheduleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartColumnStatisticsTaskRunScheduleInput, StartColumnStatisticsTaskRunScheduleOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -17333,8 +19536,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCrawlerInput, StartCrawlerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCrawlerInput, StartCrawlerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCrawlerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -17346,6 +19547,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCrawlerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCrawlerInput, StartCrawlerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartCrawlerInput, StartCrawlerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartCrawlerInput, StartCrawlerOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -17411,8 +19614,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCrawlerScheduleInput, StartCrawlerScheduleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCrawlerScheduleInput, StartCrawlerScheduleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCrawlerScheduleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -17424,6 +19625,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCrawlerScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCrawlerScheduleInput, StartCrawlerScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartCrawlerScheduleInput, StartCrawlerScheduleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartCrawlerScheduleInput, StartCrawlerScheduleOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -17488,8 +19691,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDataQualityRuleRecommendationRunInput, StartDataQualityRuleRecommendationRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDataQualityRuleRecommendationRunInput, StartDataQualityRuleRecommendationRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDataQualityRuleRecommendationRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -17501,6 +19702,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDataQualityRuleRecommendationRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartDataQualityRuleRecommendationRunInput, StartDataQualityRuleRecommendationRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartDataQualityRuleRecommendationRunInput, StartDataQualityRuleRecommendationRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartDataQualityRuleRecommendationRunInput, StartDataQualityRuleRecommendationRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -17566,8 +19769,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDataQualityRulesetEvaluationRunInput, StartDataQualityRulesetEvaluationRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDataQualityRulesetEvaluationRunInput, StartDataQualityRulesetEvaluationRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDataQualityRulesetEvaluationRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -17579,6 +19780,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDataQualityRulesetEvaluationRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartDataQualityRulesetEvaluationRunInput, StartDataQualityRulesetEvaluationRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartDataQualityRulesetEvaluationRunInput, StartDataQualityRulesetEvaluationRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartDataQualityRulesetEvaluationRunInput, StartDataQualityRulesetEvaluationRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -17643,8 +19846,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartExportLabelsTaskRunInput, StartExportLabelsTaskRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartExportLabelsTaskRunInput, StartExportLabelsTaskRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartExportLabelsTaskRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -17656,6 +19857,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartExportLabelsTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartExportLabelsTaskRunInput, StartExportLabelsTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartExportLabelsTaskRunInput, StartExportLabelsTaskRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartExportLabelsTaskRunInput, StartExportLabelsTaskRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -17721,8 +19924,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartImportLabelsTaskRunInput, StartImportLabelsTaskRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartImportLabelsTaskRunInput, StartImportLabelsTaskRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartImportLabelsTaskRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -17734,6 +19935,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartImportLabelsTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartImportLabelsTaskRunInput, StartImportLabelsTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartImportLabelsTaskRunInput, StartImportLabelsTaskRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartImportLabelsTaskRunInput, StartImportLabelsTaskRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -17800,8 +20003,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartJobRunInput, StartJobRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartJobRunInput, StartJobRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartJobRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -17813,6 +20014,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartJobRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartJobRunInput, StartJobRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartJobRunInput, StartJobRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartJobRunInput, StartJobRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -17879,8 +20082,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMLEvaluationTaskRunInput, StartMLEvaluationTaskRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMLEvaluationTaskRunInput, StartMLEvaluationTaskRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMLEvaluationTaskRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -17892,6 +20093,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMLEvaluationTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMLEvaluationTaskRunInput, StartMLEvaluationTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMLEvaluationTaskRunInput, StartMLEvaluationTaskRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMLEvaluationTaskRunInput, StartMLEvaluationTaskRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -17957,8 +20160,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMLLabelingSetGenerationTaskRunInput, StartMLLabelingSetGenerationTaskRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMLLabelingSetGenerationTaskRunInput, StartMLLabelingSetGenerationTaskRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMLLabelingSetGenerationTaskRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -17970,6 +20171,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMLLabelingSetGenerationTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMLLabelingSetGenerationTaskRunInput, StartMLLabelingSetGenerationTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMLLabelingSetGenerationTaskRunInput, StartMLLabelingSetGenerationTaskRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMLLabelingSetGenerationTaskRunInput, StartMLLabelingSetGenerationTaskRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -18036,8 +20239,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMaterializedViewRefreshTaskRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -18049,6 +20250,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMaterializedViewRefreshTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -18115,8 +20318,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTriggerInput, StartTriggerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTriggerInput, StartTriggerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTriggerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -18128,6 +20329,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartTriggerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartTriggerInput, StartTriggerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartTriggerInput, StartTriggerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartTriggerInput, StartTriggerOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -18194,8 +20397,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartWorkflowRunInput, StartWorkflowRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartWorkflowRunInput, StartWorkflowRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartWorkflowRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -18207,6 +20408,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartWorkflowRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartWorkflowRunInput, StartWorkflowRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartWorkflowRunInput, StartWorkflowRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartWorkflowRunInput, StartWorkflowRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -18271,8 +20474,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopColumnStatisticsTaskRunInput, StopColumnStatisticsTaskRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopColumnStatisticsTaskRunInput, StopColumnStatisticsTaskRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopColumnStatisticsTaskRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -18284,6 +20485,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopColumnStatisticsTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopColumnStatisticsTaskRunInput, StopColumnStatisticsTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopColumnStatisticsTaskRunInput, StopColumnStatisticsTaskRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopColumnStatisticsTaskRunInput, StopColumnStatisticsTaskRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -18347,8 +20550,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopColumnStatisticsTaskRunScheduleInput, StopColumnStatisticsTaskRunScheduleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopColumnStatisticsTaskRunScheduleInput, StopColumnStatisticsTaskRunScheduleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopColumnStatisticsTaskRunScheduleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -18360,6 +20561,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopColumnStatisticsTaskRunScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopColumnStatisticsTaskRunScheduleInput, StopColumnStatisticsTaskRunScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopColumnStatisticsTaskRunScheduleInput, StopColumnStatisticsTaskRunScheduleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopColumnStatisticsTaskRunScheduleInput, StopColumnStatisticsTaskRunScheduleOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -18424,8 +20627,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopCrawlerInput, StopCrawlerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopCrawlerInput, StopCrawlerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopCrawlerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -18437,6 +20638,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopCrawlerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopCrawlerInput, StopCrawlerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopCrawlerInput, StopCrawlerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopCrawlerInput, StopCrawlerOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -18501,8 +20704,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopCrawlerScheduleInput, StopCrawlerScheduleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopCrawlerScheduleInput, StopCrawlerScheduleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopCrawlerScheduleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -18514,6 +20715,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopCrawlerScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopCrawlerScheduleInput, StopCrawlerScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopCrawlerScheduleInput, StopCrawlerScheduleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopCrawlerScheduleInput, StopCrawlerScheduleOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -18579,8 +20782,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopMaterializedViewRefreshTaskRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -18592,6 +20793,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopMaterializedViewRefreshTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -18658,8 +20861,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopSessionInput, StopSessionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopSessionInput, StopSessionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -18671,6 +20872,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopSessionInput, StopSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopSessionInput, StopSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopSessionInput, StopSessionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -18736,8 +20939,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopTriggerInput, StopTriggerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopTriggerInput, StopTriggerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopTriggerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -18749,6 +20950,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopTriggerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopTriggerInput, StopTriggerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopTriggerInput, StopTriggerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopTriggerInput, StopTriggerOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -18814,8 +21017,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopWorkflowRunInput, StopWorkflowRunOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopWorkflowRunInput, StopWorkflowRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopWorkflowRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -18827,6 +21028,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopWorkflowRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopWorkflowRunInput, StopWorkflowRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopWorkflowRunInput, StopWorkflowRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopWorkflowRunInput, StopWorkflowRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -18891,8 +21094,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -18904,6 +21105,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -18973,8 +21176,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestConnectionInput, TestConnectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestConnectionInput, TestConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestConnectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -18986,6 +21187,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TestConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TestConnectionInput, TestConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TestConnectionInput, TestConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TestConnectionInput, TestConnectionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -19050,8 +21253,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -19063,10 +21264,92 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateAsset` operation on the `Glue` service.
+    ///
+    /// Updates the name and description of an existing asset in Glue Data Catalog. Only the fields that you provide are updated.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssetInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateAssetOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func updateAsset(input: UpdateAssetInput) async throws -> UpdateAssetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.updateAssetOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateAsset")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateAssetInput, UpdateAssetOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAssetInput, UpdateAssetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAssetInput, UpdateAssetOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAssetInput, UpdateAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAssetOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAssetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAssetInput, UpdateAssetOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateAsset"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAssetInput, UpdateAssetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAssetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAssetInput, UpdateAssetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAssetInput, UpdateAssetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAssetInput, UpdateAssetOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAsset")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -19129,8 +21412,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBlueprintInput, UpdateBlueprintOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBlueprintInput, UpdateBlueprintOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBlueprintOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -19142,6 +21423,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBlueprintOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateBlueprintInput, UpdateBlueprintOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateBlueprintInput, UpdateBlueprintOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateBlueprintInput, UpdateBlueprintOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -19210,8 +21493,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCatalogInput, UpdateCatalogOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCatalogInput, UpdateCatalogOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCatalogOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -19223,6 +21504,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCatalogOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCatalogInput, UpdateCatalogOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCatalogInput, UpdateCatalogOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCatalogInput, UpdateCatalogOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -19287,8 +21570,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClassifierInput, UpdateClassifierOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClassifierInput, UpdateClassifierOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClassifierOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -19300,6 +21581,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateClassifierOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateClassifierInput, UpdateClassifierOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateClassifierInput, UpdateClassifierOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateClassifierInput, UpdateClassifierOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -19365,8 +21648,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateColumnStatisticsForPartitionInput, UpdateColumnStatisticsForPartitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateColumnStatisticsForPartitionInput, UpdateColumnStatisticsForPartitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateColumnStatisticsForPartitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -19378,6 +21659,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateColumnStatisticsForPartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateColumnStatisticsForPartitionInput, UpdateColumnStatisticsForPartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateColumnStatisticsForPartitionInput, UpdateColumnStatisticsForPartitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateColumnStatisticsForPartitionInput, UpdateColumnStatisticsForPartitionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -19443,8 +21726,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateColumnStatisticsForTableInput, UpdateColumnStatisticsForTableOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateColumnStatisticsForTableInput, UpdateColumnStatisticsForTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateColumnStatisticsForTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -19456,6 +21737,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateColumnStatisticsForTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateColumnStatisticsForTableInput, UpdateColumnStatisticsForTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateColumnStatisticsForTableInput, UpdateColumnStatisticsForTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateColumnStatisticsForTableInput, UpdateColumnStatisticsForTableOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -19521,8 +21804,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateColumnStatisticsTaskSettingsInput, UpdateColumnStatisticsTaskSettingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateColumnStatisticsTaskSettingsInput, UpdateColumnStatisticsTaskSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateColumnStatisticsTaskSettingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -19534,6 +21815,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateColumnStatisticsTaskSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateColumnStatisticsTaskSettingsInput, UpdateColumnStatisticsTaskSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateColumnStatisticsTaskSettingsInput, UpdateColumnStatisticsTaskSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateColumnStatisticsTaskSettingsInput, UpdateColumnStatisticsTaskSettingsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -19598,8 +21881,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectionInput, UpdateConnectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -19611,6 +21892,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConnectionInput, UpdateConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -19676,8 +21959,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCrawlerInput, UpdateCrawlerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCrawlerInput, UpdateCrawlerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCrawlerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -19689,6 +21970,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCrawlerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCrawlerInput, UpdateCrawlerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCrawlerInput, UpdateCrawlerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCrawlerInput, UpdateCrawlerOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -19754,8 +22037,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCrawlerScheduleInput, UpdateCrawlerScheduleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCrawlerScheduleInput, UpdateCrawlerScheduleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCrawlerScheduleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -19767,6 +22048,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCrawlerScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCrawlerScheduleInput, UpdateCrawlerScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCrawlerScheduleInput, UpdateCrawlerScheduleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCrawlerScheduleInput, UpdateCrawlerScheduleOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -19834,8 +22117,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataQualityRulesetInput, UpdateDataQualityRulesetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataQualityRulesetInput, UpdateDataQualityRulesetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataQualityRulesetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -19847,6 +22128,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDataQualityRulesetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDataQualityRulesetInput, UpdateDataQualityRulesetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDataQualityRulesetInput, UpdateDataQualityRulesetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDataQualityRulesetInput, UpdateDataQualityRulesetOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -19916,8 +22199,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDatabaseOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -19929,6 +22210,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDatabaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -19994,8 +22277,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDevEndpointInput, UpdateDevEndpointOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDevEndpointInput, UpdateDevEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDevEndpointOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -20007,10 +22288,174 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDevEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDevEndpointInput, UpdateDevEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDevEndpointInput, UpdateDevEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDevEndpointInput, UpdateDevEndpointOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDevEndpoint")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateGlossary` operation on the `Glue` service.
+    ///
+    /// Updates a business glossary in Glue Data Catalog.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateGlossaryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateGlossaryOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func updateGlossary(input: UpdateGlossaryInput) async throws -> UpdateGlossaryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.updateGlossaryOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateGlossary")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateGlossaryInput, UpdateGlossaryOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateGlossaryInput, UpdateGlossaryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGlossaryInput, UpdateGlossaryOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGlossaryInput, UpdateGlossaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGlossaryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateGlossaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGlossaryInput, UpdateGlossaryOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateGlossary"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGlossaryInput, UpdateGlossaryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGlossaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGlossaryInput, UpdateGlossaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGlossaryInput, UpdateGlossaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateGlossaryInput, UpdateGlossaryOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateGlossary")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateGlossaryTerm` operation on the `Glue` service.
+    ///
+    /// Updates a glossary term in Glue Data Catalog.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateGlossaryTermInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateGlossaryTermOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    public func updateGlossaryTerm(input: UpdateGlossaryTermInput) async throws -> UpdateGlossaryTermOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.updateGlossaryTermOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateGlossaryTerm")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateGlossaryTermInput, UpdateGlossaryTermOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateGlossaryTermInput, UpdateGlossaryTermOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGlossaryTermInput, UpdateGlossaryTermOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGlossaryTermInput, UpdateGlossaryTermOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGlossaryTermOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateGlossaryTermOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGlossaryTermInput, UpdateGlossaryTermOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateGlossaryTerm"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGlossaryTermInput, UpdateGlossaryTermOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGlossaryTermOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGlossaryTermInput, UpdateGlossaryTermOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGlossaryTermInput, UpdateGlossaryTermOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateGlossaryTermInput, UpdateGlossaryTermOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateGlossaryTerm")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -20073,8 +22518,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGlueIdentityCenterConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -20086,6 +22529,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGlueIdentityCenterConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -20153,8 +22598,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIntegrationResourcePropertyInput, UpdateIntegrationResourcePropertyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIntegrationResourcePropertyInput, UpdateIntegrationResourcePropertyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIntegrationResourcePropertyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -20166,6 +22609,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIntegrationResourcePropertyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateIntegrationResourcePropertyInput, UpdateIntegrationResourcePropertyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateIntegrationResourcePropertyInput, UpdateIntegrationResourcePropertyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateIntegrationResourcePropertyInput, UpdateIntegrationResourcePropertyOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -20233,8 +22678,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIntegrationTablePropertiesInput, UpdateIntegrationTablePropertiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIntegrationTablePropertiesInput, UpdateIntegrationTablePropertiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIntegrationTablePropertiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -20246,6 +22689,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIntegrationTablePropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateIntegrationTablePropertiesInput, UpdateIntegrationTablePropertiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateIntegrationTablePropertiesInput, UpdateIntegrationTablePropertiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateIntegrationTablePropertiesInput, UpdateIntegrationTablePropertiesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -20311,8 +22756,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateJobInput, UpdateJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJobInput, UpdateJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -20324,6 +22767,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateJobInput, UpdateJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateJobInput, UpdateJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateJobInput, UpdateJobOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -20391,8 +22836,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateJobFromSourceControlInput, UpdateJobFromSourceControlOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJobFromSourceControlInput, UpdateJobFromSourceControlOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateJobFromSourceControlOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -20404,6 +22847,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateJobFromSourceControlOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateJobFromSourceControlInput, UpdateJobFromSourceControlOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateJobFromSourceControlInput, UpdateJobFromSourceControlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateJobFromSourceControlInput, UpdateJobFromSourceControlOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -20469,8 +22914,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMLTransformInput, UpdateMLTransformOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMLTransformInput, UpdateMLTransformOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMLTransformOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -20482,6 +22925,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMLTransformOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMLTransformInput, UpdateMLTransformOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateMLTransformInput, UpdateMLTransformOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateMLTransformInput, UpdateMLTransformOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -20547,8 +22992,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePartitionInput, UpdatePartitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePartitionInput, UpdatePartitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePartitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -20560,6 +23003,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePartitionInput, UpdatePartitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePartitionInput, UpdatePartitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePartitionInput, UpdatePartitionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -20625,8 +23070,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRegistryInput, UpdateRegistryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRegistryInput, UpdateRegistryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRegistryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -20638,6 +23081,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRegistryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRegistryInput, UpdateRegistryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRegistryInput, UpdateRegistryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRegistryInput, UpdateRegistryOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -20703,8 +23148,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSchemaInput, UpdateSchemaOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSchemaInput, UpdateSchemaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSchemaOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -20716,6 +23159,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSchemaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSchemaInput, UpdateSchemaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSchemaInput, UpdateSchemaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSchemaInput, UpdateSchemaOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -20783,8 +23228,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSourceControlFromJobInput, UpdateSourceControlFromJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSourceControlFromJobInput, UpdateSourceControlFromJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSourceControlFromJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -20796,6 +23239,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSourceControlFromJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSourceControlFromJobInput, UpdateSourceControlFromJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSourceControlFromJobInput, UpdateSourceControlFromJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSourceControlFromJobInput, UpdateSourceControlFromJobOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -20867,8 +23312,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTableInput, UpdateTableOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTableInput, UpdateTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -20880,6 +23323,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTableInput, UpdateTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTableInput, UpdateTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTableInput, UpdateTableOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -20947,8 +23392,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTableOptimizerInput, UpdateTableOptimizerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTableOptimizerInput, UpdateTableOptimizerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTableOptimizerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -20960,6 +23403,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTableOptimizerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTableOptimizerInput, UpdateTableOptimizerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTableOptimizerInput, UpdateTableOptimizerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTableOptimizerInput, UpdateTableOptimizerOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -21025,8 +23470,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTriggerInput, UpdateTriggerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTriggerInput, UpdateTriggerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTriggerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -21038,6 +23481,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTriggerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTriggerInput, UpdateTriggerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTriggerInput, UpdateTriggerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTriggerInput, UpdateTriggerOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -21104,8 +23549,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUsageProfileInput, UpdateUsageProfileOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUsageProfileInput, UpdateUsageProfileOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUsageProfileOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -21117,6 +23560,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateUsageProfileOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateUsageProfileInput, UpdateUsageProfileOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateUsageProfileInput, UpdateUsageProfileOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateUsageProfileInput, UpdateUsageProfileOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -21182,8 +23627,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserDefinedFunctionInput, UpdateUserDefinedFunctionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserDefinedFunctionInput, UpdateUserDefinedFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserDefinedFunctionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -21195,6 +23638,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateUserDefinedFunctionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateUserDefinedFunctionInput, UpdateUserDefinedFunctionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateUserDefinedFunctionInput, UpdateUserDefinedFunctionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateUserDefinedFunctionInput, UpdateUserDefinedFunctionOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
@@ -21260,8 +23705,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkflowOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -21273,6 +23716,8 @@ extension GlueClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWorkflowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")

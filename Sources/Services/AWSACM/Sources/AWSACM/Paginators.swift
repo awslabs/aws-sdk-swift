@@ -11,6 +11,129 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension ACMClient {
+    /// Paginate over `[ListAcmeAccountsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAcmeAccountsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAcmeAccountsOutput`
+    public func listAcmeAccountsPaginated(input: ListAcmeAccountsInput) -> ClientRuntime.PaginatorSequence<ListAcmeAccountsInput, ListAcmeAccountsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAcmeAccountsInput, ListAcmeAccountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAcmeAccounts(input:))
+    }
+}
+
+extension ListAcmeAccountsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAcmeAccountsInput {
+        return ListAcmeAccountsInput(
+            acmeEndpointArn: self.acmeEndpointArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAcmeAccountsInput, OperationStackOutput == ListAcmeAccountsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAcmeAccountsPaginated`
+    /// to access the nested member `[ACMClientTypes.AcmeAccountSummary]`
+    /// - Returns: `[ACMClientTypes.AcmeAccountSummary]`
+    public func acmeAccounts() async throws -> [ACMClientTypes.AcmeAccountSummary] {
+        return try await self.asyncCompactMap { item in item.acmeAccounts }
+    }
+}
+extension ACMClient {
+    /// Paginate over `[ListAcmeDomainValidationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAcmeDomainValidationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAcmeDomainValidationsOutput`
+    public func listAcmeDomainValidationsPaginated(input: ListAcmeDomainValidationsInput) -> ClientRuntime.PaginatorSequence<ListAcmeDomainValidationsInput, ListAcmeDomainValidationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAcmeDomainValidationsInput, ListAcmeDomainValidationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAcmeDomainValidations(input:))
+    }
+}
+
+extension ListAcmeDomainValidationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAcmeDomainValidationsInput {
+        return ListAcmeDomainValidationsInput(
+            acmeEndpointArn: self.acmeEndpointArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAcmeDomainValidationsInput, OperationStackOutput == ListAcmeDomainValidationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAcmeDomainValidationsPaginated`
+    /// to access the nested member `[ACMClientTypes.AcmeDomainValidationSummary]`
+    /// - Returns: `[ACMClientTypes.AcmeDomainValidationSummary]`
+    public func acmeDomainValidations() async throws -> [ACMClientTypes.AcmeDomainValidationSummary] {
+        return try await self.asyncCompactMap { item in item.acmeDomainValidations }
+    }
+}
+extension ACMClient {
+    /// Paginate over `[ListAcmeEndpointsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAcmeEndpointsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAcmeEndpointsOutput`
+    public func listAcmeEndpointsPaginated(input: ListAcmeEndpointsInput) -> ClientRuntime.PaginatorSequence<ListAcmeEndpointsInput, ListAcmeEndpointsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAcmeEndpointsInput, ListAcmeEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAcmeEndpoints(input:))
+    }
+}
+
+extension ListAcmeEndpointsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAcmeEndpointsInput {
+        return ListAcmeEndpointsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAcmeEndpointsInput, OperationStackOutput == ListAcmeEndpointsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAcmeEndpointsPaginated`
+    /// to access the nested member `[ACMClientTypes.AcmeEndpointSummary]`
+    /// - Returns: `[ACMClientTypes.AcmeEndpointSummary]`
+    public func acmeEndpoints() async throws -> [ACMClientTypes.AcmeEndpointSummary] {
+        return try await self.asyncCompactMap { item in item.acmeEndpoints }
+    }
+}
+extension ACMClient {
+    /// Paginate over `[ListAcmeExternalAccountBindingsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAcmeExternalAccountBindingsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAcmeExternalAccountBindingsOutput`
+    public func listAcmeExternalAccountBindingsPaginated(input: ListAcmeExternalAccountBindingsInput) -> ClientRuntime.PaginatorSequence<ListAcmeExternalAccountBindingsInput, ListAcmeExternalAccountBindingsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAcmeExternalAccountBindingsInput, ListAcmeExternalAccountBindingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAcmeExternalAccountBindings(input:))
+    }
+}
+
+extension ListAcmeExternalAccountBindingsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAcmeExternalAccountBindingsInput {
+        return ListAcmeExternalAccountBindingsInput(
+            acmeEndpointArn: self.acmeEndpointArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAcmeExternalAccountBindingsInput, OperationStackOutput == ListAcmeExternalAccountBindingsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAcmeExternalAccountBindingsPaginated`
+    /// to access the nested member `[ACMClientTypes.AcmeExternalAccountBindingSummary]`
+    /// - Returns: `[ACMClientTypes.AcmeExternalAccountBindingSummary]`
+    public func externalAccountBindings() async throws -> [ACMClientTypes.AcmeExternalAccountBindingSummary] {
+        return try await self.asyncCompactMap { item in item.externalAccountBindings }
+    }
+}
+extension ACMClient {
     /// Paginate over `[ListCertificatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -27,6 +150,7 @@ extension ACMClient {
 extension ListCertificatesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListCertificatesInput {
         return ListCertificatesInput(
+            certificateKeyPairOrigins: self.certificateKeyPairOrigins,
             certificateStatuses: self.certificateStatuses,
             includes: self.includes,
             maxItems: self.maxItems,

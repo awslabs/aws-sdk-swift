@@ -419,6 +419,220 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
+extension BedrockAgentCoreClientTypes {
+
+    /// Failure category taxonomy for agent session insights. Values must stay in sync with the category registry in AgentCoreLens (amzn_agentcore_lens.config.failure_detection.FAILURE_CATEGORIES).
+    public enum InsightsFailureCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case codingDependencyIssues
+        case codingEdgeCaseOversights
+        case configurationMismatchToolDefinition
+        case contextHandlingFailures
+        case executionErrorAuthentication
+        case executionErrorEnvironment
+        case executionErrorFormatting
+        case executionErrorRateLimiting
+        case executionErrorResourceExhaustion
+        case executionErrorResourceNotFound
+        case executionErrorServiceErrors
+        case executionErrorTimeout
+        case executionErrorToolSchema
+        case hallucinationCapabilities
+        case hallucinationFabricateToolOutputs
+        case hallucinationHistory
+        case hallucinationMisunderstand
+        case hallucinationParams
+        case hallucinationUsage
+        case incorrectActionsClarification
+        case incorrectActionsInappropriateInfoRequest
+        case incorrectActionsPoorInformationRetrieval
+        case incorrectActionsToolSelection
+        case llmOutputNonsensical
+        case orchestrationGoalDeviation
+        case orchestrationPrematureTermination
+        case orchestrationReasoningMismatch
+        case orchestrationUnawareTermination
+        case other
+        case repetitiveBehaviorInfo
+        case repetitiveBehaviorStep
+        case repetitiveBehaviorTool
+        case taskInstructionNonCompliance
+        case taskInstructionProblemId
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightsFailureCategory] {
+            return [
+                .codingDependencyIssues,
+                .codingEdgeCaseOversights,
+                .configurationMismatchToolDefinition,
+                .contextHandlingFailures,
+                .executionErrorAuthentication,
+                .executionErrorEnvironment,
+                .executionErrorFormatting,
+                .executionErrorRateLimiting,
+                .executionErrorResourceExhaustion,
+                .executionErrorResourceNotFound,
+                .executionErrorServiceErrors,
+                .executionErrorTimeout,
+                .executionErrorToolSchema,
+                .hallucinationCapabilities,
+                .hallucinationFabricateToolOutputs,
+                .hallucinationHistory,
+                .hallucinationMisunderstand,
+                .hallucinationParams,
+                .hallucinationUsage,
+                .incorrectActionsClarification,
+                .incorrectActionsInappropriateInfoRequest,
+                .incorrectActionsPoorInformationRetrieval,
+                .incorrectActionsToolSelection,
+                .llmOutputNonsensical,
+                .orchestrationGoalDeviation,
+                .orchestrationPrematureTermination,
+                .orchestrationReasoningMismatch,
+                .orchestrationUnawareTermination,
+                .other,
+                .repetitiveBehaviorInfo,
+                .repetitiveBehaviorStep,
+                .repetitiveBehaviorTool,
+                .taskInstructionNonCompliance,
+                .taskInstructionProblemId
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .codingDependencyIssues: return "coding-use-case-specific-failure-types-category-dependency-issues"
+            case .codingEdgeCaseOversights: return "coding-use-case-specific-failure-types-category-edge-case-oversights"
+            case .configurationMismatchToolDefinition: return "configuration-mismatch-category-tool-definition"
+            case .contextHandlingFailures: return "context-handling-error-category-context-handling-failures"
+            case .executionErrorAuthentication: return "execution-error-category-authentication"
+            case .executionErrorEnvironment: return "execution-error-category-environment"
+            case .executionErrorFormatting: return "execution-error-category-formatting"
+            case .executionErrorRateLimiting: return "execution-error-category-rate-limiting"
+            case .executionErrorResourceExhaustion: return "execution-error-category-resource-exhaustion"
+            case .executionErrorResourceNotFound: return "execution-error-category-resource-not-found"
+            case .executionErrorServiceErrors: return "execution-error-category-service-errors"
+            case .executionErrorTimeout: return "execution-error-category-timeout"
+            case .executionErrorToolSchema: return "execution-error-category-tool-schema"
+            case .hallucinationCapabilities: return "hallucination-category-hall-capabilities"
+            case .hallucinationFabricateToolOutputs: return "hallucination-category-fabricate-tool-outputs"
+            case .hallucinationHistory: return "hallucination-category-hall-history"
+            case .hallucinationMisunderstand: return "hallucination-category-hall-misunderstand"
+            case .hallucinationParams: return "hallucination-category-hall-params"
+            case .hallucinationUsage: return "hallucination-category-hall-usage"
+            case .incorrectActionsClarification: return "incorrect-actions-category-clarification"
+            case .incorrectActionsInappropriateInfoRequest: return "incorrect-actions-category-inappropriate-info-request"
+            case .incorrectActionsPoorInformationRetrieval: return "incorrect-actions-category-poor-information-retrieval"
+            case .incorrectActionsToolSelection: return "incorrect-actions-category-tool-selection"
+            case .llmOutputNonsensical: return "llm-output-category-nonsensical"
+            case .orchestrationGoalDeviation: return "orchestration-related-errors-category-goal-deviation"
+            case .orchestrationPrematureTermination: return "orchestration-related-errors-category-premature-termination"
+            case .orchestrationReasoningMismatch: return "orchestration-related-errors-category-reasoning-mismatch"
+            case .orchestrationUnawareTermination: return "orchestration-related-errors-category-unaware-termination"
+            case .other: return "other"
+            case .repetitiveBehaviorInfo: return "repetitive-behavior-category-repetition-info"
+            case .repetitiveBehaviorStep: return "repetitive-behavior-category-step-repetition"
+            case .repetitiveBehaviorTool: return "repetitive-behavior-category-repetition-tool"
+            case .taskInstructionNonCompliance: return "task-instruction-category-non-compliance"
+            case .taskInstructionProblemId: return "task-instruction-category-problem-id"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A signal indicating a detected failure within a span.
+    public struct InsightsFailureSignal: Swift.Sendable {
+        /// The failure category classification for this signal.
+        /// This member is required.
+        public var category: BedrockAgentCoreClientTypes.InsightsFailureCategory?
+        /// The confidence score of the failure detection.
+        /// This member is required.
+        public var confidence: Swift.Double?
+        /// The evidence supporting the failure detection.
+        /// This member is required.
+        public var evidence: Swift.String?
+
+        public init(
+            category: BedrockAgentCoreClientTypes.InsightsFailureCategory? = nil,
+            confidence: Swift.Double? = nil,
+            evidence: Swift.String? = nil
+        ) {
+            self.category = category
+            self.confidence = confidence
+            self.evidence = evidence
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Details about a specific span where a failure was detected.
+    public struct FailureSpanDetail: Swift.Sendable {
+        /// The failure signals detected in this span.
+        /// This member is required.
+        public var signals: [BedrockAgentCoreClientTypes.InsightsFailureSignal]?
+        /// The unique identifier of the span where the failure occurred.
+        /// This member is required.
+        public var spanId: Swift.String?
+        /// The trace identifier associated with the failure span.
+        /// This member is required.
+        public var traceId: Swift.String?
+
+        public init(
+            signals: [BedrockAgentCoreClientTypes.InsightsFailureSignal]? = nil,
+            spanId: Swift.String? = nil,
+            traceId: Swift.String? = nil
+        ) {
+            self.signals = signals
+            self.spanId = spanId
+            self.traceId = traceId
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A session affected by a detected failure pattern, including root cause details.
+    public struct AffectedSession: Swift.Sendable {
+        /// An explanation of how the failure manifested in this session.
+        /// This member is required.
+        public var explanation: Swift.String?
+        /// The list of spans where failures were detected in this session.
+        /// This member is required.
+        public var failureSpans: [BedrockAgentCoreClientTypes.FailureSpanDetail]?
+        /// The type of fix recommended for this failure.
+        /// This member is required.
+        public var fixType: Swift.String?
+        /// The specific fix recommendation for this session.
+        /// This member is required.
+        public var recommendation: Swift.String?
+        /// The unique identifier of the affected session.
+        /// This member is required.
+        public var sessionId: Swift.String?
+
+        public init(
+            explanation: Swift.String? = nil,
+            failureSpans: [BedrockAgentCoreClientTypes.FailureSpanDetail]? = nil,
+            fixType: Swift.String? = nil,
+            recommendation: Swift.String? = nil,
+            sessionId: Swift.String? = nil
+        ) {
+            self.explanation = explanation
+            self.failureSpans = failureSpans
+            self.fixType = fixType
+            self.recommendation = recommendation
+            self.sessionId = sessionId
+        }
+    }
+}
+
 /// The exception that occurs when the service encounters an unexpected internal error. This is a temporary condition that will resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -453,6 +667,30 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var typeName: Swift.String { "ResourceNotFoundException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The exception that occurs when there is a retryable conflict performing an operation. This is a temporary condition that may resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
+public struct RetryableConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RetryableConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
     public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
@@ -661,30 +899,6 @@ public struct GetAgentCardOutput: Swift.Sendable {
         self.agentCard = agentCard
         self.runtimeSessionId = runtimeSessionId
         self.statusCode = statusCode
-    }
-}
-
-/// The exception that occurs when there is a retryable conflict performing an operation. This is a temporary condition that may resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
-public struct RetryableConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "RetryableConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { true }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -1180,6 +1394,22 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// Configuration for using a batch evaluation as the source of agent traces for recommendations.
+    public struct BatchEvaluationTraceConfig: Swift.Sendable {
+        /// The ARN of the completed batch evaluation to use as the trace source.
+        /// This member is required.
+        public var batchEvaluationArn: Swift.String?
+
+        public init(
+            batchEvaluationArn: Swift.String? = nil
+        ) {
+            self.batchEvaluationArn = batchEvaluationArn
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// The comparison operator used to filter CloudWatch Logs entries.
     public enum CloudWatchLogsFilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case contains
@@ -1324,6 +1554,8 @@ extension BedrockAgentCoreClientTypes {
         case sessionspans([Smithy.Document])
         /// Agent traces read from CloudWatch Logs.
         case cloudwatchlogs(BedrockAgentCoreClientTypes.CloudWatchLogsTraceConfig)
+        /// Use a completed batch evaluation as the source of agent traces.
+        case batchevaluation(BedrockAgentCoreClientTypes.BatchEvaluationTraceConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3108,6 +3340,8 @@ public struct CreateABTestInput: Swift.Sendable {
     /// The IAM role ARN that grants permissions for the A/B test to access gateway and evaluation resources.
     /// This member is required.
     public var roleArn: Swift.String?
+    /// A map of tag keys and values to associate with the A/B test.
+    public var tags: [Swift.String: Swift.String]?
     /// The list of variants for the A/B test. Must contain exactly two variants: a control (C) and a treatment (T1), each with a configuration bundle or target reference and a traffic weight.
     /// This member is required.
     public var variants: [BedrockAgentCoreClientTypes.Variant]?
@@ -3121,6 +3355,7 @@ public struct CreateABTestInput: Swift.Sendable {
         gatewayFilter: BedrockAgentCoreClientTypes.GatewayFilter? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         variants: [BedrockAgentCoreClientTypes.Variant]? = nil
     ) {
         self.clientToken = clientToken
@@ -3131,6 +3366,7 @@ public struct CreateABTestInput: Swift.Sendable {
         self.gatewayFilter = gatewayFilter
         self.name = name
         self.roleArn = roleArn
+        self.tags = tags
         self.variants = variants
     }
 }
@@ -3798,10 +4034,32 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// A reference to an existing online evaluation configuration to use as the data source for batch evaluation.
+    public struct OnlineEvaluationConfigSource: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the online evaluation configuration to use as the session source.
+        /// This member is required.
+        public var onlineEvaluationConfigArn: Swift.String?
+        /// Optional session filter configuration to narrow down which sessions from the online evaluation configuration to include.
+        public var timeRange: BedrockAgentCoreClientTypes.SessionFilterConfig?
+
+        public init(
+            onlineEvaluationConfigArn: Swift.String? = nil,
+            timeRange: BedrockAgentCoreClientTypes.SessionFilterConfig? = nil
+        ) {
+            self.onlineEvaluationConfigArn = onlineEvaluationConfigArn
+            self.timeRange = timeRange
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// Configuration for the data source used in evaluation.
     public enum DataSourceConfig: Swift.Sendable {
         /// Configuration for pulling agent session traces from CloudWatch Logs.
         case cloudwatchlogs(BedrockAgentCoreClientTypes.CloudWatchLogsSource)
+        /// Reference an existing OnlineEvaluationConfig as session source
+        case onlineevaluationconfigsource(BedrockAgentCoreClientTypes.OnlineEvaluationConfigSource)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3885,7 +4143,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// An evaluator to run against sessions.
+    /// An evaluator to run against sessions during batch evaluation.
     public struct Evaluator: Swift.Sendable {
         /// The unique identifier of the evaluator. Can reference built-in evaluators (e.g., Builtin.Helpfulness) or custom evaluators.
         /// This member is required.
@@ -3895,6 +4153,229 @@ extension BedrockAgentCoreClientTypes {
             evaluatorId: Swift.String? = nil
         ) {
             self.evaluatorId = evaluatorId
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A session associated with an execution summary cluster.
+    public struct ExecutionSummaryAffectedSession: Swift.Sendable {
+        /// The approach taken by the agent during this session.
+        /// This member is required.
+        public var approachTaken: Swift.String?
+        /// The final outcome of the session.
+        /// This member is required.
+        public var finalOutcome: Swift.String?
+        /// The unique identifier of the session.
+        /// This member is required.
+        public var sessionId: Swift.String?
+
+        public init(
+            approachTaken: Swift.String? = nil,
+            finalOutcome: Swift.String? = nil,
+            sessionId: Swift.String? = nil
+        ) {
+            self.approachTaken = approachTaken
+            self.finalOutcome = finalOutcome
+            self.sessionId = sessionId
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A cluster of similar execution patterns identified across sessions.
+    public struct ExecutionSummaryCluster: Swift.Sendable {
+        /// The number of sessions with this execution pattern.
+        /// This member is required.
+        public var affectedSessionCount: Swift.Int?
+        /// The list of sessions with this execution pattern.
+        /// This member is required.
+        public var affectedSessions: [BedrockAgentCoreClientTypes.ExecutionSummaryAffectedSession]?
+        /// The unique identifier of the execution summary cluster.
+        /// This member is required.
+        public var clusterId: Swift.Int?
+        /// A description of the execution pattern.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The name of the execution pattern cluster.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            affectedSessionCount: Swift.Int? = nil,
+            affectedSessions: [BedrockAgentCoreClientTypes.ExecutionSummaryAffectedSession]? = nil,
+            clusterId: Swift.Int? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.affectedSessionCount = affectedSessionCount
+            self.affectedSessions = affectedSessions
+            self.clusterId = clusterId
+            self.description = description
+            self.name = name
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The execution summary clustering result containing grouped execution patterns identified across evaluated sessions.
+    public struct ExecutionSummaryClusteringResultContent: Swift.Sendable {
+        /// The list of execution summary clusters identified across analyzed sessions.
+        /// This member is required.
+        public var executionSummaries: [BedrockAgentCoreClientTypes.ExecutionSummaryCluster]?
+
+        public init(
+            executionSummaries: [BedrockAgentCoreClientTypes.ExecutionSummaryCluster]? = nil
+        ) {
+            self.executionSummaries = executionSummaries
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A cluster of similar root causes identified within a failure subcategory.
+    public struct RootCauseCluster: Swift.Sendable {
+        /// The number of sessions affected by this root cause.
+        /// This member is required.
+        public var affectedSessionCount: Swift.Int?
+        /// The list of sessions affected by this root cause.
+        /// This member is required.
+        public var affectedSessions: [BedrockAgentCoreClientTypes.AffectedSession]?
+        /// The unique identifier of the root cause cluster.
+        /// This member is required.
+        public var clusterId: Swift.Int?
+        /// The name of the root cause cluster.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The recommended fix for this root cause.
+        /// This member is required.
+        public var recommendation: Swift.String?
+        /// The root cause explanation for this cluster of failures.
+        /// This member is required.
+        public var rootCause: Swift.String?
+
+        public init(
+            affectedSessionCount: Swift.Int? = nil,
+            affectedSessions: [BedrockAgentCoreClientTypes.AffectedSession]? = nil,
+            clusterId: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            recommendation: Swift.String? = nil,
+            rootCause: Swift.String? = nil
+        ) {
+            self.affectedSessionCount = affectedSessionCount
+            self.affectedSessions = affectedSessions
+            self.clusterId = clusterId
+            self.name = name
+            self.recommendation = recommendation
+            self.rootCause = rootCause
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A subcategory of failures within a top-level failure category.
+    public struct FailureSubCategoryCluster: Swift.Sendable {
+        /// The number of sessions affected by this failure subcategory.
+        /// This member is required.
+        public var affectedSessionCount: Swift.Int?
+        /// The unique identifier of the failure subcategory cluster.
+        /// This member is required.
+        public var clusterId: Swift.Int?
+        /// A description of the failure subcategory pattern.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The name of the failure subcategory.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The list of root cause clusters identified within this subcategory.
+        /// This member is required.
+        public var rootCauses: [BedrockAgentCoreClientTypes.RootCauseCluster]?
+
+        public init(
+            affectedSessionCount: Swift.Int? = nil,
+            clusterId: Swift.Int? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            rootCauses: [BedrockAgentCoreClientTypes.RootCauseCluster]? = nil
+        ) {
+            self.affectedSessionCount = affectedSessionCount
+            self.clusterId = clusterId
+            self.description = description
+            self.name = name
+            self.rootCauses = rootCauses
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A top-level failure category identified by clustering similar failure patterns across sessions.
+    public struct FailureCategoryCluster: Swift.Sendable {
+        /// The number of sessions affected by this failure category.
+        /// This member is required.
+        public var affectedSessionCount: Swift.Int?
+        /// The unique identifier of the failure category cluster.
+        /// This member is required.
+        public var clusterId: Swift.Int?
+        /// A description of the failure category pattern.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The name of the failure category.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The list of failure subcategories within this category.
+        /// This member is required.
+        public var subCategories: [BedrockAgentCoreClientTypes.FailureSubCategoryCluster]?
+
+        public init(
+            affectedSessionCount: Swift.Int? = nil,
+            clusterId: Swift.Int? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            subCategories: [BedrockAgentCoreClientTypes.FailureSubCategoryCluster]? = nil
+        ) {
+            self.affectedSessionCount = affectedSessionCount
+            self.clusterId = clusterId
+            self.description = description
+            self.name = name
+            self.subCategories = subCategories
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The failure analysis clustering result containing categorized failure clusters with root causes and remediation recommendations.
+    public struct FailureAnalysisResultContent: Swift.Sendable {
+        /// The list of failure category clusters identified across analyzed sessions.
+        /// This member is required.
+        public var failures: [BedrockAgentCoreClientTypes.FailureCategoryCluster]?
+
+        public init(
+            failures: [BedrockAgentCoreClientTypes.FailureCategoryCluster]? = nil
+        ) {
+            self.failures = failures
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A reference to an insight analysis to run against sessions during batch evaluation. Insights provide deeper analysis beyond individual evaluator scores, including failure detection, user intent clustering, and execution summarization.
+    public struct Insight: Swift.Sendable {
+        /// The unique identifier of the insight to run.
+        /// This member is required.
+        public var insightId: Swift.String?
+
+        public init(
+            insightId: Swift.String? = nil
+        ) {
+            self.insightId = insightId
         }
     }
 }
@@ -3930,6 +4411,79 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
+extension BedrockAgentCoreClientTypes {
+
+    /// A session associated with a user intent cluster.
+    public struct UserIntentAffectedSession: Swift.Sendable {
+        /// The unique identifier of the session.
+        /// This member is required.
+        public var sessionId: Swift.String?
+        /// The user messages from this session that contributed to the intent cluster.
+        /// This member is required.
+        public var userMessages: [Swift.String]?
+
+        public init(
+            sessionId: Swift.String? = nil,
+            userMessages: [Swift.String]? = nil
+        ) {
+            self.sessionId = sessionId
+            self.userMessages = userMessages
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A cluster of similar user intents identified across sessions.
+    public struct UserIntentCluster: Swift.Sendable {
+        /// The number of sessions with this user intent.
+        /// This member is required.
+        public var affectedSessionCount: Swift.Int?
+        /// The list of sessions with this user intent.
+        /// This member is required.
+        public var affectedSessions: [BedrockAgentCoreClientTypes.UserIntentAffectedSession]?
+        /// The unique identifier of the user intent cluster.
+        /// This member is required.
+        public var clusterId: Swift.Int?
+        /// A description of the user intent pattern.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The name of the user intent cluster.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            affectedSessionCount: Swift.Int? = nil,
+            affectedSessions: [BedrockAgentCoreClientTypes.UserIntentAffectedSession]? = nil,
+            clusterId: Swift.Int? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.affectedSessionCount = affectedSessionCount
+            self.affectedSessions = affectedSessions
+            self.clusterId = clusterId
+            self.description = description
+            self.name = name
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The user intent clustering result containing grouped user intents identified across evaluated sessions.
+    public struct UserIntentClusteringResultContent: Swift.Sendable {
+        /// The list of user intent clusters identified across analyzed sessions.
+        /// This member is required.
+        public var userIntents: [BedrockAgentCoreClientTypes.UserIntentCluster]?
+
+        public init(
+            userIntents: [BedrockAgentCoreClientTypes.UserIntentCluster]? = nil
+        ) {
+            self.userIntents = userIntents
+        }
+    }
+}
+
 public struct GetBatchEvaluationOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the batch evaluation.
     /// This member is required.
@@ -3953,6 +4507,14 @@ public struct GetBatchEvaluationOutput: Swift.Sendable {
     public var evaluationResults: BedrockAgentCoreClientTypes.EvaluationJobResults?
     /// The list of evaluators applied during the batch evaluation.
     public var evaluators: [BedrockAgentCoreClientTypes.Evaluator]?
+    /// The execution summary clustering results from insights, containing grouped execution patterns across evaluated sessions.
+    public var executionSummaryResult: BedrockAgentCoreClientTypes.ExecutionSummaryClusteringResultContent?
+    /// The failure analysis results from insights, containing categorized failure clusters with root causes and recommendations.
+    public var failureAnalysisResult: BedrockAgentCoreClientTypes.FailureAnalysisResultContent?
+    /// The list of insight analyses applied during the batch evaluation.
+    public var insights: [BedrockAgentCoreClientTypes.Insight]?
+    /// The ARN of the KMS key used to encrypt evaluation data.
+    public var kmsKeyArn: Swift.String?
     /// The output configuration specifying where evaluation results are written.
     public var outputConfig: BedrockAgentCoreClientTypes.OutputConfig?
     /// The current status of the batch evaluation.
@@ -3960,6 +4522,8 @@ public struct GetBatchEvaluationOutput: Swift.Sendable {
     public var status: BedrockAgentCoreClientTypes.BatchEvaluationStatus?
     /// The timestamp when the batch evaluation was last updated.
     public var updatedAt: Foundation.Date?
+    /// The user intent clustering results from insights, containing grouped user intents across evaluated sessions.
+    public var userIntentResult: BedrockAgentCoreClientTypes.UserIntentClusteringResultContent?
 
     public init(
         batchEvaluationArn: Swift.String? = nil,
@@ -3971,9 +4535,14 @@ public struct GetBatchEvaluationOutput: Swift.Sendable {
         errorDetails: [Swift.String]? = nil,
         evaluationResults: BedrockAgentCoreClientTypes.EvaluationJobResults? = nil,
         evaluators: [BedrockAgentCoreClientTypes.Evaluator]? = nil,
+        executionSummaryResult: BedrockAgentCoreClientTypes.ExecutionSummaryClusteringResultContent? = nil,
+        failureAnalysisResult: BedrockAgentCoreClientTypes.FailureAnalysisResultContent? = nil,
+        insights: [BedrockAgentCoreClientTypes.Insight]? = nil,
+        kmsKeyArn: Swift.String? = nil,
         outputConfig: BedrockAgentCoreClientTypes.OutputConfig? = nil,
         status: BedrockAgentCoreClientTypes.BatchEvaluationStatus? = nil,
-        updatedAt: Foundation.Date? = nil
+        updatedAt: Foundation.Date? = nil,
+        userIntentResult: BedrockAgentCoreClientTypes.UserIntentClusteringResultContent? = nil
     ) {
         self.batchEvaluationArn = batchEvaluationArn
         self.batchEvaluationId = batchEvaluationId
@@ -3984,9 +4553,14 @@ public struct GetBatchEvaluationOutput: Swift.Sendable {
         self.errorDetails = errorDetails
         self.evaluationResults = evaluationResults
         self.evaluators = evaluators
+        self.executionSummaryResult = executionSummaryResult
+        self.failureAnalysisResult = failureAnalysisResult
+        self.insights = insights
+        self.kmsKeyArn = kmsKeyArn
         self.outputConfig = outputConfig
         self.status = status
         self.updatedAt = updatedAt
+        self.userIntentResult = userIntentResult
     }
 }
 
@@ -4080,7 +4654,6 @@ extension BedrockAgentCoreClientTypes {
         /// This member is required.
         public var agentTraces: BedrockAgentCoreClientTypes.AgentTracesConfig?
         /// The evaluation configuration specifying which evaluator to use for assessing recommendation quality.
-        /// This member is required.
         public var evaluationConfig: BedrockAgentCoreClientTypes.RecommendationEvaluationConfig?
         /// The current system prompt to optimize.
         /// This member is required.
@@ -4268,6 +4841,8 @@ extension BedrockAgentCoreClientTypes {
         public var errorCode: Swift.String?
         /// The error message if the recommendation failed.
         public var errorMessage: Swift.String?
+        /// An explanation of why the recommendation was generated and what patterns were identified in the agent traces.
+        public var explanation: Swift.String?
         /// The optimized system prompt text generated by the recommendation.
         public var recommendedSystemPrompt: Swift.String?
 
@@ -4275,11 +4850,13 @@ extension BedrockAgentCoreClientTypes {
             configurationBundle: BedrockAgentCoreClientTypes.RecommendationResultConfigurationBundle? = nil,
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
+            explanation: Swift.String? = nil,
             recommendedSystemPrompt: Swift.String? = nil
         ) {
             self.configurationBundle = configurationBundle
             self.errorCode = errorCode
             self.errorMessage = errorMessage
+            self.explanation = explanation
             self.recommendedSystemPrompt = recommendedSystemPrompt
         }
     }
@@ -4287,13 +4864,15 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes.SystemPromptRecommendationResult: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SystemPromptRecommendationResult(configurationBundle: \(Swift.String(describing: configurationBundle)), errorCode: \(Swift.String(describing: errorCode)), errorMessage: \(Swift.String(describing: errorMessage)), recommendedSystemPrompt: \"CONTENT_REDACTED\")"}
+        "SystemPromptRecommendationResult(configurationBundle: \(Swift.String(describing: configurationBundle)), errorCode: \(Swift.String(describing: errorCode)), errorMessage: \(Swift.String(describing: errorMessage)), explanation: \(Swift.String(describing: explanation)), recommendedSystemPrompt: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreClientTypes {
 
     /// The output for a single tool description recommendation.
     public struct ToolDescriptionOutput: Swift.Sendable {
+        /// An explanation of why the recommendation was generated for this tool and what patterns were identified in the agent traces.
+        public var explanation: Swift.String?
         /// The optimized tool description text generated by the recommendation.
         public var recommendedToolDescription: Swift.String?
         /// The name of the tool.
@@ -4301,9 +4880,11 @@ extension BedrockAgentCoreClientTypes {
         public var toolName: Swift.String?
 
         public init(
+            explanation: Swift.String? = nil,
             recommendedToolDescription: Swift.String? = nil,
             toolName: Swift.String? = nil
         ) {
+            self.explanation = explanation
             self.recommendedToolDescription = recommendedToolDescription
             self.toolName = toolName
         }
@@ -4312,7 +4893,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes.ToolDescriptionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ToolDescriptionOutput(toolName: \(Swift.String(describing: toolName)), recommendedToolDescription: \"CONTENT_REDACTED\")"}
+        "ToolDescriptionOutput(explanation: \(Swift.String(describing: explanation)), toolName: \(Swift.String(describing: toolName)), recommendedToolDescription: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreClientTypes {
@@ -4390,6 +4971,8 @@ public struct GetRecommendationOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The description of the recommendation.
     public var description: Swift.String?
+    /// The ARN of the KMS key used to encrypt recommendation data.
+    public var kmsKeyArn: Swift.String?
     /// The name of the recommendation.
     /// This member is required.
     public var name: Swift.String?
@@ -4417,6 +5000,7 @@ public struct GetRecommendationOutput: Swift.Sendable {
     public init(
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         recommendationArn: Swift.String? = nil,
         recommendationConfig: BedrockAgentCoreClientTypes.RecommendationConfig? = nil,
@@ -4428,6 +5012,7 @@ public struct GetRecommendationOutput: Swift.Sendable {
     ) {
         self.createdAt = createdAt
         self.description = description
+        self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.recommendationArn = recommendationArn
         self.recommendationConfig = recommendationConfig
@@ -4509,6 +5094,10 @@ extension BedrockAgentCoreClientTypes {
         public var evaluationResults: BedrockAgentCoreClientTypes.EvaluationJobResults?
         /// The list of evaluators applied during the batch evaluation.
         public var evaluators: [BedrockAgentCoreClientTypes.Evaluator]?
+        /// The list of insight analyses applied during the batch evaluation.
+        public var insights: [BedrockAgentCoreClientTypes.Insight]?
+        /// The ARN of the KMS key used to encrypt evaluation data.
+        public var kmsKeyArn: Swift.String?
         /// The current status of the batch evaluation.
         /// This member is required.
         public var status: BedrockAgentCoreClientTypes.BatchEvaluationStatus?
@@ -4524,6 +5113,8 @@ extension BedrockAgentCoreClientTypes {
             errorDetails: [Swift.String]? = nil,
             evaluationResults: BedrockAgentCoreClientTypes.EvaluationJobResults? = nil,
             evaluators: [BedrockAgentCoreClientTypes.Evaluator]? = nil,
+            insights: [BedrockAgentCoreClientTypes.Insight]? = nil,
+            kmsKeyArn: Swift.String? = nil,
             status: BedrockAgentCoreClientTypes.BatchEvaluationStatus? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
@@ -4535,6 +5126,8 @@ extension BedrockAgentCoreClientTypes {
             self.errorDetails = errorDetails
             self.evaluationResults = evaluationResults
             self.evaluators = evaluators
+            self.insights = insights
+            self.kmsKeyArn = kmsKeyArn
             self.status = status
             self.updatedAt = updatedAt
         }
@@ -4757,6 +5350,12 @@ public struct StartBatchEvaluationInput: Swift.Sendable {
     public var evaluationMetadata: BedrockAgentCoreClientTypes.EvaluationMetadata?
     /// The list of evaluators to apply during the batch evaluation. Can include both built-in evaluators and custom evaluators. Maximum of 10 evaluators.
     public var evaluators: [BedrockAgentCoreClientTypes.Evaluator]?
+    /// The list of insight analyses to run against sessions during the batch evaluation. Maximum of 10 insights.
+    public var insights: [BedrockAgentCoreClientTypes.Insight]?
+    /// The ARN of the KMS key used to encrypt evaluation data. If provided, customer data is encrypted at rest with the specified key.
+    public var kmsKeyArn: Swift.String?
+    /// A map of tag keys and values to associate with the batch evaluation.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         batchEvaluationName: Swift.String? = nil,
@@ -4764,7 +5363,10 @@ public struct StartBatchEvaluationInput: Swift.Sendable {
         dataSourceConfig: BedrockAgentCoreClientTypes.DataSourceConfig? = nil,
         description: Swift.String? = nil,
         evaluationMetadata: BedrockAgentCoreClientTypes.EvaluationMetadata? = nil,
-        evaluators: [BedrockAgentCoreClientTypes.Evaluator]? = nil
+        evaluators: [BedrockAgentCoreClientTypes.Evaluator]? = nil,
+        insights: [BedrockAgentCoreClientTypes.Insight]? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.batchEvaluationName = batchEvaluationName
         self.clientToken = clientToken
@@ -4772,6 +5374,9 @@ public struct StartBatchEvaluationInput: Swift.Sendable {
         self.description = description
         self.evaluationMetadata = evaluationMetadata
         self.evaluators = evaluators
+        self.insights = insights
+        self.kmsKeyArn = kmsKeyArn
+        self.tags = tags
     }
 }
 
@@ -4792,11 +5397,17 @@ public struct StartBatchEvaluationOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The list of evaluators applied during the batch evaluation.
     public var evaluators: [BedrockAgentCoreClientTypes.Evaluator]?
+    /// The list of insight analyses applied during the batch evaluation.
+    public var insights: [BedrockAgentCoreClientTypes.Insight]?
+    /// The ARN of the KMS key used to encrypt evaluation data.
+    public var kmsKeyArn: Swift.String?
     /// The output configuration specifying where evaluation results are written.
     public var outputConfig: BedrockAgentCoreClientTypes.OutputConfig?
     /// The status of the batch evaluation.
     /// This member is required.
     public var status: BedrockAgentCoreClientTypes.BatchEvaluationStatus?
+    /// The tags associated with the batch evaluation.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         batchEvaluationArn: Swift.String? = nil,
@@ -4805,8 +5416,11 @@ public struct StartBatchEvaluationOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         evaluators: [BedrockAgentCoreClientTypes.Evaluator]? = nil,
+        insights: [BedrockAgentCoreClientTypes.Insight]? = nil,
+        kmsKeyArn: Swift.String? = nil,
         outputConfig: BedrockAgentCoreClientTypes.OutputConfig? = nil,
-        status: BedrockAgentCoreClientTypes.BatchEvaluationStatus? = nil
+        status: BedrockAgentCoreClientTypes.BatchEvaluationStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.batchEvaluationArn = batchEvaluationArn
         self.batchEvaluationId = batchEvaluationId
@@ -4814,8 +5428,11 @@ public struct StartBatchEvaluationOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.description = description
         self.evaluators = evaluators
+        self.insights = insights
+        self.kmsKeyArn = kmsKeyArn
         self.outputConfig = outputConfig
         self.status = status
+        self.tags = tags
     }
 }
 
@@ -4824,12 +5441,16 @@ public struct StartRecommendationInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The description of the recommendation.
     public var description: Swift.String?
+    /// The ARN of the KMS key used to encrypt recommendation data. If provided, customer data is encrypted at rest with the specified key.
+    public var kmsKeyArn: Swift.String?
     /// The name of the recommendation. Must be unique within your account.
     /// This member is required.
     public var name: Swift.String?
     /// The configuration for the recommendation, including the input to optimize, agent traces to analyze, and evaluation settings.
     /// This member is required.
     public var recommendationConfig: BedrockAgentCoreClientTypes.RecommendationConfig?
+    /// A map of tag keys and values to associate with the recommendation.
+    public var tags: [Swift.String: Swift.String]?
     /// The type of recommendation to generate. Valid values are SYSTEM_PROMPT_RECOMMENDATION for system prompt optimization or TOOL_DESCRIPTION_RECOMMENDATION for tool description optimization.
     /// This member is required.
     public var type: BedrockAgentCoreClientTypes.RecommendationType?
@@ -4837,14 +5458,18 @@ public struct StartRecommendationInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         recommendationConfig: BedrockAgentCoreClientTypes.RecommendationConfig? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         type: BedrockAgentCoreClientTypes.RecommendationType? = nil
     ) {
         self.clientToken = clientToken
         self.description = description
+        self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.recommendationConfig = recommendationConfig
+        self.tags = tags
         self.type = type
     }
 }
@@ -6513,6 +7138,21 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// Passed to show that AWS Skills should be included.
+    public struct HarnessSkillAwsSkillsSource: Swift.Sendable {
+        /// Optionally filter allowed skills with glob syntax, e.g., ['core-skills/*'].
+        public var paths: [Swift.String]?
+
+        public init(
+            paths: [Swift.String]? = nil
+        ) {
+            self.paths = paths
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// Authentication configuration for accessing a private git repository.
     public struct HarnessSkillGitAuth: Swift.Sendable {
         /// The ARN of the credential in AgentCore Identity containing the password or personal access token.
@@ -6581,6 +7221,8 @@ extension BedrockAgentCoreClientTypes {
         case s3(BedrockAgentCoreClientTypes.HarnessSkillS3Source)
         /// A git repository containing the skill.
         case git(BedrockAgentCoreClientTypes.HarnessSkillGitSource)
+        /// AWS Skills baked into the Harness's underlying Runtime.
+        case awsskills(BedrockAgentCoreClientTypes.HarnessSkillAwsSkillsSource)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6885,6 +7527,8 @@ public struct InvokeHarnessInput: Swift.Sendable {
     public var messages: [BedrockAgentCoreClientTypes.HarnessMessage]?
     /// The model configuration to use for this invocation. If specified, overrides the harness default.
     public var model: BedrockAgentCoreClientTypes.HarnessModelConfiguration?
+    /// The endpoint name to invoke. If omitted, the DEFAULT endpoint is used.
+    public var qualifier: Swift.String?
     /// The session ID for the invocation. Use the same session ID across requests to continue a conversation.
     /// This member is required.
     public var runtimeSessionId: Swift.String?
@@ -6907,6 +7551,7 @@ public struct InvokeHarnessInput: Swift.Sendable {
         maxTokens: Swift.Int? = nil,
         messages: [BedrockAgentCoreClientTypes.HarnessMessage]? = nil,
         model: BedrockAgentCoreClientTypes.HarnessModelConfiguration? = nil,
+        qualifier: Swift.String? = nil,
         runtimeSessionId: Swift.String? = nil,
         runtimeUserId: Swift.String? = nil,
         skills: [BedrockAgentCoreClientTypes.HarnessSkill]? = nil,
@@ -6921,6 +7566,7 @@ public struct InvokeHarnessInput: Swift.Sendable {
         self.maxTokens = maxTokens
         self.messages = messages
         self.model = model
+        self.qualifier = qualifier
         self.runtimeSessionId = runtimeSessionId
         self.runtimeUserId = runtimeUserId
         self.skills = skills
@@ -7692,6 +8338,32 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    public enum ExtractionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case skip
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExtractionMode] {
+            return [
+                .skip
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .skip: return "SKIP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// Value associated with the eventMetadata key.
     public enum MetadataValue: Swift.Sendable {
         /// Value associated with the eventMetadata key.
@@ -7789,6 +8461,8 @@ public struct CreateEventInput: Swift.Sendable {
     /// The timestamp when the event occurred. If not specified, the current time is used.
     /// This member is required.
     public var eventTimestamp: Foundation.Date?
+    /// Controls long-term memory extraction for this event. When set to SKIP, the event is stored in short-term memory but is excluded from long-term memory extraction. If not specified, the event is processed for extraction as usual.
+    public var extractionMode: BedrockAgentCoreClientTypes.ExtractionMode?
     /// The identifier of the AgentCore Memory resource in which to create the event.
     /// This member is required.
     public var memoryId: Swift.String?
@@ -7805,6 +8479,7 @@ public struct CreateEventInput: Swift.Sendable {
         branch: BedrockAgentCoreClientTypes.Branch? = nil,
         clientToken: Swift.String? = nil,
         eventTimestamp: Foundation.Date? = nil,
+        extractionMode: BedrockAgentCoreClientTypes.ExtractionMode? = nil,
         memoryId: Swift.String? = nil,
         metadata: [Swift.String: BedrockAgentCoreClientTypes.MetadataValue]? = nil,
         payload: [BedrockAgentCoreClientTypes.PayloadType]? = nil,
@@ -7814,6 +8489,7 @@ public struct CreateEventInput: Swift.Sendable {
         self.branch = branch
         self.clientToken = clientToken
         self.eventTimestamp = eventTimestamp
+        self.extractionMode = extractionMode
         self.memoryId = memoryId
         self.metadata = metadata
         self.payload = payload
@@ -11126,6 +11802,10 @@ extension InvokeHarnessInput {
         }
         let harnessArnQueryItem = Smithy.URIQueryItem(name: "harnessArn".urlPercentEncoding(), value: Swift.String(harnessArn).urlPercentEncoding())
         items.append(harnessArnQueryItem)
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = Smithy.URIQueryItem(name: "qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
+        }
         return items
     }
 }
@@ -11657,6 +12337,7 @@ extension CreateABTestInput {
         try writer["gatewayFilter"].write(value.gatewayFilter, with: BedrockAgentCoreClientTypes.GatewayFilter.write(value:to:))
         try writer["name"].write(value.name)
         try writer["roleArn"].write(value.roleArn)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["variants"].writeList(value.variants, memberWritingClosure: BedrockAgentCoreClientTypes.Variant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -11669,6 +12350,7 @@ extension CreateEventInput {
         try writer["branch"].write(value.branch, with: BedrockAgentCoreClientTypes.Branch.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
         try writer["eventTimestamp"].writeTimestamp(value.eventTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["extractionMode"].write(value.extractionMode)
         try writer["metadata"].writeMap(value.metadata, valueWritingClosure: BedrockAgentCoreClientTypes.MetadataValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["payload"].writeList(value.payload, memberWritingClosure: BedrockAgentCoreClientTypes.PayloadType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["sessionId"].write(value.sessionId)
@@ -12021,6 +12703,9 @@ extension StartBatchEvaluationInput {
         try writer["description"].write(value.description)
         try writer["evaluationMetadata"].write(value.evaluationMetadata, with: BedrockAgentCoreClientTypes.EvaluationMetadata.write(value:to:))
         try writer["evaluators"].writeList(value.evaluators, memberWritingClosure: BedrockAgentCoreClientTypes.Evaluator.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["insights"].writeList(value.insights, memberWritingClosure: BedrockAgentCoreClientTypes.Insight.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -12066,8 +12751,10 @@ extension StartRecommendationInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["name"].write(value.name)
         try writer["recommendationConfig"].write(value.recommendationConfig, with: BedrockAgentCoreClientTypes.RecommendationConfig.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["type"].write(value.type)
     }
 }
@@ -12381,9 +13068,14 @@ extension GetBatchEvaluationOutput {
         value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.evaluationResults = try reader["evaluationResults"].readIfPresent(with: BedrockAgentCoreClientTypes.EvaluationJobResults.read(from:))
         value.evaluators = try reader["evaluators"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.Evaluator.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.executionSummaryResult = try reader["executionSummaryResult"].readIfPresent(with: BedrockAgentCoreClientTypes.ExecutionSummaryClusteringResultContent.read(from:))
+        value.failureAnalysisResult = try reader["failureAnalysisResult"].readIfPresent(with: BedrockAgentCoreClientTypes.FailureAnalysisResultContent.read(from:))
+        value.insights = try reader["insights"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.Insight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.outputConfig = try reader["outputConfig"].readIfPresent(with: BedrockAgentCoreClientTypes.OutputConfig.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.userIntentResult = try reader["userIntentResult"].readIfPresent(with: BedrockAgentCoreClientTypes.UserIntentClusteringResultContent.read(from:))
         return value
     }
 }
@@ -12502,6 +13194,7 @@ extension GetRecommendationOutput {
         var value = GetRecommendationOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.recommendationArn = try reader["recommendationArn"].readIfPresent() ?? ""
         value.recommendationConfig = try reader["recommendationConfig"].readIfPresent(with: BedrockAgentCoreClientTypes.RecommendationConfig.read(from:))
@@ -12935,8 +13628,11 @@ extension StartBatchEvaluationOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.evaluators = try reader["evaluators"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.Evaluator.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.insights = try reader["insights"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.Insight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.outputConfig = try reader["outputConfig"].readIfPresent(with: BedrockAgentCoreClientTypes.OutputConfig.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -13430,6 +14126,7 @@ enum GetAgentCardOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "RetryableConflictException": return try RetryableConflictException.makeError(baseError: baseError)
             case "RuntimeClientError": return try RuntimeClientError.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -13752,6 +14449,7 @@ enum InvokeAgentRuntimeCommandOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "RetryableConflictException": return try RetryableConflictException.makeError(baseError: baseError)
             case "RuntimeClientError": return try RuntimeClientError.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -13812,6 +14510,7 @@ enum InvokeHarnessOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "RuntimeClientError": return try RuntimeClientError.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14773,6 +15472,20 @@ extension BedrockAgentCoreClientTypes.ActorSummary {
     }
 }
 
+extension BedrockAgentCoreClientTypes.AffectedSession {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.AffectedSession {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.AffectedSession()
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.explanation = try reader["explanation"].readIfPresent() ?? ""
+        value.fixType = try reader["fixType"].readIfPresent() ?? ""
+        value.recommendation = try reader["recommendation"].readIfPresent() ?? ""
+        value.failureSpans = try reader["failureSpans"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.FailureSpanDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.AgentCardDefinition {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.AgentCardDefinition {
@@ -14800,6 +15513,8 @@ extension BedrockAgentCoreClientTypes.AgentTracesConfig {
     static func write(value: BedrockAgentCoreClientTypes.AgentTracesConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .batchevaluation(batchevaluation):
+                try writer["batchEvaluation"].write(batchevaluation, with: BedrockAgentCoreClientTypes.BatchEvaluationTraceConfig.write(value:to:))
             case let .cloudwatchlogs(cloudwatchlogs):
                 try writer["cloudwatchLogs"].write(cloudwatchlogs, with: BedrockAgentCoreClientTypes.CloudWatchLogsTraceConfig.write(value:to:))
             case let .sessionspans(sessionspans):
@@ -14817,6 +15532,8 @@ extension BedrockAgentCoreClientTypes.AgentTracesConfig {
                 return .sessionspans(try reader["sessionSpans"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), memberNodeInfo: "member", isFlattened: false))
             case "cloudwatchLogs":
                 return .cloudwatchlogs(try reader["cloudwatchLogs"].read(with: BedrockAgentCoreClientTypes.CloudWatchLogsTraceConfig.read(from:)))
+            case "batchEvaluation":
+                return .batchevaluation(try reader["batchEvaluation"].read(with: BedrockAgentCoreClientTypes.BatchEvaluationTraceConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -14897,9 +15614,26 @@ extension BedrockAgentCoreClientTypes.BatchEvaluationSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.evaluators = try reader["evaluators"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.Evaluator.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.insights = try reader["insights"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.Insight.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.evaluationResults = try reader["evaluationResults"].readIfPresent(with: BedrockAgentCoreClientTypes.EvaluationJobResults.read(from:))
         value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.BatchEvaluationTraceConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.BatchEvaluationTraceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["batchEvaluationArn"].write(value.batchEvaluationArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.BatchEvaluationTraceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.BatchEvaluationTraceConfig()
+        value.batchEvaluationArn = try reader["batchEvaluationArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15468,6 +16202,8 @@ extension BedrockAgentCoreClientTypes.DataSourceConfig {
         switch value {
             case let .cloudwatchlogs(cloudwatchlogs):
                 try writer["cloudWatchLogs"].write(cloudwatchlogs, with: BedrockAgentCoreClientTypes.CloudWatchLogsSource.write(value:to:))
+            case let .onlineevaluationconfigsource(onlineevaluationconfigsource):
+                try writer["onlineEvaluationConfigSource"].write(onlineevaluationconfigsource, with: BedrockAgentCoreClientTypes.OnlineEvaluationConfigSource.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -15479,6 +16215,8 @@ extension BedrockAgentCoreClientTypes.DataSourceConfig {
         switch name {
             case "cloudWatchLogs":
                 return .cloudwatchlogs(try reader["cloudWatchLogs"].read(with: BedrockAgentCoreClientTypes.CloudWatchLogsSource.read(from:)))
+            case "onlineEvaluationConfigSource":
+                return .onlineevaluationconfigsource(try reader["onlineEvaluationConfigSource"].read(with: BedrockAgentCoreClientTypes.OnlineEvaluationConfigSource.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -15704,6 +16442,42 @@ extension BedrockAgentCoreClientTypes.EventMetadataFilterExpression {
     }
 }
 
+extension BedrockAgentCoreClientTypes.ExecutionSummaryAffectedSession {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ExecutionSummaryAffectedSession {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ExecutionSummaryAffectedSession()
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.approachTaken = try reader["approachTaken"].readIfPresent() ?? ""
+        value.finalOutcome = try reader["finalOutcome"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ExecutionSummaryCluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ExecutionSummaryCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ExecutionSummaryCluster()
+        value.clusterId = try reader["clusterId"].readIfPresent() ?? 0
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.affectedSessionCount = try reader["affectedSessionCount"].readIfPresent() ?? 0
+        value.affectedSessions = try reader["affectedSessions"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.ExecutionSummaryAffectedSession.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ExecutionSummaryClusteringResultContent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ExecutionSummaryClusteringResultContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ExecutionSummaryClusteringResultContent()
+        value.executionSummaries = try reader["executionSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.ExecutionSummaryCluster.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.ExternalProxy {
 
     static func write(value: BedrockAgentCoreClientTypes.ExternalProxy?, to writer: SmithyJSON.Writer) throws {
@@ -15770,6 +16544,56 @@ extension BedrockAgentCoreClientTypes.ExtractionJobMetadata {
         value.strategyId = try reader["strategyId"].readIfPresent()
         value.sessionId = try reader["sessionId"].readIfPresent()
         value.actorId = try reader["actorId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.FailureAnalysisResultContent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.FailureAnalysisResultContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.FailureAnalysisResultContent()
+        value.failures = try reader["failures"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.FailureCategoryCluster.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.FailureCategoryCluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.FailureCategoryCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.FailureCategoryCluster()
+        value.clusterId = try reader["clusterId"].readIfPresent() ?? 0
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.affectedSessionCount = try reader["affectedSessionCount"].readIfPresent() ?? 0
+        value.subCategories = try reader["subCategories"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.FailureSubCategoryCluster.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.FailureSpanDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.FailureSpanDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.FailureSpanDetail()
+        value.spanId = try reader["spanId"].readIfPresent() ?? ""
+        value.traceId = try reader["traceId"].readIfPresent() ?? ""
+        value.signals = try reader["signals"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.InsightsFailureSignal.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.FailureSubCategoryCluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.FailureSubCategoryCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.FailureSubCategoryCluster()
+        value.clusterId = try reader["clusterId"].readIfPresent() ?? 0
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.affectedSessionCount = try reader["affectedSessionCount"].readIfPresent() ?? 0
+        value.rootCauses = try reader["rootCauses"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.RootCauseCluster.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -16172,6 +16996,8 @@ extension BedrockAgentCoreClientTypes.HarnessSkill {
     static func write(value: BedrockAgentCoreClientTypes.HarnessSkill?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .awsskills(awsskills):
+                try writer["awsSkills"].write(awsskills, with: BedrockAgentCoreClientTypes.HarnessSkillAwsSkillsSource.write(value:to:))
             case let .git(git):
                 try writer["git"].write(git, with: BedrockAgentCoreClientTypes.HarnessSkillGitSource.write(value:to:))
             case let .path(path):
@@ -16181,6 +17007,14 @@ extension BedrockAgentCoreClientTypes.HarnessSkill {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessSkillAwsSkillsSource {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessSkillAwsSkillsSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -16384,6 +17218,33 @@ extension BedrockAgentCoreClientTypes.InputContentBlock {
         try writer["blob"].write(value.blob)
         try writer["path"].write(value.path)
         try writer["text"].write(value.text)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.Insight {
+
+    static func write(value: BedrockAgentCoreClientTypes.Insight?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["insightId"].write(value.insightId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.Insight {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.Insight()
+        value.insightId = try reader["insightId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.InsightsFailureSignal {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.InsightsFailureSignal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.InsightsFailureSignal()
+        value.category = try reader["category"].readIfPresent() ?? .sdkUnknown("")
+        value.evidence = try reader["evidence"].readIfPresent() ?? ""
+        value.confidence = try reader["confidence"].readIfPresent() ?? 0.0
+        return value
     }
 }
 
@@ -16951,6 +17812,23 @@ extension BedrockAgentCoreClientTypes.OAuthCredentialProvider {
     }
 }
 
+extension BedrockAgentCoreClientTypes.OnlineEvaluationConfigSource {
+
+    static func write(value: BedrockAgentCoreClientTypes.OnlineEvaluationConfigSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["onlineEvaluationConfigArn"].write(value.onlineEvaluationConfigArn)
+        try writer["timeRange"].write(value.timeRange, with: BedrockAgentCoreClientTypes.SessionFilterConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.OnlineEvaluationConfigSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.OnlineEvaluationConfigSource()
+        value.onlineEvaluationConfigArn = try reader["onlineEvaluationConfigArn"].readIfPresent() ?? ""
+        value.timeRange = try reader["timeRange"].readIfPresent(with: BedrockAgentCoreClientTypes.SessionFilterConfig.read(from:))
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.OutputConfig {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.OutputConfig {
@@ -17434,6 +18312,21 @@ extension BedrockAgentCoreClientTypes.RightExpression {
     }
 }
 
+extension BedrockAgentCoreClientTypes.RootCauseCluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.RootCauseCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.RootCauseCluster()
+        value.clusterId = try reader["clusterId"].readIfPresent() ?? 0
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.rootCause = try reader["rootCause"].readIfPresent() ?? ""
+        value.recommendation = try reader["recommendation"].readIfPresent() ?? ""
+        value.affectedSessionCount = try reader["affectedSessionCount"].readIfPresent() ?? 0
+        value.affectedSessions = try reader["affectedSessions"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.AffectedSession.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension RuntimeClientError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RuntimeClientError {
@@ -17743,6 +18636,7 @@ extension BedrockAgentCoreClientTypes.SystemPromptRecommendationResult {
         var value = BedrockAgentCoreClientTypes.SystemPromptRecommendationResult()
         value.recommendedSystemPrompt = try reader["recommendedSystemPrompt"].readIfPresent()
         value.configurationBundle = try reader["configurationBundle"].readIfPresent(with: BedrockAgentCoreClientTypes.RecommendationResultConfigurationBundle.read(from:))
+        value.explanation = try reader["explanation"].readIfPresent()
         value.errorCode = try reader["errorCode"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
@@ -17884,6 +18778,7 @@ extension BedrockAgentCoreClientTypes.ToolDescriptionOutput {
         var value = BedrockAgentCoreClientTypes.ToolDescriptionOutput()
         value.toolName = try reader["toolName"].readIfPresent() ?? ""
         value.recommendedToolDescription = try reader["recommendedToolDescription"].readIfPresent()
+        value.explanation = try reader["explanation"].readIfPresent()
         return value
     }
 }
@@ -17999,6 +18894,41 @@ extension BedrockAgentCoreClientTypes.UserIdentifier {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.UserIntentAffectedSession {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.UserIntentAffectedSession {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.UserIntentAffectedSession()
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.userMessages = try reader["userMessages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.UserIntentCluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.UserIntentCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.UserIntentCluster()
+        value.clusterId = try reader["clusterId"].readIfPresent() ?? 0
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.affectedSessionCount = try reader["affectedSessionCount"].readIfPresent() ?? 0
+        value.affectedSessions = try reader["affectedSessions"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.UserIntentAffectedSession.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.UserIntentClusteringResultContent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.UserIntentClusteringResultContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.UserIntentClusteringResultContent()
+        value.userIntents = try reader["userIntents"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.UserIntentCluster.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 

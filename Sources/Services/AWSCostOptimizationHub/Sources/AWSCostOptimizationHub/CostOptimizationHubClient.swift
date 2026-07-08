@@ -72,6 +72,7 @@ public final class CostOptimizationHubClient: AWSClientRuntime.AWSServiceClient 
     let client: ClientRuntime.SdkHttpClient
     public let config: CostOptimizationHubClient.CostOptimizationHubClientConfig
     let serviceName = "Cost Optimization Hub"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use CostOptimizationHubClient.CostOptimizationHubClientConfig instead")
     public typealias Config = CostOptimizationHubClient.CostOptimizationHubClientConfiguration
@@ -81,6 +82,7 @@ public final class CostOptimizationHubClient: AWSClientRuntime.AWSServiceClient 
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: CostOptimizationHubClient.CostOptimizationHubClientConfig) instead")
@@ -195,7 +197,7 @@ extension CostOptimizationHubClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Cost Optimization Hub")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -250,7 +252,7 @@ extension CostOptimizationHubClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Cost Optimization Hub")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -426,7 +428,7 @@ extension CostOptimizationHubClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Cost Optimization Hub")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -481,7 +483,7 @@ extension CostOptimizationHubClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Cost Optimization Hub")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -658,8 +660,6 @@ extension CostOptimizationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPreferencesInput, GetPreferencesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPreferencesInput, GetPreferencesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPreferencesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Optimization Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -671,6 +671,8 @@ extension CostOptimizationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPreferencesInput, GetPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPreferencesInput, GetPreferencesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cost Optimization Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPreferencesInput, GetPreferencesOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostOptimizationHub")
@@ -736,8 +738,6 @@ extension CostOptimizationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRecommendationInput, GetRecommendationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecommendationInput, GetRecommendationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecommendationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Optimization Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -749,6 +749,8 @@ extension CostOptimizationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRecommendationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRecommendationInput, GetRecommendationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRecommendationInput, GetRecommendationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cost Optimization Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRecommendationInput, GetRecommendationOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostOptimizationHub")
@@ -813,8 +815,6 @@ extension CostOptimizationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEfficiencyMetricsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Optimization Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -826,6 +826,8 @@ extension CostOptimizationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEfficiencyMetricsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cost Optimization Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostOptimizationHub")
@@ -890,8 +892,6 @@ extension CostOptimizationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnrollmentStatusesInput, ListEnrollmentStatusesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnrollmentStatusesInput, ListEnrollmentStatusesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnrollmentStatusesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Optimization Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -903,6 +903,8 @@ extension CostOptimizationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEnrollmentStatusesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEnrollmentStatusesInput, ListEnrollmentStatusesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEnrollmentStatusesInput, ListEnrollmentStatusesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cost Optimization Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEnrollmentStatusesInput, ListEnrollmentStatusesOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostOptimizationHub")
@@ -967,8 +969,6 @@ extension CostOptimizationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecommendationSummariesInput, ListRecommendationSummariesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendationSummariesInput, ListRecommendationSummariesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendationSummariesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Optimization Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -980,6 +980,8 @@ extension CostOptimizationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecommendationSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRecommendationSummariesInput, ListRecommendationSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRecommendationSummariesInput, ListRecommendationSummariesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cost Optimization Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRecommendationSummariesInput, ListRecommendationSummariesOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostOptimizationHub")
@@ -1044,8 +1046,6 @@ extension CostOptimizationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecommendationsInput, ListRecommendationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendationsInput, ListRecommendationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Optimization Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1057,6 +1057,8 @@ extension CostOptimizationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRecommendationsInput, ListRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRecommendationsInput, ListRecommendationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cost Optimization Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRecommendationsInput, ListRecommendationsOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostOptimizationHub")
@@ -1121,8 +1123,6 @@ extension CostOptimizationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnrollmentStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Optimization Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1134,6 +1134,8 @@ extension CostOptimizationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEnrollmentStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cost Optimization Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostOptimizationHub")
@@ -1198,8 +1200,6 @@ extension CostOptimizationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePreferencesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Optimization Hub", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1211,6 +1211,8 @@ extension CostOptimizationHubClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cost Optimization Hub"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostOptimizationHub")

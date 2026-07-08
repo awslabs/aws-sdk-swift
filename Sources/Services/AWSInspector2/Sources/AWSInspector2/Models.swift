@@ -195,6 +195,9 @@ extension Inspector2ClientTypes {
         case awsEcrContainerImage
         case awsLambdaFunction
         case codeRepository
+        case microsoftComputeVirtualMachines
+        case microsoftContainerRegistryRegistryContainerImage
+        case microsoftWebSites
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AggregationResourceType] {
@@ -202,7 +205,10 @@ extension Inspector2ClientTypes {
                 .awsEc2Instance,
                 .awsEcrContainerImage,
                 .awsLambdaFunction,
-                .codeRepository
+                .codeRepository,
+                .microsoftComputeVirtualMachines,
+                .microsoftContainerRegistryRegistryContainerImage,
+                .microsoftWebSites
             ]
         }
 
@@ -217,6 +223,9 @@ extension Inspector2ClientTypes {
             case .awsEcrContainerImage: return "AWS_ECR_CONTAINER_IMAGE"
             case .awsLambdaFunction: return "AWS_LAMBDA_FUNCTION"
             case .codeRepository: return "CODE_REPOSITORY"
+            case .microsoftComputeVirtualMachines: return "Microsoft.Compute/virtualMachines"
+            case .microsoftContainerRegistryRegistryContainerImage: return "Microsoft.ContainerRegistry/registry/containerImage"
+            case .microsoftWebSites: return "Microsoft.Web/sites"
             case let .sdkUnknown(s): return s
             }
         }
@@ -870,6 +879,125 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    public enum ContainerImageSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case critical
+        case high
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContainerImageSortBy] {
+            return [
+                .all,
+                .critical,
+                .high
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .critical: return "CRITICAL"
+            case .high: return "HIGH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// An aggregation of information about container images.
+    public struct ContainerImageAggregation: Swift.Sendable {
+        /// The image architectures to aggregate findings for.
+        public var architectures: [Inspector2ClientTypes.StringFilter]?
+        /// The cloud account IDs to aggregate findings for.
+        public var cloudAccountIds: [Inspector2ClientTypes.StringFilter]?
+        /// The cloud organization IDs to aggregate findings for.
+        public var cloudOrgIds: [Inspector2ClientTypes.StringFilter]?
+        /// The cloud partitions to aggregate findings for. Valid values:
+        ///
+        /// * aws – Amazon Web Services commercial Regions.
+        ///
+        /// * aws-cn – Amazon Web Services China Regions.
+        ///
+        /// * aws-us-gov – Amazon Web Services GovCloud (US) Regions.
+        ///
+        /// * AzureCloud – Azure commercial Regions.
+        public var cloudPartitions: [Inspector2ClientTypes.StringFilter]?
+        /// The cloud providers to aggregate findings for. Valid values:
+        ///
+        /// * AWS – Findings from Amazon Web Services resources.
+        ///
+        /// * AZURE – Findings from Microsoft Azure resources.
+        public var cloudProviders: [Inspector2ClientTypes.StringFilter]?
+        /// The cloud regions to aggregate findings for. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Region, such as us-east-1.
+        ///
+        /// * An Azure region, such as eastus.
+        public var cloudRegions: [Inspector2ClientTypes.StringFilter]?
+        /// The image digests to aggregate findings for.
+        public var imageDigests: [Inspector2ClientTypes.StringFilter]?
+        /// The image tags to aggregate findings for.
+        public var imageTags: [Inspector2ClientTypes.StringFilter]?
+        /// The in-use counts to aggregate findings for.
+        public var inUseCount: [Inspector2ClientTypes.NumberFilter]?
+        /// The last in-use timestamps to aggregate findings for.
+        public var lastInUseAt: [Inspector2ClientTypes.DateFilter]?
+        /// The image registries to aggregate findings for.
+        public var registries: [Inspector2ClientTypes.StringFilter]?
+        /// The image repositories to aggregate findings for.
+        public var repositories: [Inspector2ClientTypes.StringFilter]?
+        /// The resource IDs to aggregate findings for.
+        public var resourceIds: [Inspector2ClientTypes.StringFilter]?
+        /// The value to sort results by. Specify a field name from the aggregation response, such as CRITICAL, HIGH, or ALL.
+        public var sortBy: Inspector2ClientTypes.ContainerImageSortBy?
+        /// The order to sort results by. Valid values are ASC and DESC.
+        public var sortOrder: Inspector2ClientTypes.SortOrder?
+
+        public init(
+            architectures: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudAccountIds: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudOrgIds: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudPartitions: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudProviders: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudRegions: [Inspector2ClientTypes.StringFilter]? = nil,
+            imageDigests: [Inspector2ClientTypes.StringFilter]? = nil,
+            imageTags: [Inspector2ClientTypes.StringFilter]? = nil,
+            inUseCount: [Inspector2ClientTypes.NumberFilter]? = nil,
+            lastInUseAt: [Inspector2ClientTypes.DateFilter]? = nil,
+            registries: [Inspector2ClientTypes.StringFilter]? = nil,
+            repositories: [Inspector2ClientTypes.StringFilter]? = nil,
+            resourceIds: [Inspector2ClientTypes.StringFilter]? = nil,
+            sortBy: Inspector2ClientTypes.ContainerImageSortBy? = nil,
+            sortOrder: Inspector2ClientTypes.SortOrder? = nil
+        ) {
+            self.architectures = architectures
+            self.cloudAccountIds = cloudAccountIds
+            self.cloudOrgIds = cloudOrgIds
+            self.cloudPartitions = cloudPartitions
+            self.cloudProviders = cloudProviders
+            self.cloudRegions = cloudRegions
+            self.imageDigests = imageDigests
+            self.imageTags = imageTags
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
+            self.registries = registries
+            self.repositories = repositories
+            self.resourceIds = resourceIds
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     public enum MapComparison: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case equals
         case sdkUnknown(Swift.String)
@@ -1084,6 +1212,32 @@ extension Inspector2ClientTypes {
 
     /// The details that define an aggregation based on container image layers.
     public struct ImageLayerAggregation: Swift.Sendable {
+        /// The cloud account IDs to aggregate findings for.
+        public var cloudAccountIds: [Inspector2ClientTypes.StringFilter]?
+        /// The cloud organization IDs to aggregate findings for.
+        public var cloudOrgIds: [Inspector2ClientTypes.StringFilter]?
+        /// The cloud partitions to aggregate findings for. Valid values:
+        ///
+        /// * aws – Amazon Web Services commercial Regions.
+        ///
+        /// * aws-cn – Amazon Web Services China Regions.
+        ///
+        /// * aws-us-gov – Amazon Web Services GovCloud (US) Regions.
+        ///
+        /// * AzureCloud – Azure commercial Regions.
+        public var cloudPartitions: [Inspector2ClientTypes.StringFilter]?
+        /// The cloud providers to aggregate findings for. Valid values:
+        ///
+        /// * AWS – Findings from Amazon Web Services resources.
+        ///
+        /// * AZURE – Findings from Microsoft Azure resources.
+        public var cloudProviders: [Inspector2ClientTypes.StringFilter]?
+        /// The cloud regions to aggregate findings for. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Region, such as us-east-1.
+        ///
+        /// * An Azure region, such as eastus.
+        public var cloudRegions: [Inspector2ClientTypes.StringFilter]?
         /// The hashes associated with the layers.
         public var layerHashes: [Inspector2ClientTypes.StringFilter]?
         /// The repository associated with the container image hosting the layers.
@@ -1096,12 +1250,22 @@ extension Inspector2ClientTypes {
         public var sortOrder: Inspector2ClientTypes.SortOrder?
 
         public init(
+            cloudAccountIds: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudOrgIds: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudPartitions: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudProviders: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudRegions: [Inspector2ClientTypes.StringFilter]? = nil,
             layerHashes: [Inspector2ClientTypes.StringFilter]? = nil,
             repositories: [Inspector2ClientTypes.StringFilter]? = nil,
             resourceIds: [Inspector2ClientTypes.StringFilter]? = nil,
             sortBy: Inspector2ClientTypes.ImageLayerSortBy? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil
         ) {
+            self.cloudAccountIds = cloudAccountIds
+            self.cloudOrgIds = cloudOrgIds
+            self.cloudPartitions = cloudPartitions
+            self.cloudProviders = cloudProviders
+            self.cloudRegions = cloudRegions
             self.layerHashes = layerHashes
             self.repositories = repositories
             self.resourceIds = resourceIds
@@ -1356,6 +1520,109 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    public enum ServerlessFunctionSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case critical
+        case high
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServerlessFunctionSortBy] {
+            return [
+                .all,
+                .critical,
+                .high
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .critical: return "CRITICAL"
+            case .high: return "HIGH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// An aggregation of information about serverless functions.
+    public struct ServerlessFunctionAggregation: Swift.Sendable {
+        /// The cloud account IDs to aggregate findings for.
+        public var cloudAccountIds: [Inspector2ClientTypes.StringFilter]?
+        /// The cloud organization IDs to aggregate findings for.
+        public var cloudOrgIds: [Inspector2ClientTypes.StringFilter]?
+        /// The cloud partitions to aggregate findings for. Valid values:
+        ///
+        /// * aws – Amazon Web Services commercial Regions.
+        ///
+        /// * aws-cn – Amazon Web Services China Regions.
+        ///
+        /// * aws-us-gov – Amazon Web Services GovCloud (US) Regions.
+        ///
+        /// * AzureCloud – Azure commercial Regions.
+        public var cloudPartitions: [Inspector2ClientTypes.StringFilter]?
+        /// The cloud providers to aggregate findings for. Valid values:
+        ///
+        /// * AWS – Findings from Amazon Web Services resources.
+        ///
+        /// * AZURE – Findings from Microsoft Azure resources.
+        public var cloudProviders: [Inspector2ClientTypes.StringFilter]?
+        /// The cloud regions to aggregate findings for. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Region, such as us-east-1.
+        ///
+        /// * An Azure region, such as eastus.
+        public var cloudRegions: [Inspector2ClientTypes.StringFilter]?
+        /// The function names to aggregate findings for.
+        public var functionNames: [Inspector2ClientTypes.StringFilter]?
+        /// The function tags to aggregate findings for.
+        public var functionTags: [Inspector2ClientTypes.MapFilter]?
+        /// The resource IDs to aggregate findings for.
+        public var resourceIds: [Inspector2ClientTypes.StringFilter]?
+        /// The runtimes to aggregate findings for.
+        public var runtimes: [Inspector2ClientTypes.StringFilter]?
+        /// The value to sort results by. Specify a field name from the aggregation response, such as CRITICAL, HIGH, or ALL.
+        public var sortBy: Inspector2ClientTypes.ServerlessFunctionSortBy?
+        /// The order to sort results by. Valid values are ASC and DESC.
+        public var sortOrder: Inspector2ClientTypes.SortOrder?
+
+        public init(
+            cloudAccountIds: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudOrgIds: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudPartitions: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudProviders: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudRegions: [Inspector2ClientTypes.StringFilter]? = nil,
+            functionNames: [Inspector2ClientTypes.StringFilter]? = nil,
+            functionTags: [Inspector2ClientTypes.MapFilter]? = nil,
+            resourceIds: [Inspector2ClientTypes.StringFilter]? = nil,
+            runtimes: [Inspector2ClientTypes.StringFilter]? = nil,
+            sortBy: Inspector2ClientTypes.ServerlessFunctionSortBy? = nil,
+            sortOrder: Inspector2ClientTypes.SortOrder? = nil
+        ) {
+            self.cloudAccountIds = cloudAccountIds
+            self.cloudOrgIds = cloudOrgIds
+            self.cloudPartitions = cloudPartitions
+            self.cloudProviders = cloudProviders
+            self.cloudRegions = cloudRegions
+            self.functionNames = functionNames
+            self.functionTags = functionTags
+            self.resourceIds = resourceIds
+            self.runtimes = runtimes
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     public enum TitleSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
         case critical
@@ -1423,6 +1690,112 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    public enum VmInstanceSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case critical
+        case high
+        case networkFindings
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VmInstanceSortBy] {
+            return [
+                .all,
+                .critical,
+                .high,
+                .networkFindings
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .critical: return "CRITICAL"
+            case .high: return "HIGH"
+            case .networkFindings: return "NETWORK_FINDINGS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// An aggregation of information about VM instances.
+    public struct VmInstanceAggregation: Swift.Sendable {
+        /// The cloud account IDs to aggregate findings for.
+        public var cloudAccountIds: [Inspector2ClientTypes.StringFilter]?
+        /// The cloud organization IDs to aggregate findings for.
+        public var cloudOrgIds: [Inspector2ClientTypes.StringFilter]?
+        /// The cloud partitions to aggregate findings for. Valid values:
+        ///
+        /// * aws – Amazon Web Services commercial Regions.
+        ///
+        /// * aws-cn – Amazon Web Services China Regions.
+        ///
+        /// * aws-us-gov – Amazon Web Services GovCloud (US) Regions.
+        ///
+        /// * AzureCloud – Azure commercial Regions.
+        public var cloudPartitions: [Inspector2ClientTypes.StringFilter]?
+        /// The cloud providers to aggregate findings for. Valid values:
+        ///
+        /// * AWS – Findings from Amazon Web Services resources.
+        ///
+        /// * AZURE – Findings from Microsoft Azure resources.
+        public var cloudProviders: [Inspector2ClientTypes.StringFilter]?
+        /// The cloud regions to aggregate findings for. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Region, such as us-east-1.
+        ///
+        /// * An Azure region, such as eastus.
+        public var cloudRegions: [Inspector2ClientTypes.StringFilter]?
+        /// The instance tags to aggregate findings for.
+        public var instanceTags: [Inspector2ClientTypes.MapFilter]?
+        /// The operating systems to aggregate findings for.
+        public var operatingSystems: [Inspector2ClientTypes.StringFilter]?
+        /// The resource IDs to aggregate findings for.
+        public var resourceIds: [Inspector2ClientTypes.StringFilter]?
+        /// The value to sort results by. Specify a field name from the aggregation response, such as CRITICAL, HIGH, ALL, or NETWORK_FINDINGS.
+        public var sortBy: Inspector2ClientTypes.VmInstanceSortBy?
+        /// The order to sort results by. Valid values are ASC and DESC.
+        public var sortOrder: Inspector2ClientTypes.SortOrder?
+        /// The VM image references to aggregate findings for.
+        public var vmImageReferences: [Inspector2ClientTypes.StringFilter]?
+
+        public init(
+            cloudAccountIds: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudOrgIds: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudPartitions: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudProviders: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudRegions: [Inspector2ClientTypes.StringFilter]? = nil,
+            instanceTags: [Inspector2ClientTypes.MapFilter]? = nil,
+            operatingSystems: [Inspector2ClientTypes.StringFilter]? = nil,
+            resourceIds: [Inspector2ClientTypes.StringFilter]? = nil,
+            sortBy: Inspector2ClientTypes.VmInstanceSortBy? = nil,
+            sortOrder: Inspector2ClientTypes.SortOrder? = nil,
+            vmImageReferences: [Inspector2ClientTypes.StringFilter]? = nil
+        ) {
+            self.cloudAccountIds = cloudAccountIds
+            self.cloudOrgIds = cloudOrgIds
+            self.cloudPartitions = cloudPartitions
+            self.cloudProviders = cloudProviders
+            self.cloudRegions = cloudRegions
+            self.instanceTags = instanceTags
+            self.operatingSystems = operatingSystems
+            self.resourceIds = resourceIds
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.vmImageReferences = vmImageReferences
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     /// Contains details about an aggregation request.
     public enum AggregationRequest: Swift.Sendable {
         /// An object that contains details about an aggregation request based on Amazon Web Services account IDs.
@@ -1449,7 +1822,42 @@ extension Inspector2ClientTypes {
         case lambdafunctionaggregation(Inspector2ClientTypes.LambdaFunctionAggregation)
         /// An object that contains details about an aggregation request based on code repositories.
         case coderepositoryaggregation(Inspector2ClientTypes.CodeRepositoryAggregation)
+        /// An object that contains details about an aggregation request based on virtual machine (VM) instances.
+        case vminstanceaggregation(Inspector2ClientTypes.VmInstanceAggregation)
+        /// An object that contains details about an aggregation request based on container images.
+        case containerimageaggregation(Inspector2ClientTypes.ContainerImageAggregation)
+        /// An object that contains details about an aggregation request based on serverless functions.
+        case serverlessfunctionaggregation(Inspector2ClientTypes.ServerlessFunctionAggregation)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum Provider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case azure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Provider] {
+            return [
+                .aws,
+                .azure
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "AWS"
+            case .azure: return "AZURE"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -1464,6 +1872,32 @@ extension Inspector2ClientTypes {
         /// The ID of the AMI that findings were aggregated for.
         /// This member is required.
         public var ami: Swift.String?
+        /// The cloud account ID for the AMI aggregation.
+        public var cloudAccountId: Swift.String?
+        /// The cloud organization ID for the AMI aggregation.
+        public var cloudOrgId: Swift.String?
+        /// The cloud infrastructure partition associated with this AMI aggregation. Valid values:
+        ///
+        /// * aws – Amazon Web Services commercial Regions.
+        ///
+        /// * aws-cn – Amazon Web Services China Regions.
+        ///
+        /// * aws-us-gov – Amazon Web Services GovCloud (US) Regions.
+        ///
+        /// * AzureCloud – Azure commercial Regions.
+        public var cloudPartition: Swift.String?
+        /// The cloud service provider associated with this Amazon Machine Image (AMI) aggregation. Valid values:
+        ///
+        /// * AWS – Findings from Amazon Web Services resources.
+        ///
+        /// * AZURE – Findings from Microsoft Azure resources.
+        public var cloudProvider: Inspector2ClientTypes.Provider?
+        /// The cloud Region associated with this AMI aggregation. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Region, such as us-east-1.
+        ///
+        /// * An Azure region, such as eastus.
+        public var cloudRegion: Swift.String?
         /// An object that contains the count of matched findings per severity.
         public var severityCounts: Inspector2ClientTypes.SeverityCounts?
 
@@ -1471,11 +1905,21 @@ extension Inspector2ClientTypes {
             accountId: Swift.String? = nil,
             affectedInstances: Swift.Int? = nil,
             ami: Swift.String? = nil,
+            cloudAccountId: Swift.String? = nil,
+            cloudOrgId: Swift.String? = nil,
+            cloudPartition: Swift.String? = nil,
+            cloudProvider: Inspector2ClientTypes.Provider? = nil,
+            cloudRegion: Swift.String? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
         ) {
             self.accountId = accountId
             self.affectedInstances = affectedInstances
             self.ami = ami
+            self.cloudAccountId = cloudAccountId
+            self.cloudOrgId = cloudOrgId
+            self.cloudPartition = cloudPartition
+            self.cloudProvider = cloudProvider
+            self.cloudRegion = cloudRegion
             self.severityCounts = severityCounts
         }
     }
@@ -1571,6 +2015,102 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    /// A response that contains the results of a container image aggregation.
+    public struct ContainerImageAggregationResponse: Swift.Sendable {
+        /// The account ID associated with the container image.
+        public var accountId: Swift.String?
+        /// The architecture of the container image.
+        public var architecture: Swift.String?
+        /// The cloud account ID for the container image aggregation.
+        public var cloudAccountId: Swift.String?
+        /// The cloud organization ID for the container image aggregation.
+        public var cloudOrgId: Swift.String?
+        /// The cloud infrastructure partition associated with this container image aggregation. Valid values:
+        ///
+        /// * aws – Amazon Web Services commercial Regions.
+        ///
+        /// * aws-cn – Amazon Web Services China Regions.
+        ///
+        /// * aws-us-gov – Amazon Web Services GovCloud (US) Regions.
+        ///
+        /// * AzureCloud – Azure commercial Regions.
+        public var cloudPartition: Swift.String?
+        /// The cloud service provider associated with this container image aggregation. Valid values:
+        ///
+        /// * AWS – Findings from Amazon Web Services resources.
+        ///
+        /// * AZURE – Findings from Microsoft Azure resources.
+        public var cloudProvider: Inspector2ClientTypes.Provider?
+        /// The cloud Region associated with this container image aggregation. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Region, such as us-east-1.
+        ///
+        /// * An Azure region, such as eastus.
+        public var cloudRegion: Swift.String?
+        /// The number of active findings with an exploit available for the container image.
+        public var exploitAvailableActiveFindingsCount: Swift.Int?
+        /// The number of active findings with a fix available for the container image.
+        public var fixAvailableActiveFindingsCount: Swift.Int?
+        /// The image digest for the container image.
+        public var imageDigest: Swift.String?
+        /// The image tags attached to the container image.
+        public var imageTags: [Swift.String]?
+        /// The number of times the container image is in use.
+        public var inUseCount: Swift.Int?
+        /// The last time the container image was in use.
+        public var lastInUseAt: Foundation.Date?
+        /// The registry for the container image.
+        public var registry: Swift.String?
+        /// The repository for the container image.
+        public var repository: Swift.String?
+        /// The resource ID for the container image.
+        /// This member is required.
+        public var resourceId: Swift.String?
+        /// An object that contains the counts of aggregated finding per severity.
+        public var severityCounts: Inspector2ClientTypes.SeverityCounts?
+
+        public init(
+            accountId: Swift.String? = nil,
+            architecture: Swift.String? = nil,
+            cloudAccountId: Swift.String? = nil,
+            cloudOrgId: Swift.String? = nil,
+            cloudPartition: Swift.String? = nil,
+            cloudProvider: Inspector2ClientTypes.Provider? = nil,
+            cloudRegion: Swift.String? = nil,
+            exploitAvailableActiveFindingsCount: Swift.Int? = nil,
+            fixAvailableActiveFindingsCount: Swift.Int? = nil,
+            imageDigest: Swift.String? = nil,
+            imageTags: [Swift.String]? = nil,
+            inUseCount: Swift.Int? = nil,
+            lastInUseAt: Foundation.Date? = nil,
+            registry: Swift.String? = nil,
+            repository: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
+        ) {
+            self.accountId = accountId
+            self.architecture = architecture
+            self.cloudAccountId = cloudAccountId
+            self.cloudOrgId = cloudOrgId
+            self.cloudPartition = cloudPartition
+            self.cloudProvider = cloudProvider
+            self.cloudRegion = cloudRegion
+            self.exploitAvailableActiveFindingsCount = exploitAvailableActiveFindingsCount
+            self.fixAvailableActiveFindingsCount = fixAvailableActiveFindingsCount
+            self.imageDigest = imageDigest
+            self.imageTags = imageTags
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
+            self.registry = registry
+            self.repository = repository
+            self.resourceId = resourceId
+            self.severityCounts = severityCounts
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     /// A response that contains the results of a finding aggregation by Amazon EC2 instance.
     public struct Ec2InstanceAggregationResponse: Swift.Sendable {
         /// The Amazon Web Services account for the Amazon EC2 instance.
@@ -1615,6 +2155,32 @@ extension Inspector2ClientTypes {
     public struct FindingTypeAggregationResponse: Swift.Sendable {
         /// The ID of the Amazon Web Services account associated with the findings.
         public var accountId: Swift.String?
+        /// The cloud account ID for the finding type aggregation.
+        public var cloudAccountId: Swift.String?
+        /// The cloud organization ID for the finding type aggregation.
+        public var cloudOrgId: Swift.String?
+        /// The cloud infrastructure partition associated with this finding type aggregation. Valid values:
+        ///
+        /// * aws – Amazon Web Services commercial Regions.
+        ///
+        /// * aws-cn – Amazon Web Services China Regions.
+        ///
+        /// * aws-us-gov – Amazon Web Services GovCloud (US) Regions.
+        ///
+        /// * AzureCloud – Azure commercial Regions.
+        public var cloudPartition: Swift.String?
+        /// The cloud service provider associated with this finding type aggregation. Valid values:
+        ///
+        /// * AWS – Findings from Amazon Web Services resources.
+        ///
+        /// * AZURE – Findings from Microsoft Azure resources.
+        public var cloudProvider: Swift.String?
+        /// The cloud Region associated with this finding type aggregation. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Region, such as us-east-1.
+        ///
+        /// * An Azure region, such as eastus.
+        public var cloudRegion: Swift.String?
         /// The number of findings that have an exploit available.
         public var exploitAvailableCount: Swift.Int?
         /// Details about the number of fixes.
@@ -1624,11 +2190,21 @@ extension Inspector2ClientTypes {
 
         public init(
             accountId: Swift.String? = nil,
+            cloudAccountId: Swift.String? = nil,
+            cloudOrgId: Swift.String? = nil,
+            cloudPartition: Swift.String? = nil,
+            cloudProvider: Swift.String? = nil,
+            cloudRegion: Swift.String? = nil,
             exploitAvailableCount: Swift.Int? = nil,
             fixAvailableCount: Swift.Int? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
         ) {
             self.accountId = accountId
+            self.cloudAccountId = cloudAccountId
+            self.cloudOrgId = cloudOrgId
+            self.cloudPartition = cloudPartition
+            self.cloudProvider = cloudProvider
+            self.cloudRegion = cloudRegion
             self.exploitAvailableCount = exploitAvailableCount
             self.fixAvailableCount = fixAvailableCount
             self.severityCounts = severityCounts
@@ -1643,6 +2219,32 @@ extension Inspector2ClientTypes {
         /// The ID of the Amazon Web Services account that owns the container image hosting the layer image.
         /// This member is required.
         public var accountId: Swift.String?
+        /// The cloud account ID for the image layer aggregation.
+        public var cloudAccountId: Swift.String?
+        /// The cloud organization ID for the image layer aggregation.
+        public var cloudOrgId: Swift.String?
+        /// The cloud infrastructure partition associated with this image layer aggregation. Valid values:
+        ///
+        /// * aws – Amazon Web Services commercial Regions.
+        ///
+        /// * aws-cn – Amazon Web Services China Regions.
+        ///
+        /// * aws-us-gov – Amazon Web Services GovCloud (US) Regions.
+        ///
+        /// * AzureCloud – Azure commercial Regions.
+        public var cloudPartition: Swift.String?
+        /// The cloud service provider associated with this image layer aggregation. Valid values:
+        ///
+        /// * AWS – Findings from Amazon Web Services resources.
+        ///
+        /// * AZURE – Findings from Microsoft Azure resources.
+        public var cloudProvider: Swift.String?
+        /// The cloud Region associated with this image layer aggregation. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Region, such as us-east-1.
+        ///
+        /// * An Azure region, such as eastus.
+        public var cloudRegion: Swift.String?
         /// The layer hash.
         /// This member is required.
         public var layerHash: Swift.String?
@@ -1657,12 +2259,22 @@ extension Inspector2ClientTypes {
 
         public init(
             accountId: Swift.String? = nil,
+            cloudAccountId: Swift.String? = nil,
+            cloudOrgId: Swift.String? = nil,
+            cloudPartition: Swift.String? = nil,
+            cloudProvider: Swift.String? = nil,
+            cloudRegion: Swift.String? = nil,
             layerHash: Swift.String? = nil,
             repository: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
         ) {
             self.accountId = accountId
+            self.cloudAccountId = cloudAccountId
+            self.cloudOrgId = cloudOrgId
+            self.cloudPartition = cloudPartition
+            self.cloudProvider = cloudProvider
+            self.cloudRegion = cloudRegion
             self.layerHash = layerHash
             self.repository = repository
             self.resourceId = resourceId
@@ -1778,6 +2390,32 @@ extension Inspector2ClientTypes {
         public var accountId: Swift.String?
         /// The number of container images impacted by the findings.
         public var affectedImages: Swift.Int?
+        /// The cloud account ID for the repository aggregation.
+        public var cloudAccountId: Swift.String?
+        /// The cloud organization ID for the repository aggregation.
+        public var cloudOrgId: Swift.String?
+        /// The cloud infrastructure partition associated with this repository aggregation. Valid values:
+        ///
+        /// * aws – Amazon Web Services commercial Regions.
+        ///
+        /// * aws-cn – Amazon Web Services China Regions.
+        ///
+        /// * aws-us-gov – Amazon Web Services GovCloud (US) Regions.
+        ///
+        /// * AzureCloud – Azure commercial Regions.
+        public var cloudPartition: Swift.String?
+        /// The cloud service provider associated with this repository aggregation. Valid values:
+        ///
+        /// * AWS – Findings from Amazon Web Services resources.
+        ///
+        /// * AZURE – Findings from Microsoft Azure resources.
+        public var cloudProvider: Inspector2ClientTypes.Provider?
+        /// The cloud Region associated with this repository aggregation. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Region, such as us-east-1.
+        ///
+        /// * An Azure region, such as eastus.
+        public var cloudRegion: Swift.String?
         /// The name of the repository associated with the findings.
         /// This member is required.
         public var repository: Swift.String?
@@ -1787,13 +2425,107 @@ extension Inspector2ClientTypes {
         public init(
             accountId: Swift.String? = nil,
             affectedImages: Swift.Int? = nil,
+            cloudAccountId: Swift.String? = nil,
+            cloudOrgId: Swift.String? = nil,
+            cloudPartition: Swift.String? = nil,
+            cloudProvider: Inspector2ClientTypes.Provider? = nil,
+            cloudRegion: Swift.String? = nil,
             repository: Swift.String? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
         ) {
             self.accountId = accountId
             self.affectedImages = affectedImages
+            self.cloudAccountId = cloudAccountId
+            self.cloudOrgId = cloudOrgId
+            self.cloudPartition = cloudPartition
+            self.cloudProvider = cloudProvider
+            self.cloudRegion = cloudRegion
             self.repository = repository
             self.severityCounts = severityCounts
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// A response that contains the results of a serverless function aggregation.
+    public struct ServerlessFunctionAggregationResponse: Swift.Sendable {
+        /// The account ID associated with the serverless function.
+        public var accountId: Swift.String?
+        /// The cloud account ID for the serverless function aggregation.
+        public var cloudAccountId: Swift.String?
+        /// The cloud organization ID for the serverless function aggregation.
+        public var cloudOrgId: Swift.String?
+        /// The cloud infrastructure partition associated with this serverless function aggregation. Valid values:
+        ///
+        /// * aws – Amazon Web Services commercial Regions.
+        ///
+        /// * aws-cn – Amazon Web Services China Regions.
+        ///
+        /// * aws-us-gov – Amazon Web Services GovCloud (US) Regions.
+        ///
+        /// * AzureCloud – Azure commercial Regions.
+        public var cloudPartition: Swift.String?
+        /// The cloud service provider associated with this serverless function aggregation. Valid values:
+        ///
+        /// * AWS – Findings from Amazon Web Services resources.
+        ///
+        /// * AZURE – Findings from Microsoft Azure resources.
+        public var cloudProvider: Inspector2ClientTypes.Provider?
+        /// The cloud Region associated with this serverless function aggregation. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Region, such as us-east-1.
+        ///
+        /// * An Azure region, such as eastus.
+        public var cloudRegion: Swift.String?
+        /// The number of active findings with an exploit available for the serverless function.
+        public var exploitAvailableActiveFindingsCount: Swift.Int?
+        /// The number of active findings with a fix available for the serverless function.
+        public var fixAvailableActiveFindingsCount: Swift.Int?
+        /// The name of the serverless function.
+        public var functionName: Swift.String?
+        /// The date and time the serverless function was last modified.
+        public var lastModifiedAt: Foundation.Date?
+        /// The resource ID for the serverless function.
+        /// This member is required.
+        public var resourceId: Swift.String?
+        /// The runtime of the serverless function.
+        public var runtime: Swift.String?
+        /// An object that contains the counts of aggregated finding per severity.
+        public var severityCounts: Inspector2ClientTypes.SeverityCounts?
+        /// The tags attached to the serverless function.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            accountId: Swift.String? = nil,
+            cloudAccountId: Swift.String? = nil,
+            cloudOrgId: Swift.String? = nil,
+            cloudPartition: Swift.String? = nil,
+            cloudProvider: Inspector2ClientTypes.Provider? = nil,
+            cloudRegion: Swift.String? = nil,
+            exploitAvailableActiveFindingsCount: Swift.Int? = nil,
+            fixAvailableActiveFindingsCount: Swift.Int? = nil,
+            functionName: Swift.String? = nil,
+            lastModifiedAt: Foundation.Date? = nil,
+            resourceId: Swift.String? = nil,
+            runtime: Swift.String? = nil,
+            severityCounts: Inspector2ClientTypes.SeverityCounts? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.accountId = accountId
+            self.cloudAccountId = cloudAccountId
+            self.cloudOrgId = cloudOrgId
+            self.cloudPartition = cloudPartition
+            self.cloudProvider = cloudProvider
+            self.cloudRegion = cloudRegion
+            self.exploitAvailableActiveFindingsCount = exploitAvailableActiveFindingsCount
+            self.fixAvailableActiveFindingsCount = fixAvailableActiveFindingsCount
+            self.functionName = functionName
+            self.lastModifiedAt = lastModifiedAt
+            self.resourceId = resourceId
+            self.runtime = runtime
+            self.severityCounts = severityCounts
+            self.tags = tags
         }
     }
 }
@@ -1828,6 +2560,90 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    /// A response that contains the results of a VM instance aggregation.
+    public struct VmInstanceAggregationResponse: Swift.Sendable {
+        /// The account ID associated with the VM instance.
+        public var accountId: Swift.String?
+        /// The cloud account ID for the VM instance aggregation.
+        public var cloudAccountId: Swift.String?
+        /// The cloud organization ID for the VM instance aggregation.
+        public var cloudOrgId: Swift.String?
+        /// The cloud infrastructure partition associated with this VM instance aggregation. Valid values:
+        ///
+        /// * aws – Amazon Web Services commercial Regions.
+        ///
+        /// * aws-cn – Amazon Web Services China Regions.
+        ///
+        /// * aws-us-gov – Amazon Web Services GovCloud (US) Regions.
+        ///
+        /// * AzureCloud – Azure commercial Regions.
+        public var cloudPartition: Swift.String?
+        /// The cloud service provider associated with this VM instance aggregation. Valid values:
+        ///
+        /// * AWS – Findings from Amazon Web Services resources.
+        ///
+        /// * AZURE – Findings from Microsoft Azure resources.
+        public var cloudProvider: Inspector2ClientTypes.Provider?
+        /// The cloud Region associated with this VM instance aggregation. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Region, such as us-east-1.
+        ///
+        /// * An Azure region, such as eastus.
+        public var cloudRegion: Swift.String?
+        /// The number of active findings with an exploit available for the VM instance.
+        public var exploitAvailableActiveFindingsCount: Swift.Int?
+        /// The number of active findings with a fix available for the VM instance.
+        public var fixAvailableActiveFindingsCount: Swift.Int?
+        /// The number of network findings for the VM instance. This field applies only to Amazon Web Services resources.
+        public var networkFindings: Swift.Int?
+        /// The operating system of the VM instance.
+        public var operatingSystem: Swift.String?
+        /// The resource ID for the VM instance.
+        /// This member is required.
+        public var resourceId: Swift.String?
+        /// An object that contains the counts of aggregated finding per severity.
+        public var severityCounts: Inspector2ClientTypes.SeverityCounts?
+        /// The tags attached to the VM instance.
+        public var tags: [Swift.String: Swift.String]?
+        /// The VM image reference for the VM instance.
+        public var vmImageReference: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            cloudAccountId: Swift.String? = nil,
+            cloudOrgId: Swift.String? = nil,
+            cloudPartition: Swift.String? = nil,
+            cloudProvider: Inspector2ClientTypes.Provider? = nil,
+            cloudRegion: Swift.String? = nil,
+            exploitAvailableActiveFindingsCount: Swift.Int? = nil,
+            fixAvailableActiveFindingsCount: Swift.Int? = nil,
+            networkFindings: Swift.Int? = nil,
+            operatingSystem: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            severityCounts: Inspector2ClientTypes.SeverityCounts? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            vmImageReference: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.cloudAccountId = cloudAccountId
+            self.cloudOrgId = cloudOrgId
+            self.cloudPartition = cloudPartition
+            self.cloudProvider = cloudProvider
+            self.cloudRegion = cloudRegion
+            self.exploitAvailableActiveFindingsCount = exploitAvailableActiveFindingsCount
+            self.fixAvailableActiveFindingsCount = fixAvailableActiveFindingsCount
+            self.networkFindings = networkFindings
+            self.operatingSystem = operatingSystem
+            self.resourceId = resourceId
+            self.severityCounts = severityCounts
+            self.tags = tags
+            self.vmImageReference = vmImageReference
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     /// A structure that contains details about the results of an aggregation type.
     public enum AggregationResponse: Swift.Sendable {
         /// An object that contains details about an aggregation response based on Amazon Web Services account IDs.
@@ -1854,6 +2670,12 @@ extension Inspector2ClientTypes {
         case lambdafunctionaggregation(Inspector2ClientTypes.LambdaFunctionAggregationResponse)
         /// An object that contains details about an aggregation response based on code repositories.
         case coderepositoryaggregation(Inspector2ClientTypes.CodeRepositoryAggregationResponse)
+        /// An object that contains details about an aggregation response based on VM instances.
+        case vminstanceaggregation(Inspector2ClientTypes.VmInstanceAggregationResponse)
+        /// An object that contains details about an aggregation response based on container images.
+        case containerimageaggregation(Inspector2ClientTypes.ContainerImageAggregationResponse)
+        /// An object that contains details about an aggregation response based on serverless functions.
+        case serverlessfunctionaggregation(Inspector2ClientTypes.ServerlessFunctionAggregationResponse)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1867,12 +2689,15 @@ extension Inspector2ClientTypes {
         case awsEcrContainer
         case awsLambdaFunction
         case codeRepository
+        case containerImage
         case findingType
         case imageLayer
         case lambdaLayer
         case `package`
         case repository
+        case serverlessFunction
         case title
+        case vmInstance
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AggregationType] {
@@ -1883,12 +2708,15 @@ extension Inspector2ClientTypes {
                 .awsEcrContainer,
                 .awsLambdaFunction,
                 .codeRepository,
+                .containerImage,
                 .findingType,
                 .imageLayer,
                 .lambdaLayer,
                 .package,
                 .repository,
-                .title
+                .serverlessFunction,
+                .title,
+                .vmInstance
             ]
         }
 
@@ -1905,12 +2733,15 @@ extension Inspector2ClientTypes {
             case .awsEcrContainer: return "AWS_ECR_CONTAINER"
             case .awsLambdaFunction: return "AWS_LAMBDA_FUNCTION"
             case .codeRepository: return "CODE_REPOSITORY"
+            case .containerImage: return "CONTAINER_IMAGE"
             case .findingType: return "FINDING_TYPE"
             case .imageLayer: return "IMAGE_LAYER"
             case .lambdaLayer: return "LAMBDA_LAYER"
             case .package: return "PACKAGE"
             case .repository: return "REPOSITORY"
+            case .serverlessFunction: return "SERVERLESS_FUNCTION"
             case .title: return "TITLE"
+            case .vmInstance: return "VM_INSTANCE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2275,6 +3106,53 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    public enum AwsConfigConnectorArnComparison: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case equals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AwsConfigConnectorArnComparison] {
+            return [
+                .equals
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// A filter that matches connectors by the ARN of the associated Amazon Web Services Config connector.
+    public struct AwsConfigConnectorArnFilter: Swift.Sendable {
+        /// The comparison operator for the Amazon Web Services Config connector ARN filter.
+        /// This member is required.
+        public var comparison: Inspector2ClientTypes.AwsConfigConnectorArnComparison?
+        /// The Amazon Web Services Config connector ARN value to filter by.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            comparison: Inspector2ClientTypes.AwsConfigConnectorArnComparison? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.comparison = comparison
+            self.value = value
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     /// Details of the Amazon EC2 instance involved in a finding.
     public struct AwsEc2InstanceDetails: Swift.Sendable {
         /// The IAM instance profile ARN of the Amazon EC2 instance.
@@ -2478,6 +3356,8 @@ extension Inspector2ClientTypes {
         case go1X
         case java11
         case java17
+        case java21
+        case java25
         case java8
         case java8Al2
         case nodejs
@@ -2485,6 +3365,7 @@ extension Inspector2ClientTypes {
         case nodejs14X
         case nodejs16X
         case nodejs18X
+        case nodejs22X
         case nodejs24X
         case python310
         case python311
@@ -2505,6 +3386,8 @@ extension Inspector2ClientTypes {
                 .go1X,
                 .java11,
                 .java17,
+                .java21,
+                .java25,
                 .java8,
                 .java8Al2,
                 .nodejs,
@@ -2512,6 +3395,7 @@ extension Inspector2ClientTypes {
                 .nodejs14X,
                 .nodejs16X,
                 .nodejs18X,
+                .nodejs22X,
                 .nodejs24X,
                 .python310,
                 .python311,
@@ -2538,6 +3422,8 @@ extension Inspector2ClientTypes {
             case .go1X: return "GO_1_X"
             case .java11: return "JAVA_11"
             case .java17: return "JAVA_17"
+            case .java21: return "JAVA_21"
+            case .java25: return "JAVA_25"
             case .java8: return "JAVA_8"
             case .java8Al2: return "JAVA_8_AL2"
             case .nodejs: return "NODEJS"
@@ -2545,6 +3431,7 @@ extension Inspector2ClientTypes {
             case .nodejs14X: return "NODEJS_14_X"
             case .nodejs16X: return "NODEJS_16_X"
             case .nodejs18X: return "NODEJS_18_X"
+            case .nodejs22X: return "NODEJS_22_X"
             case .nodejs24X: return "NODEJS_24_X"
             case .python310: return "PYTHON_3_10"
             case .python311: return "PYTHON_3_11"
@@ -2635,6 +3522,217 @@ extension Inspector2ClientTypes {
             self.runtime = runtime
             self.version = version
             self.vpcConfig = vpcConfig
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum ScopeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case subscription
+        case tenant
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScopeType] {
+            return [
+                .subscription,
+                .tenant
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .subscription: return "SUBSCRIPTION"
+            case .tenant: return "TENANT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The scope of resources to scan for a single scanning type. Provide this as part of an AzureScopeConfigurationInput when you create or update a connector.
+    public struct ScopeConfigurationInput: Swift.Sendable {
+        /// The type of scope. Valid values are TENANT, which scans all resources in the Azure tenant, and SUBSCRIPTION, which scans only the resources in the specified Azure subscriptions.
+        /// This member is required.
+        public var scopeType: Inspector2ClientTypes.ScopeType?
+        /// The list of scope values. For subscription-level scope, these are Azure subscription IDs.
+        public var scopeValues: [Swift.String]?
+
+        public init(
+            scopeType: Inspector2ClientTypes.ScopeType? = nil,
+            scopeValues: [Swift.String]? = nil
+        ) {
+            self.scopeType = scopeType
+            self.scopeValues = scopeValues
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The scope of Azure resources to scan, defined separately for VM, container image, and serverless scanning. Provide this when you create or update an Azure connector.
+    public struct AzureScopeConfigurationInput: Swift.Sendable {
+        /// The scope configuration input for container image scanning.
+        public var containerImageScanning: Inspector2ClientTypes.ScopeConfigurationInput?
+        /// The scope configuration input for serverless scanning.
+        public var serverlessScanning: Inspector2ClientTypes.ScopeConfigurationInput?
+        /// The scope configuration input for VM scanning.
+        public var vmScanning: Inspector2ClientTypes.ScopeConfigurationInput?
+
+        public init(
+            containerImageScanning: Inspector2ClientTypes.ScopeConfigurationInput? = nil,
+            serverlessScanning: Inspector2ClientTypes.ScopeConfigurationInput? = nil,
+            vmScanning: Inspector2ClientTypes.ScopeConfigurationInput? = nil
+        ) {
+            self.containerImageScanning = containerImageScanning
+            self.serverlessScanning = serverlessScanning
+            self.vmScanning = vmScanning
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The Azure-specific configuration details for creating a connector, including the Amazon Web Services Config connector association, scan scope, and regions to scan.
+    public struct AzureProviderDetailCreate: Swift.Sendable {
+        /// Specifies whether to automatically install the VM scanner on connected Azure resources. Defaults to true.
+        public var autoInstallVMScanner: Swift.Bool?
+        /// The ARN of the Amazon Web Services Config connector to associate with this connector.
+        /// This member is required.
+        public var awsConfigConnectorArn: Swift.String?
+        /// The Azure regions to scan.
+        /// This member is required.
+        public var azureRegions: [Swift.String]?
+        /// The scope configuration that defines which Azure resources to scan.
+        /// This member is required.
+        public var scopeConfiguration: Inspector2ClientTypes.AzureScopeConfigurationInput?
+
+        public init(
+            autoInstallVMScanner: Swift.Bool? = true,
+            awsConfigConnectorArn: Swift.String? = nil,
+            azureRegions: [Swift.String]? = nil,
+            scopeConfiguration: Inspector2ClientTypes.AzureScopeConfigurationInput? = nil
+        ) {
+            self.autoInstallVMScanner = autoInstallVMScanner
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+            self.azureRegions = azureRegions
+            self.scopeConfiguration = scopeConfiguration
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The Azure-specific configuration details for updating a connector, including the scan scope and regions to scan.
+    public struct AzureProviderDetailUpdate: Swift.Sendable {
+        /// Specifies whether to automatically install the VM scanner on connected Azure resources.
+        public var autoInstallVMScanner: Swift.Bool?
+        /// The updated Azure regions to scan.
+        public var azureRegions: [Swift.String]?
+        /// The updated scope configuration that defines which Azure resources to scan.
+        public var scopeConfiguration: Inspector2ClientTypes.AzureScopeConfigurationInput?
+
+        public init(
+            autoInstallVMScanner: Swift.Bool? = nil,
+            azureRegions: [Swift.String]? = nil,
+            scopeConfiguration: Inspector2ClientTypes.AzureScopeConfigurationInput? = nil
+        ) {
+            self.autoInstallVMScanner = autoInstallVMScanner
+            self.azureRegions = azureRegions
+            self.scopeConfiguration = scopeConfiguration
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum ScopeState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case disabled
+        case error
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScopeState] {
+            return [
+                .active,
+                .disabled,
+                .error,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .disabled: return "DISABLED"
+            case .error: return "ERROR"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The scope of resources that Amazon Inspector scans for a single scanning type, including the scope level, the targeted resources, and the current state.
+    public struct ScopeConfiguration: Swift.Sendable {
+        /// The type of scope. Valid values are TENANT, which scans all resources in the Azure tenant, and SUBSCRIPTION, which scans only the resources in the specified Azure subscriptions.
+        /// This member is required.
+        public var scopeType: Inspector2ClientTypes.ScopeType?
+        /// The list of scope values. For subscription-level scope, these are Azure subscription IDs.
+        public var scopeValues: [Swift.String]?
+        /// The current state of the scope configuration.
+        public var state: Inspector2ClientTypes.ScopeState?
+        /// The reason for the current state of the scope configuration.
+        public var stateReason: Swift.String?
+
+        public init(
+            scopeType: Inspector2ClientTypes.ScopeType? = nil,
+            scopeValues: [Swift.String]? = nil,
+            state: Inspector2ClientTypes.ScopeState? = nil,
+            stateReason: Swift.String? = nil
+        ) {
+            self.scopeType = scopeType
+            self.scopeValues = scopeValues
+            self.state = state
+            self.stateReason = stateReason
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The scope of Azure resources that Amazon Inspector scans, defined separately for VM, container image, and serverless scanning. Returned as part of a connector's configuration.
+    public struct AzureScopeConfiguration: Swift.Sendable {
+        /// The scope configuration for container image scanning.
+        public var containerImageScanning: Inspector2ClientTypes.ScopeConfiguration?
+        /// The scope configuration for serverless scanning.
+        public var serverlessScanning: Inspector2ClientTypes.ScopeConfiguration?
+        /// The scope configuration for VM scanning.
+        public var vmScanning: Inspector2ClientTypes.ScopeConfiguration?
+
+        public init(
+            containerImageScanning: Inspector2ClientTypes.ScopeConfiguration? = nil,
+            serverlessScanning: Inspector2ClientTypes.ScopeConfiguration? = nil,
+            vmScanning: Inspector2ClientTypes.ScopeConfiguration? = nil
+        ) {
+            self.containerImageScanning = containerImageScanning
+            self.serverlessScanning = serverlessScanning
+            self.vmScanning = vmScanning
         }
     }
 }
@@ -3280,6 +4378,38 @@ public struct BatchGetFreeTrialInfoInput: Swift.Sendable {
 
 extension Inspector2ClientTypes {
 
+    public enum CloudProvider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case azure
+        case notApplicable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CloudProvider] {
+            return [
+                .aws,
+                .azure,
+                .notApplicable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "AWS"
+            case .azure: return "AZURE"
+            case .notApplicable: return "NOT_APPLICABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     public enum FreeTrialStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case inactive
@@ -3311,19 +4441,25 @@ extension Inspector2ClientTypes {
 
     public enum FreeTrialType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case codeRepository
+        case containerImage
         case ec2
         case ecr
         case lambda
         case lambdaCode
+        case serverlessFunction
+        case vm
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FreeTrialType] {
             return [
                 .codeRepository,
+                .containerImage,
                 .ec2,
                 .ecr,
                 .lambda,
-                .lambdaCode
+                .lambdaCode,
+                .serverlessFunction,
+                .vm
             ]
         }
 
@@ -3335,10 +4471,13 @@ extension Inspector2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .codeRepository: return "CODE_REPOSITORY"
+            case .containerImage: return "CONTAINER_IMAGE"
             case .ec2: return "EC2"
             case .ecr: return "ECR"
             case .lambda: return "LAMBDA"
             case .lambdaCode: return "LAMBDA_CODE"
+            case .serverlessFunction: return "SERVERLESS_FUNCTION"
+            case .vm: return "VM"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3349,6 +4488,8 @@ extension Inspector2ClientTypes {
 
     /// An object that contains information about the Amazon Inspector free trial for an account.
     public struct FreeTrialInfo: Swift.Sendable {
+        /// The cloud provider associated with the free trial information.
+        public var cloudProvider: Inspector2ClientTypes.CloudProvider?
         /// The date and time that the Amazon Inspector free trail ends for a given account.
         /// This member is required.
         public var end: Foundation.Date?
@@ -3363,11 +4504,13 @@ extension Inspector2ClientTypes {
         public var type: Inspector2ClientTypes.FreeTrialType?
 
         public init(
+            cloudProvider: Inspector2ClientTypes.CloudProvider? = nil,
             end: Foundation.Date? = nil,
             start: Foundation.Date? = nil,
             status: Inspector2ClientTypes.FreeTrialStatus? = nil,
             type: Inspector2ClientTypes.FreeTrialType? = nil
         ) {
+            self.cloudProvider = cloudProvider
             self.end = end
             self.start = start
             self.status = status
@@ -5235,7 +6378,9 @@ extension Inspector2ClientTypes {
         case pendingDisable
         case pendingInitialScan
         case pendingRevivalScan
+        case resourceStopped
         case resourceTerminated
+        case resourceUnmanaged
         case scanEligibilityExpired
         case scanFrequencyManual
         case scanFrequencyScanOnPush
@@ -5273,7 +6418,9 @@ extension Inspector2ClientTypes {
                 .pendingDisable,
                 .pendingInitialScan,
                 .pendingRevivalScan,
+                .resourceStopped,
                 .resourceTerminated,
+                .resourceUnmanaged,
                 .scanEligibilityExpired,
                 .scanFrequencyManual,
                 .scanFrequencyScanOnPush,
@@ -5317,7 +6464,9 @@ extension Inspector2ClientTypes {
             case .pendingDisable: return "PENDING_DISABLE"
             case .pendingInitialScan: return "PENDING_INITIAL_SCAN"
             case .pendingRevivalScan: return "PENDING_REVIVAL_SCAN"
+            case .resourceStopped: return "RESOURCE_STOPPED"
             case .resourceTerminated: return "RESOURCE_TERMINATED"
+            case .resourceUnmanaged: return "RESOURCE_UNMANAGED"
             case .scanEligibilityExpired: return "SCAN_ELIGIBILITY_EXPIRED"
             case .scanFrequencyManual: return "SCAN_FREQUENCY_MANUAL"
             case .scanFrequencyScanOnPush: return "SCAN_FREQUENCY_SCAN_ON_PUSH"
@@ -6021,9 +7170,636 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    public enum EnablementStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deleted
+        case enabled
+        case failedToDelete
+        case failedToEnable
+        case failedToUpdate
+        case pendingDeletion
+        case pendingEnablement
+        case pendingUpdate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnablementStatus] {
+            return [
+                .deleted,
+                .enabled,
+                .failedToDelete,
+                .failedToEnable,
+                .failedToUpdate,
+                .pendingDeletion,
+                .pendingEnablement,
+                .pendingUpdate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleted: return "DELETED"
+            case .enabled: return "ENABLED"
+            case .failedToDelete: return "FAILED_TO_DELETE"
+            case .failedToEnable: return "FAILED_TO_ENABLE"
+            case .failedToUpdate: return "FAILED_TO_UPDATE"
+            case .pendingDeletion: return "PENDING_DELETION"
+            case .pendingEnablement: return "PENDING_ENABLEMENT"
+            case .pendingUpdate: return "PENDING_UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum ConnectorHealthStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case connected
+        case degraded
+        case failedToConnect
+        case pendingAuthorization
+        case pendingConfiguration
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorHealthStatus] {
+            return [
+                .connected,
+                .degraded,
+                .failedToConnect,
+                .pendingAuthorization,
+                .pendingConfiguration,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .connected: return "CONNECTED"
+            case .degraded: return "DEGRADED"
+            case .failedToConnect: return "FAILED_TO_CONNECT"
+            case .pendingAuthorization: return "PENDING_AUTHORIZATION"
+            case .pendingConfiguration: return "PENDING_CONFIGURATION"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The health and connectivity status of a connector, including the last time the status was checked and any diagnostic message. Returned as part of the Connector structure.
+    public struct ConnectorHealth: Swift.Sendable {
+        /// The health status of the connector.
+        /// This member is required.
+        public var connectorStatus: Inspector2ClientTypes.ConnectorHealthStatus?
+        /// The date and time when the connector health was last checked.
+        /// This member is required.
+        public var lastCheckedAt: Foundation.Date?
+        /// A message providing additional details about the connector health status.
+        public var message: Swift.String?
+
+        public init(
+            connectorStatus: Inspector2ClientTypes.ConnectorHealthStatus? = nil,
+            lastCheckedAt: Foundation.Date? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.connectorStatus = connectorStatus
+            self.lastCheckedAt = lastCheckedAt
+            self.message = message
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum ConnectorCloudProvider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorCloudProvider] {
+            return [
+                .azure
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .azure: return "AZURE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Describes a connector that links an external cloud provider to Amazon Inspector for vulnerability scanning.
+    public struct Connector: Swift.Sendable {
+        /// Specifies whether the VM scanner is automatically installed on connected resources.
+        public var autoInstallVMScanner: Swift.Bool?
+        /// The ARN of the Amazon Web Services Config connector associated with this connector.
+        public var awsConfigConnectorArn: Swift.String?
+        /// The Azure regions configured for the connector.
+        public var azureRegions: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the connector.
+        /// This member is required.
+        public var connectorArn: Swift.String?
+        /// The date and time when the connector was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// A description of the connector.
+        public var description: Swift.String?
+        /// The enablement status of the connector, which indicates whether the connector is active and scanning resources.
+        public var enablementStatus: Inspector2ClientTypes.EnablementStatus?
+        /// Additional information about the current enablement status of the connector.
+        public var enablementStatusReason: Swift.String?
+        /// The health of the connector, which indicates whether Amazon Inspector can reach and scan the connected resources.
+        public var health: Inspector2ClientTypes.ConnectorHealth?
+        /// The name of the connector.
+        public var name: Swift.String?
+        /// The cloud provider for the connector.
+        /// This member is required.
+        public var provider: Inspector2ClientTypes.ConnectorCloudProvider?
+        /// The Azure scope configuration for the connector.
+        public var scopeConfiguration: Inspector2ClientTypes.AzureScopeConfiguration?
+        /// The tags associated with the connector.
+        public var tags: [Swift.String: Swift.String]?
+        /// The date and time when the connector was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            autoInstallVMScanner: Swift.Bool? = nil,
+            awsConfigConnectorArn: Swift.String? = nil,
+            azureRegions: [Swift.String]? = nil,
+            connectorArn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            enablementStatus: Inspector2ClientTypes.EnablementStatus? = nil,
+            enablementStatusReason: Swift.String? = nil,
+            health: Inspector2ClientTypes.ConnectorHealth? = nil,
+            name: Swift.String? = nil,
+            provider: Inspector2ClientTypes.ConnectorCloudProvider? = nil,
+            scopeConfiguration: Inspector2ClientTypes.AzureScopeConfiguration? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.autoInstallVMScanner = autoInstallVMScanner
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+            self.azureRegions = azureRegions
+            self.connectorArn = connectorArn
+            self.createdAt = createdAt
+            self.description = description
+            self.enablementStatus = enablementStatus
+            self.enablementStatusReason = enablementStatusReason
+            self.health = health
+            self.name = name
+            self.provider = provider
+            self.scopeConfiguration = scopeConfiguration
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum ConnectorArnComparison: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case equals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorArnComparison] {
+            return [
+                .equals
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// A filter that matches connectors by connector ARN.
+    public struct ConnectorArnFilter: Swift.Sendable {
+        /// The comparison operator for the connector ARN filter.
+        /// This member is required.
+        public var comparison: Inspector2ClientTypes.ConnectorArnComparison?
+        /// The connector ARN value to filter by.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            comparison: Inspector2ClientTypes.ConnectorArnComparison? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.comparison = comparison
+            self.value = value
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum ContainerImagePullDateRescanDuration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case days14
+        case days180
+        case days3
+        case days30
+        case days60
+        case days7
+        case days90
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContainerImagePullDateRescanDuration] {
+            return [
+                .days14,
+                .days180,
+                .days3,
+                .days30,
+                .days60,
+                .days7,
+                .days90
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .days14: return "DAYS_14"
+            case .days180: return "DAYS_180"
+            case .days3: return "DAYS_3"
+            case .days30: return "DAYS_30"
+            case .days60: return "DAYS_60"
+            case .days7: return "DAYS_7"
+            case .days90: return "DAYS_90"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum ContainerImageRescanDuration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case days14
+        case days180
+        case days3
+        case days30
+        case days60
+        case days7
+        case days90
+        case lifetime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContainerImageRescanDuration] {
+            return [
+                .days14,
+                .days180,
+                .days3,
+                .days30,
+                .days60,
+                .days7,
+                .days90,
+                .lifetime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .days14: return "DAYS_14"
+            case .days180: return "DAYS_180"
+            case .days3: return "DAYS_3"
+            case .days30: return "DAYS_30"
+            case .days60: return "DAYS_60"
+            case .days7: return "DAYS_7"
+            case .days90: return "DAYS_90"
+            case .lifetime: return "LIFETIME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The container image scanning settings for a connector, including how long pushed and pulled images continue to be rescanned for vulnerabilities.
+    public struct ConnectorContainerImageScanConfiguration: Swift.Sendable {
+        /// The amount of time after a container image is last pulled from a repository during which Amazon Inspector continues to rescan the image for vulnerabilities. Valid values are DAYS_3, DAYS_7, DAYS_14, DAYS_30, DAYS_60, DAYS_90, and DAYS_180.
+        public var pullDuration: Inspector2ClientTypes.ContainerImagePullDateRescanDuration?
+        /// The amount of time after a container image is pushed to a repository during which Amazon Inspector continues to rescan the image for vulnerabilities. Valid values are LIFETIME, DAYS_3, DAYS_7, DAYS_14, DAYS_30, DAYS_60, DAYS_90, and DAYS_180.
+        public var pushDuration: Inspector2ClientTypes.ContainerImageRescanDuration?
+
+        public init(
+            pullDuration: Inspector2ClientTypes.ContainerImagePullDateRescanDuration? = nil,
+            pushDuration: Inspector2ClientTypes.ContainerImageRescanDuration? = nil
+        ) {
+            self.pullDuration = pullDuration
+            self.pushDuration = pushDuration
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum ConnectorTypeComparison: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case equals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorTypeComparison] {
+            return [
+                .equals
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum ConnectorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customerManaged
+        case serviceLinked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorType] {
+            return [
+                .customerManaged,
+                .serviceLinked
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customerManaged: return "CUSTOMER_MANAGED"
+            case .serviceLinked: return "SERVICE_LINKED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// A filter that matches connectors by connector type.
+    public struct ConnectorTypeFilter: Swift.Sendable {
+        /// The comparison operator for the connector type filter.
+        /// This member is required.
+        public var comparison: Inspector2ClientTypes.ConnectorTypeComparison?
+        /// The connector type value to filter by.
+        /// This member is required.
+        public var value: Inspector2ClientTypes.ConnectorType?
+
+        public init(
+            comparison: Inspector2ClientTypes.ConnectorTypeComparison? = nil,
+            value: Inspector2ClientTypes.ConnectorType? = nil
+        ) {
+            self.comparison = comparison
+            self.value = value
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum ProviderComparison: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case equals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProviderComparison] {
+            return [
+                .equals
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// A filter that matches connectors by cloud provider.
+    public struct ProviderFilter: Swift.Sendable {
+        /// The comparison operator for the provider filter.
+        /// This member is required.
+        public var comparison: Inspector2ClientTypes.ProviderComparison?
+        /// The cloud provider value to filter by.
+        /// This member is required.
+        public var value: Inspector2ClientTypes.ConnectorCloudProvider?
+
+        public init(
+            comparison: Inspector2ClientTypes.ProviderComparison? = nil,
+            value: Inspector2ClientTypes.ConnectorCloudProvider? = nil
+        ) {
+            self.comparison = comparison
+            self.value = value
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains the filter criteria for narrowing the results returned by a ListConnectors request. You can filter by connector ARN, Amazon Web Services account ID, Amazon Web Services Config connector ARN, connector type, or cloud provider.
+    public struct ConnectorFilterCriteria: Swift.Sendable {
+        /// Filter by Amazon Web Services account IDs.
+        public var accounts: [Inspector2ClientTypes.StringFilter]?
+        /// Filter by Amazon Web Services Config connector ARNs.
+        public var awsConfigConnectorArns: [Inspector2ClientTypes.AwsConfigConnectorArnFilter]?
+        /// Filter by connector ARNs.
+        public var connectorArns: [Inspector2ClientTypes.ConnectorArnFilter]?
+        /// Filter by connector type.
+        public var connectorType: [Inspector2ClientTypes.ConnectorTypeFilter]?
+        /// Filter by cloud provider.
+        public var provider: [Inspector2ClientTypes.ProviderFilter]?
+
+        public init(
+            accounts: [Inspector2ClientTypes.StringFilter]? = nil,
+            awsConfigConnectorArns: [Inspector2ClientTypes.AwsConfigConnectorArnFilter]? = nil,
+            connectorArns: [Inspector2ClientTypes.ConnectorArnFilter]? = nil,
+            connectorType: [Inspector2ClientTypes.ConnectorTypeFilter]? = nil,
+            provider: [Inspector2ClientTypes.ProviderFilter]? = nil
+        ) {
+            self.accounts = accounts
+            self.awsConfigConnectorArns = awsConfigConnectorArns
+            self.connectorArns = connectorArns
+            self.connectorType = connectorType
+            self.provider = provider
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The scan settings that Amazon Inspector applies to resources discovered through a connector.
+    public struct ConnectorScanConfiguration: Swift.Sendable {
+        /// The container image scanning configuration, including push and pull duration settings.
+        public var containerImageScanning: Inspector2ClientTypes.ConnectorContainerImageScanConfiguration?
+
+        public init(
+            containerImageScanning: Inspector2ClientTypes.ConnectorContainerImageScanConfiguration? = nil
+        ) {
+            self.containerImageScanning = containerImageScanning
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Represents a scan configuration and the connectors it applies to. Returned in the results of a ListConnectorScanConfigurations request.
+    public struct ConnectorScanConfigurationItem: Swift.Sendable {
+        /// The ARN of the Amazon Web Services Config connector.
+        /// This member is required.
+        public var awsConfigConnectorArn: Swift.String?
+        /// The list of connector ARNs associated with this Amazon Web Services Config connector.
+        /// This member is required.
+        public var connectorArns: [Swift.String]?
+        /// The scan configuration settings.
+        /// This member is required.
+        public var scanConfiguration: Inspector2ClientTypes.ConnectorScanConfiguration?
+
+        public init(
+            awsConfigConnectorArn: Swift.String? = nil,
+            connectorArns: [Swift.String]? = nil,
+            scanConfiguration: Inspector2ClientTypes.ConnectorScanConfiguration? = nil
+        ) {
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+            self.connectorArns = connectorArns
+            self.scanConfiguration = scanConfiguration
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains metadata about a container image associated with a covered resource.
+    public struct ContainerImageMetadata: Swift.Sendable {
+        /// The date and time the container image was pulled.
+        public var imagePulledAt: Foundation.Date?
+        /// The tags attached to the container image.
+        public var imageTags: [Swift.String]?
+        /// The number of times the container image is in use.
+        public var inUseCount: Swift.Int?
+        /// The last time the container image was in use.
+        public var lastInUseAt: Foundation.Date?
+
+        public init(
+            imagePulledAt: Foundation.Date? = nil,
+            imageTags: [Swift.String]? = nil,
+            inUseCount: Swift.Int? = nil,
+            lastInUseAt: Foundation.Date? = nil
+        ) {
+            self.imagePulledAt = imagePulledAt
+            self.imageTags = imageTags
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains metadata about a container registry associated with a covered resource.
+    public struct ContainerRegistryMetadata: Swift.Sendable {
+        /// The name of the container registry.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        ) {
+            self.name = name
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains metadata about a container repository associated with a covered resource.
+    public struct ContainerRepositoryMetadata: Swift.Sendable {
+        /// The name of the container repository.
+        public var name: Swift.String?
+        /// The scan frequency for the container repository.
+        public var scanFrequency: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            scanFrequency: Swift.String? = nil
+        ) {
+            self.name = name
+            self.scanFrequency = scanFrequency
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     public enum GroupKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accountId
         case ecrRepositoryName
+        case provider
+        case providerAccountId
+        case providerOrgId
+        case providerRegion
         case resourceType
         case scanStatusCode
         case scanStatusReason
@@ -6033,6 +7809,10 @@ extension Inspector2ClientTypes {
             return [
                 .accountId,
                 .ecrRepositoryName,
+                .provider,
+                .providerAccountId,
+                .providerOrgId,
+                .providerRegion,
                 .resourceType,
                 .scanStatusCode,
                 .scanStatusReason
@@ -6048,6 +7828,10 @@ extension Inspector2ClientTypes {
             switch self {
             case .accountId: return "ACCOUNT_ID"
             case .ecrRepositoryName: return "ECR_REPOSITORY_NAME"
+            case .provider: return "PROVIDER"
+            case .providerAccountId: return "PROVIDER_ACCOUNT_ID"
+            case .providerOrgId: return "PROVIDER_ORG_ID"
+            case .providerRegion: return "PROVIDER_REGION"
             case .resourceType: return "RESOURCE_TYPE"
             case .scanStatusCode: return "SCAN_STATUS_CODE"
             case .scanStatusReason: return "SCAN_STATUS_REASON"
@@ -6221,6 +8005,28 @@ extension Inspector2ClientTypes {
     public struct CoverageFilterCriteria: Swift.Sendable {
         /// An array of Amazon Web Services account IDs to return coverage statistics for.
         public var accountId: [Inspector2ClientTypes.CoverageStringFilter]?
+        /// The cloud container image tags to filter coverage results by.
+        public var cloudContainerImageTags: [Inspector2ClientTypes.CoverageStringFilter]?
+        /// The cloud container registry name to filter coverage results by.
+        public var cloudContainerRegistryName: [Inspector2ClientTypes.CoverageStringFilter]?
+        /// The cloud container repository name to filter coverage results by.
+        public var cloudContainerRepositoryName: [Inspector2ClientTypes.CoverageStringFilter]?
+        /// The cloud provider to filter coverage results by.
+        public var cloudProvider: [Inspector2ClientTypes.CoverageStringFilter]?
+        /// The cloud provider account ID to filter coverage results by.
+        public var cloudProviderAccountId: [Inspector2ClientTypes.CoverageStringFilter]?
+        /// The cloud provider organization ID to filter coverage results by.
+        public var cloudProviderOrgId: [Inspector2ClientTypes.CoverageStringFilter]?
+        /// The cloud provider region to filter coverage results by.
+        public var cloudProviderRegion: [Inspector2ClientTypes.CoverageStringFilter]?
+        /// The cloud serverless function name to filter coverage results by.
+        public var cloudServerlessFunctionName: [Inspector2ClientTypes.CoverageStringFilter]?
+        /// The cloud serverless function runtime to filter coverage results by.
+        public var cloudServerlessFunctionRuntime: [Inspector2ClientTypes.CoverageStringFilter]?
+        /// The cloud serverless function tags to filter coverage results by.
+        public var cloudServerlessFunctionTags: [Inspector2ClientTypes.CoverageMapFilter]?
+        /// The cloud VM instance tags to filter coverage results by.
+        public var cloudVmInstanceTags: [Inspector2ClientTypes.CoverageMapFilter]?
         /// Filter criteria for code repositories based on project name.
         public var codeRepositoryProjectName: [Inspector2ClientTypes.CoverageStringFilter]?
         /// Filter criteria for code repositories based on provider type (such as GitHub, GitLab, etc.).
@@ -6253,7 +8059,7 @@ extension Inspector2ClientTypes {
         public var resourceId: [Inspector2ClientTypes.CoverageStringFilter]?
         /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION, AWS_ECR_CONTAINER_IMAGE, AWS_ECR_REPOSITORY or AWS_ACCOUNT.
         public var resourceType: [Inspector2ClientTypes.CoverageStringFilter]?
-        /// The filter to search for Amazon EC2 instance coverage by scan mode. Valid values are EC2_SSM_AGENT_BASED and EC2_AGENTLESS.
+        /// The filter to search for Amazon EC2 instance coverage by scan mode. Valid values are EC2_SSM_AGENT_BASED, EC2_AGENTLESS, and EC2_INSPECTOR_AGENT_BASED.
         public var scanMode: [Inspector2ClientTypes.CoverageStringFilter]?
         /// The scan status code to filter on. Valid values are: ValidationException, InternalServerException, ResourceNotFoundException, BadRequestException, and ThrottlingException.
         public var scanStatusCode: [Inspector2ClientTypes.CoverageStringFilter]?
@@ -6264,6 +8070,17 @@ extension Inspector2ClientTypes {
 
         public init(
             accountId: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            cloudContainerImageTags: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            cloudContainerRegistryName: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            cloudContainerRepositoryName: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            cloudProvider: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            cloudProviderAccountId: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            cloudProviderOrgId: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            cloudProviderRegion: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            cloudServerlessFunctionName: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            cloudServerlessFunctionRuntime: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            cloudServerlessFunctionTags: [Inspector2ClientTypes.CoverageMapFilter]? = nil,
+            cloudVmInstanceTags: [Inspector2ClientTypes.CoverageMapFilter]? = nil,
             codeRepositoryProjectName: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             codeRepositoryProviderType: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             codeRepositoryProviderTypeVisibility: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
@@ -6286,6 +8103,17 @@ extension Inspector2ClientTypes {
             scanType: [Inspector2ClientTypes.CoverageStringFilter]? = nil
         ) {
             self.accountId = accountId
+            self.cloudContainerImageTags = cloudContainerImageTags
+            self.cloudContainerRegistryName = cloudContainerRegistryName
+            self.cloudContainerRepositoryName = cloudContainerRepositoryName
+            self.cloudProvider = cloudProvider
+            self.cloudProviderAccountId = cloudProviderAccountId
+            self.cloudProviderOrgId = cloudProviderOrgId
+            self.cloudProviderRegion = cloudProviderRegion
+            self.cloudServerlessFunctionName = cloudServerlessFunctionName
+            self.cloudServerlessFunctionRuntime = cloudServerlessFunctionRuntime
+            self.cloudServerlessFunctionTags = cloudServerlessFunctionTags
+            self.cloudVmInstanceTags = cloudVmInstanceTags
             self.codeRepositoryProjectName = codeRepositoryProjectName
             self.codeRepositoryProviderType = codeRepositoryProviderType
             self.codeRepositoryProviderTypeVisibility = codeRepositoryProviderTypeVisibility
@@ -6318,6 +8146,11 @@ extension Inspector2ClientTypes {
         case awsEcrRepository
         case awsLambdaFunction
         case codeRepository
+        case microsoftComputeVirtualMachines
+        case microsoftContainerRegistryRegistries
+        case microsoftContainerRegistryRegistryContainerImage
+        case microsoftContainerRegistryRegistryContainerRepository
+        case microsoftWebSites
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CoverageResourceType] {
@@ -6326,7 +8159,12 @@ extension Inspector2ClientTypes {
                 .awsEcrContainerImage,
                 .awsEcrRepository,
                 .awsLambdaFunction,
-                .codeRepository
+                .codeRepository,
+                .microsoftComputeVirtualMachines,
+                .microsoftContainerRegistryRegistries,
+                .microsoftContainerRegistryRegistryContainerImage,
+                .microsoftContainerRegistryRegistryContainerRepository,
+                .microsoftWebSites
             ]
         }
 
@@ -6342,6 +8180,11 @@ extension Inspector2ClientTypes {
             case .awsEcrRepository: return "AWS_ECR_REPOSITORY"
             case .awsLambdaFunction: return "AWS_LAMBDA_FUNCTION"
             case .codeRepository: return "CODE_REPOSITORY"
+            case .microsoftComputeVirtualMachines: return "Microsoft.Compute/virtualMachines"
+            case .microsoftContainerRegistryRegistries: return "Microsoft.ContainerRegistry/registries"
+            case .microsoftContainerRegistryRegistryContainerImage: return "Microsoft.ContainerRegistry/registry/containerImage"
+            case .microsoftContainerRegistryRegistryContainerRepository: return "Microsoft.ContainerRegistry/registry/containerRepository"
+            case .microsoftWebSites: return "Microsoft.Web/sites"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6513,10 +8356,98 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    /// Contains metadata about a serverless function associated with a covered resource.
+    public struct ServerlessFunctionMetadata: Swift.Sendable {
+        /// The tags associated with the serverless function.
+        public var functionTags: [Swift.String: Swift.String]?
+        /// The runtime of the serverless function.
+        public var runtime: Swift.String?
+        /// The name of the serverless function.
+        public var serverlessFunctionName: Swift.String?
+
+        public init(
+            functionTags: [Swift.String: Swift.String]? = nil,
+            runtime: Swift.String? = nil,
+            serverlessFunctionName: Swift.String? = nil
+        ) {
+            self.functionTags = functionTags
+            self.runtime = runtime
+            self.serverlessFunctionName = serverlessFunctionName
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum VmPlatform: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case linux
+        case unknown
+        case windows
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VmPlatform] {
+            return [
+                .linux,
+                .unknown,
+                .windows
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .linux: return "LINUX"
+            case .unknown: return "UNKNOWN"
+            case .windows: return "WINDOWS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains metadata about a virtual machine (VM) instance associated with a covered resource.
+    public struct VmInstanceMetadata: Swift.Sendable {
+        /// The inventory hash of the VM instance.
+        public var inventoryHash: Swift.String?
+        /// The platform of the VM instance.
+        public var platform: Inspector2ClientTypes.VmPlatform?
+        /// The tags associated with the VM instance.
+        public var tags: [Swift.String: Swift.String]?
+        /// The image reference of the VM instance.
+        public var vmImageReference: Swift.String?
+
+        public init(
+            inventoryHash: Swift.String? = nil,
+            platform: Inspector2ClientTypes.VmPlatform? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            vmImageReference: Swift.String? = nil
+        ) {
+            self.inventoryHash = inventoryHash
+            self.platform = platform
+            self.tags = tags
+            self.vmImageReference = vmImageReference
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     /// An object that contains details about the metadata for an Amazon ECR resource.
     public struct ResourceScanMetadata: Swift.Sendable {
         /// Contains metadata about scan coverage for a code repository resource.
         public var codeRepository: Inspector2ClientTypes.CodeRepositoryMetadata?
+        /// The container image metadata associated with a covered resource.
+        public var containerImage: Inspector2ClientTypes.ContainerImageMetadata?
+        /// The container registry metadata associated with a covered resource.
+        public var containerRegistry: Inspector2ClientTypes.ContainerRegistryMetadata?
+        /// The container repository metadata associated with a covered resource.
+        public var containerRepository: Inspector2ClientTypes.ContainerRepositoryMetadata?
         /// An object that contains metadata details for an Amazon EC2 instance.
         public var ec2: Inspector2ClientTypes.Ec2Metadata?
         /// An object that contains details about the container metadata for an Amazon ECR image.
@@ -6525,19 +8456,33 @@ extension Inspector2ClientTypes {
         public var ecrRepository: Inspector2ClientTypes.EcrRepositoryMetadata?
         /// An object that contains metadata details for an Amazon Web Services Lambda function.
         public var lambdaFunction: Inspector2ClientTypes.LambdaFunctionMetadata?
+        /// The serverless function metadata associated with a covered resource.
+        public var serverlessFunction: Inspector2ClientTypes.ServerlessFunctionMetadata?
+        /// The VM instance metadata associated with a covered resource.
+        public var vmInstance: Inspector2ClientTypes.VmInstanceMetadata?
 
         public init(
             codeRepository: Inspector2ClientTypes.CodeRepositoryMetadata? = nil,
+            containerImage: Inspector2ClientTypes.ContainerImageMetadata? = nil,
+            containerRegistry: Inspector2ClientTypes.ContainerRegistryMetadata? = nil,
+            containerRepository: Inspector2ClientTypes.ContainerRepositoryMetadata? = nil,
             ec2: Inspector2ClientTypes.Ec2Metadata? = nil,
             ecrImage: Inspector2ClientTypes.EcrContainerImageMetadata? = nil,
             ecrRepository: Inspector2ClientTypes.EcrRepositoryMetadata? = nil,
-            lambdaFunction: Inspector2ClientTypes.LambdaFunctionMetadata? = nil
+            lambdaFunction: Inspector2ClientTypes.LambdaFunctionMetadata? = nil,
+            serverlessFunction: Inspector2ClientTypes.ServerlessFunctionMetadata? = nil,
+            vmInstance: Inspector2ClientTypes.VmInstanceMetadata? = nil
         ) {
             self.codeRepository = codeRepository
+            self.containerImage = containerImage
+            self.containerRegistry = containerRegistry
+            self.containerRepository = containerRepository
             self.ec2 = ec2
             self.ecrImage = ecrImage
             self.ecrRepository = ecrRepository
             self.lambdaFunction = lambdaFunction
+            self.serverlessFunction = serverlessFunction
+            self.vmInstance = vmInstance
         }
     }
 }
@@ -6546,13 +8491,17 @@ extension Inspector2ClientTypes {
 
     public enum ScanMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ec2Agentless
+        case ec2InspectorAgentBased
         case ec2SsmAgentBased
+        case vmInspectorAgentBased
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScanMode] {
             return [
                 .ec2Agentless,
-                .ec2SsmAgentBased
+                .ec2InspectorAgentBased,
+                .ec2SsmAgentBased,
+                .vmInspectorAgentBased
             ]
         }
 
@@ -6564,7 +8513,9 @@ extension Inspector2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .ec2Agentless: return "EC2_AGENTLESS"
+            case .ec2InspectorAgentBased: return "EC2_INSPECTOR_AGENT_BASED"
             case .ec2SsmAgentBased: return "EC2_SSM_AGENT_BASED"
+            case .vmInspectorAgentBased: return "VM_INSPECTOR_AGENT_BASED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6612,6 +8563,16 @@ extension Inspector2ClientTypes {
         public var accountId: Swift.String?
         /// The date and time the resource was last checked for vulnerabilities.
         public var lastScannedAt: Foundation.Date?
+        /// The cloud provider of the covered resource.
+        public var provider: Inspector2ClientTypes.Provider?
+        /// The cloud provider account ID of the covered resource.
+        public var providerAccountId: Swift.String?
+        /// The cloud provider organization ID of the covered resource.
+        public var providerOrgId: Swift.String?
+        /// The cloud provider partition of the covered resource.
+        public var providerPartition: Swift.String?
+        /// The cloud provider region of the covered resource.
+        public var providerRegion: Swift.String?
         /// The ID of the covered resource.
         /// This member is required.
         public var resourceId: Swift.String?
@@ -6631,6 +8592,11 @@ extension Inspector2ClientTypes {
         public init(
             accountId: Swift.String? = nil,
             lastScannedAt: Foundation.Date? = nil,
+            provider: Inspector2ClientTypes.Provider? = nil,
+            providerAccountId: Swift.String? = nil,
+            providerOrgId: Swift.String? = nil,
+            providerPartition: Swift.String? = nil,
+            providerRegion: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             resourceMetadata: Inspector2ClientTypes.ResourceScanMetadata? = nil,
             resourceType: Inspector2ClientTypes.CoverageResourceType? = nil,
@@ -6640,6 +8606,11 @@ extension Inspector2ClientTypes {
         ) {
             self.accountId = accountId
             self.lastScannedAt = lastScannedAt
+            self.provider = provider
+            self.providerAccountId = providerAccountId
+            self.providerOrgId = providerOrgId
+            self.providerPartition = providerPartition
+            self.providerRegion = providerRegion
             self.resourceId = resourceId
             self.resourceMetadata = resourceMetadata
             self.resourceType = resourceType
@@ -6844,6 +8815,62 @@ public struct CreateCodeSecurityScanConfigurationOutput: Swift.Sendable {
 
 extension Inspector2ClientTypes {
 
+    /// The provider-specific configuration details for creating a connector.
+    public enum ProviderDetailCreate: Swift.Sendable {
+        /// The Azure-specific details for creating a connector.
+        case azure(Inspector2ClientTypes.AzureProviderDetailCreate)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateConnectorInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
+    public var clientToken: Swift.String?
+    /// A description of the connector.
+    public var description: Swift.String?
+    /// The name of the connector.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The cloud provider for the connector.
+    /// This member is required.
+    public var provider: Inspector2ClientTypes.ConnectorCloudProvider?
+    /// The provider-specific configuration details for the connector.
+    /// This member is required.
+    public var providerDetail: Inspector2ClientTypes.ProviderDetailCreate?
+    /// The tags to apply to the connector.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        provider: Inspector2ClientTypes.ConnectorCloudProvider? = nil,
+        providerDetail: Inspector2ClientTypes.ProviderDetailCreate? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.name = name
+        self.provider = provider
+        self.providerDetail = providerDetail
+        self.tags = tags
+    }
+}
+
+public struct CreateConnectorOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the created connector.
+    /// This member is required.
+    public var connectorArn: Swift.String?
+
+    public init(
+        connectorArn: Swift.String? = nil
+    ) {
+        self.connectorArn = connectorArn
+    }
+}
+
+extension Inspector2ClientTypes {
+
     public enum FilterAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `none`
         case suppress
@@ -6939,6 +8966,44 @@ extension Inspector2ClientTypes {
     public struct FilterCriteria: Swift.Sendable {
         /// Details of the Amazon Web Services account IDs used to filter findings.
         public var awsAccountId: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria for the architecture of a container image.
+        public var cloudImageArchitecture: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria for the digest of a container image.
+        public var cloudImageDigest: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria for the in-use count of a container image.
+        public var cloudImageInUseCount: [Inspector2ClientTypes.NumberFilter]?
+        /// Filter criteria for the last time a container image was in use.
+        public var cloudImageLastInUseAt: [Inspector2ClientTypes.DateFilter]?
+        /// Filter criteria for when a container image was pushed.
+        public var cloudImagePushedAt: [Inspector2ClientTypes.DateFilter]?
+        /// Filter criteria for the registry of a container image.
+        public var cloudImageRegistry: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria for the repository name of a container image.
+        public var cloudImageRepositoryName: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria for the tags of a container image.
+        public var cloudImageTags: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria for the cloud provider.
+        public var cloudProvider: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria for the cloud provider account ID.
+        public var cloudProviderAccountId: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria for the cloud provider organization ID.
+        public var cloudProviderOrgId: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria for the cloud provider region.
+        public var cloudProviderRegion: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria for the execution role of a serverless function.
+        public var cloudServerlessFunctionExecutionRole: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria for when a serverless function was last modified.
+        public var cloudServerlessFunctionLastModifiedAt: [Inspector2ClientTypes.DateFilter]?
+        /// Filter criteria for the name of a serverless function.
+        public var cloudServerlessFunctionName: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria for the runtime of a serverless function.
+        public var cloudServerlessFunctionRuntime: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria for the image reference of a VM instance.
+        public var cloudVmImageReference: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria for the network ID of a VM instance.
+        public var cloudVmNetworkId: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria for the subnet IDs of a VM instance.
+        public var cloudVmSubnetIds: [Inspector2ClientTypes.StringFilter]?
         /// Filter criteria for findings based on the project name in a code repository.
         public var codeRepositoryProjectName: [Inspector2ClientTypes.StringFilter]?
         /// Filter criteria for findings based on the repository provider type (such as GitHub, GitLab, etc.).
@@ -7032,6 +9097,25 @@ extension Inspector2ClientTypes {
 
         public init(
             awsAccountId: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudImageArchitecture: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudImageDigest: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudImageInUseCount: [Inspector2ClientTypes.NumberFilter]? = nil,
+            cloudImageLastInUseAt: [Inspector2ClientTypes.DateFilter]? = nil,
+            cloudImagePushedAt: [Inspector2ClientTypes.DateFilter]? = nil,
+            cloudImageRegistry: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudImageRepositoryName: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudImageTags: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudProvider: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudProviderAccountId: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudProviderOrgId: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudProviderRegion: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudServerlessFunctionExecutionRole: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudServerlessFunctionLastModifiedAt: [Inspector2ClientTypes.DateFilter]? = nil,
+            cloudServerlessFunctionName: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudServerlessFunctionRuntime: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudVmImageReference: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudVmNetworkId: [Inspector2ClientTypes.StringFilter]? = nil,
+            cloudVmSubnetIds: [Inspector2ClientTypes.StringFilter]? = nil,
             codeRepositoryProjectName: [Inspector2ClientTypes.StringFilter]? = nil,
             codeRepositoryProviderType: [Inspector2ClientTypes.StringFilter]? = nil,
             codeVulnerabilityDetectorName: [Inspector2ClientTypes.StringFilter]? = nil,
@@ -7079,6 +9163,25 @@ extension Inspector2ClientTypes {
             vulnerablePackages: [Inspector2ClientTypes.PackageFilter]? = nil
         ) {
             self.awsAccountId = awsAccountId
+            self.cloudImageArchitecture = cloudImageArchitecture
+            self.cloudImageDigest = cloudImageDigest
+            self.cloudImageInUseCount = cloudImageInUseCount
+            self.cloudImageLastInUseAt = cloudImageLastInUseAt
+            self.cloudImagePushedAt = cloudImagePushedAt
+            self.cloudImageRegistry = cloudImageRegistry
+            self.cloudImageRepositoryName = cloudImageRepositoryName
+            self.cloudImageTags = cloudImageTags
+            self.cloudProvider = cloudProvider
+            self.cloudProviderAccountId = cloudProviderAccountId
+            self.cloudProviderOrgId = cloudProviderOrgId
+            self.cloudProviderRegion = cloudProviderRegion
+            self.cloudServerlessFunctionExecutionRole = cloudServerlessFunctionExecutionRole
+            self.cloudServerlessFunctionLastModifiedAt = cloudServerlessFunctionLastModifiedAt
+            self.cloudServerlessFunctionName = cloudServerlessFunctionName
+            self.cloudServerlessFunctionRuntime = cloudServerlessFunctionRuntime
+            self.cloudVmImageReference = cloudVmImageReference
+            self.cloudVmNetworkId = cloudVmNetworkId
+            self.cloudVmSubnetIds = cloudVmSubnetIds
             self.codeRepositoryProjectName = codeRepositoryProjectName
             self.codeRepositoryProviderType = codeRepositoryProviderType
             self.codeVulnerabilityDetectorName = codeVulnerabilityDetectorName
@@ -7835,6 +9938,23 @@ public struct DeleteCodeSecurityScanConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteConnectorInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the connector to delete.
+    /// This member is required.
+    public var connectorArn: Swift.String?
+
+    public init(
+        connectorArn: Swift.String? = nil
+    ) {
+        self.connectorArn = connectorArn
+    }
+}
+
+public struct DeleteConnectorOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteFilterInput: Swift.Sendable {
     /// The Amazon Resource Number (ARN) of the filter to be deleted.
     /// This member is required.
@@ -8029,13 +10149,17 @@ extension Inspector2ClientTypes {
 
     /// Enables agent-based scanning, which scans instances that are not managed by SSM.
     public struct Ec2Configuration: Swift.Sendable {
+        /// Whether to activate Amazon Inspector VM scanner for Amazon EC2 scanning.
+        public var activateVMScanner: Swift.Bool?
         /// The scan method that is applied to the instance.
         /// This member is required.
         public var scanMode: Inspector2ClientTypes.Ec2ScanMode?
 
         public init(
+            activateVMScanner: Swift.Bool? = nil,
             scanMode: Inspector2ClientTypes.Ec2ScanMode? = nil
         ) {
+            self.activateVMScanner = activateVMScanner
             self.scanMode = scanMode
         }
     }
@@ -8091,15 +10215,74 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    public enum VMScannerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case pending
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VMScannerStatus] {
+            return [
+                .failed,
+                .pending,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The state of the Amazon Inspector VM scanner.
+    public struct VMScannerState: Swift.Sendable {
+        /// Whether the VM scanner is activated.
+        public var activated: Swift.Bool?
+        /// The date and time the VM scanner was activated.
+        public var activatedAt: Foundation.Date?
+        /// The status of the VM scanner.
+        public var status: Inspector2ClientTypes.VMScannerStatus?
+
+        public init(
+            activated: Swift.Bool? = nil,
+            activatedAt: Foundation.Date? = nil,
+            status: Inspector2ClientTypes.VMScannerStatus? = nil
+        ) {
+            self.activated = activated
+            self.activatedAt = activatedAt
+            self.status = status
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     /// Details about the state of the EC2 scan configuration for your environment.
     public struct Ec2ConfigurationState: Swift.Sendable {
         /// An object that contains details about the state of the Amazon EC2 scan mode.
         public var scanModeState: Inspector2ClientTypes.Ec2ScanModeState?
+        /// An object that contains details about the state of the Amazon Inspector VM scanner.
+        public var vmScannerState: Inspector2ClientTypes.VMScannerState?
 
         public init(
-            scanModeState: Inspector2ClientTypes.Ec2ScanModeState? = nil
+            scanModeState: Inspector2ClientTypes.Ec2ScanModeState? = nil,
+            vmScannerState: Inspector2ClientTypes.VMScannerState? = nil
         ) {
             self.scanModeState = scanModeState
+            self.vmScannerState = vmScannerState
         }
     }
 }
@@ -8931,6 +11114,175 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    /// Contains details about a container image involved in a finding.
+    public struct Image: Swift.Sendable {
+        /// The architecture of the container image.
+        public var architecture: Swift.String?
+        /// The author of the container image.
+        public var author: Swift.String?
+        /// The image digest of the container image.
+        public var imageDigest: Swift.String?
+        /// The image tags attached to the container image.
+        public var imageTags: [Swift.String]?
+        /// The number of times the container image is in use.
+        public var inUseCount: Swift.Int?
+        /// The last time the container image was in use.
+        public var lastInUseAt: Foundation.Date?
+        /// The platform of the container image.
+        public var platform: Swift.String?
+        /// The date and time the container image was pushed.
+        public var pushedAt: Foundation.Date?
+        /// The registry for the container image.
+        public var registry: Swift.String?
+        /// The name of the repository the container image resides in.
+        public var repositoryName: Swift.String?
+
+        public init(
+            architecture: Swift.String? = nil,
+            author: Swift.String? = nil,
+            imageDigest: Swift.String? = nil,
+            imageTags: [Swift.String]? = nil,
+            inUseCount: Swift.Int? = nil,
+            lastInUseAt: Foundation.Date? = nil,
+            platform: Swift.String? = nil,
+            pushedAt: Foundation.Date? = nil,
+            registry: Swift.String? = nil,
+            repositoryName: Swift.String? = nil
+        ) {
+            self.architecture = architecture
+            self.author = author
+            self.imageDigest = imageDigest
+            self.imageTags = imageTags
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
+            self.platform = platform
+            self.pushedAt = pushedAt
+            self.registry = registry
+            self.repositoryName = repositoryName
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains details about a serverless function involved in a finding.
+    public struct ServerlessFunction: Swift.Sendable {
+        /// The architectures of the serverless function.
+        public var architectures: [Inspector2ClientTypes.Architecture]?
+        /// The code digest of the serverless function.
+        public var codeDigest: Swift.String?
+        /// The execution role of the serverless function.
+        public var executionRole: Swift.String?
+        /// The date and time the serverless function was last modified.
+        public var lastModifiedAt: Foundation.Date?
+        /// The layers of the serverless function.
+        public var layers: [Swift.String]?
+        /// The network ID associated with the serverless function.
+        public var networkId: Swift.String?
+        /// The package type of the serverless function.
+        public var packageType: Inspector2ClientTypes.PackageType?
+        /// The runtime of the serverless function.
+        public var runtime: Swift.String?
+        /// The security group IDs associated with the serverless function.
+        public var securityGroupIds: [Swift.String]?
+        /// The name of the serverless function.
+        public var serverlessFunctionName: Swift.String?
+        /// The subnet IDs associated with the serverless function.
+        public var subnetIds: [Swift.String]?
+        /// The version of the serverless function.
+        public var version: Swift.String?
+
+        public init(
+            architectures: [Inspector2ClientTypes.Architecture]? = nil,
+            codeDigest: Swift.String? = nil,
+            executionRole: Swift.String? = nil,
+            lastModifiedAt: Foundation.Date? = nil,
+            layers: [Swift.String]? = nil,
+            networkId: Swift.String? = nil,
+            packageType: Inspector2ClientTypes.PackageType? = nil,
+            runtime: Swift.String? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            serverlessFunctionName: Swift.String? = nil,
+            subnetIds: [Swift.String]? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.architectures = architectures
+            self.codeDigest = codeDigest
+            self.executionRole = executionRole
+            self.lastModifiedAt = lastModifiedAt
+            self.layers = layers
+            self.networkId = networkId
+            self.packageType = packageType
+            self.runtime = runtime
+            self.securityGroupIds = securityGroupIds
+            self.serverlessFunctionName = serverlessFunctionName
+            self.subnetIds = subnetIds
+            self.version = version
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains details about a VM instance involved in a finding.
+    public struct Vm: Swift.Sendable {
+        /// The execution role of the VM instance.
+        public var executionRole: Swift.String?
+        /// The IPv4 addresses of the VM instance.
+        public var ipV4Addresses: [Swift.String]?
+        /// The IPv6 addresses of the VM instance.
+        public var ipV6Addresses: [Swift.String]?
+        /// The key name associated with the VM instance.
+        public var keyName: Swift.String?
+        /// The date and time the VM instance was launched.
+        public var launchedAt: Foundation.Date?
+        /// The network ID associated with the VM instance.
+        public var networkId: Swift.String?
+        /// The platform of the VM instance.
+        public var platform: Swift.String?
+        /// The security group IDs associated with the VM instance.
+        public var securityGroupIds: [Swift.String]?
+        /// The subnet IDs of the VM instance.
+        public var subnetIds: [Swift.String]?
+        /// The type of the VM instance.
+        public var type: Swift.String?
+        /// The image reference of the VM instance.
+        public var vmImageReference: Swift.String?
+        /// The name of the VM instance.
+        public var vmName: Swift.String?
+
+        public init(
+            executionRole: Swift.String? = nil,
+            ipV4Addresses: [Swift.String]? = nil,
+            ipV6Addresses: [Swift.String]? = nil,
+            keyName: Swift.String? = nil,
+            launchedAt: Foundation.Date? = nil,
+            networkId: Swift.String? = nil,
+            platform: Swift.String? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil,
+            type: Swift.String? = nil,
+            vmImageReference: Swift.String? = nil,
+            vmName: Swift.String? = nil
+        ) {
+            self.executionRole = executionRole
+            self.ipV4Addresses = ipV4Addresses
+            self.ipV6Addresses = ipV6Addresses
+            self.keyName = keyName
+            self.launchedAt = launchedAt
+            self.networkId = networkId
+            self.platform = platform
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.type = type
+            self.vmImageReference = vmImageReference
+            self.vmName = vmName
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     /// Contains details about the resource involved in the finding.
     public struct ResourceDetails: Swift.Sendable {
         /// An object that contains details about the Amazon EC2 instance involved in the finding.
@@ -8941,17 +11293,29 @@ extension Inspector2ClientTypes {
         public var awsLambdaFunction: Inspector2ClientTypes.AwsLambdaFunctionDetails?
         /// Contains details about a code repository resource associated with a finding.
         public var codeRepository: Inspector2ClientTypes.CodeRepositoryDetails?
+        /// An object that contains details about a container image involved in the finding.
+        public var image: Inspector2ClientTypes.Image?
+        /// An object that contains details about a serverless function involved in the finding.
+        public var serverlessFunction: Inspector2ClientTypes.ServerlessFunction?
+        /// An object that contains details about a VM instance involved in the finding.
+        public var vm: Inspector2ClientTypes.Vm?
 
         public init(
             awsEc2Instance: Inspector2ClientTypes.AwsEc2InstanceDetails? = nil,
             awsEcrContainerImage: Inspector2ClientTypes.AwsEcrContainerImageDetails? = nil,
             awsLambdaFunction: Inspector2ClientTypes.AwsLambdaFunctionDetails? = nil,
-            codeRepository: Inspector2ClientTypes.CodeRepositoryDetails? = nil
+            codeRepository: Inspector2ClientTypes.CodeRepositoryDetails? = nil,
+            image: Inspector2ClientTypes.Image? = nil,
+            serverlessFunction: Inspector2ClientTypes.ServerlessFunction? = nil,
+            vm: Inspector2ClientTypes.Vm? = nil
         ) {
             self.awsEc2Instance = awsEc2Instance
             self.awsEcrContainerImage = awsEcrContainerImage
             self.awsLambdaFunction = awsLambdaFunction
             self.codeRepository = codeRepository
+            self.image = image
+            self.serverlessFunction = serverlessFunction
+            self.vm = vm
         }
     }
 }
@@ -8964,6 +11328,9 @@ extension Inspector2ClientTypes {
         case awsEcrRepository
         case awsLambdaFunction
         case codeRepository
+        case microsoftComputeVirtualMachines
+        case microsoftContainerRegistryRegistryContainerImage
+        case microsoftWebSites
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
@@ -8972,7 +11339,10 @@ extension Inspector2ClientTypes {
                 .awsEcrContainerImage,
                 .awsEcrRepository,
                 .awsLambdaFunction,
-                .codeRepository
+                .codeRepository,
+                .microsoftComputeVirtualMachines,
+                .microsoftContainerRegistryRegistryContainerImage,
+                .microsoftWebSites
             ]
         }
 
@@ -8988,6 +11358,9 @@ extension Inspector2ClientTypes {
             case .awsEcrRepository: return "AWS_ECR_REPOSITORY"
             case .awsLambdaFunction: return "AWS_LAMBDA_FUNCTION"
             case .codeRepository: return "CODE_REPOSITORY"
+            case .microsoftComputeVirtualMachines: return "Microsoft.Compute/virtualMachines"
+            case .microsoftContainerRegistryRegistryContainerImage: return "Microsoft.ContainerRegistry/registry/containerImage"
+            case .microsoftWebSites: return "Microsoft.Web/sites"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9005,6 +11378,12 @@ extension Inspector2ClientTypes {
         public var id: Swift.String?
         /// The partition of the resource.
         public var partition: Swift.String?
+        /// The cloud provider of the resource.
+        public var provider: Inspector2ClientTypes.Provider?
+        /// The cloud provider account ID of the resource.
+        public var providerAccountId: Swift.String?
+        /// The cloud provider organization ID of the resource.
+        public var providerOrgId: Swift.String?
         /// The Amazon Web Services Region the impacted resource is located in.
         public var region: Swift.String?
         /// The tags attached to the resource.
@@ -9017,6 +11396,9 @@ extension Inspector2ClientTypes {
             details: Inspector2ClientTypes.ResourceDetails? = nil,
             id: Swift.String? = nil,
             partition: Swift.String? = nil,
+            provider: Inspector2ClientTypes.Provider? = nil,
+            providerAccountId: Swift.String? = nil,
+            providerOrgId: Swift.String? = nil,
             region: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: Inspector2ClientTypes.ResourceType? = nil
@@ -9024,6 +11406,9 @@ extension Inspector2ClientTypes {
             self.details = details
             self.id = id
             self.partition = partition
+            self.provider = provider
+            self.providerAccountId = providerAccountId
+            self.providerOrgId = providerOrgId
             self.region = region
             self.tags = tags
             self.type = type
@@ -9548,8 +11933,14 @@ public struct GetCodeSecurityScanConfigurationOutput: Swift.Sendable {
 }
 
 public struct GetConfigurationInput: Swift.Sendable {
+    /// The 12-digit Amazon Web Services account ID of the member account whose scan configuration you want to retrieve. When specified, you must be the delegated administrator for this member account. If not specified, the operation returns your own configuration.
+    public var accountId: Swift.String?
 
-    public init() { }
+    public init(
+        accountId: Swift.String? = nil
+    ) {
+        self.accountId = accountId
+    }
 }
 
 public struct GetConfigurationOutput: Swift.Sendable {
@@ -9817,6 +12208,33 @@ public struct GetSbomExportOutput: Swift.Sendable {
         self.reportId = reportId
         self.s3Destination = s3Destination
         self.status = status
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The inheritance behavior for a scan-type configuration. Used with UpdateConfigurationInheritance to reset a member account's configuration to inherit from the delegated administrator. The only valid value is INHERIT_FROM_ADMIN, which resets the member account's configuration so that it inherits scan settings from the delegated administrator.
+    public enum InheritanceMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inheritFromAdmin
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InheritanceMode] {
+            return [
+                .inheritFromAdmin
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inheritFromAdmin: return "INHERIT_FROM_ADMIN"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -10358,6 +12776,96 @@ public struct ListCodeSecurityScanConfigurationsOutput: Swift.Sendable {
     }
 }
 
+public struct ListConnectorsInput: Swift.Sendable {
+    /// The filter criteria to apply to the list of connectors.
+    public var filterCriteria: Inspector2ClientTypes.ConnectorFilterCriteria?
+    /// The maximum number of results to return in a single call. To retrieve the remaining results, make another request with the nextToken value returned from this request.
+    public var maxResults: Swift.Int?
+    /// A token to use for paginating results. Set this value to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        filterCriteria: Inspector2ClientTypes.ConnectorFilterCriteria? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filterCriteria = filterCriteria
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ListConnectorsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListConnectorsInput(filterCriteria: \(Swift.String(describing: filterCriteria)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListConnectorsOutput: Swift.Sendable {
+    /// A list of connectors.
+    /// This member is required.
+    public var items: [Inspector2ClientTypes.Connector]?
+    /// A pagination token. If this value is not null, there are additional results available. Use this token in the nextToken parameter of a subsequent request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [Inspector2ClientTypes.Connector]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+extension ListConnectorsOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListConnectorsOutput(items: \(Swift.String(describing: items)), nextToken: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListConnectorScanConfigurationsInput: Swift.Sendable {
+    /// The list of Amazon Web Services Config connector ARNs to filter results.
+    public var awsConfigConnectorArns: [Swift.String]?
+    /// The maximum number of results to return in a single call. Valid range is 1 to 50. To retrieve the remaining results, make another request with the nextToken value returned from this request.
+    public var maxResults: Swift.Int?
+    /// A token to use for paginating results. Set this value to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsConfigConnectorArns: [Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsConfigConnectorArns = awsConfigConnectorArns
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ListConnectorScanConfigurationsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListConnectorScanConfigurationsInput(awsConfigConnectorArns: \(Swift.String(describing: awsConfigConnectorArns)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListConnectorScanConfigurationsOutput: Swift.Sendable {
+    /// A pagination token. If this value is not null, there are additional results available. Use this token in the nextToken parameter of a subsequent request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// A list of scan configuration items.
+    /// This member is required.
+    public var scanConfigurations: [Inspector2ClientTypes.ConnectorScanConfigurationItem]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        scanConfigurations: [Inspector2ClientTypes.ConnectorScanConfigurationItem]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.scanConfigurations = scanConfigurations
+    }
+}
+
+extension ListConnectorScanConfigurationsOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListConnectorScanConfigurationsOutput(scanConfigurations: \(Swift.String(describing: scanConfigurations)), nextToken: \"CONTENT_REDACTED\")"}
+}
+
 public struct ListCoverageInput: Swift.Sendable {
     /// An object that contains details on the filters to apply to the coverage data for your environment.
     public var filterCriteria: Inspector2ClientTypes.CoverageFilterCriteria?
@@ -10760,6 +13268,10 @@ public struct ListUsageTotalsInput: Swift.Sendable {
 extension Inspector2ClientTypes {
 
     public enum UsageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azureContainerImageInitialScan
+        case azureContainerImageRescan
+        case azureServerlessFunctionHours
+        case azureVmAgentBasedInstanceHours
         case codeRepositoryIac
         case codeRepositorySast
         case codeRepositorySca
@@ -10773,6 +13285,10 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [UsageType] {
             return [
+                .azureContainerImageInitialScan,
+                .azureContainerImageRescan,
+                .azureServerlessFunctionHours,
+                .azureVmAgentBasedInstanceHours,
                 .codeRepositoryIac,
                 .codeRepositorySast,
                 .codeRepositorySca,
@@ -10792,6 +13308,10 @@ extension Inspector2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .azureContainerImageInitialScan: return "AZURE_CONTAINER_IMAGE_INITIAL_SCAN"
+            case .azureContainerImageRescan: return "AZURE_CONTAINER_IMAGE_RESCAN"
+            case .azureServerlessFunctionHours: return "AZURE_SERVERLESS_FUNCTION_HOURS"
+            case .azureVmAgentBasedInstanceHours: return "AZURE_VM_AGENT_BASED_INSTANCE_HOURS"
             case .codeRepositoryIac: return "CODE_REPOSITORY_IAC"
             case .codeRepositorySast: return "CODE_REPOSITORY_SAST"
             case .codeRepositorySca: return "CODE_REPOSITORY_SCA"
@@ -10811,6 +13331,8 @@ extension Inspector2ClientTypes {
 
     /// Contains usage information about the cost of Amazon Inspector operation.
     public struct Usage: Swift.Sendable {
+        /// The cloud provider associated with the usage information.
+        public var cloudProvider: Inspector2ClientTypes.CloudProvider?
         /// The currency type used when calculating usage data.
         public var currency: Inspector2ClientTypes.Currency?
         /// The estimated monthly cost of Amazon Inspector.
@@ -10821,11 +13343,13 @@ extension Inspector2ClientTypes {
         public var type: Inspector2ClientTypes.UsageType?
 
         public init(
+            cloudProvider: Inspector2ClientTypes.CloudProvider? = nil,
             currency: Inspector2ClientTypes.Currency? = nil,
             estimatedMonthlyCost: Swift.Double = 0.0,
             total: Swift.Double = 0.0,
             type: Inspector2ClientTypes.UsageType? = nil
         ) {
+            self.cloudProvider = cloudProvider
             self.currency = currency
             self.estimatedMonthlyCost = estimatedMonthlyCost
             self.total = total
@@ -11532,22 +14056,112 @@ public struct UpdateCodeSecurityScanConfigurationOutput: Swift.Sendable {
     }
 }
 
+extension Inspector2ClientTypes {
+
+    /// The per-scan-type inheritance reset settings for the UpdateConfiguration operation. Each member is independently optional. Including a member in this structure resets that scan type's configuration to inherit from the delegated administrator.
+    public struct UpdateConfigurationInheritance: Swift.Sendable {
+        /// The inheritance mode for Amazon EC2 scan configuration. Set to INHERIT_FROM_ADMIN to reset the member account's Amazon EC2 scan configuration to inherit from the delegated administrator. If omitted, the member account's existing Amazon EC2 scan configuration is not changed.
+        public var ec2Configuration: Inspector2ClientTypes.InheritanceMode?
+        /// The inheritance mode for Amazon ECR scan configuration. Set to INHERIT_FROM_ADMIN to reset the member account's Amazon ECR scan configuration to inherit from the delegated administrator. If omitted, the member account's existing Amazon ECR scan configuration is not changed.
+        public var ecrConfiguration: Inspector2ClientTypes.InheritanceMode?
+
+        public init(
+            ec2Configuration: Inspector2ClientTypes.InheritanceMode? = nil,
+            ecrConfiguration: Inspector2ClientTypes.InheritanceMode? = nil
+        ) {
+            self.ec2Configuration = ec2Configuration
+            self.ecrConfiguration = ecrConfiguration
+        }
+    }
+}
+
 public struct UpdateConfigurationInput: Swift.Sendable {
+    /// The 12-digit Amazon Web Services account ID of the member account whose scan configuration you want to update. When specified, you must be the delegated administrator for this member account. If not specified, the operation updates your own configuration and propagates changes to any member accounts that have not been individually configured.
+    public var accountId: Swift.String?
     /// Specifies how the Amazon EC2 automated scan will be updated for your environment.
     public var ec2Configuration: Inspector2ClientTypes.Ec2Configuration?
     /// Specifies how the ECR automated re-scan will be updated for your environment.
     public var ecrConfiguration: Inspector2ClientTypes.EcrConfiguration?
+    /// Specifies which scan-type configurations to reset to the delegated administrator's inherited values for the targeted member account. Each member of this structure is independently optional. When specified, ec2Configuration and ecrConfiguration must be absent, and accountId must also be present. Only INHERIT_FROM_ADMIN is valid for each member. If not specified, the operation uses the ec2Configuration and ecrConfiguration parameters instead.
+    public var updateConfigurationInheritance: Inspector2ClientTypes.UpdateConfigurationInheritance?
 
     public init(
+        accountId: Swift.String? = nil,
         ec2Configuration: Inspector2ClientTypes.Ec2Configuration? = nil,
-        ecrConfiguration: Inspector2ClientTypes.EcrConfiguration? = nil
+        ecrConfiguration: Inspector2ClientTypes.EcrConfiguration? = nil,
+        updateConfigurationInheritance: Inspector2ClientTypes.UpdateConfigurationInheritance? = nil
     ) {
+        self.accountId = accountId
         self.ec2Configuration = ec2Configuration
         self.ecrConfiguration = ecrConfiguration
+        self.updateConfigurationInheritance = updateConfigurationInheritance
     }
 }
 
 public struct UpdateConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The provider-specific configuration details for updating a connector.
+    public enum ProviderDetailUpdate: Swift.Sendable {
+        /// The Azure-specific details for updating a connector.
+        case azure(Inspector2ClientTypes.AzureProviderDetailUpdate)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct UpdateConnectorInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the connector to update.
+    /// This member is required.
+    public var connectorArn: Swift.String?
+    /// The updated description of the connector.
+    public var description: Swift.String?
+    /// The updated provider-specific configuration details for the connector.
+    public var providerDetail: Inspector2ClientTypes.ProviderDetailUpdate?
+
+    public init(
+        connectorArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        providerDetail: Inspector2ClientTypes.ProviderDetailUpdate? = nil
+    ) {
+        self.connectorArn = connectorArn
+        self.description = description
+        self.providerDetail = providerDetail
+    }
+}
+
+public struct UpdateConnectorOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the updated connector.
+    public var connectorArn: Swift.String?
+
+    public init(
+        connectorArn: Swift.String? = nil
+    ) {
+        self.connectorArn = connectorArn
+    }
+}
+
+public struct UpdateConnectorScanConfigurationInput: Swift.Sendable {
+    /// The ARN of the Amazon Web Services Config connector.
+    /// This member is required.
+    public var awsConfigConnectorArn: Swift.String?
+    /// The scan configuration settings to apply.
+    /// This member is required.
+    public var scanConfiguration: Inspector2ClientTypes.ConnectorScanConfiguration?
+
+    public init(
+        awsConfigConnectorArn: Swift.String? = nil,
+        scanConfiguration: Inspector2ClientTypes.ConnectorScanConfiguration? = nil
+    ) {
+        self.awsConfigConnectorArn = awsConfigConnectorArn
+        self.scanConfiguration = scanConfiguration
+    }
+}
+
+public struct UpdateConnectorScanConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -11800,6 +14414,13 @@ extension CreateCodeSecurityScanConfigurationInput {
     }
 }
 
+extension CreateConnectorInput {
+
+    static func urlPathProvider(_ value: CreateConnectorInput) -> Swift.String? {
+        return "/connector/create"
+    }
+}
+
 extension CreateFilterInput {
 
     static func urlPathProvider(_ value: CreateFilterInput) -> Swift.String? {
@@ -11839,6 +14460,13 @@ extension DeleteCodeSecurityScanConfigurationInput {
 
     static func urlPathProvider(_ value: DeleteCodeSecurityScanConfigurationInput) -> Swift.String? {
         return "/codesecurity/scan-configuration/delete"
+    }
+}
+
+extension DeleteConnectorInput {
+
+    static func urlPathProvider(_ value: DeleteConnectorInput) -> Swift.String? {
+        return "/connector/delete"
     }
 }
 
@@ -12106,6 +14734,20 @@ extension ListCodeSecurityScanConfigurationsInput {
     }
 }
 
+extension ListConnectorsInput {
+
+    static func urlPathProvider(_ value: ListConnectorsInput) -> Swift.String? {
+        return "/connector/list"
+    }
+}
+
+extension ListConnectorScanConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListConnectorScanConfigurationsInput) -> Swift.String? {
+        return "/connectorscanconfigurations/list"
+    }
+}
+
 extension ListCoverageInput {
 
     static func urlPathProvider(_ value: ListCoverageInput) -> Swift.String? {
@@ -12285,6 +14927,20 @@ extension UpdateConfigurationInput {
     }
 }
 
+extension UpdateConnectorInput {
+
+    static func urlPathProvider(_ value: UpdateConnectorInput) -> Swift.String? {
+        return "/connector/update"
+    }
+}
+
+extension UpdateConnectorScanConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateConnectorScanConfigurationInput) -> Swift.String? {
+        return "/connectorscanconfiguration/update"
+    }
+}
+
 extension UpdateEc2DeepInspectionConfigurationInput {
 
     static func urlPathProvider(_ value: UpdateEc2DeepInspectionConfigurationInput) -> Swift.String? {
@@ -12443,6 +15099,19 @@ extension CreateCodeSecurityScanConfigurationInput {
     }
 }
 
+extension CreateConnectorInput {
+
+    static func write(value: CreateConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["provider"].write(value.provider)
+        try writer["providerDetail"].write(value.providerDetail, with: Inspector2ClientTypes.ProviderDetailCreate.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateFilterInput {
 
     static func write(value: CreateFilterInput?, to writer: SmithyJSON.Writer) throws {
@@ -12497,6 +15166,14 @@ extension DeleteCodeSecurityScanConfigurationInput {
     static func write(value: DeleteCodeSecurityScanConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["scanConfigurationArn"].write(value.scanConfigurationArn)
+    }
+}
+
+extension DeleteConnectorInput {
+
+    static func write(value: DeleteConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectorArn"].write(value.connectorArn)
     }
 }
 
@@ -12613,6 +15290,14 @@ extension GetCodeSecurityScanConfigurationInput {
     }
 }
 
+extension GetConfigurationInput {
+
+    static func write(value: GetConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountId"].write(value.accountId)
+    }
+}
+
 extension GetFindingsReportStatusInput {
 
     static func write(value: GetFindingsReportStatusInput?, to writer: SmithyJSON.Writer) throws {
@@ -12703,6 +15388,26 @@ extension ListCodeSecurityScanConfigurationAssociationsInput {
     static func write(value: ListCodeSecurityScanConfigurationAssociationsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["scanConfigurationArn"].write(value.scanConfigurationArn)
+    }
+}
+
+extension ListConnectorsInput {
+
+    static func write(value: ListConnectorsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filterCriteria"].write(value.filterCriteria, with: Inspector2ClientTypes.ConnectorFilterCriteria.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListConnectorScanConfigurationsInput {
+
+    static func write(value: ListConnectorScanConfigurationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsConfigConnectorArns"].writeList(value.awsConfigConnectorArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -12896,8 +15601,29 @@ extension UpdateConfigurationInput {
 
     static func write(value: UpdateConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["accountId"].write(value.accountId)
         try writer["ec2Configuration"].write(value.ec2Configuration, with: Inspector2ClientTypes.Ec2Configuration.write(value:to:))
         try writer["ecrConfiguration"].write(value.ecrConfiguration, with: Inspector2ClientTypes.EcrConfiguration.write(value:to:))
+        try writer["updateConfigurationInheritance"].write(value.updateConfigurationInheritance, with: Inspector2ClientTypes.UpdateConfigurationInheritance.write(value:to:))
+    }
+}
+
+extension UpdateConnectorInput {
+
+    static func write(value: UpdateConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectorArn"].write(value.connectorArn)
+        try writer["description"].write(value.description)
+        try writer["providerDetail"].write(value.providerDetail, with: Inspector2ClientTypes.ProviderDetailUpdate.write(value:to:))
+    }
+}
+
+extension UpdateConnectorScanConfigurationInput {
+
+    static func write(value: UpdateConnectorScanConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsConfigConnectorArn"].write(value.awsConfigConnectorArn)
+        try writer["scanConfiguration"].write(value.scanConfiguration, with: Inspector2ClientTypes.ConnectorScanConfiguration.write(value:to:))
     }
 }
 
@@ -13127,6 +15853,18 @@ extension CreateCodeSecurityScanConfigurationOutput {
     }
 }
 
+extension CreateConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateConnectorOutput()
+        value.connectorArn = try reader["connectorArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateFilterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateFilterOutput {
@@ -13196,6 +15934,13 @@ extension DeleteCodeSecurityScanConfigurationOutput {
         var value = DeleteCodeSecurityScanConfigurationOutput()
         value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent()
         return value
+    }
+}
+
+extension DeleteConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConnectorOutput {
+        return DeleteConnectorOutput()
     }
 }
 
@@ -13586,6 +16331,32 @@ extension ListCodeSecurityScanConfigurationsOutput {
     }
 }
 
+extension ListConnectorsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConnectorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConnectorsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.Connector.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListConnectorScanConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConnectorScanConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConnectorScanConfigurationsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.scanConfigurations = try reader["scanConfigurations"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ConnectorScanConfigurationItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListCoverageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCoverageOutput {
@@ -13820,6 +16591,25 @@ extension UpdateConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateConfigurationOutput {
         return UpdateConfigurationOutput()
+    }
+}
+
+extension UpdateConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateConnectorOutput()
+        value.connectorArn = try reader["connectorArn"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateConnectorScanConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateConnectorScanConfigurationOutput {
+        return UpdateConnectorScanConfigurationOutput()
     }
 }
 
@@ -14126,6 +16916,25 @@ enum CreateCodeSecurityScanConfigurationOutputError {
     }
 }
 
+enum CreateConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateFilterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14226,6 +17035,25 @@ enum DeleteCodeSecurityScanConfigurationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -14476,9 +17304,11 @@ enum GetConfigurationOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -14722,6 +17552,40 @@ enum ListCodeSecurityScanConfigurationsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListConnectorsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListConnectorScanConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -15112,6 +17976,44 @@ enum UpdateConfigurationOutputError {
     }
 }
 
+enum UpdateConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateConnectorScanConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateEc2DeepInspectionConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15377,6 +18279,8 @@ extension Inspector2ClientTypes.AggregationRequest {
                 try writer["awsEcrContainerAggregation"].write(awsecrcontaineraggregation, with: Inspector2ClientTypes.AwsEcrContainerAggregation.write(value:to:))
             case let .coderepositoryaggregation(coderepositoryaggregation):
                 try writer["codeRepositoryAggregation"].write(coderepositoryaggregation, with: Inspector2ClientTypes.CodeRepositoryAggregation.write(value:to:))
+            case let .containerimageaggregation(containerimageaggregation):
+                try writer["containerImageAggregation"].write(containerimageaggregation, with: Inspector2ClientTypes.ContainerImageAggregation.write(value:to:))
             case let .ec2instanceaggregation(ec2instanceaggregation):
                 try writer["ec2InstanceAggregation"].write(ec2instanceaggregation, with: Inspector2ClientTypes.Ec2InstanceAggregation.write(value:to:))
             case let .findingtypeaggregation(findingtypeaggregation):
@@ -15391,8 +18295,12 @@ extension Inspector2ClientTypes.AggregationRequest {
                 try writer["packageAggregation"].write(packageaggregation, with: Inspector2ClientTypes.PackageAggregation.write(value:to:))
             case let .repositoryaggregation(repositoryaggregation):
                 try writer["repositoryAggregation"].write(repositoryaggregation, with: Inspector2ClientTypes.RepositoryAggregation.write(value:to:))
+            case let .serverlessfunctionaggregation(serverlessfunctionaggregation):
+                try writer["serverlessFunctionAggregation"].write(serverlessfunctionaggregation, with: Inspector2ClientTypes.ServerlessFunctionAggregation.write(value:to:))
             case let .titleaggregation(titleaggregation):
                 try writer["titleAggregation"].write(titleaggregation, with: Inspector2ClientTypes.TitleAggregation.write(value:to:))
+            case let .vminstanceaggregation(vminstanceaggregation):
+                try writer["vmInstanceAggregation"].write(vminstanceaggregation, with: Inspector2ClientTypes.VmInstanceAggregation.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -15429,6 +18337,12 @@ extension Inspector2ClientTypes.AggregationResponse {
                 return .lambdafunctionaggregation(try reader["lambdaFunctionAggregation"].read(with: Inspector2ClientTypes.LambdaFunctionAggregationResponse.read(from:)))
             case "codeRepositoryAggregation":
                 return .coderepositoryaggregation(try reader["codeRepositoryAggregation"].read(with: Inspector2ClientTypes.CodeRepositoryAggregationResponse.read(from:)))
+            case "vmInstanceAggregation":
+                return .vminstanceaggregation(try reader["vmInstanceAggregation"].read(with: Inspector2ClientTypes.VmInstanceAggregationResponse.read(from:)))
+            case "containerImageAggregation":
+                return .containerimageaggregation(try reader["containerImageAggregation"].read(with: Inspector2ClientTypes.ContainerImageAggregationResponse.read(from:)))
+            case "serverlessFunctionAggregation":
+                return .serverlessfunctionaggregation(try reader["serverlessFunctionAggregation"].read(with: Inspector2ClientTypes.ServerlessFunctionAggregationResponse.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -15452,6 +18366,11 @@ extension Inspector2ClientTypes.AmiAggregationResponse {
         var value = Inspector2ClientTypes.AmiAggregationResponse()
         value.ami = try reader["ami"].readIfPresent() ?? ""
         value.accountId = try reader["accountId"].readIfPresent()
+        value.cloudProvider = try reader["cloudProvider"].readIfPresent()
+        value.cloudPartition = try reader["cloudPartition"].readIfPresent()
+        value.cloudRegion = try reader["cloudRegion"].readIfPresent()
+        value.cloudOrgId = try reader["cloudOrgId"].readIfPresent()
+        value.cloudAccountId = try reader["cloudAccountId"].readIfPresent()
         value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
         value.affectedInstances = try reader["affectedInstances"].readIfPresent()
         return value
@@ -15500,6 +18419,15 @@ extension Inspector2ClientTypes.AutoEnable {
         value.lambdaCode = try reader["lambdaCode"].readIfPresent()
         value.codeRepository = try reader["codeRepository"].readIfPresent()
         return value
+    }
+}
+
+extension Inspector2ClientTypes.AwsConfigConnectorArnFilter {
+
+    static func write(value: Inspector2ClientTypes.AwsConfigConnectorArnFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comparison"].write(value.comparison)
+        try writer["value"].write(value.value)
     }
 }
 
@@ -15624,6 +18552,49 @@ extension Inspector2ClientTypes.AwsLambdaFunctionDetails {
         value.architectures = try reader["architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<Inspector2ClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
+    }
+}
+
+extension Inspector2ClientTypes.AzureProviderDetailCreate {
+
+    static func write(value: Inspector2ClientTypes.AzureProviderDetailCreate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoInstallVMScanner"].write(value.autoInstallVMScanner)
+        try writer["awsConfigConnectorArn"].write(value.awsConfigConnectorArn)
+        try writer["azureRegions"].writeList(value.azureRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["scopeConfiguration"].write(value.scopeConfiguration, with: Inspector2ClientTypes.AzureScopeConfigurationInput.write(value:to:))
+    }
+}
+
+extension Inspector2ClientTypes.AzureProviderDetailUpdate {
+
+    static func write(value: Inspector2ClientTypes.AzureProviderDetailUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoInstallVMScanner"].write(value.autoInstallVMScanner)
+        try writer["azureRegions"].writeList(value.azureRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["scopeConfiguration"].write(value.scopeConfiguration, with: Inspector2ClientTypes.AzureScopeConfigurationInput.write(value:to:))
+    }
+}
+
+extension Inspector2ClientTypes.AzureScopeConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AzureScopeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.AzureScopeConfiguration()
+        value.vmScanning = try reader["vmScanning"].readIfPresent(with: Inspector2ClientTypes.ScopeConfiguration.read(from:))
+        value.containerImageScanning = try reader["containerImageScanning"].readIfPresent(with: Inspector2ClientTypes.ScopeConfiguration.read(from:))
+        value.serverlessScanning = try reader["serverlessScanning"].readIfPresent(with: Inspector2ClientTypes.ScopeConfiguration.read(from:))
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.AzureScopeConfigurationInput {
+
+    static func write(value: Inspector2ClientTypes.AzureScopeConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containerImageScanning"].write(value.containerImageScanning, with: Inspector2ClientTypes.ScopeConfigurationInput.write(value:to:))
+        try writer["serverlessScanning"].write(value.serverlessScanning, with: Inspector2ClientTypes.ScopeConfigurationInput.write(value:to:))
+        try writer["vmScanning"].write(value.vmScanning, with: Inspector2ClientTypes.ScopeConfigurationInput.write(value:to:))
     }
 }
 
@@ -16153,6 +19124,197 @@ extension Inspector2ClientTypes.ComputePlatform {
     }
 }
 
+extension Inspector2ClientTypes.Connector {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Connector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.Connector()
+        value.connectorArn = try reader["connectorArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.provider = try reader["provider"].readIfPresent() ?? .sdkUnknown("")
+        value.enablementStatus = try reader["enablementStatus"].readIfPresent()
+        value.enablementStatusReason = try reader["enablementStatusReason"].readIfPresent()
+        value.health = try reader["health"].readIfPresent(with: Inspector2ClientTypes.ConnectorHealth.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.azureRegions = try reader["azureRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.awsConfigConnectorArn = try reader["awsConfigConnectorArn"].readIfPresent()
+        value.scopeConfiguration = try reader["scopeConfiguration"].readIfPresent(with: Inspector2ClientTypes.AzureScopeConfiguration.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.autoInstallVMScanner = try reader["autoInstallVMScanner"].readIfPresent()
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ConnectorArnFilter {
+
+    static func write(value: Inspector2ClientTypes.ConnectorArnFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comparison"].write(value.comparison)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension Inspector2ClientTypes.ConnectorContainerImageScanConfiguration {
+
+    static func write(value: Inspector2ClientTypes.ConnectorContainerImageScanConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["pullDuration"].write(value.pullDuration)
+        try writer["pushDuration"].write(value.pushDuration)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ConnectorContainerImageScanConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ConnectorContainerImageScanConfiguration()
+        value.pushDuration = try reader["pushDuration"].readIfPresent()
+        value.pullDuration = try reader["pullDuration"].readIfPresent()
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ConnectorFilterCriteria {
+
+    static func write(value: Inspector2ClientTypes.ConnectorFilterCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accounts"].writeList(value.accounts, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["awsConfigConnectorArns"].writeList(value.awsConfigConnectorArns, memberWritingClosure: Inspector2ClientTypes.AwsConfigConnectorArnFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["connectorArns"].writeList(value.connectorArns, memberWritingClosure: Inspector2ClientTypes.ConnectorArnFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["connectorType"].writeList(value.connectorType, memberWritingClosure: Inspector2ClientTypes.ConnectorTypeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["provider"].writeList(value.provider, memberWritingClosure: Inspector2ClientTypes.ProviderFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension Inspector2ClientTypes.ConnectorHealth {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ConnectorHealth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ConnectorHealth()
+        value.connectorStatus = try reader["connectorStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.lastCheckedAt = try reader["lastCheckedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ConnectorScanConfiguration {
+
+    static func write(value: Inspector2ClientTypes.ConnectorScanConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containerImageScanning"].write(value.containerImageScanning, with: Inspector2ClientTypes.ConnectorContainerImageScanConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ConnectorScanConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ConnectorScanConfiguration()
+        value.containerImageScanning = try reader["containerImageScanning"].readIfPresent(with: Inspector2ClientTypes.ConnectorContainerImageScanConfiguration.read(from:))
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ConnectorScanConfigurationItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ConnectorScanConfigurationItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ConnectorScanConfigurationItem()
+        value.awsConfigConnectorArn = try reader["awsConfigConnectorArn"].readIfPresent() ?? ""
+        value.connectorArns = try reader["connectorArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.scanConfiguration = try reader["scanConfiguration"].readIfPresent(with: Inspector2ClientTypes.ConnectorScanConfiguration.read(from:))
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ConnectorTypeFilter {
+
+    static func write(value: Inspector2ClientTypes.ConnectorTypeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comparison"].write(value.comparison)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension Inspector2ClientTypes.ContainerImageAggregation {
+
+    static func write(value: Inspector2ClientTypes.ContainerImageAggregation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["architectures"].writeList(value.architectures, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudAccountIds"].writeList(value.cloudAccountIds, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudOrgIds"].writeList(value.cloudOrgIds, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudPartitions"].writeList(value.cloudPartitions, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudProviders"].writeList(value.cloudProviders, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudRegions"].writeList(value.cloudRegions, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["imageDigests"].writeList(value.imageDigests, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["imageTags"].writeList(value.imageTags, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["inUseCount"].writeList(value.inUseCount, memberWritingClosure: Inspector2ClientTypes.NumberFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["lastInUseAt"].writeList(value.lastInUseAt, memberWritingClosure: Inspector2ClientTypes.DateFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["registries"].writeList(value.registries, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["repositories"].writeList(value.repositories, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resourceIds"].writeList(value.resourceIds, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sortBy"].write(value.sortBy)
+        try writer["sortOrder"].write(value.sortOrder)
+    }
+}
+
+extension Inspector2ClientTypes.ContainerImageAggregationResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ContainerImageAggregationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ContainerImageAggregationResponse()
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.cloudProvider = try reader["cloudProvider"].readIfPresent()
+        value.cloudAccountId = try reader["cloudAccountId"].readIfPresent()
+        value.cloudPartition = try reader["cloudPartition"].readIfPresent()
+        value.cloudRegion = try reader["cloudRegion"].readIfPresent()
+        value.cloudOrgId = try reader["cloudOrgId"].readIfPresent()
+        value.imageDigest = try reader["imageDigest"].readIfPresent()
+        value.repository = try reader["repository"].readIfPresent()
+        value.registry = try reader["registry"].readIfPresent()
+        value.architecture = try reader["architecture"].readIfPresent()
+        value.imageTags = try reader["imageTags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
+        value.lastInUseAt = try reader["lastInUseAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inUseCount = try reader["inUseCount"].readIfPresent()
+        value.exploitAvailableActiveFindingsCount = try reader["exploitAvailableActiveFindingsCount"].readIfPresent()
+        value.fixAvailableActiveFindingsCount = try reader["fixAvailableActiveFindingsCount"].readIfPresent()
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ContainerImageMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ContainerImageMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ContainerImageMetadata()
+        value.imageTags = try reader["imageTags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.imagePulledAt = try reader["imagePulledAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastInUseAt = try reader["lastInUseAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inUseCount = try reader["inUseCount"].readIfPresent()
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ContainerRegistryMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ContainerRegistryMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ContainerRegistryMetadata()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ContainerRepositoryMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ContainerRepositoryMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ContainerRepositoryMetadata()
+        value.name = try reader["name"].readIfPresent()
+        value.scanFrequency = try reader["scanFrequency"].readIfPresent()
+        return value
+    }
+}
+
 extension Inspector2ClientTypes.ContinuousIntegrationScanConfiguration {
 
     static func write(value: Inspector2ClientTypes.ContinuousIntegrationScanConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -16193,6 +19355,17 @@ extension Inspector2ClientTypes.CoverageFilterCriteria {
     static func write(value: Inspector2ClientTypes.CoverageFilterCriteria?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["accountId"].writeList(value.accountId, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudContainerImageTags"].writeList(value.cloudContainerImageTags, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudContainerRegistryName"].writeList(value.cloudContainerRegistryName, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudContainerRepositoryName"].writeList(value.cloudContainerRepositoryName, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudProvider"].writeList(value.cloudProvider, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudProviderAccountId"].writeList(value.cloudProviderAccountId, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudProviderOrgId"].writeList(value.cloudProviderOrgId, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudProviderRegion"].writeList(value.cloudProviderRegion, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudServerlessFunctionName"].writeList(value.cloudServerlessFunctionName, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudServerlessFunctionRuntime"].writeList(value.cloudServerlessFunctionRuntime, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudServerlessFunctionTags"].writeList(value.cloudServerlessFunctionTags, memberWritingClosure: Inspector2ClientTypes.CoverageMapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudVmInstanceTags"].writeList(value.cloudVmInstanceTags, memberWritingClosure: Inspector2ClientTypes.CoverageMapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["codeRepositoryProjectName"].writeList(value.codeRepositoryProjectName, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["codeRepositoryProviderType"].writeList(value.codeRepositoryProviderType, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["codeRepositoryProviderTypeVisibility"].writeList(value.codeRepositoryProviderTypeVisibility, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -16257,6 +19430,11 @@ extension Inspector2ClientTypes.CoveredResource {
         value.resourceMetadata = try reader["resourceMetadata"].readIfPresent(with: Inspector2ClientTypes.ResourceScanMetadata.read(from:))
         value.lastScannedAt = try reader["lastScannedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.scanMode = try reader["scanMode"].readIfPresent()
+        value.provider = try reader["provider"].readIfPresent()
+        value.providerAccountId = try reader["providerAccountId"].readIfPresent()
+        value.providerOrgId = try reader["providerOrgId"].readIfPresent()
+        value.providerRegion = try reader["providerRegion"].readIfPresent()
+        value.providerPartition = try reader["providerPartition"].readIfPresent()
         return value
     }
 }
@@ -16450,6 +19628,7 @@ extension Inspector2ClientTypes.Ec2Configuration {
 
     static func write(value: Inspector2ClientTypes.Ec2Configuration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["activateVMScanner"].write(value.activateVMScanner)
         try writer["scanMode"].write(value.scanMode)
     }
 }
@@ -16460,6 +19639,7 @@ extension Inspector2ClientTypes.Ec2ConfigurationState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Ec2ConfigurationState()
         value.scanModeState = try reader["scanModeState"].readIfPresent(with: Inspector2ClientTypes.Ec2ScanModeState.read(from:))
+        value.vmScannerState = try reader["vmScannerState"].readIfPresent(with: Inspector2ClientTypes.VMScannerState.read(from:))
         return value
     }
 }
@@ -16690,6 +19870,25 @@ extension Inspector2ClientTypes.FilterCriteria {
     static func write(value: Inspector2ClientTypes.FilterCriteria?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["awsAccountId"].writeList(value.awsAccountId, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudImageArchitecture"].writeList(value.cloudImageArchitecture, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudImageDigest"].writeList(value.cloudImageDigest, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudImageInUseCount"].writeList(value.cloudImageInUseCount, memberWritingClosure: Inspector2ClientTypes.NumberFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudImageLastInUseAt"].writeList(value.cloudImageLastInUseAt, memberWritingClosure: Inspector2ClientTypes.DateFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudImagePushedAt"].writeList(value.cloudImagePushedAt, memberWritingClosure: Inspector2ClientTypes.DateFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudImageRegistry"].writeList(value.cloudImageRegistry, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudImageRepositoryName"].writeList(value.cloudImageRepositoryName, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudImageTags"].writeList(value.cloudImageTags, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudProvider"].writeList(value.cloudProvider, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudProviderAccountId"].writeList(value.cloudProviderAccountId, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudProviderOrgId"].writeList(value.cloudProviderOrgId, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudProviderRegion"].writeList(value.cloudProviderRegion, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudServerlessFunctionExecutionRole"].writeList(value.cloudServerlessFunctionExecutionRole, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudServerlessFunctionLastModifiedAt"].writeList(value.cloudServerlessFunctionLastModifiedAt, memberWritingClosure: Inspector2ClientTypes.DateFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudServerlessFunctionName"].writeList(value.cloudServerlessFunctionName, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudServerlessFunctionRuntime"].writeList(value.cloudServerlessFunctionRuntime, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudVmImageReference"].writeList(value.cloudVmImageReference, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudVmNetworkId"].writeList(value.cloudVmNetworkId, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudVmSubnetIds"].writeList(value.cloudVmSubnetIds, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["codeRepositoryProjectName"].writeList(value.codeRepositoryProjectName, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["codeRepositoryProviderType"].writeList(value.codeRepositoryProviderType, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["codeVulnerabilityDetectorName"].writeList(value.codeVulnerabilityDetectorName, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -16786,6 +19985,25 @@ extension Inspector2ClientTypes.FilterCriteria {
         value.epssScore = try reader["epssScore"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.NumberFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.codeRepositoryProjectName = try reader["codeRepositoryProjectName"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.codeRepositoryProviderType = try reader["codeRepositoryProviderType"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudProvider = try reader["cloudProvider"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudProviderRegion = try reader["cloudProviderRegion"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudProviderAccountId = try reader["cloudProviderAccountId"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudProviderOrgId = try reader["cloudProviderOrgId"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudVmImageReference = try reader["cloudVmImageReference"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudVmNetworkId = try reader["cloudVmNetworkId"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudVmSubnetIds = try reader["cloudVmSubnetIds"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudImageRepositoryName = try reader["cloudImageRepositoryName"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudImageRegistry = try reader["cloudImageRegistry"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudImageDigest = try reader["cloudImageDigest"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudImageTags = try reader["cloudImageTags"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudImagePushedAt = try reader["cloudImagePushedAt"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.DateFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudImageArchitecture = try reader["cloudImageArchitecture"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudImageLastInUseAt = try reader["cloudImageLastInUseAt"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.DateFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudImageInUseCount = try reader["cloudImageInUseCount"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.NumberFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudServerlessFunctionName = try reader["cloudServerlessFunctionName"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudServerlessFunctionRuntime = try reader["cloudServerlessFunctionRuntime"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudServerlessFunctionLastModifiedAt = try reader["cloudServerlessFunctionLastModifiedAt"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.DateFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudServerlessFunctionExecutionRole = try reader["cloudServerlessFunctionExecutionRole"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -16871,6 +20089,11 @@ extension Inspector2ClientTypes.FindingTypeAggregationResponse {
         value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
         value.exploitAvailableCount = try reader["exploitAvailableCount"].readIfPresent()
         value.fixAvailableCount = try reader["fixAvailableCount"].readIfPresent()
+        value.cloudProvider = try reader["cloudProvider"].readIfPresent()
+        value.cloudAccountId = try reader["cloudAccountId"].readIfPresent()
+        value.cloudOrgId = try reader["cloudOrgId"].readIfPresent()
+        value.cloudRegion = try reader["cloudRegion"].readIfPresent()
+        value.cloudPartition = try reader["cloudPartition"].readIfPresent()
         return value
     }
 }
@@ -16895,6 +20118,7 @@ extension Inspector2ClientTypes.FreeTrialInfo {
         value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.end = try reader["end"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.cloudProvider = try reader["cloudProvider"].readIfPresent()
         return value
     }
 }
@@ -16911,10 +20135,34 @@ extension Inspector2ClientTypes.FreeTrialInfoError {
     }
 }
 
+extension Inspector2ClientTypes.Image {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Image {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.Image()
+        value.repositoryName = try reader["repositoryName"].readIfPresent()
+        value.registry = try reader["registry"].readIfPresent()
+        value.imageTags = try reader["imageTags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.imageDigest = try reader["imageDigest"].readIfPresent()
+        value.pushedAt = try reader["pushedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.architecture = try reader["architecture"].readIfPresent()
+        value.author = try reader["author"].readIfPresent()
+        value.inUseCount = try reader["inUseCount"].readIfPresent()
+        value.lastInUseAt = try reader["lastInUseAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.platform = try reader["platform"].readIfPresent()
+        return value
+    }
+}
+
 extension Inspector2ClientTypes.ImageLayerAggregation {
 
     static func write(value: Inspector2ClientTypes.ImageLayerAggregation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["cloudAccountIds"].writeList(value.cloudAccountIds, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudOrgIds"].writeList(value.cloudOrgIds, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudPartitions"].writeList(value.cloudPartitions, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudProviders"].writeList(value.cloudProviders, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudRegions"].writeList(value.cloudRegions, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["layerHashes"].writeList(value.layerHashes, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["repositories"].writeList(value.repositories, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["resourceIds"].writeList(value.resourceIds, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -16932,6 +20180,11 @@ extension Inspector2ClientTypes.ImageLayerAggregationResponse {
         value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.layerHash = try reader["layerHash"].readIfPresent() ?? ""
         value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.cloudProvider = try reader["cloudProvider"].readIfPresent()
+        value.cloudAccountId = try reader["cloudAccountId"].readIfPresent()
+        value.cloudOrgId = try reader["cloudOrgId"].readIfPresent()
+        value.cloudRegion = try reader["cloudRegion"].readIfPresent()
+        value.cloudPartition = try reader["cloudPartition"].readIfPresent()
         value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
         return value
     }
@@ -17335,6 +20588,41 @@ extension Inspector2ClientTypes.ProjectPeriodicScanConfiguration {
     }
 }
 
+extension Inspector2ClientTypes.ProviderDetailCreate {
+
+    static func write(value: Inspector2ClientTypes.ProviderDetailCreate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .azure(azure):
+                try writer["azure"].write(azure, with: Inspector2ClientTypes.AzureProviderDetailCreate.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.ProviderDetailUpdate {
+
+    static func write(value: Inspector2ClientTypes.ProviderDetailUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .azure(azure):
+                try writer["azure"].write(azure, with: Inspector2ClientTypes.AzureProviderDetailUpdate.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.ProviderFilter {
+
+    static func write(value: Inspector2ClientTypes.ProviderFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comparison"].write(value.comparison)
+        try writer["value"].write(value.value)
+    }
+}
+
 extension Inspector2ClientTypes.Recommendation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Recommendation {
@@ -17373,6 +20661,11 @@ extension Inspector2ClientTypes.RepositoryAggregationResponse {
         var value = Inspector2ClientTypes.RepositoryAggregationResponse()
         value.repository = try reader["repository"].readIfPresent() ?? ""
         value.accountId = try reader["accountId"].readIfPresent()
+        value.cloudProvider = try reader["cloudProvider"].readIfPresent()
+        value.cloudPartition = try reader["cloudPartition"].readIfPresent()
+        value.cloudRegion = try reader["cloudRegion"].readIfPresent()
+        value.cloudOrgId = try reader["cloudOrgId"].readIfPresent()
+        value.cloudAccountId = try reader["cloudAccountId"].readIfPresent()
         value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
         value.affectedImages = try reader["affectedImages"].readIfPresent()
         return value
@@ -17390,6 +20683,9 @@ extension Inspector2ClientTypes.Resource {
         value.region = try reader["region"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.details = try reader["details"].readIfPresent(with: Inspector2ClientTypes.ResourceDetails.read(from:))
+        value.provider = try reader["provider"].readIfPresent()
+        value.providerAccountId = try reader["providerAccountId"].readIfPresent()
+        value.providerOrgId = try reader["providerOrgId"].readIfPresent()
         return value
     }
 }
@@ -17403,6 +20699,9 @@ extension Inspector2ClientTypes.ResourceDetails {
         value.awsEcrContainerImage = try reader["awsEcrContainerImage"].readIfPresent(with: Inspector2ClientTypes.AwsEcrContainerImageDetails.read(from:))
         value.awsLambdaFunction = try reader["awsLambdaFunction"].readIfPresent(with: Inspector2ClientTypes.AwsLambdaFunctionDetails.read(from:))
         value.codeRepository = try reader["codeRepository"].readIfPresent(with: Inspector2ClientTypes.CodeRepositoryDetails.read(from:))
+        value.vm = try reader["vm"].readIfPresent(with: Inspector2ClientTypes.Vm.read(from:))
+        value.image = try reader["image"].readIfPresent(with: Inspector2ClientTypes.Image.read(from:))
+        value.serverlessFunction = try reader["serverlessFunction"].readIfPresent(with: Inspector2ClientTypes.ServerlessFunction.read(from:))
         return value
     }
 }
@@ -17465,6 +20764,11 @@ extension Inspector2ClientTypes.ResourceScanMetadata {
         value.ec2 = try reader["ec2"].readIfPresent(with: Inspector2ClientTypes.Ec2Metadata.read(from:))
         value.lambdaFunction = try reader["lambdaFunction"].readIfPresent(with: Inspector2ClientTypes.LambdaFunctionMetadata.read(from:))
         value.codeRepository = try reader["codeRepository"].readIfPresent(with: Inspector2ClientTypes.CodeRepositoryMetadata.read(from:))
+        value.vmInstance = try reader["vmInstance"].readIfPresent(with: Inspector2ClientTypes.VmInstanceMetadata.read(from:))
+        value.containerImage = try reader["containerImage"].readIfPresent(with: Inspector2ClientTypes.ContainerImageMetadata.read(from:))
+        value.containerRepository = try reader["containerRepository"].readIfPresent(with: Inspector2ClientTypes.ContainerRepositoryMetadata.read(from:))
+        value.containerRegistry = try reader["containerRegistry"].readIfPresent(with: Inspector2ClientTypes.ContainerRegistryMetadata.read(from:))
+        value.serverlessFunction = try reader["serverlessFunction"].readIfPresent(with: Inspector2ClientTypes.ServerlessFunctionMetadata.read(from:))
         return value
     }
 }
@@ -17561,6 +20865,28 @@ extension Inspector2ClientTypes.Schedule {
     }
 }
 
+extension Inspector2ClientTypes.ScopeConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ScopeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ScopeConfiguration()
+        value.scopeType = try reader["scopeType"].readIfPresent() ?? .sdkUnknown("")
+        value.scopeValues = try reader["scopeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["state"].readIfPresent()
+        value.stateReason = try reader["stateReason"].readIfPresent()
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ScopeConfigurationInput {
+
+    static func write(value: Inspector2ClientTypes.ScopeConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scopeType"].write(value.scopeType)
+        try writer["scopeValues"].writeList(value.scopeValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension Inspector2ClientTypes.ScopeSettings {
 
     static func write(value: Inspector2ClientTypes.ScopeSettings?, to writer: SmithyJSON.Writer) throws {
@@ -17581,6 +20907,80 @@ extension Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria {
     static func write(value: Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["vulnerabilityIds"].writeList(value.vulnerabilityIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension Inspector2ClientTypes.ServerlessFunction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ServerlessFunction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ServerlessFunction()
+        value.serverlessFunctionName = try reader["serverlessFunctionName"].readIfPresent()
+        value.runtime = try reader["runtime"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        value.codeDigest = try reader["codeDigest"].readIfPresent()
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.networkId = try reader["networkId"].readIfPresent()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.executionRole = try reader["executionRole"].readIfPresent()
+        value.packageType = try reader["packageType"].readIfPresent()
+        value.architectures = try reader["architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<Inspector2ClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.layers = try reader["layers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ServerlessFunctionAggregation {
+
+    static func write(value: Inspector2ClientTypes.ServerlessFunctionAggregation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudAccountIds"].writeList(value.cloudAccountIds, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudOrgIds"].writeList(value.cloudOrgIds, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudPartitions"].writeList(value.cloudPartitions, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudProviders"].writeList(value.cloudProviders, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudRegions"].writeList(value.cloudRegions, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["functionNames"].writeList(value.functionNames, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["functionTags"].writeList(value.functionTags, memberWritingClosure: Inspector2ClientTypes.MapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resourceIds"].writeList(value.resourceIds, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["runtimes"].writeList(value.runtimes, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sortBy"].write(value.sortBy)
+        try writer["sortOrder"].write(value.sortOrder)
+    }
+}
+
+extension Inspector2ClientTypes.ServerlessFunctionAggregationResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ServerlessFunctionAggregationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ServerlessFunctionAggregationResponse()
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.cloudProvider = try reader["cloudProvider"].readIfPresent()
+        value.cloudAccountId = try reader["cloudAccountId"].readIfPresent()
+        value.cloudPartition = try reader["cloudPartition"].readIfPresent()
+        value.cloudRegion = try reader["cloudRegion"].readIfPresent()
+        value.cloudOrgId = try reader["cloudOrgId"].readIfPresent()
+        value.functionName = try reader["functionName"].readIfPresent()
+        value.runtime = try reader["runtime"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.exploitAvailableActiveFindingsCount = try reader["exploitAvailableActiveFindingsCount"].readIfPresent()
+        value.fixAvailableActiveFindingsCount = try reader["fixAvailableActiveFindingsCount"].readIfPresent()
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ServerlessFunctionMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ServerlessFunctionMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ServerlessFunctionMetadata()
+        value.serverlessFunctionName = try reader["serverlessFunctionName"].readIfPresent()
+        value.runtime = try reader["runtime"].readIfPresent()
+        value.functionTags = try reader["functionTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 
@@ -17779,6 +21179,15 @@ extension Inspector2ClientTypes.UpdateCisTargets {
     }
 }
 
+extension Inspector2ClientTypes.UpdateConfigurationInheritance {
+
+    static func write(value: Inspector2ClientTypes.UpdateConfigurationInheritance?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ec2Configuration"].write(value.ec2Configuration)
+        try writer["ecrConfiguration"].write(value.ecrConfiguration)
+    }
+}
+
 extension Inspector2ClientTypes.UpdateGitHubIntegrationDetail {
 
     static func write(value: Inspector2ClientTypes.UpdateGitHubIntegrationDetail?, to writer: SmithyJSON.Writer) throws {
@@ -17820,6 +21229,7 @@ extension Inspector2ClientTypes.Usage {
         value.total = try reader["total"].readIfPresent() ?? 0
         value.estimatedMonthlyCost = try reader["estimatedMonthlyCost"].readIfPresent() ?? 0
         value.currency = try reader["currency"].readIfPresent()
+        value.cloudProvider = try reader["cloudProvider"].readIfPresent()
         return value
     }
 }
@@ -17842,6 +21252,93 @@ extension Inspector2ClientTypes.ValidationExceptionField {
         var value = Inspector2ClientTypes.ValidationExceptionField()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.Vm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Vm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.Vm()
+        value.type = try reader["type"].readIfPresent()
+        value.vmName = try reader["vmName"].readIfPresent()
+        value.vmImageReference = try reader["vmImageReference"].readIfPresent()
+        value.ipV4Addresses = try reader["ipV4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipV6Addresses = try reader["ipV6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.networkId = try reader["networkId"].readIfPresent()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.launchedAt = try reader["launchedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.platform = try reader["platform"].readIfPresent()
+        value.executionRole = try reader["executionRole"].readIfPresent()
+        value.keyName = try reader["keyName"].readIfPresent()
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.VmInstanceAggregation {
+
+    static func write(value: Inspector2ClientTypes.VmInstanceAggregation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudAccountIds"].writeList(value.cloudAccountIds, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudOrgIds"].writeList(value.cloudOrgIds, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudPartitions"].writeList(value.cloudPartitions, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudProviders"].writeList(value.cloudProviders, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudRegions"].writeList(value.cloudRegions, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["instanceTags"].writeList(value.instanceTags, memberWritingClosure: Inspector2ClientTypes.MapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["operatingSystems"].writeList(value.operatingSystems, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resourceIds"].writeList(value.resourceIds, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sortBy"].write(value.sortBy)
+        try writer["sortOrder"].write(value.sortOrder)
+        try writer["vmImageReferences"].writeList(value.vmImageReferences, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension Inspector2ClientTypes.VmInstanceAggregationResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.VmInstanceAggregationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.VmInstanceAggregationResponse()
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.cloudProvider = try reader["cloudProvider"].readIfPresent()
+        value.cloudAccountId = try reader["cloudAccountId"].readIfPresent()
+        value.cloudPartition = try reader["cloudPartition"].readIfPresent()
+        value.cloudRegion = try reader["cloudRegion"].readIfPresent()
+        value.cloudOrgId = try reader["cloudOrgId"].readIfPresent()
+        value.vmImageReference = try reader["vmImageReference"].readIfPresent()
+        value.operatingSystem = try reader["operatingSystem"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
+        value.networkFindings = try reader["networkFindings"].readIfPresent()
+        value.exploitAvailableActiveFindingsCount = try reader["exploitAvailableActiveFindingsCount"].readIfPresent()
+        value.fixAvailableActiveFindingsCount = try reader["fixAvailableActiveFindingsCount"].readIfPresent()
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.VmInstanceMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.VmInstanceMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.VmInstanceMetadata()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.platform = try reader["platform"].readIfPresent()
+        value.inventoryHash = try reader["inventoryHash"].readIfPresent()
+        value.vmImageReference = try reader["vmImageReference"].readIfPresent()
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.VMScannerState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.VMScannerState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.VMScannerState()
+        value.activated = try reader["activated"].readIfPresent()
+        value.activatedAt = try reader["activatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }

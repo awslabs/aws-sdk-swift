@@ -73,6 +73,7 @@ public final class PartnerCentralChannelClient: AWSClientRuntime.AWSServiceClien
     let client: ClientRuntime.SdkHttpClient
     public let config: PartnerCentralChannelClient.PartnerCentralChannelClientConfig
     let serviceName = "PartnerCentral Channel"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use PartnerCentralChannelClient.PartnerCentralChannelClientConfig instead")
     public typealias Config = PartnerCentralChannelClient.PartnerCentralChannelClientConfiguration
@@ -82,6 +83,7 @@ public final class PartnerCentralChannelClient: AWSClientRuntime.AWSServiceClien
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: PartnerCentralChannelClient.PartnerCentralChannelClientConfig) instead")
@@ -199,7 +201,7 @@ extension PartnerCentralChannelClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "PartnerCentral Channel")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -256,7 +258,7 @@ extension PartnerCentralChannelClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "PartnerCentral Channel")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -437,7 +439,7 @@ extension PartnerCentralChannelClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "PartnerCentral Channel")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -494,7 +496,7 @@ extension PartnerCentralChannelClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "PartnerCentral Channel")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -676,8 +678,6 @@ extension PartnerCentralChannelClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptChannelHandshakeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Channel", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -689,6 +689,8 @@ extension PartnerCentralChannelClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptChannelHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Channel"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput>(serviceID: serviceName, version: PartnerCentralChannelClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralChannel")
@@ -755,8 +757,6 @@ extension PartnerCentralChannelClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelChannelHandshakeInput, CancelChannelHandshakeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelChannelHandshakeInput, CancelChannelHandshakeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelChannelHandshakeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Channel", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -768,6 +768,8 @@ extension PartnerCentralChannelClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelChannelHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelChannelHandshakeInput, CancelChannelHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelChannelHandshakeInput, CancelChannelHandshakeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Channel"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelChannelHandshakeInput, CancelChannelHandshakeOutput>(serviceID: serviceName, version: PartnerCentralChannelClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralChannel")
@@ -837,8 +839,6 @@ extension PartnerCentralChannelClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChannelHandshakeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Channel", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -850,6 +850,8 @@ extension PartnerCentralChannelClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateChannelHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Channel"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput>(serviceID: serviceName, version: PartnerCentralChannelClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralChannel")
@@ -919,8 +921,6 @@ extension PartnerCentralChannelClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProgramManagementAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Channel", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -932,6 +932,8 @@ extension PartnerCentralChannelClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProgramManagementAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Channel"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput>(serviceID: serviceName, version: PartnerCentralChannelClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralChannel")
@@ -1001,8 +1003,6 @@ extension PartnerCentralChannelClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRelationshipInput, CreateRelationshipOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRelationshipInput, CreateRelationshipOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRelationshipOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Channel", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1014,6 +1014,8 @@ extension PartnerCentralChannelClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRelationshipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRelationshipInput, CreateRelationshipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRelationshipInput, CreateRelationshipOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Channel"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRelationshipInput, CreateRelationshipOutput>(serviceID: serviceName, version: PartnerCentralChannelClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralChannel")
@@ -1082,8 +1084,6 @@ extension PartnerCentralChannelClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProgramManagementAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Channel", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1095,6 +1095,8 @@ extension PartnerCentralChannelClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProgramManagementAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Channel"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput>(serviceID: serviceName, version: PartnerCentralChannelClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralChannel")
@@ -1163,8 +1165,6 @@ extension PartnerCentralChannelClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRelationshipOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Channel", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1176,6 +1176,8 @@ extension PartnerCentralChannelClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRelationshipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Channel"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput>(serviceID: serviceName, version: PartnerCentralChannelClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralChannel")
@@ -1242,8 +1244,6 @@ extension PartnerCentralChannelClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRelationshipInput, GetRelationshipOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRelationshipInput, GetRelationshipOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRelationshipOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Channel", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1255,6 +1255,8 @@ extension PartnerCentralChannelClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRelationshipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRelationshipInput, GetRelationshipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRelationshipInput, GetRelationshipOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Channel"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRelationshipInput, GetRelationshipOutput>(serviceID: serviceName, version: PartnerCentralChannelClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralChannel")
@@ -1321,8 +1323,6 @@ extension PartnerCentralChannelClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListChannelHandshakesInput, ListChannelHandshakesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChannelHandshakesInput, ListChannelHandshakesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChannelHandshakesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Channel", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1334,6 +1334,8 @@ extension PartnerCentralChannelClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListChannelHandshakesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListChannelHandshakesInput, ListChannelHandshakesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListChannelHandshakesInput, ListChannelHandshakesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Channel"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListChannelHandshakesInput, ListChannelHandshakesOutput>(serviceID: serviceName, version: PartnerCentralChannelClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralChannel")
@@ -1400,8 +1402,6 @@ extension PartnerCentralChannelClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProgramManagementAccountsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Channel", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1413,6 +1413,8 @@ extension PartnerCentralChannelClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProgramManagementAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Channel"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput>(serviceID: serviceName, version: PartnerCentralChannelClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralChannel")
@@ -1479,8 +1481,6 @@ extension PartnerCentralChannelClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRelationshipsInput, ListRelationshipsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRelationshipsInput, ListRelationshipsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRelationshipsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Channel", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1492,6 +1492,8 @@ extension PartnerCentralChannelClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRelationshipsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRelationshipsInput, ListRelationshipsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRelationshipsInput, ListRelationshipsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Channel"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRelationshipsInput, ListRelationshipsOutput>(serviceID: serviceName, version: PartnerCentralChannelClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralChannel")
@@ -1558,8 +1560,6 @@ extension PartnerCentralChannelClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Channel", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1571,6 +1571,8 @@ extension PartnerCentralChannelClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Channel"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: PartnerCentralChannelClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralChannel")
@@ -1637,8 +1639,6 @@ extension PartnerCentralChannelClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectChannelHandshakeInput, RejectChannelHandshakeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectChannelHandshakeInput, RejectChannelHandshakeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectChannelHandshakeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Channel", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1650,6 +1650,8 @@ extension PartnerCentralChannelClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectChannelHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RejectChannelHandshakeInput, RejectChannelHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RejectChannelHandshakeInput, RejectChannelHandshakeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Channel"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RejectChannelHandshakeInput, RejectChannelHandshakeOutput>(serviceID: serviceName, version: PartnerCentralChannelClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralChannel")
@@ -1717,8 +1719,6 @@ extension PartnerCentralChannelClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Channel", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1730,6 +1730,8 @@ extension PartnerCentralChannelClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Channel"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: PartnerCentralChannelClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralChannel")
@@ -1797,8 +1799,6 @@ extension PartnerCentralChannelClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Channel", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1810,6 +1810,8 @@ extension PartnerCentralChannelClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Channel"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: PartnerCentralChannelClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralChannel")
@@ -1877,8 +1879,6 @@ extension PartnerCentralChannelClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProgramManagementAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Channel", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1890,6 +1890,8 @@ extension PartnerCentralChannelClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProgramManagementAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Channel"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput>(serviceID: serviceName, version: PartnerCentralChannelClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralChannel")
@@ -1957,8 +1959,6 @@ extension PartnerCentralChannelClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRelationshipInput, UpdateRelationshipOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRelationshipInput, UpdateRelationshipOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRelationshipOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Channel", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1970,6 +1970,8 @@ extension PartnerCentralChannelClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRelationshipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRelationshipInput, UpdateRelationshipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRelationshipInput, UpdateRelationshipOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Channel"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRelationshipInput, UpdateRelationshipOutput>(serviceID: serviceName, version: PartnerCentralChannelClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralChannel")

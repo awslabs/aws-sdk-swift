@@ -74,6 +74,42 @@ extension PaginatorSequence where OperationStackInput == ListDirectoryBucketsInp
     }
 }
 extension S3Client {
+    /// Paginate over `[ListObjectAnnotationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListObjectAnnotationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListObjectAnnotationsOutput`
+    public func listObjectAnnotationsPaginated(input: ListObjectAnnotationsInput) -> ClientRuntime.PaginatorSequence<ListObjectAnnotationsInput, ListObjectAnnotationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListObjectAnnotationsInput, ListObjectAnnotationsOutput>(input: input, inputKey: \.continuationToken, outputKey: \.nextContinuationToken, paginationFunction: self.listObjectAnnotations(input:))
+    }
+}
+
+extension ListObjectAnnotationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListObjectAnnotationsInput {
+        return ListObjectAnnotationsInput(
+            annotationPrefix: self.annotationPrefix,
+            bucket: self.bucket,
+            continuationToken: token,
+            expectedBucketOwner: self.expectedBucketOwner,
+            key: self.key,
+            maxAnnotationResults: self.maxAnnotationResults,
+            requestPayer: self.requestPayer,
+            versionId: self.versionId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListObjectAnnotationsInput, OperationStackOutput == ListObjectAnnotationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listObjectAnnotationsPaginated`
+    /// to access the nested member `[S3ClientTypes.AnnotationEntry]`
+    /// - Returns: `[S3ClientTypes.AnnotationEntry]`
+    public func annotations() async throws -> [S3ClientTypes.AnnotationEntry] {
+        return try await self.asyncCompactMap { item in item.annotations }
+    }
+}
+extension S3Client {
     /// Paginate over `[ListObjectsV2Output]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

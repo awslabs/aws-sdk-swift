@@ -40,6 +40,11 @@ public struct DeleteConformancePackOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteConnectorOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteDeliveryChannelOutput: Swift.Sendable {
 
     public init() { }
@@ -2471,7 +2476,7 @@ extension ConfigClientTypes {
     }
 }
 
-/// For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+/// For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [PutThirdPartyServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutThirdPartyServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because the specified service principal does not support multiple configuration recorders and one already exists. For [PutThirdPartyServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutThirdPartyServiceLinkedConfigurationRecorder.html), another in-progress operation is currently referencing the same connector or service principal. Please try again later. For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), you cannot create a connector because a connector already exists for the specified connector configuration. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), another in-progress operation is currently referencing the same connector. Please try again later. For [DeleteConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConnector.html), another in-progress operation is currently referencing the connector. Please try again later. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
 ///
 /// * For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.
 ///
@@ -2546,6 +2551,13 @@ public struct NoSuchConfigurationRecorderException: ClientRuntime.ModeledError, 
 /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
 ///
 /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+///
+///
+/// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+///
+/// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+///
+/// * You have provided a service principal for service-linked configuration recorder that is not valid.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2859,10 +2871,41 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes {
 
+    /// Specifies the scope of resources to record from a third-party cloud service provider.
+    public struct ScopeConfiguration: Swift.Sendable {
+        /// Specifies whether to record resources from all supported regions for the third-party cloud service provider.
+        /// This member is required.
+        public var allRegions: Swift.Bool
+        /// The list of regions from the third-party cloud service provider to include when recording resources. Used when allRegions is set to false.
+        public var includedRegions: [Swift.String]?
+        /// The type of scope for the third-party cloud resources. Valid values include tenant and subscription.
+        /// This member is required.
+        public var scopeType: Swift.String?
+        /// The list of specific scope values for the third-party cloud resources. For example, a list of Azure subscriptions or management groups.
+        public var scopeValues: [Swift.String]?
+
+        public init(
+            allRegions: Swift.Bool = false,
+            includedRegions: [Swift.String]? = nil,
+            scopeType: Swift.String? = nil,
+            scopeValues: [Swift.String]? = nil
+        ) {
+            self.allRegions = allRegions
+            self.includedRegions = includedRegions
+            self.scopeType = scopeType
+            self.scopeValues = scopeValues
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
     /// Records configuration changes to the resource types in scope. For more information about the configuration recorder, see [ Working with the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide.
     public struct ConfigurationRecorder: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the specified configuration recorder.
         public var arn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the connector that specifies the connection between a third-party cloud service provider and Config.
+        public var connectorArn: Swift.String?
         /// The name of the configuration recorder. For customer managed configuration recorders, Config automatically assigns the name of "default" when creating a configuration recorder if you do not specify a name at creation time. For service-linked configuration recorders, Config automatically assigns a name that has the prefix "AWSConfigurationRecorderFor" to a new service-linked configuration recorder. Changing the name of a configuration recorder To change the name of the customer managed configuration recorder, you must delete it and create a new customer managed configuration recorder with a new name. You cannot change the name of a service-linked configuration recorder.
         public var name: Swift.String?
         /// Specifies which resource types are in scope for the configuration recorder to record. High Number of Config Evaluations You might notice increased activity in your account during your initial month recording with Config when compared to subsequent months. During the initial bootstrapping process, Config runs evaluations on all the resources in your account that you have selected for Config to record. If you are running ephemeral workloads, you may see increased activity from Config as it records configuration changes associated with creating and deleting these temporary resources. An ephemeral workload is a temporary use of computing resources that are loaded and run when needed. Examples include Amazon Elastic Compute Cloud (Amazon EC2) Spot Instances, Amazon EMR jobs, and Auto Scaling. If you want to avoid the increased activity from running ephemeral workloads, you can set up the configuration recorder to exclude these resource types from being recorded, or run these types of workloads in a separate account with Config turned off to avoid increased configuration recording and rule evaluations.
@@ -2880,24 +2923,30 @@ extension ConfigClientTypes {
         public var recordingScope: ConfigClientTypes.RecordingScope?
         /// The Amazon Resource Name (ARN) of the IAM role assumed by Config and used by the specified configuration recorder. The server will reject a request without a defined roleARN for the configuration recorder While the API model does not require this field, the server will reject a request without a defined roleARN for the configuration recorder. Policies and compliance results [IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) and [other policies managed in Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html) can impact whether Config has permissions to record configuration changes for your resources. Additionally, rules directly evaluate the configuration of a resource and rules don't take into account these policies when running evaluations. Make sure that the policies in effect align with how you intend to use Config. Keep Minimum Permisions When Reusing an IAM role If you use an Amazon Web Services service that uses Config, such as Security Hub CSPM or Control Tower, and an IAM role has already been created, make sure that the IAM role that you use when setting up Config keeps the same minimum permissions as the pre-existing IAM role. You must do this to ensure that the other Amazon Web Services service continues to run as expected. For example, if Control Tower has an IAM role that allows Config to read S3 objects, make sure that the same permissions are granted to the IAM role you use when setting up Config. Otherwise, it may interfere with how Control Tower operates. The service-linked IAM role for Config must be used for service-linked configuration recorders For service-linked configuration recorders, you must use the service-linked IAM role for Config: [AWSServiceRoleForConfig](https://docs.aws.amazon.com/config/latest/developerguide/using-service-linked-roles.html).
         public var roleARN: Swift.String?
+        /// Specifies the scope of resources to record from the third-party cloud service provider connected through the connector.
+        public var scopeConfiguration: ConfigClientTypes.ScopeConfiguration?
         /// For service-linked configuration recorders, specifies the linked Amazon Web Services service for the configuration recorder.
         public var servicePrincipal: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
+            connectorArn: Swift.String? = nil,
             name: Swift.String? = nil,
             recordingGroup: ConfigClientTypes.RecordingGroup? = nil,
             recordingMode: ConfigClientTypes.RecordingMode? = nil,
             recordingScope: ConfigClientTypes.RecordingScope? = nil,
             roleARN: Swift.String? = nil,
+            scopeConfiguration: ConfigClientTypes.ScopeConfiguration? = nil,
             servicePrincipal: Swift.String? = nil
         ) {
             self.arn = arn
+            self.connectorArn = connectorArn
             self.name = name
             self.recordingGroup = recordingGroup
             self.recordingMode = recordingMode
             self.recordingScope = recordingScope
             self.roleARN = roleARN
+            self.scopeConfiguration = scopeConfiguration
             self.servicePrincipal = servicePrincipal
         }
     }
@@ -2912,6 +2961,27 @@ public struct AssociateResourceTypesOutput: Swift.Sendable {
         configurationRecorder: ConfigClientTypes.ConfigurationRecorder? = nil
     ) {
         self.configurationRecorder = configurationRecorder
+    }
+}
+
+extension ConfigClientTypes {
+
+    /// The configuration details for connecting to Microsoft Azure.
+    public struct AzureConnectorConfiguration: Swift.Sendable {
+        /// The Azure client identifier.
+        /// This member is required.
+        public var clientIdentifier: Swift.String?
+        /// The Azure tenant identifier.
+        /// This member is required.
+        public var tenantIdentifier: Swift.String?
+
+        public init(
+            clientIdentifier: Swift.String? = nil,
+            tenantIdentifier: Swift.String? = nil
+        ) {
+            self.clientIdentifier = clientIdentifier
+            self.tenantIdentifier = tenantIdentifier
+        }
     }
 }
 
@@ -3413,12 +3483,43 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes {
 
+    public enum RuleEvaluationVisibility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case external
+        case `internal`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleEvaluationVisibility] {
+            return [
+                .external,
+                .internal
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .external: return "EXTERNAL"
+            case .internal: return "INTERNAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
     /// Defines which resources trigger an evaluation for an Config rule. The scope can include one or more resource types, a combination of a tag key and value, or a combination of one resource type and one resource ID. Specify a scope to constrain which resources trigger an evaluation for a rule. Otherwise, evaluations for the rule are triggered when any resource in your recording group changes in configuration.
     public struct Scope: Swift.Sendable {
         /// The ID of the only Amazon Web Services resource that you want to trigger an evaluation for the rule. If you specify a resource ID, you must specify one resource type for ComplianceResourceTypes.
         public var complianceResourceId: Swift.String?
         /// The resource types of only those Amazon Web Services resources that you want to trigger an evaluation for the rule. You can only specify one type if you also specify a resource ID for ComplianceResourceId.
         public var complianceResourceTypes: [Swift.String]?
+        /// The service principals of the Amazon Web Services services for the rule. The field is populated only if the service-linked rule is created by a service. The field is empty if you create your own rule.
+        public var servicePrincipals: [Swift.String]?
         /// The tag key that is applied to only those Amazon Web Services resources that you want to trigger an evaluation for the rule.
         public var tagKey: Swift.String?
         /// The tag value applied to only those Amazon Web Services resources that you want to trigger an evaluation for the rule. If you specify a value for TagValue, you must also specify a value for TagKey.
@@ -3427,11 +3528,13 @@ extension ConfigClientTypes {
         public init(
             complianceResourceId: Swift.String? = nil,
             complianceResourceTypes: [Swift.String]? = nil,
+            servicePrincipals: [Swift.String]? = nil,
             tagKey: Swift.String? = nil,
             tagValue: Swift.String? = nil
         ) {
             self.complianceResourceId = complianceResourceId
             self.complianceResourceTypes = complianceResourceTypes
+            self.servicePrincipals = servicePrincipals
             self.tagKey = tagKey
             self.tagValue = tagValue
         }
@@ -3647,6 +3750,8 @@ extension ConfigClientTypes {
         ///
         /// By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter.
         public var maximumExecutionFrequency: ConfigClientTypes.MaximumExecutionFrequency?
+        /// Indicates whether you can get [Evaluation]s for the Config rule. You can get [Evaluation]s for the Amazon Web Services Config rule if this value is EXTERNAL. You cannot get [Evaluation]s for the Amazon Web Services Config rule if this value is INTERNAL.
+        public var ruleEvaluationVisibility: ConfigClientTypes.RuleEvaluationVisibility?
         /// Defines which resources can trigger an evaluation for the rule. The scope can include one or more resource types, a combination of one resource type and one resource ID, or a combination of a tag key and value. Specify a scope to constrain the resources that can trigger an evaluation for the rule. If you do not specify a scope, evaluations are triggered when any resource in the recording group changes.
         public var scope: ConfigClientTypes.Scope?
         /// Provides the rule owner (Amazon Web Services for managed rules, CUSTOM_POLICY for Custom Policy rules, and CUSTOM_LAMBDA for Custom Lambda rules), the rule identifier, and the notifications that cause the function to evaluate your Amazon Web Services resources.
@@ -3663,6 +3768,7 @@ extension ConfigClientTypes {
             evaluationModes: [ConfigClientTypes.EvaluationModeConfiguration]? = nil,
             inputParameters: Swift.String? = nil,
             maximumExecutionFrequency: ConfigClientTypes.MaximumExecutionFrequency? = nil,
+            ruleEvaluationVisibility: ConfigClientTypes.RuleEvaluationVisibility? = nil,
             scope: ConfigClientTypes.Scope? = nil,
             source: ConfigClientTypes.Source? = nil
         ) {
@@ -3675,6 +3781,7 @@ extension ConfigClientTypes {
             self.evaluationModes = evaluationModes
             self.inputParameters = inputParameters
             self.maximumExecutionFrequency = maximumExecutionFrequency
+            self.ruleEvaluationVisibility = ruleEvaluationVisibility
             self.scope = scope
             self.source = source
         }
@@ -4219,7 +4326,33 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes {
 
-    /// A summary of a configuration recorder, including the arn, name, servicePrincipal, and recordingScope.
+    public enum Provider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Provider] {
+            return [
+                .azure
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .azure: return "AZURE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    /// A summary of a configuration recorder, including the arn, name, servicePrincipal, recordingScope, and provider.
     public struct ConfigurationRecorderSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the configuration recorder.
         /// This member is required.
@@ -4227,6 +4360,8 @@ extension ConfigClientTypes {
         /// The name of the configuration recorder.
         /// This member is required.
         public var name: Swift.String?
+        /// For service-linked configuration recorders that record resources from a third-party cloud service provider, indicates the cloud service provider. Currently, AZURE is supported.
+        public var provider: ConfigClientTypes.Provider?
         /// Indicates whether the [ConfigurationItems](https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationItem.html) in scope for the configuration recorder are recorded for free (INTERNAL) or if you are charged a service fee for recording (PAID).
         /// This member is required.
         public var recordingScope: ConfigClientTypes.RecordingScope?
@@ -4236,11 +4371,13 @@ extension ConfigClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil,
+            provider: ConfigClientTypes.Provider? = nil,
             recordingScope: ConfigClientTypes.RecordingScope? = nil,
             servicePrincipal: Swift.String? = nil
         ) {
             self.arn = arn
             self.name = name
+            self.provider = provider
             self.recordingScope = recordingScope
             self.servicePrincipal = servicePrincipal
         }
@@ -4623,6 +4760,133 @@ public struct ConformancePackTemplateValidationException: ClientRuntime.ModeledE
     }
 }
 
+extension ConfigClientTypes {
+
+    /// The provider-specific configuration for connecting to the third-party cloud service provider. You must specify exactly one provider configuration.
+    public struct ConnectorConfiguration: Swift.Sendable {
+        /// The configuration for an Azure connector.
+        public var azure: ConfigClientTypes.AzureConnectorConfiguration?
+
+        public init(
+            azure: ConfigClientTypes.AzureConnectorConfiguration? = nil
+        ) {
+            self.azure = azure
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    /// The details of the connector, including the connector configuration and connector ARN.
+    public struct Connector: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the connector.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The provider-specific configuration for connecting to the third-party cloud service provider.
+        /// This member is required.
+        public var connectorConfiguration: ConfigClientTypes.ConnectorConfiguration?
+        /// The date and time that the connector was created.
+        /// This member is required.
+        public var createdTime: Foundation.Date?
+        /// The name of the connector.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            connectorConfiguration: ConfigClientTypes.ConnectorConfiguration? = nil,
+            createdTime: Foundation.Date? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.connectorConfiguration = connectorConfiguration
+            self.createdTime = createdTime
+            self.name = name
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    public enum ConnectorFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case provider
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorFilterName] {
+            return [
+                .provider
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .provider: return "provider"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    /// Filters connectors based on the connector provider.
+    public struct ConnectorFilter: Swift.Sendable {
+        /// The name of the filter. Currently, only provider is supported.
+        public var filterName: ConfigClientTypes.ConnectorFilterName?
+        /// The value of the filter. For provider, valid values include: AZURE.
+        public var filterValues: [Swift.String]?
+
+        public init(
+            filterName: ConfigClientTypes.ConnectorFilterName? = nil,
+            filterValues: [Swift.String]? = nil
+        ) {
+            self.filterName = filterName
+            self.filterValues = filterValues
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    /// A summary of a connector.
+    public struct ConnectorSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the connector.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The date and time that the connector was created.
+        /// This member is required.
+        public var createdTime: Foundation.Date?
+        /// The name of the connector.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The third-party cloud service provider. Currently, AZURE is supported.
+        /// This member is required.
+        public var provider: ConfigClientTypes.Provider?
+        /// The Azure tenant identifier for the connector.
+        /// This member is required.
+        public var tenantIdentifier: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            provider: ConfigClientTypes.Provider? = nil,
+            tenantIdentifier: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.name = name
+            self.provider = provider
+            self.tenantIdentifier = tenantIdentifier
+        }
+    }
+}
+
 /// One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
 public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -4821,6 +5085,42 @@ public struct DeleteConformancePackInput: Swift.Sendable {
         conformancePackName: Swift.String? = nil
     ) {
         self.conformancePackName = conformancePackName
+    }
+}
+
+/// You have specified a resource that does not exist.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteConnectorInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the connector that you want to delete.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
     }
 }
 
@@ -5046,6 +5346,8 @@ public struct DeletePendingAggregationRequestInput: Swift.Sendable {
 ///
 ///
 /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+///
+/// * For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), a connector cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
 public struct InsufficientPermissionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -5306,13 +5608,16 @@ public struct DeleteRetentionConfigurationInput: Swift.Sendable {
 }
 
 public struct DeleteServiceLinkedConfigurationRecorderInput: Swift.Sendable {
-    /// The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to delete.
-    /// This member is required.
+    /// The Amazon Resource Name (ARN) of the service-linked configuration recorder that you want to delete. For third-party service-linked configuration recorders, you must use Arn. You must specify exactly one of Arn or ServicePrincipal.
+    public var arn: Swift.String?
+    /// The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to delete. This field is only supported for Amazon Web Services service principals. For third-party service-linked configuration recorders, use Arn instead.
     public var servicePrincipal: Swift.String?
 
     public init(
+        arn: Swift.String? = nil,
         servicePrincipal: Swift.String? = nil
     ) {
+        self.arn = arn
         self.servicePrincipal = servicePrincipal
     }
 }
@@ -5331,30 +5636,6 @@ public struct DeleteServiceLinkedConfigurationRecorderOutput: Swift.Sendable {
     ) {
         self.arn = arn
         self.name = name
-    }
-}
-
-/// You have specified a resource that does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Error executing the command
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -5740,11 +6021,15 @@ extension ConfigClientTypes {
     public struct DescribeConfigRulesFilters: Swift.Sendable {
         /// The mode of an evaluation. The valid values are Detective or Proactive.
         public var evaluationMode: ConfigClientTypes.EvaluationMode?
+        /// Filters the results by RuleEvaluationVisibility.
+        public var ruleEvaluationVisibility: ConfigClientTypes.RuleEvaluationVisibility?
 
         public init(
-            evaluationMode: ConfigClientTypes.EvaluationMode? = nil
+            evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
+            ruleEvaluationVisibility: ConfigClientTypes.RuleEvaluationVisibility? = nil
         ) {
             self.evaluationMode = evaluationMode
+            self.ruleEvaluationVisibility = ruleEvaluationVisibility
         }
     }
 }
@@ -5870,7 +6155,7 @@ public struct DescribeConfigurationRecordersInput: Swift.Sendable {
     public var arn: Swift.String?
     /// A list of names of the configuration recorders that you want to specify. When making a request to this operation, you can only specify one configuration recorder.
     public var configurationRecorderNames: [Swift.String]?
-    /// For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder.
+    /// For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder. This field is only supported for Amazon Web Services service principals. For third-party service-linked configuration recorders, use Arn instead.
     public var servicePrincipal: Swift.String?
 
     public init(
@@ -5902,7 +6187,7 @@ public struct DescribeConfigurationRecorderStatusInput: Swift.Sendable {
     public var arn: Swift.String?
     /// The name of the configuration recorder. If the name is not specified, the operation returns the status for the customer managed configuration recorder configured for the account, if applicable. When making a request to this operation, you can only specify one configuration recorder.
     public var configurationRecorderNames: [Swift.String]?
-    /// For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder.
+    /// For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder. This field is only supported for Amazon Web Services service principals. For third-party service-linked configuration recorders, use Arn instead.
     public var servicePrincipal: Swift.String?
 
     public init(
@@ -8130,6 +8415,30 @@ public struct GetConformancePackComplianceSummaryOutput: Swift.Sendable {
     }
 }
 
+public struct GetConnectorInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the connector.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct GetConnectorOutput: Swift.Sendable {
+    /// The details of the specified connector.
+    /// This member is required.
+    public var connector: ConfigClientTypes.Connector?
+
+    public init(
+        connector: ConfigClientTypes.Connector? = nil
+    ) {
+        self.connector = connector
+    }
+}
+
 public struct GetCustomRulePolicyInput: Swift.Sendable {
     /// The name of your Config Custom Policy rule.
     public var configRuleName: Swift.String?
@@ -9221,7 +9530,7 @@ public struct ListConfigurationRecordersInput: Swift.Sendable {
 
     public init(
         filters: [ConfigClientTypes.ConfigurationRecorderFilter]? = nil,
-        maxResults: Swift.Int? = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.filters = filters
@@ -9340,6 +9649,41 @@ public struct ListConformancePackComplianceScoresOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.conformancePackComplianceScores = conformancePackComplianceScores
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListConnectorsInput: Swift.Sendable {
+    /// Filters the results based on a list of ConnectorFilter objects that you specify.
+    public var filters: [ConfigClientTypes.ConnectorFilter]?
+    /// The maximum number of results to include in the response.
+    public var maxResults: Swift.Int?
+    /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [ConfigClientTypes.ConnectorFilter]? = nil,
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListConnectorsOutput: Swift.Sendable {
+    /// A list of ConnectorSummary objects.
+    /// This member is required.
+    public var connectorSummaries: [ConfigClientTypes.ConnectorSummary]?
+    /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+    public var nextToken: Swift.String?
+
+    public init(
+        connectorSummaries: [ConfigClientTypes.ConnectorSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.connectorSummaries = connectorSummaries
         self.nextToken = nextToken
     }
 }
@@ -9526,7 +9870,7 @@ public struct ListStoredQueriesInput: Swift.Sendable {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.maxResults = maxResults
@@ -9601,6 +9945,8 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     /// * AggregationAuthorization
     ///
     /// * StoredQuery
+    ///
+    /// * Connector
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -9731,6 +10077,30 @@ public struct MaxNumberOfConformancePacksExceededException: ClientRuntime.Modele
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "MaxNumberOfConformancePacksExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// You have reached the limit of the number of connectors in your account.
+public struct MaxNumberOfConnectorsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MaxNumberOfConnectorsExceededException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -10177,6 +10547,34 @@ public struct PutConformancePackOutput: Swift.Sendable {
     }
 }
 
+public struct PutConnectorInput: Swift.Sendable {
+    /// The provider-specific configuration for connecting to the third-party cloud service provider.
+    /// This member is required.
+    public var connectorConfiguration: ConfigClientTypes.ConnectorConfiguration?
+    /// The tags for the connector. Each tag consists of a key and an optional value, both of which you define.
+    public var tags: [ConfigClientTypes.Tag]?
+
+    public init(
+        connectorConfiguration: ConfigClientTypes.ConnectorConfiguration? = nil,
+        tags: [ConfigClientTypes.Tag]? = nil
+    ) {
+        self.connectorConfiguration = connectorConfiguration
+        self.tags = tags
+    }
+}
+
+public struct PutConnectorOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the connector.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
 /// The input for the [PutDeliveryChannel] action.
 public struct PutDeliveryChannelInput: Swift.Sendable {
     /// An object for the delivery channel. A delivery channel sends notifications and updated configuration states.
@@ -10257,19 +10655,23 @@ public struct PutOrganizationConfigRuleInput: Swift.Sendable {
     public var organizationCustomRuleMetadata: ConfigClientTypes.OrganizationCustomRuleMetadata?
     /// An OrganizationManagedRuleMetadata object. This object specifies organization managed rule metadata such as resource type and ID of Amazon Web Services resource along with the rule identifier. It also provides the frequency with which you want Config to run evaluations for the rule if the trigger type is periodic.
     public var organizationManagedRuleMetadata: ConfigClientTypes.OrganizationManagedRuleMetadata?
+    /// The tags for the organization Config rule. Each tag consists of a key and an optional value, both of which you define.
+    public var tags: [ConfigClientTypes.Tag]?
 
     public init(
         excludedAccounts: [Swift.String]? = nil,
         organizationConfigRuleName: Swift.String? = nil,
         organizationCustomPolicyRuleMetadata: ConfigClientTypes.OrganizationCustomPolicyRuleMetadata? = nil,
         organizationCustomRuleMetadata: ConfigClientTypes.OrganizationCustomRuleMetadata? = nil,
-        organizationManagedRuleMetadata: ConfigClientTypes.OrganizationManagedRuleMetadata? = nil
+        organizationManagedRuleMetadata: ConfigClientTypes.OrganizationManagedRuleMetadata? = nil,
+        tags: [ConfigClientTypes.Tag]? = nil
     ) {
         self.excludedAccounts = excludedAccounts
         self.organizationConfigRuleName = organizationConfigRuleName
         self.organizationCustomPolicyRuleMetadata = organizationCustomPolicyRuleMetadata
         self.organizationCustomRuleMetadata = organizationCustomRuleMetadata
         self.organizationManagedRuleMetadata = organizationManagedRuleMetadata
+        self.tags = tags
     }
 }
 
@@ -10296,6 +10698,8 @@ public struct PutOrganizationConformancePackInput: Swift.Sendable {
     /// Name of the organization conformance pack you want to create.
     /// This member is required.
     public var organizationConformancePackName: Swift.String?
+    /// The tags for the organization conformance pack. Each tag consists of a key and an optional value, both of which you define.
+    public var tags: [ConfigClientTypes.Tag]?
     /// A string that contains the full conformance pack template body. Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.
     public var templateBody: Swift.String?
     /// Location of file containing the template body. The uri must point to the conformance pack template (max size: 300 KB). You must have access to read Amazon S3 bucket. In addition, in order to ensure a successful deployment, the template object must not be in an [archived storage class](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html) if this parameter is passed.
@@ -10307,6 +10711,7 @@ public struct PutOrganizationConformancePackInput: Swift.Sendable {
         deliveryS3KeyPrefix: Swift.String? = nil,
         excludedAccounts: [Swift.String]? = nil,
         organizationConformancePackName: Swift.String? = nil,
+        tags: [ConfigClientTypes.Tag]? = nil,
         templateBody: Swift.String? = nil,
         templateS3Uri: Swift.String? = nil
     ) {
@@ -10315,6 +10720,7 @@ public struct PutOrganizationConformancePackInput: Swift.Sendable {
         self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
         self.excludedAccounts = excludedAccounts
         self.organizationConformancePackName = organizationConformancePackName
+        self.tags = tags
         self.templateBody = templateBody
         self.templateS3Uri = templateS3Uri
     }
@@ -10550,6 +10956,49 @@ public struct PutStoredQueryOutput: Swift.Sendable {
         queryArn: Swift.String? = nil
     ) {
         self.queryArn = queryArn
+    }
+}
+
+public struct PutThirdPartyServiceLinkedConfigurationRecorderInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the connector that specifies the connection between the third-party cloud service provider and Config. The specified connector must exist.
+    /// This member is required.
+    public var connectorArn: Swift.String?
+    /// Specifies the scope of resources to record from the third-party cloud service provider.
+    /// This member is required.
+    public var scopeConfiguration: ConfigClientTypes.ScopeConfiguration?
+    /// The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create.
+    /// This member is required.
+    public var servicePrincipal: Swift.String?
+    /// The tags for a service-linked configuration recorder. Each tag consists of a key and an optional value, both of which you define.
+    public var tags: [ConfigClientTypes.Tag]?
+
+    public init(
+        connectorArn: Swift.String? = nil,
+        scopeConfiguration: ConfigClientTypes.ScopeConfiguration? = nil,
+        servicePrincipal: Swift.String? = nil,
+        tags: [ConfigClientTypes.Tag]? = nil
+    ) {
+        self.connectorArn = connectorArn
+        self.scopeConfiguration = scopeConfiguration
+        self.servicePrincipal = servicePrincipal
+        self.tags = tags
+    }
+}
+
+public struct PutThirdPartyServiceLinkedConfigurationRecorderOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the specified configuration recorder.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the specified configuration recorder.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.name = name
     }
 }
 
@@ -10789,6 +11238,8 @@ public struct TagResourceInput: Swift.Sendable {
     /// * AggregationAuthorization
     ///
     /// * StoredQuery
+    ///
+    /// * Connector
     /// This member is required.
     public var resourceArn: Swift.String?
     /// An array of tag object.
@@ -10822,6 +11273,8 @@ public struct UntagResourceInput: Swift.Sendable {
     /// * AggregationAuthorization
     ///
     /// * StoredQuery
+    ///
+    /// * Connector
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The keys of the tags to be removed.

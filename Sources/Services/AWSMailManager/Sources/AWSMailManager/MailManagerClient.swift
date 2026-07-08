@@ -21,11 +21,11 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultClockSkewProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -50,6 +50,7 @@ import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
@@ -60,10 +61,10 @@ import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct Smithy.Attributes
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.HTTPClientProtocol
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.HTTPClientProtocol
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.Plugin
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -73,6 +74,7 @@ public final class MailManagerClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: MailManagerClient.MailManagerClientConfig
     let serviceName = "MailManager"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use MailManagerClient.MailManagerClientConfig instead")
     public typealias Config = MailManagerClient.MailManagerClientConfiguration
@@ -82,6 +84,7 @@ public final class MailManagerClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: MailManagerClient.MailManagerClientConfig) instead")
@@ -196,7 +199,7 @@ extension MailManagerClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "MailManager")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -251,7 +254,7 @@ extension MailManagerClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "MailManager")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -427,7 +430,7 @@ extension MailManagerClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "MailManager")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -482,7 +485,7 @@ extension MailManagerClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "MailManager")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -628,7 +631,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func createAddonInstance(input: CreateAddonInstanceInput) async throws -> CreateAddonInstanceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -647,7 +650,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -657,22 +660,25 @@ extension MailManagerClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAddonInstanceInput, CreateAddonInstanceOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAddonInstanceInput, CreateAddonInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAddonInstanceInput, CreateAddonInstanceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAddonInstanceInput, CreateAddonInstanceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAddonInstanceInput, CreateAddonInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAddonInstanceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAddonInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAddonInstanceInput, CreateAddonInstanceOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.CreateAddonInstance"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAddonInstanceInput, CreateAddonInstanceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAddonInstanceInput, CreateAddonInstanceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateAddonInstanceInput, CreateAddonInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAddonInstanceInput, CreateAddonInstanceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAddonInstanceInput, CreateAddonInstanceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAddonInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAddonInstanceInput, CreateAddonInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAddonInstanceInput, CreateAddonInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAddonInstanceInput, CreateAddonInstanceOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -706,7 +712,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func createAddonSubscription(input: CreateAddonSubscriptionInput) async throws -> CreateAddonSubscriptionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -725,7 +731,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -735,22 +741,25 @@ extension MailManagerClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAddonSubscriptionInput, CreateAddonSubscriptionOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAddonSubscriptionInput, CreateAddonSubscriptionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAddonSubscriptionInput, CreateAddonSubscriptionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAddonSubscriptionInput, CreateAddonSubscriptionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAddonSubscriptionInput, CreateAddonSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAddonSubscriptionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAddonSubscriptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAddonSubscriptionInput, CreateAddonSubscriptionOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.CreateAddonSubscription"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAddonSubscriptionInput, CreateAddonSubscriptionOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAddonSubscriptionInput, CreateAddonSubscriptionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateAddonSubscriptionInput, CreateAddonSubscriptionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAddonSubscriptionInput, CreateAddonSubscriptionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAddonSubscriptionInput, CreateAddonSubscriptionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAddonSubscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAddonSubscriptionInput, CreateAddonSubscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAddonSubscriptionInput, CreateAddonSubscriptionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAddonSubscriptionInput, CreateAddonSubscriptionOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -785,7 +794,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func createAddressList(input: CreateAddressListInput) async throws -> CreateAddressListOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -804,7 +813,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -814,22 +823,25 @@ extension MailManagerClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAddressListInput, CreateAddressListOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAddressListInput, CreateAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAddressListInput, CreateAddressListOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAddressListInput, CreateAddressListOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAddressListInput, CreateAddressListOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAddressListOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAddressListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAddressListInput, CreateAddressListOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.CreateAddressList"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAddressListInput, CreateAddressListOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAddressListInput, CreateAddressListOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateAddressListInput, CreateAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAddressListInput, CreateAddressListOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAddressListInput, CreateAddressListOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAddressListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAddressListInput, CreateAddressListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAddressListInput, CreateAddressListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAddressListInput, CreateAddressListOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -863,7 +875,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func createAddressListImportJob(input: CreateAddressListImportJobInput) async throws -> CreateAddressListImportJobOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -882,7 +894,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -892,22 +904,25 @@ extension MailManagerClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAddressListImportJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAddressListImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.CreateAddressListImportJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAddressListImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -942,7 +957,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func createArchive(input: CreateArchiveInput) async throws -> CreateArchiveOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -961,7 +976,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -971,22 +986,25 @@ extension MailManagerClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateArchiveInput, CreateArchiveOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateArchiveInput, CreateArchiveOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateArchiveInput, CreateArchiveOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateArchiveInput, CreateArchiveOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateArchiveInput, CreateArchiveOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateArchiveOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateArchiveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateArchiveInput, CreateArchiveOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.CreateArchive"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateArchiveInput, CreateArchiveOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateArchiveInput, CreateArchiveOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateArchiveInput, CreateArchiveOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateArchiveInput, CreateArchiveOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateArchiveInput, CreateArchiveOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateArchiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateArchiveInput, CreateArchiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateArchiveInput, CreateArchiveOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateArchiveInput, CreateArchiveOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -1019,7 +1037,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func createIngressPoint(input: CreateIngressPointInput) async throws -> CreateIngressPointOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1038,7 +1056,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1048,22 +1066,25 @@ extension MailManagerClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateIngressPointInput, CreateIngressPointOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateIngressPointInput, CreateIngressPointOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateIngressPointInput, CreateIngressPointOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIngressPointInput, CreateIngressPointOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIngressPointInput, CreateIngressPointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIngressPointOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateIngressPointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateIngressPointInput, CreateIngressPointOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.CreateIngressPoint"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateIngressPointInput, CreateIngressPointOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateIngressPointInput, CreateIngressPointOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateIngressPointInput, CreateIngressPointOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateIngressPointInput, CreateIngressPointOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIngressPointInput, CreateIngressPointOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIngressPointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIngressPointInput, CreateIngressPointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIngressPointInput, CreateIngressPointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIngressPointInput, CreateIngressPointOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -1096,7 +1117,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func createRelay(input: CreateRelayInput) async throws -> CreateRelayOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1115,7 +1136,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1125,22 +1146,25 @@ extension MailManagerClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateRelayInput, CreateRelayOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRelayInput, CreateRelayOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRelayInput, CreateRelayOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRelayInput, CreateRelayOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRelayInput, CreateRelayOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRelayOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRelayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRelayInput, CreateRelayOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.CreateRelay"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRelayInput, CreateRelayOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRelayInput, CreateRelayOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateRelayInput, CreateRelayOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRelayInput, CreateRelayOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRelayInput, CreateRelayOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRelayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRelayInput, CreateRelayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRelayInput, CreateRelayOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRelayInput, CreateRelayOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -1173,7 +1197,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func createRuleSet(input: CreateRuleSetInput) async throws -> CreateRuleSetOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1192,7 +1216,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1202,22 +1226,25 @@ extension MailManagerClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateRuleSetInput, CreateRuleSetOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRuleSetInput, CreateRuleSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRuleSetInput, CreateRuleSetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleSetInput, CreateRuleSetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuleSetInput, CreateRuleSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRuleSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRuleSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRuleSetInput, CreateRuleSetOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.CreateRuleSet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRuleSetInput, CreateRuleSetOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRuleSetInput, CreateRuleSetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateRuleSetInput, CreateRuleSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRuleSetInput, CreateRuleSetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleSetInput, CreateRuleSetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRuleSetInput, CreateRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRuleSetInput, CreateRuleSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRuleSetInput, CreateRuleSetOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -1250,7 +1277,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func createTrafficPolicy(input: CreateTrafficPolicyInput) async throws -> CreateTrafficPolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1269,7 +1296,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1279,22 +1306,25 @@ extension MailManagerClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrafficPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTrafficPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.CreateTrafficPolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTrafficPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -1326,7 +1356,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func deleteAddonInstance(input: DeleteAddonInstanceInput) async throws -> DeleteAddonInstanceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1345,7 +1375,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1354,22 +1384,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAddonInstanceInput, DeleteAddonInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAddonInstanceInput, DeleteAddonInstanceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAddonInstanceInput, DeleteAddonInstanceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAddonInstanceInput, DeleteAddonInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAddonInstanceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAddonInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAddonInstanceInput, DeleteAddonInstanceOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.DeleteAddonInstance"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAddonInstanceInput, DeleteAddonInstanceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAddonInstanceInput, DeleteAddonInstanceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteAddonInstanceInput, DeleteAddonInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAddonInstanceInput, DeleteAddonInstanceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAddonInstanceInput, DeleteAddonInstanceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAddonInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAddonInstanceInput, DeleteAddonInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAddonInstanceInput, DeleteAddonInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAddonInstanceInput, DeleteAddonInstanceOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -1401,7 +1434,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func deleteAddonSubscription(input: DeleteAddonSubscriptionInput) async throws -> DeleteAddonSubscriptionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1420,7 +1453,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1429,22 +1462,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAddonSubscriptionInput, DeleteAddonSubscriptionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAddonSubscriptionInput, DeleteAddonSubscriptionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAddonSubscriptionInput, DeleteAddonSubscriptionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAddonSubscriptionInput, DeleteAddonSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAddonSubscriptionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAddonSubscriptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAddonSubscriptionInput, DeleteAddonSubscriptionOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.DeleteAddonSubscription"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAddonSubscriptionInput, DeleteAddonSubscriptionOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAddonSubscriptionInput, DeleteAddonSubscriptionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteAddonSubscriptionInput, DeleteAddonSubscriptionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAddonSubscriptionInput, DeleteAddonSubscriptionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAddonSubscriptionInput, DeleteAddonSubscriptionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAddonSubscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAddonSubscriptionInput, DeleteAddonSubscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAddonSubscriptionInput, DeleteAddonSubscriptionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAddonSubscriptionInput, DeleteAddonSubscriptionOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -1478,7 +1514,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func deleteAddressList(input: DeleteAddressListInput) async throws -> DeleteAddressListOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1497,7 +1533,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1506,22 +1542,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAddressListInput, DeleteAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAddressListInput, DeleteAddressListOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAddressListInput, DeleteAddressListOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAddressListInput, DeleteAddressListOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAddressListOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAddressListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAddressListInput, DeleteAddressListOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.DeleteAddressList"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAddressListInput, DeleteAddressListOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAddressListInput, DeleteAddressListOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteAddressListInput, DeleteAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAddressListInput, DeleteAddressListOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAddressListInput, DeleteAddressListOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAddressListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAddressListInput, DeleteAddressListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAddressListInput, DeleteAddressListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAddressListInput, DeleteAddressListOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -1555,7 +1594,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func deleteArchive(input: DeleteArchiveInput) async throws -> DeleteArchiveOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1574,7 +1613,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1583,22 +1622,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteArchiveInput, DeleteArchiveOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteArchiveInput, DeleteArchiveOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteArchiveOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteArchiveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.DeleteArchive"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteArchiveInput, DeleteArchiveOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteArchiveInput, DeleteArchiveOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteArchiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteArchiveInput, DeleteArchiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -1631,7 +1673,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func deleteIngressPoint(input: DeleteIngressPointInput) async throws -> DeleteIngressPointOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1650,7 +1692,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1659,22 +1701,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIngressPointInput, DeleteIngressPointOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteIngressPointInput, DeleteIngressPointOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIngressPointInput, DeleteIngressPointOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIngressPointInput, DeleteIngressPointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIngressPointOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteIngressPointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteIngressPointInput, DeleteIngressPointOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.DeleteIngressPoint"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteIngressPointInput, DeleteIngressPointOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteIngressPointInput, DeleteIngressPointOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteIngressPointInput, DeleteIngressPointOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteIngressPointInput, DeleteIngressPointOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIngressPointInput, DeleteIngressPointOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIngressPointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIngressPointInput, DeleteIngressPointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIngressPointInput, DeleteIngressPointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIngressPointInput, DeleteIngressPointOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -1707,7 +1752,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func deleteRelay(input: DeleteRelayInput) async throws -> DeleteRelayOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1726,7 +1771,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1735,22 +1780,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRelayInput, DeleteRelayOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRelayInput, DeleteRelayOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRelayInput, DeleteRelayOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRelayInput, DeleteRelayOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRelayOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRelayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRelayInput, DeleteRelayOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.DeleteRelay"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRelayInput, DeleteRelayOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRelayInput, DeleteRelayOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteRelayInput, DeleteRelayOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRelayInput, DeleteRelayOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRelayInput, DeleteRelayOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRelayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRelayInput, DeleteRelayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRelayInput, DeleteRelayOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRelayInput, DeleteRelayOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -1782,7 +1830,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func deleteRuleSet(input: DeleteRuleSetInput) async throws -> DeleteRuleSetOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1801,7 +1849,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1810,22 +1858,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRuleSetInput, DeleteRuleSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRuleSetInput, DeleteRuleSetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRuleSetInput, DeleteRuleSetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleSetInput, DeleteRuleSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRuleSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRuleSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRuleSetInput, DeleteRuleSetOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.DeleteRuleSet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRuleSetInput, DeleteRuleSetOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRuleSetInput, DeleteRuleSetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteRuleSetInput, DeleteRuleSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRuleSetInput, DeleteRuleSetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRuleSetInput, DeleteRuleSetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRuleSetInput, DeleteRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRuleSetInput, DeleteRuleSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRuleSetInput, DeleteRuleSetOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -1858,7 +1909,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func deleteTrafficPolicy(input: DeleteTrafficPolicyInput) async throws -> DeleteTrafficPolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1877,7 +1928,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1886,22 +1937,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrafficPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTrafficPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.DeleteTrafficPolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTrafficPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -1936,7 +1990,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func deregisterMemberFromAddressList(input: DeregisterMemberFromAddressListInput) async throws -> DeregisterMemberFromAddressListOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1955,7 +2009,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1964,22 +2018,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterMemberFromAddressListOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeregisterMemberFromAddressListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.DeregisterMemberFromAddressList"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterMemberFromAddressListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -2011,7 +2068,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func getAddonInstance(input: GetAddonInstanceInput) async throws -> GetAddonInstanceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2030,7 +2087,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2039,22 +2096,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAddonInstanceInput, GetAddonInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAddonInstanceInput, GetAddonInstanceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAddonInstanceInput, GetAddonInstanceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAddonInstanceInput, GetAddonInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAddonInstanceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAddonInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAddonInstanceInput, GetAddonInstanceOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.GetAddonInstance"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAddonInstanceInput, GetAddonInstanceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAddonInstanceInput, GetAddonInstanceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetAddonInstanceInput, GetAddonInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAddonInstanceInput, GetAddonInstanceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAddonInstanceInput, GetAddonInstanceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAddonInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAddonInstanceInput, GetAddonInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAddonInstanceInput, GetAddonInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAddonInstanceInput, GetAddonInstanceOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -2086,7 +2146,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func getAddonSubscription(input: GetAddonSubscriptionInput) async throws -> GetAddonSubscriptionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2105,7 +2165,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2114,22 +2174,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAddonSubscriptionInput, GetAddonSubscriptionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAddonSubscriptionInput, GetAddonSubscriptionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAddonSubscriptionInput, GetAddonSubscriptionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAddonSubscriptionInput, GetAddonSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAddonSubscriptionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAddonSubscriptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAddonSubscriptionInput, GetAddonSubscriptionOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.GetAddonSubscription"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAddonSubscriptionInput, GetAddonSubscriptionOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAddonSubscriptionInput, GetAddonSubscriptionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetAddonSubscriptionInput, GetAddonSubscriptionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAddonSubscriptionInput, GetAddonSubscriptionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAddonSubscriptionInput, GetAddonSubscriptionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAddonSubscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAddonSubscriptionInput, GetAddonSubscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAddonSubscriptionInput, GetAddonSubscriptionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAddonSubscriptionInput, GetAddonSubscriptionOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -2163,7 +2226,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func getAddressList(input: GetAddressListInput) async throws -> GetAddressListOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2182,7 +2245,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2191,22 +2254,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAddressListInput, GetAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAddressListInput, GetAddressListOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAddressListInput, GetAddressListOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAddressListInput, GetAddressListOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAddressListOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAddressListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAddressListInput, GetAddressListOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.GetAddressList"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAddressListInput, GetAddressListOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAddressListInput, GetAddressListOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetAddressListInput, GetAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAddressListInput, GetAddressListOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAddressListInput, GetAddressListOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAddressListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAddressListInput, GetAddressListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAddressListInput, GetAddressListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAddressListInput, GetAddressListOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -2240,7 +2306,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func getAddressListImportJob(input: GetAddressListImportJobInput) async throws -> GetAddressListImportJobOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2259,7 +2325,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2268,22 +2334,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAddressListImportJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAddressListImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.GetAddressListImportJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAddressListImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -2317,7 +2386,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func getArchive(input: GetArchiveInput) async throws -> GetArchiveOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2336,7 +2405,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2345,22 +2414,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetArchiveInput, GetArchiveOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveInput, GetArchiveOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveInput, GetArchiveOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetArchiveInput, GetArchiveOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetArchiveOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetArchiveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetArchiveInput, GetArchiveOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.GetArchive"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveInput, GetArchiveOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetArchiveInput, GetArchiveOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetArchiveInput, GetArchiveOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveInput, GetArchiveOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveInput, GetArchiveOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetArchiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetArchiveInput, GetArchiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetArchiveInput, GetArchiveOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetArchiveInput, GetArchiveOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -2393,7 +2465,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func getArchiveExport(input: GetArchiveExportInput) async throws -> GetArchiveExportOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2412,7 +2484,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2421,22 +2493,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetArchiveExportInput, GetArchiveExportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveExportInput, GetArchiveExportOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveExportInput, GetArchiveExportOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetArchiveExportInput, GetArchiveExportOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetArchiveExportOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetArchiveExportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetArchiveExportInput, GetArchiveExportOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.GetArchiveExport"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveExportInput, GetArchiveExportOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetArchiveExportInput, GetArchiveExportOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetArchiveExportInput, GetArchiveExportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveExportInput, GetArchiveExportOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveExportInput, GetArchiveExportOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetArchiveExportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetArchiveExportInput, GetArchiveExportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetArchiveExportInput, GetArchiveExportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetArchiveExportInput, GetArchiveExportOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -2469,7 +2544,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func getArchiveMessage(input: GetArchiveMessageInput) async throws -> GetArchiveMessageOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2488,7 +2563,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2497,22 +2572,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetArchiveMessageInput, GetArchiveMessageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveMessageInput, GetArchiveMessageOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveMessageInput, GetArchiveMessageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetArchiveMessageInput, GetArchiveMessageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetArchiveMessageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetArchiveMessageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetArchiveMessageInput, GetArchiveMessageOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.GetArchiveMessage"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveMessageInput, GetArchiveMessageOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetArchiveMessageInput, GetArchiveMessageOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetArchiveMessageInput, GetArchiveMessageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveMessageInput, GetArchiveMessageOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveMessageInput, GetArchiveMessageOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetArchiveMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetArchiveMessageInput, GetArchiveMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetArchiveMessageInput, GetArchiveMessageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetArchiveMessageInput, GetArchiveMessageOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -2545,7 +2623,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func getArchiveMessageContent(input: GetArchiveMessageContentInput) async throws -> GetArchiveMessageContentOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2564,7 +2642,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2573,22 +2651,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetArchiveMessageContentInput, GetArchiveMessageContentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveMessageContentInput, GetArchiveMessageContentOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveMessageContentInput, GetArchiveMessageContentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetArchiveMessageContentInput, GetArchiveMessageContentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetArchiveMessageContentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetArchiveMessageContentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetArchiveMessageContentInput, GetArchiveMessageContentOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.GetArchiveMessageContent"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveMessageContentInput, GetArchiveMessageContentOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetArchiveMessageContentInput, GetArchiveMessageContentOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetArchiveMessageContentInput, GetArchiveMessageContentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveMessageContentInput, GetArchiveMessageContentOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveMessageContentInput, GetArchiveMessageContentOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetArchiveMessageContentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetArchiveMessageContentInput, GetArchiveMessageContentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetArchiveMessageContentInput, GetArchiveMessageContentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetArchiveMessageContentInput, GetArchiveMessageContentOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -2621,7 +2702,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func getArchiveSearch(input: GetArchiveSearchInput) async throws -> GetArchiveSearchOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2640,7 +2721,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2649,22 +2730,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetArchiveSearchInput, GetArchiveSearchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveSearchInput, GetArchiveSearchOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveSearchInput, GetArchiveSearchOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetArchiveSearchInput, GetArchiveSearchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetArchiveSearchOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetArchiveSearchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetArchiveSearchInput, GetArchiveSearchOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.GetArchiveSearch"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveSearchInput, GetArchiveSearchOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetArchiveSearchInput, GetArchiveSearchOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetArchiveSearchInput, GetArchiveSearchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveSearchInput, GetArchiveSearchOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveSearchInput, GetArchiveSearchOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetArchiveSearchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetArchiveSearchInput, GetArchiveSearchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetArchiveSearchInput, GetArchiveSearchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetArchiveSearchInput, GetArchiveSearchOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -2698,7 +2782,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func getArchiveSearchResults(input: GetArchiveSearchResultsInput) async throws -> GetArchiveSearchResultsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2717,7 +2801,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2726,22 +2810,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetArchiveSearchResultsInput, GetArchiveSearchResultsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveSearchResultsInput, GetArchiveSearchResultsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveSearchResultsInput, GetArchiveSearchResultsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetArchiveSearchResultsInput, GetArchiveSearchResultsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetArchiveSearchResultsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetArchiveSearchResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetArchiveSearchResultsInput, GetArchiveSearchResultsOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.GetArchiveSearchResults"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveSearchResultsInput, GetArchiveSearchResultsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetArchiveSearchResultsInput, GetArchiveSearchResultsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetArchiveSearchResultsInput, GetArchiveSearchResultsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetArchiveSearchResultsInput, GetArchiveSearchResultsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveSearchResultsInput, GetArchiveSearchResultsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetArchiveSearchResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetArchiveSearchResultsInput, GetArchiveSearchResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetArchiveSearchResultsInput, GetArchiveSearchResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetArchiveSearchResultsInput, GetArchiveSearchResultsOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -2773,7 +2860,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func getIngressPoint(input: GetIngressPointInput) async throws -> GetIngressPointOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2792,7 +2879,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2801,22 +2888,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIngressPointInput, GetIngressPointOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIngressPointInput, GetIngressPointOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIngressPointInput, GetIngressPointOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIngressPointInput, GetIngressPointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIngressPointOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIngressPointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetIngressPointInput, GetIngressPointOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.GetIngressPoint"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIngressPointInput, GetIngressPointOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetIngressPointInput, GetIngressPointOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetIngressPointInput, GetIngressPointOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIngressPointInput, GetIngressPointOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIngressPointInput, GetIngressPointOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIngressPointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIngressPointInput, GetIngressPointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIngressPointInput, GetIngressPointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIngressPointInput, GetIngressPointOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -2850,7 +2940,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func getMemberOfAddressList(input: GetMemberOfAddressListInput) async throws -> GetMemberOfAddressListOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2869,7 +2959,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2878,22 +2968,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMemberOfAddressListOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMemberOfAddressListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.GetMemberOfAddressList"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMemberOfAddressListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -2925,7 +3018,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func getRelay(input: GetRelayInput) async throws -> GetRelayOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2944,7 +3037,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2953,22 +3046,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRelayInput, GetRelayOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRelayInput, GetRelayOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRelayInput, GetRelayOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRelayInput, GetRelayOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRelayOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRelayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRelayInput, GetRelayOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.GetRelay"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRelayInput, GetRelayOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRelayInput, GetRelayOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetRelayInput, GetRelayOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRelayInput, GetRelayOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRelayInput, GetRelayOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRelayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRelayInput, GetRelayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRelayInput, GetRelayOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRelayInput, GetRelayOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -3000,7 +3096,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func getRuleSet(input: GetRuleSetInput) async throws -> GetRuleSetOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3019,7 +3115,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3028,22 +3124,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRuleSetInput, GetRuleSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRuleSetInput, GetRuleSetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRuleSetInput, GetRuleSetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRuleSetInput, GetRuleSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRuleSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRuleSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRuleSetInput, GetRuleSetOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.GetRuleSet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRuleSetInput, GetRuleSetOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRuleSetInput, GetRuleSetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetRuleSetInput, GetRuleSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRuleSetInput, GetRuleSetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRuleSetInput, GetRuleSetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRuleSetInput, GetRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRuleSetInput, GetRuleSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRuleSetInput, GetRuleSetOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -3075,7 +3174,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func getTrafficPolicy(input: GetTrafficPolicyInput) async throws -> GetTrafficPolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3094,7 +3193,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3103,22 +3202,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrafficPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTrafficPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.GetTrafficPolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTrafficPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -3149,7 +3251,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func listAddonInstances(input: ListAddonInstancesInput) async throws -> ListAddonInstancesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3168,7 +3270,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3177,22 +3279,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAddonInstancesInput, ListAddonInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAddonInstancesInput, ListAddonInstancesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAddonInstancesInput, ListAddonInstancesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAddonInstancesInput, ListAddonInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAddonInstancesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAddonInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAddonInstancesInput, ListAddonInstancesOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.ListAddonInstances"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAddonInstancesInput, ListAddonInstancesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAddonInstancesInput, ListAddonInstancesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAddonInstancesInput, ListAddonInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAddonInstancesInput, ListAddonInstancesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAddonInstancesInput, ListAddonInstancesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAddonInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAddonInstancesInput, ListAddonInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAddonInstancesInput, ListAddonInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAddonInstancesInput, ListAddonInstancesOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -3223,7 +3328,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func listAddonSubscriptions(input: ListAddonSubscriptionsInput) async throws -> ListAddonSubscriptionsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3242,7 +3347,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3251,22 +3356,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAddonSubscriptionsInput, ListAddonSubscriptionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAddonSubscriptionsInput, ListAddonSubscriptionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAddonSubscriptionsInput, ListAddonSubscriptionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAddonSubscriptionsInput, ListAddonSubscriptionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAddonSubscriptionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAddonSubscriptionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAddonSubscriptionsInput, ListAddonSubscriptionsOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.ListAddonSubscriptions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAddonSubscriptionsInput, ListAddonSubscriptionsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAddonSubscriptionsInput, ListAddonSubscriptionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAddonSubscriptionsInput, ListAddonSubscriptionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAddonSubscriptionsInput, ListAddonSubscriptionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAddonSubscriptionsInput, ListAddonSubscriptionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAddonSubscriptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAddonSubscriptionsInput, ListAddonSubscriptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAddonSubscriptionsInput, ListAddonSubscriptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAddonSubscriptionsInput, ListAddonSubscriptionsOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -3300,7 +3408,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func listAddressListImportJobs(input: ListAddressListImportJobsInput) async throws -> ListAddressListImportJobsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3319,7 +3427,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3328,22 +3436,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAddressListImportJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAddressListImportJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.ListAddressListImportJobs"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAddressListImportJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -3376,7 +3487,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func listAddressLists(input: ListAddressListsInput) async throws -> ListAddressListsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3395,7 +3506,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3404,22 +3515,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAddressListsInput, ListAddressListsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAddressListsInput, ListAddressListsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAddressListsInput, ListAddressListsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAddressListsInput, ListAddressListsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAddressListsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAddressListsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAddressListsInput, ListAddressListsOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.ListAddressLists"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAddressListsInput, ListAddressListsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAddressListsInput, ListAddressListsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAddressListsInput, ListAddressListsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAddressListsInput, ListAddressListsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAddressListsInput, ListAddressListsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAddressListsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAddressListsInput, ListAddressListsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAddressListsInput, ListAddressListsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAddressListsInput, ListAddressListsOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -3453,7 +3567,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func listArchiveExports(input: ListArchiveExportsInput) async throws -> ListArchiveExportsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3472,7 +3586,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3481,22 +3595,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListArchiveExportsInput, ListArchiveExportsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListArchiveExportsInput, ListArchiveExportsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListArchiveExportsInput, ListArchiveExportsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListArchiveExportsInput, ListArchiveExportsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListArchiveExportsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListArchiveExportsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListArchiveExportsInput, ListArchiveExportsOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.ListArchiveExports"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListArchiveExportsInput, ListArchiveExportsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListArchiveExportsInput, ListArchiveExportsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListArchiveExportsInput, ListArchiveExportsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListArchiveExportsInput, ListArchiveExportsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListArchiveExportsInput, ListArchiveExportsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListArchiveExportsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListArchiveExportsInput, ListArchiveExportsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListArchiveExportsInput, ListArchiveExportsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListArchiveExportsInput, ListArchiveExportsOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -3530,7 +3647,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func listArchiveSearches(input: ListArchiveSearchesInput) async throws -> ListArchiveSearchesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3549,7 +3666,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3558,22 +3675,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListArchiveSearchesInput, ListArchiveSearchesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListArchiveSearchesInput, ListArchiveSearchesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListArchiveSearchesInput, ListArchiveSearchesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListArchiveSearchesInput, ListArchiveSearchesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListArchiveSearchesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListArchiveSearchesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListArchiveSearchesInput, ListArchiveSearchesOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.ListArchiveSearches"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListArchiveSearchesInput, ListArchiveSearchesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListArchiveSearchesInput, ListArchiveSearchesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListArchiveSearchesInput, ListArchiveSearchesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListArchiveSearchesInput, ListArchiveSearchesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListArchiveSearchesInput, ListArchiveSearchesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListArchiveSearchesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListArchiveSearchesInput, ListArchiveSearchesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListArchiveSearchesInput, ListArchiveSearchesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListArchiveSearchesInput, ListArchiveSearchesOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -3606,7 +3726,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func listArchives(input: ListArchivesInput) async throws -> ListArchivesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3625,7 +3745,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3634,22 +3754,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListArchivesInput, ListArchivesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListArchivesInput, ListArchivesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListArchivesInput, ListArchivesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListArchivesInput, ListArchivesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListArchivesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListArchivesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListArchivesInput, ListArchivesOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.ListArchives"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListArchivesInput, ListArchivesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListArchivesInput, ListArchivesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListArchivesInput, ListArchivesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListArchivesInput, ListArchivesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListArchivesInput, ListArchivesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListArchivesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListArchivesInput, ListArchivesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListArchivesInput, ListArchivesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListArchivesInput, ListArchivesOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -3680,7 +3803,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func listIngressPoints(input: ListIngressPointsInput) async throws -> ListIngressPointsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3699,7 +3822,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3708,22 +3831,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListIngressPointsInput, ListIngressPointsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListIngressPointsInput, ListIngressPointsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIngressPointsInput, ListIngressPointsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIngressPointsInput, ListIngressPointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIngressPointsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListIngressPointsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListIngressPointsInput, ListIngressPointsOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.ListIngressPoints"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListIngressPointsInput, ListIngressPointsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListIngressPointsInput, ListIngressPointsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListIngressPointsInput, ListIngressPointsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListIngressPointsInput, ListIngressPointsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIngressPointsInput, ListIngressPointsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIngressPointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIngressPointsInput, ListIngressPointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListIngressPointsInput, ListIngressPointsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListIngressPointsInput, ListIngressPointsOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -3757,7 +3883,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func listMembersOfAddressList(input: ListMembersOfAddressListInput) async throws -> ListMembersOfAddressListOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3776,7 +3902,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3785,22 +3911,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMembersOfAddressListOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMembersOfAddressListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.ListMembersOfAddressList"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMembersOfAddressListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -3831,7 +3960,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func listRelays(input: ListRelaysInput) async throws -> ListRelaysOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3850,7 +3979,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3859,22 +3988,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRelaysInput, ListRelaysOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRelaysInput, ListRelaysOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRelaysInput, ListRelaysOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRelaysInput, ListRelaysOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRelaysOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRelaysOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRelaysInput, ListRelaysOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.ListRelays"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRelaysInput, ListRelaysOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRelaysInput, ListRelaysOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListRelaysInput, ListRelaysOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRelaysInput, ListRelaysOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRelaysInput, ListRelaysOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRelaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRelaysInput, ListRelaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRelaysInput, ListRelaysOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRelaysInput, ListRelaysOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -3905,7 +4037,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func listRuleSets(input: ListRuleSetsInput) async throws -> ListRuleSetsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3924,7 +4056,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3933,22 +4065,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRuleSetsInput, ListRuleSetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRuleSetsInput, ListRuleSetsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRuleSetsInput, ListRuleSetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRuleSetsInput, ListRuleSetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRuleSetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRuleSetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRuleSetsInput, ListRuleSetsOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.ListRuleSets"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRuleSetsInput, ListRuleSetsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRuleSetsInput, ListRuleSetsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListRuleSetsInput, ListRuleSetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRuleSetsInput, ListRuleSetsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRuleSetsInput, ListRuleSetsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRuleSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRuleSetsInput, ListRuleSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRuleSetsInput, ListRuleSetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRuleSetsInput, ListRuleSetsOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -3980,7 +4115,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3999,7 +4134,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4008,22 +4143,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.ListTagsForResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -4054,7 +4192,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func listTrafficPolicies(input: ListTrafficPoliciesInput) async throws -> ListTrafficPoliciesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4073,7 +4211,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4082,22 +4220,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrafficPoliciesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTrafficPoliciesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.ListTrafficPolicies"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTrafficPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -4133,7 +4274,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func registerMemberToAddressList(input: RegisterMemberToAddressListInput) async throws -> RegisterMemberToAddressListOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4152,7 +4293,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4161,22 +4302,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterMemberToAddressListOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterMemberToAddressListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.RegisterMemberToAddressList"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterMemberToAddressListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -4212,7 +4356,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func startAddressListImportJob(input: StartAddressListImportJobInput) async throws -> StartAddressListImportJobOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4231,7 +4375,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4240,22 +4384,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAddressListImportJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartAddressListImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.StartAddressListImportJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAddressListImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -4290,7 +4437,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func startArchiveExport(input: StartArchiveExportInput) async throws -> StartArchiveExportOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4309,7 +4456,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4318,22 +4465,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartArchiveExportInput, StartArchiveExportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartArchiveExportInput, StartArchiveExportOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartArchiveExportInput, StartArchiveExportOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartArchiveExportInput, StartArchiveExportOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartArchiveExportOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartArchiveExportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartArchiveExportInput, StartArchiveExportOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.StartArchiveExport"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartArchiveExportInput, StartArchiveExportOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartArchiveExportInput, StartArchiveExportOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartArchiveExportInput, StartArchiveExportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartArchiveExportInput, StartArchiveExportOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartArchiveExportInput, StartArchiveExportOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartArchiveExportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartArchiveExportInput, StartArchiveExportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartArchiveExportInput, StartArchiveExportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartArchiveExportInput, StartArchiveExportOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -4369,7 +4519,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func startArchiveSearch(input: StartArchiveSearchInput) async throws -> StartArchiveSearchOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4388,7 +4538,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4397,22 +4547,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartArchiveSearchInput, StartArchiveSearchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartArchiveSearchInput, StartArchiveSearchOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartArchiveSearchInput, StartArchiveSearchOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartArchiveSearchInput, StartArchiveSearchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartArchiveSearchOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartArchiveSearchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartArchiveSearchInput, StartArchiveSearchOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.StartArchiveSearch"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartArchiveSearchInput, StartArchiveSearchOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartArchiveSearchInput, StartArchiveSearchOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartArchiveSearchInput, StartArchiveSearchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartArchiveSearchInput, StartArchiveSearchOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartArchiveSearchInput, StartArchiveSearchOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartArchiveSearchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartArchiveSearchInput, StartArchiveSearchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartArchiveSearchInput, StartArchiveSearchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartArchiveSearchInput, StartArchiveSearchOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -4447,7 +4600,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func stopAddressListImportJob(input: StopAddressListImportJobInput) async throws -> StopAddressListImportJobOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4466,7 +4619,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4475,22 +4628,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StopAddressListImportJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopAddressListImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.StopAddressListImportJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopAddressListImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -4523,7 +4679,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func stopArchiveExport(input: StopArchiveExportInput) async throws -> StopArchiveExportOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4542,7 +4698,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4551,22 +4707,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopArchiveExportInput, StopArchiveExportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopArchiveExportInput, StopArchiveExportOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopArchiveExportInput, StopArchiveExportOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopArchiveExportInput, StopArchiveExportOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StopArchiveExportOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopArchiveExportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopArchiveExportInput, StopArchiveExportOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.StopArchiveExport"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopArchiveExportInput, StopArchiveExportOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopArchiveExportInput, StopArchiveExportOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopArchiveExportInput, StopArchiveExportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopArchiveExportInput, StopArchiveExportOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopArchiveExportInput, StopArchiveExportOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopArchiveExportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopArchiveExportInput, StopArchiveExportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopArchiveExportInput, StopArchiveExportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopArchiveExportInput, StopArchiveExportOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -4599,7 +4758,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func stopArchiveSearch(input: StopArchiveSearchInput) async throws -> StopArchiveSearchOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4618,7 +4777,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4627,22 +4786,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopArchiveSearchInput, StopArchiveSearchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopArchiveSearchInput, StopArchiveSearchOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopArchiveSearchInput, StopArchiveSearchOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopArchiveSearchInput, StopArchiveSearchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StopArchiveSearchOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopArchiveSearchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopArchiveSearchInput, StopArchiveSearchOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.StopArchiveSearch"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopArchiveSearchInput, StopArchiveSearchOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopArchiveSearchInput, StopArchiveSearchOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopArchiveSearchInput, StopArchiveSearchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopArchiveSearchInput, StopArchiveSearchOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopArchiveSearchInput, StopArchiveSearchOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopArchiveSearchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopArchiveSearchInput, StopArchiveSearchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopArchiveSearchInput, StopArchiveSearchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopArchiveSearchInput, StopArchiveSearchOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -4676,7 +4838,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4695,7 +4857,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4704,22 +4866,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.TagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -4752,7 +4917,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4771,7 +4936,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4780,22 +4945,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.UntagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -4831,7 +4999,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func updateArchive(input: UpdateArchiveInput) async throws -> UpdateArchiveOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4850,7 +5018,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4859,22 +5027,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateArchiveInput, UpdateArchiveOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateArchiveInput, UpdateArchiveOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateArchiveInput, UpdateArchiveOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateArchiveInput, UpdateArchiveOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateArchiveOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateArchiveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateArchiveInput, UpdateArchiveOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.UpdateArchive"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateArchiveInput, UpdateArchiveOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateArchiveInput, UpdateArchiveOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateArchiveInput, UpdateArchiveOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateArchiveInput, UpdateArchiveOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateArchiveInput, UpdateArchiveOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateArchiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateArchiveInput, UpdateArchiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateArchiveInput, UpdateArchiveOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateArchiveInput, UpdateArchiveOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -4907,7 +5078,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func updateIngressPoint(input: UpdateIngressPointInput) async throws -> UpdateIngressPointOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4926,7 +5097,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4935,22 +5106,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateIngressPointInput, UpdateIngressPointOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateIngressPointInput, UpdateIngressPointOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIngressPointInput, UpdateIngressPointOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIngressPointInput, UpdateIngressPointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIngressPointOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateIngressPointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateIngressPointInput, UpdateIngressPointOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.UpdateIngressPoint"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateIngressPointInput, UpdateIngressPointOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateIngressPointInput, UpdateIngressPointOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateIngressPointInput, UpdateIngressPointOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateIngressPointInput, UpdateIngressPointOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIngressPointInput, UpdateIngressPointOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIngressPointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateIngressPointInput, UpdateIngressPointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateIngressPointInput, UpdateIngressPointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateIngressPointInput, UpdateIngressPointOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -4983,7 +5157,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func updateRelay(input: UpdateRelayInput) async throws -> UpdateRelayOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5002,7 +5176,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5011,22 +5185,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRelayInput, UpdateRelayOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRelayInput, UpdateRelayOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRelayInput, UpdateRelayOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRelayInput, UpdateRelayOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRelayOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRelayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRelayInput, UpdateRelayOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.UpdateRelay"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRelayInput, UpdateRelayOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRelayInput, UpdateRelayOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateRelayInput, UpdateRelayOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRelayInput, UpdateRelayOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRelayInput, UpdateRelayOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRelayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRelayInput, UpdateRelayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRelayInput, UpdateRelayOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRelayInput, UpdateRelayOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -5059,7 +5236,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func updateRuleSet(input: UpdateRuleSetInput) async throws -> UpdateRuleSetOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5078,7 +5255,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5087,22 +5264,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRuleSetInput, UpdateRuleSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuleSetInput, UpdateRuleSetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleSetInput, UpdateRuleSetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuleSetInput, UpdateRuleSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuleSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRuleSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRuleSetInput, UpdateRuleSetOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.UpdateRuleSet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuleSetInput, UpdateRuleSetOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRuleSetInput, UpdateRuleSetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateRuleSetInput, UpdateRuleSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuleSetInput, UpdateRuleSetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleSetInput, UpdateRuleSetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRuleSetInput, UpdateRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRuleSetInput, UpdateRuleSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRuleSetInput, UpdateRuleSetOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
@@ -5135,7 +5315,7 @@ extension MailManagerClient {
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func updateTrafficPolicy(input: UpdateTrafficPolicyInput) async throws -> UpdateTrafficPolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5154,7 +5334,7 @@ extension MailManagerClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5163,22 +5343,25 @@ extension MailManagerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTrafficPolicyInput, UpdateTrafficPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTrafficPolicyInput, UpdateTrafficPolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrafficPolicyInput, UpdateTrafficPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrafficPolicyInput, UpdateTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrafficPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTrafficPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTrafficPolicyInput, UpdateTrafficPolicyOutput>(overrides: ["X-Amz-Target": "MailManagerSvc.UpdateTrafficPolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTrafficPolicyInput, UpdateTrafficPolicyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTrafficPolicyInput, UpdateTrafficPolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateTrafficPolicyInput, UpdateTrafficPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTrafficPolicyInput, UpdateTrafficPolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrafficPolicyInput, UpdateTrafficPolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTrafficPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTrafficPolicyInput, UpdateTrafficPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTrafficPolicyInput, UpdateTrafficPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "MailManager"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTrafficPolicyInput, UpdateTrafficPolicyOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")

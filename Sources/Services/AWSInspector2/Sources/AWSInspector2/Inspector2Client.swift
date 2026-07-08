@@ -75,6 +75,7 @@ public final class Inspector2Client: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: Inspector2Client.Inspector2ClientConfig
     let serviceName = "Inspector2"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use Inspector2Client.Inspector2ClientConfig instead")
     public typealias Config = Inspector2Client.Inspector2ClientConfiguration
@@ -84,6 +85,7 @@ public final class Inspector2Client: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: Inspector2Client.Inspector2ClientConfig) instead")
@@ -198,7 +200,7 @@ extension Inspector2Client {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Inspector2")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -253,7 +255,7 @@ extension Inspector2Client {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Inspector2")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -429,7 +431,7 @@ extension Inspector2Client {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Inspector2")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -484,7 +486,7 @@ extension Inspector2Client {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Inspector2")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -658,8 +660,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateMemberOutput>(AssociateMemberOutput.httpOutput(from:), AssociateMemberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateMemberInput, AssociateMemberOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateMemberOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -669,6 +669,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateMemberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateMemberInput, AssociateMemberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateMemberInput, AssociateMemberOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateMemberInput, AssociateMemberOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -731,8 +733,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchAssociateCodeSecurityScanConfigurationOutput>(BatchAssociateCodeSecurityScanConfigurationOutput.httpOutput(from:), BatchAssociateCodeSecurityScanConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchAssociateCodeSecurityScanConfigurationInput, BatchAssociateCodeSecurityScanConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchAssociateCodeSecurityScanConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -742,6 +742,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchAssociateCodeSecurityScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchAssociateCodeSecurityScanConfigurationInput, BatchAssociateCodeSecurityScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchAssociateCodeSecurityScanConfigurationInput, BatchAssociateCodeSecurityScanConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchAssociateCodeSecurityScanConfigurationInput, BatchAssociateCodeSecurityScanConfigurationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -804,8 +806,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDisassociateCodeSecurityScanConfigurationOutput>(BatchDisassociateCodeSecurityScanConfigurationOutput.httpOutput(from:), BatchDisassociateCodeSecurityScanConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDisassociateCodeSecurityScanConfigurationInput, BatchDisassociateCodeSecurityScanConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDisassociateCodeSecurityScanConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -815,6 +815,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDisassociateCodeSecurityScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDisassociateCodeSecurityScanConfigurationInput, BatchDisassociateCodeSecurityScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDisassociateCodeSecurityScanConfigurationInput, BatchDisassociateCodeSecurityScanConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDisassociateCodeSecurityScanConfigurationInput, BatchDisassociateCodeSecurityScanConfigurationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -876,8 +878,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetAccountStatusOutput>(BatchGetAccountStatusOutput.httpOutput(from:), BatchGetAccountStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetAccountStatusInput, BatchGetAccountStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetAccountStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -887,6 +887,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetAccountStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetAccountStatusInput, BatchGetAccountStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetAccountStatusInput, BatchGetAccountStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetAccountStatusInput, BatchGetAccountStatusOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -947,8 +949,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCodeSnippetOutput>(BatchGetCodeSnippetOutput.httpOutput(from:), BatchGetCodeSnippetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCodeSnippetInput, BatchGetCodeSnippetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCodeSnippetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -958,6 +958,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetCodeSnippetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetCodeSnippetInput, BatchGetCodeSnippetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetCodeSnippetInput, BatchGetCodeSnippetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetCodeSnippetInput, BatchGetCodeSnippetOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -1018,8 +1020,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetFindingDetailsOutput>(BatchGetFindingDetailsOutput.httpOutput(from:), BatchGetFindingDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetFindingDetailsInput, BatchGetFindingDetailsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetFindingDetailsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1029,6 +1029,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetFindingDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetFindingDetailsInput, BatchGetFindingDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetFindingDetailsInput, BatchGetFindingDetailsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetFindingDetailsInput, BatchGetFindingDetailsOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -1089,8 +1091,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetFreeTrialInfoOutput>(BatchGetFreeTrialInfoOutput.httpOutput(from:), BatchGetFreeTrialInfoOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetFreeTrialInfoInput, BatchGetFreeTrialInfoOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetFreeTrialInfoOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1100,6 +1100,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetFreeTrialInfoOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetFreeTrialInfoInput, BatchGetFreeTrialInfoOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetFreeTrialInfoInput, BatchGetFreeTrialInfoOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetFreeTrialInfoInput, BatchGetFreeTrialInfoOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -1160,8 +1162,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetMemberEc2DeepInspectionStatusOutput>(BatchGetMemberEc2DeepInspectionStatusOutput.httpOutput(from:), BatchGetMemberEc2DeepInspectionStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetMemberEc2DeepInspectionStatusInput, BatchGetMemberEc2DeepInspectionStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetMemberEc2DeepInspectionStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1171,6 +1171,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetMemberEc2DeepInspectionStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetMemberEc2DeepInspectionStatusInput, BatchGetMemberEc2DeepInspectionStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetMemberEc2DeepInspectionStatusInput, BatchGetMemberEc2DeepInspectionStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetMemberEc2DeepInspectionStatusInput, BatchGetMemberEc2DeepInspectionStatusOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -1231,8 +1233,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateMemberEc2DeepInspectionStatusOutput>(BatchUpdateMemberEc2DeepInspectionStatusOutput.httpOutput(from:), BatchUpdateMemberEc2DeepInspectionStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateMemberEc2DeepInspectionStatusInput, BatchUpdateMemberEc2DeepInspectionStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateMemberEc2DeepInspectionStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1242,6 +1242,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateMemberEc2DeepInspectionStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateMemberEc2DeepInspectionStatusInput, BatchUpdateMemberEc2DeepInspectionStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateMemberEc2DeepInspectionStatusInput, BatchUpdateMemberEc2DeepInspectionStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateMemberEc2DeepInspectionStatusInput, BatchUpdateMemberEc2DeepInspectionStatusOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -1303,8 +1305,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelFindingsReportOutput>(CancelFindingsReportOutput.httpOutput(from:), CancelFindingsReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelFindingsReportInput, CancelFindingsReportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelFindingsReportOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1314,6 +1314,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelFindingsReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelFindingsReportInput, CancelFindingsReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelFindingsReportInput, CancelFindingsReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelFindingsReportInput, CancelFindingsReportOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -1375,8 +1377,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelSbomExportOutput>(CancelSbomExportOutput.httpOutput(from:), CancelSbomExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelSbomExportInput, CancelSbomExportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelSbomExportOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1386,6 +1386,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelSbomExportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelSbomExportInput, CancelSbomExportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelSbomExportInput, CancelSbomExportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelSbomExportInput, CancelSbomExportOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -1446,8 +1448,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCisScanConfigurationOutput>(CreateCisScanConfigurationOutput.httpOutput(from:), CreateCisScanConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCisScanConfigurationInput, CreateCisScanConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCisScanConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1457,6 +1457,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCisScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCisScanConfigurationInput, CreateCisScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCisScanConfigurationInput, CreateCisScanConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCisScanConfigurationInput, CreateCisScanConfigurationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -1519,8 +1521,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCodeSecurityIntegrationOutput>(CreateCodeSecurityIntegrationOutput.httpOutput(from:), CreateCodeSecurityIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCodeSecurityIntegrationInput, CreateCodeSecurityIntegrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCodeSecurityIntegrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1530,6 +1530,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCodeSecurityIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCodeSecurityIntegrationInput, CreateCodeSecurityIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCodeSecurityIntegrationInput, CreateCodeSecurityIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCodeSecurityIntegrationInput, CreateCodeSecurityIntegrationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -1592,8 +1594,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCodeSecurityScanConfigurationOutput>(CreateCodeSecurityScanConfigurationOutput.httpOutput(from:), CreateCodeSecurityScanConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCodeSecurityScanConfigurationInput, CreateCodeSecurityScanConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCodeSecurityScanConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1603,10 +1603,86 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCodeSecurityScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCodeSecurityScanConfigurationInput, CreateCodeSecurityScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCodeSecurityScanConfigurationInput, CreateCodeSecurityScanConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCodeSecurityScanConfigurationInput, CreateCodeSecurityScanConfigurationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCodeSecurityScanConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateConnector` operation on the `Inspector2` service.
+    ///
+    /// Creates a connector that links an external cloud provider to Amazon Inspector for vulnerability scanning.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
+    /// - `ConflictException` : A conflict occurred. This exception occurs when the same resource is being modified by concurrent requests.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ServiceQuotaExceededException` : You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    public func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "inspector2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateConnectorInput, CreateConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateConnectorInput, CreateConnectorOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateConnectorInput, CreateConnectorOutput>(CreateConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateConnectorInput, CreateConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateConnectorInput, CreateConnectorOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateConnectorInput, CreateConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateConnectorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectorInput, CreateConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectorOutput>(CreateConnectorOutput.httpOutput(from:), CreateConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectorInput, CreateConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConnectorInput, CreateConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateConnectorInput, CreateConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateConnectorInput, CreateConnectorOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1665,8 +1741,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFilterOutput>(CreateFilterOutput.httpOutput(from:), CreateFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFilterInput, CreateFilterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFilterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1676,6 +1750,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFilterInput, CreateFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFilterInput, CreateFilterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateFilterInput, CreateFilterOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -1737,8 +1813,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFindingsReportOutput>(CreateFindingsReportOutput.httpOutput(from:), CreateFindingsReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFindingsReportInput, CreateFindingsReportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFindingsReportOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1748,6 +1822,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFindingsReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFindingsReportInput, CreateFindingsReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFindingsReportInput, CreateFindingsReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateFindingsReportInput, CreateFindingsReportOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -1809,8 +1885,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSbomExportOutput>(CreateSbomExportOutput.httpOutput(from:), CreateSbomExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSbomExportInput, CreateSbomExportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSbomExportOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1820,6 +1894,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSbomExportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSbomExportInput, CreateSbomExportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSbomExportInput, CreateSbomExportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSbomExportInput, CreateSbomExportOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -1881,8 +1957,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCisScanConfigurationOutput>(DeleteCisScanConfigurationOutput.httpOutput(from:), DeleteCisScanConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCisScanConfigurationInput, DeleteCisScanConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCisScanConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1892,6 +1966,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCisScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCisScanConfigurationInput, DeleteCisScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCisScanConfigurationInput, DeleteCisScanConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCisScanConfigurationInput, DeleteCisScanConfigurationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -1953,8 +2029,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCodeSecurityIntegrationOutput>(DeleteCodeSecurityIntegrationOutput.httpOutput(from:), DeleteCodeSecurityIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCodeSecurityIntegrationInput, DeleteCodeSecurityIntegrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCodeSecurityIntegrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1964,6 +2038,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCodeSecurityIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCodeSecurityIntegrationInput, DeleteCodeSecurityIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCodeSecurityIntegrationInput, DeleteCodeSecurityIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCodeSecurityIntegrationInput, DeleteCodeSecurityIntegrationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -2025,8 +2101,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCodeSecurityScanConfigurationOutput>(DeleteCodeSecurityScanConfigurationOutput.httpOutput(from:), DeleteCodeSecurityScanConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCodeSecurityScanConfigurationInput, DeleteCodeSecurityScanConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCodeSecurityScanConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2036,10 +2110,85 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCodeSecurityScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCodeSecurityScanConfigurationInput, DeleteCodeSecurityScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCodeSecurityScanConfigurationInput, DeleteCodeSecurityScanConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCodeSecurityScanConfigurationInput, DeleteCodeSecurityScanConfigurationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCodeSecurityScanConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteConnector` operation on the `Inspector2` service.
+    ///
+    /// Deletes a connector from your account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
+    /// - `ConflictException` : A conflict occurred. This exception occurs when the same resource is being modified by concurrent requests.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    public func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "inspector2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteConnectorInput, DeleteConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(DeleteConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectorInput, DeleteConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteConnectorInput, DeleteConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConnectorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectorInput, DeleteConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectorOutput>(DeleteConnectorOutput.httpOutput(from:), DeleteConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConnectorInput, DeleteConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2097,8 +2246,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFilterOutput>(DeleteFilterOutput.httpOutput(from:), DeleteFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFilterInput, DeleteFilterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFilterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2108,6 +2255,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFilterInput, DeleteFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFilterInput, DeleteFilterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteFilterInput, DeleteFilterOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -2165,8 +2314,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOrganizationConfigurationOutput>(DescribeOrganizationConfigurationOutput.httpOutput(from:), DescribeOrganizationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2176,6 +2323,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOrganizationConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -2237,8 +2386,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableOutput>(DisableOutput.httpOutput(from:), DisableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableInput, DisableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2248,6 +2395,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableInput, DisableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableInput, DisableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableInput, DisableOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -2310,8 +2459,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableDelegatedAdminAccountOutput>(DisableDelegatedAdminAccountOutput.httpOutput(from:), DisableDelegatedAdminAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableDelegatedAdminAccountInput, DisableDelegatedAdminAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableDelegatedAdminAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2321,6 +2468,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableDelegatedAdminAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableDelegatedAdminAccountInput, DisableDelegatedAdminAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableDelegatedAdminAccountInput, DisableDelegatedAdminAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableDelegatedAdminAccountInput, DisableDelegatedAdminAccountOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -2381,8 +2530,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateMemberOutput>(DisassociateMemberOutput.httpOutput(from:), DisassociateMemberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateMemberInput, DisassociateMemberOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateMemberOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2392,6 +2539,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateMemberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateMemberInput, DisassociateMemberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateMemberInput, DisassociateMemberOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateMemberInput, DisassociateMemberOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -2454,8 +2603,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableOutput>(EnableOutput.httpOutput(from:), EnableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableInput, EnableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2465,6 +2612,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableInput, EnableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableInput, EnableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableInput, EnableOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -2528,8 +2677,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableDelegatedAdminAccountOutput>(EnableDelegatedAdminAccountOutput.httpOutput(from:), EnableDelegatedAdminAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableDelegatedAdminAccountInput, EnableDelegatedAdminAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableDelegatedAdminAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2539,6 +2686,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableDelegatedAdminAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableDelegatedAdminAccountInput, EnableDelegatedAdminAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableDelegatedAdminAccountInput, EnableDelegatedAdminAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableDelegatedAdminAccountInput, EnableDelegatedAdminAccountOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -2600,8 +2749,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCisScanReportOutput>(GetCisScanReportOutput.httpOutput(from:), GetCisScanReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCisScanReportInput, GetCisScanReportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCisScanReportOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2611,6 +2758,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCisScanReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCisScanReportInput, GetCisScanReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCisScanReportInput, GetCisScanReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCisScanReportInput, GetCisScanReportOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -2671,8 +2820,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCisScanResultDetailsOutput>(GetCisScanResultDetailsOutput.httpOutput(from:), GetCisScanResultDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCisScanResultDetailsInput, GetCisScanResultDetailsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCisScanResultDetailsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2682,6 +2829,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCisScanResultDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCisScanResultDetailsInput, GetCisScanResultDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCisScanResultDetailsInput, GetCisScanResultDetailsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCisScanResultDetailsInput, GetCisScanResultDetailsOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -2742,8 +2891,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClustersForImageOutput>(GetClustersForImageOutput.httpOutput(from:), GetClustersForImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClustersForImageInput, GetClustersForImageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClustersForImageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2753,6 +2900,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetClustersForImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetClustersForImageInput, GetClustersForImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetClustersForImageInput, GetClustersForImageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetClustersForImageInput, GetClustersForImageOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -2814,8 +2963,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCodeSecurityIntegrationOutput>(GetCodeSecurityIntegrationOutput.httpOutput(from:), GetCodeSecurityIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCodeSecurityIntegrationInput, GetCodeSecurityIntegrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCodeSecurityIntegrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2825,6 +2972,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCodeSecurityIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCodeSecurityIntegrationInput, GetCodeSecurityIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCodeSecurityIntegrationInput, GetCodeSecurityIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCodeSecurityIntegrationInput, GetCodeSecurityIntegrationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -2887,8 +3036,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCodeSecurityScanOutput>(GetCodeSecurityScanOutput.httpOutput(from:), GetCodeSecurityScanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCodeSecurityScanInput, GetCodeSecurityScanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCodeSecurityScanOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2898,6 +3045,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCodeSecurityScanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCodeSecurityScanInput, GetCodeSecurityScanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCodeSecurityScanInput, GetCodeSecurityScanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCodeSecurityScanInput, GetCodeSecurityScanOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -2959,8 +3108,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCodeSecurityScanConfigurationOutput>(GetCodeSecurityScanConfigurationOutput.httpOutput(from:), GetCodeSecurityScanConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCodeSecurityScanConfigurationInput, GetCodeSecurityScanConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCodeSecurityScanConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2970,6 +3117,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCodeSecurityScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCodeSecurityScanConfigurationInput, GetCodeSecurityScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCodeSecurityScanConfigurationInput, GetCodeSecurityScanConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCodeSecurityScanConfigurationInput, GetCodeSecurityScanConfigurationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -2988,7 +3137,7 @@ extension Inspector2Client {
 
     /// Performs the `GetConfiguration` operation on the `Inspector2` service.
     ///
-    /// Retrieves setting configurations for Inspector scans.
+    /// Retrieves setting configurations for Amazon Inspector scans. If you specify an accountId, this operation returns the scan configuration for that member account. You must be the delegated administrator for the specified member account. If you do not specify an accountId, this operation returns your own scan configuration.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetConfigurationInput`)
     ///
@@ -2997,9 +3146,11 @@ extension Inspector2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
     public func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3023,11 +3174,12 @@ extension Inspector2Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetConfigurationInput, GetConfigurationOutput>(GetConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfigurationInput, GetConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetConfigurationInput, GetConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetConfigurationInput, GetConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetConfigurationInput, GetConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfigurationOutput>(GetConfigurationOutput.httpOutput(from:), GetConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfigurationInput, GetConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3037,6 +3189,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConfigurationInput, GetConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConfigurationInput, GetConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConfigurationInput, GetConfigurationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -3095,8 +3249,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDelegatedAdminAccountOutput>(GetDelegatedAdminAccountOutput.httpOutput(from:), GetDelegatedAdminAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDelegatedAdminAccountInput, GetDelegatedAdminAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDelegatedAdminAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3106,6 +3258,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDelegatedAdminAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDelegatedAdminAccountInput, GetDelegatedAdminAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDelegatedAdminAccountInput, GetDelegatedAdminAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDelegatedAdminAccountInput, GetDelegatedAdminAccountOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -3163,8 +3317,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEc2DeepInspectionConfigurationOutput>(GetEc2DeepInspectionConfigurationOutput.httpOutput(from:), GetEc2DeepInspectionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEc2DeepInspectionConfigurationInput, GetEc2DeepInspectionConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEc2DeepInspectionConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3174,6 +3326,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEc2DeepInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEc2DeepInspectionConfigurationInput, GetEc2DeepInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetEc2DeepInspectionConfigurationInput, GetEc2DeepInspectionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetEc2DeepInspectionConfigurationInput, GetEc2DeepInspectionConfigurationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -3233,8 +3387,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEncryptionKeyOutput>(GetEncryptionKeyOutput.httpOutput(from:), GetEncryptionKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEncryptionKeyInput, GetEncryptionKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEncryptionKeyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3244,6 +3396,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEncryptionKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEncryptionKeyInput, GetEncryptionKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetEncryptionKeyInput, GetEncryptionKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetEncryptionKeyInput, GetEncryptionKeyOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -3305,8 +3459,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingsReportStatusOutput>(GetFindingsReportStatusOutput.httpOutput(from:), GetFindingsReportStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingsReportStatusInput, GetFindingsReportStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingsReportStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3316,6 +3468,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFindingsReportStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFindingsReportStatusInput, GetFindingsReportStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFindingsReportStatusInput, GetFindingsReportStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFindingsReportStatusInput, GetFindingsReportStatusOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -3377,8 +3531,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMemberOutput>(GetMemberOutput.httpOutput(from:), GetMemberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMemberInput, GetMemberOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMemberOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3388,6 +3540,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMemberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMemberInput, GetMemberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMemberInput, GetMemberOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMemberInput, GetMemberOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -3449,8 +3603,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSbomExportOutput>(GetSbomExportOutput.httpOutput(from:), GetSbomExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSbomExportInput, GetSbomExportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSbomExportOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3460,6 +3612,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSbomExportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSbomExportInput, GetSbomExportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSbomExportInput, GetSbomExportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSbomExportInput, GetSbomExportOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -3520,8 +3674,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountPermissionsOutput>(ListAccountPermissionsOutput.httpOutput(from:), ListAccountPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountPermissionsInput, ListAccountPermissionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountPermissionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3531,6 +3683,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccountPermissionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAccountPermissionsInput, ListAccountPermissionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAccountPermissionsInput, ListAccountPermissionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAccountPermissionsInput, ListAccountPermissionsOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -3591,8 +3745,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCisScanConfigurationsOutput>(ListCisScanConfigurationsOutput.httpOutput(from:), ListCisScanConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCisScanConfigurationsInput, ListCisScanConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCisScanConfigurationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3602,6 +3754,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCisScanConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCisScanConfigurationsInput, ListCisScanConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCisScanConfigurationsInput, ListCisScanConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCisScanConfigurationsInput, ListCisScanConfigurationsOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -3662,8 +3816,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCisScanResultsAggregatedByChecksOutput>(ListCisScanResultsAggregatedByChecksOutput.httpOutput(from:), ListCisScanResultsAggregatedByChecksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCisScanResultsAggregatedByChecksInput, ListCisScanResultsAggregatedByChecksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCisScanResultsAggregatedByChecksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3673,6 +3825,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCisScanResultsAggregatedByChecksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCisScanResultsAggregatedByChecksInput, ListCisScanResultsAggregatedByChecksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCisScanResultsAggregatedByChecksInput, ListCisScanResultsAggregatedByChecksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCisScanResultsAggregatedByChecksInput, ListCisScanResultsAggregatedByChecksOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -3733,8 +3887,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCisScanResultsAggregatedByTargetResourceOutput>(ListCisScanResultsAggregatedByTargetResourceOutput.httpOutput(from:), ListCisScanResultsAggregatedByTargetResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCisScanResultsAggregatedByTargetResourceInput, ListCisScanResultsAggregatedByTargetResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCisScanResultsAggregatedByTargetResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3744,6 +3896,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCisScanResultsAggregatedByTargetResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCisScanResultsAggregatedByTargetResourceInput, ListCisScanResultsAggregatedByTargetResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCisScanResultsAggregatedByTargetResourceInput, ListCisScanResultsAggregatedByTargetResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCisScanResultsAggregatedByTargetResourceInput, ListCisScanResultsAggregatedByTargetResourceOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -3804,8 +3958,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCisScansOutput>(ListCisScansOutput.httpOutput(from:), ListCisScansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCisScansInput, ListCisScansOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCisScansOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3815,6 +3967,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCisScansOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCisScansInput, ListCisScansOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCisScansInput, ListCisScansOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCisScansInput, ListCisScansOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -3873,8 +4027,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCodeSecurityIntegrationsOutput>(ListCodeSecurityIntegrationsOutput.httpOutput(from:), ListCodeSecurityIntegrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCodeSecurityIntegrationsInput, ListCodeSecurityIntegrationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCodeSecurityIntegrationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3884,6 +4036,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCodeSecurityIntegrationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCodeSecurityIntegrationsInput, ListCodeSecurityIntegrationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCodeSecurityIntegrationsInput, ListCodeSecurityIntegrationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCodeSecurityIntegrationsInput, ListCodeSecurityIntegrationsOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -3946,8 +4100,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCodeSecurityScanConfigurationAssociationsOutput>(ListCodeSecurityScanConfigurationAssociationsOutput.httpOutput(from:), ListCodeSecurityScanConfigurationAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCodeSecurityScanConfigurationAssociationsInput, ListCodeSecurityScanConfigurationAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCodeSecurityScanConfigurationAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3957,6 +4109,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCodeSecurityScanConfigurationAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCodeSecurityScanConfigurationAssociationsInput, ListCodeSecurityScanConfigurationAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCodeSecurityScanConfigurationAssociationsInput, ListCodeSecurityScanConfigurationAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCodeSecurityScanConfigurationAssociationsInput, ListCodeSecurityScanConfigurationAssociationsOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -4016,8 +4170,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCodeSecurityScanConfigurationsOutput>(ListCodeSecurityScanConfigurationsOutput.httpOutput(from:), ListCodeSecurityScanConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCodeSecurityScanConfigurationsInput, ListCodeSecurityScanConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCodeSecurityScanConfigurationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4027,10 +4179,154 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCodeSecurityScanConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCodeSecurityScanConfigurationsInput, ListCodeSecurityScanConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCodeSecurityScanConfigurationsInput, ListCodeSecurityScanConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCodeSecurityScanConfigurationsInput, ListCodeSecurityScanConfigurationsOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCodeSecurityScanConfigurations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListConnectorScanConfigurations` operation on the `Inspector2` service.
+    ///
+    /// Lists scan configurations for Amazon Web Services Config connectors. Results are paginated. Use the nextToken parameter to retrieve the next page of results.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorScanConfigurationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListConnectorScanConfigurationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    public func listConnectorScanConfigurations(input: ListConnectorScanConfigurationsInput) async throws -> ListConnectorScanConfigurationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listConnectorScanConfigurations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "inspector2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListConnectorScanConfigurationsInput, ListConnectorScanConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListConnectorScanConfigurationsInput, ListConnectorScanConfigurationsOutput>(ListConnectorScanConfigurationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListConnectorScanConfigurationsInput, ListConnectorScanConfigurationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConnectorScanConfigurationsInput, ListConnectorScanConfigurationsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListConnectorScanConfigurationsInput, ListConnectorScanConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListConnectorScanConfigurationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConnectorScanConfigurationsInput, ListConnectorScanConfigurationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectorScanConfigurationsOutput>(ListConnectorScanConfigurationsOutput.httpOutput(from:), ListConnectorScanConfigurationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectorScanConfigurationsInput, ListConnectorScanConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectorScanConfigurationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListConnectorScanConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConnectorScanConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConnectorScanConfigurationsInput, ListConnectorScanConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConnectorScanConfigurationsInput, ListConnectorScanConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConnectorScanConfigurationsInput, ListConnectorScanConfigurationsOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListConnectorScanConfigurations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListConnectors` operation on the `Inspector2` service.
+    ///
+    /// Lists connectors in your account. Results are paginated. Use the nextToken parameter to retrieve the next page of results.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListConnectorsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    public func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listConnectors")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "inspector2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListConnectorsInput, ListConnectorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListConnectorsInput, ListConnectorsOutput>(ListConnectorsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListConnectorsInput, ListConnectorsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConnectorsInput, ListConnectorsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListConnectorsInput, ListConnectorsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListConnectorsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConnectorsInput, ListConnectorsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectorsOutput>(ListConnectorsOutput.httpOutput(from:), ListConnectorsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectorsInput, ListConnectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectorsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListConnectorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConnectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConnectorsInput, ListConnectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConnectorsInput, ListConnectorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConnectorsInput, ListConnectorsOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListConnectors")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4086,8 +4382,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCoverageOutput>(ListCoverageOutput.httpOutput(from:), ListCoverageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCoverageInput, ListCoverageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCoverageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4097,6 +4391,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCoverageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCoverageInput, ListCoverageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCoverageInput, ListCoverageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCoverageInput, ListCoverageOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -4156,8 +4452,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCoverageStatisticsOutput>(ListCoverageStatisticsOutput.httpOutput(from:), ListCoverageStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCoverageStatisticsInput, ListCoverageStatisticsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCoverageStatisticsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4167,6 +4461,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCoverageStatisticsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCoverageStatisticsInput, ListCoverageStatisticsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCoverageStatisticsInput, ListCoverageStatisticsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCoverageStatisticsInput, ListCoverageStatisticsOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -4227,8 +4523,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDelegatedAdminAccountsOutput>(ListDelegatedAdminAccountsOutput.httpOutput(from:), ListDelegatedAdminAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDelegatedAdminAccountsInput, ListDelegatedAdminAccountsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDelegatedAdminAccountsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4238,6 +4532,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDelegatedAdminAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDelegatedAdminAccountsInput, ListDelegatedAdminAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDelegatedAdminAccountsInput, ListDelegatedAdminAccountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDelegatedAdminAccountsInput, ListDelegatedAdminAccountsOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -4298,8 +4594,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFiltersOutput>(ListFiltersOutput.httpOutput(from:), ListFiltersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFiltersInput, ListFiltersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFiltersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4309,6 +4603,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFiltersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFiltersInput, ListFiltersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFiltersInput, ListFiltersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFiltersInput, ListFiltersOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -4368,8 +4664,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFindingAggregationsOutput>(ListFindingAggregationsOutput.httpOutput(from:), ListFindingAggregationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFindingAggregationsInput, ListFindingAggregationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFindingAggregationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4379,6 +4673,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFindingAggregationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFindingAggregationsInput, ListFindingAggregationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFindingAggregationsInput, ListFindingAggregationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFindingAggregationsInput, ListFindingAggregationsOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -4438,8 +4734,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFindingsOutput>(ListFindingsOutput.httpOutput(from:), ListFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFindingsInput, ListFindingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFindingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4449,6 +4743,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFindingsInput, ListFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFindingsInput, ListFindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFindingsInput, ListFindingsOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -4509,8 +4805,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMembersOutput>(ListMembersOutput.httpOutput(from:), ListMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMembersInput, ListMembersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMembersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4520,6 +4814,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMembersInput, ListMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMembersInput, ListMembersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMembersInput, ListMembersOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -4577,8 +4873,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4588,6 +4882,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -4648,8 +4944,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsageTotalsOutput>(ListUsageTotalsOutput.httpOutput(from:), ListUsageTotalsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsageTotalsInput, ListUsageTotalsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsageTotalsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4659,6 +4953,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUsageTotalsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListUsageTotalsInput, ListUsageTotalsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListUsageTotalsInput, ListUsageTotalsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListUsageTotalsInput, ListUsageTotalsOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -4720,8 +5016,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetEncryptionKeyOutput>(ResetEncryptionKeyOutput.httpOutput(from:), ResetEncryptionKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetEncryptionKeyInput, ResetEncryptionKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetEncryptionKeyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4731,6 +5025,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResetEncryptionKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResetEncryptionKeyInput, ResetEncryptionKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResetEncryptionKeyInput, ResetEncryptionKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ResetEncryptionKeyInput, ResetEncryptionKeyOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -4791,8 +5087,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchVulnerabilitiesOutput>(SearchVulnerabilitiesOutput.httpOutput(from:), SearchVulnerabilitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchVulnerabilitiesInput, SearchVulnerabilitiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchVulnerabilitiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4802,6 +5096,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchVulnerabilitiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchVulnerabilitiesInput, SearchVulnerabilitiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchVulnerabilitiesInput, SearchVulnerabilitiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchVulnerabilitiesInput, SearchVulnerabilitiesOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -4863,8 +5159,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendCisSessionHealthOutput>(SendCisSessionHealthOutput.httpOutput(from:), SendCisSessionHealthOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendCisSessionHealthInput, SendCisSessionHealthOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendCisSessionHealthOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4874,6 +5168,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendCisSessionHealthOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendCisSessionHealthInput, SendCisSessionHealthOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendCisSessionHealthInput, SendCisSessionHealthOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendCisSessionHealthInput, SendCisSessionHealthOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -4935,8 +5231,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendCisSessionTelemetryOutput>(SendCisSessionTelemetryOutput.httpOutput(from:), SendCisSessionTelemetryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendCisSessionTelemetryInput, SendCisSessionTelemetryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendCisSessionTelemetryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4946,6 +5240,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendCisSessionTelemetryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendCisSessionTelemetryInput, SendCisSessionTelemetryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendCisSessionTelemetryInput, SendCisSessionTelemetryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendCisSessionTelemetryInput, SendCisSessionTelemetryOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -5007,8 +5303,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCisSessionOutput>(StartCisSessionOutput.httpOutput(from:), StartCisSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCisSessionInput, StartCisSessionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCisSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5018,6 +5312,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCisSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCisSessionInput, StartCisSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartCisSessionInput, StartCisSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartCisSessionInput, StartCisSessionOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -5081,8 +5377,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCodeSecurityScanOutput>(StartCodeSecurityScanOutput.httpOutput(from:), StartCodeSecurityScanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCodeSecurityScanInput, StartCodeSecurityScanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCodeSecurityScanOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5092,6 +5386,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCodeSecurityScanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCodeSecurityScanInput, StartCodeSecurityScanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartCodeSecurityScanInput, StartCodeSecurityScanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartCodeSecurityScanInput, StartCodeSecurityScanOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -5153,8 +5449,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopCisSessionOutput>(StopCisSessionOutput.httpOutput(from:), StopCisSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopCisSessionInput, StopCisSessionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopCisSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5164,6 +5458,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopCisSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopCisSessionInput, StopCisSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopCisSessionInput, StopCisSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopCisSessionInput, StopCisSessionOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -5225,8 +5521,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5236,6 +5530,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -5294,8 +5590,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5305,6 +5599,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -5366,8 +5662,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCisScanConfigurationOutput>(UpdateCisScanConfigurationOutput.httpOutput(from:), UpdateCisScanConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCisScanConfigurationInput, UpdateCisScanConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCisScanConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5377,6 +5671,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCisScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCisScanConfigurationInput, UpdateCisScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCisScanConfigurationInput, UpdateCisScanConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCisScanConfigurationInput, UpdateCisScanConfigurationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -5439,8 +5735,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCodeSecurityIntegrationOutput>(UpdateCodeSecurityIntegrationOutput.httpOutput(from:), UpdateCodeSecurityIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCodeSecurityIntegrationInput, UpdateCodeSecurityIntegrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCodeSecurityIntegrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5450,6 +5744,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCodeSecurityIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCodeSecurityIntegrationInput, UpdateCodeSecurityIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCodeSecurityIntegrationInput, UpdateCodeSecurityIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCodeSecurityIntegrationInput, UpdateCodeSecurityIntegrationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -5512,8 +5808,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCodeSecurityScanConfigurationOutput>(UpdateCodeSecurityScanConfigurationOutput.httpOutput(from:), UpdateCodeSecurityScanConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCodeSecurityScanConfigurationInput, UpdateCodeSecurityScanConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCodeSecurityScanConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5523,6 +5817,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCodeSecurityScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCodeSecurityScanConfigurationInput, UpdateCodeSecurityScanConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCodeSecurityScanConfigurationInput, UpdateCodeSecurityScanConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCodeSecurityScanConfigurationInput, UpdateCodeSecurityScanConfigurationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -5541,7 +5837,7 @@ extension Inspector2Client {
 
     /// Performs the `UpdateConfiguration` operation on the `Inspector2` service.
     ///
-    /// Updates setting configurations for your Amazon Inspector account. When you use this API as an Amazon Inspector delegated administrator this updates the setting for all accounts you manage. Member accounts in an organization cannot update this setting.
+    /// Updates the scan configuration for your Amazon Inspector account. If you don't specify an accountId, this operation updates the delegated administrator's configuration and propagates it to member accounts that have not been individually configured. If you specify an accountId, this operation updates that member account's configuration. Only the delegated administrator can specify an accountId; member accounts cannot call this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateConfigurationInput`)
     ///
@@ -5583,8 +5879,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfigurationOutput>(UpdateConfigurationOutput.httpOutput(from:), UpdateConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfigurationInput, UpdateConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5594,10 +5888,158 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConfigurationInput, UpdateConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateConfigurationInput, UpdateConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConfigurationInput, UpdateConfigurationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateConnector` operation on the `Inspector2` service.
+    ///
+    /// Updates the description or provider-specific configuration details of an existing connector.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
+    /// - `ConflictException` : A conflict occurred. This exception occurs when the same resource is being modified by concurrent requests.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    public func updateConnector(input: UpdateConnectorInput) async throws -> UpdateConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "inspector2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateConnectorInput, UpdateConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateConnectorInput, UpdateConnectorOutput>(UpdateConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateConnectorInput, UpdateConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateConnectorInput, UpdateConnectorOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateConnectorInput, UpdateConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateConnectorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectorInput, UpdateConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectorOutput>(UpdateConnectorOutput.httpOutput(from:), UpdateConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectorInput, UpdateConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConnectorInput, UpdateConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateConnectorInput, UpdateConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConnectorInput, UpdateConnectorOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateConnector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateConnectorScanConfiguration` operation on the `Inspector2` service.
+    ///
+    /// Updates scan configuration settings for resources associated with an Amazon Web Services Config connector.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectorScanConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateConnectorScanConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
+    /// - `ConflictException` : A conflict occurred. This exception occurs when the same resource is being modified by concurrent requests.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    public func updateConnectorScanConfiguration(input: UpdateConnectorScanConfigurationInput) async throws -> UpdateConnectorScanConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateConnectorScanConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "inspector2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateConnectorScanConfigurationInput, UpdateConnectorScanConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateConnectorScanConfigurationInput, UpdateConnectorScanConfigurationOutput>(UpdateConnectorScanConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateConnectorScanConfigurationInput, UpdateConnectorScanConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateConnectorScanConfigurationInput, UpdateConnectorScanConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateConnectorScanConfigurationInput, UpdateConnectorScanConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateConnectorScanConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectorScanConfigurationInput, UpdateConnectorScanConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectorScanConfigurationOutput>(UpdateConnectorScanConfigurationOutput.httpOutput(from:), UpdateConnectorScanConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectorScanConfigurationInput, UpdateConnectorScanConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectorScanConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateConnectorScanConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConnectorScanConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConnectorScanConfigurationInput, UpdateConnectorScanConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateConnectorScanConfigurationInput, UpdateConnectorScanConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConnectorScanConfigurationInput, UpdateConnectorScanConfigurationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateConnectorScanConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5654,8 +6096,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEc2DeepInspectionConfigurationOutput>(UpdateEc2DeepInspectionConfigurationOutput.httpOutput(from:), UpdateEc2DeepInspectionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEc2DeepInspectionConfigurationInput, UpdateEc2DeepInspectionConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEc2DeepInspectionConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5665,6 +6105,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEc2DeepInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEc2DeepInspectionConfigurationInput, UpdateEc2DeepInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateEc2DeepInspectionConfigurationInput, UpdateEc2DeepInspectionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateEc2DeepInspectionConfigurationInput, UpdateEc2DeepInspectionConfigurationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -5726,8 +6168,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEncryptionKeyOutput>(UpdateEncryptionKeyOutput.httpOutput(from:), UpdateEncryptionKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEncryptionKeyInput, UpdateEncryptionKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEncryptionKeyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5737,6 +6177,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEncryptionKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEncryptionKeyInput, UpdateEncryptionKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateEncryptionKeyInput, UpdateEncryptionKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateEncryptionKeyInput, UpdateEncryptionKeyOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -5798,8 +6240,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFilterOutput>(UpdateFilterOutput.httpOutput(from:), UpdateFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFilterInput, UpdateFilterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFilterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5809,6 +6249,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFilterInput, UpdateFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFilterInput, UpdateFilterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFilterInput, UpdateFilterOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -5869,8 +6311,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOrgEc2DeepInspectionConfigurationOutput>(UpdateOrgEc2DeepInspectionConfigurationOutput.httpOutput(from:), UpdateOrgEc2DeepInspectionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOrgEc2DeepInspectionConfigurationInput, UpdateOrgEc2DeepInspectionConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOrgEc2DeepInspectionConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5880,6 +6320,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateOrgEc2DeepInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateOrgEc2DeepInspectionConfigurationInput, UpdateOrgEc2DeepInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateOrgEc2DeepInspectionConfigurationInput, UpdateOrgEc2DeepInspectionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateOrgEc2DeepInspectionConfigurationInput, UpdateOrgEc2DeepInspectionConfigurationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
@@ -5940,8 +6382,6 @@ extension Inspector2Client {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOrganizationConfigurationOutput>(UpdateOrganizationConfigurationOutput.httpOutput(from:), UpdateOrganizationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOrganizationConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5951,6 +6391,8 @@ extension Inspector2Client {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateOrganizationConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")

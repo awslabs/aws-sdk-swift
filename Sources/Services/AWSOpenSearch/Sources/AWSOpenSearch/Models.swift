@@ -1753,6 +1753,115 @@ public struct AssociatePackagesOutput: Swift.Sendable {
 
 extension OpenSearchClientTypes {
 
+    /// Configuration for creating a new workspace when attaching a data source to an OpenSearch application. The workspace is created after the data source is successfully attached.
+    public struct WorkspaceConfigurationInput: Swift.Sendable {
+        /// The name of the workspace to create. Must be between 1 and 40 characters and can contain alphanumeric characters, parentheses, brackets, hyphens, underscores, and spaces.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of workspace to create, which determines the use-case features enabled for the workspace. Valid values are OBSERVABILITY, SECURITY_ANALYTICS, and SEARCH.
+        /// This member is required.
+        public var workspaceType: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            workspaceType: Swift.String? = nil
+        ) {
+            self.name = name
+            self.workspaceType = workspaceType
+        }
+    }
+}
+
+public struct AttachDataSourceInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. If you retry a request with the same client token and the same parameters, the retry succeeds without performing any further actions.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    /// This member is required.
+    public var dataSourceArn: Swift.String?
+    /// The unique identifier or name of the OpenSearch application to attach the data source to. This is the same identifier used with UpdateApplication, GetApplication, and DeleteApplication.
+    /// This member is required.
+    public var id: Swift.String?
+    /// Configuration for creating a new workspace during the attachment. If specified, a workspace is created and linked to the data source after the attachment completes. Mutually exclusive with workspaceId.
+    public var workspaceConfiguration: OpenSearchClientTypes.WorkspaceConfigurationInput?
+    /// The identifier of an existing workspace to update with the new data source. Mutually exclusive with workspaceConfiguration.
+    public var workspaceId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        dataSourceArn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        workspaceConfiguration: OpenSearchClientTypes.WorkspaceConfigurationInput? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.dataSourceArn = dataSourceArn
+        self.id = id
+        self.workspaceConfiguration = workspaceConfiguration
+        self.workspaceId = workspaceId
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum DataSourceAttachmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attached
+        case failed
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataSourceAttachmentStatus] {
+            return [
+                .attached,
+                .failed,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attached: return "ATTACHED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AttachDataSourceOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var arn: Swift.String?
+    /// The unique identifier assigned to the data source attachment.
+    public var attachmentId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var dataSourceArn: Swift.String?
+    /// The unique identifier of the OpenSearch application.
+    public var id: Swift.String?
+    /// The status of the data source attachment. Valid values are PENDING (waiting for resources to become active), ATTACHED (successfully attached), and FAILED (attachment timed out or encountered a non-retryable error).
+    public var status: OpenSearchClientTypes.DataSourceAttachmentStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        attachmentId: Swift.String? = nil,
+        dataSourceArn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        status: OpenSearchClientTypes.DataSourceAttachmentStatus? = nil
+    ) {
+        self.arn = arn
+        self.attachmentId = attachmentId
+        self.dataSourceArn = dataSourceArn
+        self.id = id
+        self.status = status
+    }
+}
+
+extension OpenSearchClientTypes {
+
     public enum AWSServicePrincipal: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case applicationOpensearchserviceAmazonawsCom
         case sdkUnknown(Swift.String)
@@ -3199,6 +3308,36 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// The engine mode for the domain. Valid values are GENERAL (the standard OpenSearch engine) and OPTIMIZED. If you don't specify an engine mode, GENERAL is used. OPTIMIZED requires OpenSearch 3.5 or later, OpenSearch Optimized instance types (OR1, OR2, OM2, or OI2) for the data tier, and is available only for the OBSERVABILITY use cases. The engine mode can't be changed after the domain is created.
+    public enum EngineMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case general
+        case optimized
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EngineMode] {
+            return [
+                .general,
+                .optimized
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .general: return "GENERAL"
+            case .optimized: return "OPTIMIZED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     public enum RolesKeyIdCOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case groupid
         case groupname
@@ -3487,6 +3626,42 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// The primary use case for the domain, which determines the default configuration and the engine modes that are available. Valid values are SEARCH (full-text search, e-commerce, content discovery, and hybrid and semantic search), VECTOR (k-NN and semantic search, and retrieval-augmented generation), OBSERVABILITY (logs, metrics, traces, and dashboards), and MIXED (a combination of search and analytics). If you don't specify a use case, MIXED is used.
+    public enum DomainUseCase: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mixed
+        case observability
+        case search
+        case vector
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DomainUseCase] {
+            return [
+                .mixed,
+                .observability,
+                .search,
+                .vector
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mixed: return "MIXED"
+            case .observability: return "OBSERVABILITY"
+            case .search: return "SEARCH"
+            case .vector: return "VECTOR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// Options to specify the subnets and security groups for an Amazon OpenSearch Service VPC endpoint. For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
     public struct VPCOptions: Swift.Sendable {
         /// Controls whether egress traffic from the domain is routed through the customer VPC. When true, outbound traffic flows through the VPC. When false, outbound traffic goes through the public internet.
@@ -3547,6 +3722,8 @@ public struct CreateDomainInput: Swift.Sendable {
     public var ebsOptions: OpenSearchClientTypes.EBSOptions?
     /// Key-value pairs to enable encryption at rest.
     public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions?
+    /// The engine mode for the domain. For valid values and requirements, see EngineMode.
+    public var engineMode: OpenSearchClientTypes.EngineMode?
     /// String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or Elasticsearch_7.9. For more information, see [Creating and managing Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomains).
     public var engineVersion: Swift.String?
     /// Configuration options for enabling and managing IAM Identity Center integration within a domain.
@@ -3565,6 +3742,8 @@ public struct CreateDomainInput: Swift.Sendable {
     public var softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions?
     /// List of tags to add to the domain upon creation.
     public var tagList: [OpenSearchClientTypes.Tag]?
+    /// The primary use case for the domain. For valid values, see DomainUseCase.
+    public var useCase: OpenSearchClientTypes.DomainUseCase?
     /// Container for the values required to configure VPC access domains. If you don't specify these values, OpenSearch Service creates the domain with a public endpoint. For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
     public var vpcOptions: OpenSearchClientTypes.VPCOptions?
 
@@ -3582,6 +3761,7 @@ public struct CreateDomainInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         ebsOptions: OpenSearchClientTypes.EBSOptions? = nil,
         encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions? = nil,
+        engineMode: OpenSearchClientTypes.EngineMode? = nil,
         engineVersion: Swift.String? = nil,
         identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptionsInput? = nil,
         ipAddressType: OpenSearchClientTypes.IPAddressType? = nil,
@@ -3591,6 +3771,7 @@ public struct CreateDomainInput: Swift.Sendable {
         snapshotOptions: OpenSearchClientTypes.SnapshotOptions? = nil,
         softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions? = nil,
         tagList: [OpenSearchClientTypes.Tag]? = nil,
+        useCase: OpenSearchClientTypes.DomainUseCase? = nil,
         vpcOptions: OpenSearchClientTypes.VPCOptions? = nil
     ) {
         self.accessPolicies = accessPolicies
@@ -3606,6 +3787,7 @@ public struct CreateDomainInput: Swift.Sendable {
         self.domainName = domainName
         self.ebsOptions = ebsOptions
         self.encryptionAtRestOptions = encryptionAtRestOptions
+        self.engineMode = engineMode
         self.engineVersion = engineVersion
         self.identityCenterOptions = identityCenterOptions
         self.ipAddressType = ipAddressType
@@ -3615,6 +3797,7 @@ public struct CreateDomainInput: Swift.Sendable {
         self.snapshotOptions = snapshotOptions
         self.softwareUpdateOptions = softwareUpdateOptions
         self.tagList = tagList
+        self.useCase = useCase
         self.vpcOptions = vpcOptions
     }
 }
@@ -4100,6 +4283,8 @@ extension OpenSearchClientTypes {
         ///
         /// * Dual stack IP addresses - 'vpcv2':'vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.aos.us-east-1.on.aws'
         public var endpoints: [Swift.String: Swift.String]?
+        /// The engine mode for the domain.
+        public var engineMode: OpenSearchClientTypes.EngineMode?
         /// Version of OpenSearch or Elasticsearch that the domain is running, in the format Elasticsearch_X.Y or OpenSearch_X.Y.
         public var engineVersion: Swift.String?
         /// Configuration options for controlling IAM Identity Center integration within a domain.
@@ -4124,6 +4309,8 @@ extension OpenSearchClientTypes {
         public var softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions?
         /// The status of a domain version upgrade to a new version of OpenSearch or Elasticsearch. True if OpenSearch Service is in the process of a version upgrade. False if the configuration is active.
         public var upgradeProcessing: Swift.Bool?
+        /// The primary use case for the domain.
+        public var useCase: OpenSearchClientTypes.DomainUseCase?
         /// The VPC configuration for the domain.
         public var vpcOptions: OpenSearchClientTypes.VPCDerivedInfo?
 
@@ -4151,6 +4338,7 @@ extension OpenSearchClientTypes {
             endpoint: Swift.String? = nil,
             endpointV2: Swift.String? = nil,
             endpoints: [Swift.String: Swift.String]? = nil,
+            engineMode: OpenSearchClientTypes.EngineMode? = nil,
             engineVersion: Swift.String? = nil,
             identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptions? = nil,
             ipAddressType: OpenSearchClientTypes.IPAddressType? = nil,
@@ -4163,6 +4351,7 @@ extension OpenSearchClientTypes {
             snapshotOptions: OpenSearchClientTypes.SnapshotOptions? = nil,
             softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions? = nil,
             upgradeProcessing: Swift.Bool? = nil,
+            useCase: OpenSearchClientTypes.DomainUseCase? = nil,
             vpcOptions: OpenSearchClientTypes.VPCDerivedInfo? = nil
         ) {
             self.accessPolicies = accessPolicies
@@ -4188,6 +4377,7 @@ extension OpenSearchClientTypes {
             self.endpoint = endpoint
             self.endpointV2 = endpointV2
             self.endpoints = endpoints
+            self.engineMode = engineMode
             self.engineVersion = engineVersion
             self.identityCenterOptions = identityCenterOptions
             self.ipAddressType = ipAddressType
@@ -4200,6 +4390,7 @@ extension OpenSearchClientTypes {
             self.snapshotOptions = snapshotOptions
             self.softwareUpdateOptions = softwareUpdateOptions
             self.upgradeProcessing = upgradeProcessing
+            self.useCase = useCase
             self.vpcOptions = vpcOptions
         }
     }
@@ -5323,6 +5514,50 @@ public struct DeregisterCapabilityOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeDataSourceAttachmentInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    /// This member is required.
+    public var dataSourceArn: Swift.String?
+    /// The unique identifier or name of the OpenSearch application.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        dataSourceArn: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.dataSourceArn = dataSourceArn
+        self.id = id
+    }
+}
+
+public struct DescribeDataSourceAttachmentOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var arn: Swift.String?
+    /// The unique identifier assigned to the data source attachment.
+    public var attachmentId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var dataSourceArn: Swift.String?
+    /// The unique identifier of the OpenSearch application.
+    public var id: Swift.String?
+    /// The status of the data source attachment. Valid values are PENDING, ATTACHED, and FAILED.
+    public var status: OpenSearchClientTypes.DataSourceAttachmentStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        attachmentId: Swift.String? = nil,
+        dataSourceArn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        status: OpenSearchClientTypes.DataSourceAttachmentStatus? = nil
+    ) {
+        self.arn = arn
+        self.attachmentId = attachmentId
+        self.dataSourceArn = dataSourceArn
+        self.id = id
+        self.status = status
+    }
+}
+
 /// Container for the parameters to the DescribeDomain operation.
 public struct DescribeDomainInput: Swift.Sendable {
     /// The name of the domain that you want information about.
@@ -5956,6 +6191,27 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// The status of the engine mode for the domain.
+    public struct EngineModeStatus: Swift.Sendable {
+        /// The engine mode configured for the domain.
+        /// This member is required.
+        public var options: OpenSearchClientTypes.EngineMode?
+        /// The current status of the engine mode for the domain.
+        /// This member is required.
+        public var status: OpenSearchClientTypes.OptionStatus?
+
+        public init(
+            options: OpenSearchClientTypes.EngineMode? = nil,
+            status: OpenSearchClientTypes.OptionStatus? = nil
+        ) {
+            self.options = options
+            self.status = status
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// The status of the the OpenSearch or Elasticsearch version options for the specified Amazon OpenSearch Service domain.
     public struct VersionStatus: Swift.Sendable {
         /// The OpenSearch or Elasticsearch version for the specified domain.
@@ -6118,6 +6374,27 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// The status of the use case for the domain.
+    public struct UseCaseStatus: Swift.Sendable {
+        /// The use case configured for the domain.
+        /// This member is required.
+        public var options: OpenSearchClientTypes.DomainUseCase?
+        /// The current status of the use case for the domain.
+        /// This member is required.
+        public var status: OpenSearchClientTypes.OptionStatus?
+
+        public init(
+            options: OpenSearchClientTypes.DomainUseCase? = nil,
+            status: OpenSearchClientTypes.OptionStatus? = nil
+        ) {
+            self.options = options
+            self.status = status
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// Status of the VPC options for a specified domain.
     public struct VPCDerivedInfoStatus: Swift.Sendable {
         /// The VPC options for the specified domain.
@@ -6167,6 +6444,8 @@ extension OpenSearchClientTypes {
         public var ebsOptions: OpenSearchClientTypes.EBSOptionsStatus?
         /// Key-value pairs to enable encryption at rest.
         public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptionsStatus?
+        /// The engine mode configured for the domain.
+        public var engineMode: OpenSearchClientTypes.EngineModeStatus?
         /// The OpenSearch or Elasticsearch version that the domain is running.
         public var engineVersion: OpenSearchClientTypes.VersionStatus?
         /// Configuration options for enabling and managing IAM Identity Center integration within a domain.
@@ -6185,6 +6464,8 @@ extension OpenSearchClientTypes {
         public var snapshotOptions: OpenSearchClientTypes.SnapshotOptionsStatus?
         /// Software update options for the domain.
         public var softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptionsStatus?
+        /// The use case configured for the domain.
+        public var useCase: OpenSearchClientTypes.UseCaseStatus?
         /// The current VPC options for the domain and the status of any updates to their configuration.
         public var vpcOptions: OpenSearchClientTypes.VPCDerivedInfoStatus?
 
@@ -6202,6 +6483,7 @@ extension OpenSearchClientTypes {
             domainEndpointOptions: OpenSearchClientTypes.DomainEndpointOptionsStatus? = nil,
             ebsOptions: OpenSearchClientTypes.EBSOptionsStatus? = nil,
             encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptionsStatus? = nil,
+            engineMode: OpenSearchClientTypes.EngineModeStatus? = nil,
             engineVersion: OpenSearchClientTypes.VersionStatus? = nil,
             identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptionsStatus? = nil,
             ipAddressType: OpenSearchClientTypes.IPAddressTypeStatus? = nil,
@@ -6211,6 +6493,7 @@ extension OpenSearchClientTypes {
             offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptionsStatus? = nil,
             snapshotOptions: OpenSearchClientTypes.SnapshotOptionsStatus? = nil,
             softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptionsStatus? = nil,
+            useCase: OpenSearchClientTypes.UseCaseStatus? = nil,
             vpcOptions: OpenSearchClientTypes.VPCDerivedInfoStatus? = nil
         ) {
             self.accessPolicies = accessPolicies
@@ -6226,6 +6509,7 @@ extension OpenSearchClientTypes {
             self.domainEndpointOptions = domainEndpointOptions
             self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
+            self.engineMode = engineMode
             self.engineVersion = engineVersion
             self.identityCenterOptions = identityCenterOptions
             self.ipAddressType = ipAddressType
@@ -6235,6 +6519,7 @@ extension OpenSearchClientTypes {
             self.offPeakWindowOptions = offPeakWindowOptions
             self.snapshotOptions = snapshotOptions
             self.softwareUpdateOptions = softwareUpdateOptions
+            self.useCase = useCase
             self.vpcOptions = vpcOptions
         }
     }
@@ -7618,6 +7903,42 @@ public struct DescribeVpcEndpointsOutput: Swift.Sendable {
     }
 }
 
+public struct DetachDataSourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    /// This member is required.
+    public var dataSourceArn: Swift.String?
+    /// The unique identifier or name of the OpenSearch application to detach the data source from.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        dataSourceArn: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.dataSourceArn = dataSourceArn
+        self.id = id
+    }
+}
+
+public struct DetachDataSourceOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var arn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var dataSourceArn: Swift.String?
+    /// The unique identifier of the OpenSearch application.
+    public var id: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        dataSourceArn: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.dataSourceArn = dataSourceArn
+        self.id = id
+    }
+}
+
 /// Container for the request parameters to the DissociatePackage operation.
 public struct DissociatePackageInput: Swift.Sendable {
     /// Name of the domain to dissociate the package from.
@@ -8200,6 +8521,96 @@ public struct GetIndexOutput: Swift.Sendable {
     }
 }
 
+public struct GetMigrationInput: Swift.Sendable {
+    /// The unique identifier of the migration job to retrieve.
+    /// This member is required.
+    public var migrationId: Swift.String?
+
+    public init(
+        migrationId: Swift.String? = nil
+    ) {
+        self.migrationId = migrationId
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Contains error details for a migration that failed or completed with errors.
+    public struct MigrationError: Swift.Sendable {
+        /// The error code identifying the type of failure.
+        public var code: Swift.String?
+        /// A human-readable description of the error.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The source configuration for a migration, specifying the data source from which to export saved objects.
+    public struct MigrationSource: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the data source to migrate saved objects from.
+        /// This member is required.
+        public var datasourceArn: Swift.String?
+
+        public init(
+            datasourceArn: Swift.String? = nil
+        ) {
+            self.datasourceArn = datasourceArn
+        }
+    }
+}
+
+public struct GetMigrationOutput: Swift.Sendable {
+    /// The unique identifier of the OpenSearch application associated with the migration.
+    public var applicationId: Swift.String?
+    /// The date and time when the migration job was created.
+    public var createdAt: Foundation.Date?
+    /// Error details if the migration failed or completed with errors.
+    public var error: OpenSearchClientTypes.MigrationError?
+    /// The number of saved objects exported from the source data source.
+    public var exportedCount: Swift.Int
+    /// The number of saved objects successfully imported into the target workspace.
+    public var importedCount: Swift.Int
+    /// The unique identifier of the migration job.
+    public var migrationId: Swift.String?
+    /// The source configuration for the migration, including the data source ARN.
+    public var source: OpenSearchClientTypes.MigrationSource?
+    /// The current status of the migration job. Valid values are PENDING, IN_PROGRESS, SUCCEEDED, and FAILED.
+    public var status: Swift.String?
+    /// The date and time when the migration job was last updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        error: OpenSearchClientTypes.MigrationError? = nil,
+        exportedCount: Swift.Int = 0,
+        importedCount: Swift.Int = 0,
+        migrationId: Swift.String? = nil,
+        source: OpenSearchClientTypes.MigrationSource? = nil,
+        status: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.applicationId = applicationId
+        self.createdAt = createdAt
+        self.error = error
+        self.exportedCount = exportedCount
+        self.importedCount = importedCount
+        self.migrationId = migrationId
+        self.source = source
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
 /// Container for the request parameters to the GetPackageVersionHistory operation.
 public struct GetPackageVersionHistoryInput: Swift.Sendable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
@@ -8485,6 +8896,153 @@ public struct GetUpgradeStatusOutput: Swift.Sendable {
     }
 }
 
+extension OpenSearchClientTypes {
+
+    /// The type of entity for which to submit insight feedback. Possible values are DomainName.
+    public enum InsightFeedbackEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case domain
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightFeedbackEntityType] {
+            return [
+                .domain
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .domain: return "DomainName"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Specifies the entity for which to submit insight feedback. An entity represents an Amazon OpenSearch Service domain.
+    public struct InsightFeedbackEntity: Swift.Sendable {
+        /// The type of the entity. Possible values are DomainName.
+        /// This member is required.
+        public var type: OpenSearchClientTypes.InsightFeedbackEntityType?
+        /// The value of the entity, such as a domain name.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            type: OpenSearchClientTypes.InsightFeedbackEntityType? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The thumbs up or thumbs down feedback for an insight. Possible values are Up and Down.
+    public enum InsightFeedbackThumbs: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case down
+        case up
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightFeedbackThumbs] {
+            return [
+                .down,
+                .up
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .down: return "Down"
+            case .up: return "Up"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Container for the parameters to the InsightFeedback operation.
+public struct InsightFeedbackInput: Swift.Sendable {
+    /// The entity for which to submit insight feedback. Specifies the type and value of the entity, such as a domain name.
+    /// This member is required.
+    public var entity: OpenSearchClientTypes.InsightFeedbackEntity?
+    /// Optional text feedback providing additional details about the insight. Maximum length is 1000 characters.
+    public var feedbackText: Swift.String?
+    /// The unique identifier of the insight for which to submit feedback.
+    /// This member is required.
+    public var insightId: Swift.String?
+    /// The thumbs up or thumbs down feedback for the insight. Possible values are Up and Down.
+    /// This member is required.
+    public var thumbs: OpenSearchClientTypes.InsightFeedbackThumbs?
+
+    public init(
+        entity: OpenSearchClientTypes.InsightFeedbackEntity? = nil,
+        feedbackText: Swift.String? = nil,
+        insightId: Swift.String? = nil,
+        thumbs: OpenSearchClientTypes.InsightFeedbackThumbs? = nil
+    ) {
+        self.entity = entity
+        self.feedbackText = feedbackText
+        self.insightId = insightId
+        self.thumbs = thumbs
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The status of an insight response. Possible values are SUCCESS and ERROR.
+    public enum InsightResponseStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case error
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightResponseStatus] {
+            return [
+                .error,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "ERROR"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The result of an InsightFeedback request. Contains the status of the feedback submission.
+public struct InsightFeedbackOutput: Swift.Sendable {
+    /// The status of the feedback submission. Possible values are SUCCESS and ERROR.
+    public var status: OpenSearchClientTypes.InsightResponseStatus?
+
+    public init(
+        status: OpenSearchClientTypes.InsightResponseStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
 public struct ListApplicationsInput: Swift.Sendable {
     /// An optional parameter that specifies the maximum number of results to return for a given request.
     public var maxResults: Swift.Int?
@@ -8554,6 +9112,64 @@ public struct ListApplicationsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.applicationSummaries = applicationSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListDataSourceAttachmentsInput: Swift.Sendable {
+    /// The unique identifier or name of the OpenSearch application to list attachments for.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The maximum number of results to return per page. The default is 50.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous call to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil
+    ) {
+        self.id = id
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Summary information about a data source attachment, including its identifier, data source ARN, and current status.
+    public struct DataSourceAttachmentSummary: Swift.Sendable {
+        /// The unique identifier assigned to the data source attachment.
+        public var attachmentId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+        public var dataSourceArn: Swift.String?
+        /// The current status of the data source attachment. Valid values are PENDING, ATTACHED, and FAILED.
+        public var status: OpenSearchClientTypes.DataSourceAttachmentStatus?
+
+        public init(
+            attachmentId: Swift.String? = nil,
+            dataSourceArn: Swift.String? = nil,
+            status: OpenSearchClientTypes.DataSourceAttachmentStatus? = nil
+        ) {
+            self.attachmentId = attachmentId
+            self.dataSourceArn = dataSourceArn
+            self.status = status
+        }
+    }
+}
+
+public struct ListDataSourceAttachmentsOutput: Swift.Sendable {
+    /// A list of data source attachment summaries for the specified application.
+    public var attachments: [OpenSearchClientTypes.DataSourceAttachmentSummary]?
+    /// The pagination token to use in a subsequent call to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        attachments: [OpenSearchClientTypes.DataSourceAttachmentSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.attachments = attachments
         self.nextToken = nextToken
     }
 }
@@ -9196,6 +9812,92 @@ public struct ListInstanceTypeDetailsOutput: Swift.Sendable {
     }
 }
 
+public struct ListMigrationsInput: Swift.Sendable {
+    /// The unique identifier of the OpenSearch application to list migrations for.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous call to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// Filters the results by migration status. Valid values are PENDING, IN_PROGRESS, SUCCEEDED, and FAILED.
+    public var status: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil,
+        status: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// A summary of a migration job, including its status and progress.
+    public struct MigrationSummary: Swift.Sendable {
+        /// The unique identifier of the OpenSearch application associated with the migration.
+        public var applicationId: Swift.String?
+        /// The date and time when the migration job was created.
+        public var createdAt: Foundation.Date?
+        /// Error details if the migration failed or completed with errors.
+        public var error: OpenSearchClientTypes.MigrationError?
+        /// The number of saved objects exported from the source data source.
+        public var exportedCount: Swift.Int
+        /// The number of saved objects successfully imported into the target workspace.
+        public var importedCount: Swift.Int
+        /// The unique identifier of the migration job.
+        public var migrationId: Swift.String?
+        /// The source configuration for the migration.
+        public var source: OpenSearchClientTypes.MigrationSource?
+        /// The current status of the migration job.
+        public var status: Swift.String?
+        /// The date and time when the migration job was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            applicationId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            error: OpenSearchClientTypes.MigrationError? = nil,
+            exportedCount: Swift.Int = 0,
+            importedCount: Swift.Int = 0,
+            migrationId: Swift.String? = nil,
+            source: OpenSearchClientTypes.MigrationSource? = nil,
+            status: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.applicationId = applicationId
+            self.createdAt = createdAt
+            self.error = error
+            self.exportedCount = exportedCount
+            self.importedCount = importedCount
+            self.migrationId = migrationId
+            self.source = source
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListMigrationsOutput: Swift.Sendable {
+    /// A list of migration job summaries for the specified application.
+    public var migrations: [OpenSearchClientTypes.MigrationSummary]?
+    /// The pagination token to use in a subsequent call to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        migrations: [OpenSearchClientTypes.MigrationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.migrations = migrations
+        self.nextToken = nextToken
+    }
+}
+
 /// Container for the request parameters to the ListPackagesForDomain operation.
 public struct ListPackagesForDomainInput: Swift.Sendable {
     /// The name of the domain for which you want to list associated packages.
@@ -9816,6 +10518,142 @@ public struct StartDomainMaintenanceOutput: Swift.Sendable {
 
 extension OpenSearchClientTypes {
 
+    /// Identifies a specific saved object by its type and unique identifier.
+    public struct SavedObjectIdentifier: Swift.Sendable {
+        /// The unique identifier of the saved object.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The type of the saved object, such as dashboard, visualization, index-pattern, search, or query.
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.id = id
+            self.type = type
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Options to filter the scope of saved objects to export during a migration.
+    public struct ExportOptions: Swift.Sendable {
+        /// Specifies whether to include all objects referenced by the exported objects, recursively.
+        public var includeReferencesDeep: Swift.Bool?
+        /// A list of specific saved objects to include in the migration, identified by type and ID.
+        public var objects: [OpenSearchClientTypes.SavedObjectIdentifier]?
+        /// A list of saved object types to include in the migration. Valid values include dashboard, visualization, index-pattern, search, and query.
+        public var types: [Swift.String]?
+
+        public init(
+            includeReferencesDeep: Swift.Bool? = nil,
+            objects: [OpenSearchClientTypes.SavedObjectIdentifier]? = nil,
+            types: [Swift.String]? = nil
+        ) {
+            self.includeReferencesDeep = includeReferencesDeep
+            self.objects = objects
+            self.types = types
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The target workspace configuration for a migration. You can specify an existing workspace by ID or request creation of a new workspace.
+    public struct MigrationWorkspace: Swift.Sendable {
+        /// Specifies whether to create a new workspace as the migration target. If true, you must also specify name.
+        public var createWorkspace: Swift.Bool?
+        /// The name of the new workspace to create. Required when createWorkspace is true.
+        public var name: Swift.String?
+        /// The type of the new workspace to create.
+        public var type: Swift.String?
+        /// The unique identifier of an existing workspace to use as the migration target. Specify either this parameter or createWorkspace.
+        public var workspaceId: Swift.String?
+
+        public init(
+            createWorkspace: Swift.Bool? = nil,
+            name: Swift.String? = nil,
+            type: Swift.String? = nil,
+            workspaceId: Swift.String? = nil
+        ) {
+            self.createWorkspace = createWorkspace
+            self.name = name
+            self.type = type
+            self.workspaceId = workspaceId
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The configuration options for a saved objects migration job.
+    public struct MigrationOptions: Swift.Sendable {
+        /// The strategy for resolving conflicts when saved objects already exist in the target workspace. Valid values are CREATE_NEW_COPIES, which creates new objects with unique IDs, and overwrite, which replaces existing objects.
+        public var conflictResolution: Swift.String?
+        /// Options to filter the scope of saved objects to export from the source.
+        public var exportOptions: OpenSearchClientTypes.ExportOptions?
+        /// The data source from which to export saved objects.
+        /// This member is required.
+        public var source: OpenSearchClientTypes.MigrationSource?
+        /// The target workspace configuration for importing saved objects. You can specify an existing workspace or request creation of a new workspace.
+        /// This member is required.
+        public var workspace: OpenSearchClientTypes.MigrationWorkspace?
+
+        public init(
+            conflictResolution: Swift.String? = nil,
+            exportOptions: OpenSearchClientTypes.ExportOptions? = nil,
+            source: OpenSearchClientTypes.MigrationSource? = nil,
+            workspace: OpenSearchClientTypes.MigrationWorkspace? = nil
+        ) {
+            self.conflictResolution = conflictResolution
+            self.exportOptions = exportOptions
+            self.source = source
+            self.workspace = workspace
+        }
+    }
+}
+
+public struct StartMigrationInput: Swift.Sendable {
+    /// The unique identifier of the OpenSearch application to migrate saved objects into.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon OpenSearch Service ignores the request but does not return an error.
+    public var clientToken: Swift.String?
+    /// The configuration options for the migration, including the source data source, target workspace, export filters, and conflict resolution strategy.
+    /// This member is required.
+    public var migrationOptions: OpenSearchClientTypes.MigrationOptions?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        migrationOptions: OpenSearchClientTypes.MigrationOptions? = nil
+    ) {
+        self.applicationId = applicationId
+        self.clientToken = clientToken
+        self.migrationOptions = migrationOptions
+    }
+}
+
+public struct StartMigrationOutput: Swift.Sendable {
+    /// The unique identifier of the migration job.
+    public var migrationId: Swift.String?
+    /// The initial status of the migration job. The status is PENDING when a migration is first created.
+    public var status: Swift.String?
+
+    public init(
+        migrationId: Swift.String? = nil,
+        status: Swift.String? = nil
+    ) {
+        self.migrationId = migrationId
+        self.status = status
+    }
+}
+
+extension OpenSearchClientTypes {
+
     public enum ScheduleAt: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case now
         case offPeakWindow
@@ -9893,6 +10731,8 @@ public struct UpdateApplicationInput: Swift.Sendable {
     public var appConfigs: [OpenSearchClientTypes.AppConfig]?
     /// The data sources to associate with the OpenSearch application.
     public var dataSources: [OpenSearchClientTypes.DataSource]?
+    /// Configuration settings for integrating IAM Identity Center with the OpenSearch application.
+    public var iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptionsInput?
     /// The unique identifier for the OpenSearch application to be updated.
     /// This member is required.
     public var id: Swift.String?
@@ -9900,10 +10740,12 @@ public struct UpdateApplicationInput: Swift.Sendable {
     public init(
         appConfigs: [OpenSearchClientTypes.AppConfig]? = nil,
         dataSources: [OpenSearchClientTypes.DataSource]? = nil,
+        iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptionsInput? = nil,
         id: Swift.String? = nil
     ) {
         self.appConfigs = appConfigs
         self.dataSources = dataSources
+        self.iamIdentityCenterOptions = iamIdentityCenterOptions
         self.id = id
     }
 }
@@ -10105,6 +10947,8 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
     public var ebsOptions: OpenSearchClientTypes.EBSOptions?
     /// Encryption at rest options for the domain.
     public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions?
+    /// The engine mode for the domain. The engine mode can't be changed after the domain is created. For valid values, see EngineMode.
+    public var engineMode: OpenSearchClientTypes.EngineMode?
     /// Configuration settings for enabling and managing IAM Identity Center.
     public var identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptionsInput?
     /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If your IP address type is currently set to dual stack, you can't change it.
@@ -10119,6 +10963,8 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
     public var snapshotOptions: OpenSearchClientTypes.SnapshotOptions?
     /// Service software update options for the domain.
     public var softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions?
+    /// The primary use case for the domain. For valid values, see DomainUseCase.
+    public var useCase: OpenSearchClientTypes.DomainUseCase?
     /// Options to specify the subnets and security groups for a VPC endpoint. For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
     public var vpcOptions: OpenSearchClientTypes.VPCOptions?
 
@@ -10138,6 +10984,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         dryRunMode: OpenSearchClientTypes.DryRunMode? = nil,
         ebsOptions: OpenSearchClientTypes.EBSOptions? = nil,
         encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions? = nil,
+        engineMode: OpenSearchClientTypes.EngineMode? = nil,
         identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptionsInput? = nil,
         ipAddressType: OpenSearchClientTypes.IPAddressType? = nil,
         logPublishingOptions: [Swift.String: OpenSearchClientTypes.LogPublishingOption]? = nil,
@@ -10145,6 +10992,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptions? = nil,
         snapshotOptions: OpenSearchClientTypes.SnapshotOptions? = nil,
         softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions? = nil,
+        useCase: OpenSearchClientTypes.DomainUseCase? = nil,
         vpcOptions: OpenSearchClientTypes.VPCOptions? = nil
     ) {
         self.accessPolicies = accessPolicies
@@ -10162,6 +11010,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         self.dryRunMode = dryRunMode
         self.ebsOptions = ebsOptions
         self.encryptionAtRestOptions = encryptionAtRestOptions
+        self.engineMode = engineMode
         self.identityCenterOptions = identityCenterOptions
         self.ipAddressType = ipAddressType
         self.logPublishingOptions = logPublishingOptions
@@ -10169,6 +11018,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         self.offPeakWindowOptions = offPeakWindowOptions
         self.snapshotOptions = snapshotOptions
         self.softwareUpdateOptions = softwareUpdateOptions
+        self.useCase = useCase
         self.vpcOptions = vpcOptions
     }
 }
@@ -10564,6 +11414,16 @@ extension AssociatePackagesInput {
     }
 }
 
+extension AttachDataSourceInput {
+
+    static func urlPathProvider(_ value: AttachDataSourceInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/application/\(id.urlPercentEncoding())/attachDataSource"
+    }
+}
+
 extension AuthorizeVpcEndpointAccessInput {
 
     static func urlPathProvider(_ value: AuthorizeVpcEndpointAccessInput) -> Swift.String? {
@@ -10742,6 +11602,16 @@ extension DeregisterCapabilityInput {
             return nil
         }
         return "/2021-01-01/opensearch/application/\(applicationId.urlPercentEncoding())/capability/deregister/\(capabilityName.urlPercentEncoding())"
+    }
+}
+
+extension DescribeDataSourceAttachmentInput {
+
+    static func urlPathProvider(_ value: DescribeDataSourceAttachmentInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/application/\(id.urlPercentEncoding())/describeDataSourceAttachment"
     }
 }
 
@@ -10980,6 +11850,16 @@ extension DescribeVpcEndpointsInput {
     }
 }
 
+extension DetachDataSourceInput {
+
+    static func urlPathProvider(_ value: DetachDataSourceInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/application/\(id.urlPercentEncoding())/detachDataSource"
+    }
+}
+
 extension DissociatePackageInput {
 
     static func urlPathProvider(_ value: DissociatePackageInput) -> Swift.String? {
@@ -11109,6 +11989,16 @@ extension GetIndexInput {
     }
 }
 
+extension GetMigrationInput {
+
+    static func urlPathProvider(_ value: GetMigrationInput) -> Swift.String? {
+        guard let migrationId = value.migrationId else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/app-migrations/\(migrationId.urlPercentEncoding())"
+    }
+}
+
 extension GetPackageVersionHistoryInput {
 
     static func urlPathProvider(_ value: GetPackageVersionHistoryInput) -> Swift.String? {
@@ -11171,6 +12061,13 @@ extension GetUpgradeStatusInput {
     }
 }
 
+extension InsightFeedbackInput {
+
+    static func urlPathProvider(_ value: InsightFeedbackInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/insight-feedback"
+    }
+}
+
 extension ListApplicationsInput {
 
     static func urlPathProvider(_ value: ListApplicationsInput) -> Swift.String? {
@@ -11197,6 +12094,16 @@ extension ListApplicationsInput {
             }
         }
         return items
+    }
+}
+
+extension ListDataSourceAttachmentsInput {
+
+    static func urlPathProvider(_ value: ListDataSourceAttachmentsInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/application/\(id.urlPercentEncoding())/listDataSourceAttachments"
     }
 }
 
@@ -11348,6 +12255,39 @@ extension ListInstanceTypeDetailsInput {
         if let instanceType = value.instanceType {
             let instanceTypeQueryItem = Smithy.URIQueryItem(name: "instanceType".urlPercentEncoding(), value: Swift.String(instanceType).urlPercentEncoding())
             items.append(instanceTypeQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListMigrationsInput {
+
+    static func urlPathProvider(_ value: ListMigrationsInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/app-migrations"
+    }
+}
+
+extension ListMigrationsInput {
+
+    static func queryItemProvider(_ value: ListMigrationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let applicationId = value.applicationId else {
+            let message = "Creating a URL Query Item failed. applicationId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let applicationIdQueryItem = Smithy.URIQueryItem(name: "applicationId".urlPercentEncoding(), value: Swift.String(applicationId).urlPercentEncoding())
+        items.append(applicationIdQueryItem)
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status).urlPercentEncoding())
+            items.append(statusQueryItem)
         }
         return items
     }
@@ -11580,6 +12520,13 @@ extension StartDomainMaintenanceInput {
     }
 }
 
+extension StartMigrationInput {
+
+    static func urlPathProvider(_ value: StartMigrationInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/app-migrations"
+    }
+}
+
 extension StartServiceSoftwareUpdateInput {
 
     static func urlPathProvider(_ value: StartServiceSoftwareUpdateInput) -> Swift.String? {
@@ -11731,6 +12678,17 @@ extension AssociatePackagesInput {
     }
 }
 
+extension AttachDataSourceInput {
+
+    static func write(value: AttachDataSourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["dataSourceArn"].write(value.dataSourceArn)
+        try writer["workspaceConfiguration"].write(value.workspaceConfiguration, with: OpenSearchClientTypes.WorkspaceConfigurationInput.write(value:to:))
+        try writer["workspaceId"].write(value.workspaceId)
+    }
+}
+
 extension AuthorizeVpcEndpointAccessInput {
 
     static func write(value: AuthorizeVpcEndpointAccessInput?, to writer: SmithyJSON.Writer) throws {
@@ -11788,6 +12746,7 @@ extension CreateDomainInput {
         try writer["DomainName"].write(value.domainName)
         try writer["EBSOptions"].write(value.ebsOptions, with: OpenSearchClientTypes.EBSOptions.write(value:to:))
         try writer["EncryptionAtRestOptions"].write(value.encryptionAtRestOptions, with: OpenSearchClientTypes.EncryptionAtRestOptions.write(value:to:))
+        try writer["EngineMode"].write(value.engineMode)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["IPAddressType"].write(value.ipAddressType)
         try writer["IdentityCenterOptions"].write(value.identityCenterOptions, with: OpenSearchClientTypes.IdentityCenterOptionsInput.write(value:to:))
@@ -11797,6 +12756,7 @@ extension CreateDomainInput {
         try writer["SnapshotOptions"].write(value.snapshotOptions, with: OpenSearchClientTypes.SnapshotOptions.write(value:to:))
         try writer["SoftwareUpdateOptions"].write(value.softwareUpdateOptions, with: OpenSearchClientTypes.SoftwareUpdateOptions.write(value:to:))
         try writer["TagList"].writeList(value.tagList, memberWritingClosure: OpenSearchClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UseCase"].write(value.useCase)
         try writer["VPCOptions"].write(value.vpcOptions, with: OpenSearchClientTypes.VPCOptions.write(value:to:))
     }
 }
@@ -11844,6 +12804,14 @@ extension CreateVpcEndpointInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["DomainArn"].write(value.domainArn)
         try writer["VpcOptions"].write(value.vpcOptions, with: OpenSearchClientTypes.VPCOptions.write(value:to:))
+    }
+}
+
+extension DescribeDataSourceAttachmentInput {
+
+    static func write(value: DescribeDataSourceAttachmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataSourceArn"].write(value.dataSourceArn)
     }
 }
 
@@ -11903,12 +12871,40 @@ extension DescribeVpcEndpointsInput {
     }
 }
 
+extension DetachDataSourceInput {
+
+    static func write(value: DetachDataSourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataSourceArn"].write(value.dataSourceArn)
+    }
+}
+
 extension DissociatePackagesInput {
 
     static func write(value: DissociatePackagesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DomainName"].write(value.domainName)
         try writer["PackageList"].writeList(value.packageList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension InsightFeedbackInput {
+
+    static func write(value: InsightFeedbackInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Entity"].write(value.entity, with: OpenSearchClientTypes.InsightFeedbackEntity.write(value:to:))
+        try writer["FeedbackText"].write(value.feedbackText)
+        try writer["InsightId"].write(value.insightId)
+        try writer["Thumbs"].write(value.thumbs)
+    }
+}
+
+extension ListDataSourceAttachmentsInput {
+
+    static func write(value: ListDataSourceAttachmentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -11988,6 +12984,16 @@ extension StartDomainMaintenanceInput {
     }
 }
 
+extension StartMigrationInput {
+
+    static func write(value: StartMigrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applicationId"].write(value.applicationId)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["migrationOptions"].write(value.migrationOptions, with: OpenSearchClientTypes.MigrationOptions.write(value:to:))
+    }
+}
+
 extension StartServiceSoftwareUpdateInput {
 
     static func write(value: StartServiceSoftwareUpdateInput?, to writer: SmithyJSON.Writer) throws {
@@ -12004,6 +13010,7 @@ extension UpdateApplicationInput {
         guard let value else { return }
         try writer["appConfigs"].writeList(value.appConfigs, memberWritingClosure: OpenSearchClientTypes.AppConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["dataSources"].writeList(value.dataSources, memberWritingClosure: OpenSearchClientTypes.DataSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["iamIdentityCenterOptions"].write(value.iamIdentityCenterOptions, with: OpenSearchClientTypes.IamIdentityCenterOptionsInput.write(value:to:))
     }
 }
 
@@ -12046,6 +13053,7 @@ extension UpdateDomainConfigInput {
         try writer["DryRunMode"].write(value.dryRunMode)
         try writer["EBSOptions"].write(value.ebsOptions, with: OpenSearchClientTypes.EBSOptions.write(value:to:))
         try writer["EncryptionAtRestOptions"].write(value.encryptionAtRestOptions, with: OpenSearchClientTypes.EncryptionAtRestOptions.write(value:to:))
+        try writer["EngineMode"].write(value.engineMode)
         try writer["IPAddressType"].write(value.ipAddressType)
         try writer["IdentityCenterOptions"].write(value.identityCenterOptions, with: OpenSearchClientTypes.IdentityCenterOptionsInput.write(value:to:))
         try writer["LogPublishingOptions"].writeMap(value.logPublishingOptions, valueWritingClosure: OpenSearchClientTypes.LogPublishingOption.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -12053,6 +13061,7 @@ extension UpdateDomainConfigInput {
         try writer["OffPeakWindowOptions"].write(value.offPeakWindowOptions, with: OpenSearchClientTypes.OffPeakWindowOptions.write(value:to:))
         try writer["SnapshotOptions"].write(value.snapshotOptions, with: OpenSearchClientTypes.SnapshotOptions.write(value:to:))
         try writer["SoftwareUpdateOptions"].write(value.softwareUpdateOptions, with: OpenSearchClientTypes.SoftwareUpdateOptions.write(value:to:))
+        try writer["UseCase"].write(value.useCase)
         try writer["VPCOptions"].write(value.vpcOptions, with: OpenSearchClientTypes.VPCOptions.write(value:to:))
     }
 }
@@ -12182,6 +13191,22 @@ extension AssociatePackagesOutput {
         let reader = responseReader
         var value = AssociatePackagesOutput()
         value.domainPackageDetailsList = try reader["DomainPackageDetailsList"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DomainPackageDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AttachDataSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AttachDataSourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AttachDataSourceOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.attachmentId = try reader["attachmentId"].readIfPresent()
+        value.dataSourceArn = try reader["dataSourceArn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -12420,6 +13445,22 @@ extension DeregisterCapabilityOutput {
     }
 }
 
+extension DescribeDataSourceAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDataSourceAttachmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeDataSourceAttachmentOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.attachmentId = try reader["attachmentId"].readIfPresent()
+        value.dataSourceArn = try reader["dataSourceArn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeDomainOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDomainOutput {
@@ -12633,6 +13674,20 @@ extension DescribeVpcEndpointsOutput {
     }
 }
 
+extension DetachDataSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DetachDataSourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DetachDataSourceOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.dataSourceArn = try reader["dataSourceArn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
 extension DissociatePackageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DissociatePackageOutput {
@@ -12780,6 +13835,26 @@ extension GetIndexOutput {
     }
 }
 
+extension GetMigrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMigrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMigrationOutput()
+        value.applicationId = try reader["applicationId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.error = try reader["error"].readIfPresent(with: OpenSearchClientTypes.MigrationError.read(from:))
+        value.exportedCount = try reader["exportedCount"].readIfPresent() ?? 0
+        value.importedCount = try reader["importedCount"].readIfPresent() ?? 0
+        value.migrationId = try reader["migrationId"].readIfPresent()
+        value.source = try reader["source"].readIfPresent(with: OpenSearchClientTypes.MigrationSource.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension GetPackageVersionHistoryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPackageVersionHistoryOutput {
@@ -12821,6 +13896,18 @@ extension GetUpgradeStatusOutput {
     }
 }
 
+extension InsightFeedbackOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InsightFeedbackOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = InsightFeedbackOutput()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension ListApplicationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListApplicationsOutput {
@@ -12829,6 +13916,19 @@ extension ListApplicationsOutput {
         let reader = responseReader
         var value = ListApplicationsOutput()
         value.applicationSummaries = try reader["ApplicationSummaries"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.ApplicationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDataSourceAttachmentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataSourceAttachmentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDataSourceAttachmentsOutput()
+        value.attachments = try reader["attachments"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DataSourceAttachmentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -12919,6 +14019,19 @@ extension ListInstanceTypeDetailsOutput {
         var value = ListInstanceTypeDetailsOutput()
         value.instanceTypeDetails = try reader["InstanceTypeDetails"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.InstanceTypeDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListMigrationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMigrationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMigrationsOutput()
+        value.migrations = try reader["migrations"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.MigrationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -13099,6 +14212,19 @@ extension StartDomainMaintenanceOutput {
         let reader = responseReader
         var value = StartDomainMaintenanceOutput()
         value.maintenanceId = try reader["MaintenanceId"].readIfPresent()
+        return value
+    }
+}
+
+extension StartMigrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartMigrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartMigrationOutput()
+        value.migrationId = try reader["migrationId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -13351,6 +14477,25 @@ enum AssociatePackagesOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AttachDataSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -13710,6 +14855,24 @@ enum DeregisterCapabilityOutputError {
     }
 }
 
+enum DescribeDataSourceAttachmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeDomainOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13986,6 +15149,25 @@ enum DescribeVpcEndpointsOutputError {
     }
 }
 
+enum DetachDataSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DissociatePackageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14171,6 +15353,24 @@ enum GetIndexOutputError {
     }
 }
 
+enum GetMigrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetPackageVersionHistoryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14225,6 +15425,25 @@ enum GetUpgradeStatusOutputError {
     }
 }
 
+enum InsightFeedbackOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListApplicationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14235,6 +15454,24 @@ enum ListApplicationsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDataSourceAttachmentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -14362,6 +15599,23 @@ enum ListInstanceTypeDetailsOutputError {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListMigrationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14620,6 +15874,25 @@ enum StartDomainMaintenanceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartMigrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -15661,6 +16934,18 @@ extension OpenSearchClientTypes.DataSource {
     }
 }
 
+extension OpenSearchClientTypes.DataSourceAttachmentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DataSourceAttachmentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.DataSourceAttachmentSummary()
+        value.attachmentId = try reader["attachmentId"].readIfPresent()
+        value.dataSourceArn = try reader["dataSourceArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension OpenSearchClientTypes.DataSourceDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DataSourceDetails {
@@ -15808,6 +17093,8 @@ extension OpenSearchClientTypes.DomainConfig {
         value.aimlOptions = try reader["AIMLOptions"].readIfPresent(with: OpenSearchClientTypes.AIMLOptionsStatus.read(from:))
         value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: OpenSearchClientTypes.DeploymentStrategyOptionsStatus.read(from:))
         value.automatedSnapshotPauseOptions = try reader["AutomatedSnapshotPauseOptions"].readIfPresent(with: OpenSearchClientTypes.AutomatedSnapshotPauseOptionsStatus.read(from:))
+        value.useCase = try reader["UseCase"].readIfPresent(with: OpenSearchClientTypes.UseCaseStatus.read(from:))
+        value.engineMode = try reader["EngineMode"].readIfPresent(with: OpenSearchClientTypes.EngineModeStatus.read(from:))
         return value
     }
 }
@@ -15967,6 +17254,8 @@ extension OpenSearchClientTypes.DomainStatus {
         value.aimlOptions = try reader["AIMLOptions"].readIfPresent(with: OpenSearchClientTypes.AIMLOptionsOutput.read(from:))
         value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: OpenSearchClientTypes.DeploymentStrategyOptions.read(from:))
         value.automatedSnapshotPauseOptions = try reader["AutomatedSnapshotPauseOptions"].readIfPresent(with: OpenSearchClientTypes.AutomatedSnapshotPauseOptions.read(from:))
+        value.useCase = try reader["UseCase"].readIfPresent()
+        value.engineMode = try reader["EngineMode"].readIfPresent()
         return value
     }
 }
@@ -16075,6 +17364,17 @@ extension OpenSearchClientTypes.EncryptionAtRestOptionsStatus {
     }
 }
 
+extension OpenSearchClientTypes.EngineModeStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.EngineModeStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.EngineModeStatus()
+        value.options = try reader["Options"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent(with: OpenSearchClientTypes.OptionStatus.read(from:))
+        return value
+    }
+}
+
 extension OpenSearchClientTypes.EnvironmentInfo {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.EnvironmentInfo {
@@ -16093,6 +17393,16 @@ extension OpenSearchClientTypes.ErrorDetails {
         value.errorType = try reader["ErrorType"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
+    }
+}
+
+extension OpenSearchClientTypes.ExportOptions {
+
+    static func write(value: OpenSearchClientTypes.ExportOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeReferencesDeep"].write(value.includeReferencesDeep)
+        try writer["objects"].writeList(value.objects, memberWritingClosure: OpenSearchClientTypes.SavedObjectIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -16234,6 +17544,15 @@ extension OpenSearchClientTypes.Insight {
 extension OpenSearchClientTypes.InsightEntity {
 
     static func write(value: OpenSearchClientTypes.InsightEntity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension OpenSearchClientTypes.InsightFeedbackEntity {
+
+    static func write(value: OpenSearchClientTypes.InsightFeedbackEntity?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Type"].write(value.type)
         try writer["Value"].write(value.value)
@@ -16400,6 +17719,72 @@ extension OpenSearchClientTypes.MasterUserOptions {
         try writer["MasterUserARN"].write(value.masterUserARN)
         try writer["MasterUserName"].write(value.masterUserName)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
+    }
+}
+
+extension OpenSearchClientTypes.MigrationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.MigrationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.MigrationError()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.MigrationOptions {
+
+    static func write(value: OpenSearchClientTypes.MigrationOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["conflictResolution"].write(value.conflictResolution)
+        try writer["exportOptions"].write(value.exportOptions, with: OpenSearchClientTypes.ExportOptions.write(value:to:))
+        try writer["source"].write(value.source, with: OpenSearchClientTypes.MigrationSource.write(value:to:))
+        try writer["workspace"].write(value.workspace, with: OpenSearchClientTypes.MigrationWorkspace.write(value:to:))
+    }
+}
+
+extension OpenSearchClientTypes.MigrationSource {
+
+    static func write(value: OpenSearchClientTypes.MigrationSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasourceArn"].write(value.datasourceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.MigrationSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.MigrationSource()
+        value.datasourceArn = try reader["datasourceArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.MigrationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.MigrationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.MigrationSummary()
+        value.migrationId = try reader["migrationId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.applicationId = try reader["applicationId"].readIfPresent()
+        value.source = try reader["source"].readIfPresent(with: OpenSearchClientTypes.MigrationSource.read(from:))
+        value.exportedCount = try reader["exportedCount"].readIfPresent() ?? 0
+        value.importedCount = try reader["importedCount"].readIfPresent() ?? 0
+        value.error = try reader["error"].readIfPresent(with: OpenSearchClientTypes.MigrationError.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.MigrationWorkspace {
+
+    static func write(value: OpenSearchClientTypes.MigrationWorkspace?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["createWorkspace"].write(value.createWorkspace)
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
+        try writer["workspaceId"].write(value.workspaceId)
     }
 }
 
@@ -16877,6 +18262,15 @@ extension OpenSearchClientTypes.SAMLOptionsOutput {
     }
 }
 
+extension OpenSearchClientTypes.SavedObjectIdentifier {
+
+    static func write(value: OpenSearchClientTypes.SavedObjectIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["type"].write(value.type)
+    }
+}
+
 extension OpenSearchClientTypes.ScheduledAction {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ScheduledAction {
@@ -17090,6 +18484,17 @@ extension OpenSearchClientTypes.UpgradeStepItem {
     }
 }
 
+extension OpenSearchClientTypes.UseCaseStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.UseCaseStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.UseCaseStatus()
+        value.options = try reader["Options"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent(with: OpenSearchClientTypes.OptionStatus.read(from:))
+        return value
+    }
+}
+
 extension OpenSearchClientTypes.ValidationFailure {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ValidationFailure {
@@ -17201,6 +18606,15 @@ extension OpenSearchClientTypes.WindowStartTime {
         value.hours = try reader["Hours"].readIfPresent() ?? 0
         value.minutes = try reader["Minutes"].readIfPresent() ?? 0
         return value
+    }
+}
+
+extension OpenSearchClientTypes.WorkspaceConfigurationInput {
+
+    static func write(value: OpenSearchClientTypes.WorkspaceConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["workspaceType"].write(value.workspaceType)
     }
 }
 

@@ -72,6 +72,7 @@ public final class ConfigClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: ConfigClient.ConfigClientConfig
     let serviceName = "Config"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use ConfigClient.ConfigClientConfig instead")
     public typealias Config = ConfigClient.ConfigClientConfiguration
@@ -81,6 +82,7 @@ public final class ConfigClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: ConfigClient.ConfigClientConfig) instead")
@@ -195,7 +197,7 @@ extension ConfigClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Config Service")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -250,7 +252,7 @@ extension ConfigClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Config Service")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -426,7 +428,7 @@ extension ConfigClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Config Service")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -481,7 +483,7 @@ extension ConfigClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Config Service")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -621,7 +623,7 @@ extension ConfigClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [PutThirdPartyServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutThirdPartyServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because the specified service principal does not support multiple configuration recorders and one already exists. For [PutThirdPartyServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutThirdPartyServiceLinkedConfigurationRecorder.html), another in-progress operation is currently referencing the same connector or service principal. Please try again later. For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), you cannot create a connector because a connector already exists for the specified connector configuration. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), another in-progress operation is currently referencing the same connector. Please try again later. For [DeleteConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConnector.html), another in-progress operation is currently referencing the connector. Please try again later. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
     ///
     /// * For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.
     ///
@@ -650,6 +652,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func associateResourceTypes(input: AssociateResourceTypesInput) async throws -> AssociateResourceTypesOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -683,8 +692,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateResourceTypesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -696,6 +703,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateResourceTypesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -751,6 +760,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func batchGetAggregateResourceConfig(input: BatchGetAggregateResourceConfigInput) async throws -> BatchGetAggregateResourceConfigOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -784,8 +800,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetAggregateResourceConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -797,6 +811,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetAggregateResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -852,6 +868,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func batchGetResourceConfig(input: BatchGetResourceConfigInput) async throws -> BatchGetResourceConfigOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -885,8 +908,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetResourceConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -898,6 +919,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -959,8 +982,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAggregationAuthorizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -972,6 +993,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAggregationAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -1048,8 +1071,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1061,6 +1082,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -1122,8 +1145,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationAggregatorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1135,6 +1156,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConfigurationAggregatorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -1197,8 +1220,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationRecorderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1210,6 +1231,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -1286,8 +1309,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConformancePackOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1299,10 +1320,116 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConformancePackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteConformancePack")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteConnector` operation on the `Config` service.
+    ///
+    /// Deletes the specified connector.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    public func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ConfigClient.deleteConnectorOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "config")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectorInput, DeleteConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectorInput, DeleteConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(overrides: ["X-Amz-Target": "StarlingDoveService.DeleteConnector"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConnectorInput, DeleteConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1361,8 +1488,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeliveryChannelOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1374,6 +1499,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDeliveryChannelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -1450,8 +1577,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEvaluationResultsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1463,6 +1588,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEvaluationResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -1551,8 +1678,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOrganizationConfigRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1564,6 +1689,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOrganizationConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -1652,8 +1779,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOrganizationConformancePackOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1665,6 +1790,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOrganizationConformancePackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -1726,8 +1853,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePendingAggregationRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1739,6 +1864,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePendingAggregationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -1784,6 +1911,8 @@ extension ConfigClient {
     ///
     ///
     /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+    ///
+    /// * For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), a connector cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchRemediationConfigurationException` : You specified an Config rule without a remediation configuration.
     /// - `RemediationInProgressException` : Remediation action is in progress. You can either cancel execution in Amazon Web Services Systems Manager or wait and try again later.
@@ -1820,8 +1949,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRemediationConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1833,6 +1960,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRemediationConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -1894,8 +2023,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRemediationExceptionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1907,6 +2034,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRemediationExceptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -1958,6 +2087,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func deleteResourceConfig(input: DeleteResourceConfigInput) async throws -> DeleteResourceConfigOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1991,8 +2127,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2004,6 +2138,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -2066,8 +2202,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRetentionConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2079,6 +2213,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRetentionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -2106,7 +2242,7 @@ extension ConfigClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [PutThirdPartyServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutThirdPartyServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because the specified service principal does not support multiple configuration recorders and one already exists. For [PutThirdPartyServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutThirdPartyServiceLinkedConfigurationRecorder.html), another in-progress operation is currently referencing the same connector or service principal. Please try again later. For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), you cannot create a connector because a connector already exists for the specified connector configuration. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), another in-progress operation is currently referencing the same connector. Please try again later. For [DeleteConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConnector.html), another in-progress operation is currently referencing the connector. Please try again later. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
     ///
     /// * For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.
     ///
@@ -2135,6 +2271,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func deleteServiceLinkedConfigurationRecorder(input: DeleteServiceLinkedConfigurationRecorderInput) async throws -> DeleteServiceLinkedConfigurationRecorderOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -2168,8 +2311,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceLinkedConfigurationRecorderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2181,6 +2322,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteServiceLinkedConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -2232,6 +2375,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func deleteStoredQuery(input: DeleteStoredQueryInput) async throws -> DeleteStoredQueryOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -2265,8 +2415,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStoredQueryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2278,6 +2426,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteStoredQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -2347,8 +2497,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeliverConfigSnapshotOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2360,6 +2508,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeliverConfigSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -2413,6 +2563,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func describeAggregateComplianceByConfigRules(input: DescribeAggregateComplianceByConfigRulesInput) async throws -> DescribeAggregateComplianceByConfigRulesOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -2446,8 +2603,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAggregateComplianceByConfigRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2459,6 +2614,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAggregateComplianceByConfigRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -2512,6 +2669,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func describeAggregateComplianceByConformancePacks(input: DescribeAggregateComplianceByConformancePacksInput) async throws -> DescribeAggregateComplianceByConformancePacksOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -2545,8 +2709,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAggregateComplianceByConformancePacksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2558,6 +2720,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAggregateComplianceByConformancePacksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -2621,8 +2785,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAggregationAuthorizationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2634,6 +2796,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAggregationAuthorizationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -2703,8 +2867,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeComplianceByConfigRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2716,6 +2878,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeComplianceByConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -2784,8 +2948,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeComplianceByResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2797,6 +2959,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeComplianceByResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -2860,8 +3024,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigRuleEvaluationStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2873,6 +3035,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigRuleEvaluationStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -2936,8 +3100,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2949,6 +3111,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -3013,8 +3177,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationAggregatorSourcesStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3026,6 +3188,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigurationAggregatorSourcesStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -3090,8 +3254,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationAggregatorsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3103,6 +3265,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigurationAggregatorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -3154,6 +3318,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func describeConfigurationRecorderStatus(input: DescribeConfigurationRecorderStatusInput) async throws -> DescribeConfigurationRecorderStatusOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -3187,8 +3358,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationRecorderStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3200,6 +3369,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigurationRecorderStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -3251,6 +3422,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func describeConfigurationRecorders(input: DescribeConfigurationRecordersInput) async throws -> DescribeConfigurationRecordersOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -3284,8 +3462,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationRecordersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3297,6 +3473,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigurationRecordersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -3362,8 +3540,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConformancePackComplianceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3375,6 +3551,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConformancePackComplianceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -3438,8 +3616,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConformancePackStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3451,6 +3627,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConformancePackStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -3515,8 +3693,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConformancePacksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3528,6 +3704,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConformancePacksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -3589,8 +3767,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeliveryChannelStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3602,6 +3778,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDeliveryChannelStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -3663,8 +3841,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeliveryChannelsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3676,6 +3852,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDeliveryChannelsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -3751,8 +3929,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConfigRuleStatusesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3764,6 +3940,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOrganizationConfigRuleStatusesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -3839,8 +4017,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConfigRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3852,6 +4028,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOrganizationConfigRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -3927,8 +4105,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConformancePackStatusesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3940,6 +4116,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOrganizationConformancePackStatusesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -4015,8 +4193,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConformancePacksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4028,6 +4204,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOrganizationConformancePacksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -4091,8 +4269,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePendingAggregationRequestsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4104,6 +4280,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePendingAggregationRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -4160,8 +4338,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRemediationConfigurationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4173,6 +4349,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRemediationConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -4235,8 +4413,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRemediationExceptionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4248,6 +4424,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRemediationExceptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -4311,8 +4489,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRemediationExecutionStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4324,6 +4500,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRemediationExecutionStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -4387,8 +4565,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRetentionConfigurationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4400,6 +4576,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRetentionConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -4427,7 +4605,7 @@ extension ConfigClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [PutThirdPartyServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutThirdPartyServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because the specified service principal does not support multiple configuration recorders and one already exists. For [PutThirdPartyServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutThirdPartyServiceLinkedConfigurationRecorder.html), another in-progress operation is currently referencing the same connector or service principal. Please try again later. For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), you cannot create a connector because a connector already exists for the specified connector configuration. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), another in-progress operation is currently referencing the same connector. Please try again later. For [DeleteConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConnector.html), another in-progress operation is currently referencing the connector. Please try again later. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
     ///
     /// * For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.
     ///
@@ -4456,6 +4634,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func disassociateResourceTypes(input: DisassociateResourceTypesInput) async throws -> DisassociateResourceTypesOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -4489,8 +4674,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateResourceTypesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4502,6 +4685,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateResourceTypesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -4555,6 +4740,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func getAggregateComplianceDetailsByConfigRule(input: GetAggregateComplianceDetailsByConfigRuleInput) async throws -> GetAggregateComplianceDetailsByConfigRuleOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -4588,8 +4780,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAggregateComplianceDetailsByConfigRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4601,6 +4791,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAggregateComplianceDetailsByConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -4654,6 +4846,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func getAggregateConfigRuleComplianceSummary(input: GetAggregateConfigRuleComplianceSummaryInput) async throws -> GetAggregateConfigRuleComplianceSummaryOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -4687,8 +4886,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAggregateConfigRuleComplianceSummaryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4700,6 +4897,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAggregateConfigRuleComplianceSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -4753,6 +4952,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func getAggregateConformancePackComplianceSummary(input: GetAggregateConformancePackComplianceSummaryInput) async throws -> GetAggregateConformancePackComplianceSummaryOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -4786,8 +4992,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAggregateConformancePackComplianceSummaryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4799,6 +5003,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAggregateConformancePackComplianceSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -4852,6 +5058,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func getAggregateDiscoveredResourceCounts(input: GetAggregateDiscoveredResourceCountsInput) async throws -> GetAggregateDiscoveredResourceCountsOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -4885,8 +5098,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAggregateDiscoveredResourceCountsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4898,6 +5109,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAggregateDiscoveredResourceCountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -4951,6 +5164,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func getAggregateResourceConfig(input: GetAggregateResourceConfigInput) async throws -> GetAggregateResourceConfigOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -4984,8 +5204,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAggregateResourceConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4997,6 +5215,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAggregateResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -5060,8 +5280,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComplianceDetailsByConfigRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5073,6 +5291,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetComplianceDetailsByConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -5134,8 +5354,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComplianceDetailsByResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5147,6 +5365,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetComplianceDetailsByResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -5203,8 +5423,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComplianceSummaryByConfigRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5216,6 +5434,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetComplianceSummaryByConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -5277,8 +5497,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComplianceSummaryByResourceTypeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5290,6 +5508,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetComplianceSummaryByResourceTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -5355,8 +5575,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConformancePackComplianceDetailsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5368,6 +5586,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConformancePackComplianceDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -5431,8 +5651,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConformancePackComplianceSummaryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5444,10 +5662,116 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConformancePackComplianceSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetConformancePackComplianceSummary")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetConnector` operation on the `Config` service.
+    ///
+    /// Returns the details of the specified connector.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    public func getConnector(input: GetConnectorInput) async throws -> GetConnectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ConfigClient.getConnectorOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "config")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectorInput, GetConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetConnectorInput, GetConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectorInput, GetConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetConnectorInput, GetConnectorOutput>(overrides: ["X-Amz-Target": "StarlingDoveService.GetConnector"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetConnectorInput, GetConnectorOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConnectorInput, GetConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConnectorInput, GetConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConnectorInput, GetConnectorOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5505,8 +5829,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomRulePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5518,6 +5840,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCustomRulePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -5595,6 +5919,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func getDiscoveredResourceCounts(input: GetDiscoveredResourceCountsInput) async throws -> GetDiscoveredResourceCountsOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -5628,8 +5959,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDiscoveredResourceCountsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5641,6 +5970,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDiscoveredResourceCountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -5716,8 +6047,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOrganizationConfigRuleDetailedStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5729,6 +6058,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOrganizationConfigRuleDetailedStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -5804,8 +6135,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOrganizationConformancePackDetailedStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5817,6 +6146,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOrganizationConformancePackDetailedStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -5890,8 +6221,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOrganizationCustomRulePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5903,6 +6232,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOrganizationCustomRulePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -5958,6 +6289,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func getResourceConfigHistory(input: GetResourceConfigHistoryInput) async throws -> GetResourceConfigHistoryOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -5991,8 +6329,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceConfigHistoryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6004,6 +6340,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourceConfigHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -6065,8 +6403,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceEvaluationSummaryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6078,6 +6414,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourceEvaluationSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -6129,6 +6467,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func getStoredQuery(input: GetStoredQueryInput) async throws -> GetStoredQueryOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -6162,8 +6507,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStoredQueryInput, GetStoredQueryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStoredQueryInput, GetStoredQueryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStoredQueryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6175,6 +6518,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetStoredQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetStoredQueryInput, GetStoredQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetStoredQueryInput, GetStoredQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetStoredQueryInput, GetStoredQueryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -6228,6 +6573,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func listAggregateDiscoveredResources(input: ListAggregateDiscoveredResourcesInput) async throws -> ListAggregateDiscoveredResourcesOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -6261,8 +6613,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAggregateDiscoveredResourcesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6274,6 +6624,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAggregateDiscoveredResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -6324,6 +6676,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func listConfigurationRecorders(input: ListConfigurationRecordersInput) async throws -> ListConfigurationRecordersOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -6357,8 +6716,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationRecordersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6370,6 +6727,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConfigurationRecordersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -6433,8 +6792,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConformancePackComplianceScoresOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6446,10 +6803,115 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConformancePackComplianceScoresOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListConformancePackComplianceScores")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListConnectors` operation on the `Config` service.
+    ///
+    /// Returns a list of connectors depending on the filters you specify.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListConnectorsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    public func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ConfigClient.listConnectorsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listConnectors")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "config")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListConnectorsInput, ListConnectorsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConnectorsInput, ListConnectorsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectorsInput, ListConnectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectorsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListConnectorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListConnectorsInput, ListConnectorsOutput>(overrides: ["X-Amz-Target": "StarlingDoveService.ListConnectors"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConnectorsInput, ListConnectorsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConnectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConnectorsInput, ListConnectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConnectorsInput, ListConnectorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConnectorsInput, ListConnectorsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListConnectors")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6514,6 +6976,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func listDiscoveredResources(input: ListDiscoveredResourcesInput) async throws -> ListDiscoveredResourcesOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -6547,8 +7016,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDiscoveredResourcesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6560,6 +7027,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDiscoveredResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -6623,8 +7092,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceEvaluationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6636,6 +7103,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResourceEvaluationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -6687,6 +7156,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func listStoredQueries(input: ListStoredQueriesInput) async throws -> ListStoredQueriesOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -6720,8 +7196,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStoredQueriesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6733,6 +7207,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStoredQueriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -6786,6 +7262,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -6819,8 +7302,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6832,6 +7313,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -6893,8 +7376,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAggregationAuthorizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6906,6 +7387,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAggregationAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -6951,6 +7434,8 @@ extension ConfigClient {
     ///
     ///
     /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+    ///
+    /// * For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), a connector cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `MaxNumberOfConfigRulesExceededException` : Failed to add the Config rule because the account already contains the maximum number of 1000 rules. Consider deleting any deactivated rules before you add new rules.
     /// - `NoAvailableConfigurationRecorderException` : There are no customer managed configuration recorders available to record your resources. Use the [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html) operation to create the customer managed configuration recorder.
@@ -7002,8 +7487,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutConfigRuleInput, PutConfigRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutConfigRuleInput, PutConfigRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutConfigRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7015,6 +7498,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutConfigRuleInput, PutConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutConfigRuleInput, PutConfigRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutConfigRuleInput, PutConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -7092,8 +7577,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutConfigurationAggregatorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7105,6 +7588,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutConfigurationAggregatorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -7175,6 +7660,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func putConfigurationRecorder(input: PutConfigurationRecorderInput) async throws -> PutConfigurationRecorderOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -7208,8 +7700,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutConfigurationRecorderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7221,6 +7711,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -7267,6 +7759,8 @@ extension ConfigClient {
     ///
     ///
     /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+    ///
+    /// * For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), a connector cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `MaxNumberOfConformancePacksExceededException` : You have reached the limit of the number of conformance packs you can create in an account. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
     /// - `ResourceInUseException` : You see this exception in the following cases:
@@ -7317,8 +7811,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutConformancePackInput, PutConformancePackOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutConformancePackInput, PutConformancePackOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutConformancePackOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7330,10 +7822,141 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutConformancePackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutConformancePackInput, PutConformancePackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutConformancePackInput, PutConformancePackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutConformancePackInput, PutConformancePackOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutConformancePack")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutConnector` operation on the `Config` service.
+    ///
+    /// Creates a connector that specifies the connection between a third-party cloud service provider and Config. A connector is required to create a service-linked configuration recorder for a third-party cloud service provider using the [PutThirdPartyServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutThirdPartyServiceLinkedConfigurationRecorder.html) operation. This API creates a service-linked role AWSServiceRoleForConfigThirdParty in your account. The service-linked role is created only when the role does not exist in your account. Connectors cannot be updated To update the connector configuration, you must delete all associated configuration recorders, delete the connector, and recreate it with the updated configuration. Tags are added at creation and cannot be updated with this operation Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [PutThirdPartyServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutThirdPartyServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because the specified service principal does not support multiple configuration recorders and one already exists. For [PutThirdPartyServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutThirdPartyServiceLinkedConfigurationRecorder.html), another in-progress operation is currently referencing the same connector or service principal. Please try again later. For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), you cannot create a connector because a connector already exists for the specified connector configuration. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), another in-progress operation is currently referencing the same connector. Please try again later. For [DeleteConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConnector.html), another in-progress operation is currently referencing the connector. Please try again later. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.
+    ///
+    /// * For service-linked configuration recorders, your requested change to the configuration recorder has been denied by its linked Amazon Web Services service.
+    /// - `InsufficientPermissionsException` : Indicates one of the following errors:
+    ///
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    ///
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    ///
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    ///
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
+    ///
+    /// * You do not have permission to call IAM GetRole action or create a service-linked role.
+    ///
+    /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+    ///
+    /// * For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), a connector cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+    /// - `MaxNumberOfConnectorsExceededException` : You have reached the limit of the number of connectors in your account.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    public func putConnector(input: PutConnectorInput) async throws -> PutConnectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ConfigClient.putConnectorOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "config")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutConnectorInput, PutConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutConnectorInput, PutConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutConnectorInput, PutConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutConnectorInput, PutConnectorOutput>(overrides: ["X-Amz-Target": "StarlingDoveService.PutConnector"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutConnectorInput, PutConnectorOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutConnectorInput, PutConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutConnectorInput, PutConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutConnectorInput, PutConnectorOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -7398,8 +8021,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDeliveryChannelOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7411,6 +8032,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutDeliveryChannelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -7474,8 +8097,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEvaluationsInput, PutEvaluationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEvaluationsInput, PutEvaluationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutEvaluationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7487,6 +8108,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutEvaluationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutEvaluationsInput, PutEvaluationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutEvaluationsInput, PutEvaluationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutEvaluationsInput, PutEvaluationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -7549,8 +8172,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutExternalEvaluationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7562,6 +8183,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutExternalEvaluationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -7607,6 +8230,8 @@ extension ConfigClient {
     ///
     ///
     /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+    ///
+    /// * For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), a connector cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `MaxNumberOfOrganizationConfigRulesExceededException` : You have reached the limit of the number of organization Config rules you can create. For more information, see see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
     /// - `NoAvailableOrganizationException` : Organization is no longer available.
@@ -7661,6 +8286,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func putOrganizationConfigRule(input: PutOrganizationConfigRuleInput) async throws -> PutOrganizationConfigRuleOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -7694,8 +8326,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutOrganizationConfigRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7707,6 +8337,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutOrganizationConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -7752,6 +8384,8 @@ extension ConfigClient {
     ///
     ///
     /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+    ///
+    /// * For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), a connector cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `MaxNumberOfOrganizationConformancePacksExceededException` : You have reached the limit of the number of organization conformance packs you can create in an account. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
     /// - `NoAvailableOrganizationException` : Organization is no longer available.
     /// - `OrganizationAccessDeniedException` : For PutConfigurationAggregator API, you can see this exception for the following reasons:
@@ -7806,6 +8440,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func putOrganizationConformancePack(input: PutOrganizationConformancePackInput) async throws -> PutOrganizationConformancePackOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -7839,8 +8480,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutOrganizationConformancePackOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7852,6 +8491,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutOrganizationConformancePackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -7897,6 +8538,8 @@ extension ConfigClient {
     ///
     ///
     /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+    ///
+    /// * For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), a connector cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     public func putRemediationConfigurations(input: PutRemediationConfigurationsInput) async throws -> PutRemediationConfigurationsOutput {
         var config = config
@@ -7931,8 +8574,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRemediationConfigurationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7944,6 +8585,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRemediationConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -7989,6 +8632,8 @@ extension ConfigClient {
     ///
     ///
     /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+    ///
+    /// * For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), a connector cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     public func putRemediationExceptions(input: PutRemediationExceptionsInput) async throws -> PutRemediationExceptionsOutput {
         var config = config
@@ -8023,8 +8668,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRemediationExceptionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8036,6 +8679,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRemediationExceptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -8081,6 +8726,8 @@ extension ConfigClient {
     ///
     ///
     /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+    ///
+    /// * For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), a connector cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `MaxActiveResourcesExceededException` : You have reached the limit of active custom resource types in your account. There is a limit of 100,000. Delete unused resources using [DeleteResourceConfig](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteResourceConfig.html).
     /// - `NoRunningConfigurationRecorderException` : There is no configuration recorder running.
     /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
@@ -8106,6 +8753,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func putResourceConfig(input: PutResourceConfigInput) async throws -> PutResourceConfigOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -8139,8 +8793,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourceConfigInput, PutResourceConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourceConfigInput, PutResourceConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourceConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8152,6 +8804,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourceConfigInput, PutResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourceConfigInput, PutResourceConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourceConfigInput, PutResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -8214,8 +8868,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRetentionConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8227,6 +8879,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRetentionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -8254,7 +8908,7 @@ extension ConfigClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [PutThirdPartyServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutThirdPartyServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because the specified service principal does not support multiple configuration recorders and one already exists. For [PutThirdPartyServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutThirdPartyServiceLinkedConfigurationRecorder.html), another in-progress operation is currently referencing the same connector or service principal. Please try again later. For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), you cannot create a connector because a connector already exists for the specified connector configuration. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), another in-progress operation is currently referencing the same connector. Please try again later. For [DeleteConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConnector.html), another in-progress operation is currently referencing the connector. Please try again later. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
     ///
     /// * For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.
     ///
@@ -8277,6 +8931,8 @@ extension ConfigClient {
     ///
     ///
     /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+    ///
+    /// * For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), a connector cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `LimitExceededException` : For PutServiceLinkedConfigurationRecorder API, this exception is thrown if the number of service-linked roles in the account exceeds the limit. For StartConfigRulesEvaluation API, this exception is thrown if an evaluation is in progress or if you call the [StartConfigRulesEvaluation] API more than once per minute. For PutConfigurationAggregator API, this exception is thrown if the number of accounts and aggregators exceeds the limit.
     /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
     ///
@@ -8301,6 +8957,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func putServiceLinkedConfigurationRecorder(input: PutServiceLinkedConfigurationRecorderInput) async throws -> PutServiceLinkedConfigurationRecorderOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -8334,8 +8997,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutServiceLinkedConfigurationRecorderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8347,6 +9008,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutServiceLinkedConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -8399,6 +9062,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func putStoredQuery(input: PutStoredQueryInput) async throws -> PutStoredQueryOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -8432,8 +9102,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutStoredQueryInput, PutStoredQueryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutStoredQueryInput, PutStoredQueryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutStoredQueryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8445,10 +9113,140 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutStoredQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutStoredQueryInput, PutStoredQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutStoredQueryInput, PutStoredQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutStoredQueryInput, PutStoredQueryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutStoredQuery")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutThirdPartyServiceLinkedConfigurationRecorder` operation on the `Config` service.
+    ///
+    /// Creates or updates a service-linked configuration recorder that is linked to a third-party cloud service provider based on the ConnectorArn you specify. The configuration recorder's name, recordingGroup, recordingMode, and recordingScope is set by the service that is linked to the configuration recorder. If a service-linked configuration recorder already exists for the specified service principal and connector, calling this operation again updates the ScopeConfiguration. This operation can only be called by the Amazon Web Services service linked to the configuration recorder Customers cannot call this operation directly. Only the linked Amazon Web Services service can create or update the service-linked configuration recorder. Tags are added at creation and cannot be updated with this operation Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutThirdPartyServiceLinkedConfigurationRecorderInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutThirdPartyServiceLinkedConfigurationRecorderOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [PutThirdPartyServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutThirdPartyServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because the specified service principal does not support multiple configuration recorders and one already exists. For [PutThirdPartyServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutThirdPartyServiceLinkedConfigurationRecorder.html), another in-progress operation is currently referencing the same connector or service principal. Please try again later. For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), you cannot create a connector because a connector already exists for the specified connector configuration. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), another in-progress operation is currently referencing the same connector. Please try again later. For [DeleteConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConnector.html), another in-progress operation is currently referencing the connector. Please try again later. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.
+    ///
+    /// * For service-linked configuration recorders, your requested change to the configuration recorder has been denied by its linked Amazon Web Services service.
+    /// - `InsufficientPermissionsException` : Indicates one of the following errors:
+    ///
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    ///
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    ///
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    ///
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
+    ///
+    /// * You do not have permission to call IAM GetRole action or create a service-linked role.
+    ///
+    /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+    ///
+    /// * For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), a connector cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    public func putThirdPartyServiceLinkedConfigurationRecorder(input: PutThirdPartyServiceLinkedConfigurationRecorderInput) async throws -> PutThirdPartyServiceLinkedConfigurationRecorderOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ConfigClient.putThirdPartyServiceLinkedConfigurationRecorderOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putThirdPartyServiceLinkedConfigurationRecorder")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "config")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutThirdPartyServiceLinkedConfigurationRecorderInput, PutThirdPartyServiceLinkedConfigurationRecorderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutThirdPartyServiceLinkedConfigurationRecorderInput, PutThirdPartyServiceLinkedConfigurationRecorderOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutThirdPartyServiceLinkedConfigurationRecorderInput, PutThirdPartyServiceLinkedConfigurationRecorderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutThirdPartyServiceLinkedConfigurationRecorderOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutThirdPartyServiceLinkedConfigurationRecorderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutThirdPartyServiceLinkedConfigurationRecorderInput, PutThirdPartyServiceLinkedConfigurationRecorderOutput>(overrides: ["X-Amz-Target": "StarlingDoveService.PutThirdPartyServiceLinkedConfigurationRecorder"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutThirdPartyServiceLinkedConfigurationRecorderInput, PutThirdPartyServiceLinkedConfigurationRecorderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutThirdPartyServiceLinkedConfigurationRecorderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutThirdPartyServiceLinkedConfigurationRecorderInput, PutThirdPartyServiceLinkedConfigurationRecorderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutThirdPartyServiceLinkedConfigurationRecorderInput, PutThirdPartyServiceLinkedConfigurationRecorderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutThirdPartyServiceLinkedConfigurationRecorderInput, PutThirdPartyServiceLinkedConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutThirdPartyServiceLinkedConfigurationRecorder")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -8509,8 +9307,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SelectAggregateResourceConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8522,6 +9318,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SelectAggregateResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -8585,8 +9383,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SelectResourceConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8598,6 +9394,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SelectResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -8686,8 +9484,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartConfigRulesEvaluationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8699,6 +9495,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartConfigRulesEvaluationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -8762,8 +9560,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartConfigurationRecorderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8775,6 +9571,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -8820,6 +9618,8 @@ extension ConfigClient {
     ///
     ///
     /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+    ///
+    /// * For [PutConnector](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConnector.html), a connector cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchRemediationConfigurationException` : You specified an Config rule without a remediation configuration.
     public func startRemediationExecution(input: StartRemediationExecutionInput) async throws -> StartRemediationExecutionOutput {
@@ -8855,8 +9655,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartRemediationExecutionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8868,6 +9666,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartRemediationExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -8930,8 +9730,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartResourceEvaluationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8943,6 +9741,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartResourceEvaluationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -9005,8 +9805,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopConfigurationRecorderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9018,6 +9816,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -9070,6 +9870,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -9103,8 +9910,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9116,6 +9921,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
@@ -9167,6 +9974,13 @@ extension ConfigClient {
     /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
     ///
     /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    ///
+    ///
+    /// For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), one of the following errors:
+    ///
+    /// * You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -9200,8 +10014,6 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9213,6 +10025,8 @@ extension ConfigClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Config Service"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")

@@ -11,6 +11,37 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension MqClient {
+    /// Paginate over `[DescribeSharedResourcesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeSharedResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSharedResourcesOutput`
+    public func describeSharedResourcesPaginated(input: DescribeSharedResourcesInput) -> ClientRuntime.PaginatorSequence<DescribeSharedResourcesInput, DescribeSharedResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeSharedResourcesInput, DescribeSharedResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSharedResources(input:))
+    }
+}
+
+extension DescribeSharedResourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeSharedResourcesInput {
+        return DescribeSharedResourcesInput(
+            brokerId: self.brokerId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeSharedResourcesInput, OperationStackOutput == DescribeSharedResourcesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeSharedResourcesPaginated`
+    /// to access the nested member `[MqClientTypes.SharedResource]`
+    /// - Returns: `[MqClientTypes.SharedResource]`
+    public func sharedResources() async throws -> [MqClientTypes.SharedResource] {
+        return try await self.asyncCompactMap { item in item.sharedResources }
+    }
+}
+extension MqClient {
     /// Paginate over `[ListBrokersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

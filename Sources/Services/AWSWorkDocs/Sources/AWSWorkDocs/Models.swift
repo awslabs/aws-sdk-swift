@@ -4304,7 +4304,7 @@ extension WorkDocsClientTypes {
 public struct SearchResourcesInput: Swift.Sendable {
     /// A list of attributes to include in the response. Used to request fields that are not normally returned in a standard response.
     public var additionalResponseFields: [WorkDocsClientTypes.AdditionalResponseFieldType]?
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
+    /// WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// Filters results based on entity metadata.
     public var filters: WorkDocsClientTypes.Filters?

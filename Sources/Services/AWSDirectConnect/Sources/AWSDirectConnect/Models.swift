@@ -510,6 +510,33 @@ extension DirectConnectClientTypes {
 
 extension DirectConnectClientTypes {
 
+    /// Contains information about the rate limiter status for a connection, including the maximum number of rate limiters allowed, the number currently in use, and the remaining capacity.
+    public struct RateLimiterStatus: Swift.Sendable {
+        /// The number of rate limiters currently in use on the connection.
+        public var inUse: Swift.Int
+        /// The maximum number of rate limiters allowed on the connection.
+        public var maxAllowed: Swift.Int
+        /// The number of rate limiters remaining (available) on the connection.
+        public var remaining: Swift.Int
+        /// The total bandwidth allocated across all rate limiters on the connection.
+        public var totalBandwidth: Swift.String?
+
+        public init(
+            inUse: Swift.Int = 0,
+            maxAllowed: Swift.Int = 0,
+            remaining: Swift.Int = 0,
+            totalBandwidth: Swift.String? = nil
+        ) {
+            self.inUse = inUse
+            self.maxAllowed = maxAllowed
+            self.remaining = remaining
+            self.totalBandwidth = totalBandwidth
+        }
+    }
+}
+
+extension DirectConnectClientTypes {
+
     /// Information about a tag.
     public struct Tag: Swift.Sendable {
         /// The key.
@@ -589,6 +616,8 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
     public var portEncryptionStatus: Swift.String?
     /// The name of the service provider associated with the connection.
     public var providerName: Swift.String?
+    /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
+    public var rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus?
     /// The Amazon Web Services Region where the connection is located.
     public var region: Swift.String?
     /// The tags associated with the connection.
@@ -617,6 +646,7 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
+        rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
         vlan: Swift.Int = 0
@@ -641,6 +671,7 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
+        self.rateLimiterStatus = rateLimiterStatus
         self.region = region
         self.tags = tags
         self.vlan = vlan
@@ -790,6 +821,8 @@ public struct AllocateHostedConnectionOutput: Swift.Sendable {
     public var portEncryptionStatus: Swift.String?
     /// The name of the service provider associated with the connection.
     public var providerName: Swift.String?
+    /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
+    public var rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus?
     /// The Amazon Web Services Region where the connection is located.
     public var region: Swift.String?
     /// The tags associated with the connection.
@@ -818,6 +851,7 @@ public struct AllocateHostedConnectionOutput: Swift.Sendable {
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
+        rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
         vlan: Swift.Int = 0
@@ -842,9 +876,33 @@ public struct AllocateHostedConnectionOutput: Swift.Sendable {
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
+        self.rateLimiterStatus = rateLimiterStatus
         self.region = region
         self.tags = tags
         self.vlan = vlan
+    }
+}
+
+/// The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -856,18 +914,28 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
         ///
-        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
         ///
         /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        ///
+        /// * If you enter a 4-byte ASN for the asn parameter, the API returns an error.
+        ///
+        /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
         ///
         ///
         /// The valid values are 1-2147483646.
         public var asn: Swift.Int
-        /// The ASN when allocating a new private virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        /// The ASN when allocating a new private virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:
         ///
-        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.
+        ///
+        /// * When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.
+        ///
+        /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
         ///
         /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public var asnLong: Swift.Int?
@@ -877,6 +945,8 @@ extension DirectConnectClientTypes {
         public var customerAddress: Swift.String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public var mtu: Swift.Int?
+        /// The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection.
+        public var rateLimit: Swift.String?
         /// The tags associated with the private virtual interface.
         public var tags: [DirectConnectClientTypes.Tag]?
         /// The name of the virtual interface assigned by the customer network. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-).
@@ -894,6 +964,7 @@ extension DirectConnectClientTypes {
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil,
             mtu: Swift.Int? = nil,
+            rateLimit: Swift.String? = nil,
             tags: [DirectConnectClientTypes.Tag]? = nil,
             virtualInterfaceName: Swift.String? = nil,
             vlan: Swift.Int = 0
@@ -905,6 +976,7 @@ extension DirectConnectClientTypes {
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.mtu = mtu
+            self.rateLimit = rateLimit
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
             self.vlan = vlan
@@ -1012,15 +1084,25 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
         ///
-        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
         ///
         /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
-        public var asn: Swift.Int
-        /// The long ASN for the BGP peer. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
         ///
-        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        /// * If you enter a 4-byte ASN for the asn parameter, the API returns an error.
+        ///
+        /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
+        public var asn: Swift.Int
+        /// The long ASN for the BGP peer. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:
+        ///
+        /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.
+        ///
+        /// * When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.
+        ///
+        /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
         ///
         /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public var asnLong: Swift.Int?
@@ -1144,15 +1226,25 @@ public struct AllocatePrivateVirtualInterfaceOutput: Swift.Sendable {
     public var amazonAddress: Swift.String?
     /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
     ///
-    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
     ///
     /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
-    public var asn: Swift.Int
-    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
     ///
-    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    /// * If you enter a 4-byte ASN for the asn parameter, the API returns an error.
+    ///
+    /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
+    public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:
+    ///
+    /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.
+    ///
+    /// * When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.
+    ///
+    /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
     ///
     /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asnLong: Swift.Int?
@@ -1180,6 +1272,8 @@ public struct AllocatePrivateVirtualInterfaceOutput: Swift.Sendable {
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
+    /// The rate limit (bandwidth allocation) applied to the virtual interface. The value must be one of the supported bandwidth values and cannot exceed the bandwidth of the parent connection or LAG. Supported values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 600Mbps, 700Mbps, 800Mbps, 900Mbps, 1Gbps, 1.2Gbps, 1.5Gbps, 1.8Gbps, 2Gbps, 2.1Gbps, 2.4Gbps, 2.7Gbps, 3Gbps, 3.2Gbps, 3.6Gbps, 4Gbps, 5Gbps, 6Gbps, 7Gbps, 8Gbps, 9Gbps, 10Gbps, 12Gbps, 15Gbps, 18Gbps, 20Gbps, 21Gbps, 24Gbps, 27Gbps, 30Gbps, 32Gbps, 36Gbps, 40Gbps, 50Gbps, 60Gbps, 70Gbps, 80Gbps, 100Gbps, 120Gbps, 150Gbps, 180Gbps, 200Gbps, 210Gbps, 240Gbps, 270Gbps, 300Gbps, 320Gbps, 360Gbps, 400Gbps, 450Gbps, 480Gbps, 500Gbps, 540Gbps, 600Gbps, 700Gbps, 800Gbps, 900Gbps, 1Tbps, 1.1Tbps, 1.2Tbps, 1.3Tbps, 1.4Tbps, 1.5Tbps, 1.6Tbps.
+    public var rateLimit: Swift.String?
     /// The Amazon Web Services Region where the virtual interface is located.
     public var region: Swift.String?
     /// The routes to be advertised to the Amazon Web Services network in this Region. Applies to public virtual interfaces.
@@ -1239,6 +1333,7 @@ public struct AllocatePrivateVirtualInterfaceOutput: Swift.Sendable {
         location: Swift.String? = nil,
         mtu: Swift.Int? = nil,
         ownerAccount: Swift.String? = nil,
+        rateLimit: Swift.String? = nil,
         region: Swift.String? = nil,
         routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
         siteLinkEnabled: Swift.Bool? = nil,
@@ -1267,6 +1362,7 @@ public struct AllocatePrivateVirtualInterfaceOutput: Swift.Sendable {
         self.location = location
         self.mtu = mtu
         self.ownerAccount = ownerAccount
+        self.rateLimit = rateLimit
         self.region = region
         self.routeFilterPrefixes = routeFilterPrefixes
         self.siteLinkEnabled = siteLinkEnabled
@@ -1288,18 +1384,28 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
         ///
-        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
         ///
         /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        ///
+        /// * If you enter a 4-byte ASN for the asn parameter, the API returns an error.
+        ///
+        /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
         ///
         ///
         /// The valid values are 1-2147483646.
         public var asn: Swift.Int
-        /// The ASN when allocating a new public virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        /// The ASN when allocating a new public virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:
         ///
-        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.
+        ///
+        /// * When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.
+        ///
+        /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
         ///
         /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public var asnLong: Swift.Int?
@@ -1307,6 +1413,8 @@ extension DirectConnectClientTypes {
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
         public var customerAddress: Swift.String?
+        /// The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection.
+        public var rateLimit: Swift.String?
         /// The routes to be advertised to the Amazon Web Services network in this Region. Applies to public virtual interfaces.
         public var routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]?
         /// The tags associated with the public virtual interface.
@@ -1325,6 +1433,7 @@ extension DirectConnectClientTypes {
             asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil,
+            rateLimit: Swift.String? = nil,
             routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
             tags: [DirectConnectClientTypes.Tag]? = nil,
             virtualInterfaceName: Swift.String? = nil,
@@ -1336,6 +1445,7 @@ extension DirectConnectClientTypes {
             self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
+            self.rateLimit = rateLimit
             self.routeFilterPrefixes = routeFilterPrefixes
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
@@ -1374,15 +1484,25 @@ public struct AllocatePublicVirtualInterfaceOutput: Swift.Sendable {
     public var amazonAddress: Swift.String?
     /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
     ///
-    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
     ///
     /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
-    public var asn: Swift.Int
-    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
     ///
-    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    /// * If you enter a 4-byte ASN for the asn parameter, the API returns an error.
+    ///
+    /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
+    public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:
+    ///
+    /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.
+    ///
+    /// * When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.
+    ///
+    /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
     ///
     /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asnLong: Swift.Int?
@@ -1410,6 +1530,8 @@ public struct AllocatePublicVirtualInterfaceOutput: Swift.Sendable {
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
+    /// The rate limit (bandwidth allocation) applied to the virtual interface. The value must be one of the supported bandwidth values and cannot exceed the bandwidth of the parent connection or LAG. Supported values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 600Mbps, 700Mbps, 800Mbps, 900Mbps, 1Gbps, 1.2Gbps, 1.5Gbps, 1.8Gbps, 2Gbps, 2.1Gbps, 2.4Gbps, 2.7Gbps, 3Gbps, 3.2Gbps, 3.6Gbps, 4Gbps, 5Gbps, 6Gbps, 7Gbps, 8Gbps, 9Gbps, 10Gbps, 12Gbps, 15Gbps, 18Gbps, 20Gbps, 21Gbps, 24Gbps, 27Gbps, 30Gbps, 32Gbps, 36Gbps, 40Gbps, 50Gbps, 60Gbps, 70Gbps, 80Gbps, 100Gbps, 120Gbps, 150Gbps, 180Gbps, 200Gbps, 210Gbps, 240Gbps, 270Gbps, 300Gbps, 320Gbps, 360Gbps, 400Gbps, 450Gbps, 480Gbps, 500Gbps, 540Gbps, 600Gbps, 700Gbps, 800Gbps, 900Gbps, 1Tbps, 1.1Tbps, 1.2Tbps, 1.3Tbps, 1.4Tbps, 1.5Tbps, 1.6Tbps.
+    public var rateLimit: Swift.String?
     /// The Amazon Web Services Region where the virtual interface is located.
     public var region: Swift.String?
     /// The routes to be advertised to the Amazon Web Services network in this Region. Applies to public virtual interfaces.
@@ -1469,6 +1591,7 @@ public struct AllocatePublicVirtualInterfaceOutput: Swift.Sendable {
         location: Swift.String? = nil,
         mtu: Swift.Int? = nil,
         ownerAccount: Swift.String? = nil,
+        rateLimit: Swift.String? = nil,
         region: Swift.String? = nil,
         routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
         siteLinkEnabled: Swift.Bool? = nil,
@@ -1497,6 +1620,7 @@ public struct AllocatePublicVirtualInterfaceOutput: Swift.Sendable {
         self.location = location
         self.mtu = mtu
         self.ownerAccount = ownerAccount
+        self.rateLimit = rateLimit
         self.region = region
         self.routeFilterPrefixes = routeFilterPrefixes
         self.siteLinkEnabled = siteLinkEnabled
@@ -1518,18 +1642,28 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
         ///
-        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
         ///
         /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        ///
+        /// * If you enter a 4-byte ASN for the asn parameter, the API returns an error.
+        ///
+        /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
         ///
         ///
         /// The valid values are 1-2147483646.
         public var asn: Swift.Int
-        /// The ASN when allocating a new transit virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        /// The ASN when allocating a new transit virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:
         ///
-        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.
+        ///
+        /// * When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.
+        ///
+        /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
         ///
         /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public var asnLong: Swift.Int?
@@ -1539,6 +1673,8 @@ extension DirectConnectClientTypes {
         public var customerAddress: Swift.String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
         public var mtu: Swift.Int?
+        /// The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection.
+        public var rateLimit: Swift.String?
         /// The tags associated with the transitive virtual interface.
         public var tags: [DirectConnectClientTypes.Tag]?
         /// The name of the virtual interface assigned by the customer network. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-).
@@ -1554,6 +1690,7 @@ extension DirectConnectClientTypes {
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil,
             mtu: Swift.Int? = nil,
+            rateLimit: Swift.String? = nil,
             tags: [DirectConnectClientTypes.Tag]? = nil,
             virtualInterfaceName: Swift.String? = nil,
             vlan: Swift.Int = 0
@@ -1565,6 +1702,7 @@ extension DirectConnectClientTypes {
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.mtu = mtu
+            self.rateLimit = rateLimit
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
             self.vlan = vlan
@@ -1604,15 +1742,25 @@ extension DirectConnectClientTypes {
         public var amazonAddress: Swift.String?
         /// The autonomous system number (AS) for the Amazon side of the connection.
         public var amazonSideAsn: Swift.Int?
-        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
         ///
-        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
         ///
         /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
-        public var asn: Swift.Int
-        /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
         ///
-        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        /// * If you enter a 4-byte ASN for the asn parameter, the API returns an error.
+        ///
+        /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
+        public var asn: Swift.Int
+        /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:
+        ///
+        /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.
+        ///
+        /// * When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.
+        ///
+        /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
         ///
         /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public var asnLong: Swift.Int?
@@ -1640,6 +1788,8 @@ extension DirectConnectClientTypes {
         public var mtu: Swift.Int?
         /// The ID of the Amazon Web Services account that owns the virtual interface.
         public var ownerAccount: Swift.String?
+        /// The rate limit (bandwidth allocation) applied to the virtual interface. The value must be one of the supported bandwidth values and cannot exceed the bandwidth of the parent connection or LAG. Supported values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 600Mbps, 700Mbps, 800Mbps, 900Mbps, 1Gbps, 1.2Gbps, 1.5Gbps, 1.8Gbps, 2Gbps, 2.1Gbps, 2.4Gbps, 2.7Gbps, 3Gbps, 3.2Gbps, 3.6Gbps, 4Gbps, 5Gbps, 6Gbps, 7Gbps, 8Gbps, 9Gbps, 10Gbps, 12Gbps, 15Gbps, 18Gbps, 20Gbps, 21Gbps, 24Gbps, 27Gbps, 30Gbps, 32Gbps, 36Gbps, 40Gbps, 50Gbps, 60Gbps, 70Gbps, 80Gbps, 100Gbps, 120Gbps, 150Gbps, 180Gbps, 200Gbps, 210Gbps, 240Gbps, 270Gbps, 300Gbps, 320Gbps, 360Gbps, 400Gbps, 450Gbps, 480Gbps, 500Gbps, 540Gbps, 600Gbps, 700Gbps, 800Gbps, 900Gbps, 1Tbps, 1.1Tbps, 1.2Tbps, 1.3Tbps, 1.4Tbps, 1.5Tbps, 1.6Tbps.
+        public var rateLimit: Swift.String?
         /// The Amazon Web Services Region where the virtual interface is located.
         public var region: Swift.String?
         /// The routes to be advertised to the Amazon Web Services network in this Region. Applies to public virtual interfaces.
@@ -1699,6 +1849,7 @@ extension DirectConnectClientTypes {
             location: Swift.String? = nil,
             mtu: Swift.Int? = nil,
             ownerAccount: Swift.String? = nil,
+            rateLimit: Swift.String? = nil,
             region: Swift.String? = nil,
             routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
             siteLinkEnabled: Swift.Bool? = nil,
@@ -1727,6 +1878,7 @@ extension DirectConnectClientTypes {
             self.location = location
             self.mtu = mtu
             self.ownerAccount = ownerAccount
+            self.rateLimit = rateLimit
             self.region = region
             self.routeFilterPrefixes = routeFilterPrefixes
             self.siteLinkEnabled = siteLinkEnabled
@@ -1830,6 +1982,8 @@ public struct AssociateConnectionWithLagOutput: Swift.Sendable {
     public var portEncryptionStatus: Swift.String?
     /// The name of the service provider associated with the connection.
     public var providerName: Swift.String?
+    /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
+    public var rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus?
     /// The Amazon Web Services Region where the connection is located.
     public var region: Swift.String?
     /// The tags associated with the connection.
@@ -1858,6 +2012,7 @@ public struct AssociateConnectionWithLagOutput: Swift.Sendable {
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
+        rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
         vlan: Swift.Int = 0
@@ -1882,6 +2037,7 @@ public struct AssociateConnectionWithLagOutput: Swift.Sendable {
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
+        self.rateLimiterStatus = rateLimiterStatus
         self.region = region
         self.tags = tags
         self.vlan = vlan
@@ -1966,6 +2122,8 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
     public var portEncryptionStatus: Swift.String?
     /// The name of the service provider associated with the connection.
     public var providerName: Swift.String?
+    /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
+    public var rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus?
     /// The Amazon Web Services Region where the connection is located.
     public var region: Swift.String?
     /// The tags associated with the connection.
@@ -1994,6 +2152,7 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
+        rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
         vlan: Swift.Int = 0
@@ -2018,6 +2177,7 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
+        self.rateLimiterStatus = rateLimiterStatus
         self.region = region
         self.tags = tags
         self.vlan = vlan
@@ -2088,15 +2248,25 @@ public struct AssociateVirtualInterfaceOutput: Swift.Sendable {
     public var amazonAddress: Swift.String?
     /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
     ///
-    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
     ///
     /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
-    public var asn: Swift.Int
-    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
     ///
-    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    /// * If you enter a 4-byte ASN for the asn parameter, the API returns an error.
+    ///
+    /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
+    public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:
+    ///
+    /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.
+    ///
+    /// * When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.
+    ///
+    /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
     ///
     /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asnLong: Swift.Int?
@@ -2124,6 +2294,8 @@ public struct AssociateVirtualInterfaceOutput: Swift.Sendable {
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
+    /// The rate limit (bandwidth allocation) applied to the virtual interface. The value must be one of the supported bandwidth values and cannot exceed the bandwidth of the parent connection or LAG. Supported values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 600Mbps, 700Mbps, 800Mbps, 900Mbps, 1Gbps, 1.2Gbps, 1.5Gbps, 1.8Gbps, 2Gbps, 2.1Gbps, 2.4Gbps, 2.7Gbps, 3Gbps, 3.2Gbps, 3.6Gbps, 4Gbps, 5Gbps, 6Gbps, 7Gbps, 8Gbps, 9Gbps, 10Gbps, 12Gbps, 15Gbps, 18Gbps, 20Gbps, 21Gbps, 24Gbps, 27Gbps, 30Gbps, 32Gbps, 36Gbps, 40Gbps, 50Gbps, 60Gbps, 70Gbps, 80Gbps, 100Gbps, 120Gbps, 150Gbps, 180Gbps, 200Gbps, 210Gbps, 240Gbps, 270Gbps, 300Gbps, 320Gbps, 360Gbps, 400Gbps, 450Gbps, 480Gbps, 500Gbps, 540Gbps, 600Gbps, 700Gbps, 800Gbps, 900Gbps, 1Tbps, 1.1Tbps, 1.2Tbps, 1.3Tbps, 1.4Tbps, 1.5Tbps, 1.6Tbps.
+    public var rateLimit: Swift.String?
     /// The Amazon Web Services Region where the virtual interface is located.
     public var region: Swift.String?
     /// The routes to be advertised to the Amazon Web Services network in this Region. Applies to public virtual interfaces.
@@ -2183,6 +2355,7 @@ public struct AssociateVirtualInterfaceOutput: Swift.Sendable {
         location: Swift.String? = nil,
         mtu: Swift.Int? = nil,
         ownerAccount: Swift.String? = nil,
+        rateLimit: Swift.String? = nil,
         region: Swift.String? = nil,
         routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
         siteLinkEnabled: Swift.Bool? = nil,
@@ -2211,6 +2384,7 @@ public struct AssociateVirtualInterfaceOutput: Swift.Sendable {
         self.location = location
         self.mtu = mtu
         self.ownerAccount = ownerAccount
+        self.rateLimit = rateLimit
         self.region = region
         self.routeFilterPrefixes = routeFilterPrefixes
         self.siteLinkEnabled = siteLinkEnabled
@@ -2492,6 +2666,8 @@ extension DirectConnectClientTypes {
         public var portEncryptionStatus: Swift.String?
         /// The name of the service provider associated with the connection.
         public var providerName: Swift.String?
+        /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
+        public var rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus?
         /// The Amazon Web Services Region where the connection is located.
         public var region: Swift.String?
         /// The tags associated with the connection.
@@ -2520,6 +2696,7 @@ extension DirectConnectClientTypes {
             partnerName: Swift.String? = nil,
             portEncryptionStatus: Swift.String? = nil,
             providerName: Swift.String? = nil,
+            rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
             region: Swift.String? = nil,
             tags: [DirectConnectClientTypes.Tag]? = nil,
             vlan: Swift.Int = 0
@@ -2544,6 +2721,7 @@ extension DirectConnectClientTypes {
             self.partnerName = partnerName
             self.portEncryptionStatus = portEncryptionStatus
             self.providerName = providerName
+            self.rateLimiterStatus = rateLimiterStatus
             self.region = region
             self.tags = tags
             self.vlan = vlan
@@ -2711,6 +2889,8 @@ public struct CreateConnectionOutput: Swift.Sendable {
     public var portEncryptionStatus: Swift.String?
     /// The name of the service provider associated with the connection.
     public var providerName: Swift.String?
+    /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
+    public var rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus?
     /// The Amazon Web Services Region where the connection is located.
     public var region: Swift.String?
     /// The tags associated with the connection.
@@ -2739,6 +2919,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
+        rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
         vlan: Swift.Int = 0
@@ -2763,6 +2944,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
+        self.rateLimiterStatus = rateLimiterStatus
         self.region = region
         self.tags = tags
         self.vlan = vlan
@@ -3362,6 +3544,8 @@ public struct CreateLagOutput: Swift.Sendable {
     public var ownerAccount: Swift.String?
     /// The name of the service provider associated with the LAG.
     public var providerName: Swift.String?
+    /// The rate limiter status for the LAG, including how many rate limiters are in use and the maximum allowed.
+    public var rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus?
     /// The Amazon Web Services Region where the connection is located.
     public var region: Swift.String?
     /// The tags associated with the LAG.
@@ -3387,6 +3571,7 @@ public struct CreateLagOutput: Swift.Sendable {
         numberOfConnections: Swift.Int = 0,
         ownerAccount: Swift.String? = nil,
         providerName: Swift.String? = nil,
+        rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
     ) {
@@ -3409,6 +3594,7 @@ public struct CreateLagOutput: Swift.Sendable {
         self.numberOfConnections = numberOfConnections
         self.ownerAccount = ownerAccount
         self.providerName = providerName
+        self.rateLimiterStatus = rateLimiterStatus
         self.region = region
         self.tags = tags
     }
@@ -3422,18 +3608,28 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
         ///
-        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
         ///
         /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        ///
+        /// * If you enter a 4-byte ASN for the asn parameter, the API returns an error.
+        ///
+        /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
         ///
         ///
         /// The valid values are 1-2147483646.
         public var asn: Swift.Int
-        /// The long ASN for a new private virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        /// The long ASN for a new private virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:
         ///
-        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.
+        ///
+        /// * When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.
+        ///
+        /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
         ///
         /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public var asnLong: Swift.Int?
@@ -3447,6 +3643,8 @@ extension DirectConnectClientTypes {
         public var enableSiteLink: Swift.Bool?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public var mtu: Swift.Int?
+        /// The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection.
+        public var rateLimit: Swift.String?
         /// The tags associated with the private virtual interface.
         public var tags: [DirectConnectClientTypes.Tag]?
         /// The ID of the virtual private gateway.
@@ -3468,6 +3666,7 @@ extension DirectConnectClientTypes {
             directConnectGatewayId: Swift.String? = nil,
             enableSiteLink: Swift.Bool? = nil,
             mtu: Swift.Int? = nil,
+            rateLimit: Swift.String? = nil,
             tags: [DirectConnectClientTypes.Tag]? = nil,
             virtualGatewayId: Swift.String? = nil,
             virtualInterfaceName: Swift.String? = nil,
@@ -3482,6 +3681,7 @@ extension DirectConnectClientTypes {
             self.directConnectGatewayId = directConnectGatewayId
             self.enableSiteLink = enableSiteLink
             self.mtu = mtu
+            self.rateLimit = rateLimit
             self.tags = tags
             self.virtualGatewayId = virtualGatewayId
             self.virtualInterfaceName = virtualInterfaceName
@@ -3515,15 +3715,25 @@ public struct CreatePrivateVirtualInterfaceOutput: Swift.Sendable {
     public var amazonAddress: Swift.String?
     /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
     ///
-    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
     ///
     /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
-    public var asn: Swift.Int
-    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
     ///
-    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    /// * If you enter a 4-byte ASN for the asn parameter, the API returns an error.
+    ///
+    /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
+    public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:
+    ///
+    /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.
+    ///
+    /// * When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.
+    ///
+    /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
     ///
     /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asnLong: Swift.Int?
@@ -3551,6 +3761,8 @@ public struct CreatePrivateVirtualInterfaceOutput: Swift.Sendable {
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
+    /// The rate limit (bandwidth allocation) applied to the virtual interface. The value must be one of the supported bandwidth values and cannot exceed the bandwidth of the parent connection or LAG. Supported values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 600Mbps, 700Mbps, 800Mbps, 900Mbps, 1Gbps, 1.2Gbps, 1.5Gbps, 1.8Gbps, 2Gbps, 2.1Gbps, 2.4Gbps, 2.7Gbps, 3Gbps, 3.2Gbps, 3.6Gbps, 4Gbps, 5Gbps, 6Gbps, 7Gbps, 8Gbps, 9Gbps, 10Gbps, 12Gbps, 15Gbps, 18Gbps, 20Gbps, 21Gbps, 24Gbps, 27Gbps, 30Gbps, 32Gbps, 36Gbps, 40Gbps, 50Gbps, 60Gbps, 70Gbps, 80Gbps, 100Gbps, 120Gbps, 150Gbps, 180Gbps, 200Gbps, 210Gbps, 240Gbps, 270Gbps, 300Gbps, 320Gbps, 360Gbps, 400Gbps, 450Gbps, 480Gbps, 500Gbps, 540Gbps, 600Gbps, 700Gbps, 800Gbps, 900Gbps, 1Tbps, 1.1Tbps, 1.2Tbps, 1.3Tbps, 1.4Tbps, 1.5Tbps, 1.6Tbps.
+    public var rateLimit: Swift.String?
     /// The Amazon Web Services Region where the virtual interface is located.
     public var region: Swift.String?
     /// The routes to be advertised to the Amazon Web Services network in this Region. Applies to public virtual interfaces.
@@ -3610,6 +3822,7 @@ public struct CreatePrivateVirtualInterfaceOutput: Swift.Sendable {
         location: Swift.String? = nil,
         mtu: Swift.Int? = nil,
         ownerAccount: Swift.String? = nil,
+        rateLimit: Swift.String? = nil,
         region: Swift.String? = nil,
         routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
         siteLinkEnabled: Swift.Bool? = nil,
@@ -3638,6 +3851,7 @@ public struct CreatePrivateVirtualInterfaceOutput: Swift.Sendable {
         self.location = location
         self.mtu = mtu
         self.ownerAccount = ownerAccount
+        self.rateLimit = rateLimit
         self.region = region
         self.routeFilterPrefixes = routeFilterPrefixes
         self.siteLinkEnabled = siteLinkEnabled
@@ -3659,15 +3873,25 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
         ///
-        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
         ///
         /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
-        public var asn: Swift.Int
-        /// The long ASN for a new public virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
         ///
-        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        /// * If you enter a 4-byte ASN for the asn parameter, the API returns an error.
+        ///
+        /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
+        public var asn: Swift.Int
+        /// The long ASN for a new public virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:
+        ///
+        /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.
+        ///
+        /// * When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.
+        ///
+        /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
         ///
         /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public var asnLong: Swift.Int?
@@ -3675,6 +3899,8 @@ extension DirectConnectClientTypes {
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
         public var customerAddress: Swift.String?
+        /// The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection.
+        public var rateLimit: Swift.String?
         /// The routes to be advertised to the Amazon Web Services network in this Region. Applies to public virtual interfaces.
         public var routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]?
         /// The tags associated with the public virtual interface.
@@ -3693,6 +3919,7 @@ extension DirectConnectClientTypes {
             asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil,
+            rateLimit: Swift.String? = nil,
             routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
             tags: [DirectConnectClientTypes.Tag]? = nil,
             virtualInterfaceName: Swift.String? = nil,
@@ -3704,6 +3931,7 @@ extension DirectConnectClientTypes {
             self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
+            self.rateLimit = rateLimit
             self.routeFilterPrefixes = routeFilterPrefixes
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
@@ -3737,15 +3965,25 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Sendable {
     public var amazonAddress: Swift.String?
     /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
     ///
-    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
     ///
     /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
-    public var asn: Swift.Int
-    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
     ///
-    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    /// * If you enter a 4-byte ASN for the asn parameter, the API returns an error.
+    ///
+    /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
+    public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:
+    ///
+    /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.
+    ///
+    /// * When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.
+    ///
+    /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
     ///
     /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asnLong: Swift.Int?
@@ -3773,6 +4011,8 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Sendable {
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
+    /// The rate limit (bandwidth allocation) applied to the virtual interface. The value must be one of the supported bandwidth values and cannot exceed the bandwidth of the parent connection or LAG. Supported values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 600Mbps, 700Mbps, 800Mbps, 900Mbps, 1Gbps, 1.2Gbps, 1.5Gbps, 1.8Gbps, 2Gbps, 2.1Gbps, 2.4Gbps, 2.7Gbps, 3Gbps, 3.2Gbps, 3.6Gbps, 4Gbps, 5Gbps, 6Gbps, 7Gbps, 8Gbps, 9Gbps, 10Gbps, 12Gbps, 15Gbps, 18Gbps, 20Gbps, 21Gbps, 24Gbps, 27Gbps, 30Gbps, 32Gbps, 36Gbps, 40Gbps, 50Gbps, 60Gbps, 70Gbps, 80Gbps, 100Gbps, 120Gbps, 150Gbps, 180Gbps, 200Gbps, 210Gbps, 240Gbps, 270Gbps, 300Gbps, 320Gbps, 360Gbps, 400Gbps, 450Gbps, 480Gbps, 500Gbps, 540Gbps, 600Gbps, 700Gbps, 800Gbps, 900Gbps, 1Tbps, 1.1Tbps, 1.2Tbps, 1.3Tbps, 1.4Tbps, 1.5Tbps, 1.6Tbps.
+    public var rateLimit: Swift.String?
     /// The Amazon Web Services Region where the virtual interface is located.
     public var region: Swift.String?
     /// The routes to be advertised to the Amazon Web Services network in this Region. Applies to public virtual interfaces.
@@ -3832,6 +4072,7 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Sendable {
         location: Swift.String? = nil,
         mtu: Swift.Int? = nil,
         ownerAccount: Swift.String? = nil,
+        rateLimit: Swift.String? = nil,
         region: Swift.String? = nil,
         routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
         siteLinkEnabled: Swift.Bool? = nil,
@@ -3860,6 +4101,7 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Sendable {
         self.location = location
         self.mtu = mtu
         self.ownerAccount = ownerAccount
+        self.rateLimit = rateLimit
         self.region = region
         self.routeFilterPrefixes = routeFilterPrefixes
         self.siteLinkEnabled = siteLinkEnabled
@@ -3881,15 +4123,25 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
         ///
-        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
         ///
         /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
-        public var asn: Swift.Int
-        /// The long ASN for a new transit virtual interface.The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
         ///
-        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        /// * If you enter a 4-byte ASN for the asn parameter, the API returns an error.
+        ///
+        /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
+        public var asn: Swift.Int
+        /// The long ASN for a new transit virtual interface.The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:
+        ///
+        /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.
+        ///
+        /// * When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.
+        ///
+        /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
         ///
         /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public var asnLong: Swift.Int?
@@ -3903,6 +4155,8 @@ extension DirectConnectClientTypes {
         public var enableSiteLink: Swift.Bool?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public var mtu: Swift.Int?
+        /// The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection.
+        public var rateLimit: Swift.String?
         /// The tags associated with the transitive virtual interface.
         public var tags: [DirectConnectClientTypes.Tag]?
         /// The name of the virtual interface assigned by the customer network. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-).
@@ -3920,6 +4174,7 @@ extension DirectConnectClientTypes {
             directConnectGatewayId: Swift.String? = nil,
             enableSiteLink: Swift.Bool? = nil,
             mtu: Swift.Int? = nil,
+            rateLimit: Swift.String? = nil,
             tags: [DirectConnectClientTypes.Tag]? = nil,
             virtualInterfaceName: Swift.String? = nil,
             vlan: Swift.Int = 0
@@ -3933,6 +4188,7 @@ extension DirectConnectClientTypes {
             self.directConnectGatewayId = directConnectGatewayId
             self.enableSiteLink = enableSiteLink
             self.mtu = mtu
+            self.rateLimit = rateLimit
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
             self.vlan = vlan
@@ -3969,15 +4225,25 @@ public struct CreateTransitVirtualInterfaceOutput: Swift.Sendable {
 }
 
 public struct DeleteBGPPeerInput: Swift.Sendable {
-    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
     ///
-    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
     ///
     /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
-    public var asn: Swift.Int?
-    /// The long ASN for the BGP peer to be deleted from a Direct Connect virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
     ///
-    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    /// * If you enter a 4-byte ASN for the asn parameter, the API returns an error.
+    ///
+    /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
+    public var asn: Swift.Int?
+    /// The long ASN for the BGP peer to be deleted from a Direct Connect virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:
+    ///
+    /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.
+    ///
+    /// * When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.
+    ///
+    /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
     ///
     /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asnLong: Swift.Int?
@@ -4087,6 +4353,8 @@ public struct DeleteConnectionOutput: Swift.Sendable {
     public var portEncryptionStatus: Swift.String?
     /// The name of the service provider associated with the connection.
     public var providerName: Swift.String?
+    /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
+    public var rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus?
     /// The Amazon Web Services Region where the connection is located.
     public var region: Swift.String?
     /// The tags associated with the connection.
@@ -4115,6 +4383,7 @@ public struct DeleteConnectionOutput: Swift.Sendable {
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
+        rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
         vlan: Swift.Int = 0
@@ -4139,6 +4408,7 @@ public struct DeleteConnectionOutput: Swift.Sendable {
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
+        self.rateLimiterStatus = rateLimiterStatus
         self.region = region
         self.tags = tags
         self.vlan = vlan
@@ -4325,6 +4595,8 @@ public struct DeleteLagOutput: Swift.Sendable {
     public var ownerAccount: Swift.String?
     /// The name of the service provider associated with the LAG.
     public var providerName: Swift.String?
+    /// The rate limiter status for the LAG, including how many rate limiters are in use and the maximum allowed.
+    public var rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus?
     /// The Amazon Web Services Region where the connection is located.
     public var region: Swift.String?
     /// The tags associated with the LAG.
@@ -4350,6 +4622,7 @@ public struct DeleteLagOutput: Swift.Sendable {
         numberOfConnections: Swift.Int = 0,
         ownerAccount: Swift.String? = nil,
         providerName: Swift.String? = nil,
+        rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
     ) {
@@ -4372,6 +4645,7 @@ public struct DeleteLagOutput: Swift.Sendable {
         self.numberOfConnections = numberOfConnections
         self.ownerAccount = ownerAccount
         self.providerName = providerName
+        self.rateLimiterStatus = rateLimiterStatus
         self.region = region
         self.tags = tags
     }
@@ -5159,6 +5433,8 @@ extension DirectConnectClientTypes {
         public var ownerAccount: Swift.String?
         /// The name of the service provider associated with the LAG.
         public var providerName: Swift.String?
+        /// The rate limiter status for the LAG, including how many rate limiters are in use and the maximum allowed.
+        public var rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus?
         /// The Amazon Web Services Region where the connection is located.
         public var region: Swift.String?
         /// The tags associated with the LAG.
@@ -5184,6 +5460,7 @@ extension DirectConnectClientTypes {
             numberOfConnections: Swift.Int = 0,
             ownerAccount: Swift.String? = nil,
             providerName: Swift.String? = nil,
+            rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
             region: Swift.String? = nil,
             tags: [DirectConnectClientTypes.Tag]? = nil
         ) {
@@ -5206,6 +5483,7 @@ extension DirectConnectClientTypes {
             self.numberOfConnections = numberOfConnections
             self.ownerAccount = ownerAccount
             self.providerName = providerName
+            self.rateLimiterStatus = rateLimiterStatus
             self.region = region
             self.tags = tags
         }
@@ -5580,6 +5858,8 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
     public var portEncryptionStatus: Swift.String?
     /// The name of the service provider associated with the connection.
     public var providerName: Swift.String?
+    /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
+    public var rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus?
     /// The Amazon Web Services Region where the connection is located.
     public var region: Swift.String?
     /// The tags associated with the connection.
@@ -5608,6 +5888,7 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
+        rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
         vlan: Swift.Int = 0
@@ -5632,6 +5913,7 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
+        self.rateLimiterStatus = rateLimiterStatus
         self.region = region
         self.tags = tags
         self.vlan = vlan
@@ -5938,6 +6220,8 @@ public struct UpdateConnectionOutput: Swift.Sendable {
     public var portEncryptionStatus: Swift.String?
     /// The name of the service provider associated with the connection.
     public var providerName: Swift.String?
+    /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
+    public var rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus?
     /// The Amazon Web Services Region where the connection is located.
     public var region: Swift.String?
     /// The tags associated with the connection.
@@ -5966,6 +6250,7 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
+        rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
         vlan: Swift.Int = 0
@@ -5990,6 +6275,7 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
+        self.rateLimiterStatus = rateLimiterStatus
         self.region = region
         self.tags = tags
         self.vlan = vlan
@@ -6133,6 +6419,8 @@ public struct UpdateLagOutput: Swift.Sendable {
     public var ownerAccount: Swift.String?
     /// The name of the service provider associated with the LAG.
     public var providerName: Swift.String?
+    /// The rate limiter status for the LAG, including how many rate limiters are in use and the maximum allowed.
+    public var rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus?
     /// The Amazon Web Services Region where the connection is located.
     public var region: Swift.String?
     /// The tags associated with the LAG.
@@ -6158,6 +6446,7 @@ public struct UpdateLagOutput: Swift.Sendable {
         numberOfConnections: Swift.Int = 0,
         ownerAccount: Swift.String? = nil,
         providerName: Swift.String? = nil,
+        rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
     ) {
@@ -6180,6 +6469,7 @@ public struct UpdateLagOutput: Swift.Sendable {
         self.numberOfConnections = numberOfConnections
         self.ownerAccount = ownerAccount
         self.providerName = providerName
+        self.rateLimiterStatus = rateLimiterStatus
         self.region = region
         self.tags = tags
     }
@@ -6190,6 +6480,8 @@ public struct UpdateVirtualInterfaceAttributesInput: Swift.Sendable {
     public var enableSiteLink: Swift.Bool?
     /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
     public var mtu: Swift.Int?
+    /// The rate limit (bandwidth allocation) to apply to the virtual interface. Use this to update the bandwidth allocation on an existing virtual interface.
+    public var rateLimit: Swift.String?
     /// The ID of the virtual private interface.
     /// This member is required.
     public var virtualInterfaceId: Swift.String?
@@ -6199,11 +6491,13 @@ public struct UpdateVirtualInterfaceAttributesInput: Swift.Sendable {
     public init(
         enableSiteLink: Swift.Bool? = nil,
         mtu: Swift.Int? = nil,
+        rateLimit: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil,
         virtualInterfaceName: Swift.String? = nil
     ) {
         self.enableSiteLink = enableSiteLink
         self.mtu = mtu
+        self.rateLimit = rateLimit
         self.virtualInterfaceId = virtualInterfaceId
         self.virtualInterfaceName = virtualInterfaceName
     }
@@ -6217,15 +6511,25 @@ public struct UpdateVirtualInterfaceAttributesOutput: Swift.Sendable {
     public var amazonAddress: Swift.String?
     /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
     ///
-    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
     ///
     /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
-    public var asn: Swift.Int
-    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
     ///
-    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    /// * If you enter a 4-byte ASN for the asn parameter, the API returns an error.
+    ///
+    /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
+    public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:
+    ///
+    /// * You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.
+    ///
+    /// * When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.
+    ///
+    /// * If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
     ///
     /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asnLong: Swift.Int?
@@ -6253,6 +6557,8 @@ public struct UpdateVirtualInterfaceAttributesOutput: Swift.Sendable {
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
+    /// The rate limit (bandwidth allocation) applied to the virtual interface. The value must be one of the supported bandwidth values and cannot exceed the bandwidth of the parent connection or LAG. Supported values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 600Mbps, 700Mbps, 800Mbps, 900Mbps, 1Gbps, 1.2Gbps, 1.5Gbps, 1.8Gbps, 2Gbps, 2.1Gbps, 2.4Gbps, 2.7Gbps, 3Gbps, 3.2Gbps, 3.6Gbps, 4Gbps, 5Gbps, 6Gbps, 7Gbps, 8Gbps, 9Gbps, 10Gbps, 12Gbps, 15Gbps, 18Gbps, 20Gbps, 21Gbps, 24Gbps, 27Gbps, 30Gbps, 32Gbps, 36Gbps, 40Gbps, 50Gbps, 60Gbps, 70Gbps, 80Gbps, 100Gbps, 120Gbps, 150Gbps, 180Gbps, 200Gbps, 210Gbps, 240Gbps, 270Gbps, 300Gbps, 320Gbps, 360Gbps, 400Gbps, 450Gbps, 480Gbps, 500Gbps, 540Gbps, 600Gbps, 700Gbps, 800Gbps, 900Gbps, 1Tbps, 1.1Tbps, 1.2Tbps, 1.3Tbps, 1.4Tbps, 1.5Tbps, 1.6Tbps.
+    public var rateLimit: Swift.String?
     /// The Amazon Web Services Region where the virtual interface is located.
     public var region: Swift.String?
     /// The routes to be advertised to the Amazon Web Services network in this Region. Applies to public virtual interfaces.
@@ -6312,6 +6618,7 @@ public struct UpdateVirtualInterfaceAttributesOutput: Swift.Sendable {
         location: Swift.String? = nil,
         mtu: Swift.Int? = nil,
         ownerAccount: Swift.String? = nil,
+        rateLimit: Swift.String? = nil,
         region: Swift.String? = nil,
         routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
         siteLinkEnabled: Swift.Bool? = nil,
@@ -6340,6 +6647,7 @@ public struct UpdateVirtualInterfaceAttributesOutput: Swift.Sendable {
         self.location = location
         self.mtu = mtu
         self.ownerAccount = ownerAccount
+        self.rateLimit = rateLimit
         self.region = region
         self.routeFilterPrefixes = routeFilterPrefixes
         self.siteLinkEnabled = siteLinkEnabled

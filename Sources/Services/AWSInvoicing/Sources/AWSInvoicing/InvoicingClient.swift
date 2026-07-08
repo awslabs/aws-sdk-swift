@@ -73,6 +73,7 @@ public final class InvoicingClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: InvoicingClient.InvoicingClientConfig
     let serviceName = "Invoicing"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use InvoicingClient.InvoicingClientConfig instead")
     public typealias Config = InvoicingClient.InvoicingClientConfiguration
@@ -82,6 +83,7 @@ public final class InvoicingClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: InvoicingClient.InvoicingClientConfig) instead")
@@ -196,7 +198,7 @@ extension InvoicingClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Invoicing")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -251,7 +253,7 @@ extension InvoicingClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Invoicing")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -427,7 +429,7 @@ extension InvoicingClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Invoicing")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -482,7 +484,7 @@ extension InvoicingClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Invoicing")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -660,8 +662,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetInvoiceProfileInput, BatchGetInvoiceProfileOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetInvoiceProfileInput, BatchGetInvoiceProfileOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetInvoiceProfileOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -673,6 +673,8 @@ extension InvoicingClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetInvoiceProfileOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetInvoiceProfileInput, BatchGetInvoiceProfileOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetInvoiceProfileInput, BatchGetInvoiceProfileOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Invoicing"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetInvoiceProfileInput, BatchGetInvoiceProfileOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
@@ -738,8 +740,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInvoiceUnitInput, CreateInvoiceUnitOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInvoiceUnitInput, CreateInvoiceUnitOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInvoiceUnitOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -751,6 +751,8 @@ extension InvoicingClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateInvoiceUnitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateInvoiceUnitInput, CreateInvoiceUnitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateInvoiceUnitInput, CreateInvoiceUnitOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Invoicing"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateInvoiceUnitInput, CreateInvoiceUnitOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
@@ -818,8 +820,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProcurementPortalPreferenceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -831,6 +831,8 @@ extension InvoicingClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProcurementPortalPreferenceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Invoicing"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
@@ -897,8 +899,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInvoiceUnitInput, DeleteInvoiceUnitOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInvoiceUnitInput, DeleteInvoiceUnitOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInvoiceUnitOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -910,6 +910,8 @@ extension InvoicingClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInvoiceUnitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteInvoiceUnitInput, DeleteInvoiceUnitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteInvoiceUnitInput, DeleteInvoiceUnitOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Invoicing"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteInvoiceUnitInput, DeleteInvoiceUnitOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
@@ -977,8 +979,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProcurementPortalPreferenceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -990,6 +990,8 @@ extension InvoicingClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProcurementPortalPreferenceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Invoicing"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
@@ -1055,8 +1057,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInvoicePDFOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1068,6 +1068,8 @@ extension InvoicingClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInvoicePDFOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Invoicing"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
@@ -1133,8 +1135,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInvoiceUnitInput, GetInvoiceUnitOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvoiceUnitInput, GetInvoiceUnitOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInvoiceUnitOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1146,6 +1146,8 @@ extension InvoicingClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInvoiceUnitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetInvoiceUnitInput, GetInvoiceUnitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetInvoiceUnitInput, GetInvoiceUnitOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Invoicing"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetInvoiceUnitInput, GetInvoiceUnitOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
@@ -1213,8 +1215,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProcurementPortalPreferenceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1226,6 +1226,8 @@ extension InvoicingClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetProcurementPortalPreferenceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Invoicing"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
@@ -1291,8 +1293,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInvoiceSummariesInput, ListInvoiceSummariesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvoiceSummariesInput, ListInvoiceSummariesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInvoiceSummariesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1304,6 +1304,8 @@ extension InvoicingClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInvoiceSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListInvoiceSummariesInput, ListInvoiceSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListInvoiceSummariesInput, ListInvoiceSummariesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Invoicing"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListInvoiceSummariesInput, ListInvoiceSummariesOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
@@ -1368,8 +1370,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInvoiceUnitsInput, ListInvoiceUnitsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvoiceUnitsInput, ListInvoiceUnitsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInvoiceUnitsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1381,6 +1381,8 @@ extension InvoicingClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInvoiceUnitsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListInvoiceUnitsInput, ListInvoiceUnitsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListInvoiceUnitsInput, ListInvoiceUnitsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Invoicing"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListInvoiceUnitsInput, ListInvoiceUnitsOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
@@ -1447,8 +1449,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProcurementPortalPreferencesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1460,6 +1460,8 @@ extension InvoicingClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProcurementPortalPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Invoicing"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
@@ -1525,8 +1527,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1538,6 +1538,8 @@ extension InvoicingClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Invoicing"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
@@ -1606,8 +1608,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutProcurementPortalPreferenceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1619,6 +1619,8 @@ extension InvoicingClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutProcurementPortalPreferenceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Invoicing"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
@@ -1685,8 +1687,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1698,6 +1698,8 @@ extension InvoicingClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Invoicing"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
@@ -1763,8 +1765,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1776,6 +1776,8 @@ extension InvoicingClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Invoicing"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
@@ -1842,8 +1844,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInvoiceUnitInput, UpdateInvoiceUnitOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInvoiceUnitInput, UpdateInvoiceUnitOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInvoiceUnitOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1855,6 +1855,8 @@ extension InvoicingClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateInvoiceUnitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateInvoiceUnitInput, UpdateInvoiceUnitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateInvoiceUnitInput, UpdateInvoiceUnitOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Invoicing"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateInvoiceUnitInput, UpdateInvoiceUnitOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
@@ -1923,8 +1925,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProcurementPortalPreferenceStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1936,6 +1936,8 @@ extension InvoicingClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProcurementPortalPreferenceStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Invoicing"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")

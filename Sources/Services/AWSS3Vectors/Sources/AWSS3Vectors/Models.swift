@@ -1024,6 +1024,8 @@ public struct QueryVectorsInput: Swift.Sendable {
     public var indexArn: Swift.String?
     /// The name of the vector index that you want to query.
     public var indexName: Swift.String?
+    /// Pagination token from a previous request. The value of this field is empty for an initial request.
+    public var nextToken: Swift.String?
     /// The query vector. Ensure that the query vector has the same dimension as the dimension of the vector index that's being queried. For example, if your vector index contains vectors with 384 dimensions, your query vector must also have 384 dimensions.
     /// This member is required.
     public var queryVector: S3VectorsClientTypes.VectorData?
@@ -1041,6 +1043,7 @@ public struct QueryVectorsInput: Swift.Sendable {
         filter: Smithy.Document? = nil,
         indexArn: Swift.String? = nil,
         indexName: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
         queryVector: S3VectorsClientTypes.VectorData? = nil,
         returnDistance: Swift.Bool? = nil,
         returnMetadata: Swift.Bool? = nil,
@@ -1050,6 +1053,7 @@ public struct QueryVectorsInput: Swift.Sendable {
         self.filter = filter
         self.indexArn = indexArn
         self.indexName = indexName
+        self.nextToken = nextToken
         self.queryVector = queryVector
         self.returnDistance = returnDistance
         self.returnMetadata = returnMetadata
@@ -1086,15 +1090,19 @@ public struct QueryVectorsOutput: Swift.Sendable {
     /// The distance metric that was used for the similarity search calculation. This is the same distance metric that was configured for the vector index when it was created.
     /// This member is required.
     public var distanceMetric: S3VectorsClientTypes.DistanceMetric?
+    /// Pagination token to be used in the subsequent page request. The field is empty if no further pagination is required.
+    public var nextToken: Swift.String?
     /// The vectors in the approximate nearest neighbor search.
     /// This member is required.
     public var vectors: [S3VectorsClientTypes.QueryOutputVector]?
 
     public init(
         distanceMetric: S3VectorsClientTypes.DistanceMetric? = nil,
+        nextToken: Swift.String? = nil,
         vectors: [S3VectorsClientTypes.QueryOutputVector]? = nil
     ) {
         self.distanceMetric = distanceMetric
+        self.nextToken = nextToken
         self.vectors = vectors
     }
 }
@@ -1704,6 +1712,7 @@ extension QueryVectorsInput {
         try writer["filter"].write(value.filter)
         try writer["indexArn"].write(value.indexArn)
         try writer["indexName"].write(value.indexName)
+        try writer["nextToken"].write(value.nextToken)
         try writer["queryVector"].write(value.queryVector, with: S3VectorsClientTypes.VectorData.write(value:to:))
         try writer["returnDistance"].write(value.returnDistance)
         try writer["returnMetadata"].write(value.returnMetadata)
@@ -1893,6 +1902,7 @@ extension QueryVectorsOutput {
         let reader = responseReader
         var value = QueryVectorsOutput()
         value.distanceMetric = try reader["distanceMetric"].readIfPresent() ?? .sdkUnknown("")
+        value.nextToken = try reader["nextToken"].readIfPresent()
         value.vectors = try reader["vectors"].readListIfPresent(memberReadingClosure: S3VectorsClientTypes.QueryOutputVector.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }

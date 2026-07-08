@@ -1202,10 +1202,10 @@ extension TimestreamQueryClientTypes {
         public var queryTemporalRange: TimestreamQueryClientTypes.QueryTemporalRange?
 
         public init(
-            outputBytes: Swift.Int? = 0,
-            outputRows: Swift.Int? = 0,
+            outputBytes: Swift.Int? = nil,
+            outputRows: Swift.Int? = nil,
             querySpatialCoverage: TimestreamQueryClientTypes.QuerySpatialCoverage? = nil,
-            queryTableCount: Swift.Int? = 0,
+            queryTableCount: Swift.Int? = nil,
             queryTemporalRange: TimestreamQueryClientTypes.QueryTemporalRange? = nil
         ) {
             self.outputBytes = outputBytes
@@ -1834,14 +1834,14 @@ extension TimestreamQueryClientTypes {
         public var unloadWrittenRows: Swift.Int?
 
         public init(
-            outputBytes: Swift.Int? = 0,
-            outputRows: Swift.Int? = 0,
+            outputBytes: Swift.Int? = nil,
+            outputRows: Swift.Int? = nil,
             querySpatialCoverage: TimestreamQueryClientTypes.QuerySpatialCoverage? = nil,
-            queryTableCount: Swift.Int? = 0,
+            queryTableCount: Swift.Int? = nil,
             queryTemporalRange: TimestreamQueryClientTypes.QueryTemporalRange? = nil,
-            unloadPartitionCount: Swift.Int? = 0,
-            unloadWrittenBytes: Swift.Int? = 0,
-            unloadWrittenRows: Swift.Int? = 0
+            unloadPartitionCount: Swift.Int? = nil,
+            unloadWrittenBytes: Swift.Int? = nil,
+            unloadWrittenRows: Swift.Int? = nil
         ) {
             self.outputBytes = outputBytes
             self.outputRows = outputRows

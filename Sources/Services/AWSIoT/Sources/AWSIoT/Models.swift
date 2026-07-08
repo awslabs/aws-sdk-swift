@@ -3763,7 +3763,7 @@ extension IoTClientTypes {
         public var defaultAuthorizerName: Swift.String?
 
         public init(
-            allowAuthorizerOverride: Swift.Bool? = false,
+            allowAuthorizerOverride: Swift.Bool? = nil,
             defaultAuthorizerName: Swift.String? = nil
         ) {
             self.allowAuthorizerOverride = allowAuthorizerOverride
@@ -13677,14 +13677,14 @@ extension IoTClientTypes {
         public var variance: Swift.Double?
 
         public init(
-            average: Swift.Double? = 0.0,
+            average: Swift.Double? = nil,
             count: Swift.Int = 0,
-            maximum: Swift.Double? = 0.0,
-            minimum: Swift.Double? = 0.0,
-            stdDeviation: Swift.Double? = 0.0,
-            sum: Swift.Double? = 0.0,
-            sumOfSquares: Swift.Double? = 0.0,
-            variance: Swift.Double? = 0.0
+            maximum: Swift.Double? = nil,
+            minimum: Swift.Double? = nil,
+            stdDeviation: Swift.Double? = nil,
+            sum: Swift.Double? = nil,
+            sumOfSquares: Swift.Double? = nil,
+            variance: Swift.Double? = nil
         ) {
             self.average = average
             self.count = count
@@ -13805,7 +13805,7 @@ public struct GetThingConnectivityDataOutput: Swift.Sendable {
     public var clientId: Swift.String?
     /// A Boolean that indicates the connectivity status.
     public var connected: Swift.Bool?
-    /// The reason why the client is disconnecting. When you enable or update the indexing configuration, this value might be UNKNOWN for devices that have never connected or have been disconnected for more than an hour.
+    /// The reason that the client is disconnected.
     public var disconnectReason: IoTClientTypes.DisconnectReasonValue?
     /// The keep-alive interval in seconds that the client specified when establishing the connection.
     public var keepAliveDuration: Swift.Int?
@@ -13821,7 +13821,7 @@ public struct GetThingConnectivityDataOutput: Swift.Sendable {
     public var targetPort: Swift.Int?
     /// The name of your IoT thing.
     public var thingName: Swift.String?
-    /// The timestamp of when the event occurred. When you enable or update the indexing configuration, this value might be the Unix epoch time (0) for devices that have never connected or have been disconnected for more than an hour.
+    /// The timestamp of when the device connected or disconnected.
     public var timestamp: Foundation.Date?
     /// The ID of the VPC endpoint. Present for clients connected to Amazon Web Services IoT Core via a VPC endpoint.
     public var vpcEndpointId: Swift.String?
@@ -18343,13 +18343,13 @@ extension IoTClientTypes {
         public var clientId: Swift.String?
         /// True if the thing is connected to the Amazon Web Services IoT Core service; false if it is not connected.
         public var connected: Swift.Bool?
-        /// The reason why the client is disconnected. When you enable or update the indexing configuration, this value might be missing for devices that have never connected or have been disconnected for more than an hour.
+        /// The reason that the client is disconnected.
         public var disconnectReason: Swift.String?
         /// The keep-alive interval in seconds that the client specified when establishing the connection.
         public var keepAliveDuration: Swift.Int?
         /// The session expiry interval in seconds for the MQTT client connection. This value indicates how long the session will remain active after the client disconnects.
         public var sessionExpiry: Swift.Int?
-        /// The epoch time (in milliseconds) when the thing last connected or disconnected. If the thing has been disconnected for approximately an hour, the time value might be missing. When you enable or update the indexing configuration, this value might be 0 (the Unix epoch time) for devices that have never connected or have been disconnected for more than an hour.
+        /// The epoch time (in milliseconds) when the thing last connected or disconnected.
         public var timestamp: Swift.Int?
 
         public init(

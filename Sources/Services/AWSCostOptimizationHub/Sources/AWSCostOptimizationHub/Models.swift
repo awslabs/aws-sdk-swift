@@ -772,6 +772,21 @@ public struct GetRecommendationInput: Swift.Sendable {
 
 extension CostOptimizationHubClientTypes {
 
+    /// The Amazon DocumentDB cluster recommendation details.
+    public struct DocumentDbCluster: Swift.Sendable {
+        /// Cost impact of the resource recommendation.
+        public var costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation?
+
+        public init(
+            costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
+        ) {
+            self.costCalculation = costCalculation
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
     /// The DynamoDB reserved capacity configuration used for recommendations.
     public struct DynamoDbReservedCapacityConfiguration: Swift.Sendable {
         /// The account scope for which you want recommendations.
@@ -873,6 +888,21 @@ extension CostOptimizationHubClientTypes {
             costCalculation: CostOptimizationHubClientTypes.ReservedInstancesCostCalculation? = nil
         ) {
             self.configuration = configuration
+            self.costCalculation = costCalculation
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// The DynamoDB table recommendation details.
+    public struct DynamoDbTable: Swift.Sendable {
+        /// Cost impact of the resource recommendation.
+        public var costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation?
+
+        public init(
+            costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
+        ) {
             self.costCalculation = costCalculation
         }
     }
@@ -1262,6 +1292,21 @@ extension CostOptimizationHubClientTypes {
 
 extension CostOptimizationHubClientTypes {
 
+    /// The ElastiCache cluster recommendation details.
+    public struct ElastiCacheCluster: Swift.Sendable {
+        /// Cost impact of the resource recommendation.
+        public var costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation?
+
+        public init(
+            costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
+        ) {
+            self.costCalculation = costCalculation
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
     /// The ElastiCache reserved instances configuration used for recommendations.
     public struct ElastiCacheReservedInstancesConfiguration: Swift.Sendable {
         /// The account scope for which you want recommendations.
@@ -1371,6 +1416,21 @@ extension CostOptimizationHubClientTypes {
             costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
         ) {
             self.configuration = configuration
+            self.costCalculation = costCalculation
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// The MemoryDB cluster recommendation details.
+    public struct MemoryDbCluster: Swift.Sendable {
+        /// Cost impact of the resource recommendation.
+        public var costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation?
+
+        public init(
+            costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
+        ) {
             self.costCalculation = costCalculation
         }
     }
@@ -1855,6 +1915,21 @@ extension CostOptimizationHubClientTypes {
 
 extension CostOptimizationHubClientTypes {
 
+    /// The SageMaker endpoint recommendation details.
+    public struct SageMakerEndpoint: Swift.Sendable {
+        /// Cost impact of the resource recommendation.
+        public var costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation?
+
+        public init(
+            costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
+        ) {
+            self.costCalculation = costCalculation
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
     /// The SageMaker Savings Plans configuration used for recommendations.
     public struct SageMakerSavingsPlansConfiguration: Swift.Sendable {
         /// The account scope for which you want recommendations.
@@ -1894,6 +1969,21 @@ extension CostOptimizationHubClientTypes {
             costCalculation: CostOptimizationHubClientTypes.SavingsPlansCostCalculation? = nil
         ) {
             self.configuration = configuration
+            self.costCalculation = costCalculation
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// The WorkSpaces recommendation details.
+    public struct WorkSpaces: Swift.Sendable {
+        /// Cost impact of the resource recommendation.
+        public var costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation?
+
+        public init(
+            costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
+        ) {
             self.costCalculation = costCalculation
         }
     }
@@ -1941,6 +2031,18 @@ extension CostOptimizationHubClientTypes {
         case memorydbreservedinstances(CostOptimizationHubClientTypes.MemoryDbReservedInstances)
         /// The NAT Gateway recommendation details.
         case natgateway(CostOptimizationHubClientTypes.NatGateway)
+        /// The DynamoDB table recommendation details.
+        case dynamodbtable(CostOptimizationHubClientTypes.DynamoDbTable)
+        /// The ElastiCache cluster recommendation details.
+        case elasticachecluster(CostOptimizationHubClientTypes.ElastiCacheCluster)
+        /// The MemoryDB cluster recommendation details.
+        case memorydbcluster(CostOptimizationHubClientTypes.MemoryDbCluster)
+        /// The Amazon DocumentDB cluster recommendation details.
+        case documentdbcluster(CostOptimizationHubClientTypes.DocumentDbCluster)
+        /// The WorkSpaces recommendation details.
+        case workspaces(CostOptimizationHubClientTypes.WorkSpaces)
+        /// The SageMaker endpoint recommendation details.
+        case sagemakerendpoint(CostOptimizationHubClientTypes.SageMakerEndpoint)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1950,15 +2052,19 @@ extension CostOptimizationHubClientTypes {
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case auroraDbClusterStorage
         case computeSavingsPlans
+        case documentDbCluster
         case dynamoDbReservedCapacity
+        case dynamoDbTable
         case ebsVolume
         case ec2AutoScalingGroup
         case ec2Instance
         case ec2InstanceSavingsPlans
         case ec2ReservedInstances
         case ecsService
+        case elastiCacheCluster
         case elastiCacheReservedInstances
         case lambdaFunction
+        case memoryDbCluster
         case memoryDbReservedInstances
         case natGateway
         case openSearchReservedInstances
@@ -1966,22 +2072,28 @@ extension CostOptimizationHubClientTypes {
         case rdsDbInstanceStorage
         case rdsReservedInstances
         case redshiftReservedInstances
+        case sageMakerEndpoint
         case sageMakerSavingsPlans
+        case workSpaces
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
             return [
                 .auroraDbClusterStorage,
                 .computeSavingsPlans,
+                .documentDbCluster,
                 .dynamoDbReservedCapacity,
+                .dynamoDbTable,
                 .ebsVolume,
                 .ec2AutoScalingGroup,
                 .ec2Instance,
                 .ec2InstanceSavingsPlans,
                 .ec2ReservedInstances,
                 .ecsService,
+                .elastiCacheCluster,
                 .elastiCacheReservedInstances,
                 .lambdaFunction,
+                .memoryDbCluster,
                 .memoryDbReservedInstances,
                 .natGateway,
                 .openSearchReservedInstances,
@@ -1989,7 +2101,9 @@ extension CostOptimizationHubClientTypes {
                 .rdsDbInstanceStorage,
                 .rdsReservedInstances,
                 .redshiftReservedInstances,
-                .sageMakerSavingsPlans
+                .sageMakerEndpoint,
+                .sageMakerSavingsPlans,
+                .workSpaces
             ]
         }
 
@@ -2002,15 +2116,19 @@ extension CostOptimizationHubClientTypes {
             switch self {
             case .auroraDbClusterStorage: return "AuroraDbClusterStorage"
             case .computeSavingsPlans: return "ComputeSavingsPlans"
+            case .documentDbCluster: return "DocumentDBCluster"
             case .dynamoDbReservedCapacity: return "DynamoDbReservedCapacity"
+            case .dynamoDbTable: return "DynamoDBTable"
             case .ebsVolume: return "EbsVolume"
             case .ec2AutoScalingGroup: return "Ec2AutoScalingGroup"
             case .ec2Instance: return "Ec2Instance"
             case .ec2InstanceSavingsPlans: return "Ec2InstanceSavingsPlans"
             case .ec2ReservedInstances: return "Ec2ReservedInstances"
             case .ecsService: return "EcsService"
+            case .elastiCacheCluster: return "ElastiCacheCluster"
             case .elastiCacheReservedInstances: return "ElastiCacheReservedInstances"
             case .lambdaFunction: return "LambdaFunction"
+            case .memoryDbCluster: return "MemoryDBCluster"
             case .memoryDbReservedInstances: return "MemoryDbReservedInstances"
             case .natGateway: return "NatGateway"
             case .openSearchReservedInstances: return "OpenSearchReservedInstances"
@@ -2018,7 +2136,9 @@ extension CostOptimizationHubClientTypes {
             case .rdsDbInstanceStorage: return "RdsDbInstanceStorage"
             case .rdsReservedInstances: return "RdsReservedInstances"
             case .redshiftReservedInstances: return "RedshiftReservedInstances"
+            case .sageMakerEndpoint: return "SageMakerEndpoint"
             case .sageMakerSavingsPlans: return "SageMakerSavingsPlans"
+            case .workSpaces: return "WorkSpaces"
             case let .sdkUnknown(s): return s
             }
         }

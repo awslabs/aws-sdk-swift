@@ -873,7 +873,7 @@ public struct CreateBatchLoadTaskInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         dataModelConfiguration: TimestreamWriteClientTypes.DataModelConfiguration? = nil,
         dataSourceConfiguration: TimestreamWriteClientTypes.DataSourceConfiguration? = nil,
-        recordVersion: Swift.Int? = 0,
+        recordVersion: Swift.Int? = nil,
         reportConfiguration: TimestreamWriteClientTypes.ReportConfiguration? = nil,
         targetDatabaseName: Swift.String? = nil,
         targetTableName: Swift.String? = nil
@@ -1663,7 +1663,7 @@ extension TimestreamWriteClientTypes {
             measureValues: [TimestreamWriteClientTypes.MeasureValue]? = nil,
             time: Swift.String? = nil,
             timeUnit: TimestreamWriteClientTypes.TimeUnit? = nil,
-            version: Swift.Int? = 0
+            version: Swift.Int? = nil
         ) {
             self.dimensions = dimensions
             self.measureName = measureName
@@ -1728,7 +1728,7 @@ extension TimestreamWriteClientTypes {
         public var recordIndex: Swift.Int
 
         public init(
-            existingVersion: Swift.Int? = 0,
+            existingVersion: Swift.Int? = nil,
             reason: Swift.String? = nil,
             recordIndex: Swift.Int = 0
         ) {

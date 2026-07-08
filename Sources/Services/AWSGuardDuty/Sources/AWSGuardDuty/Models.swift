@@ -1712,6 +1712,58 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    public enum CloudProvider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CloudProvider] {
+            return [
+                .aws
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "AWS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains details about the cloud environment associated with an investigation.
+    public struct CloudDetails: Swift.Sendable {
+        /// The Amazon Web Services account ID of the investigated resource.
+        /// This member is required.
+        public var account: Swift.String?
+        /// The cloud provider. Currently, only AWS is supported.
+        /// This member is required.
+        public var provider: GuardDutyClientTypes.CloudProvider?
+        /// The Amazon Web Services Region in which the investigated resource resides.
+        /// This member is required.
+        public var region: Swift.String?
+
+        public init(
+            account: Swift.String? = nil,
+            provider: GuardDutyClientTypes.CloudProvider? = nil,
+            region: Swift.String? = nil
+        ) {
+            self.account = account
+            self.provider = provider
+            self.region = region
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Contains information about the CloudFormation stack involved in a GuardDuty finding, including unique identifiers of the Amazon EC2 instances.
     public struct CloudformationStack: Swift.Sendable {
         /// A list of unique identifiers for the compromised Amazon EC2 instances that were created as part of the same CloudFormation stack.
@@ -1880,6 +1932,41 @@ extension GuardDutyClientTypes {
             self.neq = neq
             self.notEquals = notEquals
             self.notMatches = notMatches
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum Confidence: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Confidence] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "High"
+            case .low: return "Low"
+            case .medium: return "Medium"
+            case .unknown: return "Unknown"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -3042,8 +3129,6 @@ public struct CreateFilterInput: Swift.Sendable {
     ///
     /// * createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000
     ///
-    /// * description
-    ///
     /// * id
     ///
     /// * partition
@@ -3368,10 +3453,6 @@ public struct CreateFilterInput: Swift.Sendable {
     ///
     /// * resource.rdsDbInstanceDetails.publiclyAccessible
     ///
-    /// * resource.rdsDbInstanceDetails.tags.key
-    ///
-    /// * resource.rdsDbInstanceDetails.tags.value
-    ///
     /// * resource.rdsDbInstanceDetails.vpcId
     ///
     /// * resource.rdsDbInstanceDetails.vpcSecurityGroups.status
@@ -3467,8 +3548,6 @@ public struct CreateFilterInput: Swift.Sendable {
     /// * schemaVersion
     ///
     /// * service.action.actionType
-    ///
-    /// * service.action.awsApiCallAction.affectedResources
     ///
     /// * service.action.awsApiCallAction.api
     ///
@@ -3757,10 +3836,6 @@ public struct CreateFilterInput: Swift.Sendable {
     /// * service.archived
     ///
     /// * service.count
-    ///
-    /// * service.detection.anomaly.profiles
-    ///
-    /// * service.detection.anomaly.unusual.behavior
     ///
     /// * service.detection.sequence.actors.id
     ///
@@ -4295,8 +4370,6 @@ public struct CreateFilterInput: Swift.Sendable {
     ///
     /// For more information, see [Findings severity levels](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-severity.html) in the Amazon GuardDuty User Guide.
     ///
-    /// * title
-    ///
     /// * type
     ///
     /// * updatedAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000
@@ -4340,6 +4413,45 @@ public struct CreateFilterOutput: Swift.Sendable {
         name: Swift.String? = nil
     ) {
         self.name = name
+    }
+}
+
+public struct CreateInvestigationInput: Swift.Sendable {
+    /// The idempotency token for the create request.
+    public var clientToken: Swift.String?
+    /// The unique ID of the GuardDuty detector for the account in which the investigation is created. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
+    /// This member is required.
+    public var detectorId: Swift.String?
+    /// A natural-language description of what to investigate. For example:
+    ///
+    /// * "Investigate finding 1ab2c3d4e5f6a7b8c9d0e1f2a3b4c5d6 in account 123456789012"
+    ///
+    /// * "Analyze findings in account with id 123456789012"
+    ///
+    /// * "Analyze findings in my organization"
+    /// This member is required.
+    public var triggerPrompt: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        detectorId: Swift.String? = nil,
+        triggerPrompt: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.detectorId = detectorId
+        self.triggerPrompt = triggerPrompt
+    }
+}
+
+public struct CreateInvestigationOutput: Swift.Sendable {
+    /// The unique identifier of the newly created investigation.
+    /// This member is required.
+    public var investigationId: Swift.String?
+
+    public init(
+        investigationId: Swift.String? = nil
+    ) {
+        self.investigationId = investigationId
     }
 }
 
@@ -9445,6 +9557,10 @@ extension GuardDutyClientTypes {
         public var addressFamily: Swift.String?
         /// Example of the command line involved in the suspicious activity.
         public var commandLineExample: Swift.String?
+        /// Represents the type of file operation that triggered the finding, such as Write, Delete, Rename, Link, or Symlink.
+        public var fileOperation: Swift.String?
+        /// The path of the sensitive file that was modified. Modification includes write, delete, rename, link, or symlink operations. This field is indexed for filtering.
+        public var filePath: Swift.String?
         /// Represents the type of mounted fileSystem.
         public var fileSystemType: Swift.String?
         /// Represents options that control the behavior of a runtime operation or action. For example, a filesystem mount operation may contain a read-only flag.
@@ -9471,6 +9587,8 @@ extension GuardDutyClientTypes {
         public var mountSource: Swift.String?
         /// The path in the container that is mapped to the host directory.
         public var mountTarget: Swift.String?
+        /// All file paths modified by the same process that triggered the finding, up to a maximum of 25 paths.
+        public var relatedFilePaths: [Swift.String]?
         /// The path in the container that modified the release agent file.
         public var releaseAgentPath: Swift.String?
         /// The path to the leveraged runc implementation.
@@ -9495,6 +9613,8 @@ extension GuardDutyClientTypes {
         public init(
             addressFamily: Swift.String? = nil,
             commandLineExample: Swift.String? = nil,
+            fileOperation: Swift.String? = nil,
+            filePath: Swift.String? = nil,
             fileSystemType: Swift.String? = nil,
             flags: [Swift.String]? = nil,
             ianaProtocolNumber: Swift.Int? = nil,
@@ -9508,6 +9628,7 @@ extension GuardDutyClientTypes {
             moduleSha256: Swift.String? = nil,
             mountSource: Swift.String? = nil,
             mountTarget: Swift.String? = nil,
+            relatedFilePaths: [Swift.String]? = nil,
             releaseAgentPath: Swift.String? = nil,
             runcBinaryPath: Swift.String? = nil,
             scriptPath: Swift.String? = nil,
@@ -9521,6 +9642,8 @@ extension GuardDutyClientTypes {
         ) {
             self.addressFamily = addressFamily
             self.commandLineExample = commandLineExample
+            self.fileOperation = fileOperation
+            self.filePath = filePath
             self.fileSystemType = fileSystemType
             self.flags = flags
             self.ianaProtocolNumber = ianaProtocolNumber
@@ -9534,6 +9657,7 @@ extension GuardDutyClientTypes {
             self.moduleSha256 = moduleSha256
             self.mountSource = mountSource
             self.mountTarget = mountTarget
+            self.relatedFilePaths = relatedFilePaths
             self.releaseAgentPath = releaseAgentPath
             self.runcBinaryPath = runcBinaryPath
             self.scriptPath = scriptPath
@@ -10164,6 +10288,213 @@ public struct GetFindingsStatisticsOutput: Swift.Sendable {
     ) {
         self.findingStatistics = findingStatistics
         self.nextToken = nextToken
+    }
+}
+
+public struct GetInvestigationInput: Swift.Sendable {
+    /// The unique ID of the GuardDuty detector associated with the investigation. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
+    /// This member is required.
+    public var detectorId: Swift.String?
+    /// The unique identifier of the investigation to retrieve.
+    /// This member is required.
+    public var investigationId: Swift.String?
+
+    public init(
+        detectorId: Swift.String? = nil,
+        investigationId: Swift.String? = nil
+    ) {
+        self.detectorId = detectorId
+        self.investigationId = investigationId
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the product that produced an investigation.
+    public struct Product: Swift.Sendable {
+        /// The specific feature within the product that produced the investigation.
+        public var feature: Swift.String?
+        /// The name of the product.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            feature: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.feature = feature
+            self.name = name
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains metadata about the product and version that produced an investigation.
+    public struct InvestigationMetadata: Swift.Sendable {
+        /// Information about the product that produced the investigation.
+        /// This member is required.
+        public var product: GuardDutyClientTypes.Product?
+        /// The version of the investigation engine that produced the results.
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            product: GuardDutyClientTypes.Product? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.product = product
+            self.version = version
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum RiskLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case critical
+        case high
+        case info
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RiskLevel] {
+            return [
+                .critical,
+                .high,
+                .info,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "Critical"
+            case .high: return "High"
+            case .info: return "Info"
+            case .low: return "Low"
+            case .medium: return "Medium"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum InvestigationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case running
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InvestigationStatus] {
+            return [
+                .completed,
+                .failed,
+                .running
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains the details and results of a GuardDuty investigation.
+    public struct Investigation: Swift.Sendable {
+        /// Details about the cloud environment in which the investigation was performed, including the provider, region, and account.
+        public var cloud: GuardDutyClientTypes.CloudDetails?
+        /// The confidence level of the investigation's assessment. Possible values are Unknown, Low, Medium, and High.
+        public var confidence: GuardDutyClientTypes.Confidence?
+        /// The timestamp at which the investigation completed.
+        public var endTime: Foundation.Date?
+        /// Details about the error if the investigation status is FAILED.
+        public var error: Swift.String?
+        /// The unique identifier of the investigation.
+        /// This member is required.
+        public var investigationId: Swift.String?
+        /// Metadata about the product and version that produced the investigation.
+        public var metadata: GuardDutyClientTypes.InvestigationMetadata?
+        /// A human-readable description of the assessed risk.
+        public var risk: Swift.String?
+        /// The assessed risk level of the investigated threat. Possible values are Info, Low, Medium, High, and Critical.
+        public var riskLevel: GuardDutyClientTypes.RiskLevel?
+        /// The timestamp at which the investigation started.
+        public var startTime: Foundation.Date?
+        /// The current status of the investigation. Possible values are RUNNING, COMPLETED, and FAILED.
+        /// This member is required.
+        public var status: GuardDutyClientTypes.InvestigationStatus?
+        /// A structured summary of the investigation findings, including affected resources, threat assessment, and recommended remediation steps.
+        public var summary: Swift.String?
+        /// The natural-language prompt that initiated this investigation.
+        /// This member is required.
+        public var triggerPrompt: Swift.String?
+        /// The account that initiated the investigation.
+        /// This member is required.
+        public var triggeredBy: Swift.String?
+
+        public init(
+            cloud: GuardDutyClientTypes.CloudDetails? = nil,
+            confidence: GuardDutyClientTypes.Confidence? = nil,
+            endTime: Foundation.Date? = nil,
+            error: Swift.String? = nil,
+            investigationId: Swift.String? = nil,
+            metadata: GuardDutyClientTypes.InvestigationMetadata? = nil,
+            risk: Swift.String? = nil,
+            riskLevel: GuardDutyClientTypes.RiskLevel? = nil,
+            startTime: Foundation.Date? = nil,
+            status: GuardDutyClientTypes.InvestigationStatus? = nil,
+            summary: Swift.String? = nil,
+            triggerPrompt: Swift.String? = nil,
+            triggeredBy: Swift.String? = nil
+        ) {
+            self.cloud = cloud
+            self.confidence = confidence
+            self.endTime = endTime
+            self.error = error
+            self.investigationId = investigationId
+            self.metadata = metadata
+            self.risk = risk
+            self.riskLevel = riskLevel
+            self.startTime = startTime
+            self.status = status
+            self.summary = summary
+            self.triggerPrompt = triggerPrompt
+            self.triggeredBy = triggeredBy
+        }
+    }
+}
+
+public struct GetInvestigationOutput: Swift.Sendable {
+    /// The details and results of the requested investigation.
+    /// This member is required.
+    public var investigation: GuardDutyClientTypes.Investigation?
+
+    public init(
+        investigation: GuardDutyClientTypes.Investigation? = nil
+    ) {
+        self.investigation = investigation
     }
 }
 
@@ -12295,6 +12626,150 @@ public struct ListFindingsOutput: Swift.Sendable {
     }
 }
 
+extension GuardDutyClientTypes {
+
+    public enum InvestigationSortField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case confidence
+        case endTime
+        case riskLevel
+        case startTime
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InvestigationSortField] {
+            return [
+                .confidence,
+                .endTime,
+                .riskLevel,
+                .startTime,
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .confidence: return "CONFIDENCE"
+            case .endTime: return "END_TIME"
+            case .riskLevel: return "RISK_LEVEL"
+            case .startTime: return "START_TIME"
+            case .status: return "STATUS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the criteria used for sorting investigations.
+    public struct InvestigationSortCriteria: Swift.Sendable {
+        /// The attribute by which to sort investigations.
+        public var attributeName: GuardDutyClientTypes.InvestigationSortField?
+        /// The order in which the sorted results are to be displayed.
+        public var orderBy: GuardDutyClientTypes.OrderBy?
+
+        public init(
+            attributeName: GuardDutyClientTypes.InvestigationSortField? = nil,
+            orderBy: GuardDutyClientTypes.OrderBy? = nil
+        ) {
+            self.attributeName = attributeName
+            self.orderBy = orderBy
+        }
+    }
+}
+
+public struct ListInvestigationsInput: Swift.Sendable {
+    /// The unique ID of the GuardDuty detector whose investigations you want to list. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
+    /// This member is required.
+    public var detectorId: Swift.String?
+    /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50.
+    public var maxResults: Swift.Int?
+    /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+    public var nextToken: Swift.String?
+    /// Represents the criteria used for sorting investigations.
+    public var sortCriteria: GuardDutyClientTypes.InvestigationSortCriteria?
+
+    public init(
+        detectorId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortCriteria: GuardDutyClientTypes.InvestigationSortCriteria? = nil
+    ) {
+        self.detectorId = detectorId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortCriteria = sortCriteria
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains summary information about a GuardDuty investigation.
+    public struct InvestigationSummary: Swift.Sendable {
+        /// The Amazon Web Services account ID associated with the investigation.
+        public var accountId: Swift.String?
+        /// The confidence level of the investigation's assessment.
+        public var confidence: GuardDutyClientTypes.Confidence?
+        /// The timestamp at which the investigation completed.
+        public var endTime: Foundation.Date?
+        /// The unique identifier of the investigation.
+        public var investigationId: Swift.String?
+        /// The assessed risk level of the investigated threat.
+        public var riskLevel: GuardDutyClientTypes.RiskLevel?
+        /// The timestamp at which the investigation started.
+        public var startTime: Foundation.Date?
+        /// The current status of the investigation.
+        public var status: GuardDutyClientTypes.InvestigationStatus?
+        /// A short title summarizing the investigation.
+        public var title: Swift.String?
+        /// The natural-language prompt that initiated this investigation.
+        public var triggerPrompt: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            confidence: GuardDutyClientTypes.Confidence? = nil,
+            endTime: Foundation.Date? = nil,
+            investigationId: Swift.String? = nil,
+            riskLevel: GuardDutyClientTypes.RiskLevel? = nil,
+            startTime: Foundation.Date? = nil,
+            status: GuardDutyClientTypes.InvestigationStatus? = nil,
+            title: Swift.String? = nil,
+            triggerPrompt: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.confidence = confidence
+            self.endTime = endTime
+            self.investigationId = investigationId
+            self.riskLevel = riskLevel
+            self.startTime = startTime
+            self.status = status
+            self.title = title
+            self.triggerPrompt = triggerPrompt
+        }
+    }
+}
+
+public struct ListInvestigationsOutput: Swift.Sendable {
+    /// A list of investigation summaries associated with the specified detector.
+    /// This member is required.
+    public var investigations: [GuardDutyClientTypes.InvestigationSummary]?
+    /// The pagination parameter to be used on the next list operation to retrieve more items.
+    public var nextToken: Swift.String?
+
+    public init(
+        investigations: [GuardDutyClientTypes.InvestigationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.investigations = investigations
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListInvitationsInput: Swift.Sendable {
     /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
     public var maxResults: Swift.Int?
@@ -13123,8 +13598,6 @@ public struct UpdateFilterInput: Swift.Sendable {
     ///
     /// * createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000
     ///
-    /// * description
-    ///
     /// * id
     ///
     /// * partition
@@ -13449,10 +13922,6 @@ public struct UpdateFilterInput: Swift.Sendable {
     ///
     /// * resource.rdsDbInstanceDetails.publiclyAccessible
     ///
-    /// * resource.rdsDbInstanceDetails.tags.key
-    ///
-    /// * resource.rdsDbInstanceDetails.tags.value
-    ///
     /// * resource.rdsDbInstanceDetails.vpcId
     ///
     /// * resource.rdsDbInstanceDetails.vpcSecurityGroups.status
@@ -13548,8 +14017,6 @@ public struct UpdateFilterInput: Swift.Sendable {
     /// * schemaVersion
     ///
     /// * service.action.actionType
-    ///
-    /// * service.action.awsApiCallAction.affectedResources
     ///
     /// * service.action.awsApiCallAction.api
     ///
@@ -13838,10 +14305,6 @@ public struct UpdateFilterInput: Swift.Sendable {
     /// * service.archived
     ///
     /// * service.count
-    ///
-    /// * service.detection.anomaly.profiles
-    ///
-    /// * service.detection.anomaly.unusual.behavior
     ///
     /// * service.detection.sequence.actors.id
     ///
@@ -14375,8 +14838,6 @@ public struct UpdateFilterInput: Swift.Sendable {
     ///
     ///
     /// For more information, see [Findings severity levels](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-severity.html) in the Amazon GuardDuty User Guide.
-    ///
-    /// * title
     ///
     /// * type
     ///
@@ -15045,6 +15506,16 @@ extension CreateFilterInput {
     }
 }
 
+extension CreateInvestigationInput {
+
+    static func urlPathProvider(_ value: CreateInvestigationInput) -> Swift.String? {
+        guard let detectorId = value.detectorId else {
+            return nil
+        }
+        return "/detector/\(detectorId.urlPercentEncoding())/investigation"
+    }
+}
+
 extension CreateIPSetInput {
 
     static func urlPathProvider(_ value: CreateIPSetInput) -> Swift.String? {
@@ -15400,6 +15871,19 @@ extension GetFindingsStatisticsInput {
     }
 }
 
+extension GetInvestigationInput {
+
+    static func urlPathProvider(_ value: GetInvestigationInput) -> Swift.String? {
+        guard let detectorId = value.detectorId else {
+            return nil
+        }
+        guard let investigationId = value.investigationId else {
+            return nil
+        }
+        return "/detector/\(detectorId.urlPercentEncoding())/investigation/\(investigationId.urlPercentEncoding())"
+    }
+}
+
 extension GetInvitationsCountInput {
 
     static func urlPathProvider(_ value: GetInvitationsCountInput) -> Swift.String? {
@@ -15622,6 +16106,16 @@ extension ListFindingsInput {
             return nil
         }
         return "/detector/\(detectorId.urlPercentEncoding())/findings"
+    }
+}
+
+extension ListInvestigationsInput {
+
+    static func urlPathProvider(_ value: ListInvestigationsInput) -> Swift.String? {
+        guard let detectorId = value.detectorId else {
+            return nil
+        }
+        return "/detector/\(detectorId.urlPercentEncoding())/investigation/list"
     }
 }
 
@@ -16154,6 +16648,15 @@ extension CreateFilterInput {
     }
 }
 
+extension CreateInvestigationInput {
+
+    static func write(value: CreateInvestigationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["triggerPrompt"].write(value.triggerPrompt)
+    }
+}
+
 extension CreateIPSetInput {
 
     static func write(value: CreateIPSetInput?, to writer: SmithyJSON.Writer) throws {
@@ -16406,6 +16909,16 @@ extension ListFindingsInput {
     }
 }
 
+extension ListInvestigationsInput {
+
+    static func write(value: ListInvestigationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["sortCriteria"].write(value.sortCriteria, with: GuardDutyClientTypes.InvestigationSortCriteria.write(value:to:))
+    }
+}
+
 extension ListMalwareScansInput {
 
     static func write(value: ListMalwareScansInput?, to writer: SmithyJSON.Writer) throws {
@@ -16631,6 +17144,18 @@ extension CreateFilterOutput {
         let reader = responseReader
         var value = CreateFilterOutput()
         value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateInvestigationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateInvestigationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateInvestigationOutput()
+        value.investigationId = try reader["investigationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -16990,6 +17515,18 @@ extension GetFindingsStatisticsOutput {
     }
 }
 
+extension GetInvestigationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInvestigationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetInvestigationOutput()
+        value.investigation = try reader["investigation"].readIfPresent(with: GuardDutyClientTypes.Investigation.read(from:))
+        return value
+    }
+}
+
 extension GetInvitationsCountOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInvitationsCountOutput {
@@ -17271,6 +17808,19 @@ extension ListFindingsOutput {
         let reader = responseReader
         var value = ListFindingsOutput()
         value.findingIds = try reader["findingIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListInvestigationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListInvestigationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListInvestigationsOutput()
+        value.investigations = try reader["investigations"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.InvestigationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -17644,6 +18194,22 @@ enum CreateFilterOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateInvestigationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -18152,6 +18718,23 @@ enum GetFindingsStatisticsOutputError {
     }
 }
 
+enum GetInvestigationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetInvitationsCountOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18433,6 +19016,22 @@ enum ListFindingsOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListInvestigationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -19274,6 +19873,18 @@ extension GuardDutyClientTypes.City {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.City()
         value.cityName = try reader["cityName"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.CloudDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CloudDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.CloudDetails()
+        value.provider = try reader["provider"].readIfPresent() ?? .sdkUnknown("")
+        value.region = try reader["region"].readIfPresent() ?? ""
+        value.account = try reader["account"].readIfPresent() ?? ""
         return value
     }
 }
@@ -20225,6 +20836,66 @@ extension GuardDutyClientTypes.InstanceDetails {
     }
 }
 
+extension GuardDutyClientTypes.Investigation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Investigation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Investigation()
+        value.investigationId = try reader["investigationId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.triggerPrompt = try reader["triggerPrompt"].readIfPresent() ?? ""
+        value.triggeredBy = try reader["triggeredBy"].readIfPresent() ?? ""
+        value.metadata = try reader["metadata"].readIfPresent(with: GuardDutyClientTypes.InvestigationMetadata.read(from:))
+        value.cloud = try reader["cloud"].readIfPresent(with: GuardDutyClientTypes.CloudDetails.read(from:))
+        value.riskLevel = try reader["riskLevel"].readIfPresent()
+        value.risk = try reader["risk"].readIfPresent()
+        value.confidence = try reader["confidence"].readIfPresent()
+        value.summary = try reader["summary"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.error = try reader["error"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.InvestigationMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.InvestigationMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.InvestigationMetadata()
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.product = try reader["product"].readIfPresent(with: GuardDutyClientTypes.Product.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.InvestigationSortCriteria {
+
+    static func write(value: GuardDutyClientTypes.InvestigationSortCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributeName"].write(value.attributeName)
+        try writer["orderBy"].write(value.orderBy)
+    }
+}
+
+extension GuardDutyClientTypes.InvestigationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.InvestigationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.InvestigationSummary()
+        value.investigationId = try reader["investigationId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.triggerPrompt = try reader["triggerPrompt"].readIfPresent()
+        value.riskLevel = try reader["riskLevel"].readIfPresent()
+        value.confidence = try reader["confidence"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension GuardDutyClientTypes.Invitation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Invitation {
@@ -21115,6 +21786,17 @@ extension GuardDutyClientTypes.ProcessDetails {
     }
 }
 
+extension GuardDutyClientTypes.Product {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Product {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Product()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.feature = try reader["feature"].readIfPresent()
+        return value
+    }
+}
+
 extension GuardDutyClientTypes.ProductCode {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ProductCode {
@@ -21386,6 +22068,9 @@ extension GuardDutyClientTypes.RuntimeContext {
         value.serviceName = try reader["serviceName"].readIfPresent()
         value.commandLineExample = try reader["commandLineExample"].readIfPresent()
         value.threatFilePath = try reader["threatFilePath"].readIfPresent()
+        value.fileOperation = try reader["fileOperation"].readIfPresent()
+        value.filePath = try reader["filePath"].readIfPresent()
+        value.relatedFilePaths = try reader["relatedFilePaths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

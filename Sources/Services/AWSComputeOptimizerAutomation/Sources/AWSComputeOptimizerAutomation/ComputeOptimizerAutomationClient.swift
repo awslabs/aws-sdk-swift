@@ -21,11 +21,11 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
+import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultClockSkewProvider
-import enum ClientRuntime.DefaultRetryErrorInfoProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -74,6 +74,7 @@ public final class ComputeOptimizerAutomationClient: AWSClientRuntime.AWSService
     let client: ClientRuntime.SdkHttpClient
     public let config: ComputeOptimizerAutomationClient.ComputeOptimizerAutomationClientConfig
     let serviceName = "Compute Optimizer Automation"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use ComputeOptimizerAutomationClient.ComputeOptimizerAutomationClientConfig instead")
     public typealias Config = ComputeOptimizerAutomationClient.ComputeOptimizerAutomationClientConfiguration
@@ -83,6 +84,7 @@ public final class ComputeOptimizerAutomationClient: AWSClientRuntime.AWSService
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: ComputeOptimizerAutomationClient.ComputeOptimizerAutomationClientConfig) instead")
@@ -197,7 +199,7 @@ extension ComputeOptimizerAutomationClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Compute Optimizer Automation")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -252,7 +254,7 @@ extension ComputeOptimizerAutomationClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Compute Optimizer Automation")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -428,7 +430,7 @@ extension ComputeOptimizerAutomationClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Compute Optimizer Automation")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -483,7 +485,7 @@ extension ComputeOptimizerAutomationClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Compute Optimizer Automation")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -668,8 +670,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAccountsInput, AssociateAccountsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAccountsInput, AssociateAccountsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateAccountsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -683,6 +683,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateAccountsInput, AssociateAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateAccountsInput, AssociateAccountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateAccountsInput, AssociateAccountsOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -756,8 +758,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAutomationRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -771,6 +771,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -843,8 +845,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAutomationRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -858,6 +858,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -930,8 +932,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateAccountsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -945,6 +945,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -1014,8 +1016,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAutomationEventInput, GetAutomationEventOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutomationEventInput, GetAutomationEventOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutomationEventOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1029,6 +1029,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAutomationEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAutomationEventInput, GetAutomationEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAutomationEventInput, GetAutomationEventOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAutomationEventInput, GetAutomationEventOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -1098,8 +1100,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutomationRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1113,6 +1113,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -1181,8 +1183,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnrollmentConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1196,6 +1196,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEnrollmentConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -1265,8 +1267,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountsInput, ListAccountsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountsInput, ListAccountsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1280,6 +1280,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAccountsInput, ListAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAccountsInput, ListAccountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAccountsInput, ListAccountsOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -1349,8 +1351,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomationEventStepsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1364,6 +1364,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationEventStepsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -1432,8 +1434,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomationEventSummariesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1447,6 +1447,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationEventSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -1515,8 +1517,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomationEventsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1530,6 +1530,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -1598,8 +1600,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomationRulePreviewOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1613,6 +1613,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationRulePreviewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -1681,8 +1683,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomationRulePreviewSummariesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1696,6 +1696,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationRulePreviewSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -1764,8 +1766,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomationRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1779,6 +1779,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -1847,8 +1849,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendedActionSummariesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1862,6 +1862,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecommendedActionSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -1930,8 +1932,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendedActionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1945,6 +1945,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecommendedActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -2014,8 +2016,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2029,6 +2029,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -2101,8 +2103,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RollbackAutomationEventOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2116,6 +2116,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RollbackAutomationEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -2189,8 +2191,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAutomationEventInput, StartAutomationEventOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAutomationEventInput, StartAutomationEventOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAutomationEventOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2204,6 +2204,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAutomationEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAutomationEventInput, StartAutomationEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartAutomationEventInput, StartAutomationEventOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartAutomationEventInput, StartAutomationEventOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -2276,8 +2278,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2291,6 +2291,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -2363,8 +2365,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2378,6 +2378,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -2450,8 +2452,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAutomationRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2465,6 +2465,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
@@ -2538,8 +2540,6 @@ extension ComputeOptimizerAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnrollmentConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2553,6 +2553,8 @@ extension ComputeOptimizerAutomationClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEnrollmentConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")

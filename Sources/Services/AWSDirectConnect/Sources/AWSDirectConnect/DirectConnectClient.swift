@@ -72,6 +72,7 @@ public final class DirectConnectClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: DirectConnectClient.DirectConnectClientConfig
     let serviceName = "Direct Connect"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use DirectConnectClient.DirectConnectClientConfig instead")
     public typealias Config = DirectConnectClient.DirectConnectClientConfiguration
@@ -81,6 +82,7 @@ public final class DirectConnectClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: DirectConnectClient.DirectConnectClientConfig) instead")
@@ -195,7 +197,7 @@ extension DirectConnectClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Direct Connect")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -250,7 +252,7 @@ extension DirectConnectClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Direct Connect")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -426,7 +428,7 @@ extension DirectConnectClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Direct Connect")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -481,7 +483,7 @@ extension DirectConnectClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Direct Connect")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -656,8 +658,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptDirectConnectGatewayAssociationProposalInput, AcceptDirectConnectGatewayAssociationProposalOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptDirectConnectGatewayAssociationProposalInput, AcceptDirectConnectGatewayAssociationProposalOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptDirectConnectGatewayAssociationProposalOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -669,6 +669,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptDirectConnectGatewayAssociationProposalOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptDirectConnectGatewayAssociationProposalInput, AcceptDirectConnectGatewayAssociationProposalOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptDirectConnectGatewayAssociationProposalInput, AcceptDirectConnectGatewayAssociationProposalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptDirectConnectGatewayAssociationProposalInput, AcceptDirectConnectGatewayAssociationProposalOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -732,8 +734,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AllocateConnectionOnInterconnectInput, AllocateConnectionOnInterconnectOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AllocateConnectionOnInterconnectInput, AllocateConnectionOnInterconnectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocateConnectionOnInterconnectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -745,6 +745,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AllocateConnectionOnInterconnectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AllocateConnectionOnInterconnectInput, AllocateConnectionOnInterconnectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AllocateConnectionOnInterconnectInput, AllocateConnectionOnInterconnectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AllocateConnectionOnInterconnectInput, AllocateConnectionOnInterconnectOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -809,8 +811,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AllocateHostedConnectionInput, AllocateHostedConnectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AllocateHostedConnectionInput, AllocateHostedConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocateHostedConnectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -822,6 +822,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AllocateHostedConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AllocateHostedConnectionInput, AllocateHostedConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AllocateHostedConnectionInput, AllocateHostedConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AllocateHostedConnectionInput, AllocateHostedConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -852,6 +854,7 @@ extension DirectConnectClient {
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
+    /// - `LimitExceededException` : The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
     public func allocatePrivateVirtualInterface(input: AllocatePrivateVirtualInterfaceInput) async throws -> AllocatePrivateVirtualInterfaceOutput {
         var config = config
@@ -886,8 +889,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AllocatePrivateVirtualInterfaceInput, AllocatePrivateVirtualInterfaceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AllocatePrivateVirtualInterfaceInput, AllocatePrivateVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocatePrivateVirtualInterfaceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -899,6 +900,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AllocatePrivateVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AllocatePrivateVirtualInterfaceInput, AllocatePrivateVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AllocatePrivateVirtualInterfaceInput, AllocatePrivateVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AllocatePrivateVirtualInterfaceInput, AllocatePrivateVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -929,6 +932,7 @@ extension DirectConnectClient {
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
+    /// - `LimitExceededException` : The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
     public func allocatePublicVirtualInterface(input: AllocatePublicVirtualInterfaceInput) async throws -> AllocatePublicVirtualInterfaceOutput {
         var config = config
@@ -963,8 +967,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AllocatePublicVirtualInterfaceInput, AllocatePublicVirtualInterfaceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AllocatePublicVirtualInterfaceInput, AllocatePublicVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocatePublicVirtualInterfaceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -976,6 +978,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AllocatePublicVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AllocatePublicVirtualInterfaceInput, AllocatePublicVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AllocatePublicVirtualInterfaceInput, AllocatePublicVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AllocatePublicVirtualInterfaceInput, AllocatePublicVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -1006,6 +1010,7 @@ extension DirectConnectClient {
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
+    /// - `LimitExceededException` : The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
     public func allocateTransitVirtualInterface(input: AllocateTransitVirtualInterfaceInput) async throws -> AllocateTransitVirtualInterfaceOutput {
         var config = config
@@ -1040,8 +1045,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AllocateTransitVirtualInterfaceInput, AllocateTransitVirtualInterfaceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AllocateTransitVirtualInterfaceInput, AllocateTransitVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocateTransitVirtualInterfaceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1053,6 +1056,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AllocateTransitVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AllocateTransitVirtualInterfaceInput, AllocateTransitVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AllocateTransitVirtualInterfaceInput, AllocateTransitVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AllocateTransitVirtualInterfaceInput, AllocateTransitVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -1082,6 +1087,7 @@ extension DirectConnectClient {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
+    /// - `LimitExceededException` : The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
     public func associateConnectionWithLag(input: AssociateConnectionWithLagInput) async throws -> AssociateConnectionWithLagOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1115,8 +1121,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateConnectionWithLagInput, AssociateConnectionWithLagOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateConnectionWithLagInput, AssociateConnectionWithLagOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateConnectionWithLagOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1128,6 +1132,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateConnectionWithLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateConnectionWithLagInput, AssociateConnectionWithLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateConnectionWithLagInput, AssociateConnectionWithLagOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateConnectionWithLagInput, AssociateConnectionWithLagOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -1190,8 +1196,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateHostedConnectionInput, AssociateHostedConnectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateHostedConnectionInput, AssociateHostedConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateHostedConnectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1203,6 +1207,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateHostedConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateHostedConnectionInput, AssociateHostedConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateHostedConnectionInput, AssociateHostedConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateHostedConnectionInput, AssociateHostedConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -1265,8 +1271,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateMacSecKeyInput, AssociateMacSecKeyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateMacSecKeyInput, AssociateMacSecKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateMacSecKeyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1278,6 +1282,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateMacSecKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateMacSecKeyInput, AssociateMacSecKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateMacSecKeyInput, AssociateMacSecKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateMacSecKeyInput, AssociateMacSecKeyOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -1340,8 +1346,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateVirtualInterfaceInput, AssociateVirtualInterfaceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateVirtualInterfaceInput, AssociateVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateVirtualInterfaceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1353,6 +1357,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateVirtualInterfaceInput, AssociateVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateVirtualInterfaceInput, AssociateVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateVirtualInterfaceInput, AssociateVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -1415,8 +1421,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfirmConnectionInput, ConfirmConnectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmConnectionInput, ConfirmConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmConnectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1428,6 +1432,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConfirmConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConfirmConnectionInput, ConfirmConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConfirmConnectionInput, ConfirmConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmConnectionInput, ConfirmConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -1490,8 +1496,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfirmCustomerAgreementInput, ConfirmCustomerAgreementOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmCustomerAgreementInput, ConfirmCustomerAgreementOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmCustomerAgreementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1503,6 +1507,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConfirmCustomerAgreementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConfirmCustomerAgreementInput, ConfirmCustomerAgreementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConfirmCustomerAgreementInput, ConfirmCustomerAgreementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmCustomerAgreementInput, ConfirmCustomerAgreementOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -1565,8 +1571,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfirmPrivateVirtualInterfaceInput, ConfirmPrivateVirtualInterfaceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmPrivateVirtualInterfaceInput, ConfirmPrivateVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmPrivateVirtualInterfaceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1578,6 +1582,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConfirmPrivateVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConfirmPrivateVirtualInterfaceInput, ConfirmPrivateVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConfirmPrivateVirtualInterfaceInput, ConfirmPrivateVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmPrivateVirtualInterfaceInput, ConfirmPrivateVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -1640,8 +1646,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfirmPublicVirtualInterfaceInput, ConfirmPublicVirtualInterfaceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmPublicVirtualInterfaceInput, ConfirmPublicVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmPublicVirtualInterfaceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1653,6 +1657,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConfirmPublicVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConfirmPublicVirtualInterfaceInput, ConfirmPublicVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConfirmPublicVirtualInterfaceInput, ConfirmPublicVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmPublicVirtualInterfaceInput, ConfirmPublicVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -1715,8 +1721,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfirmTransitVirtualInterfaceInput, ConfirmTransitVirtualInterfaceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmTransitVirtualInterfaceInput, ConfirmTransitVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmTransitVirtualInterfaceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1728,6 +1732,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConfirmTransitVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConfirmTransitVirtualInterfaceInput, ConfirmTransitVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConfirmTransitVirtualInterfaceInput, ConfirmTransitVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmTransitVirtualInterfaceInput, ConfirmTransitVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -1790,8 +1796,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBGPPeerInput, CreateBGPPeerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBGPPeerInput, CreateBGPPeerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBGPPeerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1803,6 +1807,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBGPPeerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBGPPeerInput, CreateBGPPeerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateBGPPeerInput, CreateBGPPeerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBGPPeerInput, CreateBGPPeerOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -1867,8 +1873,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectionInput, CreateConnectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectionInput, CreateConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1880,6 +1884,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConnectionInput, CreateConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateConnectionInput, CreateConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateConnectionInput, CreateConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -1942,8 +1948,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDirectConnectGatewayInput, CreateDirectConnectGatewayOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDirectConnectGatewayInput, CreateDirectConnectGatewayOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDirectConnectGatewayOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1955,6 +1959,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDirectConnectGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDirectConnectGatewayInput, CreateDirectConnectGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDirectConnectGatewayInput, CreateDirectConnectGatewayOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDirectConnectGatewayInput, CreateDirectConnectGatewayOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -2017,8 +2023,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDirectConnectGatewayAssociationInput, CreateDirectConnectGatewayAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDirectConnectGatewayAssociationInput, CreateDirectConnectGatewayAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDirectConnectGatewayAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2030,6 +2034,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDirectConnectGatewayAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDirectConnectGatewayAssociationInput, CreateDirectConnectGatewayAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDirectConnectGatewayAssociationInput, CreateDirectConnectGatewayAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDirectConnectGatewayAssociationInput, CreateDirectConnectGatewayAssociationOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -2092,8 +2098,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDirectConnectGatewayAssociationProposalInput, CreateDirectConnectGatewayAssociationProposalOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDirectConnectGatewayAssociationProposalInput, CreateDirectConnectGatewayAssociationProposalOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDirectConnectGatewayAssociationProposalOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2105,6 +2109,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDirectConnectGatewayAssociationProposalOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDirectConnectGatewayAssociationProposalInput, CreateDirectConnectGatewayAssociationProposalOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDirectConnectGatewayAssociationProposalInput, CreateDirectConnectGatewayAssociationProposalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDirectConnectGatewayAssociationProposalInput, CreateDirectConnectGatewayAssociationProposalOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -2169,8 +2175,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInterconnectInput, CreateInterconnectOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInterconnectInput, CreateInterconnectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInterconnectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2182,6 +2186,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateInterconnectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateInterconnectInput, CreateInterconnectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateInterconnectInput, CreateInterconnectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateInterconnectInput, CreateInterconnectOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -2246,8 +2252,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLagInput, CreateLagOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLagInput, CreateLagOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLagOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2259,6 +2263,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLagInput, CreateLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateLagInput, CreateLagOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateLagInput, CreateLagOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -2289,6 +2295,7 @@ extension DirectConnectClient {
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
+    /// - `LimitExceededException` : The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
     public func createPrivateVirtualInterface(input: CreatePrivateVirtualInterfaceInput) async throws -> CreatePrivateVirtualInterfaceOutput {
         var config = config
@@ -2323,8 +2330,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePrivateVirtualInterfaceInput, CreatePrivateVirtualInterfaceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePrivateVirtualInterfaceInput, CreatePrivateVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePrivateVirtualInterfaceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2336,6 +2341,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePrivateVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePrivateVirtualInterfaceInput, CreatePrivateVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePrivateVirtualInterfaceInput, CreatePrivateVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePrivateVirtualInterfaceInput, CreatePrivateVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -2366,6 +2373,7 @@ extension DirectConnectClient {
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
+    /// - `LimitExceededException` : The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
     public func createPublicVirtualInterface(input: CreatePublicVirtualInterfaceInput) async throws -> CreatePublicVirtualInterfaceOutput {
         var config = config
@@ -2400,8 +2408,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePublicVirtualInterfaceInput, CreatePublicVirtualInterfaceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePublicVirtualInterfaceInput, CreatePublicVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePublicVirtualInterfaceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2413,6 +2419,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePublicVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePublicVirtualInterfaceInput, CreatePublicVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePublicVirtualInterfaceInput, CreatePublicVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePublicVirtualInterfaceInput, CreatePublicVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -2443,6 +2451,7 @@ extension DirectConnectClient {
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
+    /// - `LimitExceededException` : The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
     public func createTransitVirtualInterface(input: CreateTransitVirtualInterfaceInput) async throws -> CreateTransitVirtualInterfaceOutput {
         var config = config
@@ -2477,8 +2486,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTransitVirtualInterfaceInput, CreateTransitVirtualInterfaceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransitVirtualInterfaceInput, CreateTransitVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitVirtualInterfaceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2490,6 +2497,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTransitVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTransitVirtualInterfaceInput, CreateTransitVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTransitVirtualInterfaceInput, CreateTransitVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTransitVirtualInterfaceInput, CreateTransitVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -2552,8 +2561,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBGPPeerInput, DeleteBGPPeerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBGPPeerInput, DeleteBGPPeerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBGPPeerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2565,6 +2572,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBGPPeerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBGPPeerInput, DeleteBGPPeerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteBGPPeerInput, DeleteBGPPeerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteBGPPeerInput, DeleteBGPPeerOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -2627,8 +2636,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2640,6 +2647,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -2702,8 +2711,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDirectConnectGatewayInput, DeleteDirectConnectGatewayOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDirectConnectGatewayInput, DeleteDirectConnectGatewayOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDirectConnectGatewayOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2715,6 +2722,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDirectConnectGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDirectConnectGatewayInput, DeleteDirectConnectGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDirectConnectGatewayInput, DeleteDirectConnectGatewayOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDirectConnectGatewayInput, DeleteDirectConnectGatewayOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -2777,8 +2786,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDirectConnectGatewayAssociationInput, DeleteDirectConnectGatewayAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDirectConnectGatewayAssociationInput, DeleteDirectConnectGatewayAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDirectConnectGatewayAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2790,6 +2797,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDirectConnectGatewayAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDirectConnectGatewayAssociationInput, DeleteDirectConnectGatewayAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDirectConnectGatewayAssociationInput, DeleteDirectConnectGatewayAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDirectConnectGatewayAssociationInput, DeleteDirectConnectGatewayAssociationOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -2852,8 +2861,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDirectConnectGatewayAssociationProposalInput, DeleteDirectConnectGatewayAssociationProposalOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDirectConnectGatewayAssociationProposalInput, DeleteDirectConnectGatewayAssociationProposalOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDirectConnectGatewayAssociationProposalOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2865,6 +2872,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDirectConnectGatewayAssociationProposalOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDirectConnectGatewayAssociationProposalInput, DeleteDirectConnectGatewayAssociationProposalOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDirectConnectGatewayAssociationProposalInput, DeleteDirectConnectGatewayAssociationProposalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDirectConnectGatewayAssociationProposalInput, DeleteDirectConnectGatewayAssociationProposalOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -2927,8 +2936,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInterconnectInput, DeleteInterconnectOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInterconnectInput, DeleteInterconnectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInterconnectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2940,6 +2947,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInterconnectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteInterconnectInput, DeleteInterconnectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteInterconnectInput, DeleteInterconnectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteInterconnectInput, DeleteInterconnectOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -3002,8 +3011,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLagInput, DeleteLagOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLagInput, DeleteLagOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLagOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3015,6 +3022,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLagInput, DeleteLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteLagInput, DeleteLagOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteLagInput, DeleteLagOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -3077,8 +3086,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVirtualInterfaceInput, DeleteVirtualInterfaceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVirtualInterfaceInput, DeleteVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVirtualInterfaceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3090,6 +3097,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVirtualInterfaceInput, DeleteVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteVirtualInterfaceInput, DeleteVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteVirtualInterfaceInput, DeleteVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -3153,8 +3162,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConnectionLoaInput, DescribeConnectionLoaOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectionLoaInput, DescribeConnectionLoaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectionLoaOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3166,6 +3173,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConnectionLoaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConnectionLoaInput, DescribeConnectionLoaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConnectionLoaInput, DescribeConnectionLoaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConnectionLoaInput, DescribeConnectionLoaOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -3228,8 +3237,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConnectionsInput, DescribeConnectionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectionsInput, DescribeConnectionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3241,6 +3248,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConnectionsInput, DescribeConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConnectionsInput, DescribeConnectionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConnectionsInput, DescribeConnectionsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -3304,8 +3313,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConnectionsOnInterconnectInput, DescribeConnectionsOnInterconnectOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectionsOnInterconnectInput, DescribeConnectionsOnInterconnectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectionsOnInterconnectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3317,6 +3324,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConnectionsOnInterconnectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConnectionsOnInterconnectInput, DescribeConnectionsOnInterconnectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConnectionsOnInterconnectInput, DescribeConnectionsOnInterconnectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConnectionsOnInterconnectInput, DescribeConnectionsOnInterconnectOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -3379,8 +3388,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCustomerMetadataInput, DescribeCustomerMetadataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCustomerMetadataInput, DescribeCustomerMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCustomerMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3392,6 +3399,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCustomerMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCustomerMetadataInput, DescribeCustomerMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCustomerMetadataInput, DescribeCustomerMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCustomerMetadataInput, DescribeCustomerMetadataOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -3454,8 +3463,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDirectConnectGatewayAssociationProposalsInput, DescribeDirectConnectGatewayAssociationProposalsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDirectConnectGatewayAssociationProposalsInput, DescribeDirectConnectGatewayAssociationProposalsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDirectConnectGatewayAssociationProposalsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3467,6 +3474,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDirectConnectGatewayAssociationProposalsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDirectConnectGatewayAssociationProposalsInput, DescribeDirectConnectGatewayAssociationProposalsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDirectConnectGatewayAssociationProposalsInput, DescribeDirectConnectGatewayAssociationProposalsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDirectConnectGatewayAssociationProposalsInput, DescribeDirectConnectGatewayAssociationProposalsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -3543,8 +3552,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDirectConnectGatewayAssociationsInput, DescribeDirectConnectGatewayAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDirectConnectGatewayAssociationsInput, DescribeDirectConnectGatewayAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDirectConnectGatewayAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3556,6 +3563,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDirectConnectGatewayAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDirectConnectGatewayAssociationsInput, DescribeDirectConnectGatewayAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDirectConnectGatewayAssociationsInput, DescribeDirectConnectGatewayAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDirectConnectGatewayAssociationsInput, DescribeDirectConnectGatewayAssociationsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -3618,8 +3627,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDirectConnectGatewayAttachmentsInput, DescribeDirectConnectGatewayAttachmentsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDirectConnectGatewayAttachmentsInput, DescribeDirectConnectGatewayAttachmentsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDirectConnectGatewayAttachmentsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3631,6 +3638,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDirectConnectGatewayAttachmentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDirectConnectGatewayAttachmentsInput, DescribeDirectConnectGatewayAttachmentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDirectConnectGatewayAttachmentsInput, DescribeDirectConnectGatewayAttachmentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDirectConnectGatewayAttachmentsInput, DescribeDirectConnectGatewayAttachmentsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -3693,8 +3702,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDirectConnectGatewaysInput, DescribeDirectConnectGatewaysOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDirectConnectGatewaysInput, DescribeDirectConnectGatewaysOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDirectConnectGatewaysOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3706,6 +3713,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDirectConnectGatewaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDirectConnectGatewaysInput, DescribeDirectConnectGatewaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDirectConnectGatewaysInput, DescribeDirectConnectGatewaysOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDirectConnectGatewaysInput, DescribeDirectConnectGatewaysOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -3768,8 +3777,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeHostedConnectionsInput, DescribeHostedConnectionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHostedConnectionsInput, DescribeHostedConnectionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHostedConnectionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3781,6 +3788,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeHostedConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeHostedConnectionsInput, DescribeHostedConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeHostedConnectionsInput, DescribeHostedConnectionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeHostedConnectionsInput, DescribeHostedConnectionsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -3844,8 +3853,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInterconnectLoaInput, DescribeInterconnectLoaOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInterconnectLoaInput, DescribeInterconnectLoaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInterconnectLoaOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3857,6 +3864,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInterconnectLoaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInterconnectLoaInput, DescribeInterconnectLoaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInterconnectLoaInput, DescribeInterconnectLoaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInterconnectLoaInput, DescribeInterconnectLoaOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -3919,8 +3928,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInterconnectsInput, DescribeInterconnectsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInterconnectsInput, DescribeInterconnectsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInterconnectsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3932,6 +3939,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInterconnectsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInterconnectsInput, DescribeInterconnectsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInterconnectsInput, DescribeInterconnectsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInterconnectsInput, DescribeInterconnectsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -3994,8 +4003,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLagsInput, DescribeLagsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLagsInput, DescribeLagsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLagsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4007,6 +4014,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLagsInput, DescribeLagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeLagsInput, DescribeLagsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeLagsInput, DescribeLagsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -4069,8 +4078,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLoaInput, DescribeLoaOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLoaInput, DescribeLoaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLoaOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4082,6 +4089,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLoaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLoaInput, DescribeLoaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeLoaInput, DescribeLoaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeLoaInput, DescribeLoaOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -4144,8 +4153,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLocationsInput, DescribeLocationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocationsInput, DescribeLocationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLocationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4157,6 +4164,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLocationsInput, DescribeLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeLocationsInput, DescribeLocationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeLocationsInput, DescribeLocationsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -4219,8 +4228,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRouterConfigurationInput, DescribeRouterConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRouterConfigurationInput, DescribeRouterConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRouterConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4232,6 +4239,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRouterConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRouterConfigurationInput, DescribeRouterConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRouterConfigurationInput, DescribeRouterConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRouterConfigurationInput, DescribeRouterConfigurationOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -4294,8 +4303,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTagsInput, DescribeTagsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTagsInput, DescribeTagsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTagsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4307,6 +4314,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTagsInput, DescribeTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTagsInput, DescribeTagsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTagsInput, DescribeTagsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -4369,8 +4378,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVirtualGatewaysInput, DescribeVirtualGatewaysOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVirtualGatewaysInput, DescribeVirtualGatewaysOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVirtualGatewaysOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4382,6 +4389,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVirtualGatewaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVirtualGatewaysInput, DescribeVirtualGatewaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeVirtualGatewaysInput, DescribeVirtualGatewaysOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeVirtualGatewaysInput, DescribeVirtualGatewaysOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -4402,7 +4411,7 @@ extension DirectConnectClient {
     ///
     /// Displays all virtual interfaces for an Amazon Web Services account. Virtual interfaces deleted fewer than 15 minutes before you make the request are also returned. If you specify a connection ID, only the virtual interfaces associated with the connection are returned. If you specify a virtual interface ID, then only a single virtual interface is returned. A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the customer network.
     ///
-    /// * If you're using an asn, the response includes ASN value in both the asn and asnLong fields.
+    /// * If you're using an asn, the response includes the ASN value in both the asn and asnLong fields.
     ///
     /// * If you're using asnLong, the response returns a value of 0 (zero) for the asn attribute because it exceeds the highest ASN value of 2,147,483,647 that it can support
     ///
@@ -4448,8 +4457,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVirtualInterfacesInput, DescribeVirtualInterfacesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVirtualInterfacesInput, DescribeVirtualInterfacesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVirtualInterfacesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4461,6 +4468,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVirtualInterfacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVirtualInterfacesInput, DescribeVirtualInterfacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeVirtualInterfacesInput, DescribeVirtualInterfacesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeVirtualInterfacesInput, DescribeVirtualInterfacesOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -4523,8 +4532,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateConnectionFromLagInput, DisassociateConnectionFromLagOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateConnectionFromLagInput, DisassociateConnectionFromLagOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateConnectionFromLagOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4536,6 +4543,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateConnectionFromLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateConnectionFromLagInput, DisassociateConnectionFromLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateConnectionFromLagInput, DisassociateConnectionFromLagOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateConnectionFromLagInput, DisassociateConnectionFromLagOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -4598,8 +4607,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateMacSecKeyInput, DisassociateMacSecKeyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateMacSecKeyInput, DisassociateMacSecKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateMacSecKeyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4611,6 +4618,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateMacSecKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateMacSecKeyInput, DisassociateMacSecKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateMacSecKeyInput, DisassociateMacSecKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateMacSecKeyInput, DisassociateMacSecKeyOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -4673,8 +4682,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVirtualInterfaceTestHistoryInput, ListVirtualInterfaceTestHistoryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVirtualInterfaceTestHistoryInput, ListVirtualInterfaceTestHistoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVirtualInterfaceTestHistoryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4686,6 +4693,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVirtualInterfaceTestHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListVirtualInterfaceTestHistoryInput, ListVirtualInterfaceTestHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListVirtualInterfaceTestHistoryInput, ListVirtualInterfaceTestHistoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListVirtualInterfaceTestHistoryInput, ListVirtualInterfaceTestHistoryOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -4748,8 +4757,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBgpFailoverTestInput, StartBgpFailoverTestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBgpFailoverTestInput, StartBgpFailoverTestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartBgpFailoverTestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4761,6 +4768,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartBgpFailoverTestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartBgpFailoverTestInput, StartBgpFailoverTestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartBgpFailoverTestInput, StartBgpFailoverTestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartBgpFailoverTestInput, StartBgpFailoverTestOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -4823,8 +4832,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopBgpFailoverTestInput, StopBgpFailoverTestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopBgpFailoverTestInput, StopBgpFailoverTestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopBgpFailoverTestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4836,6 +4843,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopBgpFailoverTestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopBgpFailoverTestInput, StopBgpFailoverTestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopBgpFailoverTestInput, StopBgpFailoverTestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopBgpFailoverTestInput, StopBgpFailoverTestOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -4900,8 +4909,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4913,6 +4920,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -4975,8 +4984,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4988,6 +4995,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -5054,8 +5063,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectionInput, UpdateConnectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5067,6 +5074,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConnectionInput, UpdateConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -5129,8 +5138,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDirectConnectGatewayInput, UpdateDirectConnectGatewayOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDirectConnectGatewayInput, UpdateDirectConnectGatewayOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDirectConnectGatewayOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5142,6 +5149,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDirectConnectGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDirectConnectGatewayInput, UpdateDirectConnectGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDirectConnectGatewayInput, UpdateDirectConnectGatewayOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDirectConnectGatewayInput, UpdateDirectConnectGatewayOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -5204,8 +5213,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDirectConnectGatewayAssociationInput, UpdateDirectConnectGatewayAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDirectConnectGatewayAssociationInput, UpdateDirectConnectGatewayAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDirectConnectGatewayAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5217,6 +5224,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDirectConnectGatewayAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDirectConnectGatewayAssociationInput, UpdateDirectConnectGatewayAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDirectConnectGatewayAssociationInput, UpdateDirectConnectGatewayAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDirectConnectGatewayAssociationInput, UpdateDirectConnectGatewayAssociationOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -5290,8 +5299,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLagInput, UpdateLagOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLagInput, UpdateLagOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLagOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5303,6 +5310,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLagInput, UpdateLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateLagInput, UpdateLagOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateLagInput, UpdateLagOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
@@ -5365,8 +5374,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVirtualInterfaceAttributesInput, UpdateVirtualInterfaceAttributesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVirtualInterfaceAttributesInput, UpdateVirtualInterfaceAttributesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVirtualInterfaceAttributesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5378,6 +5385,8 @@ extension DirectConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateVirtualInterfaceAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateVirtualInterfaceAttributesInput, UpdateVirtualInterfaceAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateVirtualInterfaceAttributesInput, UpdateVirtualInterfaceAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateVirtualInterfaceAttributesInput, UpdateVirtualInterfaceAttributesOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")

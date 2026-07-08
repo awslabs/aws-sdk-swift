@@ -242,6 +242,57 @@ extension KeyspacesStreamsClientTypes {
 
 extension KeyspacesStreamsClientTypes {
 
+    public enum IteratorPosition: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case atTip
+        case behindTip
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IteratorPosition] {
+            return [
+                .atTip,
+                .behindTip
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .atTip: return "AT_TIP"
+            case .behindTip: return "BEHIND_TIP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KeyspacesStreamsClientTypes {
+
+    /// Provides information about the current iterator.
+    public struct IteratorDescription: Swift.Sendable {
+        /// Indicates the current iterator's position within the shard. The possible values are:
+        ///
+        /// * AT_TIP - No more records are currently available.
+        ///
+        /// * BEHIND_TIP - Additional records may be available.
+        ///
+        ///
+        /// Stream progresses in absence of customer records. BEHIND_TIP with an empty changeRecords list indicates the stream is progressing but no customer records are available at this position. Continue polling normally.
+        public var iteratorPosition: KeyspacesStreamsClientTypes.IteratorPosition?
+
+        public init(
+            iteratorPosition: KeyspacesStreamsClientTypes.IteratorPosition? = nil
+        ) {
+            self.iteratorPosition = iteratorPosition
+        }
+    }
+}
+
+extension KeyspacesStreamsClientTypes {
+
     public enum ShardIteratorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afterSequenceNumber
         case atSequenceNumber
@@ -799,14 +850,18 @@ extension KeyspacesStreamsClientTypes {
 public struct GetRecordsOutput: Swift.Sendable {
     /// An array of change data records retrieved from the specified shard. Each record represents a single data modification (insert, update, or delete) to a row in the Amazon Keyspaces table. Records include the primary key columns and information about what data was modified.
     public var changeRecords: [KeyspacesStreamsClientTypes.Record]?
+    /// Provides information about the current iterator at the time GetRecords request was processed by Keyspaces.
+    public var iteratorDescription: KeyspacesStreamsClientTypes.IteratorDescription?
     /// The next position in the shard from which to start sequentially reading data records. If null, the shard has been closed and the requested iterator will not return any more data.
     public var nextShardIterator: Swift.String?
 
     public init(
         changeRecords: [KeyspacesStreamsClientTypes.Record]? = nil,
+        iteratorDescription: KeyspacesStreamsClientTypes.IteratorDescription? = nil,
         nextShardIterator: Swift.String? = nil
     ) {
         self.changeRecords = changeRecords
+        self.iteratorDescription = iteratorDescription
         self.nextShardIterator = nextShardIterator
     }
 }

@@ -1608,7 +1608,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         description: Swift.String? = nil,
         iframeConfig: AppIntegrationsClientTypes.IframeConfig? = nil,
         initializationTimeout: Swift.Int? = nil,
-        isService: Swift.Bool? = false,
+        isService: Swift.Bool? = nil,
         name: Swift.String? = nil,
         permissions: [Swift.String]? = nil,
         publications: [AppIntegrationsClientTypes.Publication]? = nil,

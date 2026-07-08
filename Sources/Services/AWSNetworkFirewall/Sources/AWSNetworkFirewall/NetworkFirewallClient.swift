@@ -72,6 +72,7 @@ public final class NetworkFirewallClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: NetworkFirewallClient.NetworkFirewallClientConfig
     let serviceName = "Network Firewall"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use NetworkFirewallClient.NetworkFirewallClientConfig instead")
     public typealias Config = NetworkFirewallClient.NetworkFirewallClientConfiguration
@@ -81,6 +82,7 @@ public final class NetworkFirewallClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: NetworkFirewallClient.NetworkFirewallClientConfig) instead")
@@ -195,7 +197,7 @@ extension NetworkFirewallClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Network Firewall")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -250,7 +252,7 @@ extension NetworkFirewallClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Network Firewall")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -426,7 +428,7 @@ extension NetworkFirewallClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Network Firewall")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -481,7 +483,7 @@ extension NetworkFirewallClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Network Firewall")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -664,8 +666,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -677,6 +677,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -750,8 +752,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateAvailabilityZonesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -763,6 +763,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateAvailabilityZonesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -835,8 +837,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateFirewallPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -848,6 +848,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -921,8 +923,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSubnetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -934,6 +934,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateSubnetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -1004,8 +1006,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachRuleGroupsToProxyConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1017,10 +1017,96 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AttachRuleGroupsToProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AttachRuleGroupsToProxyConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateContainerAssociation` operation on the `NetworkFirewall` service.
+    ///
+    /// Creates a container association for Network Firewall. A container association links container clusters (ECS or EKS) to Network Firewall, enabling dynamic IP resolution for firewall rules based on container attributes. To manage a container association's tags, use the standard Amazon Web Services resource tagging operations, [ListTagsForResource], [TagResource], and [UntagResource]. To retrieve information about container associations, use [ListContainerAssociations] and [DescribeContainerAssociation].
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateContainerAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateContainerAssociationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientCapacityException` : Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `LimitExceededException` : Unable to perform the operation because doing so would violate a limit setting.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func createContainerAssociation(input: CreateContainerAssociationInput) async throws -> CreateContainerAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = NetworkFirewallClient.createContainerAssociationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createContainerAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateContainerAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateContainerAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateContainerAssociation"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateContainerAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateContainerAssociation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1089,8 +1175,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFirewallInput, CreateFirewallOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFirewallInput, CreateFirewallOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFirewallOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1102,6 +1186,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFirewallOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFirewallInput, CreateFirewallOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFirewallInput, CreateFirewallOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateFirewallInput, CreateFirewallOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -1173,8 +1259,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFirewallPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1186,6 +1270,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -1258,8 +1344,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProxyInput, CreateProxyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProxyInput, CreateProxyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProxyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1271,6 +1355,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProxyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProxyInput, CreateProxyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProxyInput, CreateProxyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProxyInput, CreateProxyOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -1342,8 +1428,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProxyConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1355,6 +1439,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -1425,8 +1511,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProxyRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1438,6 +1522,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProxyRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -1507,8 +1593,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProxyRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1520,6 +1604,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProxyRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -1591,8 +1677,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1604,6 +1688,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -1675,8 +1761,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTLSInspectionConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1688,6 +1772,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTLSInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -1761,8 +1847,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcEndpointAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1774,10 +1858,96 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVpcEndpointAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVpcEndpointAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteContainerAssociation` operation on the `NetworkFirewall` service.
+    ///
+    /// Deletes the specified container association. When you delete a container association, Network Firewall stops monitoring the associated container clusters and removes the resolved IP addresses from firewall rules.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteContainerAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteContainerAssociationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidOperationException` : The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func deleteContainerAssociation(input: DeleteContainerAssociationInput) async throws -> DeleteContainerAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = NetworkFirewallClient.deleteContainerAssociationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteContainerAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContainerAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteContainerAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteContainerAssociation"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContainerAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteContainerAssociation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1846,8 +2016,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallInput, DeleteFirewallOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFirewallInput, DeleteFirewallOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFirewallOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1859,6 +2027,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFirewallOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFirewallInput, DeleteFirewallOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFirewallInput, DeleteFirewallOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteFirewallInput, DeleteFirewallOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -1931,8 +2101,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFirewallPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1944,6 +2112,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -2014,8 +2184,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2027,6 +2195,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -2098,8 +2268,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProxyInput, DeleteProxyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProxyInput, DeleteProxyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProxyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2111,6 +2279,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProxyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProxyInput, DeleteProxyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProxyInput, DeleteProxyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProxyInput, DeleteProxyOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -2181,8 +2351,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProxyConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2194,6 +2362,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -2264,8 +2434,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProxyRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2277,6 +2445,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProxyRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -2347,8 +2517,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProxyRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2360,6 +2528,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProxyRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -2431,8 +2601,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2444,6 +2612,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -2516,8 +2686,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2529,6 +2697,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -2600,8 +2770,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTLSInspectionConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2613,6 +2781,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTLSInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -2684,8 +2854,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcEndpointAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2697,10 +2865,95 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVpcEndpointAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVpcEndpointAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeContainerAssociation` operation on the `NetworkFirewall` service.
+    ///
+    /// Returns the properties of a container association.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeContainerAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeContainerAssociationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func describeContainerAssociation(input: DescribeContainerAssociationInput) async throws -> DescribeContainerAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = NetworkFirewallClient.describeContainerAssociationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeContainerAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContainerAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeContainerAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeContainerAssociation"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContainerAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeContainerAssociation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2767,8 +3020,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFirewallInput, DescribeFirewallOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFirewallInput, DescribeFirewallOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFirewallOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2780,6 +3031,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFirewallOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFirewallInput, DescribeFirewallOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFirewallInput, DescribeFirewallOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeFirewallInput, DescribeFirewallOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -2850,8 +3103,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFirewallMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2863,6 +3114,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFirewallMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -2933,8 +3186,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFirewallPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2946,6 +3197,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -3016,8 +3269,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFlowOperationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3029,6 +3280,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFlowOperationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -3099,8 +3352,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLoggingConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3112,6 +3363,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLoggingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -3182,8 +3435,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProxyInput, DescribeProxyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProxyInput, DescribeProxyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProxyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3195,6 +3446,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProxyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProxyInput, DescribeProxyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeProxyInput, DescribeProxyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeProxyInput, DescribeProxyOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -3265,8 +3518,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProxyConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3278,6 +3529,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -3348,8 +3601,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProxyRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3361,6 +3612,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProxyRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -3431,8 +3684,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProxyRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3444,6 +3695,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProxyRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -3514,8 +3767,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3527,6 +3778,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -3597,8 +3850,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3610,6 +3861,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -3680,8 +3933,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRuleGroupMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3693,6 +3944,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRuleGroupMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -3763,8 +4016,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRuleGroupSummaryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3776,6 +4027,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRuleGroupSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -3846,8 +4099,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTLSInspectionConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3859,6 +4110,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTLSInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -3929,8 +4182,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcEndpointAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3942,6 +4193,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVpcEndpointAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -4012,8 +4265,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachRuleGroupsFromProxyConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4025,6 +4276,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetachRuleGroupsFromProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -4097,8 +4350,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateAvailabilityZonesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4110,6 +4361,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateAvailabilityZonesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -4182,8 +4435,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSubnetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4195,6 +4446,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateSubnetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -4265,8 +4518,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAnalysisReportResultsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4278,6 +4529,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAnalysisReportResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -4348,8 +4601,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnalysisReportsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4361,10 +4612,94 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAnalysisReportsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAnalysisReports")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListContainerAssociations` operation on the `NetworkFirewall` service.
+    ///
+    /// Retrieves the metadata for the container associations that you have defined. You can optionally page through results.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListContainerAssociationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListContainerAssociationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func listContainerAssociations(input: ListContainerAssociationsInput) async throws -> ListContainerAssociationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = NetworkFirewallClient.listContainerAssociationsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listContainerAssociations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListContainerAssociationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListContainerAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListContainerAssociations"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContainerAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListContainerAssociations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4430,8 +4765,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFirewallPoliciesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4443,6 +4776,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -4512,8 +4847,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallsInput, ListFirewallsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallsInput, ListFirewallsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFirewallsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4525,6 +4858,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallsInput, ListFirewallsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFirewallsInput, ListFirewallsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFirewallsInput, ListFirewallsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -4595,8 +4930,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFlowOperationResultsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4608,6 +4941,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFlowOperationResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -4678,8 +5013,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFlowOperationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4691,6 +5024,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFlowOperationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -4760,8 +5095,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProxiesInput, ListProxiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProxiesInput, ListProxiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProxiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4773,6 +5106,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProxiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProxiesInput, ListProxiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProxiesInput, ListProxiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProxiesInput, ListProxiesOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -4843,8 +5178,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProxyConfigurationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4856,6 +5189,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProxyConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -4926,8 +5261,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProxyRuleGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4939,6 +5272,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProxyRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -5008,8 +5343,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRuleGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5021,6 +5354,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -5090,8 +5425,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTLSInspectionConfigurationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5103,6 +5436,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTLSInspectionConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -5173,8 +5508,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5186,6 +5519,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -5255,8 +5590,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVpcEndpointAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5268,6 +5601,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVpcEndpointAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -5346,8 +5681,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5359,6 +5692,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -5429,8 +5764,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectNetworkFirewallTransitGatewayAttachmentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5442,6 +5775,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -5512,8 +5847,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAnalysisReportOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5525,6 +5858,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAnalysisReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -5595,8 +5930,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFlowCaptureOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5608,6 +5941,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartFlowCaptureOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -5678,8 +6013,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFlowFlushInput, StartFlowFlushOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFlowFlushInput, StartFlowFlushOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFlowFlushOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5691,6 +6024,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartFlowFlushOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartFlowFlushInput, StartFlowFlushOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartFlowFlushInput, StartFlowFlushOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartFlowFlushInput, StartFlowFlushOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -5761,8 +6096,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5774,6 +6107,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -5844,8 +6179,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5857,6 +6190,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -5929,8 +6264,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAvailabilityZoneChangeProtectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5942,10 +6275,96 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAvailabilityZoneChangeProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAvailabilityZoneChangeProtection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateContainerAssociation` operation on the `NetworkFirewall` service.
+    ///
+    /// Updates the properties of an existing container association. Use this to modify the container monitoring configurations or description.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateContainerAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateContainerAssociationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func updateContainerAssociation(input: UpdateContainerAssociationInput) async throws -> UpdateContainerAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = NetworkFirewallClient.updateContainerAssociationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateContainerAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContainerAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateContainerAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateContainerAssociation"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContainerAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateContainerAssociation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6013,8 +6432,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallAnalysisSettingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6026,6 +6443,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallAnalysisSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -6098,8 +6517,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallDeleteProtectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6111,6 +6528,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallDeleteProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -6182,8 +6601,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallDescriptionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6195,6 +6612,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallDescriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -6267,8 +6686,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallEncryptionConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6280,6 +6697,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallEncryptionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -6351,8 +6770,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6364,6 +6781,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -6436,8 +6855,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallPolicyChangeProtectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6449,6 +6866,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallPolicyChangeProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -6530,8 +6949,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLoggingConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6543,6 +6960,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLoggingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -6614,8 +7033,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyInput, UpdateProxyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxyInput, UpdateProxyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6627,6 +7044,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProxyInput, UpdateProxyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProxyInput, UpdateProxyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProxyInput, UpdateProxyOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -6697,8 +7116,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxyConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6710,6 +7127,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -6780,8 +7199,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxyRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6793,6 +7210,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -6863,8 +7282,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxyRuleGroupPrioritiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6876,6 +7293,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyRuleGroupPrioritiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -6946,8 +7365,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxyRulePrioritiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6959,6 +7376,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyRulePrioritiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -7030,8 +7449,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7043,6 +7460,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -7115,8 +7534,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSubnetChangeProtectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7128,6 +7545,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSubnetChangeProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
@@ -7199,8 +7618,6 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTLSInspectionConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7212,6 +7629,8 @@ extension NetworkFirewallClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTLSInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")

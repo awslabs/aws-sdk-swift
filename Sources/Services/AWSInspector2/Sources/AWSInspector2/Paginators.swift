@@ -244,6 +244,68 @@ extension PaginatorSequence where OperationStackInput == ListCisScansInput, Oper
     }
 }
 extension Inspector2Client {
+    /// Paginate over `[ListConnectorsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListConnectorsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConnectorsOutput`
+    public func listConnectorsPaginated(input: ListConnectorsInput) -> ClientRuntime.PaginatorSequence<ListConnectorsInput, ListConnectorsOutput> {
+        return ClientRuntime.PaginatorSequence<ListConnectorsInput, ListConnectorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConnectors(input:))
+    }
+}
+
+extension ListConnectorsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListConnectorsInput {
+        return ListConnectorsInput(
+            filterCriteria: self.filterCriteria,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListConnectorsInput, OperationStackOutput == ListConnectorsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listConnectorsPaginated`
+    /// to access the nested member `[Inspector2ClientTypes.Connector]`
+    /// - Returns: `[Inspector2ClientTypes.Connector]`
+    public func items() async throws -> [Inspector2ClientTypes.Connector] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension Inspector2Client {
+    /// Paginate over `[ListConnectorScanConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListConnectorScanConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConnectorScanConfigurationsOutput`
+    public func listConnectorScanConfigurationsPaginated(input: ListConnectorScanConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListConnectorScanConfigurationsInput, ListConnectorScanConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListConnectorScanConfigurationsInput, ListConnectorScanConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConnectorScanConfigurations(input:))
+    }
+}
+
+extension ListConnectorScanConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListConnectorScanConfigurationsInput {
+        return ListConnectorScanConfigurationsInput(
+            awsConfigConnectorArns: self.awsConfigConnectorArns,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListConnectorScanConfigurationsInput, OperationStackOutput == ListConnectorScanConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listConnectorScanConfigurationsPaginated`
+    /// to access the nested member `[Inspector2ClientTypes.ConnectorScanConfigurationItem]`
+    /// - Returns: `[Inspector2ClientTypes.ConnectorScanConfigurationItem]`
+    public func scanConfigurations() async throws -> [Inspector2ClientTypes.ConnectorScanConfigurationItem] {
+        return try await self.asyncCompactMap { item in item.scanConfigurations }
+    }
+}
+extension Inspector2Client {
     /// Paginate over `[ListCoverageOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

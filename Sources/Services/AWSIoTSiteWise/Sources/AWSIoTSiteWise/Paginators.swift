@@ -261,6 +261,40 @@ extension PaginatorSequence where OperationStackInput == ListAccessPoliciesInput
     }
 }
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListActionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListActionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListActionsOutput`
+    public func listActionsPaginated(input: ListActionsInput) -> ClientRuntime.PaginatorSequence<ListActionsInput, ListActionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListActionsInput, ListActionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listActions(input:))
+    }
+}
+
+extension ListActionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListActionsInput {
+        return ListActionsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resolveToResourceId: self.resolveToResourceId,
+            resolveToResourceType: self.resolveToResourceType,
+            targetResourceId: self.targetResourceId,
+            targetResourceType: self.targetResourceType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListActionsInput, OperationStackOutput == ListActionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listActionsPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.ActionSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.ActionSummary]`
+    public func actionSummaries() async throws -> [IoTSiteWiseClientTypes.ActionSummary] {
+        return try await self.asyncCompactMap { item in item.actionSummaries }
+    }
+}
+extension IoTSiteWiseClient {
     /// Paginate over `[ListAssetModelCompositeModelsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

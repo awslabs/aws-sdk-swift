@@ -489,6 +489,29 @@ extension MqClientTypes {
 
 extension MqClientTypes {
 
+    /// Returns info about the resource share error after updating the broker.
+    public struct ResourceShareError: Swift.Sendable {
+        /// The error code of the resource share.
+        public var errorCode: Swift.String?
+        /// The ARN of the resource share.
+        public var resourceShareArn: Swift.String?
+        /// The status of the resource share.
+        public var status: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            resourceShareArn: Swift.String? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.resourceShareArn = resourceShareArn
+            self.status = status
+        }
+    }
+}
+
+extension MqClientTypes {
+
     /// The reason for which the configuration elements or attributes were sanitized.
     public enum SanitizationWarningReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disallowedAttributeRemoved
@@ -540,6 +563,182 @@ extension MqClientTypes {
             self.attributeName = attributeName
             self.elementName = elementName
             self.reason = reason
+        }
+    }
+}
+
+extension MqClientTypes {
+
+    /// The error code associated with the error.
+    public enum SharedResourceErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azMismatch
+        case internalError
+        case inviteFailed
+        case quotaExceeded
+        case resourceConfigurationNotFound
+        case setupIncomplete
+        case shareNotFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SharedResourceErrorCode] {
+            return [
+                .azMismatch,
+                .internalError,
+                .inviteFailed,
+                .quotaExceeded,
+                .resourceConfigurationNotFound,
+                .setupIncomplete,
+                .shareNotFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .azMismatch: return "AZ_MISMATCH"
+            case .internalError: return "INTERNAL_ERROR"
+            case .inviteFailed: return "INVITE_FAILED"
+            case .quotaExceeded: return "QUOTA_EXCEEDED"
+            case .resourceConfigurationNotFound: return "RESOURCE_CONFIGURATION_NOT_FOUND"
+            case .setupIncomplete: return "SETUP_INCOMPLETE"
+            case .shareNotFound: return "SHARE_NOT_FOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MqClientTypes {
+
+    /// Information on the error encountered by the resource.
+    public struct SharedResourceError: Swift.Sendable {
+        /// The error code associated with the error.
+        /// This member is required.
+        public var code: MqClientTypes.SharedResourceErrorCode?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: MqClientTypes.SharedResourceErrorCode? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension MqClientTypes {
+
+    /// The status of the shared resource.
+    public enum SharedResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case deletionInProgress
+        case error
+        case pendingCreate
+        case pendingDelete
+        case setupInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SharedResourceStatus] {
+            return [
+                .available,
+                .deletionInProgress,
+                .error,
+                .pendingCreate,
+                .pendingDelete,
+                .setupInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .deletionInProgress: return "DELETION_IN_PROGRESS"
+            case .error: return "ERROR"
+            case .pendingCreate: return "PENDING_CREATE"
+            case .pendingDelete: return "PENDING_DELETE"
+            case .setupInProgress: return "SETUP_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MqClientTypes {
+
+    /// The type of shared resource.
+    public enum SharedResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case resource
+        case resourceShare
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SharedResourceType] {
+            return [
+                .resource,
+                .resourceShare
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .resource: return "RESOURCE"
+            case .resourceShare: return "RESOURCE_SHARE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MqClientTypes {
+
+    /// Represents a resource that is shared with the broker, including its type, ARN, and current status.
+    public struct SharedResource: Swift.Sendable {
+        /// The DNS names accessible by the broker.
+        public var dnsNames: [Swift.String]?
+        /// Information on the error encountered by the resource.
+        public var error: MqClientTypes.SharedResourceError?
+        /// The ARN of the shared resource.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+        /// The resource share ARNs to which the resource belongs.
+        public var resourceShareArns: [Swift.String]?
+        /// The status of the shared resource.
+        /// This member is required.
+        public var status: MqClientTypes.SharedResourceStatus?
+        /// The type of shared resource.
+        /// This member is required.
+        public var type: MqClientTypes.SharedResourceType?
+
+        public init(
+            dnsNames: [Swift.String]? = nil,
+            error: MqClientTypes.SharedResourceError? = nil,
+            resourceArn: Swift.String? = nil,
+            resourceShareArns: [Swift.String]? = nil,
+            status: MqClientTypes.SharedResourceStatus? = nil,
+            type: MqClientTypes.SharedResourceType? = nil
+        ) {
+            self.dnsNames = dnsNames
+            self.error = error
+            self.resourceArn = resourceArn
+            self.resourceShareArns = resourceShareArns
+            self.status = status
+            self.type = type
         }
     }
 }
@@ -645,6 +844,8 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
         public internal(set) var errorAttribute: Swift.String? = nil
         /// The explanation of the error.
         public internal(set) var message: Swift.String? = nil
+        /// The list of resource share errors.
+        public internal(set) var resourceShareErrors: [MqClientTypes.ResourceShareError]? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -658,10 +859,12 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         errorAttribute: Swift.String? = nil,
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        resourceShareErrors: [MqClientTypes.ResourceShareError]? = nil
     ) {
         self.properties.errorAttribute = errorAttribute
         self.properties.message = message
+        self.properties.resourceShareErrors = resourceShareErrors
     }
 }
 
@@ -696,6 +899,8 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         public internal(set) var errorAttribute: Swift.String? = nil
         /// The explanation of the error.
         public internal(set) var message: Swift.String? = nil
+        /// The list of resource share errors.
+        public internal(set) var resourceShareErrors: [MqClientTypes.ResourceShareError]? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -709,10 +914,12 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         errorAttribute: Swift.String? = nil,
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        resourceShareErrors: [MqClientTypes.ResourceShareError]? = nil
     ) {
         self.properties.errorAttribute = errorAttribute
         self.properties.message = message
+        self.properties.resourceShareErrors = resourceShareErrors
     }
 }
 
@@ -724,6 +931,8 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
         public internal(set) var errorAttribute: Swift.String? = nil
         /// The explanation of the error.
         public internal(set) var message: Swift.String? = nil
+        /// The list of resource share errors.
+        public internal(set) var resourceShareErrors: [MqClientTypes.ResourceShareError]? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -737,10 +946,12 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         errorAttribute: Swift.String? = nil,
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        resourceShareErrors: [MqClientTypes.ResourceShareError]? = nil
     ) {
         self.properties.errorAttribute = errorAttribute
         self.properties.message = message
+        self.properties.resourceShareErrors = resourceShareErrors
     }
 }
 
@@ -752,6 +963,8 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
         public internal(set) var errorAttribute: Swift.String? = nil
         /// The explanation of the error.
         public internal(set) var message: Swift.String? = nil
+        /// The list of resource share errors.
+        public internal(set) var resourceShareErrors: [MqClientTypes.ResourceShareError]? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -765,10 +978,12 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         errorAttribute: Swift.String? = nil,
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        resourceShareErrors: [MqClientTypes.ResourceShareError]? = nil
     ) {
         self.properties.errorAttribute = errorAttribute
         self.properties.message = message
+        self.properties.resourceShareErrors = resourceShareErrors
     }
 }
 
@@ -780,6 +995,8 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
         public internal(set) var errorAttribute: Swift.String? = nil
         /// The explanation of the error.
         public internal(set) var message: Swift.String? = nil
+        /// The list of resource share errors.
+        public internal(set) var resourceShareErrors: [MqClientTypes.ResourceShareError]? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -793,10 +1010,12 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         errorAttribute: Swift.String? = nil,
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        resourceShareErrors: [MqClientTypes.ResourceShareError]? = nil
     ) {
         self.properties.errorAttribute = errorAttribute
         self.properties.message = message
+        self.properties.resourceShareErrors = resourceShareErrors
     }
 }
 
@@ -1181,6 +1400,8 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         public internal(set) var errorAttribute: Swift.String? = nil
         /// The explanation of the error.
         public internal(set) var message: Swift.String? = nil
+        /// The list of resource share errors.
+        public internal(set) var resourceShareErrors: [MqClientTypes.ResourceShareError]? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -1194,10 +1415,12 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         errorAttribute: Swift.String? = nil,
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        resourceShareErrors: [MqClientTypes.ResourceShareError]? = nil
     ) {
         self.properties.errorAttribute = errorAttribute
         self.properties.message = message
+        self.properties.resourceShareErrors = resourceShareErrors
     }
 }
 
@@ -1827,6 +2050,41 @@ public struct DescribeConfigurationRevisionOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeSharedResourcesInput: Swift.Sendable {
+    /// The unique ID that Amazon MQ generates for the broker.
+    /// This member is required.
+    public var brokerId: Swift.String?
+    /// The maximum number of resources that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
+    public var maxResults: Swift.Int?
+    /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
+    public var nextToken: Swift.String?
+
+    public init(
+        brokerId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.brokerId = brokerId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeSharedResourcesOutput: Swift.Sendable {
+    /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
+    public var nextToken: Swift.String?
+    /// A list of resources shared to the broker.
+    public var sharedResources: [MqClientTypes.SharedResource]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        sharedResources: [MqClientTypes.SharedResource]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.sharedResources = sharedResources
+    }
+}
+
 public struct DescribeUserInput: Swift.Sendable {
     /// The unique ID that Amazon MQ generates for the broker.
     /// This member is required.
@@ -2171,6 +2429,8 @@ public struct UpdateBrokerInput: Swift.Sendable {
     public var logs: MqClientTypes.Logs?
     /// The parameters that determine the WeeklyStartTime.
     public var maintenanceWindowStartTime: MqClientTypes.WeeklyStartTime?
+    /// The list of resource shares to update on the broker
+    public var resourceShareArns: [Swift.String]?
     /// The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers.
     public var securityGroups: [Swift.String]?
 
@@ -2185,6 +2445,7 @@ public struct UpdateBrokerInput: Swift.Sendable {
         ldapServerMetadata: MqClientTypes.LdapServerMetadataInput? = nil,
         logs: MqClientTypes.Logs? = nil,
         maintenanceWindowStartTime: MqClientTypes.WeeklyStartTime? = nil,
+        resourceShareArns: [Swift.String]? = nil,
         securityGroups: [Swift.String]? = nil
     ) {
         self.authenticationStrategy = authenticationStrategy
@@ -2197,6 +2458,7 @@ public struct UpdateBrokerInput: Swift.Sendable {
         self.ldapServerMetadata = ldapServerMetadata
         self.logs = logs
         self.maintenanceWindowStartTime = maintenanceWindowStartTime
+        self.resourceShareArns = resourceShareArns
         self.securityGroups = securityGroups
     }
 }
@@ -2228,6 +2490,8 @@ public struct UpdateBrokerOutput: Swift.Sendable {
     public var pendingDataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput?
     /// Describes whether this broker will be a part of a data replication pair after reboot.
     public var pendingDataReplicationMode: MqClientTypes.DataReplicationMode?
+    /// The pending broker's target list of resource shares
+    public var resourceShareArns: [Swift.String]?
     /// The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers.
     public var securityGroups: [Swift.String]?
 
@@ -2245,6 +2509,7 @@ public struct UpdateBrokerOutput: Swift.Sendable {
         maintenanceWindowStartTime: MqClientTypes.WeeklyStartTime? = nil,
         pendingDataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput? = nil,
         pendingDataReplicationMode: MqClientTypes.DataReplicationMode? = nil,
+        resourceShareArns: [Swift.String]? = nil,
         securityGroups: [Swift.String]? = nil
     ) {
         self.authenticationStrategy = authenticationStrategy
@@ -2260,6 +2525,7 @@ public struct UpdateBrokerOutput: Swift.Sendable {
         self.maintenanceWindowStartTime = maintenanceWindowStartTime
         self.pendingDataReplicationMetadata = pendingDataReplicationMetadata
         self.pendingDataReplicationMode = pendingDataReplicationMode
+        self.resourceShareArns = resourceShareArns
         self.securityGroups = securityGroups
     }
 }
@@ -2547,6 +2813,32 @@ extension DescribeConfigurationRevisionInput {
     }
 }
 
+extension DescribeSharedResourcesInput {
+
+    static func urlPathProvider(_ value: DescribeSharedResourcesInput) -> Swift.String? {
+        guard let brokerId = value.brokerId else {
+            return nil
+        }
+        return "/v1/brokers/\(brokerId.urlPercentEncoding())/shared-resources"
+    }
+}
+
+extension DescribeSharedResourcesInput {
+
+    static func queryItemProvider(_ value: DescribeSharedResourcesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension DescribeUserInput {
 
     static func urlPathProvider(_ value: DescribeUserInput) -> Swift.String? {
@@ -2801,6 +3093,7 @@ extension UpdateBrokerInput {
         try writer["ldapServerMetadata"].write(value.ldapServerMetadata, with: MqClientTypes.LdapServerMetadataInput.write(value:to:))
         try writer["logs"].write(value.logs, with: MqClientTypes.Logs.write(value:to:))
         try writer["maintenanceWindowStartTime"].write(value.maintenanceWindowStartTime, with: MqClientTypes.WeeklyStartTime.write(value:to:))
+        try writer["resourceShareArns"].writeList(value.resourceShareArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -3015,6 +3308,19 @@ extension DescribeConfigurationRevisionOutput {
     }
 }
 
+extension DescribeSharedResourcesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeSharedResourcesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeSharedResourcesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.sharedResources = try reader["sharedResources"].readListIfPresent(memberReadingClosure: MqClientTypes.SharedResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension DescribeUserOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeUserOutput {
@@ -3140,6 +3446,7 @@ extension UpdateBrokerOutput {
         value.maintenanceWindowStartTime = try reader["maintenanceWindowStartTime"].readIfPresent(with: MqClientTypes.WeeklyStartTime.read(from:))
         value.pendingDataReplicationMetadata = try reader["pendingDataReplicationMetadata"].readIfPresent(with: MqClientTypes.DataReplicationMetadataOutput.read(from:))
         value.pendingDataReplicationMode = try reader["pendingDataReplicationMode"].readIfPresent()
+        value.resourceShareArns = try reader["resourceShareArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -3391,6 +3698,23 @@ enum DescribeConfigurationRevisionOutputError {
     }
 }
 
+enum DescribeSharedResourcesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeUserOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3586,6 +3910,7 @@ extension BadRequestException {
         var value = BadRequestException()
         value.properties.errorAttribute = try reader["errorAttribute"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceShareErrors = try reader["resourceShareErrors"].readListIfPresent(memberReadingClosure: MqClientTypes.ResourceShareError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3600,6 +3925,7 @@ extension ConflictException {
         var value = ConflictException()
         value.properties.errorAttribute = try reader["errorAttribute"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceShareErrors = try reader["resourceShareErrors"].readListIfPresent(memberReadingClosure: MqClientTypes.ResourceShareError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3614,6 +3940,7 @@ extension ForbiddenException {
         var value = ForbiddenException()
         value.properties.errorAttribute = try reader["errorAttribute"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceShareErrors = try reader["resourceShareErrors"].readListIfPresent(memberReadingClosure: MqClientTypes.ResourceShareError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3628,6 +3955,7 @@ extension InternalServerErrorException {
         var value = InternalServerErrorException()
         value.properties.errorAttribute = try reader["errorAttribute"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceShareErrors = try reader["resourceShareErrors"].readListIfPresent(memberReadingClosure: MqClientTypes.ResourceShareError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3642,6 +3970,7 @@ extension UnauthorizedException {
         var value = UnauthorizedException()
         value.properties.errorAttribute = try reader["errorAttribute"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceShareErrors = try reader["resourceShareErrors"].readListIfPresent(memberReadingClosure: MqClientTypes.ResourceShareError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3656,6 +3985,7 @@ extension NotFoundException {
         var value = NotFoundException()
         value.properties.errorAttribute = try reader["errorAttribute"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceShareErrors = try reader["resourceShareErrors"].readListIfPresent(memberReadingClosure: MqClientTypes.ResourceShareError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3927,6 +4257,18 @@ extension MqClientTypes.PendingLogs {
     }
 }
 
+extension MqClientTypes.ResourceShareError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.ResourceShareError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MqClientTypes.ResourceShareError()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.resourceShareArn = try reader["resourceShareArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension MqClientTypes.SanitizationWarning {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.SanitizationWarning {
@@ -3935,6 +4277,32 @@ extension MqClientTypes.SanitizationWarning {
         value.attributeName = try reader["attributeName"].readIfPresent()
         value.elementName = try reader["elementName"].readIfPresent()
         value.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MqClientTypes.SharedResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.SharedResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MqClientTypes.SharedResource()
+        value.dnsNames = try reader["dnsNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.error = try reader["error"].readIfPresent(with: MqClientTypes.SharedResourceError.read(from:))
+        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        value.resourceShareArns = try reader["resourceShareArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MqClientTypes.SharedResourceError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.SharedResourceError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MqClientTypes.SharedResourceError()
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

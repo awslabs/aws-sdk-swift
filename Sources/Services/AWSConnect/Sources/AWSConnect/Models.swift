@@ -1878,6 +1878,48 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// The search criteria based on AI Agents metadata.
+    public struct AiAgentSearchCriteria: Swift.Sendable {
+        /// A boolean flag indicating whether the contact initially handled by this AI agent was escalated to a human agent.
+        public var aiAgentEscalated: Swift.Bool?
+        /// The use case or scenario for which the AI agent is involved in the contact.
+        public var aiUseCase: ConnectClientTypes.AiUseCase?
+        /// ID of the AI Agent that was involved in the contact.
+        public var id: Swift.String?
+        /// Version of the AI agent that was involved in the contact. ID is required if VersionNumber is passed.
+        public var versionNumber: Swift.Int?
+
+        public init(
+            aiAgentEscalated: Swift.Bool? = nil,
+            aiUseCase: ConnectClientTypes.AiUseCase? = nil,
+            id: Swift.String? = nil,
+            versionNumber: Swift.Int? = nil
+        ) {
+            self.aiAgentEscalated = aiAgentEscalated
+            self.aiUseCase = aiUseCase
+            self.id = id
+            self.versionNumber = versionNumber
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// AI Agent search criteria definitions.
+    public struct AiAgentsCriteria: Swift.Sendable {
+        /// The list of criteria based on AI Agent metadata.
+        public var criteria: [ConnectClientTypes.AiAgentSearchCriteria]?
+
+        public init(
+            criteria: [ConnectClientTypes.AiAgentSearchCriteria]? = nil
+        ) {
+            self.criteria = criteria
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Configuration information of an email alias.
     public struct AliasConfiguration: Swift.Sendable {
         /// The email address ID.
@@ -3136,7 +3178,7 @@ extension ConnectClientTypes {
         public var queueReference: ConnectClientTypes.RoutingProfileQueueReference?
 
         public init(
-            delay: Swift.Int? = 0,
+            delay: Swift.Int? = nil,
             priority: Swift.Int? = nil,
             queueReference: ConnectClientTypes.RoutingProfileQueueReference? = nil
         ) {
@@ -4147,6 +4189,7 @@ extension ConnectClientTypes {
         case emailMessagePlainText
         case emailMessagePlainTextRedacted
         case emailMessageRedacted
+        case voiceRecording
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FileUseCaseType] {
@@ -4156,7 +4199,8 @@ extension ConnectClientTypes {
                 .emailMessage,
                 .emailMessagePlainText,
                 .emailMessagePlainTextRedacted,
-                .emailMessageRedacted
+                .emailMessageRedacted,
+                .voiceRecording
             ]
         }
 
@@ -4173,6 +4217,7 @@ extension ConnectClientTypes {
             case .emailMessagePlainText: return "EMAIL_MESSAGE_PLAIN_TEXT"
             case .emailMessagePlainTextRedacted: return "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED"
             case .emailMessageRedacted: return "EMAIL_MESSAGE_REDACTED"
+            case .voiceRecording: return "VOICE_RECORDING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4868,6 +4913,174 @@ public struct CreateAgentStatusOutput: Swift.Sendable {
         self.agentStatusARN = agentStatusARN
         self.agentStatusId = agentStatusId
     }
+}
+
+public struct CreateAttachedFileInput: Swift.Sendable {
+    /// The ARN of the completed voice contact to attach the file to. Only voice contacts with Telephony subtype are supported. This value must be a valid ARN.
+    /// This member is required.
+    public var associatedResourceArn: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The S3 URI of the file to be attached. Only S3 source URIs are supported.
+    /// This member is required.
+    public var fileSourceUri: Swift.String?
+    /// The use case for the file. Only VOICE_RECORDING is supported.
+    /// This member is required.
+    public var fileUseCaseType: ConnectClientTypes.FileUseCaseType?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        associatedResourceArn: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        fileSourceUri: Swift.String? = nil,
+        fileUseCaseType: ConnectClientTypes.FileUseCaseType? = nil,
+        instanceId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.associatedResourceArn = associatedResourceArn
+        self.clientToken = clientToken
+        self.fileSourceUri = fileSourceUri
+        self.fileUseCaseType = fileUseCaseType
+        self.instanceId = instanceId
+        self.tags = tags
+    }
+}
+
+/// Response from CreateAttachedFile API.
+public struct CreateAttachedFileOutput: Swift.Sendable {
+    /// The time of Creation of the file resource as an ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2024-05-03T02:41:28.172Z.
+    public var creationTime: Swift.String?
+    /// The unique identifier of the attached file resource (ARN).
+    public var fileArn: Swift.String?
+    /// The unique identifier of the attached file resource.
+    public var fileId: Swift.String?
+    /// The current status of the attached file. Valid values: PROCESSING | APPROVED | REJECTED | FAILED.
+    public var fileStatus: ConnectClientTypes.FileStatusType?
+
+    public init(
+        creationTime: Swift.String? = nil,
+        fileArn: Swift.String? = nil,
+        fileId: Swift.String? = nil,
+        fileStatus: ConnectClientTypes.FileStatusType? = nil
+    ) {
+        self.creationTime = creationTime
+        self.fileArn = fileArn
+        self.fileId = fileId
+        self.fileStatus = fileStatus
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The type of entity associated with an authorization code in Connect Customer.
+    public enum AuthCodeEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customerProfile
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthCodeEntityType] {
+            return [
+                .customerProfile
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customerProfile: return "CUSTOMER_PROFILE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains the scope configuration for an authorization code. Defines the permissions and access boundaries for the session.
+    public struct AuthScope: Swift.Sendable {
+        /// The name of the Customer Profiles domain to scope the session to.
+        public var domainName: Swift.String?
+        /// The identifier of the entity to scope the session to.
+        public var entityId: Swift.String?
+        /// The type of entity to scope the session to.
+        /// This member is required.
+        public var entityType: ConnectClientTypes.AuthCodeEntityType?
+        /// The list of security profile identifiers to scope the session to. Maximum of 10 security profiles.
+        public var securityProfileIds: [Swift.String]?
+
+        public init(
+            domainName: Swift.String? = nil,
+            entityId: Swift.String? = nil,
+            entityType: ConnectClientTypes.AuthCodeEntityType? = nil,
+            securityProfileIds: [Swift.String]? = nil
+        ) {
+            self.domainName = domainName
+            self.entityId = entityId
+            self.entityType = entityType
+            self.securityProfileIds = securityProfileIds
+        }
+    }
+}
+
+public struct CreateAuthCodeInput: Swift.Sendable {
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum duration of the session, in minutes. Minimum value of 1440 (24 hours). Maximum value of 43200 (30 days). If no value is provided, the session will expire after 400 days.
+    public var maxSessionDurationMinutes: Swift.Int?
+    /// The scope for the authorization code. Defines the permissions and access boundaries for the session.
+    /// This member is required.
+    public var scope: ConnectClientTypes.AuthScope?
+    /// The duration of inactivity, in minutes, after which the session expires. Minimum value of 1440 (24 hours). Maximum value of 20160 (14 days).
+    /// This member is required.
+    public var sessionInactivityDurationMinutes: Swift.Int?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxSessionDurationMinutes: Swift.Int? = nil,
+        scope: ConnectClientTypes.AuthScope? = nil,
+        sessionInactivityDurationMinutes: Swift.Int? = 0
+    ) {
+        self.instanceId = instanceId
+        self.maxSessionDurationMinutes = maxSessionDurationMinutes
+        self.scope = scope
+        self.sessionInactivityDurationMinutes = sessionInactivityDurationMinutes
+    }
+}
+
+public struct CreateAuthCodeOutput: Swift.Sendable {
+    /// The authorization code to use for establishing a session.
+    public var authCode: Swift.String?
+    /// The identifier of the entity associated with the authorization code.
+    public var entityId: Swift.String?
+    /// The type of entity associated with the authorization code.
+    public var entityType: ConnectClientTypes.AuthCodeEntityType?
+    /// The identifier of the session created with the authorization code.
+    public var sessionId: Swift.String?
+
+    public init(
+        authCode: Swift.String? = nil,
+        entityId: Swift.String? = nil,
+        entityType: ConnectClientTypes.AuthCodeEntityType? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.authCode = authCode
+        self.entityId = entityId
+        self.entityType = entityType
+        self.sessionId = sessionId
+    }
+}
+
+extension CreateAuthCodeOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAuthCodeOutput(entityId: \(Swift.String(describing: entityId)), entityType: \(Swift.String(describing: entityType)), sessionId: \(Swift.String(describing: sessionId)), authCode: \"CONTENT_REDACTED\")"}
 }
 
 extension ConnectClientTypes {
@@ -6250,20 +6463,71 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// Information about automatic fail configuration for an evaluation form.
+    public struct AutomaticFailConfiguration: Swift.Sendable {
+        /// The referenceId of the target section for auto failure.
+        public var targetSection: Swift.String?
+
+        public init(
+            targetSection: Swift.String? = nil
+        ) {
+            self.targetSection = targetSection
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the points configuration for an answer option.
+    public struct QuestionOptionPointsConfiguration: Swift.Sendable {
+        /// The flag to mark the option as a bonus option.
+        public var isBonus: Swift.Bool
+        /// The point value assigned to the answer option.
+        /// This member is required.
+        public var pointValue: Swift.Int
+
+        public init(
+            isBonus: Swift.Bool = false,
+            pointValue: Swift.Int = 0
+        ) {
+            self.isBonus = isBonus
+            self.pointValue = pointValue
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// An option for a multi-select question in an evaluation form.
     public struct EvaluationFormMultiSelectQuestionOption: Swift.Sendable {
+        /// The flag to mark the option as automatic fail. If an automatic fail answer is provided, the overall evaluation gets a score of 0.
+        public var automaticFail: Swift.Bool
+        /// Information about automatic fail configuration for an evaluation form.
+        public var automaticFailConfiguration: ConnectClientTypes.AutomaticFailConfiguration?
+        /// The points configuration for point-based scoring.
+        public var pointsConfiguration: ConnectClientTypes.QuestionOptionPointsConfiguration?
         /// Reference identifier for this option.
         /// This member is required.
         public var refId: Swift.String?
+        /// The score assigned to the answer option.
+        public var score: Swift.Int
         /// Display text for this option.
         /// This member is required.
         public var text: Swift.String?
 
         public init(
+            automaticFail: Swift.Bool = false,
+            automaticFailConfiguration: ConnectClientTypes.AutomaticFailConfiguration? = nil,
+            pointsConfiguration: ConnectClientTypes.QuestionOptionPointsConfiguration? = nil,
             refId: Swift.String? = nil,
+            score: Swift.Int = 0,
             text: Swift.String? = nil
         ) {
+            self.automaticFail = automaticFail
+            self.automaticFailConfiguration = automaticFailConfiguration
+            self.pointsConfiguration = pointsConfiguration
             self.refId = refId
+            self.score = score
             self.text = text
         }
     }
@@ -6393,21 +6657,6 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Information about automatic fail configuration for an evaluation form.
-    public struct AutomaticFailConfiguration: Swift.Sendable {
-        /// The referenceId of the target section for auto failure.
-        public var targetSection: Swift.String?
-
-        public init(
-            targetSection: Swift.String? = nil
-        ) {
-            self.targetSection = targetSection
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
     /// Information about the option range used for scoring in numeric questions.
     public struct EvaluationFormNumericQuestionOption: Swift.Sendable {
         /// The flag to mark the option as automatic fail. If an automatic fail answer is provided, the overall evaluation gets a score of 0.
@@ -6420,6 +6669,8 @@ extension ConnectClientTypes {
         /// The minimum answer value of the range option.
         /// This member is required.
         public var minValue: Swift.Int
+        /// The points configuration for point-based scoring.
+        public var pointsConfiguration: ConnectClientTypes.QuestionOptionPointsConfiguration?
         /// The score assigned to answer values within the range option.
         public var score: Swift.Int
 
@@ -6428,12 +6679,14 @@ extension ConnectClientTypes {
             automaticFailConfiguration: ConnectClientTypes.AutomaticFailConfiguration? = nil,
             maxValue: Swift.Int = 0,
             minValue: Swift.Int = 0,
+            pointsConfiguration: ConnectClientTypes.QuestionOptionPointsConfiguration? = nil,
             score: Swift.Int = 0
         ) {
             self.automaticFail = automaticFail
             self.automaticFailConfiguration = automaticFailConfiguration
             self.maxValue = maxValue
             self.minValue = minValue
+            self.pointsConfiguration = pointsConfiguration
             self.score = score
         }
     }
@@ -6593,6 +6846,8 @@ extension ConnectClientTypes {
         public var automaticFail: Swift.Bool
         /// Whether automatic fail is configured on a single select question.
         public var automaticFailConfiguration: ConnectClientTypes.AutomaticFailConfiguration?
+        /// The points configuration for point-based scoring.
+        public var pointsConfiguration: ConnectClientTypes.QuestionOptionPointsConfiguration?
         /// The identifier of the answer option. An identifier must be unique within the question.
         /// This member is required.
         public var refId: Swift.String?
@@ -6605,12 +6860,14 @@ extension ConnectClientTypes {
         public init(
             automaticFail: Swift.Bool = false,
             automaticFailConfiguration: ConnectClientTypes.AutomaticFailConfiguration? = nil,
+            pointsConfiguration: ConnectClientTypes.QuestionOptionPointsConfiguration? = nil,
             refId: Swift.String? = nil,
             score: Swift.Int = 0,
             text: Swift.String? = nil
         ) {
             self.automaticFail = automaticFail
             self.automaticFailConfiguration = automaticFailConfiguration
+            self.pointsConfiguration = pointsConfiguration
             self.refId = refId
             self.score = score
             self.text = text
@@ -6685,6 +6942,105 @@ extension ConnectClientTypes {
         /// Properties for multi-select question types.
         case multiselect(ConnectClientTypes.EvaluationFormMultiSelectQuestionProperties)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the points configuration for a question.
+    public struct QuestionPointsConfiguration: Swift.Sendable {
+        /// The flag to mark the question as a bonus question.
+        public var isBonus: Swift.Bool
+        /// The maximum point value.
+        public var maxPointValue: Swift.Int
+        /// The minimum point value.
+        public var minPointValue: Swift.Int
+
+        public init(
+            isBonus: Swift.Bool = false,
+            maxPointValue: Swift.Int = 0,
+            minPointValue: Swift.Int = 0
+        ) {
+            self.isBonus = isBonus
+            self.maxPointValue = maxPointValue
+            self.minPointValue = minPointValue
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum PerformanceCategoryName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exceedsExpectations
+        case needsImprovement
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PerformanceCategoryName] {
+            return [
+                .exceedsExpectations,
+                .needsImprovement
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exceedsExpectations: return "EXCEEDS_EXPECTATIONS"
+            case .needsImprovement: return "NEEDS_IMPROVEMENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about a score threshold for a performance category.
+    public struct EvaluationFormScoreThreshold: Swift.Sendable {
+        /// The maximum score percentage for the performance category.
+        public var maxScorePercentage: Swift.Double
+        /// The minimum score percentage for the performance category.
+        public var minScorePercentage: Swift.Double
+        /// The performance category name.
+        /// This member is required.
+        public var performanceCategory: ConnectClientTypes.PerformanceCategoryName?
+
+        public init(
+            maxScorePercentage: Swift.Double = 0.0,
+            minScorePercentage: Swift.Double = 0.0,
+            performanceCategory: ConnectClientTypes.PerformanceCategoryName? = nil
+        ) {
+            self.maxScorePercentage = maxScorePercentage
+            self.minScorePercentage = minScorePercentage
+            self.performanceCategory = performanceCategory
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Scoring configuration for a question in an evaluation form.
+    public struct EvaluationFormQuestionScoringConfiguration: Swift.Sendable {
+        /// The flag to exclude the question from scoring.
+        public var isExcludedFromScoring: Swift.Bool
+        /// The points configuration for point-based scoring.
+        public var pointsConfiguration: ConnectClientTypes.QuestionPointsConfiguration?
+        /// The score thresholds for performance categories.
+        public var scoreThresholds: [ConnectClientTypes.EvaluationFormScoreThreshold]?
+
+        public init(
+            isExcludedFromScoring: Swift.Bool = false,
+            pointsConfiguration: ConnectClientTypes.QuestionPointsConfiguration? = nil,
+            scoreThresholds: [ConnectClientTypes.EvaluationFormScoreThreshold]? = nil
+        ) {
+            self.isExcludedFromScoring = isExcludedFromScoring
+            self.pointsConfiguration = pointsConfiguration
+            self.scoreThresholds = scoreThresholds
+        }
     }
 }
 
@@ -6838,12 +7194,14 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
 
     public enum EvaluationFormScoringMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case pointsBased
         case questionOnly
         case sectionOnly
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EvaluationFormScoringMode] {
             return [
+                .pointsBased,
                 .questionOnly,
                 .sectionOnly
             ]
@@ -6856,6 +7214,7 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .pointsBased: return "POINTS_BASED"
             case .questionOnly: return "QUESTION_ONLY"
             case .sectionOnly: return "SECTION_ONLY"
             case let .sdkUnknown(s): return s
@@ -6900,15 +7259,19 @@ extension ConnectClientTypes {
         /// The scoring mode of the evaluation form.
         /// This member is required.
         public var mode: ConnectClientTypes.EvaluationFormScoringMode?
+        /// The score thresholds for performance categories.
+        public var scoreThresholds: [ConnectClientTypes.EvaluationFormScoreThreshold]?
         /// The scoring status of the evaluation form.
         /// This member is required.
         public var status: ConnectClientTypes.EvaluationFormScoringStatus?
 
         public init(
             mode: ConnectClientTypes.EvaluationFormScoringMode? = nil,
+            scoreThresholds: [ConnectClientTypes.EvaluationFormScoreThreshold]? = nil,
             status: ConnectClientTypes.EvaluationFormScoringStatus? = nil
         ) {
             self.mode = mode
+            self.scoreThresholds = scoreThresholds
             self.status = status
         }
     }
@@ -7035,8 +7398,8 @@ extension ConnectClientTypes {
         public var minutes: Swift.Int?
 
         public init(
-            hours: Swift.Int? = 0,
-            minutes: Swift.Int? = 0
+            hours: Swift.Int? = nil,
+            minutes: Swift.Int? = nil
         ) {
             self.hours = hours
             self.minutes = minutes
@@ -7180,8 +7543,8 @@ extension ConnectClientTypes {
         public var minutes: Swift.Int?
 
         public init(
-            hours: Swift.Int? = 0,
-            minutes: Swift.Int? = 0
+            hours: Swift.Int? = nil,
+            minutes: Swift.Int? = nil
         ) {
             self.hours = hours
             self.minutes = minutes
@@ -8281,7 +8644,7 @@ public struct CreateQueueInput: Swift.Sendable {
         emailAddressesConfig: [ConnectClientTypes.EmailAddressConfig]? = nil,
         hoursOfOperationId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
-        maxContacts: Swift.Int? = 0,
+        maxContacts: Swift.Int? = nil,
         name: Swift.String? = nil,
         outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig? = nil,
         outboundEmailConfig: ConnectClientTypes.OutboundEmailConfig? = nil,
@@ -10273,7 +10636,7 @@ extension ConnectClientTypes {
 
         public init(
             channel: ConnectClientTypes.Channel? = nil,
-            persistentConnection: Swift.Bool? = false
+            persistentConnection: Swift.Bool? = nil
         ) {
             self.channel = channel
             self.persistentConnection = persistentConnection
@@ -10329,7 +10692,7 @@ extension ConnectClientTypes {
             afterContactWorkTimeLimit: Swift.Int = 0,
             autoAccept: Swift.Bool = false,
             deskPhoneNumber: Swift.String? = nil,
-            persistentConnection: Swift.Bool? = false,
+            persistentConnection: Swift.Bool? = nil,
             phoneType: ConnectClientTypes.PhoneType? = .softPhone
         ) {
             self.afterContactWorkTimeLimit = afterContactWorkTimeLimit
@@ -11677,7 +12040,7 @@ public struct DeleteEvaluationFormInput: Swift.Sendable {
 
     public init(
         evaluationFormId: Swift.String? = nil,
-        evaluationFormVersion: Swift.Int? = 0,
+        evaluationFormVersion: Swift.Int? = nil,
         instanceId: Swift.String? = nil
     ) {
         self.evaluationFormId = evaluationFormId
@@ -11927,6 +12290,28 @@ public struct DeleteSecurityProfileInput: Swift.Sendable {
     }
 }
 
+public struct DeleteSessionInput: Swift.Sendable {
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the session to delete.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.sessionId = sessionId
+    }
+}
+
+public struct DeleteSessionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteTaskTemplateInput: Swift.Sendable {
     /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -12080,7 +12465,7 @@ public struct DeleteViewVersionInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         viewId: Swift.String? = nil,
-        viewVersion: Swift.Int? = 0
+        viewVersion: Swift.Int? = nil
     ) {
         self.instanceId = instanceId
         self.viewId = viewId
@@ -12458,7 +12843,7 @@ extension ConnectClientTypes {
             name: Swift.String? = nil,
             periodicSessionDuration: Swift.Int? = nil,
             sessionInactivityDuration: Swift.Int? = nil,
-            sessionInactivityHandlingEnabled: Swift.Bool? = false
+            sessionInactivityHandlingEnabled: Swift.Bool? = nil
         ) {
             self.allowedIps = allowedIps
             self.arn = arn
@@ -13896,21 +14281,33 @@ extension ConnectClientTypes {
         public var appliedWeight: Swift.Double?
         /// The flag that marks the item as automatic fail. If the item or a child item gets an automatic fail answer, this flag will be true.
         public var automaticFail: Swift.Bool
+        /// The points earned for the item.
+        public var earnedPoints: Swift.Int
+        /// The maximum base points possible for the item.
+        public var maxBasePoint: Swift.Int
         /// The flag to mark the item as not applicable for scoring.
         public var notApplicable: Swift.Bool
         /// The score percentage for an item in a contact evaluation.
         public var percentage: Swift.Double
+        /// The performance category for the score.
+        public var performanceCategory: ConnectClientTypes.PerformanceCategoryName?
 
         public init(
             appliedWeight: Swift.Double? = nil,
             automaticFail: Swift.Bool = false,
+            earnedPoints: Swift.Int = 0,
+            maxBasePoint: Swift.Int = 0,
             notApplicable: Swift.Bool = false,
-            percentage: Swift.Double = 0.0
+            percentage: Swift.Double = 0.0,
+            performanceCategory: ConnectClientTypes.PerformanceCategoryName? = nil
         ) {
             self.appliedWeight = appliedWeight
             self.automaticFail = automaticFail
+            self.earnedPoints = earnedPoints
+            self.maxBasePoint = maxBasePoint
             self.notApplicable = notApplicable
             self.percentage = percentage
+            self.performanceCategory = performanceCategory
         }
     }
 }
@@ -14726,12 +15123,44 @@ public struct DescribeEvaluationFormInput: Swift.Sendable {
 
     public init(
         evaluationFormId: Swift.String? = nil,
-        evaluationFormVersion: Swift.Int? = 0,
+        evaluationFormVersion: Swift.Int? = nil,
         instanceId: Swift.String? = nil
     ) {
         self.evaluationFormId = evaluationFormId
         self.evaluationFormVersion = evaluationFormVersion
         self.instanceId = instanceId
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum EvaluationFormValidationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationFormValidationStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -16586,7 +17015,7 @@ extension ConnectClientTypes {
             hoursOfOperationId: Swift.String? = nil,
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
-            maxContacts: Swift.Int? = 0,
+            maxContacts: Swift.Int? = nil,
             name: Swift.String? = nil,
             outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig? = nil,
             outboundEmailConfig: ConnectClientTypes.OutboundEmailConfig? = nil,
@@ -18734,7 +19163,7 @@ extension ConnectClientTypes {
         public var queues: [Swift.String]?
         /// A list of up to 100 routing profile IDs or ARNs.
         public var routingProfiles: [Swift.String]?
-        /// A list of expressions as a filter, in which an expression is an object of a step in a routing criteria.
+        /// A list of expressions as a filter, in which an expression is an object of a step in a routing criteria. Accepts filter values up to 3,000 characters in length. Filter values are case-sensitive. JSON object key order and whitespace may be arbitrary; array order and tree structure must be preserved.
         public var routingStepExpressions: [Swift.String]?
         /// A list of up to 10 subtypes can be provided.
         public var subtypes: [Swift.String]?
@@ -19424,6 +19853,144 @@ public struct GetEffectiveHoursOfOperationsOutput: Swift.Sendable {
     }
 }
 
+public struct GetEvaluationFormValidationInput: Swift.Sendable {
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// The version of the evaluation form to retrieve validation results for.
+    public var evaluationFormVersion: Swift.Int?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        evaluationFormId: Swift.String? = nil,
+        evaluationFormVersion: Swift.Int? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.evaluationFormId = evaluationFormId
+        self.evaluationFormVersion = evaluationFormVersion
+        self.instanceId = instanceId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about an evaluation form item affected by a validation finding.
+    public struct EvaluationFormValidationFindingItem: Swift.Sendable {
+        /// The specific property of the evaluation form item that the finding relates to.
+        public var property: Swift.String?
+        /// The identifier of the evaluation form item (question or section) affected by the finding.
+        public var refId: Swift.String?
+
+        public init(
+            property: Swift.String? = nil,
+            refId: Swift.String? = nil
+        ) {
+            self.property = property
+            self.refId = refId
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum EvaluationFormValidationFindingSeverity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case error
+        case warning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationFormValidationFindingSeverity] {
+            return [
+                .error,
+                .warning
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "ERROR"
+            case .warning: return "WARNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about a finding from the evaluation form validation process. Each finding identifies a structural issue or quality improvement opportunity for the evaluation form.
+    public struct EvaluationFormValidationFinding: Swift.Sendable {
+        /// A description of the validation issue.
+        /// This member is required.
+        public var description: Swift.String?
+        /// A code that identifies the type of validation issue found.
+        /// This member is required.
+        public var issueCode: Swift.String?
+        /// A list of evaluation form items affected by this finding.
+        public var items: [ConnectClientTypes.EvaluationFormValidationFindingItem]?
+        /// The severity of the finding. Valid values: WARNING, ERROR.
+        /// This member is required.
+        public var severity: ConnectClientTypes.EvaluationFormValidationFindingSeverity?
+        /// A suggested fix for the validation issue.
+        public var suggestion: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            issueCode: Swift.String? = nil,
+            items: [ConnectClientTypes.EvaluationFormValidationFindingItem]? = nil,
+            severity: ConnectClientTypes.EvaluationFormValidationFindingSeverity? = nil,
+            suggestion: Swift.String? = nil
+        ) {
+            self.description = description
+            self.issueCode = issueCode
+            self.items = items
+            self.severity = severity
+            self.suggestion = suggestion
+        }
+    }
+}
+
+public struct GetEvaluationFormValidationOutput: Swift.Sendable {
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// A version of the evaluation form.
+    /// This member is required.
+    public var evaluationFormVersion: Swift.Int
+    /// The reason the validation failed. This field is populated only when the status is FAILED.
+    public var failureReason: Swift.String?
+    /// A list of findings from the validation process. Each finding identifies a structural issue or quality improvement for the evaluation form, and may include a suggested fix. This field is populated when the status is COMPLETED.
+    public var findings: [ConnectClientTypes.EvaluationFormValidationFinding]?
+    /// The timestamp when the validation process was started.
+    /// This member is required.
+    public var startedTime: Foundation.Date?
+    /// The current status of the validation process. Valid values: IN_PROGRESS, COMPLETED, FAILED.
+    /// This member is required.
+    public var status: ConnectClientTypes.EvaluationFormValidationStatus?
+
+    public init(
+        evaluationFormId: Swift.String? = nil,
+        evaluationFormVersion: Swift.Int = 0,
+        failureReason: Swift.String? = nil,
+        findings: [ConnectClientTypes.EvaluationFormValidationFinding]? = nil,
+        startedTime: Foundation.Date? = nil,
+        status: ConnectClientTypes.EvaluationFormValidationStatus? = nil
+    ) {
+        self.evaluationFormId = evaluationFormId
+        self.evaluationFormVersion = evaluationFormVersion
+        self.failureReason = failureReason
+        self.findings = findings
+        self.startedTime = startedTime
+        self.status = status
+    }
+}
+
 /// No user with the specified credentials was found in the Connect Customer instance.
 public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -20090,7 +20657,7 @@ public struct GetMetricDataV2Input: Swift.Sendable {
     /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be later than the start time timestamp. It cannot be later than the current timestamp.
     /// This member is required.
     public var endTime: Foundation.Date?
-    /// Filtering is an operation that selects records that match a set of specified criteria. By narrowing the dataset before aggregation, filters ensure that only relevant records are included in the computation. Filter keys The following are valid filter keys for a GetMetricDataV2 request: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ALIAS | BOT_ID | BOT_INTENT_NAME | BOT_LOCALE | BOT_VERSION | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CASE_STATUS | CASE_TEMPLATE_ARN | CHANNEL | contact/segmentAttributes/connect:Subtype | contact/segmentAttributes/connect:ValidationTestType | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_QUESTION | EVALUATION_SECTION | EVALUATION_SOURCE | EVALUATOR_ID | FEATURE | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_MODULE_RESOURCE_ID | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | FORM_VERSION | INITIATING_FLOW | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_EXECUTION_RESULT | TEST_CASE_EXECUTION_STATE The following filter keys correspond to Connect Customer resources and are used for authorizing requests. A GetMetricDataV2 request requires at least one of these filters: QUEUE, ROUTING_PROFILE, AGENT, AGENT_HIERARCHY_LEVEL_ONE, AGENT_HIERARCHY_LEVEL_TWO, AGENT_HIERARCHY_LEVEL_THREE, AGENT_HIERARCHY_LEVEL_FOUR, AGENT_HIERARCHY_LEVEL_FIVE, CAMPAIGN, EVALUATION_FORM, EVALUATOR_ID You can use up to 5 filter keys in a single request, and up to 100 filter values across all filter keys. Filter values
+    /// Filtering is an operation that selects records that match a set of specified criteria. By narrowing the dataset before aggregation, filters ensure that only relevant records are included in the computation. Filter keys The following are valid filter keys for a GetMetricDataV2 request: AGENT | AI_AGENT | AI_AGENT_ID | AI_AGENT_NAME | AI_AGENT_TYPE | AI_PROMPT | AI_PROMPT_ID | AI_PROMPT_NAME | AI_PROMPT_TYPE | AI_TOOL_ID | AI_TOOL_NAME | AI_TOOL_TYPE | AI_USE_CASE | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ALIAS | BOT_ID | BOT_INTENT_NAME | BOT_LOCALE | BOT_VERSION | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CASE_STATUS | CASE_TEMPLATE_ARN | CHANNEL | contact/segmentAttributes/connect:Subtype | contact/segmentAttributes/connect:ValidationTestType | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_QUESTION | EVALUATION_SECTION | EVALUATION_SOURCE | EVALUATOR_ID | FEATURE | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_MODULE_RESOURCE_ID | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | FORM_VERSION | INITIATING_FLOW | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | KNOWLEDGE_BASE_NAME | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | SESSION_ID | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_EXECUTION_RESULT | TEST_CASE_EXECUTION_STATE The following filter keys correspond to Connect Customer resources and are used for authorizing requests. A GetMetricDataV2 request requires at least one of these filters: QUEUE, ROUTING_PROFILE, AGENT, AGENT_HIERARCHY_LEVEL_ONE, AGENT_HIERARCHY_LEVEL_TWO, AGENT_HIERARCHY_LEVEL_THREE, AGENT_HIERARCHY_LEVEL_FOUR, AGENT_HIERARCHY_LEVEL_FIVE, CAMPAIGN, EVALUATION_FORM, EVALUATOR_ID You can use up to 5 filter keys in a single request, and up to 100 filter values across all filter keys. Filter values
     ///
     /// * VOICE, CHAT, TASK, and EMAIL are valid filter values for the CHANNEL filter key. They do not count towards the limit of 100 filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100 filter values, along with 4 channel filters.
     ///
@@ -20098,7 +20665,7 @@ public struct GetMetricDataV2Input: Swift.Sendable {
     ///
     /// * connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filter value examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key.
     ///
-    /// * ROUTING_STEP_EXPRESSION accepts a filter value up to 3,000 characters in length. This filter is case-sensitive and order-sensitive. JSON string fields must be sorted in ascending order, and JSON array order must be preserved.
+    /// * ROUTING_STEP_EXPRESSION accepts a filter value up to 3,000 characters in length. Filter values are case-sensitive. JSON object key order and whitespace may be arbitrary; array order and tree structure must be preserved.
     ///
     /// * TRUE and FALSE are the only valid filter values for the Q_CONNECT_ENABLED filter key.
     ///
@@ -20116,7 +20683,7 @@ public struct GetMetricDataV2Input: Swift.Sendable {
     /// * To filter by phone number, see [Create a historical metrics report](https://docs.aws.amazon.com/connect/latest/adminguide/create-historical-metrics-report.html) in the Connect Customer Administrator Guide.
     /// This member is required.
     public var filters: [ConnectClientTypes.FilterV2]?
-    /// The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CAMPAIGN_EXECUTION_TIMESTAMP | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | EVALUATOR_ID | FLOWS_RESOURCE_ID | FLOWS_MODULE_RESOURCE_ID | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_INVOCATION_METHOD API, SCHEDULE, and EVENT are the only valid filterValues for TEST_CASE_INVOCATION_METHOD. OBSERVE_EVENT, SEND_INSTRUCTION, ASSERT_DATA, and OVERRIDE_SYSTEM_BEHAVIOR are the only valid filterValues for TEST_CASE_EXECUTION_FAILURE_REASON Type: Array of strings Array Members: Maximum number of 4 items Required: No
+    /// The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AI_AGENT | AI_AGENT_ID | AI_AGENT_NAME | AI_AGENT_NAME_VERSION | AI_AGENT_TYPE | AI_PROMPT | AI_PROMPT_ID | AI_PROMPT_NAME | AI_PROMPT_NAME_VERSION | AI_PROMPT_TYPE | AI_TOOL_ID | AI_TOOL_NAME | AI_TOOL_TYPE | AI_USE_CASE | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CAMPAIGN_EXECUTION_TIMESTAMP | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | EVALUATOR_ID | FLOWS_RESOURCE_ID | FLOWS_MODULE_RESOURCE_ID | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | KNOWLEDGE_ARTICLE_NAME | KNOWLEDGE_BASE_NAME | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | SESSION_ID | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_INVOCATION_METHODAI_AGENT_NAME_VERSION, AI_PROMPT_NAME_VERSION, and KNOWLEDGE_ARTICLE_NAME are valid groupings but not valid filters. API, SCHEDULE, and EVENT are the only valid filterValues for TEST_CASE_INVOCATION_METHOD. OBSERVE_EVENT, SEND_INSTRUCTION, ASSERT_DATA, and OVERRIDE_SYSTEM_BEHAVIOR are the only valid filterValues for TEST_CASE_EXECUTION_FAILURE_REASON Type: Array of strings Array Members: Maximum number of 4 items Required: No
     public var groupings: [Swift.String]?
     /// The interval period and timezone to apply to returned metrics.
     ///
@@ -20141,7 +20708,7 @@ public struct GetMetricDataV2Input: Swift.Sendable {
     public var interval: ConnectClientTypes.IntervalDetails?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
-    /// The metrics to retrieve. Specify the name or metricId, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Metrics definition](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Connect Customer Administrator Guide. MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 20 MetricId per request. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Abandonment rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#abandonment-rate) AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#adherent-time) AGENT_ANSWER_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent answer rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-answer-rate) AGENT_NON_ADHERENT_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Non-adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-adherent-time) AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent non-response](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-non-response) AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: [Agent non-response without customer abandons](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-non-response-without-customer-abandons) AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: [Occupancy](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#occupancy) AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherence](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#adherence) AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Scheduled time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#scheduled-time) AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect Valid metric filter key: INITIATION_METHOD UI name: [Average queue abandon time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-abandon-time) AVG_ACTIVE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average active time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-active-time) AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average after contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#after-contact-work-time) Feature is a valid filter but not a valid grouping. AVG_AGENT_CONCURRENCY Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average agent concurrency](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-concurrency) AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Average agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-api-connecting-time) The Negate key in metric-level filters is not applicable for this metric. AVG_AGENT_PAUSE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average agent pause time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-pause-time) AVG_BOT_CONVERSATION_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Average bot conversation time](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#average-bot-conversation-time) AVG_BOT_CONVERSATION_TURNS Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Average bot conversation turns](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#average-bot-conversation-turns) AVG_CASE_RELATED_CONTACTS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average contacts per case](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-contacts-per-case) AVG_CASE_RESOLUTION_TIME Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average case resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-case-resolution-time) AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average contact duration](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-contact-duration) Feature is a valid filter but not a valid grouping. AVG_CONTACT_FIRST_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Agent average contact first response wait time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-average-contact-first-response-wait-time) AVG_CONVERSATION_CLOSE_TIME Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average conversation close time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-conversation-close-time) AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average conversation duration](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-conversation-duration) AVG_DIALS_PER_MINUTE This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: [Average dials per minute](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-dials-per-minute) AVG_EVALUATION_SCORE Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Average evaluation score](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-evaluation-score) AVG_FIRST_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent first response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-first-response-time) AVG_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Average flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-flow-time) AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent greeting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-greeting-time) AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: [Average handle time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-handle-time) Feature is a valid filter but not a valid grouping. ACTIVE_AI_AGENTS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Active AI Agents](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#active-ai-agents) AI_HANDOFF_RATE Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [AI Handoff Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-handoff-rate) AI_HANDOFFS Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [AI Handoffs](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-handoffs) AI_AGENT_INVOCATION_SUCCESS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Agent Invocation Success](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-agent-invocation-success) AI Agent Name Version is not a valid filter but a valid grouping. AI_AGENT_INVOCATION_SUCCESS_RATE Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Agent Invocation Success Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-agent-invocation-success-rate) AI Agent Name Version is not a valid filter but a valid grouping. AI_AGENT_INVOCATIONS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Agent Name Version, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Agent Invocations](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-agent-invocations) AI Agent Name Version is not a valid filter but a valid grouping. AI_RESPONSE_COMPLETION_RATE Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [AI Response Completion Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-response-completion-rate) AI_INVOLVED_CONTACTS Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [AI Involved Contacts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-involved-contacts) AI_PROMPT_INVOCATION_SUCCESS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Prompt Invocation Success](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-prompt-invocation-success) AI Agent Name Version is not a valid filter but a valid grouping. AI_PROMPT_INVOCATION_SUCCESS_RATE Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Prompt Invocation Success Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-prompt-invocation-success-rate) AI Agent Name Version is not a valid filter but a valid grouping. AI_PROMPT_INVOCATIONS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Prompt Invocations](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-prompt-invocations) AI Agent Name Version is not a valid filter but a valid grouping. AI_TOOL_INVOCATION_SUCCESS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Tool Invocation Success](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-tool-invocation-success) AI Agent Name Version is not a valid filter but a valid grouping. AI_TOOL_INVOCATION_SUCCESS_RATE Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Tool Invocation Success Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-tool-invocation-success-rate) AI Agent Name Version is not a valid filter but a valid grouping. AI_TOOL_INVOCATIONS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Tool Invocations](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-tool-invocations) AI Agent Name Version is not a valid filter but a valid grouping. AVG_AI_AGENT_CONVERSATION_TURNS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Average AI Agent Conversation Turns](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-ai-agent-conversation-turns) AI Agent Name Version is not a valid filter but a valid grouping. AVG_AI_CONVERSATION_TURNS Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Average AI Conversation Turns](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-ai-conversation-turns) AVG_AI_PROMPT_INVOCATION_LATENCY Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Average AI Prompt Invocation Latency](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-ai-prompt-invocation-latency) AI Agent Name Version is not a valid filter but a valid grouping. AVG_AI_TOOL_INVOCATION_LATENCY Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Average AI Tool Invocation Latency](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-ai-tool-invocation-latency) AI Agent Name Version is not a valid filter but a valid grouping. KNOWLEDGE_CONTENT_REFERENCES Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Knowledge Base Name, Queue, Routing Profile UI name: [Knowledge Content References](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#knowledge-content-references) PROACTIVE_INTENT_ENGAGEMENT_RATE Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intent Engagement Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-engagement-rate) PROACTIVE_INTENT_RESPONSE_RATE Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intent Response Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-response-rate) PROACTIVE_INTENTS_ANSWERED Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intents Answered](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-answered) PROACTIVE_INTENTS_DETECTED Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intents Detected](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-detected) PROACTIVE_INTENTS_ENGAGED Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intents Engaged](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-engaged) AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-hold-time) Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer hold time all contacts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-hold-time-all-contacts) AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average holds](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-holds) Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interaction and customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interaction-and-customer-hold-time) AVG_INTERACTION_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interaction time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interaction-time) Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interruptions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interruptions) AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interruption time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interruption-time) AVG_MESSAGE_LENGTH_AGENT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent message length](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-message-length) AVG_MESSAGE_LENGTH_CUSTOMER Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer message length](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-message-length) AVG_MESSAGES Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-messages) AVG_MESSAGES_AGENT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-messages) AVG_MESSAGES_BOT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average bot messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-bot-messages) AVG_MESSAGES_CUSTOMER Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-messages) AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average non-talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-non-talk-time) AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average queue answer time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-answer-time) Valid metric level filters: INITIATION_METHOD, FEATURE, DISCONNECT_REASON Feature is a valid filter but not a valid grouping. AVG_QUEUE_ANSWER_TIME_CUSTOMER_FIRST_CALLBACK Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: [Avg. queue answer time - customer first callback](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-answer-time-customer-first-callback) AVG_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-response-time-agent) AVG_RESPONSE_TIME_CUSTOMER Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-time-agent) AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-resolution-time) AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-talk-time) AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-talk-time) AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-talk-time) AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: [Average wait time after customer connection](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-wait-time-after-customer-connection) AVG_WAIT_TIME_AFTER_CUSTOMER_FIRST_CALLBACK_CONNECTION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: [Avg. wait time after customer connection - customer first callback](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-wait-time-after-customer-connection-customer-first-callback) AVG_WEIGHTED_EVALUATION_SCORE Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form Id, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Average weighted evaluation score](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-weighted-evaluation-score) BOT_CONVERSATIONS_COMPLETED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Bot conversations completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-conversations-completed) BOT_INTENTS_COMPLETED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Bot intents completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-intents-completed) CAMPAIGN_CONTACTS_ABANDONED_AFTER_X This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: [Campaign contacts abandoned after X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-contacts-abandoned-after-x) CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: [Campaign contacts abandoned after X rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-contacts-abandoned-after-x-rate) CAMPAIGN_INTERACTIONS This metric is available only for outbound campaigns using the email delivery mode. Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Campaign UI name: [Campaign interactions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-interactions) CAMPAIGN_PROGRESS_RATE This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Percent Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Campaign progress rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-progress-rate) CAMPAIGN_SEND_ATTEMPTS This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype UI name: [Campaign send attempts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-send-attempts) CAMPAIGN_SEND_EXCLUSIONS This metric is available only for outbound campaigns. Valid metric filter key: CAMPAIGN_EXCLUDED_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Campaign Excluded Event Type, Campaign Execution Timestamp UI name: [Campaign send exclusions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-send-exclusions) CASES_CREATED Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases created](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-created) CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts created](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-created) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: [Contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts handled (connected to agent timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled-by-connected-to-agent-timestamp) CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts hold disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-disconnect) CONTACTS_ON_HOLD_AGENT_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts hold agent disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-agent-disconnect) CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts hold customer disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-customer-disconnect) CONTACTS_PUT_ON_HOLD Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts put on hold](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-put-on-hold) CONTACTS_TRANSFERRED_OUT_EXTERNAL Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts transferred out external](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-external) CONTACTS_TRANSFERRED_OUT_INTERNAL Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts transferred out internal](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-internal) CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts queued](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-queued) CONTACTS_QUEUED_BY_ENQUEUE Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts queued (enqueue timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-queued-by-enqueue) CONTACTS_REMOVED_FROM_QUEUE_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Contacts removed from queue in X seconds](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-removed-from-queue) CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Contacts resolved in X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-resolved) CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out) Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out by agent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-by-agent) CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-queue) CURRENT_CASES Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Current cases](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#current-cases) CONVERSATIONS_ABANDONED Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Conversations abandoned](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#conversations-abandoned) DELIVERY_ATTEMPTS This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: [Delivery attempts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#delivery-attempts) Campaign Delivery EventType filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes. DELIVERY_ATTEMPT_DISPOSITION_RATE This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: [Delivery attempt disposition rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#delivery-attempt-disposition-rate) Campaign Delivery Event Type filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes. EVALUATIONS_PERFORMED Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Evaluations performed](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#evaluations-performed) FLOWS_OUTCOME Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows outcome](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-outcome) FLOWS_STARTED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows started](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-started) HUMAN_ANSWERED_CALLS This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Count Valid groupings and filters: Agent, Campaign UI name: [Human answered](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#human-answered) MAX_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Maximum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#maximum-flow-time) MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Maximum queued time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#maximum-queued-time) MIN_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Minimum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#minimum-flow-time) PERCENT_AUTOMATIC_FAILS Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Automatic fails percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#automatic-fails-percent) PERCENT_BOT_CONVERSATIONS_OUTCOME Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Percent bot conversations outcome](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#percent-bot-conversations-outcome) PERCENT_BOT_INTENTS_OUTCOME Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Percent bot intents outcome](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#percent-bot-intents-outcome) PERCENT_CASES_FIRST_CONTACT_RESOLVED Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved on first contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-resolved-on-first-contact) PERCENT_CONTACTS_STEP_EXPIRED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. PERCENT_CONTACTS_STEP_JOINED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. PERCENT_FLOWS_OUTCOME Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows outcome percentage](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-outcome-percentage). The FLOWS_OUTCOME_TYPE is not a valid grouping. PERCENT_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Non-talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-talk-time-percent) PERCENT_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#talk-time-percent) PERCENT_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Agent talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-talk-time-percent) PERCENT_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Customer talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#customer-talk-time-percent) RECIPIENTS_ATTEMPTED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Recipients attempted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-attempted) RECIPIENTS_INTERACTED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype, Campaign Execution Timestamp UI name: [Recipients interacted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-interacted) RECIPIENTS_TARGETED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Recipients targeted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-targeted) REOPENED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases reopened](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-reopened) RESOLVED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-resolved) SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Service level X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#service-level) STEP_CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. SUM_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [After contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#after-contact-work-time) SUM_CONNECTING_TIME_AGENT Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API | CALLBACK_CUSTOMER_FIRST_DIALED Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-api-connecting-time) The Negate key in metric-level filters is not applicable for this metric. CONTACTS_ABANDONED Unit: Count Metric filter:
+    /// The metrics to retrieve. Specify the name or metricId, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Metrics definition](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Connect Customer Administrator Guide. MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 20 MetricId per request. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Abandonment rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#abandonment-rate) AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#adherent-time) AGENT_ANSWER_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent answer rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-answer-rate) AGENT_NON_ADHERENT_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Non-adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-adherent-time) AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent non-response](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-non-response) AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: [Agent non-response without customer abandons](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-non-response-without-customer-abandons) AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: [Occupancy](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#occupancy) AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherence](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#adherence) AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Scheduled time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#scheduled-time) AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect Valid metric filter key: INITIATION_METHOD UI name: [Average queue abandon time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-abandon-time) AVG_ACTIVE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average active time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-active-time) AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average after contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#after-contact-work-time) Feature is a valid filter but not a valid grouping. AVG_AGENT_CONCURRENCY Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average agent concurrency](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-concurrency) AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Average agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-api-connecting-time) The Negate key in metric-level filters is not applicable for this metric. AVG_AGENT_PAUSE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average agent pause time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-pause-time) AVG_BOT_CONVERSATION_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Average bot conversation time](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#average-bot-conversation-time) AVG_BOT_CONVERSATION_TURNS Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Average bot conversation turns](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#average-bot-conversation-turns) AVG_CASE_RELATED_CONTACTS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average contacts per case](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-contacts-per-case) AVG_CASE_RESOLUTION_TIME Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average case resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-case-resolution-time) AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average contact duration](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-contact-duration) Feature is a valid filter but not a valid grouping. AVG_CONTACT_FIRST_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Agent average contact first response wait time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-average-contact-first-response-wait-time) AVG_CONVERSATION_CLOSE_TIME Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average conversation close time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-conversation-close-time) AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average conversation duration](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-conversation-duration) AVG_DIALS_PER_MINUTE This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: [Average dials per minute](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-dials-per-minute) AVG_EVALUATION_SCORE Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Average evaluation score](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-evaluation-score) AVG_FIRST_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent first response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-first-response-time) AVG_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Average flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-flow-time) AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent greeting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-greeting-time) AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, AI Use Case, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: [Average handle time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-handle-time) Feature is a valid filter but not a valid grouping. ACTIVE_AI_AGENTS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Active AI Agents](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#active-ai-agents) AI_HANDOFF_RATE Unit: Percent Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Handoff Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-handoff-rate) AI_HANDOFFS Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Handoff Count](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-handoffs) AI_AGENT_INVOCATION_SUCCESS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Agent Invocation Success](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-agent-invocation-success) AI Agent Name Version is not a valid filter but a valid grouping. AI_AGENT_INVOCATION_SUCCESS_RATE Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Agent Invocation Success Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-agent-invocation-success-rate) AI Agent Name Version is not a valid filter but a valid grouping. AI_AGENT_INVOCATIONS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Agent Name Version, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Agent Invocation Count](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-agent-invocations) AI Agent Name Version is not a valid filter but a valid grouping. AI_AGENT_RESPONSE_HELPFUL Unit: Count Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Agent Response Helpful](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-agent-response-helpful) AI Agent Name Version is not a valid filter but a valid grouping. AI_AGENT_RESPONSE_NOT_HELPFUL Unit: Count Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Agent Response Not Helpful](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-agent-response-not-helpful) AI Agent Name Version is not a valid filter but a valid grouping. AI_RESPONSE_COMPLETION_RATE Unit: Percent Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Response Completion Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-response-completion-rate) AI_INVOLVED_CONTACTS Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Involved Contacts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-involved-contacts) AI_PROMPT_INVOCATION_SUCCESS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Prompt Invocation Success](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-prompt-invocation-success) AI Agent Name Version is not a valid filter but a valid grouping. AI_PROMPT_INVOCATION_SUCCESS_RATE Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Prompt Invocation Success Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-prompt-invocation-success-rate) AI Agent Name Version is not a valid filter but a valid grouping. AI_PROMPT_INVOCATIONS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Prompt Invocations](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-prompt-invocations) AI Agent Name Version is not a valid filter but a valid grouping. AI_TOOL_INVOCATION_SUCCESS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Tool Invocation Success](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-tool-invocation-success) AI Agent Name Version is not a valid filter but a valid grouping. AI_TOOL_INVOCATION_SUCCESS_RATE Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Tool Invocation Success Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-tool-invocation-success-rate) AI Agent Name Version is not a valid filter but a valid grouping. AI_TOOL_INVOCATIONS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Tool Invocations](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-tool-invocations) AI Agent Name Version is not a valid filter but a valid grouping. AVG_AI_AGENT_CONVERSATION_TURNS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Average AI Agent Conversation Turns](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-ai-agent-conversation-turns) AI Agent Name Version is not a valid filter but a valid grouping. AVG_AI_CONVERSATION_TURNS Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Average AI Conversation Turns](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-ai-conversation-turns) AVG_AI_PROMPT_INVOCATION_LATENCY Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Average AI Prompt Invocation Latency](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-ai-prompt-invocation-latency) AI Agent Name Version is not a valid filter but a valid grouping. AVG_AI_TOOL_INVOCATION_LATENCY Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Average AI Tool Invocation Latency](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-ai-tool-invocation-latency) AI Agent Name Version is not a valid filter but a valid grouping. AI_TOOL_PARAMETER_ACCURACY Unit: Double Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Tool Parameter Accuracy](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-tool-parameter-accuracy) AI Agent Name Version is not a valid filter but a valid grouping. AI_TOOL_SELECTION_ACCURACY Unit: Double Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Tool Selection Accuracy](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-tool-selection-accuracy) AI Agent Name Version is not a valid filter but a valid grouping. AI_TOOL_UTILIZATION_ACCURACY Unit: Double Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile, Session ID UI name: [AI Tool Utilization Accuracy](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-tool-utilization-accuracy) AI Agent Name Version is not a valid filter but a valid grouping. COMPLETENESS_SCORE Unit: Double Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile, Session ID UI name: [Completeness Score](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#completeness-score) FAITHFULNESS_SCORE Unit: Double Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile, Session ID UI name: [Faithfulness Score](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#faithfulness-score) GOAL_SUCCESS_RATE Unit: Double Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile, Session ID UI name: [Goal Success Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#goal-success-rate) KNOWLEDGE_CONTENT_REFERENCES Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Knowledge Base Name, Queue, Routing Profile UI name: [Knowledge Content References](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#knowledge-content-references) PROACTIVE_INTENT_ENGAGEMENT_RATE Unit: Percent Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intent Engagement Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-engagement-rate) PROACTIVE_INTENT_RESPONSE_RATE Unit: Percent Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intent Response Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-response-rate) PROACTIVE_INTENTS_ANSWERED Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intents Answered](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-answered) PROACTIVE_INTENTS_DETECTED Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intents Detected](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-detected) PROACTIVE_INTENTS_ENGAGED Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intents Engaged](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-engaged) AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-hold-time) Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer hold time all contacts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-hold-time-all-contacts) AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average holds](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-holds) Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interaction and customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interaction-and-customer-hold-time) AVG_INTERACTION_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interaction time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interaction-time) Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interruptions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interruptions) AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interruption time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interruption-time) AVG_MESSAGE_LENGTH_AGENT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent message length](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-message-length) AVG_MESSAGE_LENGTH_CUSTOMER Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer message length](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-message-length) AVG_MESSAGES Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-messages) AVG_MESSAGES_AGENT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-messages) AVG_MESSAGES_BOT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average bot messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-bot-messages) AVG_MESSAGES_CUSTOMER Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-messages) AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average non-talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-non-talk-time) AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average queue answer time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-answer-time) Valid metric level filters: INITIATION_METHOD, FEATURE, DISCONNECT_REASON Feature is a valid filter but not a valid grouping. AVG_QUEUE_ANSWER_TIME_CUSTOMER_FIRST_CALLBACK Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: [Avg. queue answer time - customer first callback](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-answer-time-customer-first-callback) AVG_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-response-time-agent) AVG_RESPONSE_TIME_CUSTOMER Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-time-agent) AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-resolution-time) AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-talk-time) AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-talk-time) AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-talk-time) AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: [Average wait time after customer connection](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-wait-time-after-customer-connection) AVG_WAIT_TIME_AFTER_CUSTOMER_FIRST_CALLBACK_CONNECTION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: [Avg. wait time after customer connection - customer first callback](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-wait-time-after-customer-connection-customer-first-callback) AVG_WEIGHTED_EVALUATION_SCORE Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form Id, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Average weighted evaluation score](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-weighted-evaluation-score) BOT_CONVERSATIONS_COMPLETED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Bot conversations completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-conversations-completed) BOT_INTENTS_COMPLETED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Bot intents completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-intents-completed) CAMPAIGN_CONTACTS_ABANDONED_AFTER_X This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: [Campaign contacts abandoned after X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-contacts-abandoned-after-x) CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: [Campaign contacts abandoned after X rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-contacts-abandoned-after-x-rate) CAMPAIGN_INTERACTIONS This metric is available only for outbound campaigns using the email delivery mode. Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Campaign UI name: [Campaign interactions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-interactions) CAMPAIGN_PROGRESS_RATE This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Percent Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Campaign progress rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-progress-rate) CAMPAIGN_SEND_ATTEMPTS This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype UI name: [Campaign send attempts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-send-attempts) CAMPAIGN_SEND_EXCLUSIONS This metric is available only for outbound campaigns. Valid metric filter key: CAMPAIGN_EXCLUDED_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Campaign Excluded Event Type, Campaign Execution Timestamp UI name: [Campaign send exclusions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-send-exclusions) CASES_CREATED Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases created](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-created) CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts created](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-created) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: [Contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts handled (connected to agent timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled-by-connected-to-agent-timestamp) CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts hold disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-disconnect) CONTACTS_ON_HOLD_AGENT_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts hold agent disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-agent-disconnect) CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts hold customer disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-customer-disconnect) CONTACTS_PUT_ON_HOLD Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts put on hold](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-put-on-hold) CONTACTS_TRANSFERRED_OUT_EXTERNAL Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts transferred out external](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-external) CONTACTS_TRANSFERRED_OUT_INTERNAL Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts transferred out internal](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-internal) CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts queued](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-queued) CONTACTS_QUEUED_BY_ENQUEUE Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts queued (enqueue timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-queued-by-enqueue) CONTACTS_REMOVED_FROM_QUEUE_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Contacts removed from queue in X seconds](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-removed-from-queue) CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Contacts resolved in X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-resolved) CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out) Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out by agent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-by-agent) CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-queue) CURRENT_CASES Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Current cases](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#current-cases) CONVERSATIONS_ABANDONED Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Conversations abandoned](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#conversations-abandoned) DELIVERY_ATTEMPTS This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: [Delivery attempts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#delivery-attempts) Campaign Delivery EventType filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes. DELIVERY_ATTEMPT_DISPOSITION_RATE This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: [Delivery attempt disposition rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#delivery-attempt-disposition-rate) Campaign Delivery Event Type filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes. EVALUATIONS_PERFORMED Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Evaluations performed](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#evaluations-performed) FLOWS_OUTCOME Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows outcome](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-outcome) FLOWS_STARTED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows started](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-started) HUMAN_ANSWERED_CALLS This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Count Valid groupings and filters: Agent, Campaign UI name: [Human answered](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#human-answered) MAX_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Maximum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#maximum-flow-time) MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Maximum queued time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#maximum-queued-time) MIN_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Minimum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#minimum-flow-time) PERCENT_AUTOMATIC_FAILS Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Automatic fails percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#automatic-fails-percent) PERCENT_BOT_CONVERSATIONS_OUTCOME Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Percent bot conversations outcome](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#percent-bot-conversations-outcome) PERCENT_BOT_INTENTS_OUTCOME Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Percent bot intents outcome](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#percent-bot-intents-outcome) PERCENT_CASES_FIRST_CONTACT_RESOLVED Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved on first contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-resolved-on-first-contact) PERCENT_CONTACTS_STEP_EXPIRED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. PERCENT_CONTACTS_STEP_JOINED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. PERCENT_FLOWS_OUTCOME Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows outcome percentage](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-outcome-percentage). The FLOWS_OUTCOME_TYPE is not a valid grouping. PERCENT_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Non-talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-talk-time-percent) PERCENT_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#talk-time-percent) PERCENT_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Agent talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-talk-time-percent) PERCENT_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Customer talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#customer-talk-time-percent) RECIPIENTS_ATTEMPTED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Recipients attempted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-attempted) RECIPIENTS_INTERACTED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype, Campaign Execution Timestamp UI name: [Recipients interacted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-interacted) RECIPIENTS_TARGETED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Recipients targeted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-targeted) REOPENED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases reopened](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-reopened) RESOLVED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-resolved) SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Service level X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#service-level) STEP_CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. SUM_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [After contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#after-contact-work-time) SUM_CONNECTING_TIME_AGENT Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API | CALLBACK_CUSTOMER_FIRST_DIALED Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-api-connecting-time) The Negate key in metric-level filters is not applicable for this metric. CONTACTS_ABANDONED Unit: Count Metric filter:
     ///
     /// * Valid values: API| INCOMING | OUTBOUND | TRANSFER | CALLBACK | QUEUE_TRANSFER| Disconnect | CALLBACK_CUSTOMER_FIRST_DIALED
     ///
@@ -22354,7 +22921,7 @@ extension ConnectClientTypes {
         public var title: Swift.String?
 
         public init(
-            activeVersion: Swift.Int? = 0,
+            activeVersion: Swift.Int? = nil,
             createdBy: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
             evaluationFormArn: Swift.String? = nil,
@@ -25802,7 +26369,7 @@ public struct ListViewsInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil,
-        maxResults: Swift.Int? = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         type: ConnectClientTypes.ViewType? = nil
     ) {
@@ -25882,7 +26449,7 @@ public struct ListViewVersionsInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil,
-        maxResults: Swift.Int? = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         viewId: Swift.String? = nil
     ) {
@@ -26760,19 +27327,159 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Filters to be applied to search results.
-    public struct EvaluationSearchFilter: Swift.Sendable {
-        /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR or AND (List of List) input where:
-        ///
-        /// * The top level list specifies conditions that need to be applied with OR operator.
-        ///
-        /// * The inner list specifies conditions that need to be applied with AND operator.
-        public var attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter?
+    public enum ContactEvaluationAttributeKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contactAgentId
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContactEvaluationAttributeKey] {
+            return [
+                .contactAgentId
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contactAgentId: return "ContactAgentId"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The value of a contact evaluation attribute condition.
+    public struct ContactEvaluationAttributeValue: Swift.Sendable {
+        /// A string value for the attribute.
+        public var stringValue: Swift.String?
 
         public init(
-            attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter? = nil
+            stringValue: Swift.String? = nil
+        ) {
+            self.stringValue = stringValue
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum ContactEvaluationAttributeComparisonType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exact
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContactEvaluationAttributeComparisonType] {
+            return [
+                .exact
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exact: return "EXACT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// An attribute condition for contact evaluation filtering.
+    public struct ContactEvaluationAttributeCondition: Swift.Sendable {
+        /// The key of the attribute.
+        public var attributeKey: ConnectClientTypes.ContactEvaluationAttributeKey?
+        /// The value of the attribute.
+        public var attributeValue: ConnectClientTypes.ContactEvaluationAttributeValue?
+        /// The comparison type for the condition.
+        public var comparisonType: ConnectClientTypes.ContactEvaluationAttributeComparisonType?
+
+        public init(
+            attributeKey: ConnectClientTypes.ContactEvaluationAttributeKey? = nil,
+            attributeValue: ConnectClientTypes.ContactEvaluationAttributeValue? = nil,
+            comparisonType: ConnectClientTypes.ContactEvaluationAttributeComparisonType? = nil
+        ) {
+            self.attributeKey = attributeKey
+            self.attributeValue = attributeValue
+            self.comparisonType = comparisonType
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A list of conditions which would be applied together with an AND condition.
+    public struct ContactEvaluationAttributeAndCondition: Swift.Sendable {
+        /// A list of attribute conditions to apply.
+        public var attributeConditions: [ConnectClientTypes.ContactEvaluationAttributeCondition]?
+        /// A list of tag conditions to apply.
+        public var tagConditions: [ConnectClientTypes.TagCondition]?
+
+        public init(
+            attributeConditions: [ConnectClientTypes.ContactEvaluationAttributeCondition]? = nil,
+            tagConditions: [ConnectClientTypes.TagCondition]? = nil
+        ) {
+            self.attributeConditions = attributeConditions
+            self.tagConditions = tagConditions
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// An object that can be used to specify tag conditions and attribute conditions inside the SearchFilter for contact evaluations. This accepts an OR or AND (List of List) input where:
+    ///
+    /// * The top level list specifies conditions that need to be applied with OR operator.
+    ///
+    /// * The inner list specifies conditions that need to be applied with AND operator.
+    public struct ContactEvaluationAttributeFilter: Swift.Sendable {
+        /// A list of conditions which would be applied together with an AND condition.
+        public var andCondition: ConnectClientTypes.ContactEvaluationAttributeAndCondition?
+        /// An attribute condition to apply.
+        public var contactEvaluationAttributeCondition: ConnectClientTypes.ContactEvaluationAttributeCondition?
+        /// A list of conditions which would be applied together with an OR condition.
+        public var orConditions: [ConnectClientTypes.ContactEvaluationAttributeAndCondition]?
+        /// A tag condition to apply.
+        public var tagCondition: ConnectClientTypes.TagCondition?
+
+        public init(
+            andCondition: ConnectClientTypes.ContactEvaluationAttributeAndCondition? = nil,
+            contactEvaluationAttributeCondition: ConnectClientTypes.ContactEvaluationAttributeCondition? = nil,
+            orConditions: [ConnectClientTypes.ContactEvaluationAttributeAndCondition]? = nil,
+            tagCondition: ConnectClientTypes.TagCondition? = nil
+        ) {
+            self.andCondition = andCondition
+            self.contactEvaluationAttributeCondition = contactEvaluationAttributeCondition
+            self.orConditions = orConditions
+            self.tagCondition = tagCondition
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Filters to be applied to search results.
+    public struct EvaluationSearchFilter: Swift.Sendable {
+        /// An object that can be used to specify tag conditions.
+        public var attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter?
+        /// An object that can be used to specify tag conditions and attribute conditions for contact evaluations.
+        public var contactEvaluationAttributeFilter: ConnectClientTypes.ContactEvaluationAttributeFilter?
+
+        public init(
+            attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter? = nil,
+            contactEvaluationAttributeFilter: ConnectClientTypes.ContactEvaluationAttributeFilter? = nil
         ) {
             self.attributeFilter = attributeFilter
+            self.contactEvaluationAttributeFilter = contactEvaluationAttributeFilter
         }
     }
 }
@@ -26802,9 +27509,15 @@ extension ConnectClientTypes {
         public var contactParticipantId: Swift.String?
         /// Role of a contact participant in the evaluation.
         public var contactParticipantRole: ConnectClientTypes.ContactParticipantRole?
+        /// The points earned for the evaluation.
+        public var earnedPoints: Swift.Int?
         /// The Amazon Resource Name (ARN) of the person who evaluated the contact.
         /// This member is required.
         public var evaluatorArn: Swift.String?
+        /// The maximum base points possible for the evaluation.
+        public var maxBasePoint: Swift.Int?
+        /// The performance category for the evaluation score.
+        public var performanceCategory: ConnectClientTypes.PerformanceCategoryName?
         /// Identifier for the review.
         public var reviewId: Swift.String?
         /// Identifier of the sampling job.
@@ -26827,7 +27540,10 @@ extension ConnectClientTypes {
             contactId: Swift.String? = nil,
             contactParticipantId: Swift.String? = nil,
             contactParticipantRole: ConnectClientTypes.ContactParticipantRole? = nil,
+            earnedPoints: Swift.Int? = nil,
             evaluatorArn: Swift.String? = nil,
+            maxBasePoint: Swift.Int? = nil,
+            performanceCategory: ConnectClientTypes.PerformanceCategoryName? = nil,
             reviewId: Swift.String? = nil,
             samplingJobId: Swift.String? = nil,
             scoreAutomaticFail: Swift.Bool = false,
@@ -26844,7 +27560,10 @@ extension ConnectClientTypes {
             self.contactId = contactId
             self.contactParticipantId = contactParticipantId
             self.contactParticipantRole = contactParticipantRole
+            self.earnedPoints = earnedPoints
             self.evaluatorArn = evaluatorArn
+            self.maxBasePoint = maxBasePoint
+            self.performanceCategory = performanceCategory
             self.reviewId = reviewId
             self.samplingJobId = samplingJobId
             self.scoreAutomaticFail = scoreAutomaticFail
@@ -26893,7 +27612,7 @@ extension ConnectClientTypes {
             evaluationArn: Swift.String? = nil,
             evaluationFormId: Swift.String? = nil,
             evaluationFormTitle: Swift.String? = nil,
-            evaluationFormVersion: Swift.Int? = 0,
+            evaluationFormVersion: Swift.Int? = nil,
             evaluationId: Swift.String? = nil,
             evaluationType: ConnectClientTypes.EvaluationType? = nil,
             lastModifiedTime: Foundation.Date? = nil,
@@ -27534,6 +28253,8 @@ extension ConnectClientTypes {
         public var agentHierarchyGroups: ConnectClientTypes.AgentHierarchyGroups?
         /// The identifiers of agents who handled the contacts.
         public var agentIds: [Swift.String]?
+        /// AI Agent search criteria definitions.
+        public var aiAgents: ConnectClientTypes.AiAgentsCriteria?
         /// The list of channels associated with contacts.
         public var channels: [ConnectClientTypes.Channel]?
         /// Search criteria based on analysis outputs from Connect Customer Contact Lens.
@@ -27562,6 +28283,7 @@ extension ConnectClientTypes {
             additionalTimeRange: ConnectClientTypes.SearchContactsAdditionalTimeRange? = nil,
             agentHierarchyGroups: ConnectClientTypes.AgentHierarchyGroups? = nil,
             agentIds: [Swift.String]? = nil,
+            aiAgents: ConnectClientTypes.AiAgentsCriteria? = nil,
             channels: [ConnectClientTypes.Channel]? = nil,
             contactAnalysis: ConnectClientTypes.ContactAnalysis? = nil,
             contactTags: ConnectClientTypes.ControlPlaneTagFilter? = nil,
@@ -27576,6 +28298,7 @@ extension ConnectClientTypes {
             self.additionalTimeRange = additionalTimeRange
             self.agentHierarchyGroups = agentHierarchyGroups
             self.agentIds = agentIds
+            self.aiAgents = aiAgents
             self.channels = channels
             self.contactAnalysis = contactAnalysis
             self.contactTags = contactTags
@@ -27702,6 +28425,29 @@ extension ConnectClientTypes {
         ) {
             self.connectedToAgentTimestamp = connectedToAgentTimestamp
             self.id = id
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information of the AI agent involved in the contact.
+    public struct ContactSearchSummaryAiAgentInfo: Swift.Sendable {
+        /// A boolean flag indicating whether the contact initially handled by this AI agent was escalated to a human agent.
+        public var aiAgentEscalated: Swift.Bool?
+        /// The unique identifier that specifies both the AI agent ID and its version number that was involved in the contact.
+        public var aiAgentVersionId: Swift.String?
+        /// The use case or scenario for which the AI agent is involved in the contact. Valid values are AgentAssistance and SelfService.
+        public var aiUseCase: ConnectClientTypes.AiUseCase?
+
+        public init(
+            aiAgentEscalated: Swift.Bool? = nil,
+            aiAgentVersionId: Swift.String? = nil,
+            aiUseCase: ConnectClientTypes.AiUseCase? = nil
+        ) {
+            self.aiAgentEscalated = aiAgentEscalated
+            self.aiAgentVersionId = aiAgentVersionId
+            self.aiUseCase = aiUseCase
         }
     }
 }
@@ -27909,7 +28655,7 @@ extension ConnectClientTypes {
         public var title: Swift.String?
 
         public init(
-            activeVersion: Swift.Int? = 0,
+            activeVersion: Swift.Int? = nil,
             autoEvaluationEnabled: Swift.Bool = false,
             contactInteractionType: ConnectClientTypes.ContactInteractionType? = nil,
             createdBy: Swift.String? = nil,
@@ -27922,7 +28668,7 @@ extension ConnectClientTypes {
             lastActivatedTime: Foundation.Date? = nil,
             lastModifiedBy: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
-            latestVersion: Swift.Int? = 0,
+            latestVersion: Swift.Int? = nil,
             status: ConnectClientTypes.EvaluationFormVersionStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             title: Swift.String? = nil
@@ -29696,6 +30442,187 @@ public struct SendOutboundEmailOutput: Swift.Sendable {
     public init() { }
 }
 
+extension ConnectClientTypes {
+
+    /// Configuration for the recommender used to generate personalized recommendations included in an outbound web notification.
+    public struct RecommenderConfig: Swift.Sendable {
+        /// A map of contextual key-value pairs supplied to the recommender to influence the recommendations returned.
+        public var context: [Swift.String: Swift.String]?
+        /// The name of the Amazon Personalize domain that hosts the recommender.
+        /// This member is required.
+        public var domainName: Swift.String?
+        /// The name of the recommender used to generate the recommendations.
+        /// This member is required.
+        public var recommenderName: Swift.String?
+
+        public init(
+            context: [Swift.String: Swift.String]? = nil,
+            domainName: Swift.String? = nil,
+            recommenderName: Swift.String? = nil
+        ) {
+            self.context = context
+            self.domainName = domainName
+            self.recommenderName = recommenderName
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Optional attributes used to populate the content of an outbound web notification, such as recommender configuration for personalized content.
+    public struct ContentAttributes: Swift.Sendable {
+        /// Configuration for the recommender used to generate personalized recommendations for the notification content.
+        public var recommenderConfig: ConnectClientTypes.RecommenderConfig?
+
+        public init(
+            recommenderConfig: ConnectClientTypes.RecommenderConfig? = nil
+        ) {
+            self.recommenderConfig = recommenderConfig
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum NotificationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case widgetAction
+        case widgetView
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotificationType] {
+            return [
+                .widgetAction,
+                .widgetView
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .widgetAction: return "WIDGET_ACTION"
+            case .widgetView: return "WIDGET_VIEW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The content of an outbound web notification, including the notification type, the view to render, and any optional attributes used to populate the view.
+    public struct WebNotificationContent: Swift.Sendable {
+        /// Optional attributes used to populate the notification content, such as recommender configuration for personalized content.
+        public var attributes: ConnectClientTypes.ContentAttributes?
+        /// The type of web notification to send.
+        /// This member is required.
+        public var type: ConnectClientTypes.NotificationType?
+        /// The Amazon Resource Name (ARN) of the view to render for the notification.
+        public var viewArn: Swift.String?
+
+        public init(
+            attributes: ConnectClientTypes.ContentAttributes? = nil,
+            type: ConnectClientTypes.NotificationType? = nil,
+            viewArn: Swift.String? = nil
+        ) {
+            self.attributes = attributes
+            self.type = type
+            self.viewArn = viewArn
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The destination for an outbound web notification, specifying the communication widget that delivers the notification and the customer profile of the recipient.
+    public struct WidgetDestination: Swift.Sendable {
+        /// The identifier of the customer profile associated with the browser session that should receive the notification.
+        /// This member is required.
+        public var profileId: Swift.String?
+        /// The identifier of the communication widget that delivers the notification to the customer's browser.
+        /// This member is required.
+        public var widgetId: Swift.String?
+
+        public init(
+            profileId: Swift.String? = nil,
+            widgetId: Swift.String? = nil
+        ) {
+            self.profileId = profileId
+            self.widgetId = widgetId
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The source of an outbound web notification. Identifies the campaign and outbound request that triggered the notification.
+    public struct WebNotificationSource: Swift.Sendable {
+        /// Information about the campaign that triggered the web notification, including the campaign identifier and outbound request identifier.
+        /// This member is required.
+        public var sourceCampaign: ConnectClientTypes.SourceCampaign?
+
+        public init(
+            sourceCampaign: ConnectClientTypes.SourceCampaign? = nil
+        ) {
+            self.sourceCampaign = sourceCampaign
+        }
+    }
+}
+
+public struct SendOutboundWebNotificationInput: Swift.Sendable {
+    /// A unique identifier for the customer's web browser instance to which the notification is being sent.
+    /// This member is required.
+    public var browserId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The content of the web notification, including the notification type, the view to render, and any optional attributes used to populate it.
+    /// This member is required.
+    public var content: ConnectClientTypes.WebNotificationContent?
+    /// The destination for the web notification, specifying the communication widget that delivers the notification and the customer profile of the recipient.
+    /// This member is required.
+    public var destination: ConnectClientTypes.WidgetDestination?
+    /// The timestamp, in Unix epoch time format, at which the web notification expires. After this time, the notification is no longer delivered to the customer's browser.
+    /// This member is required.
+    public var expiresAt: Foundation.Date?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// A unique identifier for the customer's web session to which the notification is being sent.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The source of the web notification. A SourceCampaign object identifies the campaign and outbound request that triggered this notification.
+    /// This member is required.
+    public var source: ConnectClientTypes.WebNotificationSource?
+
+    public init(
+        browserId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        content: ConnectClientTypes.WebNotificationContent? = nil,
+        destination: ConnectClientTypes.WidgetDestination? = nil,
+        expiresAt: Foundation.Date? = nil,
+        instanceId: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        source: ConnectClientTypes.WebNotificationSource? = nil
+    ) {
+        self.browserId = browserId
+        self.clientToken = clientToken
+        self.content = content
+        self.destination = destination
+        self.expiresAt = expiresAt
+        self.instanceId = instanceId
+        self.sessionId = sessionId
+        self.source = source
+    }
+}
+
+public struct SendOutboundWebNotificationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct StartAttachedFileUploadInput: Swift.Sendable {
     /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html) and [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html). This value must be a valid ARN.
     /// This member is required.
@@ -29829,13 +30756,7 @@ extension ConnectClientTypes {
 
     /// A chat message.
     public struct ChatMessage: Swift.Sendable {
-        /// The content of the chat message.
-        ///
-        /// * For text/plain and text/markdown, the Length Constraints are Minimum of 1, Maximum of 1024.
-        ///
-        /// * For application/json, the Length Constraints are Minimum of 1, Maximum of 12000.
-        ///
-        /// * For application/vnd.amazonaws.connect.message.interactive.response, the Length Constraints are Minimum of 1, Maximum of 12288.
+        /// The content of the chat message. Maximum of 16,384 bytes for all content types (text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response). Some messaging channels enforce lower limits. For channel-specific message size limits, see [Chat message size limits by channel](https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html#chat-message-size-limits) in the Amazon Connect Customer Administrator Guide.
         /// This member is required.
         public var content: Swift.String?
         /// The type of the content. Supported types are text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response.
@@ -29942,6 +30863,336 @@ public struct StartChatContactOutput: Swift.Sendable {
         self.continuedFromContactId = continuedFromContactId
         self.participantId = participantId
         self.participantToken = participantToken
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The language configuration for conversational analytics.
+    public struct LanguageConfiguration: Swift.Sendable {
+        /// The language locale setting for conversational analytics.
+        public var languageLocale: Swift.String?
+
+        public init(
+            languageLocale: Swift.String? = nil
+        ) {
+            self.languageLocale = languageLocale
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum Behavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disable
+        case enable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Behavior] {
+            return [
+                .disable,
+                .enable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disable: return "Disable"
+            case .enable: return "Enable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum MaskMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case entitytype
+        case pii
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MaskMode] {
+            return [
+                .entitytype,
+                .pii
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .entitytype: return "EntityType"
+            case .pii: return "PII"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum Policy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case redactedandoriginal
+        case redactedonly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Policy] {
+            return [
+                .none,
+                .redactedandoriginal,
+                .redactedonly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "None"
+            case .redactedandoriginal: return "RedactedAndOriginal"
+            case .redactedonly: return "RedactedOnly"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The redaction configuration for conversational analytics.
+    public struct RedactionConfiguration: Swift.Sendable {
+        /// Controls whether redaction is applied to the analytics output. Valid values: Enable | Disable.
+        /// This member is required.
+        public var behavior: ConnectClientTypes.Behavior?
+        /// The list of PII entity types to redact from the transcript (for example, NAME, ADDRESS, CREDIT_DEBIT_NUMBER).
+        public var entities: [Swift.String]?
+        /// The masking mode that determines how redacted content is replaced in the output. Valid values: PII (replaces with the literal string [PII]) | EntityType (replaces with the entity type name, for example [NAME]).
+        public var maskMode: ConnectClientTypes.MaskMode?
+        /// The redaction output policy that determines which versions of the transcript are stored. Valid values: None | RedactedOnly | RedactedAndOriginal.
+        /// This member is required.
+        public var policy: ConnectClientTypes.Policy?
+
+        public init(
+            behavior: ConnectClientTypes.Behavior? = nil,
+            entities: [Swift.String]? = nil,
+            maskMode: ConnectClientTypes.MaskMode? = nil,
+            policy: ConnectClientTypes.Policy? = nil
+        ) {
+            self.behavior = behavior
+            self.entities = entities
+            self.maskMode = maskMode
+            self.policy = policy
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The rules configuration for conversational analytics. Controls whether Contact Lens rules are evaluated against the analytics output.
+    public struct RulesConfiguration: Swift.Sendable {
+        /// Controls whether Contact Lens rules are evaluated for the contact. Valid values: Enable | Disable.
+        public var behavior: ConnectClientTypes.Behavior?
+
+        public init(
+            behavior: ConnectClientTypes.Behavior? = nil
+        ) {
+            self.behavior = behavior
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The sentiment configuration for conversational analytics.
+    public struct SentimentConfiguration: Swift.Sendable {
+        /// Controls whether sentiment analysis is applied to the analytics output. Valid values: Enable | Disable.
+        /// This member is required.
+        public var behavior: ConnectClientTypes.Behavior?
+
+        public init(
+            behavior: ConnectClientTypes.Behavior? = nil
+        ) {
+            self.behavior = behavior
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum SummaryMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatedinteraction
+        case contactchain
+        case postcontact
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SummaryMode] {
+            return [
+                .automatedinteraction,
+                .contactchain,
+                .postcontact
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatedinteraction: return "AutomatedInteraction"
+            case .contactchain: return "ContactChain"
+            case .postcontact: return "PostContact"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The summary configuration for conversational analytics.
+    public struct SummaryConfiguration: Swift.Sendable {
+        /// The summary modes that determine what type of summarization is generated. Valid values: PostContact | AutomatedInteraction | ContactChain.
+        /// This member is required.
+        public var summaryModes: [ConnectClientTypes.SummaryMode]?
+
+        public init(
+            summaryModes: [ConnectClientTypes.SummaryMode]? = nil
+        ) {
+            self.summaryModes = summaryModes
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The configuration for conversational analytics.
+    public struct AnalyticsConfiguration: Swift.Sendable {
+        /// The language configuration for conversational analytics.
+        /// This member is required.
+        public var languageConfiguration: ConnectClientTypes.LanguageConfiguration?
+        /// The redaction configuration for conversational analytics.
+        /// This member is required.
+        public var redactionConfiguration: ConnectClientTypes.RedactionConfiguration?
+        /// The rules configuration for conversational analytics.
+        /// This member is required.
+        public var rulesConfiguration: ConnectClientTypes.RulesConfiguration?
+        /// The sentiment configuration for conversational analytics.
+        /// This member is required.
+        public var sentimentConfiguration: ConnectClientTypes.SentimentConfiguration?
+        /// The summary configuration for conversational analytics.
+        /// This member is required.
+        public var summaryConfiguration: ConnectClientTypes.SummaryConfiguration?
+
+        public init(
+            languageConfiguration: ConnectClientTypes.LanguageConfiguration? = nil,
+            redactionConfiguration: ConnectClientTypes.RedactionConfiguration? = nil,
+            rulesConfiguration: ConnectClientTypes.RulesConfiguration? = nil,
+            sentimentConfiguration: ConnectClientTypes.SentimentConfiguration? = nil,
+            summaryConfiguration: ConnectClientTypes.SummaryConfiguration? = nil
+        ) {
+            self.languageConfiguration = languageConfiguration
+            self.redactionConfiguration = redactionConfiguration
+            self.rulesConfiguration = rulesConfiguration
+            self.sentimentConfiguration = sentimentConfiguration
+            self.summaryConfiguration = summaryConfiguration
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum AnalyticsMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatedinteraction
+        case contactlens
+        case postcontact
+        case realtime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsMode] {
+            return [
+                .automatedinteraction,
+                .contactlens,
+                .postcontact,
+                .realtime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatedinteraction: return "AutomatedInteraction"
+            case .contactlens: return "ContactLens"
+            case .postcontact: return "PostContact"
+            case .realtime: return "RealTime"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct StartContactConversationalAnalyticsJobInput: Swift.Sendable {
+    /// The configuration for the conversational analytics job.
+    /// This member is required.
+    public var analyticsConfiguration: ConnectClientTypes.AnalyticsConfiguration?
+    /// The analytics modes to run for the contact. Valid values: PostContact.
+    /// This member is required.
+    public var analyticsModes: [ConnectClientTypes.AnalyticsMode]?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The identifier of the contact in this instance of Connect Customer.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        analyticsConfiguration: ConnectClientTypes.AnalyticsConfiguration? = nil,
+        analyticsModes: [ConnectClientTypes.AnalyticsMode]? = nil,
+        clientToken: Swift.String? = nil,
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.analyticsConfiguration = analyticsConfiguration
+        self.analyticsModes = analyticsModes
+        self.clientToken = clientToken
+        self.contactId = contactId
+        self.instanceId = instanceId
+    }
+}
+
+public struct StartContactConversationalAnalyticsJobOutput: Swift.Sendable {
+    /// The identifier of the contact.
+    public var contactId: Swift.String?
+    /// The identifier of the Connect Customer instance.
+    public var instanceId: Swift.String?
+
+    public init(
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.contactId = contactId
+        self.instanceId = instanceId
     }
 }
 
@@ -30384,6 +31635,50 @@ public struct StartEmailContactOutput: Swift.Sendable {
         contactId: Swift.String? = nil
     ) {
         self.contactId = contactId
+    }
+}
+
+public struct StartEvaluationFormValidationInput: Swift.Sendable {
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// The version of the evaluation form to validate.
+    /// This member is required.
+    public var evaluationFormVersion: Swift.Int?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        evaluationFormId: Swift.String? = nil,
+        evaluationFormVersion: Swift.Int? = 0,
+        instanceId: Swift.String? = nil
+    ) {
+        self.evaluationFormId = evaluationFormId
+        self.evaluationFormVersion = evaluationFormVersion
+        self.instanceId = instanceId
+    }
+}
+
+public struct StartEvaluationFormValidationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) for the evaluation form resource.
+    /// This member is required.
+    public var evaluationFormArn: Swift.String?
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// A version of the evaluation form.
+    /// This member is required.
+    public var evaluationFormVersion: Swift.Int
+
+    public init(
+        evaluationFormArn: Swift.String? = nil,
+        evaluationFormId: Swift.String? = nil,
+        evaluationFormVersion: Swift.Int = 0
+    ) {
+        self.evaluationFormArn = evaluationFormArn
+        self.evaluationFormId = evaluationFormId
+        self.evaluationFormVersion = evaluationFormVersion
     }
 }
 
@@ -31473,7 +32768,7 @@ public struct UpdateAuthenticationProfileInput: Swift.Sendable {
         name: Swift.String? = nil,
         periodicSessionDuration: Swift.Int? = nil,
         sessionInactivityDuration: Swift.Int? = nil,
-        sessionInactivityHandlingEnabled: Swift.Bool? = false
+        sessionInactivityHandlingEnabled: Swift.Bool? = nil
     ) {
         self.allowedIps = allowedIps
         self.authenticationProfileId = authenticationProfileId
@@ -32597,7 +33892,7 @@ public struct UpdateQueueMaxContactsInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil,
-        maxContacts: Swift.Int? = 0,
+        maxContacts: Swift.Int? = nil,
         queueId: Swift.String? = nil
     ) {
         self.instanceId = instanceId
@@ -34351,6 +35646,8 @@ extension ConnectClientTypes {
         /// The identifier of the question. An identifier must be unique within the evaluation form.
         /// This member is required.
         public var refId: Swift.String?
+        /// The scoring configuration of the question.
+        public var scoringConfiguration: ConnectClientTypes.EvaluationFormQuestionScoringConfiguration?
         /// The title of the question.
         /// This member is required.
         public var title: Swift.String?
@@ -34364,6 +35661,7 @@ extension ConnectClientTypes {
             questionType: ConnectClientTypes.EvaluationFormQuestionType? = nil,
             questionTypeProperties: ConnectClientTypes.EvaluationFormQuestionTypeProperties? = nil,
             refId: Swift.String? = nil,
+            scoringConfiguration: ConnectClientTypes.EvaluationFormQuestionScoringConfiguration? = nil,
             title: Swift.String? = nil,
             weight: Swift.Double = 0.0
         ) {
@@ -34373,6 +35671,7 @@ extension ConnectClientTypes {
             self.questionType = questionType
             self.questionTypeProperties = questionTypeProperties
             self.refId = refId
+            self.scoringConfiguration = scoringConfiguration
             self.title = title
             self.weight = weight
         }
@@ -35542,12 +36841,16 @@ extension ConnectClientTypes {
     public struct EvaluationFormSection: Swift.Sendable {
         /// The instructions of the section.
         public var instructions: Swift.String?
+        /// The flag to exclude the section from scoring.
+        public var isExcludedFromScoring: Swift.Bool
         /// The items of the section.
         /// This member is required.
         public var items: [ConnectClientTypes.EvaluationFormItem]?
         /// The identifier of the section. An identifier must be unique within the evaluation form.
         /// This member is required.
         public var refId: Swift.String?
+        /// The score thresholds for performance categories.
+        public var scoreThresholds: [ConnectClientTypes.EvaluationFormScoreThreshold]?
         /// The title of the section.
         /// This member is required.
         public var title: Swift.String?
@@ -35556,14 +36859,18 @@ extension ConnectClientTypes {
 
         public init(
             instructions: Swift.String? = nil,
+            isExcludedFromScoring: Swift.Bool = false,
             items: [ConnectClientTypes.EvaluationFormItem]? = nil,
             refId: Swift.String? = nil,
+            scoreThresholds: [ConnectClientTypes.EvaluationFormScoreThreshold]? = nil,
             title: Swift.String? = nil,
             weight: Swift.Double = 0.0
         ) {
             self.instructions = instructions
+            self.isExcludedFromScoring = isExcludedFromScoring
             self.items = items
             self.refId = refId
+            self.scoreThresholds = scoreThresholds
             self.title = title
             self.weight = weight
         }
@@ -35604,6 +36911,10 @@ extension ConnectClientTypes {
         /// The timestamp for when the evaluation form was last updated.
         /// This member is required.
         public var lastModifiedTime: Foundation.Date?
+        /// The timestamp when the most recent validation was started for this evaluation form.
+        public var lastValidationTime: Foundation.Date?
+        /// The status of the most recent validation run for this evaluation form. Valid values: IN_PROGRESS, COMPLETED, FAILED.
+        public var latestValidationStatus: ConnectClientTypes.EvaluationFormValidationStatus?
         /// The flag indicating whether the evaluation form is locked for changes.
         /// This member is required.
         public var locked: Swift.Bool
@@ -35634,6 +36945,8 @@ extension ConnectClientTypes {
             languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
             lastModifiedBy: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
+            lastValidationTime: Foundation.Date? = nil,
+            latestValidationStatus: ConnectClientTypes.EvaluationFormValidationStatus? = nil,
             locked: Swift.Bool = false,
             reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
             scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
@@ -35653,6 +36966,8 @@ extension ConnectClientTypes {
             self.languageConfiguration = languageConfiguration
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
+            self.lastValidationTime = lastValidationTime
+            self.latestValidationStatus = latestValidationStatus
             self.locked = locked
             self.reviewConfiguration = reviewConfiguration
             self.scoringStrategy = scoringStrategy
@@ -35850,7 +37165,7 @@ public struct UpdateEvaluationFormInput: Swift.Sendable {
         asDraft: Swift.Bool? = false,
         autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration? = nil,
         clientToken: Swift.String? = nil,
-        createNewVersion: Swift.Bool? = false,
+        createNewVersion: Swift.Bool? = nil,
         description: Swift.String? = nil,
         evaluationFormId: Swift.String? = nil,
         evaluationFormVersion: Swift.Int? = 0,
@@ -36122,6 +37437,8 @@ extension ConnectClientTypes {
     public struct ContactSearchSummary: Swift.Sendable {
         /// Information about the agent who accepted the contact.
         public var agentInfo: ConnectClientTypes.ContactSearchSummaryAgentInfo?
+        /// Information about the AI agents involved in the contact.
+        public var aiAgentInfo: [ConnectClientTypes.ContactSearchSummaryAiAgentInfo]?
         /// The Amazon Resource Name (ARN) of the contact.
         public var arn: Swift.String?
         /// How the contact reached your contact center.
@@ -36155,6 +37472,7 @@ extension ConnectClientTypes {
 
         public init(
             agentInfo: ConnectClientTypes.ContactSearchSummaryAgentInfo? = nil,
+            aiAgentInfo: [ConnectClientTypes.ContactSearchSummaryAiAgentInfo]? = nil,
             arn: Swift.String? = nil,
             channel: ConnectClientTypes.Channel? = nil,
             disconnectTimestamp: Foundation.Date? = nil,
@@ -36172,6 +37490,7 @@ extension ConnectClientTypes {
             tags: [Swift.String: Swift.String]? = nil
         ) {
             self.agentInfo = agentInfo
+            self.aiAgentInfo = aiAgentInfo
             self.arn = arn
             self.channel = channel
             self.disconnectTimestamp = disconnectTimestamp
@@ -36193,7 +37512,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.ContactSearchSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ContactSearchSummary(agentInfo: \(Swift.String(describing: agentInfo)), arn: \(Swift.String(describing: arn)), channel: \(Swift.String(describing: channel)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), globalResiliencyMetadata: \(Swift.String(describing: globalResiliencyMetadata)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), queueInfo: \(Swift.String(describing: queueInfo)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), tags: \(Swift.String(describing: tags)), name: \"CONTENT_REDACTED\", segmentAttributes: \"CONTENT_REDACTED\")"}
+        "ContactSearchSummary(agentInfo: \(Swift.String(describing: agentInfo)), aiAgentInfo: \(Swift.String(describing: aiAgentInfo)), arn: \(Swift.String(describing: arn)), channel: \(Swift.String(describing: channel)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), globalResiliencyMetadata: \(Swift.String(describing: globalResiliencyMetadata)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), queueInfo: \(Swift.String(describing: queueInfo)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), tags: \(Swift.String(describing: tags)), name: \"CONTENT_REDACTED\", segmentAttributes: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeContactOutput: Swift.Sendable {
@@ -36624,6 +37943,40 @@ extension CreateAgentStatusInput {
             return nil
         }
         return "/agent-status/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension CreateAttachedFileInput {
+
+    static func urlPathProvider(_ value: CreateAttachedFileInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/attached-files/\(instanceId.urlPercentEncoding())/files"
+    }
+}
+
+extension CreateAttachedFileInput {
+
+    static func queryItemProvider(_ value: CreateAttachedFileInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let associatedResourceArn = value.associatedResourceArn else {
+            let message = "Creating a URL Query Item failed. associatedResourceArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let associatedResourceArnQueryItem = Smithy.URIQueryItem(name: "associatedResourceArn".urlPercentEncoding(), value: Swift.String(associatedResourceArn).urlPercentEncoding())
+        items.append(associatedResourceArnQueryItem)
+        return items
+    }
+}
+
+extension CreateAuthCodeInput {
+
+    static func urlPathProvider(_ value: CreateAuthCodeInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/auth/code/\(instanceId.urlPercentEncoding())"
     }
 }
 
@@ -37405,6 +38758,19 @@ extension DeleteSecurityProfileInput {
             return nil
         }
         return "/security-profiles/\(instanceId.urlPercentEncoding())/\(securityProfileId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteSessionInput {
+
+    static func urlPathProvider(_ value: DeleteSessionInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let sessionId = value.sessionId else {
+            return nil
+        }
+        return "/auth/sessions/\(instanceId.urlPercentEncoding())/\(sessionId.urlPercentEncoding())"
     }
 }
 
@@ -38540,6 +39906,31 @@ extension GetEffectiveHoursOfOperationsInput {
         }
         let toDateQueryItem = Smithy.URIQueryItem(name: "toDate".urlPercentEncoding(), value: Swift.String(toDate).urlPercentEncoding())
         items.append(toDateQueryItem)
+        return items
+    }
+}
+
+extension GetEvaluationFormValidationInput {
+
+    static func urlPathProvider(_ value: GetEvaluationFormValidationInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let evaluationFormId = value.evaluationFormId else {
+            return nil
+        }
+        return "/evaluation-forms/\(instanceId.urlPercentEncoding())/\(evaluationFormId.urlPercentEncoding())/validation-results"
+    }
+}
+
+extension GetEvaluationFormValidationInput {
+
+    static func queryItemProvider(_ value: GetEvaluationFormValidationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let evaluationFormVersion = value.evaluationFormVersion {
+            let evaluationFormVersionQueryItem = Smithy.URIQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(evaluationFormVersion).urlPercentEncoding())
+            items.append(evaluationFormVersionQueryItem)
+        }
         return items
     }
 }
@@ -40841,6 +42232,16 @@ extension SendOutboundEmailInput {
     }
 }
 
+extension SendOutboundWebNotificationInput {
+
+    static func urlPathProvider(_ value: SendOutboundWebNotificationInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/instance/\(instanceId.urlPercentEncoding())/outbound-web-notification"
+    }
+}
+
 extension StartAttachedFileUploadInput {
 
     static func urlPathProvider(_ value: StartAttachedFileUploadInput) -> Swift.String? {
@@ -40869,6 +42270,19 @@ extension StartChatContactInput {
 
     static func urlPathProvider(_ value: StartChatContactInput) -> Swift.String? {
         return "/contact/chat"
+    }
+}
+
+extension StartContactConversationalAnalyticsJobInput {
+
+    static func urlPathProvider(_ value: StartContactConversationalAnalyticsJobInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let contactId = value.contactId else {
+            return nil
+        }
+        return "/contact/start-conversational-analytics-job/\(instanceId.urlPercentEncoding())/\(contactId.urlPercentEncoding())"
     }
 }
 
@@ -40907,6 +42321,19 @@ extension StartEmailContactInput {
 
     static func urlPathProvider(_ value: StartEmailContactInput) -> Swift.String? {
         return "/contact/email"
+    }
+}
+
+extension StartEvaluationFormValidationInput {
+
+    static func urlPathProvider(_ value: StartEvaluationFormValidationInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let evaluationFormId = value.evaluationFormId else {
+            return nil
+        }
+        return "/evaluation-forms/\(instanceId.urlPercentEncoding())/\(evaluationFormId.urlPercentEncoding())/validate"
     }
 }
 
@@ -42254,6 +43681,27 @@ extension CreateAgentStatusInput {
     }
 }
 
+extension CreateAttachedFileInput {
+
+    static func write(value: CreateAttachedFileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["FileSourceUri"].write(value.fileSourceUri)
+        try writer["FileUseCaseType"].write(value.fileUseCaseType)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateAuthCodeInput {
+
+    static func write(value: CreateAuthCodeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxSessionDurationMinutes"].write(value.maxSessionDurationMinutes)
+        try writer["Scope"].write(value.scope, with: ConnectClientTypes.AuthScope.write(value:to:))
+        try writer["SessionInactivityDurationMinutes"].write(value.sessionInactivityDurationMinutes)
+    }
+}
+
 extension CreateContactInput {
 
     static func write(value: CreateContactInput?, to writer: SmithyJSON.Writer) throws {
@@ -43393,6 +44841,20 @@ extension SendOutboundEmailInput {
     }
 }
 
+extension SendOutboundWebNotificationInput {
+
+    static func write(value: SendOutboundWebNotificationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BrowserId"].write(value.browserId)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Content"].write(value.content, with: ConnectClientTypes.WebNotificationContent.write(value:to:))
+        try writer["Destination"].write(value.destination, with: ConnectClientTypes.WidgetDestination.write(value:to:))
+        try writer["ExpiresAt"].writeTimestamp(value.expiresAt, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["SessionId"].write(value.sessionId)
+        try writer["Source"].write(value.source, with: ConnectClientTypes.WebNotificationSource.write(value:to:))
+    }
+}
+
 extension StartAttachedFileUploadInput {
 
     static func write(value: StartAttachedFileUploadInput?, to writer: SmithyJSON.Writer) throws {
@@ -43425,6 +44887,16 @@ extension StartChatContactInput {
         try writer["RelatedContactId"].write(value.relatedContactId)
         try writer["SegmentAttributes"].writeMap(value.segmentAttributes, valueWritingClosure: ConnectClientTypes.SegmentAttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["SupportedMessagingContentTypes"].writeList(value.supportedMessagingContentTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension StartContactConversationalAnalyticsJobInput {
+
+    static func write(value: StartContactConversationalAnalyticsJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AnalyticsConfiguration"].write(value.analyticsConfiguration, with: ConnectClientTypes.AnalyticsConfiguration.write(value:to:))
+        try writer["AnalyticsModes"].writeList(value.analyticsModes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectClientTypes.AnalyticsMode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ClientToken"].write(value.clientToken)
     }
 }
 
@@ -43491,6 +44963,14 @@ extension StartEmailContactInput {
         try writer["References"].writeMap(value.references, valueWritingClosure: ConnectClientTypes.Reference.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["RelatedContactId"].write(value.relatedContactId)
         try writer["SegmentAttributes"].writeMap(value.segmentAttributes, valueWritingClosure: ConnectClientTypes.SegmentAttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension StartEvaluationFormValidationInput {
+
+    static func write(value: StartEvaluationFormValidationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EvaluationFormVersion"].write(value.evaluationFormVersion)
     }
 }
 
@@ -44662,6 +46142,36 @@ extension CreateAgentStatusOutput {
     }
 }
 
+extension CreateAttachedFileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAttachedFileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAttachedFileOutput()
+        value.creationTime = try reader["CreationTime"].readIfPresent()
+        value.fileArn = try reader["FileArn"].readIfPresent()
+        value.fileId = try reader["FileId"].readIfPresent()
+        value.fileStatus = try reader["FileStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateAuthCodeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAuthCodeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAuthCodeOutput()
+        value.authCode = try reader["AuthCode"].readIfPresent()
+        value.entityId = try reader["EntityId"].readIfPresent()
+        value.entityType = try reader["EntityType"].readIfPresent()
+        value.sessionId = try reader["SessionId"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateContactOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateContactOutput {
@@ -45301,6 +46811,13 @@ extension DeleteSecurityProfileOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSecurityProfileOutput {
         return DeleteSecurityProfileOutput()
+    }
+}
+
+extension DeleteSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSessionOutput {
+        return DeleteSessionOutput()
     }
 }
 
@@ -46052,6 +47569,23 @@ extension GetEffectiveHoursOfOperationsOutput {
         value.effectiveHoursOfOperationList = try reader["EffectiveHoursOfOperationList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EffectiveHoursOfOperations.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.effectiveOverrideHoursList = try reader["EffectiveOverrideHoursList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EffectiveOverrideHours.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.timeZone = try reader["TimeZone"].readIfPresent()
+        return value
+    }
+}
+
+extension GetEvaluationFormValidationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEvaluationFormValidationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetEvaluationFormValidationOutput()
+        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent() ?? ""
+        value.evaluationFormVersion = try reader["EvaluationFormVersion"].readIfPresent() ?? 0
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.findings = try reader["Findings"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormValidationFinding.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.startedTime = try reader["StartedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -47560,6 +49094,13 @@ extension SendOutboundEmailOutput {
     }
 }
 
+extension SendOutboundWebNotificationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendOutboundWebNotificationOutput {
+        return SendOutboundWebNotificationOutput()
+    }
+}
+
 extension StartAttachedFileUploadOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartAttachedFileUploadOutput {
@@ -47588,6 +49129,19 @@ extension StartChatContactOutput {
         value.continuedFromContactId = try reader["ContinuedFromContactId"].readIfPresent()
         value.participantId = try reader["ParticipantId"].readIfPresent()
         value.participantToken = try reader["ParticipantToken"].readIfPresent()
+        return value
+    }
+}
+
+extension StartContactConversationalAnalyticsJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartContactConversationalAnalyticsJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartContactConversationalAnalyticsJobOutput()
+        value.contactId = try reader["ContactId"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent()
         return value
     }
 }
@@ -47639,6 +49193,20 @@ extension StartEmailContactOutput {
         let reader = responseReader
         var value = StartEmailContactOutput()
         value.contactId = try reader["ContactId"].readIfPresent()
+        return value
+    }
+}
+
+extension StartEvaluationFormValidationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartEvaluationFormValidationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartEvaluationFormValidationOutput()
+        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent() ?? ""
+        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent() ?? ""
+        value.evaluationFormVersion = try reader["EvaluationFormVersion"].readIfPresent() ?? 0
         return value
     }
 }
@@ -48983,6 +50551,44 @@ enum CreateAgentStatusOutputError {
     }
 }
 
+enum CreateAttachedFileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateAuthCodeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateContactOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -50176,6 +51782,25 @@ enum DeleteSecurityProfileOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -51503,6 +53128,23 @@ enum GetEffectiveHoursOfOperationsOutputError {
     }
 }
 
+enum GetEvaluationFormValidationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetFederationTokenOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -51516,6 +53158,7 @@ enum GetFederationTokenOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UserNotFoundException": return try UserNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -53588,6 +55231,24 @@ enum SendOutboundEmailOutputError {
     }
 }
 
+enum SendOutboundWebNotificationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartAttachedFileUploadOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -53620,6 +55281,25 @@ enum StartChatContactOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartContactConversationalAnalyticsJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "IdempotencyException": return try IdempotencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -53712,6 +55392,25 @@ enum StartEmailContactOutputError {
             case "IdempotencyException": return try IdempotencyException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartEvaluationFormValidationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -55921,6 +57620,25 @@ extension ConnectClientTypes.AiAgentInfo {
     }
 }
 
+extension ConnectClientTypes.AiAgentsCriteria {
+
+    static func write(value: ConnectClientTypes.AiAgentsCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Criteria"].writeList(value.criteria, memberWritingClosure: ConnectClientTypes.AiAgentSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConnectClientTypes.AiAgentSearchCriteria {
+
+    static func write(value: ConnectClientTypes.AiAgentSearchCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AiAgentEscalated"].write(value.aiAgentEscalated)
+        try writer["AiUseCase"].write(value.aiUseCase)
+        try writer["Id"].write(value.id)
+        try writer["VersionNumber"].write(value.versionNumber)
+    }
+}
+
 extension ConnectClientTypes.AliasConfiguration {
 
     static func write(value: ConnectClientTypes.AliasConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -55957,6 +57675,18 @@ extension ConnectClientTypes.AllowedExtension {
         var value = ConnectClientTypes.AllowedExtension()
         value.`extension` = try reader["Extension"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension ConnectClientTypes.AnalyticsConfiguration {
+
+    static func write(value: ConnectClientTypes.AnalyticsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LanguageConfiguration"].write(value.languageConfiguration, with: ConnectClientTypes.LanguageConfiguration.write(value:to:))
+        try writer["RedactionConfiguration"].write(value.redactionConfiguration, with: ConnectClientTypes.RedactionConfiguration.write(value:to:))
+        try writer["RulesConfiguration"].write(value.rulesConfiguration, with: ConnectClientTypes.RulesConfiguration.write(value:to:))
+        try writer["SentimentConfiguration"].write(value.sentimentConfiguration, with: ConnectClientTypes.SentimentConfiguration.write(value:to:))
+        try writer["SummaryConfiguration"].write(value.summaryConfiguration, with: ConnectClientTypes.SummaryConfiguration.write(value:to:))
     }
 }
 
@@ -56244,6 +57974,17 @@ extension ConnectClientTypes.AuthenticationProfileSummary {
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
         return value
+    }
+}
+
+extension ConnectClientTypes.AuthScope {
+
+    static func write(value: ConnectClientTypes.AuthScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DomainName"].write(value.domainName)
+        try writer["EntityId"].write(value.entityId)
+        try writer["EntityType"].write(value.entityType)
+        try writer["SecurityProfileIds"].writeList(value.securityProfileIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -56704,6 +58445,44 @@ extension ConnectClientTypes.ContactEvaluation {
     }
 }
 
+extension ConnectClientTypes.ContactEvaluationAttributeAndCondition {
+
+    static func write(value: ConnectClientTypes.ContactEvaluationAttributeAndCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeConditions"].writeList(value.attributeConditions, memberWritingClosure: ConnectClientTypes.ContactEvaluationAttributeCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TagConditions"].writeList(value.tagConditions, memberWritingClosure: ConnectClientTypes.TagCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConnectClientTypes.ContactEvaluationAttributeCondition {
+
+    static func write(value: ConnectClientTypes.ContactEvaluationAttributeCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeKey"].write(value.attributeKey)
+        try writer["AttributeValue"].write(value.attributeValue, with: ConnectClientTypes.ContactEvaluationAttributeValue.write(value:to:))
+        try writer["ComparisonType"].write(value.comparisonType)
+    }
+}
+
+extension ConnectClientTypes.ContactEvaluationAttributeFilter {
+
+    static func write(value: ConnectClientTypes.ContactEvaluationAttributeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndCondition"].write(value.andCondition, with: ConnectClientTypes.ContactEvaluationAttributeAndCondition.write(value:to:))
+        try writer["ContactEvaluationAttributeCondition"].write(value.contactEvaluationAttributeCondition, with: ConnectClientTypes.ContactEvaluationAttributeCondition.write(value:to:))
+        try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectClientTypes.ContactEvaluationAttributeAndCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TagCondition"].write(value.tagCondition, with: ConnectClientTypes.TagCondition.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.ContactEvaluationAttributeValue {
+
+    static func write(value: ConnectClientTypes.ContactEvaluationAttributeValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StringValue"].write(value.stringValue)
+    }
+}
+
 extension ConnectClientTypes.ContactFilter {
 
     static func write(value: ConnectClientTypes.ContactFilter?, to writer: SmithyJSON.Writer) throws {
@@ -56965,6 +58744,7 @@ extension ConnectClientTypes.ContactSearchSummary {
         value.routingCriteria = try reader["RoutingCriteria"].readIfPresent(with: ConnectClientTypes.RoutingCriteria.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.globalResiliencyMetadata = try reader["GlobalResiliencyMetadata"].readIfPresent(with: ConnectClientTypes.GlobalResiliencyMetadata.read(from:))
+        value.aiAgentInfo = try reader["AiAgentInfo"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ContactSearchSummaryAiAgentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -56976,6 +58756,18 @@ extension ConnectClientTypes.ContactSearchSummaryAgentInfo {
         var value = ConnectClientTypes.ContactSearchSummaryAgentInfo()
         value.id = try reader["Id"].readIfPresent()
         value.connectedToAgentTimestamp = try reader["ConnectedToAgentTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConnectClientTypes.ContactSearchSummaryAiAgentInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ContactSearchSummaryAiAgentInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ContactSearchSummaryAiAgentInfo()
+        value.aiAgentVersionId = try reader["AiAgentVersionId"].readIfPresent()
+        value.aiAgentEscalated = try reader["AiAgentEscalated"].readIfPresent()
+        value.aiUseCase = try reader["AiUseCase"].readIfPresent()
         return value
     }
 }
@@ -56999,6 +58791,14 @@ extension ConnectClientTypes.ContactSearchSummarySegmentAttributeValue {
         value.valueString = try reader["ValueString"].readIfPresent()
         value.valueMap = try reader["ValueMap"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.SegmentAttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
+    }
+}
+
+extension ConnectClientTypes.ContentAttributes {
+
+    static func write(value: ConnectClientTypes.ContentAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RecommenderConfig"].write(value.recommenderConfig, with: ConnectClientTypes.RecommenderConfig.write(value:to:))
     }
 }
 
@@ -57866,6 +59666,8 @@ extension ConnectClientTypes.EvaluationForm {
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.targetConfiguration = try reader["TargetConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormTargetConfiguration.read(from:))
         value.languageConfiguration = try reader["LanguageConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormLanguageConfiguration.read(from:))
+        value.latestValidationStatus = try reader["LatestValidationStatus"].readIfPresent()
+        value.lastValidationTime = try reader["LastValidationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -58112,7 +59914,11 @@ extension ConnectClientTypes.EvaluationFormMultiSelectQuestionOption {
 
     static func write(value: ConnectClientTypes.EvaluationFormMultiSelectQuestionOption?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AutomaticFail"].write(value.automaticFail)
+        try writer["AutomaticFailConfiguration"].write(value.automaticFailConfiguration, with: ConnectClientTypes.AutomaticFailConfiguration.write(value:to:))
+        try writer["PointsConfiguration"].write(value.pointsConfiguration, with: ConnectClientTypes.QuestionOptionPointsConfiguration.write(value:to:))
         try writer["RefId"].write(value.refId)
+        try writer["Score"].write(value.score)
         try writer["Text"].write(value.text)
     }
 
@@ -58121,6 +59927,10 @@ extension ConnectClientTypes.EvaluationFormMultiSelectQuestionOption {
         var value = ConnectClientTypes.EvaluationFormMultiSelectQuestionOption()
         value.refId = try reader["RefId"].readIfPresent() ?? ""
         value.text = try reader["Text"].readIfPresent() ?? ""
+        value.score = try reader["Score"].readIfPresent() ?? 0
+        value.automaticFail = try reader["AutomaticFail"].readIfPresent() ?? false
+        value.automaticFailConfiguration = try reader["AutomaticFailConfiguration"].readIfPresent(with: ConnectClientTypes.AutomaticFailConfiguration.read(from:))
+        value.pointsConfiguration = try reader["PointsConfiguration"].readIfPresent(with: ConnectClientTypes.QuestionOptionPointsConfiguration.read(from:))
         return value
     }
 }
@@ -58180,6 +59990,7 @@ extension ConnectClientTypes.EvaluationFormNumericQuestionOption {
         try writer["AutomaticFailConfiguration"].write(value.automaticFailConfiguration, with: ConnectClientTypes.AutomaticFailConfiguration.write(value:to:))
         try writer["MaxValue"].write(value.maxValue)
         try writer["MinValue"].write(value.minValue)
+        try writer["PointsConfiguration"].write(value.pointsConfiguration, with: ConnectClientTypes.QuestionOptionPointsConfiguration.write(value:to:))
         try writer["Score"].write(value.score)
     }
 
@@ -58191,6 +60002,7 @@ extension ConnectClientTypes.EvaluationFormNumericQuestionOption {
         value.score = try reader["Score"].readIfPresent() ?? 0
         value.automaticFail = try reader["AutomaticFail"].readIfPresent() ?? false
         value.automaticFailConfiguration = try reader["AutomaticFailConfiguration"].readIfPresent(with: ConnectClientTypes.AutomaticFailConfiguration.read(from:))
+        value.pointsConfiguration = try reader["PointsConfiguration"].readIfPresent(with: ConnectClientTypes.QuestionOptionPointsConfiguration.read(from:))
         return value
     }
 }
@@ -58226,6 +60038,7 @@ extension ConnectClientTypes.EvaluationFormQuestion {
         try writer["QuestionType"].write(value.questionType)
         try writer["QuestionTypeProperties"].write(value.questionTypeProperties, with: ConnectClientTypes.EvaluationFormQuestionTypeProperties.write(value:to:))
         try writer["RefId"].write(value.refId)
+        try writer["ScoringConfiguration"].write(value.scoringConfiguration, with: ConnectClientTypes.EvaluationFormQuestionScoringConfiguration.write(value:to:))
         try writer["Title"].write(value.title)
         try writer["Weight"].write(value.weight)
     }
@@ -58241,6 +60054,7 @@ extension ConnectClientTypes.EvaluationFormQuestion {
         value.questionTypeProperties = try reader["QuestionTypeProperties"].readIfPresent(with: ConnectClientTypes.EvaluationFormQuestionTypeProperties.read(from:))
         value.enablement = try reader["Enablement"].readIfPresent(with: ConnectClientTypes.EvaluationFormItemEnablementConfiguration.read(from:))
         value.weight = try reader["Weight"].readIfPresent() ?? 0
+        value.scoringConfiguration = try reader["ScoringConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormQuestionScoringConfiguration.read(from:))
         return value
     }
 }
@@ -58256,6 +60070,25 @@ extension ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource()
         value.sourceType = try reader["SourceType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormQuestionScoringConfiguration {
+
+    static func write(value: ConnectClientTypes.EvaluationFormQuestionScoringConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IsExcludedFromScoring"].write(value.isExcludedFromScoring)
+        try writer["PointsConfiguration"].write(value.pointsConfiguration, with: ConnectClientTypes.QuestionPointsConfiguration.write(value:to:))
+        try writer["ScoreThresholds"].writeList(value.scoreThresholds, memberWritingClosure: ConnectClientTypes.EvaluationFormScoreThreshold.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormQuestionScoringConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationFormQuestionScoringConfiguration()
+        value.pointsConfiguration = try reader["PointsConfiguration"].readIfPresent(with: ConnectClientTypes.QuestionPointsConfiguration.read(from:))
+        value.isExcludedFromScoring = try reader["IsExcludedFromScoring"].readIfPresent() ?? false
+        value.scoreThresholds = try reader["ScoreThresholds"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormScoreThreshold.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -58296,11 +60129,31 @@ extension ConnectClientTypes.EvaluationFormQuestionTypeProperties {
     }
 }
 
+extension ConnectClientTypes.EvaluationFormScoreThreshold {
+
+    static func write(value: ConnectClientTypes.EvaluationFormScoreThreshold?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxScorePercentage"].write(value.maxScorePercentage)
+        try writer["MinScorePercentage"].write(value.minScorePercentage)
+        try writer["PerformanceCategory"].write(value.performanceCategory)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormScoreThreshold {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationFormScoreThreshold()
+        value.performanceCategory = try reader["PerformanceCategory"].readIfPresent() ?? .sdkUnknown("")
+        value.minScorePercentage = try reader["MinScorePercentage"].readIfPresent() ?? 0
+        value.maxScorePercentage = try reader["MaxScorePercentage"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension ConnectClientTypes.EvaluationFormScoringStrategy {
 
     static func write(value: ConnectClientTypes.EvaluationFormScoringStrategy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Mode"].write(value.mode)
+        try writer["ScoreThresholds"].writeList(value.scoreThresholds, memberWritingClosure: ConnectClientTypes.EvaluationFormScoreThreshold.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Status"].write(value.status)
     }
 
@@ -58309,6 +60162,7 @@ extension ConnectClientTypes.EvaluationFormScoringStrategy {
         var value = ConnectClientTypes.EvaluationFormScoringStrategy()
         value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.scoreThresholds = try reader["ScoreThresholds"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormScoreThreshold.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -58365,8 +60219,10 @@ extension ConnectClientTypes.EvaluationFormSection {
     static func write(value: ConnectClientTypes.EvaluationFormSection?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Instructions"].write(value.instructions)
+        try writer["IsExcludedFromScoring"].write(value.isExcludedFromScoring)
         try writer["Items"].writeList(value.items, memberWritingClosure: ConnectClientTypes.EvaluationFormItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RefId"].write(value.refId)
+        try writer["ScoreThresholds"].writeList(value.scoreThresholds, memberWritingClosure: ConnectClientTypes.EvaluationFormScoreThreshold.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Title"].write(value.title)
         try writer["Weight"].write(value.weight)
     }
@@ -58379,6 +60235,8 @@ extension ConnectClientTypes.EvaluationFormSection {
         value.instructions = try reader["Instructions"].readIfPresent()
         value.items = try reader["Items"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.weight = try reader["Weight"].readIfPresent() ?? 0
+        value.isExcludedFromScoring = try reader["IsExcludedFromScoring"].readIfPresent() ?? false
+        value.scoreThresholds = try reader["ScoreThresholds"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormScoreThreshold.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -58432,6 +60290,7 @@ extension ConnectClientTypes.EvaluationFormSingleSelectQuestionOption {
         guard let value else { return }
         try writer["AutomaticFail"].write(value.automaticFail)
         try writer["AutomaticFailConfiguration"].write(value.automaticFailConfiguration, with: ConnectClientTypes.AutomaticFailConfiguration.write(value:to:))
+        try writer["PointsConfiguration"].write(value.pointsConfiguration, with: ConnectClientTypes.QuestionOptionPointsConfiguration.write(value:to:))
         try writer["RefId"].write(value.refId)
         try writer["Score"].write(value.score)
         try writer["Text"].write(value.text)
@@ -58445,6 +60304,7 @@ extension ConnectClientTypes.EvaluationFormSingleSelectQuestionOption {
         value.score = try reader["Score"].readIfPresent() ?? 0
         value.automaticFail = try reader["AutomaticFail"].readIfPresent() ?? false
         value.automaticFailConfiguration = try reader["AutomaticFailConfiguration"].readIfPresent(with: ConnectClientTypes.AutomaticFailConfiguration.read(from:))
+        value.pointsConfiguration = try reader["PointsConfiguration"].readIfPresent(with: ConnectClientTypes.QuestionOptionPointsConfiguration.read(from:))
         return value
     }
 }
@@ -58529,6 +60389,31 @@ extension ConnectClientTypes.EvaluationFormTextQuestionProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationFormTextQuestionProperties()
         value.automation = try reader["Automation"].readIfPresent(with: ConnectClientTypes.EvaluationFormTextQuestionAutomation.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormValidationFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormValidationFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationFormValidationFinding()
+        value.issueCode = try reader["IssueCode"].readIfPresent() ?? ""
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormValidationFindingItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.suggestion = try reader["Suggestion"].readIfPresent()
+        value.severity = try reader["Severity"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormValidationFindingItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormValidationFindingItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationFormValidationFindingItem()
+        value.refId = try reader["RefId"].readIfPresent()
+        value.property = try reader["Property"].readIfPresent()
         return value
     }
 }
@@ -58707,6 +60592,9 @@ extension ConnectClientTypes.EvaluationScore {
         value.notApplicable = try reader["NotApplicable"].readIfPresent() ?? false
         value.automaticFail = try reader["AutomaticFail"].readIfPresent() ?? false
         value.appliedWeight = try reader["AppliedWeight"].readIfPresent()
+        value.earnedPoints = try reader["EarnedPoints"].readIfPresent() ?? 0
+        value.maxBasePoint = try reader["MaxBasePoint"].readIfPresent() ?? 0
+        value.performanceCategory = try reader["PerformanceCategory"].readIfPresent()
         return value
     }
 }
@@ -58730,6 +60618,7 @@ extension ConnectClientTypes.EvaluationSearchFilter {
     static func write(value: ConnectClientTypes.EvaluationSearchFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AttributeFilter"].write(value.attributeFilter, with: ConnectClientTypes.ControlPlaneAttributeFilter.write(value:to:))
+        try writer["ContactEvaluationAttributeFilter"].write(value.contactEvaluationAttributeFilter, with: ConnectClientTypes.ContactEvaluationAttributeFilter.write(value:to:))
     }
 }
 
@@ -58754,6 +60643,9 @@ extension ConnectClientTypes.EvaluationSearchMetadata {
         value.reviewId = try reader["ReviewId"].readIfPresent()
         value.contactParticipantRole = try reader["ContactParticipantRole"].readIfPresent()
         value.contactParticipantId = try reader["ContactParticipantId"].readIfPresent()
+        value.earnedPoints = try reader["EarnedPoints"].readIfPresent()
+        value.maxBasePoint = try reader["MaxBasePoint"].readIfPresent()
+        value.performanceCategory = try reader["PerformanceCategory"].readIfPresent()
         return value
     }
 }
@@ -59682,6 +61574,14 @@ extension ConnectClientTypes.KinesisVideoStreamConfig {
         value.retentionPeriodHours = try reader["RetentionPeriodHours"].readIfPresent() ?? 0
         value.encryptionConfig = try reader["EncryptionConfig"].readIfPresent(with: ConnectClientTypes.EncryptionConfig.read(from:))
         return value
+    }
+}
+
+extension ConnectClientTypes.LanguageConfiguration {
+
+    static func write(value: ConnectClientTypes.LanguageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LanguageLocale"].write(value.languageLocale)
     }
 }
 
@@ -60767,6 +62667,42 @@ extension ConnectClientTypes.QualityMetrics {
     }
 }
 
+extension ConnectClientTypes.QuestionOptionPointsConfiguration {
+
+    static func write(value: ConnectClientTypes.QuestionOptionPointsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IsBonus"].write(value.isBonus)
+        try writer["PointValue"].write(value.pointValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.QuestionOptionPointsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.QuestionOptionPointsConfiguration()
+        value.pointValue = try reader["PointValue"].readIfPresent() ?? 0
+        value.isBonus = try reader["IsBonus"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension ConnectClientTypes.QuestionPointsConfiguration {
+
+    static func write(value: ConnectClientTypes.QuestionPointsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IsBonus"].write(value.isBonus)
+        try writer["MaxPointValue"].write(value.maxPointValue)
+        try writer["MinPointValue"].write(value.minPointValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.QuestionPointsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.QuestionPointsConfiguration()
+        value.maxPointValue = try reader["MaxPointValue"].readIfPresent() ?? 0
+        value.minPointValue = try reader["MinPointValue"].readIfPresent() ?? 0
+        value.isBonus = try reader["IsBonus"].readIfPresent() ?? false
+        return value
+    }
+}
+
 extension ConnectClientTypes.Queue {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Queue {
@@ -61193,6 +63129,16 @@ extension ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithContent {
     }
 }
 
+extension ConnectClientTypes.RecommenderConfig {
+
+    static func write(value: ConnectClientTypes.RecommenderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Context"].writeMap(value.context, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["DomainName"].write(value.domainName)
+        try writer["RecommenderName"].write(value.recommenderName)
+    }
+}
+
 extension ConnectClientTypes.RecordingInfo {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RecordingInfo {
@@ -61261,6 +63207,17 @@ extension ConnectClientTypes.RecurrencePattern {
         value.byMonthDay = try reader["ByMonthDay"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         value.byWeekdayOccurrence = try reader["ByWeekdayOccurrence"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension ConnectClientTypes.RedactionConfiguration {
+
+    static func write(value: ConnectClientTypes.RedactionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Behavior"].write(value.behavior)
+        try writer["Entities"].writeList(value.entities, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaskMode"].write(value.maskMode)
+        try writer["Policy"].write(value.policy)
     }
 }
 
@@ -61580,6 +63537,14 @@ extension ConnectClientTypes.RuleAction {
     }
 }
 
+extension ConnectClientTypes.RulesConfiguration {
+
+    static func write(value: ConnectClientTypes.RulesConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Behavior"].write(value.behavior)
+    }
+}
+
 extension ConnectClientTypes.RuleSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RuleSummary {
@@ -61739,6 +63704,7 @@ extension ConnectClientTypes.SearchCriteria {
         try writer["AdditionalTimeRange"].write(value.additionalTimeRange, with: ConnectClientTypes.SearchContactsAdditionalTimeRange.write(value:to:))
         try writer["AgentHierarchyGroups"].write(value.agentHierarchyGroups, with: ConnectClientTypes.AgentHierarchyGroups.write(value:to:))
         try writer["AgentIds"].writeList(value.agentIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AiAgents"].write(value.aiAgents, with: ConnectClientTypes.AiAgentsCriteria.write(value:to:))
         try writer["Channels"].writeList(value.channels, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectClientTypes.Channel>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ContactAnalysis"].write(value.contactAnalysis, with: ConnectClientTypes.ContactAnalysis.write(value:to:))
         try writer["ContactTags"].write(value.contactTags, with: ConnectClientTypes.ControlPlaneTagFilter.write(value:to:))
@@ -61892,6 +63858,14 @@ extension ConnectClientTypes.SendNotificationActionDefinition {
         value.recipient = try reader["Recipient"].readIfPresent(with: ConnectClientTypes.NotificationRecipientType.read(from:))
         value.exclusion = try reader["Exclusion"].readIfPresent(with: ConnectClientTypes.NotificationRecipientType.read(from:))
         return value
+    }
+}
+
+extension ConnectClientTypes.SentimentConfiguration {
+
+    static func write(value: ConnectClientTypes.SentimentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Behavior"].write(value.behavior)
     }
 }
 
@@ -62056,6 +64030,14 @@ extension ConnectClientTypes.SuccessfulRequest {
         value.requestIdentifier = try reader["RequestIdentifier"].readIfPresent()
         value.contactId = try reader["ContactId"].readIfPresent()
         return value
+    }
+}
+
+extension ConnectClientTypes.SummaryConfiguration {
+
+    static func write(value: ConnectClientTypes.SummaryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SummaryModes"].writeList(value.summaryModes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectClientTypes.SummaryMode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -63009,6 +64991,33 @@ extension ConnectClientTypes.VoiceRecordingConfiguration {
         guard let value else { return }
         try writer["IvrRecordingTrack"].write(value.ivrRecordingTrack)
         try writer["VoiceRecordingTrack"].write(value.voiceRecordingTrack)
+    }
+}
+
+extension ConnectClientTypes.WebNotificationContent {
+
+    static func write(value: ConnectClientTypes.WebNotificationContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].write(value.attributes, with: ConnectClientTypes.ContentAttributes.write(value:to:))
+        try writer["Type"].write(value.type)
+        try writer["ViewArn"].write(value.viewArn)
+    }
+}
+
+extension ConnectClientTypes.WebNotificationSource {
+
+    static func write(value: ConnectClientTypes.WebNotificationSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SourceCampaign"].write(value.sourceCampaign, with: ConnectClientTypes.SourceCampaign.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.WidgetDestination {
+
+    static func write(value: ConnectClientTypes.WidgetDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProfileId"].write(value.profileId)
+        try writer["WidgetId"].write(value.widgetId)
     }
 }
 

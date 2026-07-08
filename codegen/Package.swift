@@ -129,7 +129,7 @@ private var protocolTestTargets: [Target] {
                 .awsSDKEventStreamsAuth,
                 .awsSDKChecksums,
             ],
-            path: "\(protocolTest.sourcePath)/swift-codegen/Sources/\(protocolTest.name)",
+            path: "\(protocolTest.sourcePath)/swift-codegen/\(protocolTest.name)/Sources/\(protocolTest.name)",
             plugins: protocolTest.plugins
         )
         let testTarget = protocolTest.buildOnly ? nil : Target.testTarget(
@@ -139,7 +139,7 @@ private var protocolTestTargets: [Target] {
                 .smithyStreams,
                 .byNameItem(name: protocolTest.name, condition: nil)
             ],
-            path: "\(protocolTest.sourcePath)/swift-codegen/Tests/\(protocolTest.name)Tests"
+            path: "\(protocolTest.sourcePath)/swift-codegen/\(protocolTest.name)/Tests/\(protocolTest.name)Tests"
         )
         return [target, testTarget].compactMap { $0 }
     }

@@ -9,6 +9,7 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+import SmithyJSON
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
@@ -29,6 +30,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
@@ -1027,6 +1029,344 @@ extension QuickSightClientTypes {
             availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
         ) {
             self.availabilityStatus = availabilityStatus
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum AgentLifecycle: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case preview
+        case published
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentLifecycle] {
+            return [
+                .preview,
+                .published
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .preview: return "PREVIEW"
+            case .published: return "PUBLISHED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum AgentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentStatus] {
+            return [
+                .active,
+                .creating,
+                .failed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The custom prompt interface configuration that defines how an agent's prompt is configured.
+    public struct CustomPromptInterface: Swift.Sendable {
+        /// Custom instructions for the agent's behavior.
+        public var customInstructions: Swift.String?
+        /// Instructions that define the agent's identity and persona.
+        public var identity: Swift.String?
+        /// The identifier of the model profile.
+        /// This member is required.
+        public var modelProfileId: Swift.String?
+        /// Instructions for the desired output style.
+        public var outputStyle: Swift.String?
+        /// A summary of the custom prompt configuration.
+        public var promptSummary: Swift.String?
+        /// The Amazon Web Services account ID for the Q Business service.
+        /// This member is required.
+        public var qbsAwsAccountId: Swift.String?
+        /// Instructions for the desired response length.
+        public var responseLength: Swift.String?
+        /// The subscription identifier.
+        /// This member is required.
+        public var subscriptionId: Swift.String?
+        /// Instructions for the desired tone of responses.
+        public var tone: Swift.String?
+
+        public init(
+            customInstructions: Swift.String? = nil,
+            identity: Swift.String? = nil,
+            modelProfileId: Swift.String? = nil,
+            outputStyle: Swift.String? = nil,
+            promptSummary: Swift.String? = nil,
+            qbsAwsAccountId: Swift.String? = nil,
+            responseLength: Swift.String? = nil,
+            subscriptionId: Swift.String? = nil,
+            tone: Swift.String? = nil
+        ) {
+            self.customInstructions = customInstructions
+            self.identity = identity
+            self.modelProfileId = modelProfileId
+            self.outputStyle = outputStyle
+            self.promptSummary = promptSummary
+            self.qbsAwsAccountId = qbsAwsAccountId
+            self.responseLength = responseLength
+            self.subscriptionId = subscriptionId
+            self.tone = tone
+        }
+    }
+}
+
+extension QuickSightClientTypes.CustomPromptInterface: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CustomPromptInterface(modelProfileId: \(Swift.String(describing: modelProfileId)), qbsAwsAccountId: \(Swift.String(describing: qbsAwsAccountId)), subscriptionId: \(Swift.String(describing: subscriptionId)), customInstructions: \"CONTENT_REDACTED\", identity: \"CONTENT_REDACTED\", outputStyle: \"CONTENT_REDACTED\", promptSummary: \"CONTENT_REDACTED\", responseLength: \"CONTENT_REDACTED\", tone: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// An agent resource in Amazon QuickSight that provides AI-powered conversational experiences.
+    public struct Agent: Swift.Sendable {
+        /// The Amazon Resource Names (ARNs) of the action connectors attached to the agent.
+        public var actionConnectors: [Swift.String]?
+        /// The unique identifier for the agent.
+        /// This member is required.
+        public var agentId: Swift.String?
+        /// The lifecycle state of the agent. Valid values are PREVIEW and PUBLISHED.
+        /// This member is required.
+        public var agentLifecycle: QuickSightClientTypes.AgentLifecycle?
+        /// The status of the agent.
+        /// This member is required.
+        public var agentStatus: QuickSightClientTypes.AgentStatus?
+        /// The Amazon Resource Name (ARN) of the agent.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The date and time that the agent was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The identity of the user who created the agent.
+        /// This member is required.
+        public var creator: Swift.String?
+        /// The custom prompt interface configuration for the agent.
+        public var customPromptInterface: QuickSightClientTypes.CustomPromptInterface?
+        /// A description of the agent.
+        public var description: Swift.String?
+        /// An error message associated with the agent, if applicable.
+        public var errorMessage: Swift.String?
+        /// The icon identifier for the agent.
+        public var iconId: Swift.String?
+        /// The name of the agent.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Resource Names (ARNs) of the spaces attached to the agent.
+        public var spaces: [Swift.String]?
+        /// A list of starter prompts that are displayed to users when they begin interacting with the agent.
+        public var starterPrompts: [Swift.String]?
+        /// The date and time that the agent was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+        /// The welcome message that is displayed when a user starts a conversation with the agent.
+        public var welcomeMessage: Swift.String?
+
+        public init(
+            actionConnectors: [Swift.String]? = nil,
+            agentId: Swift.String? = nil,
+            agentLifecycle: QuickSightClientTypes.AgentLifecycle? = nil,
+            agentStatus: QuickSightClientTypes.AgentStatus? = nil,
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            creator: Swift.String? = nil,
+            customPromptInterface: QuickSightClientTypes.CustomPromptInterface? = nil,
+            description: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            iconId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            spaces: [Swift.String]? = nil,
+            starterPrompts: [Swift.String]? = nil,
+            updatedAt: Foundation.Date? = nil,
+            welcomeMessage: Swift.String? = nil
+        ) {
+            self.actionConnectors = actionConnectors
+            self.agentId = agentId
+            self.agentLifecycle = agentLifecycle
+            self.agentStatus = agentStatus
+            self.arn = arn
+            self.createdAt = createdAt
+            self.creator = creator
+            self.customPromptInterface = customPromptInterface
+            self.description = description
+            self.errorMessage = errorMessage
+            self.iconId = iconId
+            self.name = name
+            self.spaces = spaces
+            self.starterPrompts = starterPrompts
+            self.updatedAt = updatedAt
+            self.welcomeMessage = welcomeMessage
+        }
+    }
+}
+
+extension QuickSightClientTypes.Agent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Agent(actionConnectors: \(Swift.String(describing: actionConnectors)), agentId: \(Swift.String(describing: agentId)), agentLifecycle: \(Swift.String(describing: agentLifecycle)), agentStatus: \(Swift.String(describing: agentStatus)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), creator: \(Swift.String(describing: creator)), customPromptInterface: \(Swift.String(describing: customPromptInterface)), description: \(Swift.String(describing: description)), errorMessage: \(Swift.String(describing: errorMessage)), iconId: \(Swift.String(describing: iconId)), name: \(Swift.String(describing: name)), spaces: \(Swift.String(describing: spaces)), updatedAt: \(Swift.String(describing: updatedAt)), starterPrompts: \"CONTENT_REDACTED\", welcomeMessage: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    public enum AgentOwnershipFilterAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agentName
+        case directQuicksightOwner
+        case directQuicksightSoleOwner
+        case directQuicksightViewerOrOwner
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentOwnershipFilterAttribute] {
+            return [
+                .agentName,
+                .directQuicksightOwner,
+                .directQuicksightSoleOwner,
+                .directQuicksightViewerOrOwner
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agentName: return "AGENT_NAME"
+            case .directQuicksightOwner: return "DIRECT_QUICKSIGHT_OWNER"
+            case .directQuicksightSoleOwner: return "DIRECT_QUICKSIGHT_SOLE_OWNER"
+            case .directQuicksightViewerOrOwner: return "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum ComparisonOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case stringequals
+        case stringlike
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComparisonOperator] {
+            return [
+                .stringequals,
+                .stringlike
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .stringequals: return "StringEquals"
+            case .stringlike: return "StringLike"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A filter to apply when searching agents.
+    public struct AgentSearchFilter: Swift.Sendable {
+        /// The name of the field to filter on.
+        public var name: QuickSightClientTypes.AgentOwnershipFilterAttribute?
+        /// The comparison operator to use for the filter.
+        public var `operator`: QuickSightClientTypes.ComparisonOperator?
+        /// The value to filter on.
+        public var value: Swift.String?
+
+        public init(
+            name: QuickSightClientTypes.AgentOwnershipFilterAttribute? = nil,
+            `operator`: QuickSightClientTypes.ComparisonOperator? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A summary of an agent, including its identifier, name, and metadata.
+    public struct AgentSummary: Swift.Sendable {
+        /// The unique identifier for the agent.
+        /// This member is required.
+        public var agentId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the agent.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The date and time that the agent was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// A description of the agent.
+        public var description: Swift.String?
+        /// The icon identifier for the agent.
+        public var iconId: Swift.String?
+        /// The name of the agent.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The date and time that the agent was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            agentId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            iconId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.agentId = agentId
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.iconId = iconId
+            self.name = name
+            self.updatedAt = updatedAt
         }
     }
 }
@@ -5347,7 +5687,7 @@ extension QuickSightClientTypes {
             nullOption: QuickSightClientTypes.FilterNullOption? = nil,
             parameterName: Swift.String? = nil,
             selectAllOptions: QuickSightClientTypes.NumericFilterSelectAllOptions? = nil,
-            value: Swift.Double? = 0.0
+            value: Swift.Double? = nil
         ) {
             self.aggregationFunction = aggregationFunction
             self.column = column
@@ -5373,7 +5713,7 @@ extension QuickSightClientTypes {
 
         public init(
             parameter: Swift.String? = nil,
-            staticValue: Swift.Double? = 0.0
+            staticValue: Swift.Double? = nil
         ) {
             self.parameter = parameter
             self.staticValue = staticValue
@@ -5422,8 +5762,8 @@ extension QuickSightClientTypes {
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
             filterId: Swift.String? = nil,
-            includeMaximum: Swift.Bool? = false,
-            includeMinimum: Swift.Bool? = false,
+            includeMaximum: Swift.Bool? = nil,
+            includeMinimum: Swift.Bool? = nil,
             nullOption: QuickSightClientTypes.FilterNullOption? = nil,
             rangeMaximum: QuickSightClientTypes.NumericRangeFilterValue? = nil,
             rangeMinimum: QuickSightClientTypes.NumericRangeFilterValue? = nil,
@@ -5508,7 +5848,7 @@ extension QuickSightClientTypes {
         public var status: QuickSightClientTypes.WidgetStatus?
 
         public init(
-            amount: Swift.Int? = 0,
+            amount: Swift.Int? = nil,
             granularity: QuickSightClientTypes.TimeGranularity? = nil,
             status: QuickSightClientTypes.WidgetStatus? = nil
         ) {
@@ -5616,7 +5956,7 @@ extension QuickSightClientTypes {
             nullOption: QuickSightClientTypes.FilterNullOption? = nil,
             parameterName: Swift.String? = nil,
             relativeDateType: QuickSightClientTypes.RelativeDateType? = nil,
-            relativeDateValue: Swift.Int? = 0,
+            relativeDateValue: Swift.Int? = nil,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil
         ) {
             self.anchorDateConfiguration = anchorDateConfiguration
@@ -5762,8 +6102,8 @@ extension QuickSightClientTypes {
             defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
             excludePeriodConfiguration: QuickSightClientTypes.ExcludePeriodConfiguration? = nil,
             filterId: Swift.String? = nil,
-            includeMaximum: Swift.Bool? = false,
-            includeMinimum: Swift.Bool? = false,
+            includeMaximum: Swift.Bool? = nil,
+            includeMinimum: Swift.Bool? = nil,
             nullOption: QuickSightClientTypes.FilterNullOption? = nil,
             rangeMaximumValue: QuickSightClientTypes.TimeRangeFilterValue? = nil,
             rangeMinimumValue: QuickSightClientTypes.TimeRangeFilterValue? = nil,
@@ -5810,7 +6150,7 @@ extension QuickSightClientTypes {
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
             filterId: Swift.String? = nil,
-            limit: Swift.Int? = 0,
+            limit: Swift.Int? = nil,
             parameterName: Swift.String? = nil,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil
         ) {
@@ -6395,7 +6735,7 @@ extension QuickSightClientTypes {
         public var valueWhenUnsetOption: QuickSightClientTypes.ValueWhenUnsetOption?
 
         public init(
-            customValue: Swift.Double? = 0.0,
+            customValue: Swift.Double? = nil,
             valueWhenUnsetOption: QuickSightClientTypes.ValueWhenUnsetOption? = nil
         ) {
             self.customValue = customValue
@@ -6480,7 +6820,7 @@ extension QuickSightClientTypes {
         public var valueWhenUnsetOption: QuickSightClientTypes.ValueWhenUnsetOption?
 
         public init(
-            customValue: Swift.Int? = 0,
+            customValue: Swift.Int? = nil,
             valueWhenUnsetOption: QuickSightClientTypes.ValueWhenUnsetOption? = nil
         ) {
             self.customValue = customValue
@@ -8606,8 +8946,8 @@ extension QuickSightClientTypes {
         public var minimum: Swift.Double?
 
         public init(
-            maximum: Swift.Double? = 0.0,
-            minimum: Swift.Double? = 0.0
+            maximum: Swift.Double? = nil,
+            minimum: Swift.Double? = nil
         ) {
             self.maximum = maximum
             self.minimum = minimum
@@ -8644,8 +8984,8 @@ extension QuickSightClientTypes {
         public var stepSize: Swift.Double?
 
         public init(
-            stepCount: Swift.Int? = 0,
-            stepSize: Swift.Double? = 0.0
+            stepCount: Swift.Int? = nil,
+            stepSize: Swift.Double? = nil
         ) {
             self.stepCount = stepCount
             self.stepSize = stepSize
@@ -8661,7 +9001,7 @@ extension QuickSightClientTypes {
         public var base: Swift.Double?
 
         public init(
-            base: Swift.Double? = 0.0
+            base: Swift.Double? = nil
         ) {
             self.base = base
         }
@@ -8735,8 +9075,8 @@ extension QuickSightClientTypes {
         public var to: Swift.Double?
 
         public init(
-            from: Swift.Double? = 0.0,
-            to: Swift.Double? = 0.0
+            from: Swift.Double? = nil,
+            to: Swift.Double? = nil
         ) {
             self.from = from
             self.to = to
@@ -8789,7 +9129,7 @@ extension QuickSightClientTypes {
 
         public init(
             labelOptions: QuickSightClientTypes.LabelOptions? = nil,
-            rotationAngle: Swift.Double? = 0.0
+            rotationAngle: Swift.Double? = nil
         ) {
             self.labelOptions = labelOptions
             self.rotationAngle = rotationAngle
@@ -10489,7 +10829,7 @@ extension QuickSightClientTypes {
         public var otherCategories: QuickSightClientTypes.OtherCategories?
 
         public init(
-            itemsLimit: Swift.Int? = 0,
+            itemsLimit: Swift.Int? = nil,
             otherCategories: QuickSightClientTypes.OtherCategories? = nil
         ) {
             self.itemsLimit = itemsLimit
@@ -11477,7 +11817,7 @@ extension QuickSightClientTypes {
 
         public init(
             pageNumber: Swift.Int? = nil,
-            pageSize: Swift.Int? = 0
+            pageSize: Swift.Int? = nil
         ) {
             self.pageNumber = pageNumber
             self.pageSize = pageSize
@@ -12554,7 +12894,7 @@ extension QuickSightClientTypes {
 
         public init(
             color: Swift.String? = nil,
-            dataValue: Swift.Double? = 0.0,
+            dataValue: Swift.Double? = nil,
             gradientOffset: Swift.Double = 0.0
         ) {
             self.color = color
@@ -13143,7 +13483,7 @@ extension QuickSightClientTypes {
         public var arcThickness: QuickSightClientTypes.ArcThicknessOptions?
 
         public init(
-            arcAngle: Swift.Double? = 0.0,
+            arcAngle: Swift.Double? = nil,
             arcThickness: QuickSightClientTypes.ArcThicknessOptions? = nil
         ) {
             self.arcAngle = arcAngle
@@ -13162,8 +13502,8 @@ extension QuickSightClientTypes {
         public var min: Swift.Double?
 
         public init(
-            max: Swift.Double? = 0.0,
-            min: Swift.Double? = 0.0
+            max: Swift.Double? = nil,
+            min: Swift.Double? = nil
         ) {
             self.max = max
             self.min = min
@@ -14082,7 +14422,7 @@ extension QuickSightClientTypes {
 
         public init(
             color: Swift.String? = nil,
-            dataValue: Swift.Double? = 0.0
+            dataValue: Swift.Double? = nil
         ) {
             self.color = color
             self.dataValue = dataValue
@@ -14355,7 +14695,7 @@ extension QuickSightClientTypes {
             binCount: QuickSightClientTypes.BinCountOptions? = nil,
             binWidth: QuickSightClientTypes.BinWidthOptions? = nil,
             selectedBinType: QuickSightClientTypes.HistogramBinType? = nil,
-            startValue: Swift.Double? = 0.0
+            startValue: Swift.Double? = nil
         ) {
             self.binCount = binCount
             self.binWidth = binWidth
@@ -14542,14 +14882,14 @@ extension QuickSightClientTypes {
         public init(
             computationId: Swift.String? = nil,
             customSeasonalityValue: Swift.Int? = nil,
-            lowerBoundary: Swift.Double? = 0.0,
+            lowerBoundary: Swift.Double? = nil,
             name: Swift.String? = nil,
             periodsBackward: Swift.Int? = nil,
             periodsForward: Swift.Int? = nil,
             predictionInterval: Swift.Int? = nil,
             seasonality: QuickSightClientTypes.ForecastComputationSeasonality? = nil,
             time: QuickSightClientTypes.DimensionField? = nil,
-            upperBoundary: Swift.Double? = 0.0,
+            upperBoundary: Swift.Double? = nil,
             value: QuickSightClientTypes.MeasureField? = nil
         ) {
             self.computationId = computationId
@@ -16447,12 +16787,12 @@ extension QuickSightClientTypes {
         public var upperBoundary: Swift.Double?
 
         public init(
-            lowerBoundary: Swift.Double? = 0.0,
+            lowerBoundary: Swift.Double? = nil,
             periodsBackward: Swift.Int? = nil,
             periodsForward: Swift.Int? = nil,
             predictionInterval: Swift.Int? = nil,
             seasonality: Swift.Int? = nil,
-            upperBoundary: Swift.Double? = 0.0
+            upperBoundary: Swift.Double? = nil
         ) {
             self.lowerBoundary = lowerBoundary
             self.periodsBackward = periodsBackward
@@ -18527,7 +18867,7 @@ extension QuickSightClientTypes {
         public var itemsLimit: Swift.Int?
 
         public init(
-            itemsLimit: Swift.Int? = 0
+            itemsLimit: Swift.Int? = nil
         ) {
             self.itemsLimit = itemsLimit
         }
@@ -23195,7 +23535,7 @@ extension QuickSightClientTypes {
         public var enableIdentityPropagation: Swift.Bool?
 
         public init(
-            enableIdentityPropagation: Swift.Bool? = false
+            enableIdentityPropagation: Swift.Bool? = nil
         ) {
             self.enableIdentityPropagation = enableIdentityPropagation
         }
@@ -24897,6 +25237,51 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    public enum AudioExtractionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AudioExtractionStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The configuration for audio extraction from knowledge base documents.
+    public struct AudioExtractionConfiguration: Swift.Sendable {
+        /// The status of audio extraction. Valid values are ENABLED and DISABLED.
+        /// This member is required.
+        public var audioExtractionStatus: QuickSightClientTypes.AudioExtractionStatus?
+
+        public init(
+            audioExtractionStatus: QuickSightClientTypes.AudioExtractionStatus? = nil
+        ) {
+            self.audioExtractionStatus = audioExtractionStatus
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// Configuration details for OAuth 2.0 authorization code grant flow.
     public struct AuthorizationCodeGrantDetails: Swift.Sendable {
         /// The authorization endpoint URL for the OAuth flow.
@@ -26592,6 +26977,180 @@ public struct BatchCreateTopicReviewedAnswerOutput: Swift.Sendable {
     }
 }
 
+/// You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon Web Services request ID for this request.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequestException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.requestId = requestId
+    }
+}
+
+/// A limit is exceeded.
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon Web Services request ID for this request.
+        public internal(set) var requestId: Swift.String? = nil
+        /// Limit exceeded.
+        public internal(set) var resourceType: QuickSightClientTypes.ExceptionResourceType? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        resourceType: QuickSightClientTypes.ExceptionResourceType? = nil
+    ) {
+        self.properties.message = message
+        self.properties.requestId = requestId
+        self.properties.resourceType = resourceType
+    }
+}
+
+/// One or more preconditions aren't met.
+public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon Web Services request ID for this request.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PreconditionNotMetException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.requestId = requestId
+    }
+}
+
+public struct BatchDeleteKnowledgeBaseInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the knowledge base.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// A list of knowledge base identifiers to delete.
+    /// This member is required.
+    public var knowledgeBaseIds: [Swift.String]?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        knowledgeBaseIds: [Swift.String]? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.knowledgeBaseIds = knowledgeBaseIds
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Information about a knowledge base that was successfully deleted in a batch operation.
+    public struct BatchDeleteKnowledgeBaseSuccess: Swift.Sendable {
+        /// The ARN of the successfully deleted knowledge base.
+        /// This member is required.
+        public var knowledgeBaseArn: Swift.String?
+        /// The unique identifier of the successfully deleted knowledge base.
+        /// This member is required.
+        public var knowledgeBaseId: Swift.String?
+
+        public init(
+            knowledgeBaseArn: Swift.String? = nil,
+            knowledgeBaseId: Swift.String? = nil
+        ) {
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Information about a knowledge base that failed to be deleted in a batch operation.
+    public struct BatchDeleteKnowledgeBaseFailure: Swift.Sendable {
+        /// The error code for the deletion failure.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// The error message for the deletion failure.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+        /// The unique identifier of the knowledge base that failed to be deleted.
+        /// This member is required.
+        public var knowledgeBaseId: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            knowledgeBaseId: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.knowledgeBaseId = knowledgeBaseId
+        }
+    }
+}
+
+public struct BatchDeleteKnowledgeBaseOutput: Swift.Sendable {
+    /// A list of knowledge bases that were successfully deleted.
+    /// This member is required.
+    public var deleted: [QuickSightClientTypes.BatchDeleteKnowledgeBaseSuccess]?
+    /// A list of knowledge bases that failed to be deleted.
+    /// This member is required.
+    public var errors: [QuickSightClientTypes.BatchDeleteKnowledgeBaseFailure]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int?
+
+    public init(
+        deleted: [QuickSightClientTypes.BatchDeleteKnowledgeBaseSuccess]? = nil,
+        errors: [QuickSightClientTypes.BatchDeleteKnowledgeBaseFailure]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int? = nil
+    ) {
+        self.deleted = deleted
+        self.errors = errors
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 /// Updating or deleting a resource can cause an inconsistent state.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -26700,7 +27259,7 @@ extension QuickSightClientTypes {
 
         public init(
             color: Swift.String? = nil,
-            show: Swift.Bool? = false,
+            show: Swift.Bool? = nil,
             width: Swift.String? = nil
         ) {
             self.color = color
@@ -28121,6 +28680,25 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// A filter that matches users by total capacity range in bytes.
+    public struct CapacityBytesRangeFilter: Swift.Sendable {
+        /// The maximum capacity in bytes (inclusive). At least one of minBytes or maxBytes is required.
+        public var maxBytes: Swift.Int?
+        /// The minimum capacity in bytes (inclusive). At least one of minBytes or maxBytes is required.
+        public var minBytes: Swift.Int?
+
+        public init(
+            maxBytes: Swift.Int? = nil,
+            minBytes: Swift.Int? = nil
+        ) {
+            self.maxBytes = maxBytes
+            self.minBytes = minBytes
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     public enum ColumnDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case datetime
         case decimal
@@ -28889,33 +29467,6 @@ public struct CreateAccountCustomizationOutput: Swift.Sendable {
     }
 }
 
-/// One or more preconditions aren't met.
-public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        /// The Amazon Web Services request ID for this request.
-        public internal(set) var requestId: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "PreconditionNotMetException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        requestId: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.requestId = requestId
-    }
-}
-
 public struct CreateAccountSubscriptionInput: Swift.Sendable {
     /// The name of your Amazon Quick Sight account. This name is unique over all of Amazon Web Services, and it appears only when users sign in. You can't change AccountName value after the Amazon Quick Sight account is created.
     /// This member is required.
@@ -29164,34 +29715,167 @@ public struct CreateActionConnectorOutput: Swift.Sendable {
     }
 }
 
-/// A limit is exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension QuickSightClientTypes {
 
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        /// The Amazon Web Services request ID for this request.
-        public internal(set) var requestId: Swift.String? = nil
-        /// Limit exceeded.
-        public internal(set) var resourceType: QuickSightClientTypes.ExceptionResourceType? = nil
+    /// A reference to an existing custom prompt profile.
+    public struct CustomPromptProfile: Swift.Sendable {
+        /// The identifier of the model profile.
+        /// This member is required.
+        public var modelProfileId: Swift.String?
+        /// The Amazon Web Services account ID for the Q Business service.
+        /// This member is required.
+        public var qbsAwsAccountId: Swift.String?
+        /// The subscription identifier.
+        /// This member is required.
+        public var subscriptionId: Swift.String?
+
+        public init(
+            modelProfileId: Swift.String? = nil,
+            qbsAwsAccountId: Swift.String? = nil,
+            subscriptionId: Swift.String? = nil
+        ) {
+            self.modelProfileId = modelProfileId
+            self.qbsAwsAccountId = qbsAwsAccountId
+            self.subscriptionId = subscriptionId
+        }
     }
+}
 
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "LimitExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
+extension QuickSightClientTypes {
+
+    /// The parameters for configuring a custom prompt for an agent.
+    public struct CustomPromptInputParameters: Swift.Sendable {
+        /// Custom instructions for the agent's behavior.
+        public var customInstructions: Swift.String?
+        /// Instructions that define the agent's identity and persona.
+        public var identity: Swift.String?
+        /// Instructions for the desired output style.
+        public var outputStyle: Swift.String?
+        /// Instructions for the desired response length.
+        public var responseLength: Swift.String?
+        /// Instructions for the desired tone of responses.
+        public var tone: Swift.String?
+
+        public init(
+            customInstructions: Swift.String? = nil,
+            identity: Swift.String? = nil,
+            outputStyle: Swift.String? = nil,
+            responseLength: Swift.String? = nil,
+            tone: Swift.String? = nil
+        ) {
+            self.customInstructions = customInstructions
+            self.identity = identity
+            self.outputStyle = outputStyle
+            self.responseLength = responseLength
+            self.tone = tone
+        }
+    }
+}
+
+extension QuickSightClientTypes.CustomPromptInputParameters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CustomPromptInputParameters(customInstructions: \"CONTENT_REDACTED\", identity: \"CONTENT_REDACTED\", outputStyle: \"CONTENT_REDACTED\", responseLength: \"CONTENT_REDACTED\", tone: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// The custom prompt input for an agent. This is a union type that can be either an existing prompt profile or new prompt parameters.
+    public enum CustomPromptInput: Swift.Sendable {
+        /// An existing custom prompt profile to use for the agent.
+        case existingprompt(QuickSightClientTypes.CustomPromptProfile)
+        /// New custom prompt parameters to configure for the agent.
+        case newprompt(QuickSightClientTypes.CustomPromptInputParameters)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateAgentInput: Swift.Sendable {
+    /// The Amazon Resource Names (ARNs) of the action connectors to attach to the agent.
+    public var actionConnectors: [Swift.String]?
+    /// A unique identifier for the agent.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// The lifecycle state of the agent. Valid values are PREVIEW and PUBLISHED.
+    public var agentLifecycle: QuickSightClientTypes.AgentLifecycle?
+    /// The ID of the Amazon Web Services account that contains the agent.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The custom prompt configuration for the agent.
+    public var customPromptInput: QuickSightClientTypes.CustomPromptInput?
+    /// A description of the agent.
+    public var description: Swift.String?
+    /// The icon identifier for the agent.
+    public var iconId: Swift.String?
+    /// The name of the agent.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Names (ARNs) of the spaces to attach to the agent.
+    public var spaces: [Swift.String]?
+    /// A list of starter prompts that are displayed to users when they begin interacting with the agent.
+    public var starterPrompts: [Swift.String]?
+    /// The welcome message that is displayed when a user starts a conversation with the agent.
+    public var welcomeMessage: Swift.String?
 
     public init(
-        message: Swift.String? = nil,
-        requestId: Swift.String? = nil,
-        resourceType: QuickSightClientTypes.ExceptionResourceType? = nil
+        actionConnectors: [Swift.String]? = nil,
+        agentId: Swift.String? = nil,
+        agentLifecycle: QuickSightClientTypes.AgentLifecycle? = nil,
+        awsAccountId: Swift.String? = nil,
+        customPromptInput: QuickSightClientTypes.CustomPromptInput? = nil,
+        description: Swift.String? = nil,
+        iconId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        spaces: [Swift.String]? = nil,
+        starterPrompts: [Swift.String]? = nil,
+        welcomeMessage: Swift.String? = nil
     ) {
-        self.properties.message = message
-        self.properties.requestId = requestId
-        self.properties.resourceType = resourceType
+        self.actionConnectors = actionConnectors
+        self.agentId = agentId
+        self.agentLifecycle = agentLifecycle
+        self.awsAccountId = awsAccountId
+        self.customPromptInput = customPromptInput
+        self.description = description
+        self.iconId = iconId
+        self.name = name
+        self.spaces = spaces
+        self.starterPrompts = starterPrompts
+        self.welcomeMessage = welcomeMessage
+    }
+}
+
+extension CreateAgentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAgentInput(actionConnectors: \(Swift.String(describing: actionConnectors)), agentId: \(Swift.String(describing: agentId)), agentLifecycle: \(Swift.String(describing: agentLifecycle)), awsAccountId: \(Swift.String(describing: awsAccountId)), description: \(Swift.String(describing: description)), iconId: \(Swift.String(describing: iconId)), name: \(Swift.String(describing: name)), spaces: \(Swift.String(describing: spaces)), customPromptInput: \"CONTENT_REDACTED\", starterPrompts: \"CONTENT_REDACTED\", welcomeMessage: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateAgentOutput: Swift.Sendable {
+    /// The unique identifier for the agent.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// The name of the agent.
+    /// This member is required.
+    public var agentName: Swift.String?
+    /// The status of the agent.
+    /// This member is required.
+    public var agentStatus: QuickSightClientTypes.AgentStatus?
+    /// The Amazon Resource Name (ARN) of the agent.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        agentId: Swift.String? = nil,
+        agentName: Swift.String? = nil,
+        agentStatus: QuickSightClientTypes.AgentStatus? = nil,
+        arn: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.agentId = agentId
+        self.agentName = agentName
+        self.agentStatus = agentStatus
+        self.arn = arn
+        self.requestId = requestId
     }
 }
 
@@ -29500,33 +30184,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
         message: Swift.String? = nil
     ) {
         self.properties.message = message
-    }
-}
-
-/// You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        /// The Amazon Web Services request ID for this request.
-        public internal(set) var requestId: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidRequestException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        requestId: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.requestId = requestId
     }
 }
 
@@ -30438,8 +31095,8 @@ extension QuickSightClientTypes {
         public var rangeMinimum: QuickSightClientTypes.DataSetDateFilterValue?
 
         public init(
-            includeMaximum: Swift.Bool? = false,
-            includeMinimum: Swift.Bool? = false,
+            includeMaximum: Swift.Bool? = nil,
+            includeMinimum: Swift.Bool? = nil,
             rangeMaximum: QuickSightClientTypes.DataSetDateFilterValue? = nil,
             rangeMinimum: QuickSightClientTypes.DataSetDateFilterValue? = nil
         ) {
@@ -30523,7 +31180,7 @@ extension QuickSightClientTypes {
         public var staticValue: Swift.Double?
 
         public init(
-            staticValue: Swift.Double? = 0.0
+            staticValue: Swift.Double? = nil
         ) {
             self.staticValue = staticValue
         }
@@ -30569,8 +31226,8 @@ extension QuickSightClientTypes {
         public var rangeMinimum: QuickSightClientTypes.DataSetNumericFilterValue?
 
         public init(
-            includeMaximum: Swift.Bool? = false,
-            includeMinimum: Swift.Bool? = false,
+            includeMaximum: Swift.Bool? = nil,
+            includeMinimum: Swift.Bool? = nil,
             rangeMaximum: QuickSightClientTypes.DataSetNumericFilterValue? = nil,
             rangeMinimum: QuickSightClientTypes.DataSetNumericFilterValue? = nil
         ) {
@@ -31724,7 +32381,7 @@ extension QuickSightClientTypes {
         public var uniqueKey: Swift.Bool?
 
         public init(
-            uniqueKey: Swift.Bool? = false
+            uniqueKey: Swift.Bool? = nil
         ) {
             self.uniqueKey = uniqueKey
         }
@@ -31921,40 +32578,6 @@ extension QuickSightClientTypes.CustomSql: Swift.CustomDebugStringConvertible {
 
 extension QuickSightClientTypes {
 
-    /// A physical table type for relational data sources.
-    public struct RelationalTable: Swift.Sendable {
-        /// The catalog associated with a table.
-        public var catalog: Swift.String?
-        /// The Amazon Resource Name (ARN) for the data source.
-        /// This member is required.
-        public var dataSourceArn: Swift.String?
-        /// The column schema of the table.
-        /// This member is required.
-        public var inputColumns: [QuickSightClientTypes.InputColumn]?
-        /// The name of the relational table.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The schema name. This name applies to certain relational database engines.
-        public var schema: Swift.String?
-
-        public init(
-            catalog: Swift.String? = nil,
-            dataSourceArn: Swift.String? = nil,
-            inputColumns: [QuickSightClientTypes.InputColumn]? = nil,
-            name: Swift.String? = nil,
-            schema: Swift.String? = nil
-        ) {
-            self.catalog = catalog
-            self.dataSourceArn = dataSourceArn
-            self.inputColumns = inputColumns
-            self.name = name
-            self.schema = schema
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
     public enum FileFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case clf
         case csv
@@ -32041,7 +32664,7 @@ extension QuickSightClientTypes {
         public var textQualifier: QuickSightClientTypes.TextQualifier?
 
         public init(
-            containsHeader: Swift.Bool? = false,
+            containsHeader: Swift.Bool? = nil,
             customCellAddressRange: Swift.String? = nil,
             delimiter: Swift.String? = nil,
             format: QuickSightClientTypes.FileFormat? = nil,
@@ -32054,6 +32677,70 @@ extension QuickSightClientTypes {
             self.format = format
             self.startFromRow = startFromRow
             self.textQualifier = textQualifier
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A physical table type that contains the schema and upload settings for a file-based data source.
+    public struct FileSource: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for the data source.
+        /// This member is required.
+        public var dataSourceArn: Swift.String?
+        /// The column schema of the file.
+        /// This member is required.
+        public var inputColumns: [QuickSightClientTypes.InputColumn]?
+        /// The zero-based index of the sheet to use within the file. For files that contain multiple sheets, this identifies which sheet to read. Files that contain a single sheet, or that have no concept of sheets, use sheet 0.
+        /// This member is required.
+        public var sheetIndex: Swift.Int
+        /// Information about the format for the source file.
+        public var uploadSettings: QuickSightClientTypes.UploadSettings?
+
+        public init(
+            dataSourceArn: Swift.String? = nil,
+            inputColumns: [QuickSightClientTypes.InputColumn]? = nil,
+            sheetIndex: Swift.Int = 0,
+            uploadSettings: QuickSightClientTypes.UploadSettings? = nil
+        ) {
+            self.dataSourceArn = dataSourceArn
+            self.inputColumns = inputColumns
+            self.sheetIndex = sheetIndex
+            self.uploadSettings = uploadSettings
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A physical table type for relational data sources.
+    public struct RelationalTable: Swift.Sendable {
+        /// The catalog associated with a table.
+        public var catalog: Swift.String?
+        /// The Amazon Resource Name (ARN) for the data source.
+        /// This member is required.
+        public var dataSourceArn: Swift.String?
+        /// The column schema of the table.
+        /// This member is required.
+        public var inputColumns: [QuickSightClientTypes.InputColumn]?
+        /// The name of the relational table.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The schema name. This name applies to certain relational database engines.
+        public var schema: Swift.String?
+
+        public init(
+            catalog: Swift.String? = nil,
+            dataSourceArn: Swift.String? = nil,
+            inputColumns: [QuickSightClientTypes.InputColumn]? = nil,
+            name: Swift.String? = nil,
+            schema: Swift.String? = nil
+        ) {
+            self.catalog = catalog
+            self.dataSourceArn = dataSourceArn
+            self.inputColumns = inputColumns
+            self.name = name
+            self.schema = schema
         }
     }
 }
@@ -32136,10 +32823,12 @@ extension QuickSightClientTypes {
         case relationaltable(QuickSightClientTypes.RelationalTable)
         /// A physical table type built from the results of the custom SQL query.
         case customsql(QuickSightClientTypes.CustomSql)
-        /// A physical table type for as S3 data source.
+        /// A physical table type for an S3 data source.
         case s3source(QuickSightClientTypes.S3Source)
         /// A physical table type for Software-as-a-Service (SaaS) sources.
         case saastable(QuickSightClientTypes.SaaSTable)
+        /// A physical table type for a file data source.
+        case filesource(QuickSightClientTypes.FileSource)
         case sdkUnknown(Swift.String)
     }
 }
@@ -33062,6 +33751,134 @@ public struct CreateDataSourceOutput: Swift.Sendable {
         self.arn = arn
         self.creationStatus = creationStatus
         self.dataSourceId = dataSourceId
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A structure that contains the permission information for one principal against one flow.
+    public struct Permission: Swift.Sendable {
+        /// A list of actions that the principal can perform against the flow. The following are the list of values to set a principal as a flow owner:
+        ///
+        /// * quicksight:PublishFlow
+        ///
+        /// * quicksight:GetFlow
+        ///
+        /// * quicksight:UpdateFlowPermissions
+        ///
+        /// * quicksight:GetFlowSession
+        ///
+        /// * quicksight:StartFlowSession
+        ///
+        /// * quicksight:StopFlowSession
+        ///
+        /// * quicksight:UpdateFlowSession
+        ///
+        /// * quicksight:UnpublishFlow
+        ///
+        /// * quicksight:GetFlowStages
+        ///
+        /// * quicksight:DeleteFlow
+        ///
+        /// * quicksight:DescribeFlowPermissions
+        ///
+        /// * quicksight:UpdateFlow
+        ///
+        /// * quicksight:CreatePresignedUrl
+        ///
+        ///
+        /// The following are the list of values to set a principal as a flow viewer:
+        ///
+        /// * quicksight:GetFlow
+        ///
+        /// * quicksight:UpdateFlowSession
+        ///
+        /// * quicksight:StartFlowSession
+        ///
+        /// * quicksight:StopFlowSession
+        ///
+        /// * quicksight:GetFlowSession
+        ///
+        /// * quicksight:CreatePresignedUrl
+        ///
+        /// * quicksight:GetFlowStages
+        /// This member is required.
+        public var actions: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the principal. This can be an Amazon Quick user, group or namespace associated with the flow. Namespace principal can only be set as a viewer and will grant everyone in the same namespace viewer permissions.
+        /// This member is required.
+        public var principal: Swift.String?
+
+        public init(
+            actions: [Swift.String]? = nil,
+            principal: Swift.String? = nil
+        ) {
+            self.actions = actions
+            self.principal = principal
+        }
+    }
+}
+
+public struct CreateFlowInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account where you want to create the flow.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The description for the flow.
+    public var description: Swift.String?
+    /// The definition of the flow, specifying the steps and configurations. This is the flow definition in Quick Flow's internal format. The format is subject to change. Always derive or depend on the flow definition from the DescribeFlow operation to ensure you are working with the latest format.
+    /// This member is required.
+    public var flowDefinition: Smithy.Document?
+    /// The display name for the flow.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Initial permissions for the flow. If omitted, the flow is created without any permissions.
+    public var permissions: [QuickSightClientTypes.Permission]?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        flowDefinition: Smithy.Document? = nil,
+        name: Swift.String? = nil,
+        permissions: [QuickSightClientTypes.Permission]? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.clientToken = clientToken
+        self.description = description
+        self.flowDefinition = flowDefinition
+        self.name = name
+        self.permissions = permissions
+    }
+}
+
+extension CreateFlowInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateFlowInput(awsAccountId: \(Swift.String(describing: awsAccountId)), clientToken: \(Swift.String(describing: clientToken)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), permissions: \(Swift.String(describing: permissions)), flowDefinition: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateFlowOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the flow.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The unique identifier of the flow.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        arn: Swift.String? = nil,
+        flowId: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.arn = arn
+        self.flowId = flowId
         self.requestId = requestId
         self.status = status
     }
@@ -34195,6 +35012,57 @@ public struct CreateRoleMembershipOutput: Swift.Sendable {
     }
 }
 
+public struct CreateSpaceInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the space.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// A description of the space.
+    public var description: Swift.String?
+    /// A display name for the space.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The ID of the space. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.description = description
+        self.name = name
+        self.spaceId = spaceId
+    }
+}
+
+extension CreateSpaceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateSpaceInput(awsAccountId: \(Swift.String(describing: awsAccountId)), name: \(Swift.String(describing: name)), spaceId: \(Swift.String(describing: spaceId)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateSpaceOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The ARN of the space.
+    public var spaceArn: Swift.String?
+    /// The ID of the space.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        requestId: Swift.String? = nil,
+        spaceArn: Swift.String? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.requestId = requestId
+        self.spaceArn = spaceArn
+        self.spaceId = spaceId
+    }
+}
+
 extension QuickSightClientTypes {
 
     /// Dataset schema.
@@ -34567,7 +35435,7 @@ extension QuickSightClientTypes {
         public var show: Swift.Bool?
 
         public init(
-            show: Swift.Bool? = false
+            show: Swift.Bool? = nil
         ) {
             self.show = show
         }
@@ -34582,7 +35450,7 @@ extension QuickSightClientTypes {
         public var show: Swift.Bool?
 
         public init(
-            show: Swift.Bool? = false
+            show: Swift.Bool? = nil
         ) {
             self.show = show
         }
@@ -37172,6 +38040,44 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    public enum DataSetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataSetStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// Dataset summary.
     public struct DataSetSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the dataset.
@@ -37583,6 +38489,34 @@ public struct DeleteActionConnectorOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteAgentInput: Swift.Sendable {
+    /// The unique identifier for the agent to delete.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// The ID of the Amazon Web Services account that contains the agent.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init(
+        agentId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil
+    ) {
+        self.agentId = agentId
+        self.awsAccountId = awsAccountId
+    }
+}
+
+public struct DeleteAgentOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        requestId: Swift.String? = nil
+    ) {
+        self.requestId = requestId
+    }
+}
+
 public struct DeleteAnalysisInput: Swift.Sendable {
     /// The ID of the analysis that you're deleting.
     /// This member is required.
@@ -37909,6 +38843,38 @@ public struct DeleteDefaultQBusinessApplicationOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteFlowInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the flow that you are deleting.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The unique identifier of the flow to delete.
+    /// This member is required.
+    public var flowId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        flowId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.flowId = flowId
+    }
+}
+
+public struct DeleteFlowOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct DeleteFolderInput: Swift.Sendable {
     /// The ID for the Amazon Web Services account that contains the folder.
     /// This member is required.
@@ -38143,6 +39109,48 @@ public struct DeleteIdentityPropagationConfigOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteKnowledgeBaseInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the knowledge base.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The unique identifier for the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.knowledgeBaseId = knowledgeBaseId
+    }
+}
+
+public struct DeleteKnowledgeBaseOutput: Swift.Sendable {
+    /// The ARN of the deleted knowledge base.
+    /// This member is required.
+    public var knowledgeBaseArn: Swift.String?
+    /// The ID of the deleted knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int?
+
+    public init(
+        knowledgeBaseArn: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int? = nil
+    ) {
+        self.knowledgeBaseArn = knowledgeBaseArn
+        self.knowledgeBaseId = knowledgeBaseId
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct DeleteNamespaceInput: Swift.Sendable {
     /// The ID for the Amazon Web Services account that you want to delete the Quick Sight namespace from.
     /// This member is required.
@@ -38336,6 +39344,43 @@ public struct DeleteRoleMembershipOutput: Swift.Sendable {
     ) {
         self.requestId = requestId
         self.status = status
+    }
+}
+
+public struct DeleteSpaceInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the space.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the space that you want to delete.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.spaceId = spaceId
+    }
+}
+
+public struct DeleteSpaceOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The ARN of the space.
+    public var spaceArn: Swift.String?
+    /// The ID of the space.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        requestId: Swift.String? = nil,
+        spaceArn: Swift.String? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.requestId = requestId
+        self.spaceArn = spaceArn
+        self.spaceId = spaceId
     }
 }
 
@@ -39005,6 +40050,83 @@ public struct DescribeActionConnectorPermissionsOutput: Swift.Sendable {
         self.permissions = permissions
         self.requestId = requestId
         self.status = status
+    }
+}
+
+public struct DescribeAgentInput: Swift.Sendable {
+    /// The unique identifier for the agent.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// The ID of the Amazon Web Services account that contains the agent.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init(
+        agentId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil
+    ) {
+        self.agentId = agentId
+        self.awsAccountId = awsAccountId
+    }
+}
+
+public struct DescribeAgentOutput: Swift.Sendable {
+    /// The full details of the agent, including its configuration, status, and associations.
+    /// This member is required.
+    public var agent: QuickSightClientTypes.Agent?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        agent: QuickSightClientTypes.Agent? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.agent = agent
+        self.requestId = requestId
+    }
+}
+
+public struct DescribeAgentPermissionsInput: Swift.Sendable {
+    /// The unique identifier for the agent.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// The ID of the Amazon Web Services account that contains the agent.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init(
+        agentId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil
+    ) {
+        self.agentId = agentId
+        self.awsAccountId = awsAccountId
+    }
+}
+
+public struct DescribeAgentPermissionsOutput: Swift.Sendable {
+    /// The unique identifier for the agent.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the agent.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The resource permissions for the agent.
+    /// This member is required.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The Amazon Web Services request ID for this operation.
+    /// This member is required.
+    public var requestId: Swift.String?
+
+    public init(
+        agentId: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.agentId = agentId
+        self.arn = arn
+        self.permissions = permissions
+        self.requestId = requestId
     }
 }
 
@@ -40373,6 +41495,167 @@ public struct DescribeDefaultQBusinessApplicationOutput: Swift.Sendable {
     }
 }
 
+extension QuickSightClientTypes {
+
+    public enum FlowPublishState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case draft
+        case pendingApproval
+        case published
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlowPublishState] {
+            return [
+                .draft,
+                .pendingApproval,
+                .published
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .draft: return "DRAFT"
+            case .pendingApproval: return "PENDING_APPROVAL"
+            case .published: return "PUBLISHED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeFlowInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the flow that you are describing.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The unique identifier of the flow.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// The publish state of the flow version to describe. Valid values are DRAFT, PUBLISHED, or PENDING_APPROVAL.
+    /// This member is required.
+    public var publishState: QuickSightClientTypes.FlowPublishState?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        flowId: Swift.String? = nil,
+        publishState: QuickSightClientTypes.FlowPublishState? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.flowId = flowId
+        self.publishState = publishState
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A mapping between a step identifier and its alias in a flow.
+    public struct StepAliasMapping: Swift.Sendable {
+        /// The alias for the step.
+        /// This member is required.
+        public var stepAlias: Swift.String?
+        /// The unique identifier of the step.
+        /// This member is required.
+        public var stepId: Swift.String?
+
+        public init(
+            stepAlias: Swift.String? = nil,
+            stepId: Swift.String? = nil
+        ) {
+            self.stepAlias = stepAlias
+            self.stepId = stepId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The full details of a flow, including its definition specifying the steps.
+    public struct FlowDetail: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the flow.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The identifier of the principal who created the flow.
+        public var createdBy: Swift.String?
+        /// The time this flow was created.
+        /// This member is required.
+        public var createdTime: Foundation.Date?
+        /// The description of the flow.
+        public var description: Swift.String?
+        /// The definition of the flow, specifying the steps and configurations. This is the flow definition in Quick Flow's internal format. The format is subject to change.
+        /// This member is required.
+        public var flowDefinition: Smithy.Document?
+        /// The unique identifier of the flow.
+        /// This member is required.
+        public var flowId: Swift.String?
+        /// The identifier of the last principal who updated the flow.
+        public var lastUpdatedBy: Swift.String?
+        /// The last time this flow was modified.
+        public var lastUpdatedTime: Foundation.Date?
+        /// The display name of the flow.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The publish state of the flow. Valid values are DRAFT, PUBLISHED, or PENDING_APPROVAL.
+        /// This member is required.
+        public var publishState: QuickSightClientTypes.FlowPublishState?
+        /// A list of step alias mappings for the flow.
+        public var stepAliases: [QuickSightClientTypes.StepAliasMapping]?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdBy: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            flowDefinition: Smithy.Document? = nil,
+            flowId: Swift.String? = nil,
+            lastUpdatedBy: Swift.String? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            publishState: QuickSightClientTypes.FlowPublishState? = nil,
+            stepAliases: [QuickSightClientTypes.StepAliasMapping]? = nil
+        ) {
+            self.arn = arn
+            self.createdBy = createdBy
+            self.createdTime = createdTime
+            self.description = description
+            self.flowDefinition = flowDefinition
+            self.flowId = flowId
+            self.lastUpdatedBy = lastUpdatedBy
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.publishState = publishState
+            self.stepAliases = stepAliases
+        }
+    }
+}
+
+extension QuickSightClientTypes.FlowDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "FlowDetail(arn: \(Swift.String(describing: arn)), createdBy: \(Swift.String(describing: createdBy)), createdTime: \(Swift.String(describing: createdTime)), description: \(Swift.String(describing: description)), flowId: \(Swift.String(describing: flowId)), lastUpdatedBy: \(Swift.String(describing: lastUpdatedBy)), lastUpdatedTime: \(Swift.String(describing: lastUpdatedTime)), name: \(Swift.String(describing: name)), publishState: \(Swift.String(describing: publishState)), stepAliases: \(Swift.String(describing: stepAliases)), flowDefinition: \"CONTENT_REDACTED\")"}
+}
+
+public struct DescribeFlowOutput: Swift.Sendable {
+    /// The full details of the flow.
+    /// This member is required.
+    public var flow: QuickSightClientTypes.FlowDetail?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        flow: QuickSightClientTypes.FlowDetail? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.flow = flow
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct DescribeFolderInput: Swift.Sendable {
     /// The ID for the Amazon Web Services account that contains the folder.
     /// This member is required.
@@ -41059,9 +42342,9 @@ extension QuickSightClientTypes {
         public var totalRowsInDataset: Swift.Int?
 
         public init(
-            rowsDropped: Swift.Int? = 0,
-            rowsIngested: Swift.Int? = 0,
-            totalRowsInDataset: Swift.Int? = 0
+            rowsDropped: Swift.Int? = nil,
+            rowsIngested: Swift.Int? = nil,
+            totalRowsInDataset: Swift.Int? = nil
         ) {
             self.rowsDropped = rowsDropped
             self.rowsIngested = rowsIngested
@@ -41105,9 +42388,9 @@ extension QuickSightClientTypes {
             createdTime: Foundation.Date? = nil,
             errorInfo: QuickSightClientTypes.ErrorInfo? = nil,
             ingestionId: Swift.String? = nil,
-            ingestionSizeInBytes: Swift.Int? = 0,
+            ingestionSizeInBytes: Swift.Int? = nil,
             ingestionStatus: QuickSightClientTypes.IngestionStatus? = nil,
-            ingestionTimeInSeconds: Swift.Int? = 0,
+            ingestionTimeInSeconds: Swift.Int? = nil,
             queueInfo: QuickSightClientTypes.QueueInfo? = nil,
             requestSource: QuickSightClientTypes.IngestionRequestSource? = nil,
             requestType: QuickSightClientTypes.IngestionRequestType? = nil,
@@ -41303,6 +42586,449 @@ public struct DescribeKeyRegistrationOutput: Swift.Sendable {
         self.awsAccountId = awsAccountId
         self.keyRegistration = keyRegistration
         self.qDataKey = qDataKey
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct DescribeKnowledgeBaseInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the knowledge base.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The unique identifier for the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.knowledgeBaseId = knowledgeBaseId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum KbIngestionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case cancelling
+        case completed
+        case failed
+        case incomplete
+        case queued
+        case running
+        case timeout
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KbIngestionStatus] {
+            return [
+                .cancelled,
+                .cancelling,
+                .completed,
+                .failed,
+                .incomplete,
+                .queued,
+                .running,
+                .timeout
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .cancelling: return "CANCELLING"
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .incomplete: return "INCOMPLETE"
+            case .queued: return "QUEUED"
+            case .running: return "RUNNING"
+            case .timeout: return "TIMEOUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A summary of an ingestion job for a knowledge base.
+    public struct KnowledgeBaseIngestionSummary: Swift.Sendable {
+        /// The end time of the ingestion job.
+        public var endTime: Foundation.Date?
+        /// The unique identifier for the ingestion job.
+        /// This member is required.
+        public var ingestionId: Swift.String?
+        /// The status of the ingestion job.
+        /// This member is required.
+        public var ingestionStatus: QuickSightClientTypes.KbIngestionStatus?
+        /// The start time of the ingestion job.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            ingestionId: Swift.String? = nil,
+            ingestionStatus: QuickSightClientTypes.KbIngestionStatus? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.ingestionId = ingestionId
+            self.ingestionStatus = ingestionStatus
+            self.startTime = startTime
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The template configuration for a knowledge base.
+    public struct KbTemplateConfiguration: Swift.Sendable {
+        /// The template document that defines the knowledge base behavior.
+        public var template: Smithy.Document?
+
+        public init(
+            template: Smithy.Document? = nil
+        ) {
+            self.template = template
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The configuration settings for a knowledge base.
+    public struct KnowledgeBaseConfiguration: Swift.Sendable {
+        /// Indicates whether event notifications are enabled for the knowledge base.
+        public var eventEnabled: Swift.Bool?
+        /// The template configuration for the knowledge base.
+        public var templateConfiguration: QuickSightClientTypes.KbTemplateConfiguration?
+
+        public init(
+            eventEnabled: Swift.Bool? = nil,
+            templateConfiguration: QuickSightClientTypes.KbTemplateConfiguration? = nil
+        ) {
+            self.eventEnabled = eventEnabled
+            self.templateConfiguration = templateConfiguration
+        }
+    }
+}
+
+extension QuickSightClientTypes.KnowledgeBaseConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum ImageExtractionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageExtractionStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The configuration for image extraction from knowledge base documents.
+    public struct ImageExtractionConfiguration: Swift.Sendable {
+        /// The status of image extraction. Valid values are ENABLED and DISABLED.
+        /// This member is required.
+        public var imageExtractionStatus: QuickSightClientTypes.ImageExtractionStatus?
+
+        public init(
+            imageExtractionStatus: QuickSightClientTypes.ImageExtractionStatus? = nil
+        ) {
+            self.imageExtractionStatus = imageExtractionStatus
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum VideoExtractionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoExtractionStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum VideoExtractionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case audioTranscriptionOnly
+        case visualContentAndAudioTranscription
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoExtractionType] {
+            return [
+                .audioTranscriptionOnly,
+                .visualContentAndAudioTranscription
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .audioTranscriptionOnly: return "AUDIO_TRANSCRIPTION_ONLY"
+            case .visualContentAndAudioTranscription: return "VISUAL_CONTENT_AND_AUDIO_TRANSCRIPTION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The configuration for video extraction from knowledge base documents.
+    public struct VideoExtractionConfiguration: Swift.Sendable {
+        /// The status of video extraction. Valid values are ENABLED and DISABLED.
+        /// This member is required.
+        public var videoExtractionStatus: QuickSightClientTypes.VideoExtractionStatus?
+        /// The type of video extraction to perform.
+        public var videoExtractionType: QuickSightClientTypes.VideoExtractionType?
+
+        public init(
+            videoExtractionStatus: QuickSightClientTypes.VideoExtractionStatus? = nil,
+            videoExtractionType: QuickSightClientTypes.VideoExtractionType? = nil
+        ) {
+            self.videoExtractionStatus = videoExtractionStatus
+            self.videoExtractionType = videoExtractionType
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The configuration for media extraction from knowledge base documents.
+    public struct MediaExtractionConfiguration: Swift.Sendable {
+        /// The configuration for audio extraction.
+        public var audioExtractionConfiguration: QuickSightClientTypes.AudioExtractionConfiguration?
+        /// The configuration for image extraction.
+        public var imageExtractionConfiguration: QuickSightClientTypes.ImageExtractionConfiguration?
+        /// The configuration for video extraction.
+        public var videoExtractionConfiguration: QuickSightClientTypes.VideoExtractionConfiguration?
+
+        public init(
+            audioExtractionConfiguration: QuickSightClientTypes.AudioExtractionConfiguration? = nil,
+            imageExtractionConfiguration: QuickSightClientTypes.ImageExtractionConfiguration? = nil,
+            videoExtractionConfiguration: QuickSightClientTypes.VideoExtractionConfiguration? = nil
+        ) {
+            self.audioExtractionConfiguration = audioExtractionConfiguration
+            self.imageExtractionConfiguration = imageExtractionConfiguration
+            self.videoExtractionConfiguration = videoExtractionConfiguration
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A knowledge base resource that provides data from connected sources for AI-powered experiences in Amazon QuickSight.
+    public struct KnowledgeBase: Swift.Sendable {
+        /// The date and time that the knowledge base was created.
+        public var createdAt: Foundation.Date?
+        /// The ARN of the data source associated with the knowledge base.
+        /// This member is required.
+        public var dataSourceArn: Swift.String?
+        /// The description of the knowledge base.
+        public var description: Swift.String?
+        /// The number of documents in the knowledge base.
+        public var documentCount: Swift.Int?
+        /// A summary of the first completed ingestion for the knowledge base.
+        public var firstCompletedIngestionSummary: QuickSightClientTypes.KnowledgeBaseIngestionSummary?
+        /// A summary of the first incomplete ingestion for the knowledge base.
+        public var firstIncompleteIngestionSummary: QuickSightClientTypes.KnowledgeBaseIngestionSummary?
+        /// Indicates whether email notifications are enabled for ingestion failures.
+        public var isEmailNotificationOptedForIngestionFailures: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        /// This member is required.
+        public var knowledgeBaseArn: Swift.String?
+        /// The configuration settings for the knowledge base.
+        /// This member is required.
+        public var knowledgeBaseConfiguration: QuickSightClientTypes.KnowledgeBaseConfiguration?
+        /// The unique identifier for the knowledge base.
+        /// This member is required.
+        public var knowledgeBaseId: Swift.String?
+        /// The size of the knowledge base in bytes.
+        public var knowledgeBaseSizeBytes: Swift.Int?
+        /// A summary of the most recent ingestion for the knowledge base.
+        public var latestIngestionSummary: QuickSightClientTypes.KnowledgeBaseIngestionSummary?
+        /// The media extraction configuration for the knowledge base.
+        public var mediaExtractionConfiguration: QuickSightClientTypes.MediaExtractionConfiguration?
+        /// The name of the knowledge base.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The ARN of the primary owner of the knowledge base.
+        public var primaryOwnerArn: Swift.String?
+        /// The username of the primary owner of the knowledge base.
+        public var primaryOwnerUsername: Swift.String?
+        /// The status of the knowledge base.
+        /// This member is required.
+        public var status: QuickSightClientTypes.DataSetStatus?
+        /// The type of the knowledge base.
+        public var type: Swift.String?
+        /// The date and time that the knowledge base was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            dataSourceArn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            documentCount: Swift.Int? = nil,
+            firstCompletedIngestionSummary: QuickSightClientTypes.KnowledgeBaseIngestionSummary? = nil,
+            firstIncompleteIngestionSummary: QuickSightClientTypes.KnowledgeBaseIngestionSummary? = nil,
+            isEmailNotificationOptedForIngestionFailures: Swift.Bool? = nil,
+            knowledgeBaseArn: Swift.String? = nil,
+            knowledgeBaseConfiguration: QuickSightClientTypes.KnowledgeBaseConfiguration? = nil,
+            knowledgeBaseId: Swift.String? = nil,
+            knowledgeBaseSizeBytes: Swift.Int? = nil,
+            latestIngestionSummary: QuickSightClientTypes.KnowledgeBaseIngestionSummary? = nil,
+            mediaExtractionConfiguration: QuickSightClientTypes.MediaExtractionConfiguration? = nil,
+            name: Swift.String? = nil,
+            primaryOwnerArn: Swift.String? = nil,
+            primaryOwnerUsername: Swift.String? = nil,
+            status: QuickSightClientTypes.DataSetStatus? = nil,
+            type: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.dataSourceArn = dataSourceArn
+            self.description = description
+            self.documentCount = documentCount
+            self.firstCompletedIngestionSummary = firstCompletedIngestionSummary
+            self.firstIncompleteIngestionSummary = firstIncompleteIngestionSummary
+            self.isEmailNotificationOptedForIngestionFailures = isEmailNotificationOptedForIngestionFailures
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
+            self.knowledgeBaseId = knowledgeBaseId
+            self.knowledgeBaseSizeBytes = knowledgeBaseSizeBytes
+            self.latestIngestionSummary = latestIngestionSummary
+            self.mediaExtractionConfiguration = mediaExtractionConfiguration
+            self.name = name
+            self.primaryOwnerArn = primaryOwnerArn
+            self.primaryOwnerUsername = primaryOwnerUsername
+            self.status = status
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension QuickSightClientTypes.KnowledgeBase: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "KnowledgeBase(createdAt: \(Swift.String(describing: createdAt)), dataSourceArn: \(Swift.String(describing: dataSourceArn)), description: \(Swift.String(describing: description)), documentCount: \(Swift.String(describing: documentCount)), firstCompletedIngestionSummary: \(Swift.String(describing: firstCompletedIngestionSummary)), firstIncompleteIngestionSummary: \(Swift.String(describing: firstIncompleteIngestionSummary)), isEmailNotificationOptedForIngestionFailures: \(Swift.String(describing: isEmailNotificationOptedForIngestionFailures)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), knowledgeBaseSizeBytes: \(Swift.String(describing: knowledgeBaseSizeBytes)), latestIngestionSummary: \(Swift.String(describing: latestIngestionSummary)), mediaExtractionConfiguration: \(Swift.String(describing: mediaExtractionConfiguration)), name: \(Swift.String(describing: name)), primaryOwnerArn: \(Swift.String(describing: primaryOwnerArn)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), knowledgeBaseConfiguration: \"CONTENT_REDACTED\", primaryOwnerUsername: \"CONTENT_REDACTED\")"}
+}
+
+public struct DescribeKnowledgeBaseOutput: Swift.Sendable {
+    /// The knowledge base.
+    /// This member is required.
+    public var knowledgeBase: QuickSightClientTypes.KnowledgeBase?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int?
+
+    public init(
+        knowledgeBase: QuickSightClientTypes.KnowledgeBase? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int? = nil
+    ) {
+        self.knowledgeBase = knowledgeBase
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct DescribeKnowledgeBasePermissionsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the knowledge base.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The unique identifier for the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.knowledgeBaseId = knowledgeBaseId
+    }
+}
+
+public struct DescribeKnowledgeBasePermissionsOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseArn: Swift.String?
+    /// The unique identifier for the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The resource permissions for the knowledge base.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int?
+
+    public init(
+        knowledgeBaseArn: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int? = nil
+    ) {
+        self.knowledgeBaseArn = knowledgeBaseArn
+        self.knowledgeBaseId = knowledgeBaseId
+        self.permissions = permissions
         self.requestId = requestId
         self.status = status
     }
@@ -41845,6 +43571,242 @@ public struct DescribeSelfUpgradeConfigurationOutput: Swift.Sendable {
         self.requestId = requestId
         self.selfUpgradeConfiguration = selfUpgradeConfiguration
         self.status = status
+    }
+}
+
+public struct DescribeSpaceInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the space.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of contributors to include in the response.
+    public var maxContributors: Swift.Int?
+    /// The ID of the space that you want to describe.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        maxContributors: Swift.Int? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.maxContributors = maxContributors
+        self.spaceId = spaceId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A contributor to an Amazon QuickSight space.
+    public struct SpaceContributor: Swift.Sendable {
+        /// The percentage of total contributions made by the user.
+        public var percentage: Swift.Double?
+        /// The raw file size in bytes contributed by the user.
+        /// This member is required.
+        public var rawFileSizeBytes: Swift.Int?
+        /// The user name of the contributor.
+        public var userName: Swift.String?
+
+        public init(
+            percentage: Swift.Double? = nil,
+            rawFileSizeBytes: Swift.Int? = nil,
+            userName: Swift.String? = nil
+        ) {
+            self.percentage = percentage
+            self.rawFileSizeBytes = rawFileSizeBytes
+            self.userName = userName
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The details of a QuickSight resource in a space.
+    public enum SpaceQuickSightResourceDetails: Swift.Sendable {
+        /// The ARN of the QuickSight resource.
+        case resourcearn(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum SpaceQuickSightResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case actionConnector
+        case dashboard
+        case dataSet
+        case knowledgeBase
+        case topic
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SpaceQuickSightResourceType] {
+            return [
+                .actionConnector,
+                .dashboard,
+                .dataSet,
+                .knowledgeBase,
+                .topic
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .actionConnector: return "ACTION_CONNECTOR"
+            case .dashboard: return "DASHBOARD"
+            case .dataSet: return "DATA_SET"
+            case .knowledgeBase: return "KNOWLEDGE_BASE"
+            case .topic: return "TOPIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A QuickSight resource that is associated with a space.
+    public struct SpaceQuickSightResource: Swift.Sendable {
+        /// The details of the QuickSight resource.
+        /// This member is required.
+        public var resourceDetails: QuickSightClientTypes.SpaceQuickSightResourceDetails?
+        /// The type of the QuickSight resource.
+        /// This member is required.
+        public var resourceType: QuickSightClientTypes.SpaceQuickSightResourceType?
+
+        public init(
+            resourceDetails: QuickSightClientTypes.SpaceQuickSightResourceDetails? = nil,
+            resourceType: QuickSightClientTypes.SpaceQuickSightResourceType? = nil
+        ) {
+            self.resourceDetails = resourceDetails
+            self.resourceType = resourceType
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The details of an Amazon QuickSight space.
+    public struct SpaceDetails: Swift.Sendable {
+        /// The number of consumed source documents.
+        public var consumedSourceDocCount: Swift.Int?
+        /// The total consumed source size in bytes.
+        public var consumedSourceSize: Swift.Int?
+        /// The date and time that the space was created.
+        public var createdAt: Foundation.Date?
+        /// The user who created the space.
+        public var createdBy: Swift.String?
+        /// The ARN of the user who created the space.
+        public var createdByArn: Swift.String?
+        /// The description of the space.
+        public var description: Swift.String?
+        /// The display name of the space.
+        public var name: Swift.String?
+        /// The resources in the space.
+        public var resources: [QuickSightClientTypes.SpaceQuickSightResource]?
+        /// The date and time that the space was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            consumedSourceDocCount: Swift.Int? = nil,
+            consumedSourceSize: Swift.Int? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            createdByArn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            resources: [QuickSightClientTypes.SpaceQuickSightResource]? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.consumedSourceDocCount = consumedSourceDocCount
+            self.consumedSourceSize = consumedSourceSize
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.createdByArn = createdByArn
+            self.description = description
+            self.name = name
+            self.resources = resources
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension QuickSightClientTypes.SpaceDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SpaceDetails(consumedSourceDocCount: \(Swift.String(describing: consumedSourceDocCount)), consumedSourceSize: \(Swift.String(describing: consumedSourceSize)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), createdByArn: \(Swift.String(describing: createdByArn)), name: \(Swift.String(describing: name)), resources: \(Swift.String(describing: resources)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct DescribeSpaceOutput: Swift.Sendable {
+    /// A list of contributors to the space.
+    public var contributors: [QuickSightClientTypes.SpaceContributor]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The details of the space.
+    /// This member is required.
+    public var space: QuickSightClientTypes.SpaceDetails?
+    /// The ARN of the space.
+    public var spaceArn: Swift.String?
+    /// The ID of the space.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        contributors: [QuickSightClientTypes.SpaceContributor]? = nil,
+        requestId: Swift.String? = nil,
+        space: QuickSightClientTypes.SpaceDetails? = nil,
+        spaceArn: Swift.String? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.contributors = contributors
+        self.requestId = requestId
+        self.space = space
+        self.spaceArn = spaceArn
+        self.spaceId = spaceId
+    }
+}
+
+public struct DescribeSpacePermissionsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the space.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the space that you want to describe permissions for.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.spaceId = spaceId
+    }
+}
+
+public struct DescribeSpacePermissionsOutput: Swift.Sendable {
+    /// A list of resource permissions for the space.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The ARN of the space.
+    public var spaceArn: Swift.String?
+    /// The ID of the space.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        requestId: Swift.String? = nil,
+        spaceArn: Swift.String? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.permissions = permissions
+        self.requestId = requestId
+        self.spaceArn = spaceArn
+        self.spaceId = spaceId
     }
 }
 
@@ -43209,6 +45171,54 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// A resource operation that failed.
+    public struct FailedSpaceResourceOperation: Swift.Sendable {
+        /// The error message that describes why the operation failed.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+        /// The details of the resource.
+        public var resourceDetails: QuickSightClientTypes.SpaceQuickSightResourceDetails?
+        /// The type of the resource.
+        /// This member is required.
+        public var resourceType: QuickSightClientTypes.SpaceQuickSightResourceType?
+
+        public init(
+            errorMessage: Swift.String? = nil,
+            resourceDetails: QuickSightClientTypes.SpaceQuickSightResourceDetails? = nil,
+            resourceType: QuickSightClientTypes.SpaceQuickSightResourceType? = nil
+        ) {
+            self.errorMessage = errorMessage
+            self.resourceDetails = resourceDetails
+            self.resourceType = resourceType
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Information about a per-ARN failure when updating agent associations.
+    public struct FailedToUpdateAssociation: Swift.Sendable {
+        /// The ARN that could not be added or removed.
+        public var arn: Swift.String?
+        /// The error code for the failure.
+        public var errorCode: Swift.String?
+        /// A description of the failure.
+        public var errorMessage: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     public enum FieldName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case directQuicksightOwner
         case directQuicksightSoleOwner
@@ -43239,38 +45249,6 @@ extension QuickSightClientTypes {
             case .directQuicksightViewerOrOwner: return "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
             case .flowDescription: return "assetDescription"
             case .flowName: return "assetName"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    public enum FlowPublishState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case draft
-        case pendingApproval
-        case published
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [FlowPublishState] {
-            return [
-                .draft,
-                .pendingApproval,
-                .published
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .draft: return "DRAFT"
-            case .pendingApproval: return "PENDING_APPROVAL"
-            case .published: return "PUBLISHED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -44355,70 +46333,6 @@ public struct GetFlowPermissionsInput: Swift.Sendable {
     }
 }
 
-extension QuickSightClientTypes {
-
-    /// A structure that contains the permission information for one principal against one flow.
-    public struct Permission: Swift.Sendable {
-        /// A list of actions that the principal can perform against the flow. The following are the list of values to set a principal as a flow owner:
-        ///
-        /// * quicksight:PublishFlow
-        ///
-        /// * quicksight:GetFlow
-        ///
-        /// * quicksight:UpdateFlowPermissions
-        ///
-        /// * quicksight:GetFlowSession
-        ///
-        /// * quicksight:StartFlowSession
-        ///
-        /// * quicksight:StopFlowSession
-        ///
-        /// * quicksight:UpdateFlowSession
-        ///
-        /// * quicksight:UnpublishFlow
-        ///
-        /// * quicksight:GetFlowStages
-        ///
-        /// * quicksight:DeleteFlow
-        ///
-        /// * quicksight:DescribeFlowPermissions
-        ///
-        /// * quicksight:UpdateFlow
-        ///
-        /// * quicksight:CreatePresignedUrl
-        ///
-        ///
-        /// The following are the list of values to set a principal as a flow viewer:
-        ///
-        /// * quicksight:GetFlow
-        ///
-        /// * quicksight:UpdateFlowSession
-        ///
-        /// * quicksight:StartFlowSession
-        ///
-        /// * quicksight:StopFlowSession
-        ///
-        /// * quicksight:GetFlowSession
-        ///
-        /// * quicksight:CreatePresignedUrl
-        ///
-        /// * quicksight:GetFlowStages
-        /// This member is required.
-        public var actions: [Swift.String]?
-        /// The Amazon Resource Name (ARN) of the principal. This can be an Amazon Quick user, group or namespace associated with the flow. Namespace principal can only be set as a viewer and will grant everyone in the same namespace viewer permissions.
-        /// This member is required.
-        public var principal: Swift.String?
-
-        public init(
-            actions: [Swift.String]? = nil,
-            principal: Swift.String? = nil
-        ) {
-            self.actions = actions
-            self.principal = principal
-        }
-    }
-}
-
 public struct GetFlowPermissionsOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the flow you are getting permissions against.
     /// This member is required.
@@ -44746,6 +46660,259 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes {
+
+    public enum KnowledgeBaseSearchFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case directQuicksightOwner
+        case directQuicksightSoleOwner
+        case directQuicksightViewerOrOwner
+        case knowledgeBaseId
+        case knowledgeBaseName
+        case knowledgeBaseSizeBytes
+        case primaryOwner
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KnowledgeBaseSearchFilterName] {
+            return [
+                .directQuicksightOwner,
+                .directQuicksightSoleOwner,
+                .directQuicksightViewerOrOwner,
+                .knowledgeBaseId,
+                .knowledgeBaseName,
+                .knowledgeBaseSizeBytes,
+                .primaryOwner
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .directQuicksightOwner: return "DIRECT_QUICKSIGHT_OWNER"
+            case .directQuicksightSoleOwner: return "DIRECT_QUICKSIGHT_SOLE_OWNER"
+            case .directQuicksightViewerOrOwner: return "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+            case .knowledgeBaseId: return "KNOWLEDGE_BASE_ID"
+            case .knowledgeBaseName: return "KNOWLEDGE_BASE_NAME"
+            case .knowledgeBaseSizeBytes: return "KNOWLEDGE_BASE_SIZE_BYTES"
+            case .primaryOwner: return "PRIMARY_OWNER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum KnowledgeBaseSearchOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case greaterThanOrEquals
+        case lessThanOrEquals
+        case stringEquals
+        case stringLike
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KnowledgeBaseSearchOperator] {
+            return [
+                .greaterThanOrEquals,
+                .lessThanOrEquals,
+                .stringEquals,
+                .stringLike
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .greaterThanOrEquals: return "GREATER_THAN_OR_EQUALS"
+            case .lessThanOrEquals: return "LESS_THAN_OR_EQUALS"
+            case .stringEquals: return "STRING_EQUALS"
+            case .stringLike: return "STRING_LIKE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A filter to apply when searching knowledge bases.
+    public struct KnowledgeBaseSearchFilter: Swift.Sendable {
+        /// The name of the field to filter on.
+        /// This member is required.
+        public var name: QuickSightClientTypes.KnowledgeBaseSearchFilterName?
+        /// The comparison operator to use for the filter.
+        /// This member is required.
+        public var `operator`: QuickSightClientTypes.KnowledgeBaseSearchOperator?
+        /// The value to filter on.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: QuickSightClientTypes.KnowledgeBaseSearchFilterName? = nil,
+            `operator`: QuickSightClientTypes.KnowledgeBaseSearchOperator? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum KnowledgeBaseSortByField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createdAt
+        case knowledgeBaseSizeBytes
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KnowledgeBaseSortByField] {
+            return [
+                .createdAt,
+                .knowledgeBaseSizeBytes
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createdAt: return "CREATED_AT"
+            case .knowledgeBaseSizeBytes: return "KNOWLEDGE_BASE_SIZE_BYTES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .asc,
+                .desc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "ASC"
+            case .desc: return "DESC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The sort configuration for searching knowledge bases.
+    public struct KnowledgeBaseSortBy: Swift.Sendable {
+        /// The field to sort by.
+        /// This member is required.
+        public var sortByField: QuickSightClientTypes.KnowledgeBaseSortByField?
+        /// The sort order (ascending or descending).
+        /// This member is required.
+        public var sortOrder: QuickSightClientTypes.SortOrder?
+
+        public init(
+            sortByField: QuickSightClientTypes.KnowledgeBaseSortByField? = nil,
+            sortOrder: QuickSightClientTypes.SortOrder? = nil
+        ) {
+            self.sortByField = sortByField
+            self.sortOrder = sortOrder
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A summary of a knowledge base, including its identifier, name, status, and metadata.
+    public struct KnowledgeBaseSummary: Swift.Sendable {
+        /// The date and time that the knowledge base was created.
+        public var createdAt: Foundation.Date?
+        /// The ARN of the data source associated with the knowledge base.
+        /// This member is required.
+        public var dataSourceArn: Swift.String?
+        /// The number of documents in the knowledge base.
+        public var documentCount: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        /// This member is required.
+        public var knowledgeBaseArn: Swift.String?
+        /// The unique identifier for the knowledge base.
+        /// This member is required.
+        public var knowledgeBaseId: Swift.String?
+        /// The size of the knowledge base in bytes.
+        public var knowledgeBaseSizeBytes: Swift.Int?
+        /// The name of the knowledge base.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The ARN of the primary owner of the knowledge base.
+        public var primaryOwnerArn: Swift.String?
+        /// The username of the primary owner of the knowledge base.
+        public var primaryOwnerUsername: Swift.String?
+        /// The status of the knowledge base.
+        /// This member is required.
+        public var status: QuickSightClientTypes.DataSetStatus?
+        /// The type of the knowledge base.
+        public var type: Swift.String?
+        /// The date and time that the knowledge base was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            dataSourceArn: Swift.String? = nil,
+            documentCount: Swift.Int? = nil,
+            knowledgeBaseArn: Swift.String? = nil,
+            knowledgeBaseId: Swift.String? = nil,
+            knowledgeBaseSizeBytes: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            primaryOwnerArn: Swift.String? = nil,
+            primaryOwnerUsername: Swift.String? = nil,
+            status: QuickSightClientTypes.DataSetStatus? = nil,
+            type: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.dataSourceArn = dataSourceArn
+            self.documentCount = documentCount
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.knowledgeBaseSizeBytes = knowledgeBaseSizeBytes
+            self.name = name
+            self.primaryOwnerArn = primaryOwnerArn
+            self.primaryOwnerUsername = primaryOwnerUsername
+            self.status = status
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension QuickSightClientTypes.KnowledgeBaseSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "KnowledgeBaseSummary(createdAt: \(Swift.String(describing: createdAt)), dataSourceArn: \(Swift.String(describing: dataSourceArn)), documentCount: \(Swift.String(describing: documentCount)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), knowledgeBaseSizeBytes: \(Swift.String(describing: knowledgeBaseSizeBytes)), name: \(Swift.String(describing: name)), primaryOwnerArn: \(Swift.String(describing: primaryOwnerArn)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), primaryOwnerUsername: \"CONTENT_REDACTED\")"}
+}
+
 public struct ListActionConnectorsInput: Swift.Sendable {
     /// The Amazon Web Services account ID for which to list action connectors.
     /// This member is required.
@@ -44787,6 +46954,46 @@ public struct ListActionConnectorsOutput: Swift.Sendable {
         self.nextToken = nextToken
         self.requestId = requestId
         self.status = status
+    }
+}
+
+public struct ListAgentsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the agents.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAgentsOutput: Swift.Sendable {
+    /// A list of agent summaries.
+    /// This member is required.
+    public var agentSummaries: [QuickSightClientTypes.AgentSummary]?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        agentSummaries: [QuickSightClientTypes.AgentSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.agentSummaries = agentSummaries
+        self.nextToken = nextToken
+        self.requestId = requestId
     }
 }
 
@@ -45573,7 +47780,7 @@ public struct ListIdentityPropagationConfigsInput: Swift.Sendable {
 
     public init(
         awsAccountId: Swift.String? = nil,
-        maxResults: Swift.Int? = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.awsAccountId = awsAccountId
@@ -45647,6 +47854,50 @@ public struct ListIngestionsOutput: Swift.Sendable {
         status: Swift.Int = 0
     ) {
         self.ingestions = ingestions
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct ListKnowledgeBasesInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the knowledge base.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListKnowledgeBasesOutput: Swift.Sendable {
+    /// A list of knowledge base summaries.
+    /// This member is required.
+    public var knowledgeBaseSummaries: [QuickSightClientTypes.KnowledgeBaseSummary]?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int?
+
+    public init(
+        knowledgeBaseSummaries: [QuickSightClientTypes.KnowledgeBaseSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int? = nil
+    ) {
+        self.knowledgeBaseSummaries = knowledgeBaseSummaries
         self.nextToken = nextToken
         self.requestId = requestId
         self.status = status
@@ -46001,6 +48252,187 @@ public struct ListSelfUpgradesOutput: Swift.Sendable {
         self.requestId = requestId
         self.selfUpgradeRequestDetails = selfUpgradeRequestDetails
         self.status = status
+    }
+}
+
+public struct ListSpaceResourcesInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the space.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the space that you want to list resources for.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.spaceId = spaceId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A summary of a resource in a space.
+    public struct SpaceResourceSummary: Swift.Sendable {
+        /// The details of the resource.
+        /// This member is required.
+        public var resourceDetails: QuickSightClientTypes.SpaceQuickSightResourceDetails?
+        /// The name of the resource.
+        public var resourceName: Swift.String?
+        /// The type of the resource.
+        /// This member is required.
+        public var resourceType: QuickSightClientTypes.SpaceQuickSightResourceType?
+        /// The date and time that the resource was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            resourceDetails: QuickSightClientTypes.SpaceQuickSightResourceDetails? = nil,
+            resourceName: Swift.String? = nil,
+            resourceType: QuickSightClientTypes.SpaceQuickSightResourceType? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.resourceDetails = resourceDetails
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListSpaceResourcesOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The ARN of the space.
+    public var spaceArn: Swift.String?
+    /// The ID of the space.
+    /// This member is required.
+    public var spaceId: Swift.String?
+    /// A list of resource summaries in the space.
+    /// This member is required.
+    public var spaceResources: [QuickSightClientTypes.SpaceResourceSummary]?
+
+    public init(
+        requestId: Swift.String? = nil,
+        spaceArn: Swift.String? = nil,
+        spaceId: Swift.String? = nil,
+        spaceResources: [QuickSightClientTypes.SpaceResourceSummary]? = nil
+    ) {
+        self.requestId = requestId
+        self.spaceArn = spaceArn
+        self.spaceId = spaceId
+        self.spaceResources = spaceResources
+    }
+}
+
+public struct ListSpacesInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the spaces.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A summary of an Amazon QuickSight space.
+    public struct SpaceSummary: Swift.Sendable {
+        /// The number of consumed source documents.
+        public var consumedSourceDocCount: Swift.Int?
+        /// The total consumed source size in bytes.
+        public var consumedSourceSize: Swift.Int?
+        /// The date and time that the space was created.
+        public var createdAt: Foundation.Date?
+        /// The user who created the space.
+        public var createdBy: Swift.String?
+        /// The ARN of the user who created the space.
+        public var createdByArn: Swift.String?
+        /// The description of the space.
+        public var description: Swift.String?
+        /// The display name of the space.
+        public var name: Swift.String?
+        /// The number of resources in the space.
+        public var resourcesCount: Swift.Int?
+        /// The ARN of the space.
+        public var spaceArn: Swift.String?
+        /// The ID of the space.
+        /// This member is required.
+        public var spaceId: Swift.String?
+        /// The date and time that the space was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            consumedSourceDocCount: Swift.Int? = nil,
+            consumedSourceSize: Swift.Int? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            createdByArn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            resourcesCount: Swift.Int? = nil,
+            spaceArn: Swift.String? = nil,
+            spaceId: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.consumedSourceDocCount = consumedSourceDocCount
+            self.consumedSourceSize = consumedSourceSize
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.createdByArn = createdByArn
+            self.description = description
+            self.name = name
+            self.resourcesCount = resourcesCount
+            self.spaceArn = spaceArn
+            self.spaceId = spaceId
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension QuickSightClientTypes.SpaceSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SpaceSummary(consumedSourceDocCount: \(Swift.String(describing: consumedSourceDocCount)), consumedSourceSize: \(Swift.String(describing: consumedSourceSize)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), createdByArn: \(Swift.String(describing: createdByArn)), name: \(Swift.String(describing: name)), resourcesCount: \(Swift.String(describing: resourcesCount)), spaceArn: \(Swift.String(describing: spaceArn)), spaceId: \(Swift.String(describing: spaceId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListSpacesOutput: Swift.Sendable {
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The ARN of the space.
+    public var spaceArn: Swift.String?
+    /// The ID of the space.
+    /// This member is required.
+    public var spaceId: Swift.String?
+    /// A list of space summaries.
+    /// This member is required.
+    public var spaceSummaries: [QuickSightClientTypes.SpaceSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        spaceArn: Swift.String? = nil,
+        spaceId: Swift.String? = nil,
+        spaceSummaries: [QuickSightClientTypes.SpaceSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.spaceArn = spaceArn
+        self.spaceId = spaceId
+        self.spaceSummaries = spaceSummaries
     }
 }
 
@@ -46714,6 +49146,193 @@ public struct ListUsersOutput: Swift.Sendable {
     }
 }
 
+extension QuickSightClientTypes {
+
+    /// A filter that matches users by username or email prefix.
+    public struct UserNameOrEmailFilter: Swift.Sendable {
+        /// The prefix to match against username or email (starts-with match).
+        /// This member is required.
+        public var `prefix`: Swift.String?
+
+        public init(
+            `prefix`: Swift.String? = nil
+        ) {
+            self.`prefix` = `prefix`
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A filter for user index capacity queries. Only one filter type can be specified per request.
+    public enum UserIndexCapacityFilter: Swift.Sendable {
+        /// Filter users by username or email prefix.
+        case usernameoremail(QuickSightClientTypes.UserNameOrEmailFilter)
+        /// Filter users by total capacity range in bytes.
+        case totalcapacitybytes(QuickSightClientTypes.CapacityBytesRangeFilter)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The field to sort user index capacity results by.
+    public enum UserIndexCapacitySortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case totalCapacityBytes
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UserIndexCapacitySortBy] {
+            return [
+                .totalCapacityBytes
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .totalCapacityBytes: return "TOTAL_CAPACITY_BYTES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The sort order for user index capacity results.
+    public enum UserIndexCapacitySortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UserIndexCapacitySortOrder] {
+            return [
+                .asc,
+                .desc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "ASC"
+            case .desc: return "DESC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListUsersIndexCapacityInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the index capacity data.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// Filters to apply. Only one filter is supported per request. The userNameOrEmail and totalCapacityBytes filters are mutually exclusive.
+    public var filters: [QuickSightClientTypes.UserIndexCapacityFilter]?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The namespace to scope the user search to. Required when the userNameOrEmail filter is present.
+    public var namespace: Swift.String?
+    /// The token for the next set of results, received from a previous call.
+    public var nextToken: Swift.String?
+    /// The field to sort results by.
+    public var sortBy: QuickSightClientTypes.UserIndexCapacitySortBy?
+    /// The sort order for results. Defaults to DESC if not specified.
+    public var sortOrder: QuickSightClientTypes.UserIndexCapacitySortOrder?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        filters: [QuickSightClientTypes.UserIndexCapacityFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        namespace: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: QuickSightClientTypes.UserIndexCapacitySortBy? = nil,
+        sortOrder: QuickSightClientTypes.UserIndexCapacitySortOrder? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.filters = filters
+        self.maxResults = maxResults
+        self.namespace = namespace
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A summary of a user's index capacity consumption.
+    public struct UserIndexCapacity: Swift.Sendable {
+        /// The email address of the user.
+        public var email: Swift.String?
+        /// The number of knowledge bases owned by the user.
+        public var kbCount: Swift.Int?
+        /// The role of the user.
+        public var role: Swift.String?
+        /// The number of spaces owned by the user.
+        public var spaceCount: Swift.Int?
+        /// The total index capacity consumed by the user in bytes.
+        public var totalCapacityBytes: Swift.Int?
+        /// The total index capacity consumed by the user's knowledge bases in bytes.
+        public var totalKBCapacityBytes: Swift.Int?
+        /// The total index capacity consumed by the user's spaces in bytes.
+        public var totalSpaceCapacityBytes: Swift.Int?
+        /// The ARN of the user.
+        public var userArn: Swift.String?
+        /// The username of the user.
+        public var userName: Swift.String?
+
+        public init(
+            email: Swift.String? = nil,
+            kbCount: Swift.Int? = nil,
+            role: Swift.String? = nil,
+            spaceCount: Swift.Int? = nil,
+            totalCapacityBytes: Swift.Int? = nil,
+            totalKBCapacityBytes: Swift.Int? = nil,
+            totalSpaceCapacityBytes: Swift.Int? = nil,
+            userArn: Swift.String? = nil,
+            userName: Swift.String? = nil
+        ) {
+            self.email = email
+            self.kbCount = kbCount
+            self.role = role
+            self.spaceCount = spaceCount
+            self.totalCapacityBytes = totalCapacityBytes
+            self.totalKBCapacityBytes = totalKBCapacityBytes
+            self.totalSpaceCapacityBytes = totalSpaceCapacityBytes
+            self.userArn = userArn
+            self.userName = userName
+        }
+    }
+}
+
+public struct ListUsersIndexCapacityOutput: Swift.Sendable {
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The list of users with their index capacity metrics.
+    public var users: [QuickSightClientTypes.UserIndexCapacity]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        users: [QuickSightClientTypes.UserIndexCapacity]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.users = users
+    }
+}
+
 public struct ListVPCConnectionsInput: Swift.Sendable {
     /// The Amazon Web Services account ID of the account that contains the VPC connections that you want to list.
     /// This member is required.
@@ -47208,6 +49827,50 @@ public struct SearchActionConnectorsOutput: Swift.Sendable {
     }
 }
 
+public struct SearchAgentsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the agents.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The filters to apply when searching agents.
+    /// This member is required.
+    public var filters: [QuickSightClientTypes.AgentSearchFilter]?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        filters: [QuickSightClientTypes.AgentSearchFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct SearchAgentsOutput: Swift.Sendable {
+    /// A list of agent summaries.
+    public var agentSummaries: [QuickSightClientTypes.AgentSummary]?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        agentSummaries: [QuickSightClientTypes.AgentSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.agentSummaries = agentSummaries
+        self.nextToken = nextToken
+        self.requestId = requestId
+    }
+}
+
 public struct SearchAnalysesInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the analyses that you're searching for.
     /// This member is required.
@@ -47612,6 +50275,217 @@ public struct SearchGroupsOutput: Swift.Sendable {
         self.nextToken = nextToken
         self.requestId = requestId
         self.status = status
+    }
+}
+
+public struct SearchKnowledgeBasesInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the knowledge base.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The filters to apply when searching knowledge bases.
+    public var filters: [QuickSightClientTypes.KnowledgeBaseSearchFilter]?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The sort configuration for the search results.
+    public var sortBy: QuickSightClientTypes.KnowledgeBaseSortBy?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        filters: [QuickSightClientTypes.KnowledgeBaseSearchFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: QuickSightClientTypes.KnowledgeBaseSortBy? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+    }
+}
+
+public struct SearchKnowledgeBasesOutput: Swift.Sendable {
+    /// A list of knowledge base summaries.
+    /// This member is required.
+    public var knowledgeBaseSummaries: [QuickSightClientTypes.KnowledgeBaseSummary]?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int?
+
+    public init(
+        knowledgeBaseSummaries: [QuickSightClientTypes.KnowledgeBaseSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int? = nil
+    ) {
+        self.knowledgeBaseSummaries = knowledgeBaseSummaries
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum SpaceQuickSightSearchFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case consumedSourceSize
+        case contributedBy
+        case createdBy
+        case directQuicksightOwner
+        case directQuicksightSoleOwner
+        case directQuicksightViewerOrOwner
+        case spaceId
+        case spaceName
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SpaceQuickSightSearchFilterName] {
+            return [
+                .consumedSourceSize,
+                .contributedBy,
+                .createdBy,
+                .directQuicksightOwner,
+                .directQuicksightSoleOwner,
+                .directQuicksightViewerOrOwner,
+                .spaceId,
+                .spaceName
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .consumedSourceSize: return "CONSUMED_SOURCE_SIZE"
+            case .contributedBy: return "CONTRIBUTED_BY"
+            case .createdBy: return "CREATED_BY"
+            case .directQuicksightOwner: return "DIRECT_QUICKSIGHT_OWNER"
+            case .directQuicksightSoleOwner: return "DIRECT_QUICKSIGHT_SOLE_OWNER"
+            case .directQuicksightViewerOrOwner: return "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+            case .spaceId: return "SPACE_ID"
+            case .spaceName: return "SPACE_NAME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum SpaceSearchOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case numberRange
+        case stringEquals
+        case stringLike
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SpaceSearchOperator] {
+            return [
+                .numberRange,
+                .stringEquals,
+                .stringLike
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .numberRange: return "NUMBER_RANGE"
+            case .stringEquals: return "STRING_EQUALS"
+            case .stringLike: return "STRING_LIKE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A filter to use when searching for spaces.
+    public struct SpaceQuicksightSearchFilter: Swift.Sendable {
+        /// The name of the filter field to use.
+        /// This member is required.
+        public var name: QuickSightClientTypes.SpaceQuickSightSearchFilterName?
+        /// The comparison operator to use for the filter.
+        /// This member is required.
+        public var `operator`: QuickSightClientTypes.SpaceSearchOperator?
+        /// The value to use for the filter.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: QuickSightClientTypes.SpaceQuickSightSearchFilterName? = nil,
+            `operator`: QuickSightClientTypes.SpaceSearchOperator? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+    }
+}
+
+public struct SearchSpacesInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the spaces.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The filters to apply to the search.
+    /// This member is required.
+    public var filters: [QuickSightClientTypes.SpaceQuicksightSearchFilter]?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        filters: [QuickSightClientTypes.SpaceQuicksightSearchFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct SearchSpacesOutput: Swift.Sendable {
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The ARN of the space.
+    public var spaceArn: Swift.String?
+    /// The ID of the space.
+    /// This member is required.
+    public var spaceId: Swift.String?
+    /// A list of space summaries that match the search criteria.
+    /// This member is required.
+    public var spaceSummaries: [QuickSightClientTypes.SpaceSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        spaceArn: Swift.String? = nil,
+        spaceId: Swift.String? = nil,
+        spaceSummaries: [QuickSightClientTypes.SpaceSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.spaceArn = spaceArn
+        self.spaceId = spaceId
+        self.spaceSummaries = spaceSummaries
     }
 }
 
@@ -48403,6 +51277,161 @@ public struct UpdateActionConnectorPermissionsOutput: Swift.Sendable {
         self.permissions = permissions
         self.requestId = requestId
         self.status = status
+    }
+}
+
+public struct UpdateAgentInput: Swift.Sendable {
+    /// The Amazon Resource Names (ARNs) of the action connectors to attach to the agent.
+    public var actionConnectorsToAdd: [Swift.String]?
+    /// The Amazon Resource Names (ARNs) of the action connectors to detach from the agent.
+    public var actionConnectorsToRemove: [Swift.String]?
+    /// The unique identifier for the agent to update.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// The ID of the Amazon Web Services account that contains the agent.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The custom prompt configuration for the agent.
+    public var customPromptInput: QuickSightClientTypes.CustomPromptInput?
+    /// A description of the agent.
+    public var description: Swift.String?
+    /// The icon identifier for the agent.
+    public var iconId: Swift.String?
+    /// The name of the agent.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Names (ARNs) of the spaces to attach to the agent.
+    public var spacesToAdd: [Swift.String]?
+    /// The Amazon Resource Names (ARNs) of the spaces to detach from the agent.
+    public var spacesToRemove: [Swift.String]?
+    /// A list of starter prompts that are displayed to users when they begin interacting with the agent.
+    public var starterPrompts: [Swift.String]?
+    /// The welcome message that is displayed when a user starts a conversation with the agent.
+    public var welcomeMessage: Swift.String?
+
+    public init(
+        actionConnectorsToAdd: [Swift.String]? = nil,
+        actionConnectorsToRemove: [Swift.String]? = nil,
+        agentId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil,
+        customPromptInput: QuickSightClientTypes.CustomPromptInput? = nil,
+        description: Swift.String? = nil,
+        iconId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        spacesToAdd: [Swift.String]? = nil,
+        spacesToRemove: [Swift.String]? = nil,
+        starterPrompts: [Swift.String]? = nil,
+        welcomeMessage: Swift.String? = nil
+    ) {
+        self.actionConnectorsToAdd = actionConnectorsToAdd
+        self.actionConnectorsToRemove = actionConnectorsToRemove
+        self.agentId = agentId
+        self.awsAccountId = awsAccountId
+        self.customPromptInput = customPromptInput
+        self.description = description
+        self.iconId = iconId
+        self.name = name
+        self.spacesToAdd = spacesToAdd
+        self.spacesToRemove = spacesToRemove
+        self.starterPrompts = starterPrompts
+        self.welcomeMessage = welcomeMessage
+    }
+}
+
+extension UpdateAgentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateAgentInput(actionConnectorsToAdd: \(Swift.String(describing: actionConnectorsToAdd)), actionConnectorsToRemove: \(Swift.String(describing: actionConnectorsToRemove)), agentId: \(Swift.String(describing: agentId)), awsAccountId: \(Swift.String(describing: awsAccountId)), description: \(Swift.String(describing: description)), iconId: \(Swift.String(describing: iconId)), name: \(Swift.String(describing: name)), spacesToAdd: \(Swift.String(describing: spacesToAdd)), spacesToRemove: \(Swift.String(describing: spacesToRemove)), customPromptInput: \"CONTENT_REDACTED\", starterPrompts: \"CONTENT_REDACTED\", welcomeMessage: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateAgentOutput: Swift.Sendable {
+    /// The unique identifier for the agent.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// The status of the agent.
+    /// This member is required.
+    public var agentStatus: QuickSightClientTypes.AgentStatus?
+    /// The Amazon Resource Name (ARN) of the agent.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// A list of per-ARN failures from the action connectors that were requested to be added.
+    public var failedToAddActionConnectors: [QuickSightClientTypes.FailedToUpdateAssociation]?
+    /// A list of per-ARN failures from the spaces that were requested to be added.
+    public var failedToAddSpaces: [QuickSightClientTypes.FailedToUpdateAssociation]?
+    /// A list of per-ARN failures from the action connectors that were requested to be removed.
+    public var failedToRemoveActionConnectors: [QuickSightClientTypes.FailedToUpdateAssociation]?
+    /// A list of per-ARN failures from the spaces that were requested to be removed.
+    public var failedToRemoveSpaces: [QuickSightClientTypes.FailedToUpdateAssociation]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        agentId: Swift.String? = nil,
+        agentStatus: QuickSightClientTypes.AgentStatus? = nil,
+        arn: Swift.String? = nil,
+        failedToAddActionConnectors: [QuickSightClientTypes.FailedToUpdateAssociation]? = nil,
+        failedToAddSpaces: [QuickSightClientTypes.FailedToUpdateAssociation]? = nil,
+        failedToRemoveActionConnectors: [QuickSightClientTypes.FailedToUpdateAssociation]? = nil,
+        failedToRemoveSpaces: [QuickSightClientTypes.FailedToUpdateAssociation]? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.agentId = agentId
+        self.agentStatus = agentStatus
+        self.arn = arn
+        self.failedToAddActionConnectors = failedToAddActionConnectors
+        self.failedToAddSpaces = failedToAddSpaces
+        self.failedToRemoveActionConnectors = failedToRemoveActionConnectors
+        self.failedToRemoveSpaces = failedToRemoveSpaces
+        self.requestId = requestId
+    }
+}
+
+public struct UpdateAgentPermissionsInput: Swift.Sendable {
+    /// The unique identifier for the agent.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// The ID of the Amazon Web Services account that contains the agent.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The resource permissions that you want to grant on the agent.
+    public var grantPermissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The resource permissions that you want to revoke from the agent.
+    public var revokePermissions: [QuickSightClientTypes.ResourcePermission]?
+
+    public init(
+        agentId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil,
+        grantPermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        revokePermissions: [QuickSightClientTypes.ResourcePermission]? = nil
+    ) {
+        self.agentId = agentId
+        self.awsAccountId = awsAccountId
+        self.grantPermissions = grantPermissions
+        self.revokePermissions = revokePermissions
+    }
+}
+
+public struct UpdateAgentPermissionsOutput: Swift.Sendable {
+    /// The unique identifier for the agent.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the agent.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The resource permissions for the agent.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        agentId: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.agentId = agentId
+        self.arn = arn
+        self.permissions = permissions
+        self.requestId = requestId
     }
 }
 
@@ -49303,6 +52332,69 @@ public struct UpdateDefaultQBusinessApplicationOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateFlowInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the flow that you are updating.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// Updated description for the flow. Omit to preserve the existing description.
+    public var description: Swift.String?
+    /// The definition of the flow, specifying the steps and configurations. This is the flow definition in Quick Flow's internal format. The format is subject to change. When provided, all existing steps are replaced. Omit to preserve the existing definition. Always derive or depend on the flow definition from the DescribeFlow operation to ensure you are working with the latest format.
+    public var flowDefinition: Smithy.Document?
+    /// The unique identifier of the flow to update.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// Updated display name for the flow. Omit to preserve the existing name.
+    public var name: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        flowDefinition: Smithy.Document? = nil,
+        flowId: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.clientToken = clientToken
+        self.description = description
+        self.flowDefinition = flowDefinition
+        self.flowId = flowId
+        self.name = name
+    }
+}
+
+extension UpdateFlowInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateFlowInput(awsAccountId: \(Swift.String(describing: awsAccountId)), clientToken: \(Swift.String(describing: clientToken)), description: \(Swift.String(describing: description)), flowId: \(Swift.String(describing: flowId)), name: \(Swift.String(describing: name)), flowDefinition: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateFlowOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the flow.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The unique identifier of the flow.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        arn: Swift.String? = nil,
+        flowId: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.arn = arn
+        self.flowId = flowId
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct UpdateFlowPermissionsInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the flow you are updating permissions against.
     /// This member is required.
@@ -49722,6 +52814,60 @@ public struct UpdateKeyRegistrationOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateKnowledgeBasePermissionsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the knowledge base.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The resource permissions that you want to grant on the knowledge base.
+    public var grantPermissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The unique identifier for the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The resource permissions that you want to revoke from the knowledge base.
+    public var revokePermissions: [QuickSightClientTypes.ResourcePermission]?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        grantPermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        revokePermissions: [QuickSightClientTypes.ResourcePermission]? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.grantPermissions = grantPermissions
+        self.knowledgeBaseId = knowledgeBaseId
+        self.revokePermissions = revokePermissions
+    }
+}
+
+public struct UpdateKnowledgeBasePermissionsOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseArn: Swift.String?
+    /// The unique identifier for the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The resource permissions for the knowledge base.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int?
+
+    public init(
+        knowledgeBaseArn: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int? = nil
+    ) {
+        self.knowledgeBaseArn = knowledgeBaseArn
+        self.knowledgeBaseId = knowledgeBaseId
+        self.permissions = permissions
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct UpdateOAuthClientApplicationInput: Swift.Sendable {
     /// The Amazon Web Services account ID.
     /// This member is required.
@@ -50106,6 +53252,175 @@ public struct UpdateSelfUpgradeConfigurationOutput: Swift.Sendable {
     ) {
         self.requestId = requestId
         self.status = status
+    }
+}
+
+public struct UpdateSpaceInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the space.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// A new description for the space.
+    public var description: Swift.String?
+    /// A new display name for the space.
+    public var name: Swift.String?
+    /// The ID of the space that you want to update.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.description = description
+        self.name = name
+        self.spaceId = spaceId
+    }
+}
+
+extension UpdateSpaceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateSpaceInput(awsAccountId: \(Swift.String(describing: awsAccountId)), name: \(Swift.String(describing: name)), spaceId: \(Swift.String(describing: spaceId)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateSpaceOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The ARN of the space.
+    public var spaceArn: Swift.String?
+    /// The ID of the space.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        requestId: Swift.String? = nil,
+        spaceArn: Swift.String? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.requestId = requestId
+        self.spaceArn = spaceArn
+        self.spaceId = spaceId
+    }
+}
+
+public struct UpdateSpacePermissionsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the space.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The permissions that you want to grant on the space.
+    public var grantPermissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The permissions that you want to revoke from the space.
+    public var revokePermissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The ID of the space that you want to update permissions for.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        grantPermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        revokePermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.grantPermissions = grantPermissions
+        self.revokePermissions = revokePermissions
+        self.spaceId = spaceId
+    }
+}
+
+public struct UpdateSpacePermissionsOutput: Swift.Sendable {
+    /// The updated permissions for the space.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The ARN of the space.
+    public var spaceArn: Swift.String?
+    /// The ID of the space.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        requestId: Swift.String? = nil,
+        spaceArn: Swift.String? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.permissions = permissions
+        self.requestId = requestId
+        self.spaceArn = spaceArn
+        self.spaceId = spaceId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// An operation to perform on a resource in a space.
+    public struct SpaceResourceOperation: Swift.Sendable {
+        /// The details of the resource.
+        /// This member is required.
+        public var resourceDetails: QuickSightClientTypes.SpaceQuickSightResourceDetails?
+        /// The type of the resource.
+        /// This member is required.
+        public var resourceType: QuickSightClientTypes.SpaceQuickSightResourceType?
+
+        public init(
+            resourceDetails: QuickSightClientTypes.SpaceQuickSightResourceDetails? = nil,
+            resourceType: QuickSightClientTypes.SpaceQuickSightResourceType? = nil
+        ) {
+            self.resourceDetails = resourceDetails
+            self.resourceType = resourceType
+        }
+    }
+}
+
+public struct UpdateSpaceResourcesInput: Swift.Sendable {
+    /// A list of resources to add to the space.
+    public var addResources: [QuickSightClientTypes.SpaceResourceOperation]?
+    /// The ID of the Amazon Web Services account that contains the space.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// A list of resources to remove from the space.
+    public var removeResources: [QuickSightClientTypes.SpaceResourceOperation]?
+    /// The ID of the space that you want to update resources for.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        addResources: [QuickSightClientTypes.SpaceResourceOperation]? = nil,
+        awsAccountId: Swift.String? = nil,
+        removeResources: [QuickSightClientTypes.SpaceResourceOperation]? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.addResources = addResources
+        self.awsAccountId = awsAccountId
+        self.removeResources = removeResources
+        self.spaceId = spaceId
+    }
+}
+
+public struct UpdateSpaceResourcesOutput: Swift.Sendable {
+    /// A list of resource operations that failed.
+    public var failedResourceOperations: [QuickSightClientTypes.FailedSpaceResourceOperation]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The ARN of the space.
+    public var spaceArn: Swift.String?
+    /// The ID of the space.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        failedResourceOperations: [QuickSightClientTypes.FailedSpaceResourceOperation]? = nil,
+        requestId: Swift.String? = nil,
+        spaceArn: Swift.String? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.failedResourceOperations = failedResourceOperations
+        self.requestId = requestId
+        self.spaceArn = spaceArn
+        self.spaceId = spaceId
     }
 }
 
@@ -51019,6 +54334,16 @@ extension BatchCreateTopicReviewedAnswerInput {
     }
 }
 
+extension BatchDeleteKnowledgeBaseInput {
+
+    static func urlPathProvider(_ value: BatchDeleteKnowledgeBaseInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/knowledge-bases/batch-delete"
+    }
+}
+
 extension BatchDeleteTopicReviewedAnswerInput {
 
     static func urlPathProvider(_ value: BatchDeleteTopicReviewedAnswerInput) -> Swift.String? {
@@ -51090,6 +54415,16 @@ extension CreateActionConnectorInput {
     }
 }
 
+extension CreateAgentInput {
+
+    static func urlPathProvider(_ value: CreateAgentInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/agents"
+    }
+}
+
 extension CreateAnalysisInput {
 
     static func urlPathProvider(_ value: CreateAnalysisInput) -> Swift.String? {
@@ -51156,6 +54491,16 @@ extension CreateDataSourceInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sources"
+    }
+}
+
+extension CreateFlowInput {
+
+    static func urlPathProvider(_ value: CreateFlowInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/flows"
     }
 }
 
@@ -51304,6 +54649,16 @@ extension CreateRoleMembershipInput {
     }
 }
 
+extension CreateSpaceInput {
+
+    static func urlPathProvider(_ value: CreateSpaceInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/spaces"
+    }
+}
+
 extension CreateTemplateInput {
 
     static func urlPathProvider(_ value: CreateTemplateInput) -> Swift.String? {
@@ -51447,6 +54802,19 @@ extension DeleteActionConnectorInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/action-connectors/\(actionConnectorId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteAgentInput {
+
+    static func urlPathProvider(_ value: DeleteAgentInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let agentId = value.agentId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/agents/\(agentId.urlPercentEncoding())"
     }
 }
 
@@ -51601,6 +54969,19 @@ extension DeleteDefaultQBusinessApplicationInput {
     }
 }
 
+extension DeleteFlowInput {
+
+    static func urlPathProvider(_ value: DeleteFlowInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let flowId = value.flowId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/flows/\(flowId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteFolderInput {
 
     static func urlPathProvider(_ value: DeleteFolderInput) -> Swift.String? {
@@ -51697,6 +55078,19 @@ extension DeleteIdentityPropagationConfigInput {
     }
 }
 
+extension DeleteKnowledgeBaseInput {
+
+    static func urlPathProvider(_ value: DeleteKnowledgeBaseInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/knowledge-bases/\(knowledgeBaseId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteNamespaceInput {
 
     static func urlPathProvider(_ value: DeleteNamespaceInput) -> Swift.String? {
@@ -51771,6 +55165,19 @@ extension DeleteRoleMembershipInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/roles/\(role.rawValue.urlPercentEncoding())/members/\(memberName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteSpaceInput {
+
+    static func urlPathProvider(_ value: DeleteSpaceInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let spaceId = value.spaceId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/spaces/\(spaceId.urlPercentEncoding())"
     }
 }
 
@@ -52025,6 +55432,32 @@ extension DescribeActionConnectorPermissionsInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/action-connectors/\(actionConnectorId.urlPercentEncoding())/permissions"
+    }
+}
+
+extension DescribeAgentInput {
+
+    static func urlPathProvider(_ value: DescribeAgentInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let agentId = value.agentId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/agents/\(agentId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeAgentPermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeAgentPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let agentId = value.agentId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/agents/\(agentId.urlPercentEncoding())/permissions"
     }
 }
 
@@ -52389,6 +55822,33 @@ extension DescribeDefaultQBusinessApplicationInput {
     }
 }
 
+extension DescribeFlowInput {
+
+    static func urlPathProvider(_ value: DescribeFlowInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let flowId = value.flowId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/flows/\(flowId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeFlowInput {
+
+    static func queryItemProvider(_ value: DescribeFlowInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let publishState = value.publishState else {
+            let message = "Creating a URL Query Item failed. publishState is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let publishStateQueryItem = Smithy.URIQueryItem(name: "publish-state".urlPercentEncoding(), value: Swift.String(publishState.rawValue).urlPercentEncoding())
+        items.append(publishStateQueryItem)
+        return items
+    }
+}
+
 extension DescribeFolderInput {
 
     static func urlPathProvider(_ value: DescribeFolderInput) -> Swift.String? {
@@ -52567,6 +56027,32 @@ extension DescribeKeyRegistrationInput {
     }
 }
 
+extension DescribeKnowledgeBaseInput {
+
+    static func urlPathProvider(_ value: DescribeKnowledgeBaseInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/knowledge-bases/\(knowledgeBaseId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeKnowledgeBasePermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeKnowledgeBasePermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/knowledge-bases/\(knowledgeBaseId.urlPercentEncoding())/permissions"
+    }
+}
+
 extension DescribeNamespaceInput {
 
     static func urlPathProvider(_ value: DescribeNamespaceInput) -> Swift.String? {
@@ -52655,6 +56141,44 @@ extension DescribeSelfUpgradeConfigurationInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/self-upgrade-configuration"
+    }
+}
+
+extension DescribeSpaceInput {
+
+    static func urlPathProvider(_ value: DescribeSpaceInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let spaceId = value.spaceId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/spaces/\(spaceId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeSpaceInput {
+
+    static func queryItemProvider(_ value: DescribeSpaceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxContributors = value.maxContributors {
+            let maxContributorsQueryItem = Smithy.URIQueryItem(name: "maxContributors".urlPercentEncoding(), value: Swift.String(maxContributors).urlPercentEncoding())
+            items.append(maxContributorsQueryItem)
+        }
+        return items
+    }
+}
+
+extension DescribeSpacePermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeSpacePermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let spaceId = value.spaceId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/spaces/\(spaceId.urlPercentEncoding())/permissions"
     }
 }
 
@@ -53056,6 +56580,32 @@ extension ListActionConnectorsInput {
 extension ListActionConnectorsInput {
 
     static func queryItemProvider(_ value: ListActionConnectorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAgentsInput {
+
+    static func urlPathProvider(_ value: ListAgentsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/agents"
+    }
+}
+
+extension ListAgentsInput {
+
+    static func queryItemProvider(_ value: ListAgentsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -53597,6 +57147,32 @@ extension ListIngestionsInput {
     }
 }
 
+extension ListKnowledgeBasesInput {
+
+    static func urlPathProvider(_ value: ListKnowledgeBasesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/knowledge-bases"
+    }
+}
+
+extension ListKnowledgeBasesInput {
+
+    static func queryItemProvider(_ value: ListKnowledgeBasesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListNamespacesInput {
 
     static func urlPathProvider(_ value: ListNamespacesInput) -> Swift.String? {
@@ -53710,6 +57286,45 @@ extension ListSelfUpgradesInput {
 extension ListSelfUpgradesInput {
 
     static func queryItemProvider(_ value: ListSelfUpgradesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListSpaceResourcesInput {
+
+    static func urlPathProvider(_ value: ListSpaceResourcesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let spaceId = value.spaceId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/spaces/\(spaceId.urlPercentEncoding())/resources"
+    }
+}
+
+extension ListSpacesInput {
+
+    static func urlPathProvider(_ value: ListSpacesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/spaces"
+    }
+}
+
+extension ListSpacesInput {
+
+    static func queryItemProvider(_ value: ListSpacesInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -54018,6 +57633,16 @@ extension ListUsersInput {
     }
 }
 
+extension ListUsersIndexCapacityInput {
+
+    static func urlPathProvider(_ value: ListUsersIndexCapacityInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/quick-index/user-capacity"
+    }
+}
+
 extension ListVPCConnectionsInput {
 
     static func urlPathProvider(_ value: ListVPCConnectionsInput) -> Swift.String? {
@@ -54131,6 +57756,32 @@ extension SearchActionConnectorsInput {
     }
 }
 
+extension SearchAgentsInput {
+
+    static func urlPathProvider(_ value: SearchAgentsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/search/agents"
+    }
+}
+
+extension SearchAgentsInput {
+
+    static func queryItemProvider(_ value: SearchAgentsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension SearchAnalysesInput {
 
     static func urlPathProvider(_ value: SearchAnalysesInput) -> Swift.String? {
@@ -54217,6 +57868,26 @@ extension SearchGroupsInput {
             items.append(maxResultsQueryItem)
         }
         return items
+    }
+}
+
+extension SearchKnowledgeBasesInput {
+
+    static func urlPathProvider(_ value: SearchKnowledgeBasesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/search/knowledge-bases"
+    }
+}
+
+extension SearchSpacesInput {
+
+    static func urlPathProvider(_ value: SearchSpacesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/search/spaces"
     }
 }
 
@@ -54396,6 +58067,32 @@ extension UpdateActionConnectorPermissionsInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/action-connectors/\(actionConnectorId.urlPercentEncoding())/permissions"
+    }
+}
+
+extension UpdateAgentInput {
+
+    static func urlPathProvider(_ value: UpdateAgentInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let agentId = value.agentId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/agents/\(agentId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateAgentPermissionsInput {
+
+    static func urlPathProvider(_ value: UpdateAgentPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let agentId = value.agentId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/agents/\(agentId.urlPercentEncoding())/permissions"
     }
 }
 
@@ -54637,6 +58334,19 @@ extension UpdateDefaultQBusinessApplicationInput {
     }
 }
 
+extension UpdateFlowInput {
+
+    static func urlPathProvider(_ value: UpdateFlowInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let flowId = value.flowId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/flows/\(flowId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateFlowPermissionsInput {
 
     static func urlPathProvider(_ value: UpdateFlowPermissionsInput) -> Swift.String? {
@@ -54741,6 +58451,19 @@ extension UpdateKeyRegistrationInput {
     }
 }
 
+extension UpdateKnowledgeBasePermissionsInput {
+
+    static func urlPathProvider(_ value: UpdateKnowledgeBasePermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/knowledge-bases/\(knowledgeBaseId.urlPercentEncoding())/permissions"
+    }
+}
+
 extension UpdateOAuthClientApplicationInput {
 
     static func urlPathProvider(_ value: UpdateOAuthClientApplicationInput) -> Swift.String? {
@@ -54836,6 +58559,45 @@ extension UpdateSelfUpgradeConfigurationInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/self-upgrade-configuration"
+    }
+}
+
+extension UpdateSpaceInput {
+
+    static func urlPathProvider(_ value: UpdateSpaceInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let spaceId = value.spaceId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/spaces/\(spaceId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateSpacePermissionsInput {
+
+    static func urlPathProvider(_ value: UpdateSpacePermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let spaceId = value.spaceId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/spaces/\(spaceId.urlPercentEncoding())/permissions"
+    }
+}
+
+extension UpdateSpaceResourcesInput {
+
+    static func urlPathProvider(_ value: UpdateSpaceResourcesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let spaceId = value.spaceId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/spaces/\(spaceId.urlPercentEncoding())/resources"
     }
 }
 
@@ -55028,6 +58790,14 @@ extension BatchCreateTopicReviewedAnswerInput {
     }
 }
 
+extension BatchDeleteKnowledgeBaseInput {
+
+    static func write(value: BatchDeleteKnowledgeBaseInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KnowledgeBaseIds"].writeList(value.knowledgeBaseIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BatchDeleteTopicReviewedAnswerInput {
 
     static func write(value: BatchDeleteTopicReviewedAnswerInput?, to writer: SmithyJSON.Writer) throws {
@@ -55082,6 +58852,23 @@ extension CreateActionConnectorInput {
         try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Type"].write(value.type)
         try writer["VpcConnectionArn"].write(value.vpcConnectionArn)
+    }
+}
+
+extension CreateAgentInput {
+
+    static func write(value: CreateAgentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionConnectors"].writeList(value.actionConnectors, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AgentId"].write(value.agentId)
+        try writer["AgentLifecycle"].write(value.agentLifecycle)
+        try writer["CustomPromptInput"].write(value.customPromptInput, with: QuickSightClientTypes.CustomPromptInput.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["IconId"].write(value.iconId)
+        try writer["Name"].write(value.name)
+        try writer["Spaces"].writeList(value.spaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StarterPrompts"].writeList(value.starterPrompts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WelcomeMessage"].write(value.welcomeMessage)
     }
 }
 
@@ -55183,6 +58970,18 @@ extension CreateDataSourceInput {
     }
 }
 
+extension CreateFlowInput {
+
+    static func write(value: CreateFlowInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["FlowDefinition"].write(value.flowDefinition)
+        try writer["Name"].write(value.name)
+        try writer["Permissions"].writeList(value.permissions, memberWritingClosure: QuickSightClientTypes.Permission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateFolderInput {
 
     static func write(value: CreateFolderInput?, to writer: SmithyJSON.Writer) throws {
@@ -55257,6 +59056,16 @@ extension CreateRefreshScheduleInput {
     static func write(value: CreateRefreshScheduleInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Schedule"].write(value.schedule, with: QuickSightClientTypes.RefreshSchedule.write(value:to:))
+    }
+}
+
+extension CreateSpaceInput {
+
+    static func write(value: CreateSpaceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["SpaceId"].write(value.spaceId)
     }
 }
 
@@ -55384,6 +59193,19 @@ extension GetIdentityContextInput {
     }
 }
 
+extension ListUsersIndexCapacityInput {
+
+    static func write(value: ListUsersIndexCapacityInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: QuickSightClientTypes.UserIndexCapacityFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["namespace"].write(value.namespace)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["sortBy"].write(value.sortBy)
+        try writer["sortOrder"].write(value.sortOrder)
+    }
+}
+
 extension PredictQAResultsInput {
 
     static func write(value: PredictQAResultsInput?, to writer: SmithyJSON.Writer) throws {
@@ -55426,6 +59248,14 @@ extension SearchActionConnectorsInput {
     static func write(value: SearchActionConnectorsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Filters"].writeList(value.filters, memberWritingClosure: QuickSightClientTypes.ActionConnectorSearchFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SearchAgentsInput {
+
+    static func write(value: SearchAgentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: QuickSightClientTypes.AgentSearchFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -55494,6 +59324,27 @@ extension SearchGroupsInput {
     static func write(value: SearchGroupsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Filters"].writeList(value.filters, memberWritingClosure: QuickSightClientTypes.GroupSearchFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SearchKnowledgeBasesInput {
+
+    static func write(value: SearchKnowledgeBasesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: QuickSightClientTypes.KnowledgeBaseSearchFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SortBy"].write(value.sortBy, with: QuickSightClientTypes.KnowledgeBaseSortBy.write(value:to:))
+    }
+}
+
+extension SearchSpacesInput {
+
+    static func write(value: SearchSpacesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: QuickSightClientTypes.SpaceQuicksightSearchFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -55604,6 +59455,32 @@ extension UpdateActionConnectorInput {
 extension UpdateActionConnectorPermissionsInput {
 
     static func write(value: UpdateActionConnectorPermissionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GrantPermissions"].writeList(value.grantPermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RevokePermissions"].writeList(value.revokePermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateAgentInput {
+
+    static func write(value: UpdateAgentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionConnectorsToAdd"].writeList(value.actionConnectorsToAdd, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ActionConnectorsToRemove"].writeList(value.actionConnectorsToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CustomPromptInput"].write(value.customPromptInput, with: QuickSightClientTypes.CustomPromptInput.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["IconId"].write(value.iconId)
+        try writer["Name"].write(value.name)
+        try writer["SpacesToAdd"].writeList(value.spacesToAdd, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SpacesToRemove"].writeList(value.spacesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StarterPrompts"].writeList(value.starterPrompts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WelcomeMessage"].write(value.welcomeMessage)
+    }
+}
+
+extension UpdateAgentPermissionsInput {
+
+    static func write(value: UpdateAgentPermissionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["GrantPermissions"].writeList(value.grantPermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RevokePermissions"].writeList(value.revokePermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -55765,6 +59642,17 @@ extension UpdateDefaultQBusinessApplicationInput {
     }
 }
 
+extension UpdateFlowInput {
+
+    static func write(value: UpdateFlowInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["FlowDefinition"].write(value.flowDefinition)
+        try writer["Name"].write(value.name)
+    }
+}
+
 extension UpdateFlowPermissionsInput {
 
     static func write(value: UpdateFlowPermissionsInput?, to writer: SmithyJSON.Writer) throws {
@@ -55833,6 +59721,15 @@ extension UpdateKeyRegistrationInput {
     static func write(value: UpdateKeyRegistrationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["KeyRegistration"].writeList(value.keyRegistration, memberWritingClosure: QuickSightClientTypes.RegisteredCustomerManagedKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateKnowledgeBasePermissionsInput {
+
+    static func write(value: UpdateKnowledgeBasePermissionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GrantPermissions"].writeList(value.grantPermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RevokePermissions"].writeList(value.revokePermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -55905,6 +59802,33 @@ extension UpdateSelfUpgradeConfigurationInput {
     static func write(value: UpdateSelfUpgradeConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SelfUpgradeStatus"].write(value.selfUpgradeStatus)
+    }
+}
+
+extension UpdateSpaceInput {
+
+    static func write(value: UpdateSpaceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+    }
+}
+
+extension UpdateSpacePermissionsInput {
+
+    static func write(value: UpdateSpacePermissionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GrantPermissions"].writeList(value.grantPermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RevokePermissions"].writeList(value.revokePermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateSpaceResourcesInput {
+
+    static func write(value: UpdateSpaceResourcesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddResources"].writeList(value.addResources, memberWritingClosure: QuickSightClientTypes.SpaceResourceOperation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RemoveResources"].writeList(value.removeResources, memberWritingClosure: QuickSightClientTypes.SpaceResourceOperation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -56050,6 +59974,21 @@ extension BatchCreateTopicReviewedAnswerOutput {
     }
 }
 
+extension BatchDeleteKnowledgeBaseOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDeleteKnowledgeBaseOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchDeleteKnowledgeBaseOutput()
+        value.deleted = try reader["Deleted"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.BatchDeleteKnowledgeBaseSuccess.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.BatchDeleteKnowledgeBaseFailure.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension BatchDeleteTopicReviewedAnswerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDeleteTopicReviewedAnswerOutput {
@@ -56125,6 +60064,22 @@ extension CreateActionConnectorOutput {
         value.creationStatus = try reader["CreationStatus"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension CreateAgentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAgentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAgentOutput()
+        value.agentId = try reader["AgentId"].readIfPresent() ?? ""
+        value.agentName = try reader["AgentName"].readIfPresent() ?? ""
+        value.agentStatus = try reader["AgentStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.requestId = try reader["RequestId"].readIfPresent()
         return value
     }
 }
@@ -56217,6 +60172,21 @@ extension CreateDataSourceOutput {
         value.arn = try reader["Arn"].readIfPresent()
         value.creationStatus = try reader["CreationStatus"].readIfPresent()
         value.dataSourceId = try reader["DataSourceId"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension CreateFlowOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateFlowOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateFlowOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.flowId = try reader["FlowId"].readIfPresent() ?? ""
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
@@ -56372,6 +60342,20 @@ extension CreateRoleMembershipOutput {
         var value = CreateRoleMembershipOutput()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension CreateSpaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSpaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateSpaceOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.spaceArn = try reader["spaceArn"].readIfPresent()
+        value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -56541,6 +60525,18 @@ extension DeleteActionConnectorOutput {
     }
 }
 
+extension DeleteAgentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAgentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteAgentOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteAnalysisOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAnalysisOutput {
@@ -56666,6 +60662,19 @@ extension DeleteDefaultQBusinessApplicationOutput {
     }
 }
 
+extension DeleteFlowOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteFlowOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteFlowOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension DeleteFolderOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteFolderOutput {
@@ -56747,6 +60756,21 @@ extension DeleteIdentityPropagationConfigOutput {
     }
 }
 
+extension DeleteKnowledgeBaseOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteKnowledgeBaseOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteKnowledgeBaseOutput()
+        value.knowledgeBaseArn = try reader["KnowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["KnowledgeBaseId"].readIfPresent() ?? ""
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension DeleteNamespaceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteNamespaceOutput {
@@ -56812,6 +60836,20 @@ extension DeleteRoleMembershipOutput {
         var value = DeleteRoleMembershipOutput()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DeleteSpaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSpaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteSpaceOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.spaceArn = try reader["spaceArn"].readIfPresent()
+        value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -57050,6 +61088,34 @@ extension DescribeActionConnectorPermissionsOutput {
         value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DescribeAgentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAgentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeAgentOutput()
+        value.agent = try reader["Agent"].readIfPresent(with: QuickSightClientTypes.Agent.read(from:))
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeAgentPermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAgentPermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeAgentPermissionsOutput()
+        value.agentId = try reader["AgentId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.requestId = try reader["RequestId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -57428,6 +61494,20 @@ extension DescribeDefaultQBusinessApplicationOutput {
     }
 }
 
+extension DescribeFlowOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeFlowOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeFlowOutput()
+        value.flow = try reader["Flow"].readIfPresent(with: QuickSightClientTypes.FlowDetail.read(from:))
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension DescribeFolderOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeFolderOutput {
@@ -57566,6 +61646,36 @@ extension DescribeKeyRegistrationOutput {
     }
 }
 
+extension DescribeKnowledgeBaseOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeKnowledgeBaseOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeKnowledgeBaseOutput()
+        value.knowledgeBase = try reader["KnowledgeBase"].readIfPresent(with: QuickSightClientTypes.KnowledgeBase.read(from:))
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DescribeKnowledgeBasePermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeKnowledgeBasePermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeKnowledgeBasePermissionsOutput()
+        value.knowledgeBaseArn = try reader["KnowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["KnowledgeBaseId"].readIfPresent() ?? ""
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension DescribeNamespaceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeNamespaceOutput {
@@ -57661,6 +61771,37 @@ extension DescribeSelfUpgradeConfigurationOutput {
         value.requestId = try reader["RequestId"].readIfPresent()
         value.selfUpgradeConfiguration = try reader["SelfUpgradeConfiguration"].readIfPresent(with: QuickSightClientTypes.SelfUpgradeConfiguration.read(from:))
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DescribeSpaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeSpaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeSpaceOutput()
+        value.contributors = try reader["Contributors"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SpaceContributor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.space = try reader["Space"].readIfPresent(with: QuickSightClientTypes.SpaceDetails.read(from:))
+        value.spaceArn = try reader["spaceArn"].readIfPresent()
+        value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DescribeSpacePermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeSpacePermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeSpacePermissionsOutput()
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.spaceArn = try reader["spaceArn"].readIfPresent()
+        value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -58002,6 +62143,20 @@ extension ListActionConnectorsOutput {
     }
 }
 
+extension ListAgentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAgentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAgentsOutput()
+        value.agentSummaries = try reader["AgentSummaries"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AgentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
 extension ListAnalysesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAnalysesOutput {
@@ -58285,6 +62440,21 @@ extension ListIngestionsOutput {
     }
 }
 
+extension ListKnowledgeBasesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListKnowledgeBasesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListKnowledgeBasesOutput()
+        value.knowledgeBaseSummaries = try reader["KnowledgeBaseSummaries"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.KnowledgeBaseSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension ListNamespacesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNamespacesOutput {
@@ -58355,6 +62525,37 @@ extension ListSelfUpgradesOutput {
         value.requestId = try reader["RequestId"].readIfPresent()
         value.selfUpgradeRequestDetails = try reader["SelfUpgradeRequestDetails"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SelfUpgradeRequestDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension ListSpaceResourcesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSpaceResourcesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSpaceResourcesOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.spaceResources = try reader["SpaceResources"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SpaceResourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.spaceArn = try reader["spaceArn"].readIfPresent()
+        value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ListSpacesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSpacesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSpacesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.spaceSummaries = try reader["SpaceSummaries"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SpaceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.spaceArn = try reader["spaceArn"].readIfPresent()
+        value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -58540,6 +62741,20 @@ extension ListUsersOutput {
     }
 }
 
+extension ListUsersIndexCapacityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListUsersIndexCapacityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListUsersIndexCapacityOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.requestId = try reader["requestId"].readIfPresent()
+        value.users = try reader["users"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.UserIndexCapacity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListVPCConnectionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListVPCConnectionsOutput {
@@ -58625,6 +62840,20 @@ extension SearchActionConnectorsOutput {
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension SearchAgentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchAgentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchAgentsOutput()
+        value.agentSummaries = try reader["AgentSummaries"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AgentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
         return value
     }
 }
@@ -58730,6 +62959,37 @@ extension SearchGroupsOutput {
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension SearchKnowledgeBasesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchKnowledgeBasesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchKnowledgeBasesOutput()
+        value.knowledgeBaseSummaries = try reader["KnowledgeBaseSummaries"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.KnowledgeBaseSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension SearchSpacesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchSpacesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchSpacesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.spaceSummaries = try reader["SpaceSummaries"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SpaceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.spaceArn = try reader["spaceArn"].readIfPresent()
+        value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -58919,6 +63179,40 @@ extension UpdateActionConnectorPermissionsOutput {
         value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension UpdateAgentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAgentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAgentOutput()
+        value.agentId = try reader["AgentId"].readIfPresent() ?? ""
+        value.agentStatus = try reader["AgentStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.failedToAddActionConnectors = try reader["FailedToAddActionConnectors"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FailedToUpdateAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failedToAddSpaces = try reader["FailedToAddSpaces"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FailedToUpdateAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failedToRemoveActionConnectors = try reader["FailedToRemoveActionConnectors"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FailedToUpdateAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failedToRemoveSpaces = try reader["FailedToRemoveSpaces"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FailedToUpdateAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateAgentPermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAgentPermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAgentPermissionsOutput()
+        value.agentId = try reader["AgentId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["RequestId"].readIfPresent()
         return value
     }
 }
@@ -59176,6 +63470,21 @@ extension UpdateDefaultQBusinessApplicationOutput {
     }
 }
 
+extension UpdateFlowOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateFlowOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateFlowOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.flowId = try reader["FlowId"].readIfPresent() ?? ""
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension UpdateFlowPermissionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateFlowPermissionsOutput {
@@ -59296,6 +63605,22 @@ extension UpdateKeyRegistrationOutput {
     }
 }
 
+extension UpdateKnowledgeBasePermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateKnowledgeBasePermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateKnowledgeBasePermissionsOutput()
+        value.knowledgeBaseArn = try reader["KnowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["KnowledgeBaseId"].readIfPresent() ?? ""
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension UpdateOAuthClientApplicationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateOAuthClientApplicationOutput {
@@ -59404,6 +63729,50 @@ extension UpdateSelfUpgradeConfigurationOutput {
         var value = UpdateSelfUpgradeConfigurationOutput()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension UpdateSpaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSpaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateSpaceOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.spaceArn = try reader["spaceArn"].readIfPresent()
+        value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateSpacePermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSpacePermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateSpacePermissionsOutput()
+        value.permissions = try reader["permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["requestId"].readIfPresent()
+        value.spaceArn = try reader["spaceArn"].readIfPresent()
+        value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateSpaceResourcesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSpaceResourcesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateSpaceResourcesOutput()
+        value.failedResourceOperations = try reader["FailedResourceOperations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FailedSpaceResourceOperation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.spaceArn = try reader["spaceArn"].readIfPresent()
+        value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59625,6 +63994,26 @@ enum BatchCreateTopicReviewedAnswerOutputError {
     }
 }
 
+enum BatchDeleteKnowledgeBaseOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum BatchDeleteTopicReviewedAnswerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -59718,6 +64107,27 @@ enum CreateActionConnectorOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateAgentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
             case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -59843,6 +64253,27 @@ enum CreateDataSourceOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "CustomerManagedKeyUnavailableException": return try CustomerManagedKeyUnavailableException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateFlowOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
@@ -60058,6 +64489,26 @@ enum CreateRoleMembershipOutputError {
             case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateSpaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -60289,6 +64740,25 @@ enum DeleteActionConnectorOutputError {
     }
 }
 
+enum DeleteAgentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteAnalysisOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -60461,6 +64931,25 @@ enum DeleteDefaultQBusinessApplicationOutputError {
     }
 }
 
+enum DeleteFlowOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteFolderOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -60579,6 +65068,28 @@ enum DeleteIdentityPropagationConfigOutputError {
     }
 }
 
+enum DeleteKnowledgeBaseOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteNamespaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -60671,6 +65182,24 @@ enum DeleteRoleMembershipOutputError {
             case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteSpaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -60979,6 +65508,44 @@ enum DescribeActionConnectorPermissionsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeAgentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeAgentPermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -61396,6 +65963,24 @@ enum DescribeDefaultQBusinessApplicationOutputError {
     }
 }
 
+enum DescribeFlowOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeFolderOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -61568,6 +66153,48 @@ enum DescribeKeyRegistrationOutputError {
     }
 }
 
+enum DescribeKnowledgeBaseOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeKnowledgeBasePermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeNamespaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -61697,6 +66324,42 @@ enum DescribeSelfUpgradeConfigurationOutputError {
             case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeSpaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeSpacePermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -62136,6 +66799,26 @@ enum ListActionConnectorsOutputError {
     }
 }
 
+enum ListAgentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAnalysesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -62494,6 +67177,25 @@ enum ListIngestionsOutputError {
     }
 }
 
+enum ListKnowledgeBasesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListNamespacesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -62591,6 +67293,42 @@ enum ListSelfUpgradesOutputError {
             case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSpaceResourcesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSpacesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -62829,6 +67567,25 @@ enum ListUsersOutputError {
     }
 }
 
+enum ListUsersIndexCapacityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListVPCConnectionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -62940,6 +67697,25 @@ enum SearchActionConnectorsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SearchAgentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -63075,6 +67851,44 @@ enum SearchGroupsOutputError {
             case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SearchKnowledgeBasesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SearchSpacesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -63327,6 +68141,49 @@ enum UpdateActionConnectorPermissionsOutputError {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAgentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAgentPermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
@@ -63670,6 +68527,26 @@ enum UpdateDefaultQBusinessApplicationOutputError {
     }
 }
 
+enum UpdateFlowOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateFlowPermissionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -63816,6 +68693,28 @@ enum UpdateKeyRegistrationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateKnowledgeBasePermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -63977,6 +68876,67 @@ enum UpdateSelfUpgradeConfigurationOutputError {
             case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateSpaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateSpacePermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateSpaceResourcesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -64317,6 +69277,49 @@ extension ThrottlingException {
     }
 }
 
+extension InvalidRequestException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidRequestException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRequestException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension LimitExceededException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = LimitExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PreconditionNotMetException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> PreconditionNotMetException {
+        let reader = baseError.errorBodyReader
+        var value = PreconditionNotMetException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ConflictException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
@@ -64361,35 +69364,6 @@ extension ResourceUnavailableException {
     }
 }
 
-extension PreconditionNotMetException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> PreconditionNotMetException {
-        let reader = baseError.errorBodyReader
-        var value = PreconditionNotMetException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.requestId = try reader["RequestId"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension LimitExceededException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.requestId = try reader["RequestId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension UnsupportedUserEditionException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnsupportedUserEditionException {
@@ -64410,20 +69384,6 @@ extension InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidRequestException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidRequestException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidRequestException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -64714,6 +69674,57 @@ extension QuickSightClientTypes.AdHocFilteringOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AdHocFilteringOption()
         value.availabilityStatus = try reader["AvailabilityStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.Agent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Agent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.Agent()
+        value.spaces = try reader["Spaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.actionConnectors = try reader["ActionConnectors"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.description = try reader["Description"].readIfPresent()
+        value.iconId = try reader["IconId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.starterPrompts = try reader["StarterPrompts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.welcomeMessage = try reader["WelcomeMessage"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.agentId = try reader["AgentId"].readIfPresent() ?? ""
+        value.agentLifecycle = try reader["AgentLifecycle"].readIfPresent() ?? .sdkUnknown("")
+        value.agentStatus = try reader["AgentStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.creator = try reader["Creator"].readIfPresent() ?? ""
+        value.customPromptInterface = try reader["CustomPromptInterface"].readIfPresent(with: QuickSightClientTypes.CustomPromptInterface.read(from:))
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension QuickSightClientTypes.AgentSearchFilter {
+
+    static func write(value: QuickSightClientTypes.AgentSearchFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Operator"].write(value.`operator`)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension QuickSightClientTypes.AgentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AgentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AgentSummary()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.agentId = try reader["AgentId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.iconId = try reader["IconId"].readIfPresent()
         return value
     }
 }
@@ -66169,6 +71180,16 @@ extension QuickSightClientTypes.AttributeAggregationFunction {
     }
 }
 
+extension QuickSightClientTypes.AudioExtractionConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AudioExtractionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AudioExtractionConfiguration()
+        value.audioExtractionStatus = try reader["audioExtractionStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension QuickSightClientTypes.AuroraParameters {
 
     static func write(value: QuickSightClientTypes.AuroraParameters?, to writer: SmithyJSON.Writer) throws {
@@ -66688,6 +71709,29 @@ extension QuickSightClientTypes.BasicAuthConnectionMetadata {
         try writer["BaseEndpoint"].write(value.baseEndpoint)
         try writer["Password"].write(value.password)
         try writer["Username"].write(value.username)
+    }
+}
+
+extension QuickSightClientTypes.BatchDeleteKnowledgeBaseFailure {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BatchDeleteKnowledgeBaseFailure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.BatchDeleteKnowledgeBaseFailure()
+        value.knowledgeBaseId = try reader["KnowledgeBaseId"].readIfPresent() ?? ""
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.BatchDeleteKnowledgeBaseSuccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BatchDeleteKnowledgeBaseSuccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.BatchDeleteKnowledgeBaseSuccess()
+        value.knowledgeBaseId = try reader["KnowledgeBaseId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["KnowledgeBaseArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -67682,6 +72726,15 @@ extension QuickSightClientTypes.Capabilities {
         value.story = try reader["Story"].readIfPresent()
         value.scenario = try reader["Scenario"].readIfPresent()
         return value
+    }
+}
+
+extension QuickSightClientTypes.CapacityBytesRangeFilter {
+
+    static func write(value: QuickSightClientTypes.CapacityBytesRangeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxBytes"].write(value.maxBytes)
+        try writer["minBytes"].write(value.minBytes)
     }
 }
 
@@ -69231,6 +74284,61 @@ extension QuickSightClientTypes.CustomPermissions {
         value.customPermissionsName = try reader["CustomPermissionsName"].readIfPresent()
         value.capabilities = try reader["Capabilities"].readIfPresent(with: QuickSightClientTypes.Capabilities.read(from:))
         return value
+    }
+}
+
+extension QuickSightClientTypes.CustomPromptInput {
+
+    static func write(value: QuickSightClientTypes.CustomPromptInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .existingprompt(existingprompt):
+                try writer["ExistingPrompt"].write(existingprompt, with: QuickSightClientTypes.CustomPromptProfile.write(value:to:))
+            case let .newprompt(newprompt):
+                try writer["NewPrompt"].write(newprompt, with: QuickSightClientTypes.CustomPromptInputParameters.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension QuickSightClientTypes.CustomPromptInputParameters {
+
+    static func write(value: QuickSightClientTypes.CustomPromptInputParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomInstructions"].write(value.customInstructions)
+        try writer["Identity"].write(value.identity)
+        try writer["OutputStyle"].write(value.outputStyle)
+        try writer["ResponseLength"].write(value.responseLength)
+        try writer["Tone"].write(value.tone)
+    }
+}
+
+extension QuickSightClientTypes.CustomPromptInterface {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomPromptInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CustomPromptInterface()
+        value.modelProfileId = try reader["ModelProfileId"].readIfPresent() ?? ""
+        value.subscriptionId = try reader["SubscriptionId"].readIfPresent() ?? ""
+        value.qbsAwsAccountId = try reader["QbsAwsAccountId"].readIfPresent() ?? ""
+        value.responseLength = try reader["ResponseLength"].readIfPresent()
+        value.outputStyle = try reader["OutputStyle"].readIfPresent()
+        value.identity = try reader["Identity"].readIfPresent()
+        value.tone = try reader["Tone"].readIfPresent()
+        value.customInstructions = try reader["CustomInstructions"].readIfPresent()
+        value.promptSummary = try reader["promptSummary"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CustomPromptProfile {
+
+    static func write(value: QuickSightClientTypes.CustomPromptProfile?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ModelProfileId"].write(value.modelProfileId)
+        try writer["QbsAwsAccountId"].write(value.qbsAwsAccountId)
+        try writer["SubscriptionId"].write(value.subscriptionId)
     }
 }
 
@@ -71745,6 +76853,30 @@ extension QuickSightClientTypes.FailedKeyRegistrationEntry {
     }
 }
 
+extension QuickSightClientTypes.FailedSpaceResourceOperation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FailedSpaceResourceOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.FailedSpaceResourceOperation()
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceDetails = try reader["ResourceDetails"].readIfPresent(with: QuickSightClientTypes.SpaceQuickSightResourceDetails.read(from:))
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.FailedToUpdateAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FailedToUpdateAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.FailedToUpdateAssociation()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        return value
+    }
+}
+
 extension QuickSightClientTypes.FieldBarSeriesItem {
 
     static func write(value: QuickSightClientTypes.FieldBarSeriesItem?, to writer: SmithyJSON.Writer) throws {
@@ -71902,6 +77034,27 @@ extension QuickSightClientTypes.FieldTooltipItem {
         value.label = try reader["Label"].readIfPresent()
         value.visibility = try reader["Visibility"].readIfPresent()
         value.tooltipTarget = try reader["TooltipTarget"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.FileSource {
+
+    static func write(value: QuickSightClientTypes.FileSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSourceArn"].write(value.dataSourceArn)
+        try writer["InputColumns"].writeList(value.inputColumns, memberWritingClosure: QuickSightClientTypes.InputColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SheetIndex"].write(value.sheetIndex)
+        try writer["UploadSettings"].write(value.uploadSettings, with: QuickSightClientTypes.UploadSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FileSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.FileSource()
+        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent() ?? ""
+        value.uploadSettings = try reader["UploadSettings"].readIfPresent(with: QuickSightClientTypes.UploadSettings.read(from:))
+        value.sheetIndex = try reader["SheetIndex"].readIfPresent() ?? 0
+        value.inputColumns = try reader["InputColumns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.InputColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -72495,6 +77648,26 @@ extension QuickSightClientTypes.FilterTextFieldControl {
         value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.TextFieldControlDisplayOptions.read(from:))
         value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.FlowDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FlowDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.FlowDetail()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.flowId = try reader["FlowId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.publishState = try reader["PublishState"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedBy = try reader["LastUpdatedBy"].readIfPresent()
+        value.flowDefinition = try reader["FlowDefinition"].readIfPresent() ?? [:]
+        value.stepAliases = try reader["StepAliases"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.StepAliasMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -74622,6 +79795,16 @@ extension QuickSightClientTypes.ImageCustomActionOperation {
     }
 }
 
+extension QuickSightClientTypes.ImageExtractionConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ImageExtractionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ImageExtractionConfiguration()
+        value.imageExtractionStatus = try reader["imageExtractionStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension QuickSightClientTypes.ImageInteractionOptions {
 
     static func write(value: QuickSightClientTypes.ImageInteractionOptions?, to writer: SmithyJSON.Writer) throws {
@@ -75148,6 +80331,16 @@ extension QuickSightClientTypes.JoinOperation {
     }
 }
 
+extension QuickSightClientTypes.KbTemplateConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.KbTemplateConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.KbTemplateConfiguration()
+        value.template = try reader["template"].readIfPresent()
+        return value
+    }
+}
+
 extension QuickSightClientTypes.KeyPairCredentials {
 
     static func write(value: QuickSightClientTypes.KeyPairCredentials?, to writer: SmithyJSON.Writer) throws {
@@ -75155,6 +80348,98 @@ extension QuickSightClientTypes.KeyPairCredentials {
         try writer["KeyPairUsername"].write(value.keyPairUsername)
         try writer["PrivateKey"].write(value.privateKey)
         try writer["PrivateKeyPassphrase"].write(value.privateKeyPassphrase)
+    }
+}
+
+extension QuickSightClientTypes.KnowledgeBase {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.KnowledgeBase {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.KnowledgeBase()
+        value.knowledgeBaseArn = try reader["KnowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["KnowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent() ?? ""
+        value.knowledgeBaseConfiguration = try reader["KnowledgeBaseConfiguration"].readIfPresent(with: QuickSightClientTypes.KnowledgeBaseConfiguration.read(from:))
+        value.mediaExtractionConfiguration = try reader["MediaExtractionConfiguration"].readIfPresent(with: QuickSightClientTypes.MediaExtractionConfiguration.read(from:))
+        value.type = try reader["Type"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
+        value.isEmailNotificationOptedForIngestionFailures = try reader["IsEmailNotificationOptedForIngestionFailures"].readIfPresent()
+        value.firstCompletedIngestionSummary = try reader["FirstCompletedIngestionSummary"].readIfPresent(with: QuickSightClientTypes.KnowledgeBaseIngestionSummary.read(from:))
+        value.firstIncompleteIngestionSummary = try reader["FirstIncompleteIngestionSummary"].readIfPresent(with: QuickSightClientTypes.KnowledgeBaseIngestionSummary.read(from:))
+        value.latestIngestionSummary = try reader["LatestIngestionSummary"].readIfPresent(with: QuickSightClientTypes.KnowledgeBaseIngestionSummary.read(from:))
+        value.knowledgeBaseSizeBytes = try reader["KnowledgeBaseSizeBytes"].readIfPresent()
+        value.documentCount = try reader["DocumentCount"].readIfPresent()
+        value.primaryOwnerArn = try reader["PrimaryOwnerArn"].readIfPresent()
+        value.primaryOwnerUsername = try reader["PrimaryOwnerUsername"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.KnowledgeBaseConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.KnowledgeBaseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.KnowledgeBaseConfiguration()
+        value.templateConfiguration = try reader["templateConfiguration"].readIfPresent(with: QuickSightClientTypes.KbTemplateConfiguration.read(from:))
+        value.eventEnabled = try reader["eventEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.KnowledgeBaseIngestionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.KnowledgeBaseIngestionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.KnowledgeBaseIngestionSummary()
+        value.ingestionId = try reader["IngestionId"].readIfPresent() ?? ""
+        value.ingestionStatus = try reader["IngestionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.KnowledgeBaseSearchFilter {
+
+    static func write(value: QuickSightClientTypes.KnowledgeBaseSearchFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["operator"].write(value.`operator`)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension QuickSightClientTypes.KnowledgeBaseSortBy {
+
+    static func write(value: QuickSightClientTypes.KnowledgeBaseSortBy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sortByField"].write(value.sortByField)
+        try writer["sortOrder"].write(value.sortOrder)
+    }
+}
+
+extension QuickSightClientTypes.KnowledgeBaseSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.KnowledgeBaseSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.KnowledgeBaseSummary()
+        value.knowledgeBaseArn = try reader["KnowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["KnowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.knowledgeBaseSizeBytes = try reader["KnowledgeBaseSizeBytes"].readIfPresent()
+        value.documentCount = try reader["DocumentCount"].readIfPresent()
+        value.primaryOwnerArn = try reader["PrimaryOwnerArn"].readIfPresent()
+        value.primaryOwnerUsername = try reader["PrimaryOwnerUsername"].readIfPresent()
+        return value
     }
 }
 
@@ -76162,6 +81447,18 @@ extension QuickSightClientTypes.MeasureField {
         value.categoricalMeasureField = try reader["CategoricalMeasureField"].readIfPresent(with: QuickSightClientTypes.CategoricalMeasureField.read(from:))
         value.dateMeasureField = try reader["DateMeasureField"].readIfPresent(with: QuickSightClientTypes.DateMeasureField.read(from:))
         value.calculatedMeasureField = try reader["CalculatedMeasureField"].readIfPresent(with: QuickSightClientTypes.CalculatedMeasureField.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.MediaExtractionConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.MediaExtractionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.MediaExtractionConfiguration()
+        value.imageExtractionConfiguration = try reader["imageExtractionConfiguration"].readIfPresent(with: QuickSightClientTypes.ImageExtractionConfiguration.read(from:))
+        value.audioExtractionConfiguration = try reader["audioExtractionConfiguration"].readIfPresent(with: QuickSightClientTypes.AudioExtractionConfiguration.read(from:))
+        value.videoExtractionConfiguration = try reader["videoExtractionConfiguration"].readIfPresent(with: QuickSightClientTypes.VideoExtractionConfiguration.read(from:))
         return value
     }
 }
@@ -77342,6 +82639,8 @@ extension QuickSightClientTypes.PhysicalTable {
         switch value {
             case let .customsql(customsql):
                 try writer["CustomSql"].write(customsql, with: QuickSightClientTypes.CustomSql.write(value:to:))
+            case let .filesource(filesource):
+                try writer["FileSource"].write(filesource, with: QuickSightClientTypes.FileSource.write(value:to:))
             case let .relationaltable(relationaltable):
                 try writer["RelationalTable"].write(relationaltable, with: QuickSightClientTypes.RelationalTable.write(value:to:))
             case let .s3source(s3source):
@@ -77365,6 +82664,8 @@ extension QuickSightClientTypes.PhysicalTable {
                 return .s3source(try reader["S3Source"].read(with: QuickSightClientTypes.S3Source.read(from:)))
             case "SaaSTable":
                 return .saastable(try reader["SaaSTable"].read(with: QuickSightClientTypes.SaaSTable.read(from:)))
+            case "FileSource":
+                return .filesource(try reader["FileSource"].read(with: QuickSightClientTypes.FileSource.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -80874,6 +86175,123 @@ extension QuickSightClientTypes.SourceTable {
     }
 }
 
+extension QuickSightClientTypes.SpaceContributor {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SpaceContributor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SpaceContributor()
+        value.userName = try reader["userName"].readIfPresent()
+        value.rawFileSizeBytes = try reader["rawFileSizeBytes"].readIfPresent()
+        value.percentage = try reader["percentage"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SpaceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SpaceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SpaceDetails()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SpaceQuickSightResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.consumedSourceSize = try reader["consumedSourceSize"].readIfPresent()
+        value.consumedSourceDocCount = try reader["consumedSourceDocCount"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdByArn = try reader["createdByArn"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SpaceQuickSightResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SpaceQuickSightResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SpaceQuickSightResource()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceDetails = try reader["resourceDetails"].readIfPresent(with: QuickSightClientTypes.SpaceQuickSightResourceDetails.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SpaceQuickSightResourceDetails {
+
+    static func write(value: QuickSightClientTypes.SpaceQuickSightResourceDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .resourcearn(resourcearn):
+                try writer["resourceArn"].write(resourcearn)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SpaceQuickSightResourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "resourceArn":
+                return .resourcearn(try reader["resourceArn"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QuickSightClientTypes.SpaceQuicksightSearchFilter {
+
+    static func write(value: QuickSightClientTypes.SpaceQuicksightSearchFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["operator"].write(value.`operator`)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension QuickSightClientTypes.SpaceResourceOperation {
+
+    static func write(value: QuickSightClientTypes.SpaceResourceOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceDetails"].write(value.resourceDetails, with: QuickSightClientTypes.SpaceQuickSightResourceDetails.write(value:to:))
+        try writer["ResourceType"].write(value.resourceType)
+    }
+}
+
+extension QuickSightClientTypes.SpaceResourceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SpaceResourceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SpaceResourceSummary()
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceDetails = try reader["ResourceDetails"].readIfPresent(with: QuickSightClientTypes.SpaceQuickSightResourceDetails.read(from:))
+        value.resourceName = try reader["ResourceName"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SpaceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SpaceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SpaceSummary()
+        value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
+        value.spaceArn = try reader["spaceArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.consumedSourceSize = try reader["consumedSourceSize"].readIfPresent()
+        value.consumedSourceDocCount = try reader["consumedSourceDocCount"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdByArn = try reader["createdByArn"].readIfPresent()
+        value.resourcesCount = try reader["resourcesCount"].readIfPresent()
+        return value
+    }
+}
+
 extension QuickSightClientTypes.Spacing {
 
     static func write(value: QuickSightClientTypes.Spacing?, to writer: SmithyJSON.Writer) throws {
@@ -81093,6 +86511,17 @@ extension QuickSightClientTypes.StaticFileUrlSourceOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.StaticFileUrlSourceOptions()
         value.url = try reader["Url"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.StepAliasMapping {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.StepAliasMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.StepAliasMapping()
+        value.stepId = try reader["StepId"].readIfPresent() ?? ""
+        value.stepAlias = try reader["StepAlias"].readIfPresent() ?? ""
         return value
     }
 }
@@ -83860,6 +89289,47 @@ extension QuickSightClientTypes.UserIdentifier {
     }
 }
 
+extension QuickSightClientTypes.UserIndexCapacity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.UserIndexCapacity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.UserIndexCapacity()
+        value.userArn = try reader["userArn"].readIfPresent()
+        value.userName = try reader["userName"].readIfPresent()
+        value.email = try reader["email"].readIfPresent()
+        value.role = try reader["role"].readIfPresent()
+        value.totalCapacityBytes = try reader["totalCapacityBytes"].readIfPresent()
+        value.totalKBCapacityBytes = try reader["totalKBCapacityBytes"].readIfPresent()
+        value.totalSpaceCapacityBytes = try reader["totalSpaceCapacityBytes"].readIfPresent()
+        value.kbCount = try reader["kbCount"].readIfPresent()
+        value.spaceCount = try reader["spaceCount"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.UserIndexCapacityFilter {
+
+    static func write(value: QuickSightClientTypes.UserIndexCapacityFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .totalcapacitybytes(totalcapacitybytes):
+                try writer["totalCapacityBytes"].write(totalcapacitybytes, with: QuickSightClientTypes.CapacityBytesRangeFilter.write(value:to:))
+            case let .usernameoremail(usernameoremail):
+                try writer["userNameOrEmail"].write(usernameoremail, with: QuickSightClientTypes.UserNameOrEmailFilter.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension QuickSightClientTypes.UserNameOrEmailFilter {
+
+    static func write(value: QuickSightClientTypes.UserNameOrEmailFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["prefix"].write(value.`prefix`)
+    }
+}
+
 extension QuickSightClientTypes.ValidationStrategy {
 
     static func write(value: QuickSightClientTypes.ValidationStrategy?, to writer: SmithyJSON.Writer) throws {
@@ -83879,6 +89349,17 @@ extension QuickSightClientTypes.ValueColumnConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ValueColumnConfiguration()
         value.aggregationFunction = try reader["AggregationFunction"].readIfPresent(with: QuickSightClientTypes.DataPrepAggregationFunction.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.VideoExtractionConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VideoExtractionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.VideoExtractionConfiguration()
+        value.videoExtractionStatus = try reader["videoExtractionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.videoExtractionType = try reader["videoExtractionType"].readIfPresent()
         return value
     }
 }

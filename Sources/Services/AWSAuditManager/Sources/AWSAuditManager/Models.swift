@@ -837,9 +837,9 @@ extension AuditManagerClientTypes {
         public var date: Foundation.Date?
         /// The total number of Amazon Web Services resources that were assessed to generate the evidence.
         public var evidenceAwsServiceSourceCount: Swift.Int
-        /// The number of evidence that falls under the compliance check category. This evidence is collected from Config or Security Hub.
+        /// The number of evidence that falls under the compliance check category. This evidence is collected from Config or Security Hub CSPM.
         public var evidenceByTypeComplianceCheckCount: Swift.Int
-        /// The total number of issues that were reported directly from Security Hub, Config, or both.
+        /// The total number of issues that were reported directly from Security Hub CSPM, Config, or both.
         public var evidenceByTypeComplianceCheckIssuesCount: Swift.Int
         /// The number of evidence that falls under the configuration data category. This evidence is collected from configuration snapshots of other Amazon Web Services services such as Amazon EC2, Amazon S3, or IAM.
         public var evidenceByTypeConfigurationDataCount: Swift.Int
@@ -2037,11 +2037,11 @@ extension AuditManagerClientTypes {
 
 extension AuditManagerClientTypes {
 
-    /// A keyword that relates to the control data source. For manual evidence, this keyword indicates if the manual evidence is a file or text. For automated evidence, this keyword identifies a specific CloudTrail event, Config rule, Security Hub control, or Amazon Web Services API name. To learn more about the supported keywords that you can use when mapping a control data source, see the following pages in the Audit Manager User Guide:
+    /// A keyword that relates to the control data source. For manual evidence, this keyword indicates if the manual evidence is a file or text. For automated evidence, this keyword identifies a specific CloudTrail event, Config rule, Security Hub CSPM control, or Amazon Web Services API name. To learn more about the supported keywords that you can use when mapping a control data source, see the following pages in the Audit Manager User Guide:
     ///
     /// * [Config rules supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html)
     ///
-    /// * [Security Hub controls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html)
+    /// * [Security Hub CSPM controls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html)
     ///
     /// * [API calls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html)
     ///
@@ -2051,7 +2051,7 @@ extension AuditManagerClientTypes {
         ///
         /// * SELECT_FROM_LIST is used when mapping a data source for automated evidence.
         ///
-        /// * When keywordInputType is SELECT_FROM_LIST, a keyword must be selected to collect automated evidence. For example, this keyword can be a CloudTrail event name, a rule name for Config, a Security Hub control, or the name of an Amazon Web Services API call.
+        /// * When keywordInputType is SELECT_FROM_LIST, a keyword must be selected to collect automated evidence. For example, this keyword can be a CloudTrail event name, a rule name for Config, a Security Hub CSPM control, or the name of an Amazon Web Services API call.
         ///
         ///
         ///
@@ -2062,7 +2062,7 @@ extension AuditManagerClientTypes {
         ///
         /// * When keywordInputType is INPUT_TEXT, text must be entered as manual evidence.
         public var keywordInputType: AuditManagerClientTypes.KeywordInputType?
-        /// The value of the keyword that's used when mapping a control data source. For example, this can be a CloudTrail event name, a rule name for Config, a Security Hub control, or the name of an Amazon Web Services API call. If you’re mapping a data source to a rule in Config, the keywordValue that you specify depends on the type of rule:
+        /// The value of the keyword that's used when mapping a control data source. For example, this can be a CloudTrail event name, a rule name for Config, a Security Hub CSPM control, or the name of an Amazon Web Services API call. If you’re mapping a data source to a rule in Config, the keywordValue that you specify depends on the type of rule:
         ///
         /// * For [managed rules](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html), you can use the rule identifier as the keywordValue. You can find the rule identifier from the [list of Config managed rules](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html). For some rules, the rule identifier is different from the rule name. For example, the rule name restricted-ssh has the following rule identifier: INCOMING_SSH_DISABLED. Make sure to use the rule identifier, not the rule name. Keyword example for managed rules:
         ///
@@ -2099,7 +2099,7 @@ extension AuditManagerClientTypes {
         ///
         ///
         ///
-        /// * For Security Hub: The format varies for Security Hub control names. For accuracy, we recommend that you reference the list of [supported Security Hub controls](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html).
+        /// * For Security Hub CSPM: The format varies for Security Hub CSPM control names. For accuracy, we recommend that you reference the list of [supported Security Hub CSPM controls](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html).
         ///
         /// * For Amazon Web Services API calls: Make sure that the keywordValue is written as serviceprefix_ActionName. For example, iam_ListGroups. For accuracy, we recommend that you reference the list of [supported API calls](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html).
         ///
@@ -2199,11 +2199,11 @@ extension AuditManagerClientTypes {
         public var sourceFrequency: AuditManagerClientTypes.SourceFrequency?
         /// The unique identifier for the source.
         public var sourceId: Swift.String?
-        /// A keyword that relates to the control data source. For manual evidence, this keyword indicates if the manual evidence is a file or text. For automated evidence, this keyword identifies a specific CloudTrail event, Config rule, Security Hub control, or Amazon Web Services API name. To learn more about the supported keywords that you can use when mapping a control data source, see the following pages in the Audit Manager User Guide:
+        /// A keyword that relates to the control data source. For manual evidence, this keyword indicates if the manual evidence is a file or text. For automated evidence, this keyword identifies a specific CloudTrail event, Config rule, Security Hub CSPM control, or Amazon Web Services API name. To learn more about the supported keywords that you can use when mapping a control data source, see the following pages in the Audit Manager User Guide:
         ///
         /// * [Config rules supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html)
         ///
-        /// * [Security Hub controls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html)
+        /// * [Security Hub CSPM controls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html)
         ///
         /// * [API calls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html)
         ///
@@ -2546,11 +2546,11 @@ extension AuditManagerClientTypes {
         public var sourceDescription: Swift.String?
         /// Specifies how often evidence is collected from the control mapping source.
         public var sourceFrequency: AuditManagerClientTypes.SourceFrequency?
-        /// A keyword that relates to the control data source. For manual evidence, this keyword indicates if the manual evidence is a file or text. For automated evidence, this keyword identifies a specific CloudTrail event, Config rule, Security Hub control, or Amazon Web Services API name. To learn more about the supported keywords that you can use when mapping a control data source, see the following pages in the Audit Manager User Guide:
+        /// A keyword that relates to the control data source. For manual evidence, this keyword indicates if the manual evidence is a file or text. For automated evidence, this keyword identifies a specific CloudTrail event, Config rule, Security Hub CSPM control, or Amazon Web Services API name. To learn more about the supported keywords that you can use when mapping a control data source, see the following pages in the Audit Manager User Guide:
         ///
         /// * [Config rules supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html)
         ///
-        /// * [Security Hub controls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html)
+        /// * [Security Hub CSPM controls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html)
         ///
         /// * [API calls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html)
         ///
@@ -3182,11 +3182,11 @@ extension AuditManagerClientTypes {
         public var arn: Swift.String?
         /// The evaluation status for a resource that was assessed when collecting compliance check evidence.
         ///
-        /// * Audit Manager classes the resource as non-compliant if Security Hub reports a Fail result, or if Config reports a Non-compliant result.
+        /// * Audit Manager classes the resource as non-compliant if Security Hub CSPM reports a Fail result, or if Config reports a Non-compliant result.
         ///
-        /// * Audit Manager classes the resource as compliant if Security Hub reports a Pass result, or if Config reports a Compliant result.
+        /// * Audit Manager classes the resource as compliant if Security Hub CSPM reports a Pass result, or if Config reports a Compliant result.
         ///
-        /// * If a compliance check isn't available or applicable, then no compliance evaluation can be made for that resource. This is the case if a resource assessment uses Config or Security Hub as the underlying data source type, but those services aren't enabled. This is also the case if the resource assessment uses an underlying data source type that doesn't support compliance checks (such as manual evidence, Amazon Web Services API calls, or CloudTrail).
+        /// * If a compliance check isn't available or applicable, then no compliance evaluation can be made for that resource. This is the case if a resource assessment uses Config or Security Hub CSPM as the underlying data source type, but those services aren't enabled. This is also the case if the resource assessment uses an underlying data source type that doesn't support compliance checks (such as manual evidence, Amazon Web Services API calls, or CloudTrail).
         public var complianceCheck: Swift.String?
         /// The value of the resource.
         public var value: Swift.String?
@@ -3217,11 +3217,11 @@ extension AuditManagerClientTypes {
         public var awsOrganization: Swift.String?
         /// The evaluation status for automated evidence that falls under the compliance check category.
         ///
-        /// * Audit Manager classes evidence as non-compliant if Security Hub reports a Fail result, or if Config reports a Non-compliant result.
+        /// * Audit Manager classes evidence as non-compliant if Security Hub CSPM reports a Fail result, or if Config reports a Non-compliant result.
         ///
-        /// * Audit Manager classes evidence as compliant if Security Hub reports a Pass result, or if Config reports a Compliant result.
+        /// * Audit Manager classes evidence as compliant if Security Hub CSPM reports a Pass result, or if Config reports a Compliant result.
         ///
-        /// * If a compliance check isn't available or applicable, then no compliance evaluation can be made for that evidence. This is the case if the evidence uses Config or Security Hub as the underlying data source type, but those services aren't enabled. This is also the case if the evidence uses an underlying data source type that doesn't support compliance checks (such as manual evidence, Amazon Web Services API calls, or CloudTrail).
+        /// * If a compliance check isn't available or applicable, then no compliance evaluation can be made for that evidence. This is the case if the evidence uses Config or Security Hub CSPM as the underlying data source type, but those services aren't enabled. This is also the case if the evidence uses an underlying data source type that doesn't support compliance checks (such as manual evidence, Amazon Web Services API calls, or CloudTrail).
         public var complianceCheck: Swift.String?
         /// The data source where the evidence was collected from.
         public var dataSource: Swift.String?
@@ -3504,13 +3504,13 @@ extension AuditManagerClientTypes {
         public var activeAssessmentsCount: Swift.Int?
         /// The number of assessment controls that collected non-compliant evidence on the lastUpdated date.
         public var assessmentControlsCountByNoncompliantEvidence: Swift.Int?
-        /// The number of compliance check evidence that Audit Manager classified as compliant on the lastUpdated date. This includes evidence that was collected from Security Hub with a Pass ruling, or collected from Config with a Compliant ruling.
+        /// The number of compliance check evidence that Audit Manager classified as compliant on the lastUpdated date. This includes evidence that was collected from Security Hub CSPM with a Pass ruling, or collected from Config with a Compliant ruling.
         public var compliantEvidenceCount: Swift.Int?
-        /// The number of evidence without a compliance check ruling. Evidence is inconclusive when the associated control uses Security Hub or Config as a data source but you didn't enable those services. This is also the case when a control uses a data source that doesn’t support compliance checks (for example: manual evidence, API calls, or CloudTrail). If evidence has a compliance check status of not applicable, it's classed as inconclusive in Insights data.
+        /// The number of evidence without a compliance check ruling. Evidence is inconclusive when the associated control uses Security Hub CSPM or Config as a data source but you didn't enable those services. This is also the case when a control uses a data source that doesn’t support compliance checks (for example: manual evidence, API calls, or CloudTrail). If evidence has a compliance check status of not applicable, it's classed as inconclusive in Insights data.
         public var inconclusiveEvidenceCount: Swift.Int?
         /// The time when the cross-assessment insights were last updated.
         public var lastUpdated: Foundation.Date?
-        /// The number of compliance check evidence that Audit Manager classified as non-compliant on the lastUpdated date. This includes evidence that was collected from Security Hub with a Fail ruling, or collected from Config with a Non-compliant ruling.
+        /// The number of compliance check evidence that Audit Manager classified as non-compliant on the lastUpdated date. This includes evidence that was collected from Security Hub CSPM with a Fail ruling, or collected from Config with a Non-compliant ruling.
         public var noncompliantEvidenceCount: Swift.Int?
         /// The total number of controls across all active assessments.
         public var totalAssessmentControlsCount: Swift.Int?
@@ -3568,13 +3568,13 @@ extension AuditManagerClientTypes {
     public struct InsightsByAssessment: Swift.Sendable {
         /// The number of assessment controls that collected non-compliant evidence on the lastUpdated date.
         public var assessmentControlsCountByNoncompliantEvidence: Swift.Int?
-        /// The number of compliance check evidence that Audit Manager classified as compliant. This includes evidence that was collected from Security Hub with a Pass ruling, or collected from Config with a Compliant ruling.
+        /// The number of compliance check evidence that Audit Manager classified as compliant. This includes evidence that was collected from Security Hub CSPM with a Pass ruling, or collected from Config with a Compliant ruling.
         public var compliantEvidenceCount: Swift.Int?
-        /// The amount of evidence without a compliance check ruling. Evidence is inconclusive if the associated control uses Security Hub or Config as a data source and you didn't enable those services. This is also the case if a control uses a data source that doesn’t support compliance checks (for example, manual evidence, API calls, or CloudTrail). If evidence has a compliance check status of not applicable, it's classified as inconclusive in InsightsByAssessment data.
+        /// The amount of evidence without a compliance check ruling. Evidence is inconclusive if the associated control uses Security Hub CSPM or Config as a data source and you didn't enable those services. This is also the case if a control uses a data source that doesn’t support compliance checks (for example, manual evidence, API calls, or CloudTrail). If evidence has a compliance check status of not applicable, it's classified as inconclusive in InsightsByAssessment data.
         public var inconclusiveEvidenceCount: Swift.Int?
         /// The time when the assessment insights were last updated.
         public var lastUpdated: Foundation.Date?
-        /// The number of compliance check evidence that Audit Manager classified as non-compliant. This includes evidence that was collected from Security Hub with a Fail ruling, or collected from Config with a Non-compliant ruling.
+        /// The number of compliance check evidence that Audit Manager classified as non-compliant. This includes evidence that was collected from Security Hub CSPM with a Fail ruling, or collected from Config with a Non-compliant ruling.
         public var noncompliantEvidenceCount: Swift.Int?
         /// The total number of controls in the assessment.
         public var totalAssessmentControlsCount: Swift.Int?
@@ -4019,11 +4019,11 @@ extension AuditManagerClientTypes {
 
     /// A breakdown of the latest compliance check status for the evidence in your Audit Manager assessments.
     public struct EvidenceInsights: Swift.Sendable {
-        /// The number of compliance check evidence that Audit Manager classified as compliant. This includes evidence that was collected from Security Hub with a Pass ruling, or collected from Config with a Compliant ruling.
+        /// The number of compliance check evidence that Audit Manager classified as compliant. This includes evidence that was collected from Security Hub CSPM with a Pass ruling, or collected from Config with a Compliant ruling.
         public var compliantEvidenceCount: Swift.Int?
-        /// The number of evidence that a compliance check ruling isn't available for. Evidence is inconclusive when the associated control uses Security Hub or Config as a data source but you didn't enable those services. This is also the case when a control uses a data source that doesn’t support compliance checks (for example, manual evidence, API calls, or CloudTrail). If evidence has a compliance check status of not applicable in the console, it's classified as inconclusive in EvidenceInsights data.
+        /// The number of evidence that a compliance check ruling isn't available for. Evidence is inconclusive when the associated control uses Security Hub CSPM or Config as a data source but you didn't enable those services. This is also the case when a control uses a data source that doesn’t support compliance checks (for example, manual evidence, API calls, or CloudTrail). If evidence has a compliance check status of not applicable in the console, it's classified as inconclusive in EvidenceInsights data.
         public var inconclusiveEvidenceCount: Swift.Int?
-        /// The number of compliance check evidence that Audit Manager classified as non-compliant. This includes evidence that was collected from Security Hub with a Fail ruling, or collected from Config with a Non-compliant ruling.
+        /// The number of compliance check evidence that Audit Manager classified as non-compliant. This includes evidence that was collected from Security Hub CSPM with a Fail ruling, or collected from Config with a Non-compliant ruling.
         public var noncompliantEvidenceCount: Swift.Int?
 
         public init(

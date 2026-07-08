@@ -17,7 +17,7 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 class GlacierAccountIdMiddlewareTest {
     @Test
     fun testGlacierMiddlewareRendersCorrectly() {
-        val writer = SwiftWriter("testName")
+        val writer = SwiftWriter("testName", moduleName = "ModuleName")
         val serviceShape =
             ServiceShape
                 .builder()

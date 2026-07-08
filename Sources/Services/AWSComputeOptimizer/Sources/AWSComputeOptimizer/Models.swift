@@ -2301,6 +2301,7 @@ extension ComputeOptimizerClientTypes {
         case currentConfigurationVolumeType
         case currentMonthlyPrice
         case currentPerformanceRisk
+        case effectiveRecommendationPreferencesLookbackPeriod
         case effectiveRecommendationPreferencesSavingsEstimationMode
         case finding
         case lastRefreshTimestamp
@@ -2321,8 +2322,10 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsSavingsOpportunityPercentage
         case rootVolume
         case tags
+        case utilizationMetricsVolumeIopsExceededMaximum
         case utilizationMetricsVolumeReadBytesPerSecondMaximum
         case utilizationMetricsVolumeReadOpsPerSecondMaximum
+        case utilizationMetricsVolumeThroughputExceededMaximum
         case utilizationMetricsVolumeWriteBytesPerSecondMaximum
         case utilizationMetricsVolumeWriteOpsPerSecondMaximum
         case volumeArn
@@ -2340,6 +2343,7 @@ extension ComputeOptimizerClientTypes {
                 .currentConfigurationVolumeType,
                 .currentMonthlyPrice,
                 .currentPerformanceRisk,
+                .effectiveRecommendationPreferencesLookbackPeriod,
                 .effectiveRecommendationPreferencesSavingsEstimationMode,
                 .finding,
                 .lastRefreshTimestamp,
@@ -2360,8 +2364,10 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsSavingsOpportunityPercentage,
                 .rootVolume,
                 .tags,
+                .utilizationMetricsVolumeIopsExceededMaximum,
                 .utilizationMetricsVolumeReadBytesPerSecondMaximum,
                 .utilizationMetricsVolumeReadOpsPerSecondMaximum,
+                .utilizationMetricsVolumeThroughputExceededMaximum,
                 .utilizationMetricsVolumeWriteBytesPerSecondMaximum,
                 .utilizationMetricsVolumeWriteOpsPerSecondMaximum,
                 .volumeArn
@@ -2385,6 +2391,7 @@ extension ComputeOptimizerClientTypes {
             case .currentConfigurationVolumeType: return "CurrentConfigurationVolumeType"
             case .currentMonthlyPrice: return "CurrentMonthlyPrice"
             case .currentPerformanceRisk: return "CurrentPerformanceRisk"
+            case .effectiveRecommendationPreferencesLookbackPeriod: return "EffectiveRecommendationPreferencesLookBackPeriod"
             case .effectiveRecommendationPreferencesSavingsEstimationMode: return "EffectiveRecommendationPreferencesSavingsEstimationMode"
             case .finding: return "Finding"
             case .lastRefreshTimestamp: return "LastRefreshTimestamp"
@@ -2405,8 +2412,10 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
             case .rootVolume: return "RootVolume"
             case .tags: return "Tags"
+            case .utilizationMetricsVolumeIopsExceededMaximum: return "UtilizationMetricsVolumeIOPSExceededMaximum"
             case .utilizationMetricsVolumeReadBytesPerSecondMaximum: return "UtilizationMetricsVolumeReadBytesPerSecondMaximum"
             case .utilizationMetricsVolumeReadOpsPerSecondMaximum: return "UtilizationMetricsVolumeReadOpsPerSecondMaximum"
+            case .utilizationMetricsVolumeThroughputExceededMaximum: return "UtilizationMetricsVolumeThroughputExceededMaximum"
             case .utilizationMetricsVolumeWriteBytesPerSecondMaximum: return "UtilizationMetricsVolumeWriteBytesPerSecondMaximum"
             case .utilizationMetricsVolumeWriteOpsPerSecondMaximum: return "UtilizationMetricsVolumeWriteOpsPerSecondMaximum"
             case .volumeArn: return "VolumeArn"
@@ -2805,6 +2814,7 @@ extension ComputeOptimizerClientTypes {
         case currentServiceConfigurationMemory
         case currentServiceConfigurationTaskDefinitionArn
         case currentServiceContainerConfigurations
+        case effectiveRecommendationPreferencesLookbackPeriod
         case effectiveRecommendationPreferencesSavingsEstimationMode
         case finding
         case findingReasonCodes
@@ -2837,6 +2847,7 @@ extension ComputeOptimizerClientTypes {
                 .currentServiceConfigurationMemory,
                 .currentServiceConfigurationTaskDefinitionArn,
                 .currentServiceContainerConfigurations,
+                .effectiveRecommendationPreferencesLookbackPeriod,
                 .effectiveRecommendationPreferencesSavingsEstimationMode,
                 .finding,
                 .findingReasonCodes,
@@ -2875,6 +2886,7 @@ extension ComputeOptimizerClientTypes {
             case .currentServiceConfigurationMemory: return "CurrentServiceConfigurationMemory"
             case .currentServiceConfigurationTaskDefinitionArn: return "CurrentServiceConfigurationTaskDefinitionArn"
             case .currentServiceContainerConfigurations: return "CurrentServiceContainerConfigurations"
+            case .effectiveRecommendationPreferencesLookbackPeriod: return "EffectiveRecommendationPreferencesLookBackPeriod"
             case .effectiveRecommendationPreferencesSavingsEstimationMode: return "EffectiveRecommendationPreferencesSavingsEstimationMode"
             case .finding: return "Finding"
             case .findingReasonCodes: return "FindingReasonCodes"
@@ -3016,15 +3028,31 @@ extension ComputeOptimizerClientTypes {
         case savingsOpportunityAfterDiscount
         case tags
         case utilizationMetricsActiveConnectionCountMaximum
+        case utilizationMetricsCacheHitsSum
+        case utilizationMetricsCacheMissesSum
+        case utilizationMetricsConsumedReadCapacityUnitsSum
+        case utilizationMetricsConsumedWriteCapacityUnitsSum
         case utilizationMetricsCpuMaximum
+        case utilizationMetricsCurrConnectionsSum
         case utilizationMetricsDatabaseConnectionsMaximum
+        case utilizationMetricsDatabaseConnectionsSum
         case utilizationMetricsEbsVolumeReadIopsMaximum
         case utilizationMetricsEbsVolumeWriteIopsMaximum
+        case utilizationMetricsElastiCacheProcessingUnitsSum
+        case utilizationMetricsEngineCpuUtilizationMaximum
+        case utilizationMetricsGetTypeCmdsSum
+        case utilizationMetricsInvocationsSum
+        case utilizationMetricsIsIdleMinimum
+        case utilizationMetricsKeyspaceHitsSum
+        case utilizationMetricsKeyspaceMissesSum
         case utilizationMetricsMemoryMaximum
         case utilizationMetricsNetworkInBytesPerSecondMaximum
         case utilizationMetricsNetworkOutBytesPerSecondMaximum
+        case utilizationMetricsNewConnectionsSum
         case utilizationMetricsPacketsInFromDestinationMaximum
         case utilizationMetricsPacketsInFromSourceMaximum
+        case utilizationMetricsSetTypeCmdsSum
+        case utilizationMetricsUserConnectedSum
         case utilizationMetricsVolumeReadOpsPerSecondMaximum
         case utilizationMetricsVolumeWriteOpsPerSecondMaximum
         case sdkUnknown(Swift.String)
@@ -3043,15 +3071,31 @@ extension ComputeOptimizerClientTypes {
                 .savingsOpportunityAfterDiscount,
                 .tags,
                 .utilizationMetricsActiveConnectionCountMaximum,
+                .utilizationMetricsCacheHitsSum,
+                .utilizationMetricsCacheMissesSum,
+                .utilizationMetricsConsumedReadCapacityUnitsSum,
+                .utilizationMetricsConsumedWriteCapacityUnitsSum,
                 .utilizationMetricsCpuMaximum,
+                .utilizationMetricsCurrConnectionsSum,
                 .utilizationMetricsDatabaseConnectionsMaximum,
+                .utilizationMetricsDatabaseConnectionsSum,
                 .utilizationMetricsEbsVolumeReadIopsMaximum,
                 .utilizationMetricsEbsVolumeWriteIopsMaximum,
+                .utilizationMetricsElastiCacheProcessingUnitsSum,
+                .utilizationMetricsEngineCpuUtilizationMaximum,
+                .utilizationMetricsGetTypeCmdsSum,
+                .utilizationMetricsInvocationsSum,
+                .utilizationMetricsIsIdleMinimum,
+                .utilizationMetricsKeyspaceHitsSum,
+                .utilizationMetricsKeyspaceMissesSum,
                 .utilizationMetricsMemoryMaximum,
                 .utilizationMetricsNetworkInBytesPerSecondMaximum,
                 .utilizationMetricsNetworkOutBytesPerSecondMaximum,
+                .utilizationMetricsNewConnectionsSum,
                 .utilizationMetricsPacketsInFromDestinationMaximum,
                 .utilizationMetricsPacketsInFromSourceMaximum,
+                .utilizationMetricsSetTypeCmdsSum,
+                .utilizationMetricsUserConnectedSum,
                 .utilizationMetricsVolumeReadOpsPerSecondMaximum,
                 .utilizationMetricsVolumeWriteOpsPerSecondMaximum
             ]
@@ -3076,15 +3120,31 @@ extension ComputeOptimizerClientTypes {
             case .savingsOpportunityAfterDiscount: return "SavingsOpportunityAfterDiscount"
             case .tags: return "Tags"
             case .utilizationMetricsActiveConnectionCountMaximum: return "UtilizationMetricsActiveConnectionCountMaximum"
+            case .utilizationMetricsCacheHitsSum: return "UtilizationMetricsCacheHitsSum"
+            case .utilizationMetricsCacheMissesSum: return "UtilizationMetricsCacheMissesSum"
+            case .utilizationMetricsConsumedReadCapacityUnitsSum: return "UtilizationMetricsConsumedReadCapacityUnitsSum"
+            case .utilizationMetricsConsumedWriteCapacityUnitsSum: return "UtilizationMetricsConsumedWriteCapacityUnitsSum"
             case .utilizationMetricsCpuMaximum: return "UtilizationMetricsCpuMaximum"
+            case .utilizationMetricsCurrConnectionsSum: return "UtilizationMetricsCurrConnectionsSum"
             case .utilizationMetricsDatabaseConnectionsMaximum: return "UtilizationMetricsDatabaseConnectionsMaximum"
+            case .utilizationMetricsDatabaseConnectionsSum: return "UtilizationMetricsDatabaseConnectionsSum"
             case .utilizationMetricsEbsVolumeReadIopsMaximum: return "UtilizationMetricsEBSVolumeReadIOPSMaximum"
             case .utilizationMetricsEbsVolumeWriteIopsMaximum: return "UtilizationMetricsEBSVolumeWriteIOPSMaximum"
+            case .utilizationMetricsElastiCacheProcessingUnitsSum: return "UtilizationMetricsElastiCacheProcessingUnitsSum"
+            case .utilizationMetricsEngineCpuUtilizationMaximum: return "UtilizationMetricsEngineCPUUtilizationMaximum"
+            case .utilizationMetricsGetTypeCmdsSum: return "UtilizationMetricsGetTypeCmdsSum"
+            case .utilizationMetricsInvocationsSum: return "UtilizationMetricsInvocationsSum"
+            case .utilizationMetricsIsIdleMinimum: return "UtilizationMetricsIsIdleMinimum"
+            case .utilizationMetricsKeyspaceHitsSum: return "UtilizationMetricsKeyspaceHitsSum"
+            case .utilizationMetricsKeyspaceMissesSum: return "UtilizationMetricsKeyspaceMissesSum"
             case .utilizationMetricsMemoryMaximum: return "UtilizationMetricsMemoryMaximum"
             case .utilizationMetricsNetworkInBytesPerSecondMaximum: return "UtilizationMetricsNetworkInBytesPerSecondMaximum"
             case .utilizationMetricsNetworkOutBytesPerSecondMaximum: return "UtilizationMetricsNetworkOutBytesPerSecondMaximum"
+            case .utilizationMetricsNewConnectionsSum: return "UtilizationMetricsNewConnectionsSum"
             case .utilizationMetricsPacketsInFromDestinationMaximum: return "UtilizationMetricsPacketsInFromDestinationMaximum"
             case .utilizationMetricsPacketsInFromSourceMaximum: return "UtilizationMetricsPacketsInFromSourceMaximum"
+            case .utilizationMetricsSetTypeCmdsSum: return "UtilizationMetricsSetTypeCmdsSum"
+            case .utilizationMetricsUserConnectedSum: return "UtilizationMetricsUserConnectedSum"
             case .utilizationMetricsVolumeReadOpsPerSecondMaximum: return "UtilizationMetricsVolumeReadOpsPerSecondMaximum"
             case .utilizationMetricsVolumeWriteOpsPerSecondMaximum: return "UtilizationMetricsVolumeWriteOpsPerSecondMaximum"
             case let .sdkUnknown(s): return s
@@ -4168,12 +4228,16 @@ extension ComputeOptimizerClientTypes {
 
     /// Describes the effective recommendation preferences for Amazon EBS volumes.
     public struct EBSEffectiveRecommendationPreferences: Swift.Sendable {
+        /// The number of days for which utilization metrics were analyzed for the volume.
+        public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
         /// Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon EBS volumes.
         public var savingsEstimationMode: ComputeOptimizerClientTypes.EBSSavingsEstimationMode?
 
         public init(
+            lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference? = nil,
             savingsEstimationMode: ComputeOptimizerClientTypes.EBSSavingsEstimationMode? = nil
         ) {
+            self.lookBackPeriod = lookBackPeriod
             self.savingsEstimationMode = savingsEstimationMode
         }
     }
@@ -4230,16 +4294,20 @@ extension ComputeOptimizerClientTypes {
 extension ComputeOptimizerClientTypes {
 
     public enum EBSMetricName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case volumeIopsExceeded
         case volumeReadBytesPerSecond
         case volumeReadOpsPerSecond
+        case volumeThroughputExceeded
         case volumeWriteBytesPerSecond
         case volumeWriteOpsPerSecond
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EBSMetricName] {
             return [
+                .volumeIopsExceeded,
                 .volumeReadBytesPerSecond,
                 .volumeReadOpsPerSecond,
+                .volumeThroughputExceeded,
                 .volumeWriteBytesPerSecond,
                 .volumeWriteOpsPerSecond
             ]
@@ -4252,8 +4320,10 @@ extension ComputeOptimizerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .volumeIopsExceeded: return "VolumeIOPSExceeded"
             case .volumeReadBytesPerSecond: return "VolumeReadBytesPerSecond"
             case .volumeReadOpsPerSecond: return "VolumeReadOpsPerSecond"
+            case .volumeThroughputExceeded: return "VolumeThroughputExceeded"
             case .volumeWriteBytesPerSecond: return "VolumeWriteBytesPerSecond"
             case .volumeWriteOpsPerSecond: return "VolumeWriteOpsPerSecond"
             case let .sdkUnknown(s): return s
@@ -4275,6 +4345,10 @@ extension ComputeOptimizerClientTypes {
         /// * VolumeReadBytesPerSecond - The bytes read per second from the volume in a specified period of time. Unit: Bytes
         ///
         /// * VolumeWriteBytesPerSecond - The bytes written to the volume in a specified period of time. Unit: Bytes
+        ///
+        /// * VolumeIOPSExceeded - Indicates whether the volume's provisioned IOPS performance was exceeded in a specified period of time. A value of 1 means the provisioned IOPS were exceeded; a value of 0 means they were not. Unit: None
+        ///
+        /// * VolumeThroughputExceeded - Indicates whether the volume's provisioned throughput performance was exceeded in a specified period of time. A value of 1 means the provisioned throughput was exceeded; a value of 0 means it was not. Unit: None
         public var name: ComputeOptimizerClientTypes.EBSMetricName?
         /// The statistic of the utilization metric. The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see [Viewing resource recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/viewing-recommendations.html) in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the [Amazon CloudWatch User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html).
         public var statistic: ComputeOptimizerClientTypes.MetricStatistic?
@@ -4839,28 +4913,40 @@ extension ComputeOptimizerClientTypes {
     public enum RecommendationSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case auroraDbClusterStorage
         case autoScalingGroup
+        case documentDbCluster
+        case dynamoDbTable
         case ebsVolume
         case ec2Instance
         case ecsService
+        case elastiCacheCluster
         case lambdaFunction
         case license
+        case memoryDbCluster
         case natGateway
         case rdsDbInstance
         case rdsDbInstanceStorage
+        case sageMakerEndpoint
+        case workspaces
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RecommendationSourceType] {
             return [
                 .auroraDbClusterStorage,
                 .autoScalingGroup,
+                .documentDbCluster,
+                .dynamoDbTable,
                 .ebsVolume,
                 .ec2Instance,
                 .ecsService,
+                .elastiCacheCluster,
                 .lambdaFunction,
                 .license,
+                .memoryDbCluster,
                 .natGateway,
                 .rdsDbInstance,
-                .rdsDbInstanceStorage
+                .rdsDbInstanceStorage,
+                .sageMakerEndpoint,
+                .workspaces
             ]
         }
 
@@ -4873,14 +4959,20 @@ extension ComputeOptimizerClientTypes {
             switch self {
             case .auroraDbClusterStorage: return "AuroraDBClusterStorage"
             case .autoScalingGroup: return "AutoScalingGroup"
+            case .documentDbCluster: return "DocumentDBCluster"
+            case .dynamoDbTable: return "DynamoDBTable"
             case .ebsVolume: return "EbsVolume"
             case .ec2Instance: return "Ec2Instance"
             case .ecsService: return "EcsService"
+            case .elastiCacheCluster: return "ElastiCacheCluster"
             case .lambdaFunction: return "LambdaFunction"
             case .license: return "License"
+            case .memoryDbCluster: return "MemoryDBCluster"
             case .natGateway: return "NatGateway"
             case .rdsDbInstance: return "RdsDBInstance"
             case .rdsDbInstanceStorage: return "RdsDBInstanceStorage"
+            case .sageMakerEndpoint: return "SageMakerEndpoint"
+            case .workspaces: return "WorkSpaces"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5459,12 +5551,16 @@ extension ComputeOptimizerClientTypes {
 
     /// Describes the effective recommendation preferences for Amazon ECS services.
     public struct ECSEffectiveRecommendationPreferences: Swift.Sendable {
+        /// The number of days the Amazon ECS service utilization metrics were analyzed.
+        public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
         /// Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon ECS services.
         public var savingsEstimationMode: ComputeOptimizerClientTypes.ECSSavingsEstimationMode?
 
         public init(
+            lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference? = nil,
             savingsEstimationMode: ComputeOptimizerClientTypes.ECSSavingsEstimationMode? = nil
         ) {
+            self.lookBackPeriod = lookBackPeriod
             self.savingsEstimationMode = savingsEstimationMode
         }
     }
@@ -5862,7 +5958,7 @@ public struct GetEffectiveRecommendationPreferencesOutput: Swift.Sendable {
     public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
     /// The provider of the external metrics recommendation preference. Considers all applicable preferences that you might have set at the account and organization level. If the preference is applied in the latest recommendation refresh, an object with a valid source value appears in the response. If the preference isn't applied to the recommendations already, then this object doesn't appear in the response. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the [GetEC2InstanceRecommendations] actions. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/external-metrics-ingestion.html) in the Compute Optimizer User Guide.
     public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
-    /// The number of days the utilization metrics of the Amazon Web Services resource are analyzed. To validate that the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
+    /// The number of days the utilization metrics of the Amazon Web Services resource are analyzed. To validate that the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations, GetEC2InstanceRecommendations, GetEBSVolumeRecommendations, GetECSServiceRecommendations, or GetRDSDatabaseRecommendations actions.
     public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
     /// The resource type values that are considered as candidates when generating rightsizing recommendations. This object resolves any wildcard expressions and returns the effective list of candidate resource type values. It also considers all applicable preferences that you set at the resource, account, and organization level. To validate that the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
     public var preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]?
@@ -6107,21 +6203,33 @@ extension ComputeOptimizerClientTypes {
 
     public enum IdleRecommendationResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case autoScalingGroup
+        case documentDbCluster
+        case dynamoDbTable
         case ebsVolume
         case ec2Instance
         case ecsService
+        case elastiCacheCluster
+        case memoryDbCluster
         case natGateway
         case rdsDbInstance
+        case sageMakerEndpoint
+        case workspaces
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IdleRecommendationResourceType] {
             return [
                 .autoScalingGroup,
+                .documentDbCluster,
+                .dynamoDbTable,
                 .ebsVolume,
                 .ec2Instance,
                 .ecsService,
+                .elastiCacheCluster,
+                .memoryDbCluster,
                 .natGateway,
-                .rdsDbInstance
+                .rdsDbInstance,
+                .sageMakerEndpoint,
+                .workspaces
             ]
         }
 
@@ -6133,11 +6241,17 @@ extension ComputeOptimizerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .autoScalingGroup: return "AutoScalingGroup"
+            case .documentDbCluster: return "DocumentDBCluster"
+            case .dynamoDbTable: return "DynamoDBTable"
             case .ebsVolume: return "EBSVolume"
             case .ec2Instance: return "EC2Instance"
             case .ecsService: return "ECSService"
+            case .elastiCacheCluster: return "ElastiCacheCluster"
+            case .memoryDbCluster: return "MemoryDBCluster"
             case .natGateway: return "NatGateway"
             case .rdsDbInstance: return "RDSDBInstance"
+            case .sageMakerEndpoint: return "SageMakerEndpoint"
+            case .workspaces: return "WorkSpaces"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6262,17 +6376,52 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
+    /// Describes the dimension of an idle resource utilization metric.
+    public struct IdleDimension: Swift.Sendable {
+        /// The name of the dimension key.
+        public var key: Swift.String?
+        /// The value of the dimension.
+        public var values: [Swift.String]?
+
+        public init(
+            key: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.key = key
+            self.values = values
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
     public enum IdleMetricName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case activeConnectionCount
+        case cacheHits
+        case cacheMisses
+        case consumedChangeDataCaptureUnits
+        case consumedReadCapacityUnits
+        case consumedWriteCapacityUnits
         case cpu
+        case currConnections
         case databaseConnections
         case ebsVolumeReadIops
         case ebsVolumeWriteIops
+        case elastiCacheProcessingUnits
+        case engineCpuUtilization
+        case getTypeCmds
+        case invocations
+        case isIdle
+        case keyspaceHits
+        case keyspaceMisses
         case memory
         case networkInBytesPerSecond
         case networkOutBytesPerSecond
+        case newConnections
         case packetsInFromDestination
         case packetsInFromSource
+        case setTypeCmds
+        case userConnected
         case volumeReadOpsPerSecond
         case volumeWriteOpsPerSecond
         case sdkUnknown(Swift.String)
@@ -6280,15 +6429,31 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [IdleMetricName] {
             return [
                 .activeConnectionCount,
+                .cacheHits,
+                .cacheMisses,
+                .consumedChangeDataCaptureUnits,
+                .consumedReadCapacityUnits,
+                .consumedWriteCapacityUnits,
                 .cpu,
+                .currConnections,
                 .databaseConnections,
                 .ebsVolumeReadIops,
                 .ebsVolumeWriteIops,
+                .elastiCacheProcessingUnits,
+                .engineCpuUtilization,
+                .getTypeCmds,
+                .invocations,
+                .isIdle,
+                .keyspaceHits,
+                .keyspaceMisses,
                 .memory,
                 .networkInBytesPerSecond,
                 .networkOutBytesPerSecond,
+                .newConnections,
                 .packetsInFromDestination,
                 .packetsInFromSource,
+                .setTypeCmds,
+                .userConnected,
                 .volumeReadOpsPerSecond,
                 .volumeWriteOpsPerSecond
             ]
@@ -6302,15 +6467,31 @@ extension ComputeOptimizerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .activeConnectionCount: return "ActiveConnectionCount"
+            case .cacheHits: return "CacheHits"
+            case .cacheMisses: return "CacheMisses"
+            case .consumedChangeDataCaptureUnits: return "ConsumedChangeDataCaptureUnits"
+            case .consumedReadCapacityUnits: return "ConsumedReadCapacityUnits"
+            case .consumedWriteCapacityUnits: return "ConsumedWriteCapacityUnits"
             case .cpu: return "CPU"
+            case .currConnections: return "CurrConnections"
             case .databaseConnections: return "DatabaseConnections"
             case .ebsVolumeReadIops: return "EBSVolumeReadIOPS"
             case .ebsVolumeWriteIops: return "EBSVolumeWriteIOPS"
+            case .elastiCacheProcessingUnits: return "ElastiCacheProcessingUnits"
+            case .engineCpuUtilization: return "EngineCPUUtilization"
+            case .getTypeCmds: return "GetTypeCmds"
+            case .invocations: return "Invocations"
+            case .isIdle: return "IsIdle"
+            case .keyspaceHits: return "KeyspaceHits"
+            case .keyspaceMisses: return "KeyspaceMisses"
             case .memory: return "Memory"
             case .networkInBytesPerSecond: return "NetworkInBytesPerSecond"
             case .networkOutBytesPerSecond: return "NetworkOutBytesPerSecond"
+            case .newConnections: return "NewConnections"
             case .packetsInFromDestination: return "PacketsInFromDestination"
             case .packetsInFromSource: return "PacketsInFromSource"
+            case .setTypeCmds: return "SetTypeCmds"
+            case .userConnected: return "UserConnected"
             case .volumeReadOpsPerSecond: return "VolumeReadOpsPerSecond"
             case .volumeWriteOpsPerSecond: return "VolumeWriteOpsPerSecond"
             case let .sdkUnknown(s): return s
@@ -6323,6 +6504,8 @@ extension ComputeOptimizerClientTypes {
 
     /// Describes the utilization metric of an idle resource.
     public struct IdleUtilizationMetric: Swift.Sendable {
+        /// The dimensions of the utilization metric.
+        public var dimensions: [ComputeOptimizerClientTypes.IdleDimension]?
         /// The name of the utilization metric.
         public var name: ComputeOptimizerClientTypes.IdleMetricName?
         /// The statistic of the utilization metric. The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see [Viewing resource recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/viewing-recommendations.html) in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the [Amazon CloudWatch User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html).
@@ -6331,10 +6514,12 @@ extension ComputeOptimizerClientTypes {
         public var value: Swift.Double
 
         public init(
+            dimensions: [ComputeOptimizerClientTypes.IdleDimension]? = nil,
             name: ComputeOptimizerClientTypes.IdleMetricName? = nil,
             statistic: ComputeOptimizerClientTypes.MetricStatistic? = nil,
             value: Swift.Double = 0.0
         ) {
+            self.dimensions = dimensions
             self.name = name
             self.statistic = statistic
             self.value = value
@@ -8579,13 +8764,23 @@ public struct PutRecommendationPreferencesInput: Swift.Sendable {
     public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
     /// The status of the inferred workload types recommendation preference to create or update. The inferred workload type feature is active by default. To deactivate it, create a recommendation preference. Specify the Inactive status to deactivate the feature, or specify Active to activate it. For more information, see [Inferred workload types](https://docs.aws.amazon.com/compute-optimizer/latest/ug/inferred-workload-types.html) in the Compute Optimizer User Guide.
     public var inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference?
-    /// The preference to control the number of days the utilization metrics of the Amazon Web Services resource are analyzed. When this preference isn't specified, we use the default value DAYS_14. You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
+    /// The preference to control the number of days the utilization metrics of the Amazon Web Services resource are analyzed. When this preference isn't specified, we use the default value DAYS_14. You can only set this preference for the Amazon EC2 instance, Auto Scaling group, Amazon EBS volume, Amazon ECS service on Fargate, Amazon RDS DB instance, and Aurora DB cluster storage resource types.
     ///
-    /// * Amazon EC2 instance lookback preferences can be set at the organization, account, and resource levels.
+    /// * Lookback period preferences for Amazon EC2 instances, Amazon EBS volumes, Amazon ECS services, Amazon RDS DB instances, and Aurora DB cluster storage resource types can be set at the organization, account, and resource levels.
     ///
     /// * Auto Scaling group lookback preferences can only be set at the resource level.
+    ///
+    /// * Amazon EBS volume lookback preferences can be set at the organization, account, and resource levels.
+    ///
+    /// * Amazon ECS service on Fargate lookback preferences can be set at the organization, account, and resource levels.
+    ///
+    /// * Amazon RDS DB instance lookback preferences can be set at the organization, account, and resource levels.
+    ///
+    /// * Aurora DB cluster storage lookback preferences can be set at the organization, account, and resource levels.
+    ///
+    /// * Changing the lookback period for Amazon EBS volumes to 14 days does not affect the 32-day lookback period used to determine whether an Amazon EBS volume is unattached.
     public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
-    /// The preference to control which resource type values are considered when generating rightsizing recommendations. You can specify this preference as a combination of include and exclude lists. You must specify either an includeList or excludeList. If the preference is an empty set of resource type values, an error occurs. You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
+    /// The preference to control which resource type values are considered when generating rightsizing recommendations. You can specify this preference as a combination of include and exclude lists. You must specify either an includeList or excludeList. If the preference is an empty set of resource type values, an error occurs. You can only set this preference for the Amazon EC2 instance, Auto Scaling group, Amazon EBS volume, Amazon ECS service, Amazon RDS DB instance, and Aurora DB cluster storage resource types.
     public var preferredResources: [ComputeOptimizerClientTypes.PreferredResource]?
     /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
     /// This member is required.

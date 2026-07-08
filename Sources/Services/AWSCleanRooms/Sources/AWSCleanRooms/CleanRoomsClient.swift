@@ -73,6 +73,7 @@ public final class CleanRoomsClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: CleanRoomsClient.CleanRoomsClientConfig
     let serviceName = "CleanRooms"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use CleanRoomsClient.CleanRoomsClientConfig instead")
     public typealias Config = CleanRoomsClient.CleanRoomsClientConfiguration
@@ -82,6 +83,7 @@ public final class CleanRoomsClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: CleanRoomsClient.CleanRoomsClientConfig) instead")
@@ -196,7 +198,7 @@ extension CleanRoomsClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "CleanRooms")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -251,7 +253,7 @@ extension CleanRoomsClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "CleanRooms")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -427,7 +429,7 @@ extension CleanRoomsClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "CleanRooms")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -482,7 +484,7 @@ extension CleanRoomsClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "CleanRooms")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -656,8 +658,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCollaborationAnalysisTemplateOutput>(BatchGetCollaborationAnalysisTemplateOutput.httpOutput(from:), BatchGetCollaborationAnalysisTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCollaborationAnalysisTemplateInput, BatchGetCollaborationAnalysisTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCollaborationAnalysisTemplateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -667,6 +667,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetCollaborationAnalysisTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetCollaborationAnalysisTemplateInput, BatchGetCollaborationAnalysisTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetCollaborationAnalysisTemplateInput, BatchGetCollaborationAnalysisTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetCollaborationAnalysisTemplateInput, BatchGetCollaborationAnalysisTemplateOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -728,8 +730,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetSchemaOutput>(BatchGetSchemaOutput.httpOutput(from:), BatchGetSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetSchemaInput, BatchGetSchemaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetSchemaOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -739,6 +739,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetSchemaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetSchemaInput, BatchGetSchemaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetSchemaInput, BatchGetSchemaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetSchemaInput, BatchGetSchemaOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -800,8 +802,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetSchemaAnalysisRuleOutput>(BatchGetSchemaAnalysisRuleOutput.httpOutput(from:), BatchGetSchemaAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetSchemaAnalysisRuleInput, BatchGetSchemaAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetSchemaAnalysisRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -811,6 +811,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetSchemaAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetSchemaAnalysisRuleInput, BatchGetSchemaAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetSchemaAnalysisRuleInput, BatchGetSchemaAnalysisRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetSchemaAnalysisRuleInput, BatchGetSchemaAnalysisRuleOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -874,8 +876,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAnalysisTemplateOutput>(CreateAnalysisTemplateOutput.httpOutput(from:), CreateAnalysisTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAnalysisTemplateInput, CreateAnalysisTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAnalysisTemplateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -885,6 +885,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAnalysisTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAnalysisTemplateInput, CreateAnalysisTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAnalysisTemplateInput, CreateAnalysisTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAnalysisTemplateInput, CreateAnalysisTemplateOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -946,8 +948,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCollaborationOutput>(CreateCollaborationOutput.httpOutput(from:), CreateCollaborationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCollaborationInput, CreateCollaborationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCollaborationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -957,6 +957,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCollaborationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCollaborationInput, CreateCollaborationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCollaborationInput, CreateCollaborationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCollaborationInput, CreateCollaborationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -1020,8 +1022,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCollaborationChangeRequestOutput>(CreateCollaborationChangeRequestOutput.httpOutput(from:), CreateCollaborationChangeRequestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCollaborationChangeRequestInput, CreateCollaborationChangeRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCollaborationChangeRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1031,6 +1031,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCollaborationChangeRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCollaborationChangeRequestInput, CreateCollaborationChangeRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCollaborationChangeRequestInput, CreateCollaborationChangeRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCollaborationChangeRequestInput, CreateCollaborationChangeRequestOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -1094,8 +1096,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfiguredAudienceModelAssociationOutput>(CreateConfiguredAudienceModelAssociationOutput.httpOutput(from:), CreateConfiguredAudienceModelAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfiguredAudienceModelAssociationInput, CreateConfiguredAudienceModelAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfiguredAudienceModelAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1105,6 +1105,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConfiguredAudienceModelAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConfiguredAudienceModelAssociationInput, CreateConfiguredAudienceModelAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateConfiguredAudienceModelAssociationInput, CreateConfiguredAudienceModelAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateConfiguredAudienceModelAssociationInput, CreateConfiguredAudienceModelAssociationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -1168,8 +1170,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfiguredTableOutput>(CreateConfiguredTableOutput.httpOutput(from:), CreateConfiguredTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfiguredTableInput, CreateConfiguredTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfiguredTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1179,6 +1179,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConfiguredTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConfiguredTableInput, CreateConfiguredTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateConfiguredTableInput, CreateConfiguredTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateConfiguredTableInput, CreateConfiguredTableOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -1242,8 +1244,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfiguredTableAnalysisRuleOutput>(CreateConfiguredTableAnalysisRuleOutput.httpOutput(from:), CreateConfiguredTableAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfiguredTableAnalysisRuleInput, CreateConfiguredTableAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfiguredTableAnalysisRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1253,6 +1253,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConfiguredTableAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConfiguredTableAnalysisRuleInput, CreateConfiguredTableAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateConfiguredTableAnalysisRuleInput, CreateConfiguredTableAnalysisRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateConfiguredTableAnalysisRuleInput, CreateConfiguredTableAnalysisRuleOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -1316,8 +1318,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfiguredTableAssociationOutput>(CreateConfiguredTableAssociationOutput.httpOutput(from:), CreateConfiguredTableAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfiguredTableAssociationInput, CreateConfiguredTableAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfiguredTableAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1327,6 +1327,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConfiguredTableAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConfiguredTableAssociationInput, CreateConfiguredTableAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateConfiguredTableAssociationInput, CreateConfiguredTableAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateConfiguredTableAssociationInput, CreateConfiguredTableAssociationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -1389,8 +1391,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfiguredTableAssociationAnalysisRuleOutput>(CreateConfiguredTableAssociationAnalysisRuleOutput.httpOutput(from:), CreateConfiguredTableAssociationAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfiguredTableAssociationAnalysisRuleInput, CreateConfiguredTableAssociationAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfiguredTableAssociationAnalysisRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1400,6 +1400,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConfiguredTableAssociationAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConfiguredTableAssociationAnalysisRuleInput, CreateConfiguredTableAssociationAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateConfiguredTableAssociationAnalysisRuleInput, CreateConfiguredTableAssociationAnalysisRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateConfiguredTableAssociationAnalysisRuleInput, CreateConfiguredTableAssociationAnalysisRuleOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -1463,8 +1465,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIdMappingTableOutput>(CreateIdMappingTableOutput.httpOutput(from:), CreateIdMappingTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIdMappingTableInput, CreateIdMappingTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIdMappingTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1474,6 +1474,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIdMappingTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIdMappingTableInput, CreateIdMappingTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIdMappingTableInput, CreateIdMappingTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIdMappingTableInput, CreateIdMappingTableOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -1537,8 +1539,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIdNamespaceAssociationOutput>(CreateIdNamespaceAssociationOutput.httpOutput(from:), CreateIdNamespaceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIdNamespaceAssociationInput, CreateIdNamespaceAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIdNamespaceAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1548,10 +1548,160 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIdNamespaceAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIdNamespaceAssociationInput, CreateIdNamespaceAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIdNamespaceAssociationInput, CreateIdNamespaceAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIdNamespaceAssociationInput, CreateIdNamespaceAssociationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateIdNamespaceAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateIntermediateTable` operation on the `CleanRooms` service.
+    ///
+    /// Creates an intermediate table in a membership. An intermediate table stores a query definition that you can execute later using PopulateIntermediateTable to materialize cached results. The intermediate table is owned by the member with the CAN_QUERY ability. This operation does not execute the stored query.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateIntermediateTableInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateIntermediateTableOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func createIntermediateTable(input: CreateIntermediateTableInput) async throws -> CreateIntermediateTableOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createIntermediateTable")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateIntermediateTableInput, CreateIntermediateTableOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateIntermediateTableInput, CreateIntermediateTableOutput>(CreateIntermediateTableInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateIntermediateTableInput, CreateIntermediateTableOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateIntermediateTableInput, CreateIntermediateTableOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateIntermediateTableInput, CreateIntermediateTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateIntermediateTableInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIntermediateTableInput, CreateIntermediateTableOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIntermediateTableOutput>(CreateIntermediateTableOutput.httpOutput(from:), CreateIntermediateTableOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIntermediateTableInput, CreateIntermediateTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateIntermediateTableOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateIntermediateTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIntermediateTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIntermediateTableInput, CreateIntermediateTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIntermediateTableInput, CreateIntermediateTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIntermediateTableInput, CreateIntermediateTableOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateIntermediateTable")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateIntermediateTableAnalysisRule` operation on the `CleanRooms` service.
+    ///
+    /// Creates an analysis rule for an intermediate table. Only the CUSTOM analysis rule type is supported. The service automatically determines whether the rule is first-party or multi-party restricted based on the intermediate table's inherited constraints. Only the intermediate table owner can call this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateIntermediateTableAnalysisRuleInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateIntermediateTableAnalysisRuleOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func createIntermediateTableAnalysisRule(input: CreateIntermediateTableAnalysisRuleInput) async throws -> CreateIntermediateTableAnalysisRuleOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createIntermediateTableAnalysisRule")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateIntermediateTableAnalysisRuleInput, CreateIntermediateTableAnalysisRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateIntermediateTableAnalysisRuleInput, CreateIntermediateTableAnalysisRuleOutput>(CreateIntermediateTableAnalysisRuleInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateIntermediateTableAnalysisRuleInput, CreateIntermediateTableAnalysisRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateIntermediateTableAnalysisRuleInput, CreateIntermediateTableAnalysisRuleOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateIntermediateTableAnalysisRuleInput, CreateIntermediateTableAnalysisRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateIntermediateTableAnalysisRuleInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIntermediateTableAnalysisRuleInput, CreateIntermediateTableAnalysisRuleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIntermediateTableAnalysisRuleOutput>(CreateIntermediateTableAnalysisRuleOutput.httpOutput(from:), CreateIntermediateTableAnalysisRuleOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIntermediateTableAnalysisRuleInput, CreateIntermediateTableAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateIntermediateTableAnalysisRuleOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateIntermediateTableAnalysisRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIntermediateTableAnalysisRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIntermediateTableAnalysisRuleInput, CreateIntermediateTableAnalysisRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIntermediateTableAnalysisRuleInput, CreateIntermediateTableAnalysisRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIntermediateTableAnalysisRuleInput, CreateIntermediateTableAnalysisRuleOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateIntermediateTableAnalysisRule")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1611,8 +1761,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMembershipOutput>(CreateMembershipOutput.httpOutput(from:), CreateMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMembershipInput, CreateMembershipOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMembershipOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1622,6 +1770,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMembershipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateMembershipInput, CreateMembershipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateMembershipInput, CreateMembershipOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateMembershipInput, CreateMembershipOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -1685,8 +1835,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePrivacyBudgetTemplateOutput>(CreatePrivacyBudgetTemplateOutput.httpOutput(from:), CreatePrivacyBudgetTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePrivacyBudgetTemplateInput, CreatePrivacyBudgetTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePrivacyBudgetTemplateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1696,6 +1844,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePrivacyBudgetTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePrivacyBudgetTemplateInput, CreatePrivacyBudgetTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePrivacyBudgetTemplateInput, CreatePrivacyBudgetTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePrivacyBudgetTemplateInput, CreatePrivacyBudgetTemplateOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -1754,8 +1904,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAnalysisTemplateOutput>(DeleteAnalysisTemplateOutput.httpOutput(from:), DeleteAnalysisTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnalysisTemplateInput, DeleteAnalysisTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAnalysisTemplateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1765,6 +1913,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAnalysisTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAnalysisTemplateInput, DeleteAnalysisTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAnalysisTemplateInput, DeleteAnalysisTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAnalysisTemplateInput, DeleteAnalysisTemplateOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -1822,8 +1972,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCollaborationOutput>(DeleteCollaborationOutput.httpOutput(from:), DeleteCollaborationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCollaborationInput, DeleteCollaborationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCollaborationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1833,6 +1981,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCollaborationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCollaborationInput, DeleteCollaborationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCollaborationInput, DeleteCollaborationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCollaborationInput, DeleteCollaborationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -1891,8 +2041,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfiguredAudienceModelAssociationOutput>(DeleteConfiguredAudienceModelAssociationOutput.httpOutput(from:), DeleteConfiguredAudienceModelAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfiguredAudienceModelAssociationInput, DeleteConfiguredAudienceModelAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfiguredAudienceModelAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1902,6 +2050,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConfiguredAudienceModelAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConfiguredAudienceModelAssociationInput, DeleteConfiguredAudienceModelAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConfiguredAudienceModelAssociationInput, DeleteConfiguredAudienceModelAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfiguredAudienceModelAssociationInput, DeleteConfiguredAudienceModelAssociationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -1961,8 +2111,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfiguredTableOutput>(DeleteConfiguredTableOutput.httpOutput(from:), DeleteConfiguredTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfiguredTableInput, DeleteConfiguredTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfiguredTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1972,6 +2120,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConfiguredTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConfiguredTableInput, DeleteConfiguredTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConfiguredTableInput, DeleteConfiguredTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfiguredTableInput, DeleteConfiguredTableOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -2031,8 +2181,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfiguredTableAnalysisRuleOutput>(DeleteConfiguredTableAnalysisRuleOutput.httpOutput(from:), DeleteConfiguredTableAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfiguredTableAnalysisRuleInput, DeleteConfiguredTableAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfiguredTableAnalysisRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2042,6 +2190,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConfiguredTableAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConfiguredTableAnalysisRuleInput, DeleteConfiguredTableAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConfiguredTableAnalysisRuleInput, DeleteConfiguredTableAnalysisRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfiguredTableAnalysisRuleInput, DeleteConfiguredTableAnalysisRuleOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -2101,8 +2251,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfiguredTableAssociationOutput>(DeleteConfiguredTableAssociationOutput.httpOutput(from:), DeleteConfiguredTableAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfiguredTableAssociationInput, DeleteConfiguredTableAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfiguredTableAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2112,6 +2260,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConfiguredTableAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConfiguredTableAssociationInput, DeleteConfiguredTableAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConfiguredTableAssociationInput, DeleteConfiguredTableAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfiguredTableAssociationInput, DeleteConfiguredTableAssociationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -2171,8 +2321,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfiguredTableAssociationAnalysisRuleOutput>(DeleteConfiguredTableAssociationAnalysisRuleOutput.httpOutput(from:), DeleteConfiguredTableAssociationAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfiguredTableAssociationAnalysisRuleInput, DeleteConfiguredTableAssociationAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfiguredTableAssociationAnalysisRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2182,6 +2330,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConfiguredTableAssociationAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConfiguredTableAssociationAnalysisRuleInput, DeleteConfiguredTableAssociationAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConfiguredTableAssociationAnalysisRuleInput, DeleteConfiguredTableAssociationAnalysisRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfiguredTableAssociationAnalysisRuleInput, DeleteConfiguredTableAssociationAnalysisRuleOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -2240,8 +2390,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIdMappingTableOutput>(DeleteIdMappingTableOutput.httpOutput(from:), DeleteIdMappingTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIdMappingTableInput, DeleteIdMappingTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIdMappingTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2251,6 +2399,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIdMappingTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIdMappingTableInput, DeleteIdMappingTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIdMappingTableInput, DeleteIdMappingTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIdMappingTableInput, DeleteIdMappingTableOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -2309,8 +2459,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIdNamespaceAssociationOutput>(DeleteIdNamespaceAssociationOutput.httpOutput(from:), DeleteIdNamespaceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIdNamespaceAssociationInput, DeleteIdNamespaceAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIdNamespaceAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2320,10 +2468,152 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIdNamespaceAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIdNamespaceAssociationInput, DeleteIdNamespaceAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIdNamespaceAssociationInput, DeleteIdNamespaceAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIdNamespaceAssociationInput, DeleteIdNamespaceAssociationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteIdNamespaceAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteIntermediateTable` operation on the `CleanRooms` service.
+    ///
+    /// Deletes an intermediate table. When you delete the table, the service marks it as DELETED, removes its analysis rule and schema, and triggers storage cleanup. This operation is idempotent. Only the intermediate table owner can call this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntermediateTableInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteIntermediateTableOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func deleteIntermediateTable(input: DeleteIntermediateTableInput) async throws -> DeleteIntermediateTableOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteIntermediateTable")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteIntermediateTableInput, DeleteIntermediateTableOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteIntermediateTableInput, DeleteIntermediateTableOutput>(DeleteIntermediateTableInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIntermediateTableInput, DeleteIntermediateTableOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntermediateTableOutput>(DeleteIntermediateTableOutput.httpOutput(from:), DeleteIntermediateTableOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntermediateTableInput, DeleteIntermediateTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntermediateTableOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteIntermediateTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIntermediateTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIntermediateTableInput, DeleteIntermediateTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIntermediateTableInput, DeleteIntermediateTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIntermediateTableInput, DeleteIntermediateTableOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteIntermediateTable")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteIntermediateTableAnalysisRule` operation on the `CleanRooms` service.
+    ///
+    /// Deletes an analysis rule from an intermediate table. After the analysis rule is deleted, the intermediate table becomes unqueryable until a new analysis rule is attached. Only the intermediate table owner can call this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntermediateTableAnalysisRuleInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteIntermediateTableAnalysisRuleOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func deleteIntermediateTableAnalysisRule(input: DeleteIntermediateTableAnalysisRuleInput) async throws -> DeleteIntermediateTableAnalysisRuleOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteIntermediateTableAnalysisRule")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteIntermediateTableAnalysisRuleInput, DeleteIntermediateTableAnalysisRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteIntermediateTableAnalysisRuleInput, DeleteIntermediateTableAnalysisRuleOutput>(DeleteIntermediateTableAnalysisRuleInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIntermediateTableAnalysisRuleInput, DeleteIntermediateTableAnalysisRuleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntermediateTableAnalysisRuleOutput>(DeleteIntermediateTableAnalysisRuleOutput.httpOutput(from:), DeleteIntermediateTableAnalysisRuleOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntermediateTableAnalysisRuleInput, DeleteIntermediateTableAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntermediateTableAnalysisRuleOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteIntermediateTableAnalysisRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIntermediateTableAnalysisRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIntermediateTableAnalysisRuleInput, DeleteIntermediateTableAnalysisRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIntermediateTableAnalysisRuleInput, DeleteIntermediateTableAnalysisRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIntermediateTableAnalysisRuleInput, DeleteIntermediateTableAnalysisRuleOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteIntermediateTableAnalysisRule")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2379,8 +2669,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMemberOutput>(DeleteMemberOutput.httpOutput(from:), DeleteMemberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMemberInput, DeleteMemberOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMemberOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2390,6 +2678,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMemberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMemberInput, DeleteMemberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMemberInput, DeleteMemberOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMemberInput, DeleteMemberOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -2449,8 +2739,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMembershipOutput>(DeleteMembershipOutput.httpOutput(from:), DeleteMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMembershipInput, DeleteMembershipOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMembershipOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2460,6 +2748,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMembershipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMembershipInput, DeleteMembershipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMembershipInput, DeleteMembershipOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMembershipInput, DeleteMembershipOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -2518,8 +2808,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePrivacyBudgetTemplateOutput>(DeletePrivacyBudgetTemplateOutput.httpOutput(from:), DeletePrivacyBudgetTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePrivacyBudgetTemplateInput, DeletePrivacyBudgetTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePrivacyBudgetTemplateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2529,10 +2817,85 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePrivacyBudgetTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePrivacyBudgetTemplateInput, DeletePrivacyBudgetTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePrivacyBudgetTemplateInput, DeletePrivacyBudgetTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePrivacyBudgetTemplateInput, DeletePrivacyBudgetTemplateOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePrivacyBudgetTemplate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DisallowIntermediateTable` operation on the `CleanRooms` service.
+    ///
+    /// Invalidates a specific intermediate table that references the caller's base table. The data provider (base table owner) calls this operation, not the intermediate table owner. By default, invalidation cascades to descendant intermediate tables.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisallowIntermediateTableInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisallowIntermediateTableOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func disallowIntermediateTable(input: DisallowIntermediateTableInput) async throws -> DisallowIntermediateTableOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disallowIntermediateTable")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisallowIntermediateTableInput, DisallowIntermediateTableOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisallowIntermediateTableInput, DisallowIntermediateTableOutput>(DisallowIntermediateTableInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisallowIntermediateTableInput, DisallowIntermediateTableOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisallowIntermediateTableInput, DisallowIntermediateTableOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisallowIntermediateTableInput, DisallowIntermediateTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisallowIntermediateTableInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisallowIntermediateTableInput, DisallowIntermediateTableOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisallowIntermediateTableOutput>(DisallowIntermediateTableOutput.httpOutput(from:), DisallowIntermediateTableOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisallowIntermediateTableInput, DisallowIntermediateTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisallowIntermediateTableOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisallowIntermediateTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisallowIntermediateTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisallowIntermediateTableInput, DisallowIntermediateTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisallowIntermediateTableInput, DisallowIntermediateTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisallowIntermediateTableInput, DisallowIntermediateTableOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisallowIntermediateTable")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2587,8 +2950,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnalysisTemplateOutput>(GetAnalysisTemplateOutput.httpOutput(from:), GetAnalysisTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnalysisTemplateInput, GetAnalysisTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAnalysisTemplateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2598,6 +2959,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAnalysisTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAnalysisTemplateInput, GetAnalysisTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAnalysisTemplateInput, GetAnalysisTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAnalysisTemplateInput, GetAnalysisTemplateOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -2655,8 +3018,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCollaborationOutput>(GetCollaborationOutput.httpOutput(from:), GetCollaborationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCollaborationInput, GetCollaborationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCollaborationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2666,6 +3027,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCollaborationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCollaborationInput, GetCollaborationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCollaborationInput, GetCollaborationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCollaborationInput, GetCollaborationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -2724,8 +3087,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCollaborationAnalysisTemplateOutput>(GetCollaborationAnalysisTemplateOutput.httpOutput(from:), GetCollaborationAnalysisTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCollaborationAnalysisTemplateInput, GetCollaborationAnalysisTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCollaborationAnalysisTemplateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2735,6 +3096,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCollaborationAnalysisTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCollaborationAnalysisTemplateInput, GetCollaborationAnalysisTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCollaborationAnalysisTemplateInput, GetCollaborationAnalysisTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCollaborationAnalysisTemplateInput, GetCollaborationAnalysisTemplateOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -2793,8 +3156,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCollaborationChangeRequestOutput>(GetCollaborationChangeRequestOutput.httpOutput(from:), GetCollaborationChangeRequestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCollaborationChangeRequestInput, GetCollaborationChangeRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCollaborationChangeRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2804,6 +3165,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCollaborationChangeRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCollaborationChangeRequestInput, GetCollaborationChangeRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCollaborationChangeRequestInput, GetCollaborationChangeRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCollaborationChangeRequestInput, GetCollaborationChangeRequestOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -2862,8 +3225,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCollaborationConfiguredAudienceModelAssociationOutput>(GetCollaborationConfiguredAudienceModelAssociationOutput.httpOutput(from:), GetCollaborationConfiguredAudienceModelAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCollaborationConfiguredAudienceModelAssociationInput, GetCollaborationConfiguredAudienceModelAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCollaborationConfiguredAudienceModelAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2873,6 +3234,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCollaborationConfiguredAudienceModelAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCollaborationConfiguredAudienceModelAssociationInput, GetCollaborationConfiguredAudienceModelAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCollaborationConfiguredAudienceModelAssociationInput, GetCollaborationConfiguredAudienceModelAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCollaborationConfiguredAudienceModelAssociationInput, GetCollaborationConfiguredAudienceModelAssociationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -2931,8 +3294,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCollaborationIdNamespaceAssociationOutput>(GetCollaborationIdNamespaceAssociationOutput.httpOutput(from:), GetCollaborationIdNamespaceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCollaborationIdNamespaceAssociationInput, GetCollaborationIdNamespaceAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCollaborationIdNamespaceAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2942,6 +3303,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCollaborationIdNamespaceAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCollaborationIdNamespaceAssociationInput, GetCollaborationIdNamespaceAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCollaborationIdNamespaceAssociationInput, GetCollaborationIdNamespaceAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCollaborationIdNamespaceAssociationInput, GetCollaborationIdNamespaceAssociationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -3000,8 +3363,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCollaborationPrivacyBudgetTemplateOutput>(GetCollaborationPrivacyBudgetTemplateOutput.httpOutput(from:), GetCollaborationPrivacyBudgetTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCollaborationPrivacyBudgetTemplateInput, GetCollaborationPrivacyBudgetTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCollaborationPrivacyBudgetTemplateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3011,6 +3372,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCollaborationPrivacyBudgetTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCollaborationPrivacyBudgetTemplateInput, GetCollaborationPrivacyBudgetTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCollaborationPrivacyBudgetTemplateInput, GetCollaborationPrivacyBudgetTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCollaborationPrivacyBudgetTemplateInput, GetCollaborationPrivacyBudgetTemplateOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -3069,8 +3432,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfiguredAudienceModelAssociationOutput>(GetConfiguredAudienceModelAssociationOutput.httpOutput(from:), GetConfiguredAudienceModelAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfiguredAudienceModelAssociationInput, GetConfiguredAudienceModelAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfiguredAudienceModelAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3080,6 +3441,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConfiguredAudienceModelAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConfiguredAudienceModelAssociationInput, GetConfiguredAudienceModelAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConfiguredAudienceModelAssociationInput, GetConfiguredAudienceModelAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConfiguredAudienceModelAssociationInput, GetConfiguredAudienceModelAssociationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -3138,8 +3501,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfiguredTableOutput>(GetConfiguredTableOutput.httpOutput(from:), GetConfiguredTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfiguredTableInput, GetConfiguredTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfiguredTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3149,6 +3510,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConfiguredTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConfiguredTableInput, GetConfiguredTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConfiguredTableInput, GetConfiguredTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConfiguredTableInput, GetConfiguredTableOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -3207,8 +3570,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfiguredTableAnalysisRuleOutput>(GetConfiguredTableAnalysisRuleOutput.httpOutput(from:), GetConfiguredTableAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfiguredTableAnalysisRuleInput, GetConfiguredTableAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfiguredTableAnalysisRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3218,6 +3579,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConfiguredTableAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConfiguredTableAnalysisRuleInput, GetConfiguredTableAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConfiguredTableAnalysisRuleInput, GetConfiguredTableAnalysisRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConfiguredTableAnalysisRuleInput, GetConfiguredTableAnalysisRuleOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -3276,8 +3639,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfiguredTableAssociationOutput>(GetConfiguredTableAssociationOutput.httpOutput(from:), GetConfiguredTableAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfiguredTableAssociationInput, GetConfiguredTableAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfiguredTableAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3287,6 +3648,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConfiguredTableAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConfiguredTableAssociationInput, GetConfiguredTableAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConfiguredTableAssociationInput, GetConfiguredTableAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConfiguredTableAssociationInput, GetConfiguredTableAssociationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -3345,8 +3708,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfiguredTableAssociationAnalysisRuleOutput>(GetConfiguredTableAssociationAnalysisRuleOutput.httpOutput(from:), GetConfiguredTableAssociationAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfiguredTableAssociationAnalysisRuleInput, GetConfiguredTableAssociationAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfiguredTableAssociationAnalysisRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3356,6 +3717,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConfiguredTableAssociationAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConfiguredTableAssociationAnalysisRuleInput, GetConfiguredTableAssociationAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConfiguredTableAssociationAnalysisRuleInput, GetConfiguredTableAssociationAnalysisRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConfiguredTableAssociationAnalysisRuleInput, GetConfiguredTableAssociationAnalysisRuleOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -3414,8 +3777,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdMappingTableOutput>(GetIdMappingTableOutput.httpOutput(from:), GetIdMappingTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdMappingTableInput, GetIdMappingTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIdMappingTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3425,6 +3786,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIdMappingTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIdMappingTableInput, GetIdMappingTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIdMappingTableInput, GetIdMappingTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIdMappingTableInput, GetIdMappingTableOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -3483,8 +3846,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdNamespaceAssociationOutput>(GetIdNamespaceAssociationOutput.httpOutput(from:), GetIdNamespaceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdNamespaceAssociationInput, GetIdNamespaceAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIdNamespaceAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3494,10 +3855,150 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIdNamespaceAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIdNamespaceAssociationInput, GetIdNamespaceAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIdNamespaceAssociationInput, GetIdNamespaceAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIdNamespaceAssociationInput, GetIdNamespaceAssociationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIdNamespaceAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetIntermediateTable` operation on the `CleanRooms` service.
+    ///
+    /// Retrieves an intermediate table. Returns the full details of the intermediate table, including schema, table dependencies, inherited constraints, child resources, and status. Only the intermediate table owner can call this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetIntermediateTableInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetIntermediateTableOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func getIntermediateTable(input: GetIntermediateTableInput) async throws -> GetIntermediateTableOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIntermediateTable")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIntermediateTableInput, GetIntermediateTableOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIntermediateTableInput, GetIntermediateTableOutput>(GetIntermediateTableInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIntermediateTableInput, GetIntermediateTableOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIntermediateTableOutput>(GetIntermediateTableOutput.httpOutput(from:), GetIntermediateTableOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntermediateTableInput, GetIntermediateTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIntermediateTableOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIntermediateTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIntermediateTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIntermediateTableInput, GetIntermediateTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIntermediateTableInput, GetIntermediateTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIntermediateTableInput, GetIntermediateTableOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIntermediateTable")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetIntermediateTableAnalysisRule` operation on the `CleanRooms` service.
+    ///
+    /// Retrieves the analysis rule for an intermediate table.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetIntermediateTableAnalysisRuleInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetIntermediateTableAnalysisRuleOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func getIntermediateTableAnalysisRule(input: GetIntermediateTableAnalysisRuleInput) async throws -> GetIntermediateTableAnalysisRuleOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIntermediateTableAnalysisRule")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIntermediateTableAnalysisRuleInput, GetIntermediateTableAnalysisRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIntermediateTableAnalysisRuleInput, GetIntermediateTableAnalysisRuleOutput>(GetIntermediateTableAnalysisRuleInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIntermediateTableAnalysisRuleInput, GetIntermediateTableAnalysisRuleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIntermediateTableAnalysisRuleOutput>(GetIntermediateTableAnalysisRuleOutput.httpOutput(from:), GetIntermediateTableAnalysisRuleOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntermediateTableAnalysisRuleInput, GetIntermediateTableAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIntermediateTableAnalysisRuleOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIntermediateTableAnalysisRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIntermediateTableAnalysisRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIntermediateTableAnalysisRuleInput, GetIntermediateTableAnalysisRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIntermediateTableAnalysisRuleInput, GetIntermediateTableAnalysisRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIntermediateTableAnalysisRuleInput, GetIntermediateTableAnalysisRuleOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIntermediateTableAnalysisRule")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3552,8 +4053,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMembershipOutput>(GetMembershipOutput.httpOutput(from:), GetMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMembershipInput, GetMembershipOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMembershipOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3563,6 +4062,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMembershipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMembershipInput, GetMembershipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMembershipInput, GetMembershipOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMembershipInput, GetMembershipOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -3621,8 +4122,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPrivacyBudgetTemplateOutput>(GetPrivacyBudgetTemplateOutput.httpOutput(from:), GetPrivacyBudgetTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPrivacyBudgetTemplateInput, GetPrivacyBudgetTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPrivacyBudgetTemplateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3632,6 +4131,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPrivacyBudgetTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPrivacyBudgetTemplateInput, GetPrivacyBudgetTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPrivacyBudgetTemplateInput, GetPrivacyBudgetTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPrivacyBudgetTemplateInput, GetPrivacyBudgetTemplateOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -3690,8 +4191,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProtectedJobOutput>(GetProtectedJobOutput.httpOutput(from:), GetProtectedJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProtectedJobInput, GetProtectedJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProtectedJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3701,6 +4200,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetProtectedJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetProtectedJobInput, GetProtectedJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetProtectedJobInput, GetProtectedJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetProtectedJobInput, GetProtectedJobOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -3759,8 +4260,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProtectedQueryOutput>(GetProtectedQueryOutput.httpOutput(from:), GetProtectedQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProtectedQueryInput, GetProtectedQueryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProtectedQueryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3770,6 +4269,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetProtectedQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetProtectedQueryInput, GetProtectedQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetProtectedQueryInput, GetProtectedQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetProtectedQueryInput, GetProtectedQueryOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -3828,8 +4329,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSchemaOutput>(GetSchemaOutput.httpOutput(from:), GetSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSchemaInput, GetSchemaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSchemaOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3839,6 +4338,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSchemaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSchemaInput, GetSchemaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSchemaInput, GetSchemaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSchemaInput, GetSchemaOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -3897,8 +4398,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSchemaAnalysisRuleOutput>(GetSchemaAnalysisRuleOutput.httpOutput(from:), GetSchemaAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSchemaAnalysisRuleInput, GetSchemaAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSchemaAnalysisRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3908,6 +4407,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSchemaAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSchemaAnalysisRuleInput, GetSchemaAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSchemaAnalysisRuleInput, GetSchemaAnalysisRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSchemaAnalysisRuleInput, GetSchemaAnalysisRuleOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -3967,8 +4468,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnalysisTemplatesOutput>(ListAnalysisTemplatesOutput.httpOutput(from:), ListAnalysisTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnalysisTemplatesInput, ListAnalysisTemplatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnalysisTemplatesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3978,6 +4477,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAnalysisTemplatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAnalysisTemplatesInput, ListAnalysisTemplatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAnalysisTemplatesInput, ListAnalysisTemplatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAnalysisTemplatesInput, ListAnalysisTemplatesOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -4037,8 +4538,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationAnalysisTemplatesOutput>(ListCollaborationAnalysisTemplatesOutput.httpOutput(from:), ListCollaborationAnalysisTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationAnalysisTemplatesInput, ListCollaborationAnalysisTemplatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationAnalysisTemplatesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4048,6 +4547,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCollaborationAnalysisTemplatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCollaborationAnalysisTemplatesInput, ListCollaborationAnalysisTemplatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCollaborationAnalysisTemplatesInput, ListCollaborationAnalysisTemplatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCollaborationAnalysisTemplatesInput, ListCollaborationAnalysisTemplatesOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -4107,8 +4608,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationChangeRequestsOutput>(ListCollaborationChangeRequestsOutput.httpOutput(from:), ListCollaborationChangeRequestsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationChangeRequestsInput, ListCollaborationChangeRequestsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationChangeRequestsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4118,6 +4617,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCollaborationChangeRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCollaborationChangeRequestsInput, ListCollaborationChangeRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCollaborationChangeRequestsInput, ListCollaborationChangeRequestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCollaborationChangeRequestsInput, ListCollaborationChangeRequestsOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -4177,8 +4678,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationConfiguredAudienceModelAssociationsOutput>(ListCollaborationConfiguredAudienceModelAssociationsOutput.httpOutput(from:), ListCollaborationConfiguredAudienceModelAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationConfiguredAudienceModelAssociationsInput, ListCollaborationConfiguredAudienceModelAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationConfiguredAudienceModelAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4188,6 +4687,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCollaborationConfiguredAudienceModelAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCollaborationConfiguredAudienceModelAssociationsInput, ListCollaborationConfiguredAudienceModelAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCollaborationConfiguredAudienceModelAssociationsInput, ListCollaborationConfiguredAudienceModelAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCollaborationConfiguredAudienceModelAssociationsInput, ListCollaborationConfiguredAudienceModelAssociationsOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -4247,8 +4748,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationIdNamespaceAssociationsOutput>(ListCollaborationIdNamespaceAssociationsOutput.httpOutput(from:), ListCollaborationIdNamespaceAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationIdNamespaceAssociationsInput, ListCollaborationIdNamespaceAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationIdNamespaceAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4258,6 +4757,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCollaborationIdNamespaceAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCollaborationIdNamespaceAssociationsInput, ListCollaborationIdNamespaceAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCollaborationIdNamespaceAssociationsInput, ListCollaborationIdNamespaceAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCollaborationIdNamespaceAssociationsInput, ListCollaborationIdNamespaceAssociationsOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -4317,8 +4818,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationPrivacyBudgetTemplatesOutput>(ListCollaborationPrivacyBudgetTemplatesOutput.httpOutput(from:), ListCollaborationPrivacyBudgetTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationPrivacyBudgetTemplatesInput, ListCollaborationPrivacyBudgetTemplatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationPrivacyBudgetTemplatesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4328,6 +4827,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCollaborationPrivacyBudgetTemplatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCollaborationPrivacyBudgetTemplatesInput, ListCollaborationPrivacyBudgetTemplatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCollaborationPrivacyBudgetTemplatesInput, ListCollaborationPrivacyBudgetTemplatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCollaborationPrivacyBudgetTemplatesInput, ListCollaborationPrivacyBudgetTemplatesOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -4387,8 +4888,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationPrivacyBudgetsOutput>(ListCollaborationPrivacyBudgetsOutput.httpOutput(from:), ListCollaborationPrivacyBudgetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationPrivacyBudgetsInput, ListCollaborationPrivacyBudgetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationPrivacyBudgetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4398,6 +4897,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCollaborationPrivacyBudgetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCollaborationPrivacyBudgetsInput, ListCollaborationPrivacyBudgetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCollaborationPrivacyBudgetsInput, ListCollaborationPrivacyBudgetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCollaborationPrivacyBudgetsInput, ListCollaborationPrivacyBudgetsOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -4456,8 +4957,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationsOutput>(ListCollaborationsOutput.httpOutput(from:), ListCollaborationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationsInput, ListCollaborationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4467,6 +4966,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCollaborationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCollaborationsInput, ListCollaborationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCollaborationsInput, ListCollaborationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCollaborationsInput, ListCollaborationsOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -4526,8 +5027,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfiguredAudienceModelAssociationsOutput>(ListConfiguredAudienceModelAssociationsOutput.httpOutput(from:), ListConfiguredAudienceModelAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfiguredAudienceModelAssociationsInput, ListConfiguredAudienceModelAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfiguredAudienceModelAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4537,6 +5036,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConfiguredAudienceModelAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConfiguredAudienceModelAssociationsInput, ListConfiguredAudienceModelAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConfiguredAudienceModelAssociationsInput, ListConfiguredAudienceModelAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConfiguredAudienceModelAssociationsInput, ListConfiguredAudienceModelAssociationsOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -4596,8 +5097,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfiguredTableAssociationsOutput>(ListConfiguredTableAssociationsOutput.httpOutput(from:), ListConfiguredTableAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfiguredTableAssociationsInput, ListConfiguredTableAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfiguredTableAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4607,6 +5106,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConfiguredTableAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConfiguredTableAssociationsInput, ListConfiguredTableAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConfiguredTableAssociationsInput, ListConfiguredTableAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConfiguredTableAssociationsInput, ListConfiguredTableAssociationsOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -4665,8 +5166,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfiguredTablesOutput>(ListConfiguredTablesOutput.httpOutput(from:), ListConfiguredTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfiguredTablesInput, ListConfiguredTablesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfiguredTablesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4676,6 +5175,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConfiguredTablesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConfiguredTablesInput, ListConfiguredTablesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConfiguredTablesInput, ListConfiguredTablesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConfiguredTablesInput, ListConfiguredTablesOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -4735,8 +5236,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdMappingTablesOutput>(ListIdMappingTablesOutput.httpOutput(from:), ListIdMappingTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdMappingTablesInput, ListIdMappingTablesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdMappingTablesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4746,6 +5245,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIdMappingTablesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIdMappingTablesInput, ListIdMappingTablesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListIdMappingTablesInput, ListIdMappingTablesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListIdMappingTablesInput, ListIdMappingTablesOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -4805,8 +5306,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdNamespaceAssociationsOutput>(ListIdNamespaceAssociationsOutput.httpOutput(from:), ListIdNamespaceAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdNamespaceAssociationsInput, ListIdNamespaceAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdNamespaceAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4816,10 +5315,152 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIdNamespaceAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIdNamespaceAssociationsInput, ListIdNamespaceAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListIdNamespaceAssociationsInput, ListIdNamespaceAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListIdNamespaceAssociationsInput, ListIdNamespaceAssociationsOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListIdNamespaceAssociations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListIntermediateTableVersions` operation on the `CleanRooms` service.
+    ///
+    /// Lists the version history of an intermediate table. Each call to PopulateIntermediateTable creates a new version. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListIntermediateTableVersionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListIntermediateTableVersionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func listIntermediateTableVersions(input: ListIntermediateTableVersionsInput) async throws -> ListIntermediateTableVersionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listIntermediateTableVersions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListIntermediateTableVersionsInput, ListIntermediateTableVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListIntermediateTableVersionsInput, ListIntermediateTableVersionsOutput>(ListIntermediateTableVersionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListIntermediateTableVersionsInput, ListIntermediateTableVersionsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListIntermediateTableVersionsInput, ListIntermediateTableVersionsOutput>(ListIntermediateTableVersionsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIntermediateTableVersionsOutput>(ListIntermediateTableVersionsOutput.httpOutput(from:), ListIntermediateTableVersionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIntermediateTableVersionsInput, ListIntermediateTableVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListIntermediateTableVersionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListIntermediateTableVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIntermediateTableVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIntermediateTableVersionsInput, ListIntermediateTableVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListIntermediateTableVersionsInput, ListIntermediateTableVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListIntermediateTableVersionsInput, ListIntermediateTableVersionsOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListIntermediateTableVersions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListIntermediateTables` operation on the `CleanRooms` service.
+    ///
+    /// Lists intermediate tables owned by the caller in a membership. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListIntermediateTablesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListIntermediateTablesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func listIntermediateTables(input: ListIntermediateTablesInput) async throws -> ListIntermediateTablesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listIntermediateTables")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListIntermediateTablesInput, ListIntermediateTablesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListIntermediateTablesInput, ListIntermediateTablesOutput>(ListIntermediateTablesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListIntermediateTablesInput, ListIntermediateTablesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListIntermediateTablesInput, ListIntermediateTablesOutput>(ListIntermediateTablesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIntermediateTablesOutput>(ListIntermediateTablesOutput.httpOutput(from:), ListIntermediateTablesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIntermediateTablesInput, ListIntermediateTablesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListIntermediateTablesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListIntermediateTablesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIntermediateTablesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIntermediateTablesInput, ListIntermediateTablesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListIntermediateTablesInput, ListIntermediateTablesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListIntermediateTablesInput, ListIntermediateTablesOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListIntermediateTables")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4875,8 +5516,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMembersOutput>(ListMembersOutput.httpOutput(from:), ListMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMembersInput, ListMembersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMembersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4886,6 +5525,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMembersInput, ListMembersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMembersInput, ListMembersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMembersInput, ListMembersOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -4944,8 +5585,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMembershipsOutput>(ListMembershipsOutput.httpOutput(from:), ListMembershipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMembershipsInput, ListMembershipsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMembershipsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4955,6 +5594,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMembershipsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMembershipsInput, ListMembershipsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMembershipsInput, ListMembershipsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMembershipsInput, ListMembershipsOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -5014,8 +5655,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPrivacyBudgetTemplatesOutput>(ListPrivacyBudgetTemplatesOutput.httpOutput(from:), ListPrivacyBudgetTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPrivacyBudgetTemplatesInput, ListPrivacyBudgetTemplatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPrivacyBudgetTemplatesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5025,6 +5664,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPrivacyBudgetTemplatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPrivacyBudgetTemplatesInput, ListPrivacyBudgetTemplatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPrivacyBudgetTemplatesInput, ListPrivacyBudgetTemplatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPrivacyBudgetTemplatesInput, ListPrivacyBudgetTemplatesOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -5084,8 +5725,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPrivacyBudgetsOutput>(ListPrivacyBudgetsOutput.httpOutput(from:), ListPrivacyBudgetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPrivacyBudgetsInput, ListPrivacyBudgetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPrivacyBudgetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5095,6 +5734,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPrivacyBudgetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPrivacyBudgetsInput, ListPrivacyBudgetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPrivacyBudgetsInput, ListPrivacyBudgetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPrivacyBudgetsInput, ListPrivacyBudgetsOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -5154,8 +5795,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProtectedJobsOutput>(ListProtectedJobsOutput.httpOutput(from:), ListProtectedJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProtectedJobsInput, ListProtectedJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProtectedJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5165,6 +5804,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProtectedJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProtectedJobsInput, ListProtectedJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProtectedJobsInput, ListProtectedJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProtectedJobsInput, ListProtectedJobsOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -5224,8 +5865,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProtectedQueriesOutput>(ListProtectedQueriesOutput.httpOutput(from:), ListProtectedQueriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProtectedQueriesInput, ListProtectedQueriesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProtectedQueriesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5235,6 +5874,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProtectedQueriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProtectedQueriesInput, ListProtectedQueriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProtectedQueriesInput, ListProtectedQueriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProtectedQueriesInput, ListProtectedQueriesOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -5294,8 +5935,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSchemasOutput>(ListSchemasOutput.httpOutput(from:), ListSchemasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSchemasInput, ListSchemasOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSchemasOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5305,6 +5944,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSchemasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSchemasInput, ListSchemasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSchemasInput, ListSchemasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSchemasInput, ListSchemasOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -5360,8 +6001,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5371,6 +6010,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -5434,8 +6075,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PopulateIdMappingTableOutput>(PopulateIdMappingTableOutput.httpOutput(from:), PopulateIdMappingTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PopulateIdMappingTableInput, PopulateIdMappingTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PopulateIdMappingTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5445,10 +6084,86 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PopulateIdMappingTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PopulateIdMappingTableInput, PopulateIdMappingTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PopulateIdMappingTableInput, PopulateIdMappingTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PopulateIdMappingTableInput, PopulateIdMappingTableOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PopulateIdMappingTable")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PopulateIntermediateTable` operation on the `CleanRooms` service.
+    ///
+    /// Executes the stored query of an intermediate table to materialize data into managed storage. With this operation, you can perform initial population and subsequent refreshes. Each call creates a new version. The returned analysis ID can be tracked using GetProtectedQuery. Only the intermediate table owner can call this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PopulateIntermediateTableInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PopulateIntermediateTableOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func populateIntermediateTable(input: PopulateIntermediateTableInput) async throws -> PopulateIntermediateTableOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "populateIntermediateTable")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PopulateIntermediateTableInput, PopulateIntermediateTableOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PopulateIntermediateTableInput, PopulateIntermediateTableOutput>(PopulateIntermediateTableInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PopulateIntermediateTableInput, PopulateIntermediateTableOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PopulateIntermediateTableInput, PopulateIntermediateTableOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PopulateIntermediateTableInput, PopulateIntermediateTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PopulateIntermediateTableInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PopulateIntermediateTableInput, PopulateIntermediateTableOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PopulateIntermediateTableOutput>(PopulateIntermediateTableOutput.httpOutput(from:), PopulateIntermediateTableOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PopulateIntermediateTableInput, PopulateIntermediateTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PopulateIntermediateTableOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PopulateIntermediateTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PopulateIntermediateTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PopulateIntermediateTableInput, PopulateIntermediateTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PopulateIntermediateTableInput, PopulateIntermediateTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PopulateIntermediateTableInput, PopulateIntermediateTableOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PopulateIntermediateTable")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5506,8 +6221,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PreviewPrivacyImpactOutput>(PreviewPrivacyImpactOutput.httpOutput(from:), PreviewPrivacyImpactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PreviewPrivacyImpactInput, PreviewPrivacyImpactOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PreviewPrivacyImpactOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5517,6 +6230,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PreviewPrivacyImpactOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PreviewPrivacyImpactInput, PreviewPrivacyImpactOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PreviewPrivacyImpactInput, PreviewPrivacyImpactOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PreviewPrivacyImpactInput, PreviewPrivacyImpactOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -5579,8 +6294,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartProtectedJobOutput>(StartProtectedJobOutput.httpOutput(from:), StartProtectedJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartProtectedJobInput, StartProtectedJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartProtectedJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5590,6 +6303,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartProtectedJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartProtectedJobInput, StartProtectedJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartProtectedJobInput, StartProtectedJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartProtectedJobInput, StartProtectedJobOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -5652,8 +6367,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartProtectedQueryOutput>(StartProtectedQueryOutput.httpOutput(from:), StartProtectedQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartProtectedQueryInput, StartProtectedQueryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartProtectedQueryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5663,6 +6376,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartProtectedQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartProtectedQueryInput, StartProtectedQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartProtectedQueryInput, StartProtectedQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartProtectedQueryInput, StartProtectedQueryOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -5721,8 +6436,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5732,6 +6445,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -5788,8 +6503,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5799,6 +6512,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -5860,8 +6575,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAnalysisTemplateOutput>(UpdateAnalysisTemplateOutput.httpOutput(from:), UpdateAnalysisTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAnalysisTemplateInput, UpdateAnalysisTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAnalysisTemplateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5871,6 +6584,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAnalysisTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAnalysisTemplateInput, UpdateAnalysisTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAnalysisTemplateInput, UpdateAnalysisTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAnalysisTemplateInput, UpdateAnalysisTemplateOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -5931,8 +6646,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCollaborationOutput>(UpdateCollaborationOutput.httpOutput(from:), UpdateCollaborationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCollaborationInput, UpdateCollaborationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCollaborationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5942,6 +6655,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCollaborationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCollaborationInput, UpdateCollaborationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCollaborationInput, UpdateCollaborationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCollaborationInput, UpdateCollaborationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -6004,8 +6719,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCollaborationChangeRequestOutput>(UpdateCollaborationChangeRequestOutput.httpOutput(from:), UpdateCollaborationChangeRequestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCollaborationChangeRequestInput, UpdateCollaborationChangeRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCollaborationChangeRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6015,6 +6728,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCollaborationChangeRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCollaborationChangeRequestInput, UpdateCollaborationChangeRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCollaborationChangeRequestInput, UpdateCollaborationChangeRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCollaborationChangeRequestInput, UpdateCollaborationChangeRequestOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -6076,8 +6791,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfiguredAudienceModelAssociationOutput>(UpdateConfiguredAudienceModelAssociationOutput.httpOutput(from:), UpdateConfiguredAudienceModelAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfiguredAudienceModelAssociationInput, UpdateConfiguredAudienceModelAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfiguredAudienceModelAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6087,6 +6800,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConfiguredAudienceModelAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConfiguredAudienceModelAssociationInput, UpdateConfiguredAudienceModelAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateConfiguredAudienceModelAssociationInput, UpdateConfiguredAudienceModelAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConfiguredAudienceModelAssociationInput, UpdateConfiguredAudienceModelAssociationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -6150,8 +6865,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfiguredTableOutput>(UpdateConfiguredTableOutput.httpOutput(from:), UpdateConfiguredTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfiguredTableInput, UpdateConfiguredTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfiguredTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6161,6 +6874,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConfiguredTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConfiguredTableInput, UpdateConfiguredTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateConfiguredTableInput, UpdateConfiguredTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConfiguredTableInput, UpdateConfiguredTableOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -6223,8 +6938,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfiguredTableAnalysisRuleOutput>(UpdateConfiguredTableAnalysisRuleOutput.httpOutput(from:), UpdateConfiguredTableAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfiguredTableAnalysisRuleInput, UpdateConfiguredTableAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfiguredTableAnalysisRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6234,6 +6947,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConfiguredTableAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConfiguredTableAnalysisRuleInput, UpdateConfiguredTableAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateConfiguredTableAnalysisRuleInput, UpdateConfiguredTableAnalysisRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConfiguredTableAnalysisRuleInput, UpdateConfiguredTableAnalysisRuleOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -6296,8 +7011,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfiguredTableAssociationOutput>(UpdateConfiguredTableAssociationOutput.httpOutput(from:), UpdateConfiguredTableAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfiguredTableAssociationInput, UpdateConfiguredTableAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfiguredTableAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6307,6 +7020,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConfiguredTableAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConfiguredTableAssociationInput, UpdateConfiguredTableAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateConfiguredTableAssociationInput, UpdateConfiguredTableAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConfiguredTableAssociationInput, UpdateConfiguredTableAssociationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -6369,8 +7084,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfiguredTableAssociationAnalysisRuleOutput>(UpdateConfiguredTableAssociationAnalysisRuleOutput.httpOutput(from:), UpdateConfiguredTableAssociationAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfiguredTableAssociationAnalysisRuleInput, UpdateConfiguredTableAssociationAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfiguredTableAssociationAnalysisRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6380,6 +7093,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConfiguredTableAssociationAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConfiguredTableAssociationAnalysisRuleInput, UpdateConfiguredTableAssociationAnalysisRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateConfiguredTableAssociationAnalysisRuleInput, UpdateConfiguredTableAssociationAnalysisRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConfiguredTableAssociationAnalysisRuleInput, UpdateConfiguredTableAssociationAnalysisRuleOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -6441,8 +7156,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIdMappingTableOutput>(UpdateIdMappingTableOutput.httpOutput(from:), UpdateIdMappingTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIdMappingTableInput, UpdateIdMappingTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIdMappingTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6452,6 +7165,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIdMappingTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateIdMappingTableInput, UpdateIdMappingTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateIdMappingTableInput, UpdateIdMappingTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateIdMappingTableInput, UpdateIdMappingTableOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -6513,8 +7228,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIdNamespaceAssociationOutput>(UpdateIdNamespaceAssociationOutput.httpOutput(from:), UpdateIdNamespaceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIdNamespaceAssociationInput, UpdateIdNamespaceAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIdNamespaceAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6524,10 +7237,157 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIdNamespaceAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateIdNamespaceAssociationInput, UpdateIdNamespaceAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateIdNamespaceAssociationInput, UpdateIdNamespaceAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateIdNamespaceAssociationInput, UpdateIdNamespaceAssociationOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateIdNamespaceAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateIntermediateTable` operation on the `CleanRooms` service.
+    ///
+    /// Updates an intermediate table. You can update the description, KMS key ARN, and column types of existing columns. Only the intermediate table owner can call this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateIntermediateTableInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateIntermediateTableOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func updateIntermediateTable(input: UpdateIntermediateTableInput) async throws -> UpdateIntermediateTableOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateIntermediateTable")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateIntermediateTableInput, UpdateIntermediateTableOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateIntermediateTableInput, UpdateIntermediateTableOutput>(UpdateIntermediateTableInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateIntermediateTableInput, UpdateIntermediateTableOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateIntermediateTableInput, UpdateIntermediateTableOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateIntermediateTableInput, UpdateIntermediateTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateIntermediateTableInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIntermediateTableInput, UpdateIntermediateTableOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIntermediateTableOutput>(UpdateIntermediateTableOutput.httpOutput(from:), UpdateIntermediateTableOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIntermediateTableInput, UpdateIntermediateTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIntermediateTableOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateIntermediateTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIntermediateTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateIntermediateTableInput, UpdateIntermediateTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateIntermediateTableInput, UpdateIntermediateTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateIntermediateTableInput, UpdateIntermediateTableOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateIntermediateTable")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateIntermediateTableAnalysisRule` operation on the `CleanRooms` service.
+    ///
+    /// Updates the analysis rule policy for an intermediate table. Only the intermediate table owner can call this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateIntermediateTableAnalysisRuleInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateIntermediateTableAnalysisRuleOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func updateIntermediateTableAnalysisRule(input: UpdateIntermediateTableAnalysisRuleInput) async throws -> UpdateIntermediateTableAnalysisRuleOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateIntermediateTableAnalysisRule")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateIntermediateTableAnalysisRuleInput, UpdateIntermediateTableAnalysisRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateIntermediateTableAnalysisRuleInput, UpdateIntermediateTableAnalysisRuleOutput>(UpdateIntermediateTableAnalysisRuleInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateIntermediateTableAnalysisRuleInput, UpdateIntermediateTableAnalysisRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateIntermediateTableAnalysisRuleInput, UpdateIntermediateTableAnalysisRuleOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateIntermediateTableAnalysisRuleInput, UpdateIntermediateTableAnalysisRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateIntermediateTableAnalysisRuleInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIntermediateTableAnalysisRuleInput, UpdateIntermediateTableAnalysisRuleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIntermediateTableAnalysisRuleOutput>(UpdateIntermediateTableAnalysisRuleOutput.httpOutput(from:), UpdateIntermediateTableAnalysisRuleOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIntermediateTableAnalysisRuleInput, UpdateIntermediateTableAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIntermediateTableAnalysisRuleOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateIntermediateTableAnalysisRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIntermediateTableAnalysisRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateIntermediateTableAnalysisRuleInput, UpdateIntermediateTableAnalysisRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateIntermediateTableAnalysisRuleInput, UpdateIntermediateTableAnalysisRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateIntermediateTableAnalysisRuleInput, UpdateIntermediateTableAnalysisRuleOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateIntermediateTableAnalysisRule")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6586,8 +7446,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMembershipOutput>(UpdateMembershipOutput.httpOutput(from:), UpdateMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMembershipInput, UpdateMembershipOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMembershipOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6597,6 +7455,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMembershipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMembershipInput, UpdateMembershipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateMembershipInput, UpdateMembershipOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateMembershipInput, UpdateMembershipOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -6659,8 +7519,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePrivacyBudgetTemplateOutput>(UpdatePrivacyBudgetTemplateOutput.httpOutput(from:), UpdatePrivacyBudgetTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePrivacyBudgetTemplateInput, UpdatePrivacyBudgetTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePrivacyBudgetTemplateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6670,6 +7528,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePrivacyBudgetTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePrivacyBudgetTemplateInput, UpdatePrivacyBudgetTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePrivacyBudgetTemplateInput, UpdatePrivacyBudgetTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePrivacyBudgetTemplateInput, UpdatePrivacyBudgetTemplateOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -6732,8 +7592,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProtectedJobOutput>(UpdateProtectedJobOutput.httpOutput(from:), UpdateProtectedJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProtectedJobInput, UpdateProtectedJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProtectedJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6743,6 +7601,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProtectedJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProtectedJobInput, UpdateProtectedJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProtectedJobInput, UpdateProtectedJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProtectedJobInput, UpdateProtectedJobOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
@@ -6805,8 +7665,6 @@ extension CleanRoomsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProtectedQueryOutput>(UpdateProtectedQueryOutput.httpOutput(from:), UpdateProtectedQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProtectedQueryInput, UpdateProtectedQueryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProtectedQueryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6816,6 +7674,8 @@ extension CleanRoomsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProtectedQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProtectedQueryInput, UpdateProtectedQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProtectedQueryInput, UpdateProtectedQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProtectedQueryInput, UpdateProtectedQueryOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")

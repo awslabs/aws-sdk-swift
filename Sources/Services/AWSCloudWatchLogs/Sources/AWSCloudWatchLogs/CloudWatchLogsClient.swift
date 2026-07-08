@@ -72,6 +72,7 @@ public final class CloudWatchLogsClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: CloudWatchLogsClient.CloudWatchLogsClientConfig
     let serviceName = "CloudWatch Logs"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use CloudWatchLogsClient.CloudWatchLogsClientConfig instead")
     public typealias Config = CloudWatchLogsClient.CloudWatchLogsClientConfiguration
@@ -81,6 +82,7 @@ public final class CloudWatchLogsClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: CloudWatchLogsClient.CloudWatchLogsClientConfig) instead")
@@ -195,7 +197,7 @@ extension CloudWatchLogsClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "CloudWatch Logs")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -250,7 +252,7 @@ extension CloudWatchLogsClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "CloudWatch Logs")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -426,7 +428,7 @@ extension CloudWatchLogsClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "CloudWatch Logs")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -481,7 +483,7 @@ extension CloudWatchLogsClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "CloudWatch Logs")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -665,8 +667,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateKmsKeyInput, AssociateKmsKeyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateKmsKeyInput, AssociateKmsKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateKmsKeyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -678,6 +678,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateKmsKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateKmsKeyInput, AssociateKmsKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateKmsKeyInput, AssociateKmsKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateKmsKeyInput, AssociateKmsKeyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -743,8 +745,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSourceToS3TableIntegrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -756,6 +756,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateSourceToS3TableIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -820,8 +822,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelExportTaskInput, CancelExportTaskOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelExportTaskInput, CancelExportTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelExportTaskOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -833,6 +833,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelExportTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelExportTaskInput, CancelExportTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelExportTaskInput, CancelExportTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelExportTaskInput, CancelExportTaskOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -898,8 +900,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelImportTaskInput, CancelImportTaskOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelImportTaskInput, CancelImportTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelImportTaskOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -911,6 +911,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelImportTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelImportTaskInput, CancelImportTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelImportTaskInput, CancelImportTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelImportTaskInput, CancelImportTaskOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -989,8 +991,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeliveryInput, CreateDeliveryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeliveryInput, CreateDeliveryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeliveryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1002,6 +1002,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDeliveryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDeliveryInput, CreateDeliveryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDeliveryInput, CreateDeliveryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDeliveryInput, CreateDeliveryOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -1068,8 +1070,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExportTaskInput, CreateExportTaskOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExportTaskInput, CreateExportTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateExportTaskOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1081,6 +1081,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateExportTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateExportTaskInput, CreateExportTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateExportTaskInput, CreateExportTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateExportTaskInput, CreateExportTaskOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -1177,8 +1179,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateImportTaskInput, CreateImportTaskOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateImportTaskInput, CreateImportTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateImportTaskOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1190,6 +1190,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateImportTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateImportTaskInput, CreateImportTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateImportTaskInput, CreateImportTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateImportTaskInput, CreateImportTaskOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -1255,8 +1257,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLogAnomalyDetectorInput, CreateLogAnomalyDetectorOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLogAnomalyDetectorInput, CreateLogAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLogAnomalyDetectorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1268,6 +1268,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLogAnomalyDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLogAnomalyDetectorInput, CreateLogAnomalyDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateLogAnomalyDetectorInput, CreateLogAnomalyDetectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateLogAnomalyDetectorInput, CreateLogAnomalyDetectorOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -1344,8 +1346,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLogGroupInput, CreateLogGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLogGroupInput, CreateLogGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLogGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1357,6 +1357,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLogGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLogGroupInput, CreateLogGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateLogGroupInput, CreateLogGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateLogGroupInput, CreateLogGroupOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -1427,8 +1429,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLogStreamInput, CreateLogStreamOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLogStreamInput, CreateLogStreamOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLogStreamOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1440,6 +1440,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLogStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLogStreamInput, CreateLogStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateLogStreamInput, CreateLogStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateLogStreamInput, CreateLogStreamOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -1506,8 +1508,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLookupTableInput, CreateLookupTableOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLookupTableInput, CreateLookupTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLookupTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1519,6 +1519,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLookupTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLookupTableInput, CreateLookupTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateLookupTableInput, CreateLookupTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateLookupTableInput, CreateLookupTableOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -1586,8 +1588,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScheduledQueryInput, CreateScheduledQueryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateScheduledQueryInput, CreateScheduledQueryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateScheduledQueryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1599,6 +1599,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateScheduledQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateScheduledQueryInput, CreateScheduledQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateScheduledQueryInput, CreateScheduledQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateScheduledQueryInput, CreateScheduledQueryOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -1674,8 +1676,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAccountPolicyInput, DeleteAccountPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountPolicyInput, DeleteAccountPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1687,6 +1687,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAccountPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAccountPolicyInput, DeleteAccountPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAccountPolicyInput, DeleteAccountPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAccountPolicyInput, DeleteAccountPolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -1751,8 +1753,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDataProtectionPolicyInput, DeleteDataProtectionPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataProtectionPolicyInput, DeleteDataProtectionPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataProtectionPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1764,6 +1764,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDataProtectionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDataProtectionPolicyInput, DeleteDataProtectionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDataProtectionPolicyInput, DeleteDataProtectionPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDataProtectionPolicyInput, DeleteDataProtectionPolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -1830,8 +1832,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeliveryInput, DeleteDeliveryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeliveryInput, DeleteDeliveryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeliveryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1843,6 +1843,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDeliveryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDeliveryInput, DeleteDeliveryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDeliveryInput, DeleteDeliveryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDeliveryInput, DeleteDeliveryOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -1909,8 +1911,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeliveryDestinationInput, DeleteDeliveryDestinationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeliveryDestinationInput, DeleteDeliveryDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeliveryDestinationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1922,6 +1922,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDeliveryDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDeliveryDestinationInput, DeleteDeliveryDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDeliveryDestinationInput, DeleteDeliveryDestinationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDeliveryDestinationInput, DeleteDeliveryDestinationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -1986,8 +1988,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeliveryDestinationPolicyInput, DeleteDeliveryDestinationPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeliveryDestinationPolicyInput, DeleteDeliveryDestinationPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeliveryDestinationPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1999,6 +1999,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDeliveryDestinationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDeliveryDestinationPolicyInput, DeleteDeliveryDestinationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDeliveryDestinationPolicyInput, DeleteDeliveryDestinationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDeliveryDestinationPolicyInput, DeleteDeliveryDestinationPolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -2065,8 +2067,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeliverySourceInput, DeleteDeliverySourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeliverySourceInput, DeleteDeliverySourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeliverySourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2078,6 +2078,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDeliverySourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDeliverySourceInput, DeleteDeliverySourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDeliverySourceInput, DeleteDeliverySourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDeliverySourceInput, DeleteDeliverySourceOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -2142,8 +2144,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDestinationInput, DeleteDestinationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDestinationInput, DeleteDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDestinationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2155,6 +2155,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDestinationInput, DeleteDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDestinationInput, DeleteDestinationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDestinationInput, DeleteDestinationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -2220,8 +2222,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIndexPolicyInput, DeleteIndexPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIndexPolicyInput, DeleteIndexPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIndexPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2233,6 +2233,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIndexPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIndexPolicyInput, DeleteIndexPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIndexPolicyInput, DeleteIndexPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIndexPolicyInput, DeleteIndexPolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -2297,8 +2299,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntegrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2310,6 +2310,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -2374,8 +2376,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLogAnomalyDetectorInput, DeleteLogAnomalyDetectorOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLogAnomalyDetectorInput, DeleteLogAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLogAnomalyDetectorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2387,6 +2387,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLogAnomalyDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLogAnomalyDetectorInput, DeleteLogAnomalyDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteLogAnomalyDetectorInput, DeleteLogAnomalyDetectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteLogAnomalyDetectorInput, DeleteLogAnomalyDetectorOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -2452,8 +2454,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLogGroupInput, DeleteLogGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLogGroupInput, DeleteLogGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLogGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2465,6 +2465,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLogGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLogGroupInput, DeleteLogGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteLogGroupInput, DeleteLogGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteLogGroupInput, DeleteLogGroupOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -2530,8 +2532,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLogStreamInput, DeleteLogStreamOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLogStreamInput, DeleteLogStreamOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLogStreamOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2543,6 +2543,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLogStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLogStreamInput, DeleteLogStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteLogStreamInput, DeleteLogStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteLogStreamInput, DeleteLogStreamOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -2607,8 +2609,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLookupTableInput, DeleteLookupTableOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLookupTableInput, DeleteLookupTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLookupTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2620,6 +2620,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLookupTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLookupTableInput, DeleteLookupTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteLookupTableInput, DeleteLookupTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteLookupTableInput, DeleteLookupTableOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -2684,8 +2686,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMetricFilterInput, DeleteMetricFilterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMetricFilterInput, DeleteMetricFilterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMetricFilterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2697,6 +2697,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMetricFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMetricFilterInput, DeleteMetricFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMetricFilterInput, DeleteMetricFilterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMetricFilterInput, DeleteMetricFilterOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -2760,8 +2762,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteQueryDefinitionInput, DeleteQueryDefinitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueryDefinitionInput, DeleteQueryDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueryDefinitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2773,6 +2773,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteQueryDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteQueryDefinitionInput, DeleteQueryDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteQueryDefinitionInput, DeleteQueryDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteQueryDefinitionInput, DeleteQueryDefinitionOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -2837,8 +2839,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2850,6 +2850,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -2914,8 +2916,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRetentionPolicyInput, DeleteRetentionPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRetentionPolicyInput, DeleteRetentionPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRetentionPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2927,6 +2927,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRetentionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRetentionPolicyInput, DeleteRetentionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRetentionPolicyInput, DeleteRetentionPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRetentionPolicyInput, DeleteRetentionPolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -2992,8 +2994,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteScheduledQueryInput, DeleteScheduledQueryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScheduledQueryInput, DeleteScheduledQueryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScheduledQueryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3005,6 +3005,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteScheduledQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteScheduledQueryInput, DeleteScheduledQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteScheduledQueryInput, DeleteScheduledQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteScheduledQueryInput, DeleteScheduledQueryOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -3069,8 +3071,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSubscriptionFilterInput, DeleteSubscriptionFilterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSubscriptionFilterInput, DeleteSubscriptionFilterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSubscriptionFilterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3082,10 +3082,92 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSubscriptionFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSubscriptionFilterInput, DeleteSubscriptionFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSubscriptionFilterInput, DeleteSubscriptionFilterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSubscriptionFilterInput, DeleteSubscriptionFilterOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSubscriptionFilter")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteSyslogConfiguration` operation on the `CloudWatchLogs` service.
+    ///
+    /// Deletes a syslog configuration for a log group. After deletion, syslog data is no longer ingested through the specified VPC endpoint.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteSyslogConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteSyslogConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InvalidOperationException` : The operation is not valid on the specified resource.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    public func deleteSyslogConfiguration(input: DeleteSyslogConfigurationInput) async throws -> DeleteSyslogConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchLogsClient.deleteSyslogConfigurationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteSyslogConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSyslogConfigurationInput, DeleteSyslogConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSyslogConfigurationInput, DeleteSyslogConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSyslogConfigurationInput, DeleteSyslogConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSyslogConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSyslogConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSyslogConfigurationInput, DeleteSyslogConfigurationOutput>(overrides: ["X-Amz-Target": "Logs_20140328.DeleteSyslogConfiguration"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSyslogConfigurationInput, DeleteSyslogConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSyslogConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSyslogConfigurationInput, DeleteSyslogConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSyslogConfigurationInput, DeleteSyslogConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSyslogConfigurationInput, DeleteSyslogConfigurationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSyslogConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3147,8 +3229,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTransformerInput, DeleteTransformerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTransformerInput, DeleteTransformerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTransformerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3160,6 +3240,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTransformerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTransformerInput, DeleteTransformerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTransformerInput, DeleteTransformerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTransformerInput, DeleteTransformerOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -3232,8 +3314,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountPoliciesInput, DescribeAccountPoliciesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountPoliciesInput, DescribeAccountPoliciesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountPoliciesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3245,6 +3325,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccountPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAccountPoliciesInput, DescribeAccountPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAccountPoliciesInput, DescribeAccountPoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAccountPoliciesInput, DescribeAccountPoliciesOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -3309,8 +3391,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigurationTemplatesInput, DescribeConfigurationTemplatesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationTemplatesInput, DescribeConfigurationTemplatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationTemplatesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3322,6 +3402,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigurationTemplatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConfigurationTemplatesInput, DescribeConfigurationTemplatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConfigurationTemplatesInput, DescribeConfigurationTemplatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationTemplatesInput, DescribeConfigurationTemplatesOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -3386,8 +3468,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDeliveriesInput, DescribeDeliveriesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeliveriesInput, DescribeDeliveriesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeliveriesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3399,6 +3479,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDeliveriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDeliveriesInput, DescribeDeliveriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDeliveriesInput, DescribeDeliveriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDeliveriesInput, DescribeDeliveriesOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -3463,8 +3545,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDeliveryDestinationsInput, DescribeDeliveryDestinationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeliveryDestinationsInput, DescribeDeliveryDestinationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeliveryDestinationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3476,6 +3556,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDeliveryDestinationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDeliveryDestinationsInput, DescribeDeliveryDestinationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDeliveryDestinationsInput, DescribeDeliveryDestinationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDeliveryDestinationsInput, DescribeDeliveryDestinationsOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -3540,8 +3622,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDeliverySourcesInput, DescribeDeliverySourcesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeliverySourcesInput, DescribeDeliverySourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeliverySourcesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3553,6 +3633,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDeliverySourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDeliverySourcesInput, DescribeDeliverySourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDeliverySourcesInput, DescribeDeliverySourcesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDeliverySourcesInput, DescribeDeliverySourcesOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -3615,8 +3697,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDestinationsInput, DescribeDestinationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDestinationsInput, DescribeDestinationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDestinationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3628,6 +3708,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDestinationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDestinationsInput, DescribeDestinationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDestinationsInput, DescribeDestinationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDestinationsInput, DescribeDestinationsOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -3690,8 +3772,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeExportTasksInput, DescribeExportTasksOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExportTasksInput, DescribeExportTasksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExportTasksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3703,6 +3783,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeExportTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeExportTasksInput, DescribeExportTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeExportTasksInput, DescribeExportTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeExportTasksInput, DescribeExportTasksOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -3768,8 +3850,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFieldIndexesInput, DescribeFieldIndexesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFieldIndexesInput, DescribeFieldIndexesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFieldIndexesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3781,6 +3861,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFieldIndexesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFieldIndexesInput, DescribeFieldIndexesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFieldIndexesInput, DescribeFieldIndexesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeFieldIndexesInput, DescribeFieldIndexesOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -3846,8 +3928,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImportTaskBatchesInput, DescribeImportTaskBatchesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImportTaskBatchesInput, DescribeImportTaskBatchesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImportTaskBatchesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3859,6 +3939,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImportTaskBatchesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeImportTaskBatchesInput, DescribeImportTaskBatchesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeImportTaskBatchesInput, DescribeImportTaskBatchesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeImportTaskBatchesInput, DescribeImportTaskBatchesOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -3924,8 +4006,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImportTasksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3937,6 +4017,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImportTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -4002,8 +4084,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIndexPoliciesInput, DescribeIndexPoliciesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIndexPoliciesInput, DescribeIndexPoliciesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIndexPoliciesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4015,6 +4095,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeIndexPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeIndexPoliciesInput, DescribeIndexPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeIndexPoliciesInput, DescribeIndexPoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeIndexPoliciesInput, DescribeIndexPoliciesOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -4077,8 +4159,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLogGroupsInput, DescribeLogGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLogGroupsInput, DescribeLogGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLogGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4090,6 +4170,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLogGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLogGroupsInput, DescribeLogGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeLogGroupsInput, DescribeLogGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeLogGroupsInput, DescribeLogGroupsOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -4153,8 +4235,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLogStreamsInput, DescribeLogStreamsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLogStreamsInput, DescribeLogStreamsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLogStreamsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4166,6 +4246,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLogStreamsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLogStreamsInput, DescribeLogStreamsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeLogStreamsInput, DescribeLogStreamsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeLogStreamsInput, DescribeLogStreamsOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -4230,8 +4312,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLookupTablesInput, DescribeLookupTablesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLookupTablesInput, DescribeLookupTablesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLookupTablesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4243,6 +4323,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLookupTablesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLookupTablesInput, DescribeLookupTablesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeLookupTablesInput, DescribeLookupTablesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeLookupTablesInput, DescribeLookupTablesOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -4306,8 +4388,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMetricFiltersInput, DescribeMetricFiltersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMetricFiltersInput, DescribeMetricFiltersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMetricFiltersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4319,6 +4399,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMetricFiltersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMetricFiltersInput, DescribeMetricFiltersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMetricFiltersInput, DescribeMetricFiltersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMetricFiltersInput, DescribeMetricFiltersOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -4382,8 +4464,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeQueriesInput, DescribeQueriesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeQueriesInput, DescribeQueriesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeQueriesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4395,6 +4475,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeQueriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeQueriesInput, DescribeQueriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeQueriesInput, DescribeQueriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeQueriesInput, DescribeQueriesOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -4457,8 +4539,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeQueryDefinitionsInput, DescribeQueryDefinitionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeQueryDefinitionsInput, DescribeQueryDefinitionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeQueryDefinitionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4470,6 +4550,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeQueryDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeQueryDefinitionsInput, DescribeQueryDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeQueryDefinitionsInput, DescribeQueryDefinitionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeQueryDefinitionsInput, DescribeQueryDefinitionsOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -4532,8 +4614,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResourcePoliciesInput, DescribeResourcePoliciesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResourcePoliciesInput, DescribeResourcePoliciesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourcePoliciesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4545,6 +4625,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeResourcePoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeResourcePoliciesInput, DescribeResourcePoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeResourcePoliciesInput, DescribeResourcePoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeResourcePoliciesInput, DescribeResourcePoliciesOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -4608,8 +4690,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSubscriptionFiltersInput, DescribeSubscriptionFiltersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSubscriptionFiltersInput, DescribeSubscriptionFiltersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSubscriptionFiltersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4621,6 +4701,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSubscriptionFiltersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSubscriptionFiltersInput, DescribeSubscriptionFiltersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSubscriptionFiltersInput, DescribeSubscriptionFiltersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSubscriptionFiltersInput, DescribeSubscriptionFiltersOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -4692,8 +4774,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateKmsKeyInput, DisassociateKmsKeyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateKmsKeyInput, DisassociateKmsKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateKmsKeyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4705,6 +4785,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateKmsKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateKmsKeyInput, DisassociateKmsKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateKmsKeyInput, DisassociateKmsKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateKmsKeyInput, DisassociateKmsKeyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -4770,8 +4852,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSourceFromS3TableIntegrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4783,6 +4863,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateSourceFromS3TableIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -4810,7 +4892,7 @@ extension CloudWatchLogsClient {
     /// * The log stream name, or a log stream name prefix that matches multiple log streams
     ///
     ///
-    /// You must have the logs:FilterLogEvents permission to perform this operation. You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must include one of these two parameters, but you can't include both. FilterLogEvents is a paginated operation. Each page returned can contain up to 1 MB of log events or up to 10,000 log events. A returned page might only be partially full, or even empty. For example, if the result of a query would return 15,000 log events, the first page isn't guaranteed to have 10,000 log events even if they all fit into 1 MB. Partially full or empty pages don't necessarily mean that pagination is finished. If the results include a nextToken, there might be more log events available. You can return these additional log events by providing the nextToken in a subsequent FilterLogEvents operation. If the results don't include a nextToken, then pagination is finished. Specifying the limit parameter only guarantees that a single page doesn't return more log events than the specified limit, but it might return fewer events than the limit. This is the expected API behavior. The returned log events are sorted by event timestamp, the timestamp when the event was ingested by CloudWatch Logs, and the ID of the PutLogEvents request. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). If you are using [log transformation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html), the FilterLogEvents operation returns only the original versions of log events, before they were transformed. To view the transformed versions, you must use a [CloudWatch Logs query.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html)
+    /// You must have the logs:FilterLogEvents permission to perform this operation. You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must include one of these two parameters, but you can't include both. FilterLogEvents is a paginated operation. Each page returned can contain up to 1 MB of log events or up to 10,000 log events. A returned page might only be partially full, or even empty. For example, if the result of a query would return 15,000 log events, the first page isn't guaranteed to have 10,000 log events even if they all fit into 1 MB. Partially full or empty pages don't necessarily mean that pagination is finished. If the results include a nextToken, there might be more log events available. You can return these additional log events by providing the nextToken in a subsequent FilterLogEvents operation. If the results don't include a nextToken, then pagination is finished. Specifying the limit parameter only guarantees that a single page doesn't return more log events than the specified limit, but it might return fewer events than the limit. This is the expected API behavior. The returned log events are sorted by event timestamp, the timestamp when the event was ingested by CloudWatch Logs, and the ID of the PutLogEvents request. By default, the events are returned in ascending timestamp order (oldest first). To return events in descending timestamp order (newest first), set the startFromHead parameter to false. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). If you are using [log transformation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html), the FilterLogEvents operation returns only the original versions of log events, before they were transformed. To view the transformed versions, you must use a [CloudWatch Logs query.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html)
     ///
     /// - Parameter input: [no documentation found] (Type: `FilterLogEventsInput`)
     ///
@@ -4855,8 +4937,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<FilterLogEventsInput, FilterLogEventsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<FilterLogEventsInput, FilterLogEventsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<FilterLogEventsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4868,6 +4948,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<FilterLogEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<FilterLogEventsInput, FilterLogEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<FilterLogEventsInput, FilterLogEventsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<FilterLogEventsInput, FilterLogEventsOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -4932,8 +5014,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataProtectionPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4945,6 +5025,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataProtectionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -5010,8 +5092,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeliveryInput, GetDeliveryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeliveryInput, GetDeliveryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeliveryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5023,6 +5103,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeliveryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDeliveryInput, GetDeliveryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDeliveryInput, GetDeliveryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDeliveryInput, GetDeliveryOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -5088,8 +5170,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeliveryDestinationInput, GetDeliveryDestinationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeliveryDestinationInput, GetDeliveryDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeliveryDestinationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5101,6 +5181,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeliveryDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDeliveryDestinationInput, GetDeliveryDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDeliveryDestinationInput, GetDeliveryDestinationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDeliveryDestinationInput, GetDeliveryDestinationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -5164,8 +5246,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeliveryDestinationPolicyInput, GetDeliveryDestinationPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeliveryDestinationPolicyInput, GetDeliveryDestinationPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeliveryDestinationPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5177,6 +5257,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeliveryDestinationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDeliveryDestinationPolicyInput, GetDeliveryDestinationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDeliveryDestinationPolicyInput, GetDeliveryDestinationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDeliveryDestinationPolicyInput, GetDeliveryDestinationPolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -5242,8 +5324,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeliverySourceInput, GetDeliverySourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeliverySourceInput, GetDeliverySourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeliverySourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5255,6 +5335,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeliverySourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDeliverySourceInput, GetDeliverySourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDeliverySourceInput, GetDeliverySourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDeliverySourceInput, GetDeliverySourceOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -5318,8 +5400,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIntegrationInput, GetIntegrationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntegrationInput, GetIntegrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntegrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5331,6 +5411,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIntegrationInput, GetIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIntegrationInput, GetIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIntegrationInput, GetIntegrationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -5395,8 +5477,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLogAnomalyDetectorInput, GetLogAnomalyDetectorOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLogAnomalyDetectorInput, GetLogAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLogAnomalyDetectorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5408,6 +5488,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLogAnomalyDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLogAnomalyDetectorInput, GetLogAnomalyDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLogAnomalyDetectorInput, GetLogAnomalyDetectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLogAnomalyDetectorInput, GetLogAnomalyDetectorOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -5471,8 +5553,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLogEventsInput, GetLogEventsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLogEventsInput, GetLogEventsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLogEventsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5484,6 +5564,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLogEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLogEventsInput, GetLogEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLogEventsInput, GetLogEventsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLogEventsInput, GetLogEventsOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -5548,8 +5630,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLogFieldsInput, GetLogFieldsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLogFieldsInput, GetLogFieldsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLogFieldsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5561,6 +5641,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLogFieldsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLogFieldsInput, GetLogFieldsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLogFieldsInput, GetLogFieldsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLogFieldsInput, GetLogFieldsOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -5625,8 +5707,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLogGroupFieldsInput, GetLogGroupFieldsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLogGroupFieldsInput, GetLogGroupFieldsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLogGroupFieldsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5638,6 +5718,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLogGroupFieldsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLogGroupFieldsInput, GetLogGroupFieldsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLogGroupFieldsInput, GetLogGroupFieldsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLogGroupFieldsInput, GetLogGroupFieldsOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -5703,8 +5785,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLogObjectInput, GetLogObjectOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLogObjectInput, GetLogObjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLogObjectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5716,6 +5796,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLogObjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLogObjectInput, GetLogObjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLogObjectInput, GetLogObjectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLogObjectInput, GetLogObjectOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -5780,8 +5862,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLogRecordInput, GetLogRecordOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLogRecordInput, GetLogRecordOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLogRecordOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5793,6 +5873,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLogRecordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLogRecordInput, GetLogRecordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLogRecordInput, GetLogRecordOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLogRecordInput, GetLogRecordOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -5857,8 +5939,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLookupTableInput, GetLookupTableOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLookupTableInput, GetLookupTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLookupTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5870,6 +5950,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLookupTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLookupTableInput, GetLookupTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLookupTableInput, GetLookupTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLookupTableInput, GetLookupTableOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -5888,7 +5970,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `GetQueryResults` operation on the `CloudWatchLogs` service.
     ///
-    /// Returns the results from the specified query. Only the fields requested in the query are returned, along with a @ptr field, which is the identifier for the log record. You can use the value of @ptr in a [GetLogRecord](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogRecord.html) operation to get the full log record. GetQueryResults does not start running a query. To run a query, use [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html). For more information about how long results of previous queries are available, see [CloudWatch Logs quotas](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/cloudwatch_limits_cwl.html). If the value of the Status field in the output is Running, this operation returns only partial results. If you see a value of Scheduled or Running for the status, you can retry the operation later to see the final results. This operation is used both for retrieving results from interactive queries and from automated scheduled query executions. Scheduled queries use GetQueryResults internally to retrieve query results for processing and delivery to configured destinations. You can retrieve up to 100,000 log event results from a query, if available, by using pagination. Use the nextToken returned in the response to request additional pages of results, with each page returning up to 10,000 log events. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start queries in linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
+    /// Returns the results from the specified query. Only the fields requested in the query are returned, along with a @ptr field, which is the identifier for the log record. You can use the value of @ptr in a [GetLogRecord](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogRecord.html) operation to get the full log record. GetQueryResults does not start running a query. To run a query, use [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html). For more information about how long results of previous queries are available, see [CloudWatch Logs quotas](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/cloudwatch_limits_cwl.html). If the value of the Status field in the output is Running, this operation returns only partial results. If you see a value of Scheduled or Running for the status, you can retry the operation later to see the final results. This operation is used both for retrieving results from interactive queries and from automated scheduled query executions. Scheduled queries use GetQueryResults internally to retrieve query results for processing and delivery to configured destinations. You can retrieve up to 100,000 log event results from a query, if available, by using pagination. Use the nextToken returned in the response to request additional pages of results, with each page returning up to 10,000 log events. This is only supported for Logs Insights QL and is currently not supported for PPL and SQL query languages. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start queries in linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `GetQueryResultsInput`)
     ///
@@ -5933,8 +6015,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQueryResultsInput, GetQueryResultsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryResultsInput, GetQueryResultsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryResultsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5946,6 +6026,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetQueryResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetQueryResultsInput, GetQueryResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetQueryResultsInput, GetQueryResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetQueryResultsInput, GetQueryResultsOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -6011,8 +6093,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetScheduledQueryInput, GetScheduledQueryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetScheduledQueryInput, GetScheduledQueryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetScheduledQueryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6024,6 +6104,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetScheduledQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetScheduledQueryInput, GetScheduledQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetScheduledQueryInput, GetScheduledQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetScheduledQueryInput, GetScheduledQueryOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -6089,8 +6171,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetScheduledQueryHistoryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6102,10 +6182,90 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetScheduledQueryHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetScheduledQueryHistory")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetStorageTierPolicy` operation on the `CloudWatchLogs` service.
+    ///
+    /// Returns the storage tier policy for your account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetStorageTierPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetStorageTierPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    public func getStorageTierPolicy(input: GetStorageTierPolicyInput) async throws -> GetStorageTierPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchLogsClient.getStorageTierPolicyOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getStorageTierPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStorageTierPolicyInput, GetStorageTierPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStorageTierPolicyInput, GetStorageTierPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStorageTierPolicyInput, GetStorageTierPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetStorageTierPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetStorageTierPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetStorageTierPolicyInput, GetStorageTierPolicyOutput>(overrides: ["X-Amz-Target": "Logs_20140328.GetStorageTierPolicy"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetStorageTierPolicyInput, GetStorageTierPolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetStorageTierPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetStorageTierPolicyInput, GetStorageTierPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetStorageTierPolicyInput, GetStorageTierPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetStorageTierPolicyInput, GetStorageTierPolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetStorageTierPolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6166,8 +6326,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTransformerInput, GetTransformerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTransformerInput, GetTransformerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTransformerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6179,6 +6337,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTransformerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTransformerInput, GetTransformerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTransformerInput, GetTransformerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTransformerInput, GetTransformerOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -6242,8 +6402,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAggregateLogGroupSummariesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6255,6 +6413,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAggregateLogGroupSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -6319,8 +6479,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAnomaliesInput, ListAnomaliesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnomaliesInput, ListAnomaliesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnomaliesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6332,6 +6490,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAnomaliesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAnomaliesInput, ListAnomaliesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAnomaliesInput, ListAnomaliesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAnomaliesInput, ListAnomaliesOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -6394,8 +6554,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIntegrationsInput, ListIntegrationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIntegrationsInput, ListIntegrationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIntegrationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6407,6 +6565,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIntegrationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIntegrationsInput, ListIntegrationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListIntegrationsInput, ListIntegrationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListIntegrationsInput, ListIntegrationsOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -6471,8 +6631,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLogAnomalyDetectorsInput, ListLogAnomalyDetectorsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLogAnomalyDetectorsInput, ListLogAnomalyDetectorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLogAnomalyDetectorsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6484,6 +6642,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLogAnomalyDetectorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLogAnomalyDetectorsInput, ListLogAnomalyDetectorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListLogAnomalyDetectorsInput, ListLogAnomalyDetectorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListLogAnomalyDetectorsInput, ListLogAnomalyDetectorsOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -6546,8 +6706,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLogGroupsInput, ListLogGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLogGroupsInput, ListLogGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLogGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6559,6 +6717,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLogGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLogGroupsInput, ListLogGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListLogGroupsInput, ListLogGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListLogGroupsInput, ListLogGroupsOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -6623,8 +6783,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLogGroupsForQueryInput, ListLogGroupsForQueryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLogGroupsForQueryInput, ListLogGroupsForQueryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLogGroupsForQueryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6636,6 +6794,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLogGroupsForQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLogGroupsForQueryInput, ListLogGroupsForQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListLogGroupsForQueryInput, ListLogGroupsForQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListLogGroupsForQueryInput, ListLogGroupsForQueryOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -6700,8 +6860,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListScheduledQueriesInput, ListScheduledQueriesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListScheduledQueriesInput, ListScheduledQueriesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListScheduledQueriesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6713,6 +6871,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListScheduledQueriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListScheduledQueriesInput, ListScheduledQueriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListScheduledQueriesInput, ListScheduledQueriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListScheduledQueriesInput, ListScheduledQueriesOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -6778,8 +6938,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSourcesForS3TableIntegrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6791,10 +6949,91 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSourcesForS3TableIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSourcesForS3TableIntegration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListSyslogConfigurations` operation on the `CloudWatchLogs` service.
+    ///
+    /// Returns a list of syslog configurations. You can optionally filter the results by log group or VPC endpoint.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListSyslogConfigurationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListSyslogConfigurationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InvalidOperationException` : The operation is not valid on the specified resource.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    public func listSyslogConfigurations(input: ListSyslogConfigurationsInput) async throws -> ListSyslogConfigurationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchLogsClient.listSyslogConfigurationsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSyslogConfigurations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSyslogConfigurationsInput, ListSyslogConfigurationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSyslogConfigurationsInput, ListSyslogConfigurationsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSyslogConfigurationsInput, ListSyslogConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSyslogConfigurationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSyslogConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSyslogConfigurationsInput, ListSyslogConfigurationsOutput>(overrides: ["X-Amz-Target": "Logs_20140328.ListSyslogConfigurations"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSyslogConfigurationsInput, ListSyslogConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSyslogConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSyslogConfigurationsInput, ListSyslogConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSyslogConfigurationsInput, ListSyslogConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSyslogConfigurationsInput, ListSyslogConfigurationsOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSyslogConfigurations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6854,8 +7093,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6867,6 +7104,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -6930,8 +7169,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsLogGroupInput, ListTagsLogGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsLogGroupInput, ListTagsLogGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsLogGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6943,6 +7180,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsLogGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsLogGroupInput, ListTagsLogGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsLogGroupInput, ListTagsLogGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsLogGroupInput, ListTagsLogGroupOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -6961,7 +7200,20 @@ extension CloudWatchLogsClient {
 
     /// Performs the `PutAccountPolicy` operation on the `CloudWatchLogs` service.
     ///
-    /// Creates an account-level data protection policy, subscription filter policy, field index policy, transformer policy, or metric extraction policy that applies to all log groups, a subset of log groups, or a data source name and type combination in the account. For field index policies, you can configure indexed fields as facets to enable interactive exploration of your logs. Facets provide value distributions and counts for indexed fields in the CloudWatch Logs Insights console without requiring query execution. For more information, see [Use facets to group and explore logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Facets.html). To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are creating.
+    /// Creates an account-level data protection policy, subscription filter policy, field index policy, transformer policy, or metric extraction policy that applies to all log groups, a subset of log groups, or a data source name and type combination in the account. PutAccountPolicy is an account-wide administrative operation intended for CloudWatch Logs administrators. Because it affects all log groups (or a broad subset) in the account, you should grant logs:PutAccountPolicy permissions only to administrators who manage logging configuration across the account, not to application teams or individual log group owners. Conflict resolution between account-level and log-group-level policies When both an account-level policy and a log-group-level policy of the same type apply to a log group, the resolution depends on the policy type:
+    ///
+    /// * Data protection — The two policies are cumulative. Any sensitive term specified in either the account-level or the log-group-level policy is masked.
+    ///
+    /// * Subscription filters — Account-level and log-group-level subscription filters are additive. A log group can have up to 1 account-level and up to 2 log-group-level subscription filters.
+    ///
+    /// * Transformers — A log-group-level transformer overrides the account-level transformer. If a log group has its own transformer, it ignores the account-level transformer policy.
+    ///
+    /// * Field index policies — If a log group has its own field index policy (created with PutIndexPolicy), any account-level policy that uses LogGroupNamePrefix selection criteria or has no selection criteria is ignored for that log group. However, account-level policies that use DataSourceName and DataSourceType selection criteria still apply alongside the log-group-level policy.
+    ///
+    /// * Metric extraction policies — Metric extraction policies are account-level only and have no log-group-level equivalent, so no conflict resolution applies.
+    ///
+    ///
+    /// For field index policies, you can configure indexed fields as facets to enable interactive exploration of your logs. Facets provide value distributions and counts for indexed fields in the CloudWatch Logs Insights console without requiring query execution. For more information, see [Use facets to group and explore logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Facets.html). To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are creating.
     ///
     /// * To create a data protection policy, you must have the logs:PutDataProtectionPolicy and logs:PutAccountPolicy permissions.
     ///
@@ -7116,8 +7368,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountPolicyInput, PutAccountPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountPolicyInput, PutAccountPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7129,6 +7379,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAccountPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAccountPolicyInput, PutAccountPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAccountPolicyInput, PutAccountPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAccountPolicyInput, PutAccountPolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -7195,8 +7447,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBearerTokenAuthenticationInput, PutBearerTokenAuthenticationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBearerTokenAuthenticationInput, PutBearerTokenAuthenticationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBearerTokenAuthenticationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7208,6 +7458,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutBearerTokenAuthenticationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutBearerTokenAuthenticationInput, PutBearerTokenAuthenticationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutBearerTokenAuthenticationInput, PutBearerTokenAuthenticationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutBearerTokenAuthenticationInput, PutBearerTokenAuthenticationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -7273,8 +7525,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDataProtectionPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7286,6 +7536,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutDataProtectionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -7363,8 +7615,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDeliveryDestinationInput, PutDeliveryDestinationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDeliveryDestinationInput, PutDeliveryDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDeliveryDestinationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7376,6 +7626,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutDeliveryDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutDeliveryDestinationInput, PutDeliveryDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutDeliveryDestinationInput, PutDeliveryDestinationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutDeliveryDestinationInput, PutDeliveryDestinationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -7451,8 +7703,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDeliveryDestinationPolicyInput, PutDeliveryDestinationPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDeliveryDestinationPolicyInput, PutDeliveryDestinationPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDeliveryDestinationPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7464,6 +7714,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutDeliveryDestinationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutDeliveryDestinationPolicyInput, PutDeliveryDestinationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutDeliveryDestinationPolicyInput, PutDeliveryDestinationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutDeliveryDestinationPolicyInput, PutDeliveryDestinationPolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -7541,8 +7793,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDeliverySourceInput, PutDeliverySourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDeliverySourceInput, PutDeliverySourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDeliverySourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7554,6 +7804,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutDeliverySourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutDeliverySourceInput, PutDeliverySourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutDeliverySourceInput, PutDeliverySourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutDeliverySourceInput, PutDeliverySourceOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -7617,8 +7869,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDestinationInput, PutDestinationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDestinationInput, PutDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDestinationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7630,6 +7880,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutDestinationInput, PutDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutDestinationInput, PutDestinationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutDestinationInput, PutDestinationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -7693,8 +7945,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDestinationPolicyInput, PutDestinationPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDestinationPolicyInput, PutDestinationPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDestinationPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7706,6 +7956,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutDestinationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutDestinationPolicyInput, PutDestinationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutDestinationPolicyInput, PutDestinationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutDestinationPolicyInput, PutDestinationPolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -7791,8 +8043,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutIndexPolicyInput, PutIndexPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutIndexPolicyInput, PutIndexPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutIndexPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7804,6 +8054,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutIndexPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutIndexPolicyInput, PutIndexPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutIndexPolicyInput, PutIndexPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutIndexPolicyInput, PutIndexPolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -7868,8 +8120,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutIntegrationInput, PutIntegrationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutIntegrationInput, PutIntegrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutIntegrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7881,6 +8131,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutIntegrationInput, PutIntegrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutIntegrationInput, PutIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutIntegrationInput, PutIntegrationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -7966,8 +8218,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLogEventsInput, PutLogEventsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLogEventsInput, PutLogEventsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutLogEventsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7979,6 +8229,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutLogEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutLogEventsInput, PutLogEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutLogEventsInput, PutLogEventsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutLogEventsInput, PutLogEventsOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -8045,8 +8297,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutLogGroupDeletionProtectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8058,6 +8308,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutLogGroupDeletionProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -8124,8 +8376,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMetricFilterInput, PutMetricFilterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMetricFilterInput, PutMetricFilterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMetricFilterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8137,6 +8387,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutMetricFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutMetricFilterInput, PutMetricFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutMetricFilterInput, PutMetricFilterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutMetricFilterInput, PutMetricFilterOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -8202,8 +8454,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutQueryDefinitionInput, PutQueryDefinitionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutQueryDefinitionInput, PutQueryDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutQueryDefinitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8215,6 +8465,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutQueryDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutQueryDefinitionInput, PutQueryDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutQueryDefinitionInput, PutQueryDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutQueryDefinitionInput, PutQueryDefinitionOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -8289,8 +8541,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8302,6 +8552,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -8366,8 +8618,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRetentionPolicyInput, PutRetentionPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRetentionPolicyInput, PutRetentionPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRetentionPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8379,10 +8629,90 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRetentionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutRetentionPolicyInput, PutRetentionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutRetentionPolicyInput, PutRetentionPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRetentionPolicyInput, PutRetentionPolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutRetentionPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutStorageTierPolicy` operation on the `CloudWatchLogs` service.
+    ///
+    /// Sets the storage tier policy for your account. When you set the storage tier to INTELLIGENT_TIERING, CloudWatch Logs automatically moves your log data between storage tiers based on access patterns to optimize costs.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutStorageTierPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutStorageTierPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    public func putStorageTierPolicy(input: PutStorageTierPolicyInput) async throws -> PutStorageTierPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchLogsClient.putStorageTierPolicyOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putStorageTierPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutStorageTierPolicyInput, PutStorageTierPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutStorageTierPolicyInput, PutStorageTierPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutStorageTierPolicyInput, PutStorageTierPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutStorageTierPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutStorageTierPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutStorageTierPolicyInput, PutStorageTierPolicyOutput>(overrides: ["X-Amz-Target": "Logs_20140328.PutStorageTierPolicy"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutStorageTierPolicyInput, PutStorageTierPolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutStorageTierPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutStorageTierPolicyInput, PutStorageTierPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutStorageTierPolicyInput, PutStorageTierPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutStorageTierPolicyInput, PutStorageTierPolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutStorageTierPolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -8456,8 +8786,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSubscriptionFilterInput, PutSubscriptionFilterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSubscriptionFilterInput, PutSubscriptionFilterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSubscriptionFilterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8469,10 +8797,92 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutSubscriptionFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutSubscriptionFilterInput, PutSubscriptionFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutSubscriptionFilterInput, PutSubscriptionFilterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutSubscriptionFilterInput, PutSubscriptionFilterOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutSubscriptionFilter")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutSyslogConfiguration` operation on the `CloudWatchLogs` service.
+    ///
+    /// Creates or updates a syslog configuration for a log group. This enables ingestion of syslog data through the specified VPC endpoint into the log group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutSyslogConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutSyslogConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InvalidOperationException` : The operation is not valid on the specified resource.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    public func putSyslogConfiguration(input: PutSyslogConfigurationInput) async throws -> PutSyslogConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchLogsClient.putSyslogConfigurationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putSyslogConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutSyslogConfigurationInput, PutSyslogConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSyslogConfigurationInput, PutSyslogConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSyslogConfigurationInput, PutSyslogConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutSyslogConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutSyslogConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutSyslogConfigurationInput, PutSyslogConfigurationOutput>(overrides: ["X-Amz-Target": "Logs_20140328.PutSyslogConfiguration"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutSyslogConfigurationInput, PutSyslogConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutSyslogConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutSyslogConfigurationInput, PutSyslogConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutSyslogConfigurationInput, PutSyslogConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutSyslogConfigurationInput, PutSyslogConfigurationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutSyslogConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -8535,8 +8945,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTransformerInput, PutTransformerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTransformerInput, PutTransformerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTransformerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8548,6 +8956,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutTransformerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutTransformerInput, PutTransformerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutTransformerInput, PutTransformerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutTransformerInput, PutTransformerOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -8624,8 +9034,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartLiveTailInput, StartLiveTailOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartLiveTailInput, StartLiveTailOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartLiveTailOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8637,6 +9045,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartLiveTailOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartLiveTailInput, StartLiveTailOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartLiveTailInput, StartLiveTailOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartLiveTailInput, StartLiveTailOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -8709,8 +9119,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartQueryInput, StartQueryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartQueryInput, StartQueryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartQueryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8722,6 +9130,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartQueryInput, StartQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartQueryInput, StartQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartQueryInput, StartQueryOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -8785,8 +9195,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopQueryInput, StopQueryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopQueryInput, StopQueryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopQueryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8798,6 +9206,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopQueryInput, StopQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopQueryInput, StopQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopQueryInput, StopQueryOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -8861,8 +9271,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagLogGroupInput, TagLogGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagLogGroupInput, TagLogGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagLogGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8874,6 +9282,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagLogGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagLogGroupInput, TagLogGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagLogGroupInput, TagLogGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagLogGroupInput, TagLogGroupOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -8938,8 +9348,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8951,6 +9359,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -9013,8 +9423,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestMetricFilterInput, TestMetricFilterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestMetricFilterInput, TestMetricFilterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestMetricFilterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9026,6 +9434,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TestMetricFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TestMetricFilterInput, TestMetricFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TestMetricFilterInput, TestMetricFilterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TestMetricFilterInput, TestMetricFilterOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -9089,8 +9499,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestTransformerInput, TestTransformerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestTransformerInput, TestTransformerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestTransformerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9102,6 +9510,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TestTransformerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TestTransformerInput, TestTransformerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TestTransformerInput, TestTransformerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TestTransformerInput, TestTransformerOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -9164,8 +9574,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagLogGroupInput, UntagLogGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagLogGroupInput, UntagLogGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagLogGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9177,6 +9585,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagLogGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagLogGroupInput, UntagLogGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagLogGroupInput, UntagLogGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagLogGroupInput, UntagLogGroupOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -9240,8 +9650,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9253,6 +9661,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -9317,8 +9727,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAnomalyInput, UpdateAnomalyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAnomalyInput, UpdateAnomalyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAnomalyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9330,6 +9738,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAnomalyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAnomalyInput, UpdateAnomalyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAnomalyInput, UpdateAnomalyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAnomalyInput, UpdateAnomalyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -9396,8 +9806,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDeliveryConfigurationInput, UpdateDeliveryConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDeliveryConfigurationInput, UpdateDeliveryConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDeliveryConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9409,6 +9817,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDeliveryConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDeliveryConfigurationInput, UpdateDeliveryConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDeliveryConfigurationInput, UpdateDeliveryConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDeliveryConfigurationInput, UpdateDeliveryConfigurationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -9473,8 +9883,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLogAnomalyDetectorInput, UpdateLogAnomalyDetectorOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLogAnomalyDetectorInput, UpdateLogAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLogAnomalyDetectorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9486,6 +9894,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLogAnomalyDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLogAnomalyDetectorInput, UpdateLogAnomalyDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateLogAnomalyDetectorInput, UpdateLogAnomalyDetectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateLogAnomalyDetectorInput, UpdateLogAnomalyDetectorOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -9551,8 +9961,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLookupTableInput, UpdateLookupTableOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLookupTableInput, UpdateLookupTableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLookupTableOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9564,6 +9972,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLookupTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLookupTableInput, UpdateLookupTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateLookupTableInput, UpdateLookupTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateLookupTableInput, UpdateLookupTableOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
@@ -9592,6 +10002,7 @@ extension CloudWatchLogsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `ConflictException` : This operation attempted to create a resource that already exists.
     /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
@@ -9629,8 +10040,6 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateScheduledQueryInput, UpdateScheduledQueryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateScheduledQueryInput, UpdateScheduledQueryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateScheduledQueryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9642,6 +10051,8 @@ extension CloudWatchLogsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateScheduledQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateScheduledQueryInput, UpdateScheduledQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateScheduledQueryInput, UpdateScheduledQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateScheduledQueryInput, UpdateScheduledQueryOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")

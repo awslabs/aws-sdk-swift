@@ -1166,6 +1166,37 @@ extension PaginatorSequence where OperationStackInput == ListAssociationVersions
     }
 }
 extension SSMClient {
+    /// Paginate over `[ListCloudConnectorsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCloudConnectorsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCloudConnectorsOutput`
+    public func listCloudConnectorsPaginated(input: ListCloudConnectorsInput) -> ClientRuntime.PaginatorSequence<ListCloudConnectorsInput, ListCloudConnectorsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCloudConnectorsInput, ListCloudConnectorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCloudConnectors(input:))
+    }
+}
+
+extension ListCloudConnectorsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCloudConnectorsInput {
+        return ListCloudConnectorsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCloudConnectorsInput, OperationStackOutput == ListCloudConnectorsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCloudConnectorsPaginated`
+    /// to access the nested member `[SSMClientTypes.CloudConnectorSummary]`
+    /// - Returns: `[SSMClientTypes.CloudConnectorSummary]`
+    public func cloudConnectors() async throws -> [SSMClientTypes.CloudConnectorSummary] {
+        return try await self.asyncCompactMap { item in item.cloudConnectors }
+    }
+}
+extension SSMClient {
     /// Paginate over `[ListCommandInvocationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1578,5 +1609,36 @@ extension PaginatorSequence where OperationStackInput == ListResourceDataSyncInp
     /// - Returns: `[SSMClientTypes.ResourceDataSyncItem]`
     public func resourceDataSyncItems() async throws -> [SSMClientTypes.ResourceDataSyncItem] {
         return try await self.asyncCompactMap { item in item.resourceDataSyncItems }
+    }
+}
+extension SSMClient {
+    /// Paginate over `[ValidateCloudConnectorOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ValidateCloudConnectorInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ValidateCloudConnectorOutput`
+    public func validateCloudConnectorPaginated(input: ValidateCloudConnectorInput) -> ClientRuntime.PaginatorSequence<ValidateCloudConnectorInput, ValidateCloudConnectorOutput> {
+        return ClientRuntime.PaginatorSequence<ValidateCloudConnectorInput, ValidateCloudConnectorOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.validateCloudConnector(input:))
+    }
+}
+
+extension ValidateCloudConnectorInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ValidateCloudConnectorInput {
+        return ValidateCloudConnectorInput(
+            cloudConnectorId: self.cloudConnectorId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ValidateCloudConnectorInput, OperationStackOutput == ValidateCloudConnectorOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `validateCloudConnectorPaginated`
+    /// to access the nested member `[SSMClientTypes.ValidationFinding]`
+    /// - Returns: `[SSMClientTypes.ValidationFinding]`
+    public func validationFindings() async throws -> [SSMClientTypes.ValidationFinding] {
+        return try await self.asyncCompactMap { item in item.validationFindings }
     }
 }

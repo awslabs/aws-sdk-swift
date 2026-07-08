@@ -114,7 +114,12 @@ private var smithySwiftDependency: Package.Dependency {
 }
 
 private var crtDependency: Package.Dependency {
-    .package(url: "https://github.com/awslabs/aws-crt-swift", exact: crtVersion)
+    let useCRTFromMain = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_PRERELEASE_CRT"] != nil
+    return if useCRTFromMain {
+        .package(url: "https://github.com/awslabs/aws-crt-swift", branch: "main")
+    } else {
+        .package(url: "https://github.com/awslabs/aws-crt-swift", from: crtVersion)
+    }
 }
 
 private var doccDependencyOrNil: Package.Dependency? {
@@ -301,7 +306,7 @@ private func unitTestTarget(_ service: ServiceClientData) -> Target {
             .AWSClientRuntime,
             .SmithyTestUtil,
         ],
-        path: "codegen/sdk-codegen/build/smithyprojections/sdk-codegen/\(modelName)/swift-codegen/Tests/\(testName)"
+        path: "codegen/sdk-codegen/build/smithyprojections/sdk-codegen/\(modelName)/swift-codegen/\(service.name)/Tests/\(testName)"
     )
 }
 

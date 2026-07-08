@@ -2137,6 +2137,58 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension CloudFormationClientTypes {
 
+    public enum DeploymentConfigMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case express
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentConfigMode] {
+            return [
+                .express,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .express: return "EXPRESS"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    /// The deployment configuration for a stack operation, including the deployment mode.
+    public struct DeploymentConfig: Swift.Sendable {
+        /// Specifies whether to disable rollback of the stack if the stack operation fails. Default: false
+        public var disableRollback: Swift.Bool?
+        /// Specifies the deployment mode for the stack operation. Possible values are:
+        ///
+        /// * STANDARD - Use the standard deployment behavior, ensuring resources are ready to serve traffic before completing the operation. This is the default. You do not need to specify this value explicitly.
+        ///
+        /// * EXPRESS - Complete the stack operation when resource configuration is applied, without waiting for resources to become ready to serve traffic. Resources continue becoming ready in the background.
+        public var mode: CloudFormationClientTypes.DeploymentConfigMode?
+
+        public init(
+            disableRollback: Swift.Bool? = nil,
+            mode: CloudFormationClientTypes.DeploymentConfigMode? = nil
+        ) {
+            self.disableRollback = disableRollback
+            self.mode = mode
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
     public enum DeploymentMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case revertDrift
         case sdkUnknown(Swift.String)
@@ -2362,6 +2414,8 @@ public struct CreateChangeSetInput: Swift.Sendable {
     public var changeSetType: CloudFormationClientTypes.ChangeSetType?
     /// A unique identifier for this CreateChangeSet request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create another change set with the same name. You might retry CreateChangeSet requests to ensure that CloudFormation successfully received them.
     public var clientToken: Swift.String?
+    /// The deployment configuration for this stack operation, including the deployment mode.
+    public var deploymentConfig: CloudFormationClientTypes.DeploymentConfig?
     /// Determines how CloudFormation handles configuration drift during deployment.
     ///
     /// * REVERT_DRIFT – Creates a drift-aware change set that brings actual resource states in line with template definitions. Provides a three-way comparison between actual state, previous deployment state, and desired state.
@@ -2371,6 +2425,8 @@ public struct CreateChangeSetInput: Swift.Sendable {
     public var deploymentMode: CloudFormationClientTypes.DeploymentMode?
     /// A description to help you identify this change set.
     public var description: Swift.String?
+    /// Set to true to disable pre-deployment validations in changeset or stack operations. Default: false
+    public var disableValidation: Swift.Bool?
     /// Indicates if the change set auto-imports resources that already exist. For more information, see [Import Amazon Web Services resources into a CloudFormation stack automatically](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/import-resources-automatically.html) in the CloudFormation User Guide. This parameter can only import resources that have custom names in templates. For more information, see [name type](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-name.html) in the CloudFormation User Guide. To import resources that do not accept custom names, such as EC2 instances, use the ResourcesToImport parameter instead.
     public var importExistingResources: Swift.Bool?
     /// Creates a change set for the all nested stacks specified in the template. The default behavior of this action is set to False. To include nested sets in a change set, specify True.
@@ -2415,8 +2471,10 @@ public struct CreateChangeSetInput: Swift.Sendable {
         changeSetName: Swift.String? = nil,
         changeSetType: CloudFormationClientTypes.ChangeSetType? = nil,
         clientToken: Swift.String? = nil,
+        deploymentConfig: CloudFormationClientTypes.DeploymentConfig? = nil,
         deploymentMode: CloudFormationClientTypes.DeploymentMode? = nil,
         description: Swift.String? = nil,
+        disableValidation: Swift.Bool? = nil,
         importExistingResources: Swift.Bool? = nil,
         includeNestedStacks: Swift.Bool? = nil,
         notificationARNs: [Swift.String]? = nil,
@@ -2436,8 +2494,10 @@ public struct CreateChangeSetInput: Swift.Sendable {
         self.changeSetName = changeSetName
         self.changeSetType = changeSetType
         self.clientToken = clientToken
+        self.deploymentConfig = deploymentConfig
         self.deploymentMode = deploymentMode
         self.description = description
+        self.disableValidation = disableValidation
         self.importExistingResources = importExistingResources
         self.includeNestedStacks = includeNestedStacks
         self.notificationARNs = notificationARNs
@@ -2718,8 +2778,12 @@ public struct CreateStackInput: Swift.Sendable {
     public var capabilities: [CloudFormationClientTypes.Capability]?
     /// A unique identifier for this CreateStack request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create a stack with the same name. You might retry CreateStack requests to ensure that CloudFormation successfully received them. All events initiated by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002.
     public var clientRequestToken: Swift.String?
+    /// The deployment configuration for this stack operation, including the deployment mode.
+    public var deploymentConfig: CloudFormationClientTypes.DeploymentConfig?
     /// Set to true to disable rollback of the stack if stack creation failed. You can specify either DisableRollback or OnFailure, but not both. Default: false
     public var disableRollback: Swift.Bool?
+    /// Set to true to disable pre-deployment validations in changeset or stack operations. Default: false
+    public var disableValidation: Swift.Bool?
     /// Whether to enable termination protection on the specified stack. If a user attempts to delete a stack with termination protection enabled, the operation fails and the stack remains unchanged. For more information, see [Protect CloudFormation stacks from being deleted](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html) in the CloudFormation User Guide. Termination protection is deactivated on stacks by default. For [nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html), termination protection is set on the root stack and can't be changed directly on the nested stack.
     public var enableTerminationProtection: Swift.Bool?
     /// The Amazon SNS topic ARNs to publish stack related events. You can find your Amazon SNS topic ARNs using the Amazon SNS console or your Command Line Interface (CLI).
@@ -2755,7 +2819,9 @@ public struct CreateStackInput: Swift.Sendable {
     public init(
         capabilities: [CloudFormationClientTypes.Capability]? = nil,
         clientRequestToken: Swift.String? = nil,
+        deploymentConfig: CloudFormationClientTypes.DeploymentConfig? = nil,
         disableRollback: Swift.Bool? = nil,
+        disableValidation: Swift.Bool? = nil,
         enableTerminationProtection: Swift.Bool? = nil,
         notificationARNs: [Swift.String]? = nil,
         onFailure: CloudFormationClientTypes.OnFailure? = nil,
@@ -2774,7 +2840,9 @@ public struct CreateStackInput: Swift.Sendable {
     ) {
         self.capabilities = capabilities
         self.clientRequestToken = clientRequestToken
+        self.deploymentConfig = deploymentConfig
         self.disableRollback = disableRollback
+        self.disableValidation = disableValidation
         self.enableTerminationProtection = enableTerminationProtection
         self.notificationARNs = notificationARNs
         self.onFailure = onFailure
@@ -3569,6 +3637,8 @@ public struct DeleteStackInput: Swift.Sendable {
     ///
     /// * FORCE_DELETE_STACK - Delete the stack if it's stuck in a DELETE_FAILED state due to resource deletion failure.
     public var deletionMode: CloudFormationClientTypes.DeletionMode?
+    /// The deployment configuration for this stack operation, including the deployment mode.
+    public var deploymentConfig: CloudFormationClientTypes.DeploymentConfig?
     /// For stacks in the DELETE_FAILED state, a list of resource logical IDs that are associated with the resources you want to retain. During deletion, CloudFormation deletes the stack but doesn't delete the retained resources. Retaining resources is useful when you can't delete a resource, such as a non-empty S3 bucket, but you want to delete the stack.
     public var retainResources: [Swift.String]?
     /// The Amazon Resource Name (ARN) of an IAM role that CloudFormation assumes to delete the stack. CloudFormation uses the role's credentials to make calls on your behalf. If you don't specify a value, CloudFormation uses the role that was previously associated with the stack. If no role is available, CloudFormation uses a temporary session that's generated from your user credentials.
@@ -3580,12 +3650,14 @@ public struct DeleteStackInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         deletionMode: CloudFormationClientTypes.DeletionMode? = nil,
+        deploymentConfig: CloudFormationClientTypes.DeploymentConfig? = nil,
         retainResources: [Swift.String]? = nil,
         roleARN: Swift.String? = nil,
         stackName: Swift.String? = nil
     ) {
         self.clientRequestToken = clientRequestToken
         self.deletionMode = deletionMode
+        self.deploymentConfig = deploymentConfig
         self.retainResources = retainResources
         self.roleARN = roleARN
         self.stackName = stackName
@@ -3857,6 +3929,8 @@ public struct DescribeChangeSetOutput: Swift.Sendable {
     public var changes: [CloudFormationClientTypes.Change]?
     /// The start time when the change set was created, in UTC.
     public var creationTime: Foundation.Date?
+    /// The deployment configuration specified when the change set was created.
+    public var deploymentConfig: CloudFormationClientTypes.DeploymentConfig?
     /// The deployment mode specified when the change set was created. Valid value is REVERT_DRIFT. Only present for drift-aware change sets.
     public var deploymentMode: CloudFormationClientTypes.DeploymentMode?
     /// Information about the change set.
@@ -3917,6 +3991,7 @@ public struct DescribeChangeSetOutput: Swift.Sendable {
         changeSetName: Swift.String? = nil,
         changes: [CloudFormationClientTypes.Change]? = nil,
         creationTime: Foundation.Date? = nil,
+        deploymentConfig: CloudFormationClientTypes.DeploymentConfig? = nil,
         deploymentMode: CloudFormationClientTypes.DeploymentMode? = nil,
         description: Swift.String? = nil,
         executionStatus: CloudFormationClientTypes.ExecutionStatus? = nil,
@@ -3941,6 +4016,7 @@ public struct DescribeChangeSetOutput: Swift.Sendable {
         self.changeSetName = changeSetName
         self.changes = changes
         self.creationTime = creationTime
+        self.deploymentConfig = deploymentConfig
         self.deploymentMode = deploymentMode
         self.description = description
         self.executionStatus = executionStatus
@@ -4045,7 +4121,7 @@ public struct DescribeEventsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The unique identifier of the operation for which you want to retrieve events.
     public var operationId: Swift.String?
-    /// The name or unique stack ID for which you want to retrieve events.
+    /// The name or unique stack ID for which you want to retrieve events. If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe.
     public var stackName: Swift.String?
 
     public init(
@@ -6364,6 +6440,8 @@ extension CloudFormationClientTypes {
         public var deletionMode: CloudFormationClientTypes.DeletionMode?
         /// The time the stack was deleted.
         public var deletionTime: Foundation.Date?
+        /// The deployment configuration for the stack, including the deployment mode used for stack operations.
+        public var deploymentConfig: CloudFormationClientTypes.DeploymentConfig?
         /// A user-defined description associated with the stack.
         public var description: Swift.String?
         /// The detailed status of the resource or stack. If CONFIGURATION_COMPLETE is present, the resource or resource configuration phase has completed and the stabilization of the resources is in progress. The StackSets CONFIGURATION_COMPLETE when all of the resources in the stack have reached that event. For more information, see [Understand CloudFormation stack creation events](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html) in the CloudFormation User Guide.
@@ -6419,6 +6497,7 @@ extension CloudFormationClientTypes {
             creationTime: Foundation.Date? = nil,
             deletionMode: CloudFormationClientTypes.DeletionMode? = nil,
             deletionTime: Foundation.Date? = nil,
+            deploymentConfig: CloudFormationClientTypes.DeploymentConfig? = nil,
             description: Swift.String? = nil,
             detailedStatus: CloudFormationClientTypes.DetailedStatus? = nil,
             disableRollback: Swift.Bool? = nil,
@@ -6446,6 +6525,7 @@ extension CloudFormationClientTypes {
             self.creationTime = creationTime
             self.deletionMode = deletionMode
             self.deletionTime = deletionTime
+            self.deploymentConfig = deploymentConfig
             self.description = description
             self.detailedStatus = detailedStatus
             self.disableRollback = disableRollback
@@ -10688,6 +10768,8 @@ public struct RegisterTypeOutput: Swift.Sendable {
 public struct RollbackStackInput: Swift.Sendable {
     /// A unique identifier for this RollbackStack request.
     public var clientRequestToken: Swift.String?
+    /// The deployment configuration for this stack operation, including the deployment mode.
+    public var deploymentConfig: CloudFormationClientTypes.DeploymentConfig?
     /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
     public var retainExceptOnCreate: Swift.Bool?
     /// The Amazon Resource Name (ARN) of an IAM role that CloudFormation assumes to rollback the stack.
@@ -10698,11 +10780,13 @@ public struct RollbackStackInput: Swift.Sendable {
 
     public init(
         clientRequestToken: Swift.String? = nil,
+        deploymentConfig: CloudFormationClientTypes.DeploymentConfig? = nil,
         retainExceptOnCreate: Swift.Bool? = nil,
         roleARN: Swift.String? = nil,
         stackName: Swift.String? = nil
     ) {
         self.clientRequestToken = clientRequestToken
+        self.deploymentConfig = deploymentConfig
         self.retainExceptOnCreate = retainExceptOnCreate
         self.roleARN = roleARN
         self.stackName = stackName
@@ -10852,7 +10936,7 @@ public struct SignalResourceInput: Swift.Sendable {
     /// The status of the signal, which is either success or failure. A failure signal causes CloudFormation to immediately fail the stack creation or update.
     /// This member is required.
     public var status: CloudFormationClientTypes.ResourceSignalStatus?
-    /// A unique ID of the signal. When you signal Amazon EC2 instances or Amazon EC2 Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
+    /// A unique ID of the signal. When you signal Amazon EC2 instances or Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
     /// This member is required.
     public var uniqueId: Swift.String?
 
@@ -11083,8 +11167,12 @@ public struct UpdateStackInput: Swift.Sendable {
     public var capabilities: [CloudFormationClientTypes.Capability]?
     /// A unique identifier for this UpdateStack request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to update a stack with the same name. You might retry UpdateStack requests to ensure that CloudFormation successfully received them. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002.
     public var clientRequestToken: Swift.String?
+    /// The deployment configuration for this stack operation, including the deployment mode.
+    public var deploymentConfig: CloudFormationClientTypes.DeploymentConfig?
     /// Preserve the state of previously provisioned resources when an operation fails. Default: False
     public var disableRollback: Swift.Bool?
+    /// Set to true to disable pre-deployment validations in changeset or stack operations. Default: false
+    public var disableValidation: Swift.Bool?
     /// Amazon Simple Notification Service topic Amazon Resource Names (ARNs) that CloudFormation associates with the stack. Specify an empty list to remove all notification topics.
     public var notificationARNs: [Swift.String]?
     /// A list of Parameter structures that specify input parameters for the stack. For more information, see the [Parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_Parameter.html) data type.
@@ -11120,7 +11208,9 @@ public struct UpdateStackInput: Swift.Sendable {
     public init(
         capabilities: [CloudFormationClientTypes.Capability]? = nil,
         clientRequestToken: Swift.String? = nil,
+        deploymentConfig: CloudFormationClientTypes.DeploymentConfig? = nil,
         disableRollback: Swift.Bool? = nil,
+        disableValidation: Swift.Bool? = nil,
         notificationARNs: [Swift.String]? = nil,
         parameters: [CloudFormationClientTypes.Parameter]? = nil,
         resourceTypes: [Swift.String]? = nil,
@@ -11139,7 +11229,9 @@ public struct UpdateStackInput: Swift.Sendable {
     ) {
         self.capabilities = capabilities
         self.clientRequestToken = clientRequestToken
+        self.deploymentConfig = deploymentConfig
         self.disableRollback = disableRollback
+        self.disableValidation = disableValidation
         self.notificationARNs = notificationARNs
         self.parameters = parameters
         self.resourceTypes = resourceTypes
@@ -12183,8 +12275,10 @@ extension CreateChangeSetInput {
         try writer["ChangeSetName"].write(value.changeSetName)
         try writer["ChangeSetType"].write(value.changeSetType)
         try writer["ClientToken"].write(value.clientToken)
+        try writer["DeploymentConfig"].write(value.deploymentConfig, with: CloudFormationClientTypes.DeploymentConfig.write(value:to:))
         try writer["DeploymentMode"].write(value.deploymentMode)
         try writer["Description"].write(value.description)
+        try writer["DisableValidation"].write(value.disableValidation)
         try writer["ImportExistingResources"].write(value.importExistingResources)
         try writer["IncludeNestedStacks"].write(value.includeNestedStacks)
         try writer["NotificationARNs"].writeList(value.notificationARNs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -12223,7 +12317,9 @@ extension CreateStackInput {
         guard let value else { return }
         try writer["Capabilities"].writeList(value.capabilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudFormationClientTypes.Capability>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ClientRequestToken"].write(value.clientRequestToken)
+        try writer["DeploymentConfig"].write(value.deploymentConfig, with: CloudFormationClientTypes.DeploymentConfig.write(value:to:))
         try writer["DisableRollback"].write(value.disableRollback)
+        try writer["DisableValidation"].write(value.disableValidation)
         try writer["EnableTerminationProtection"].write(value.enableTerminationProtection)
         try writer["NotificationARNs"].writeList(value.notificationARNs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OnFailure"].write(value.onFailure)
@@ -12347,6 +12443,7 @@ extension DeleteStackInput {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
         try writer["DeletionMode"].write(value.deletionMode)
+        try writer["DeploymentConfig"].write(value.deploymentConfig, with: CloudFormationClientTypes.DeploymentConfig.write(value:to:))
         try writer["RetainResources"].writeList(value.retainResources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RoleARN"].write(value.roleARN)
         try writer["StackName"].write(value.stackName)
@@ -13108,6 +13205,7 @@ extension RollbackStackInput {
     static func write(value: RollbackStackInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
+        try writer["DeploymentConfig"].write(value.deploymentConfig, with: CloudFormationClientTypes.DeploymentConfig.write(value:to:))
         try writer["RetainExceptOnCreate"].write(value.retainExceptOnCreate)
         try writer["RoleARN"].write(value.roleARN)
         try writer["StackName"].write(value.stackName)
@@ -13226,7 +13324,9 @@ extension UpdateStackInput {
         guard let value else { return }
         try writer["Capabilities"].writeList(value.capabilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudFormationClientTypes.Capability>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ClientRequestToken"].write(value.clientRequestToken)
+        try writer["DeploymentConfig"].write(value.deploymentConfig, with: CloudFormationClientTypes.DeploymentConfig.write(value:to:))
         try writer["DisableRollback"].write(value.disableRollback)
+        try writer["DisableValidation"].write(value.disableValidation)
         try writer["NotificationARNs"].writeList(value.notificationARNs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Parameters"].writeList(value.parameters, memberWritingClosure: CloudFormationClientTypes.Parameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -13521,6 +13621,7 @@ extension DescribeChangeSetOutput {
         value.changeSetName = try reader["ChangeSetName"].readIfPresent()
         value.changes = try reader["Changes"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.Change.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.deploymentConfig = try reader["DeploymentConfig"].readIfPresent(with: CloudFormationClientTypes.DeploymentConfig.read(from:))
         value.deploymentMode = try reader["DeploymentMode"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.executionStatus = try reader["ExecutionStatus"].readIfPresent()
@@ -16277,6 +16378,23 @@ extension CloudFormationClientTypes.ChangeSetSummary {
     }
 }
 
+extension CloudFormationClientTypes.DeploymentConfig {
+
+    static func write(value: CloudFormationClientTypes.DeploymentConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DisableRollback"].write(value.disableRollback)
+        try writer["Mode"].write(value.mode)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.DeploymentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.DeploymentConfig()
+        value.mode = try reader["Mode"].readIfPresent()
+        value.disableRollback = try reader["DisableRollback"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudFormationClientTypes.DeploymentTargets {
 
     static func write(value: CloudFormationClientTypes.DeploymentTargets?, to writer: SmithyFormURL.Writer) throws {
@@ -16811,6 +16929,7 @@ extension CloudFormationClientTypes.Stack {
         value.stackStatus = try reader["StackStatus"].readIfPresent() ?? .sdkUnknown("")
         value.stackStatusReason = try reader["StackStatusReason"].readIfPresent()
         value.disableRollback = try reader["DisableRollback"].readIfPresent()
+        value.deploymentConfig = try reader["DeploymentConfig"].readIfPresent(with: CloudFormationClientTypes.DeploymentConfig.read(from:))
         value.notificationARNs = try reader["NotificationARNs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.timeoutInMinutes = try reader["TimeoutInMinutes"].readIfPresent()
         value.capabilities = try reader["Capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudFormationClientTypes.Capability>().read(from:), memberNodeInfo: "member", isFlattened: false)

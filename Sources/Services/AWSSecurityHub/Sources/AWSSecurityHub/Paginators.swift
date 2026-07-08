@@ -122,7 +122,8 @@ extension DescribeStandardsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeStandardsInput {
         return DescribeStandardsInput(
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            providers: self.providers
         )}
 }
 
@@ -184,6 +185,7 @@ extension GetEnabledStandardsInput: ClientRuntime.PaginateToken {
         return GetEnabledStandardsInput(
             maxResults: self.maxResults,
             nextToken: token,
+            providers: self.providers,
             standardsSubscriptionArns: self.standardsSubscriptionArns
         )}
 }
@@ -717,6 +719,7 @@ extension ListSecurityControlDefinitionsInput: ClientRuntime.PaginateToken {
         return ListSecurityControlDefinitionsInput(
             maxResults: self.maxResults,
             nextToken: token,
+            providers: self.providers,
             standardsArn: self.standardsArn
         )}
 }
