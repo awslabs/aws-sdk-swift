@@ -2851,6 +2851,7 @@ extension GuardDutyClientTypes {
 extension GuardDutyClientTypes {
 
     public enum DetectorFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aiAnalyst
         case ebsMalwareProtection
         case eksAuditLogs
         case eksRuntimeMonitoring
@@ -2862,6 +2863,7 @@ extension GuardDutyClientTypes {
 
         public static var allCases: [DetectorFeature] {
             return [
+                .aiAnalyst,
                 .ebsMalwareProtection,
                 .eksAuditLogs,
                 .eksRuntimeMonitoring,
@@ -2879,6 +2881,7 @@ extension GuardDutyClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .aiAnalyst: return "AI_ANALYST"
             case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"
             case .eksAuditLogs: return "EKS_AUDIT_LOGS"
             case .eksRuntimeMonitoring: return "EKS_RUNTIME_MONITORING"
@@ -7825,6 +7828,7 @@ extension GuardDutyClientTypes {
 extension GuardDutyClientTypes {
 
     public enum DetectorFeatureResult: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aiAnalyst
         case cloudTrail
         case dnsLogs
         case ebsMalwareProtection
@@ -7839,6 +7843,7 @@ extension GuardDutyClientTypes {
 
         public static var allCases: [DetectorFeatureResult] {
             return [
+                .aiAnalyst,
                 .cloudTrail,
                 .dnsLogs,
                 .ebsMalwareProtection,
@@ -7859,6 +7864,7 @@ extension GuardDutyClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .aiAnalyst: return "AI_ANALYST"
             case .cloudTrail: return "CLOUD_TRAIL"
             case .dnsLogs: return "DNS_LOGS"
             case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"

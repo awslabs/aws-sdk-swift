@@ -60,7 +60,7 @@ public struct PutMetadataOutput: Swift.Sendable {
     public init() { }
 }
 
-///
+/// User does not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -133,6 +133,27 @@ extension IvsClientTypes {
 
 extension IvsClientTypes {
 
+    /// Configuration for the post-roll ad break to use for this ad configuration.
+    public struct PostRollConfiguration: Swift.Sendable {
+        /// Duration of the post-roll ad break, in seconds.
+        /// This member is required.
+        public var durationSeconds: Swift.Int?
+        /// Whether the post-roll ad configuration is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool
+
+        public init(
+            durationSeconds: Swift.Int? = nil,
+            enabled: Swift.Bool = false
+        ) {
+            self.durationSeconds = durationSeconds
+            self.enabled = enabled
+        }
+    }
+}
+
+extension IvsClientTypes {
+
     /// Object specifying a configuration for a server-side advertising insertion (which can be triggered with the operation).
     public struct AdConfiguration: Swift.Sendable {
         /// Ad configuration ARN.
@@ -143,6 +164,8 @@ extension IvsClientTypes {
         public var mediaTailorPlaybackConfigurations: [IvsClientTypes.MediaTailorPlaybackConfiguration]?
         /// Ad configuration name. Defaults to “”.
         public var name: Swift.String?
+        /// Configuration for the post-roll ad break to use for this ad configuration.
+        public var postRollConfiguration: IvsClientTypes.PostRollConfiguration?
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public var tags: [Swift.String: Swift.String]?
 
@@ -150,11 +173,13 @@ extension IvsClientTypes {
             arn: Swift.String? = nil,
             mediaTailorPlaybackConfigurations: [IvsClientTypes.MediaTailorPlaybackConfiguration]? = nil,
             name: Swift.String? = nil,
+            postRollConfiguration: IvsClientTypes.PostRollConfiguration? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
             self.arn = arn
             self.mediaTailorPlaybackConfigurations = mediaTailorPlaybackConfigurations
             self.name = name
+            self.postRollConfiguration = postRollConfiguration
             self.tags = tags
         }
     }
@@ -172,6 +197,8 @@ extension IvsClientTypes {
         public var mediaTailorPlaybackConfigurations: [IvsClientTypes.MediaTailorPlaybackConfiguration]?
         /// Ad configuration name. Defaults to “”.
         public var name: Swift.String?
+        /// Configuration for the post-roll ad break to use for this ad configuration.
+        public var postRollConfiguration: IvsClientTypes.PostRollConfiguration?
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public var tags: [Swift.String: Swift.String]?
 
@@ -179,17 +206,19 @@ extension IvsClientTypes {
             arn: Swift.String? = nil,
             mediaTailorPlaybackConfigurations: [IvsClientTypes.MediaTailorPlaybackConfiguration]? = nil,
             name: Swift.String? = nil,
+            postRollConfiguration: IvsClientTypes.PostRollConfiguration? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
             self.arn = arn
             self.mediaTailorPlaybackConfigurations = mediaTailorPlaybackConfigurations
             self.name = name
+            self.postRollConfiguration = postRollConfiguration
             self.tags = tags
         }
     }
 }
 
-///
+/// The service is temporarily unavailable.
 public struct ServiceUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -245,7 +274,7 @@ public struct ServiceUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-///
+/// The input fails to satisfy the constraints specified by an Amazon Web Services service.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -771,7 +800,7 @@ public struct BatchGetStreamKeyOutput: Swift.Sendable {
     }
 }
 
-///
+/// Your account is pending verification.
 public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -827,7 +856,7 @@ public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-///
+/// Request was denied due to request throttling.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -988,7 +1017,7 @@ public struct BatchStartViewerSessionRevocationOutput: Swift.Sendable {
     }
 }
 
-///
+/// Updating or deleting a resource can cause an inconsistent state.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1044,7 +1073,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-///
+/// Unexpected error during processing of request.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1100,7 +1129,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-///
+/// Request references a resource which does not exist.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1156,7 +1185,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-///
+/// Request would cause a service quota to be exceeded.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1218,16 +1247,20 @@ public struct CreateAdConfigurationInput: Swift.Sendable {
     public var mediaTailorPlaybackConfigurations: [IvsClientTypes.MediaTailorPlaybackConfiguration]?
     /// Ad configuration name. Defaults to “”.
     public var name: Swift.String?
+    /// Configuration for the post-roll ad break to use for this ad configuration. Default: disabled (enabled set to false, durationSeconds set to 15).
+    public var postRollConfiguration: IvsClientTypes.PostRollConfiguration?
     /// Array of 1-50 maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
         mediaTailorPlaybackConfigurations: [IvsClientTypes.MediaTailorPlaybackConfiguration]? = nil,
         name: Swift.String? = nil,
+        postRollConfiguration: IvsClientTypes.PostRollConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.mediaTailorPlaybackConfigurations = mediaTailorPlaybackConfigurations
         self.name = name
+        self.postRollConfiguration = postRollConfiguration
         self.tags = tags
     }
 }
@@ -1994,7 +2027,7 @@ public struct GetRecordingConfigurationOutput: Swift.Sendable {
     }
 }
 
-///
+/// The stream is offline for the given channel ARN.
 public struct ChannelNotBroadcasting: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -3094,7 +3127,7 @@ public struct StartViewerSessionRevocationOutput: Swift.Sendable {
     public init() { }
 }
 
-///
+/// The stream is temporarily unavailable.
 public struct StreamUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -3219,15 +3252,19 @@ public struct UpdateAdConfigurationInput: Swift.Sendable {
     public var mediaTailorPlaybackConfigurations: [IvsClientTypes.MediaTailorPlaybackConfiguration]?
     /// Ad configuration name. The value does not need to be unique.
     public var name: Swift.String?
+    /// Configuration for the post-roll ad break to use for this ad configuration.
+    public var postRollConfiguration: IvsClientTypes.PostRollConfiguration?
 
     public init(
         arn: Swift.String? = nil,
         mediaTailorPlaybackConfigurations: [IvsClientTypes.MediaTailorPlaybackConfiguration]? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        postRollConfiguration: IvsClientTypes.PostRollConfiguration? = nil
     ) {
         self.arn = arn
         self.mediaTailorPlaybackConfigurations = mediaTailorPlaybackConfigurations
         self.name = name
+        self.postRollConfiguration = postRollConfiguration
     }
 }
 
@@ -3691,6 +3728,7 @@ extension CreateAdConfigurationInput {
         guard let value else { return }
         try writer["mediaTailorPlaybackConfigurations"].writeList(value.mediaTailorPlaybackConfigurations, memberWritingClosure: IvsClientTypes.MediaTailorPlaybackConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["postRollConfiguration"].write(value.postRollConfiguration, with: IvsClientTypes.PostRollConfiguration.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -4001,6 +4039,7 @@ extension UpdateAdConfigurationInput {
         try writer["arn"].write(value.arn)
         try writer["mediaTailorPlaybackConfigurations"].writeList(value.mediaTailorPlaybackConfigurations, memberWritingClosure: IvsClientTypes.MediaTailorPlaybackConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["postRollConfiguration"].write(value.postRollConfiguration, with: IvsClientTypes.PostRollConfiguration.write(value:to:))
     }
 }
 
@@ -5678,6 +5717,7 @@ extension IvsClientTypes.AdConfiguration {
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.mediaTailorPlaybackConfigurations = try reader["mediaTailorPlaybackConfigurations"].readListIfPresent(memberReadingClosure: IvsClientTypes.MediaTailorPlaybackConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.postRollConfiguration = try reader["postRollConfiguration"].readIfPresent(with: IvsClientTypes.PostRollConfiguration.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -5691,6 +5731,7 @@ extension IvsClientTypes.AdConfigurationSummary {
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.mediaTailorPlaybackConfigurations = try reader["mediaTailorPlaybackConfigurations"].readListIfPresent(memberReadingClosure: IvsClientTypes.MediaTailorPlaybackConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.postRollConfiguration = try reader["postRollConfiguration"].readIfPresent(with: IvsClientTypes.PostRollConfiguration.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -5912,6 +5953,23 @@ extension IvsClientTypes.PlaybackRestrictionPolicySummary {
         value.enableStrictOriginEnforcement = try reader["enableStrictOriginEnforcement"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension IvsClientTypes.PostRollConfiguration {
+
+    static func write(value: IvsClientTypes.PostRollConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["durationSeconds"].write(value.durationSeconds)
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.PostRollConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IvsClientTypes.PostRollConfiguration()
+        value.durationSeconds = try reader["durationSeconds"].readIfPresent() ?? 0
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
         return value
     }
 }
