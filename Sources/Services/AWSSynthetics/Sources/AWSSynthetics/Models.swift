@@ -78,6 +78,8 @@ extension SyntheticsClientTypes {
 
     /// A structure that specifies a replica location for a canary, including the Region and optional VPC configuration.
     public struct AddReplicaLocationInput: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the customer-managed AWS Key Management Service (AWS KMS) key used to encrypt the canary replica's AWS Lambda function environment variables at rest. If you don't specify a value, the service uses an AWS-managed key.
+        public var kmsKeyArn: Swift.String?
         /// The Amazon Web Services Region where the canary replica should be created, for example us-east-1.
         /// This member is required.
         public var location: Swift.String?
@@ -85,9 +87,11 @@ extension SyntheticsClientTypes {
         public var vpcConfig: SyntheticsClientTypes.VpcConfigInput?
 
         public init(
+            kmsKeyArn: Swift.String? = nil,
             location: Swift.String? = nil,
             vpcConfig: SyntheticsClientTypes.VpcConfigInput? = nil
         ) {
+            self.kmsKeyArn = kmsKeyArn
             self.location = location
             self.vpcConfig = vpcConfig
         }
@@ -976,6 +980,8 @@ extension SyntheticsClientTypes {
         public var failureRetentionPeriodInDays: Swift.Int?
         /// The unique ID of this canary.
         public var id: Swift.String?
+        /// The Amazon Resource Name (ARN) of the customer-managed AWS Key Management Service (AWS KMS) key used to encrypt the canary's AWS Lambda function environment variables at rest. If you don't specify a value, the service uses an AWS-managed key.
+        public var kmsKeyArn: Swift.String?
         /// If this canary is part of a multi-location configuration, this structure contains information about the canary's location type, primary location, and replicas.
         public var multiLocationConfig: SyntheticsClientTypes.MultiLocationConfig?
         /// The name of the canary.
@@ -1014,6 +1020,7 @@ extension SyntheticsClientTypes {
             executionRoleArn: Swift.String? = nil,
             failureRetentionPeriodInDays: Swift.Int? = nil,
             id: Swift.String? = nil,
+            kmsKeyArn: Swift.String? = nil,
             multiLocationConfig: SyntheticsClientTypes.MultiLocationConfig? = nil,
             name: Swift.String? = nil,
             provisionedResourceCleanup: SyntheticsClientTypes.ProvisionedResourceCleanupSetting? = nil,
@@ -1038,6 +1045,7 @@ extension SyntheticsClientTypes {
             self.executionRoleArn = executionRoleArn
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
             self.id = id
+            self.kmsKeyArn = kmsKeyArn
             self.multiLocationConfig = multiLocationConfig
             self.name = name
             self.provisionedResourceCleanup = provisionedResourceCleanup
@@ -1478,6 +1486,8 @@ public struct CreateCanaryInput: Swift.Sendable {
     public var executionRoleArn: Swift.String?
     /// The number of days to retain data about failed runs of this canary. If you omit this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html), as well as the range of information displayed in the Synthetics console.
     public var failureRetentionPeriodInDays: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the customer-managed AWS Key Management Service (AWS KMS) key used to encrypt the canary's AWS Lambda function environment variables at rest. If you don't specify a value, the service uses an AWS-managed key.
+    public var kmsKeyArn: Swift.String?
     /// The name for this canary. Be sure to give it a descriptive name that distinguishes it from other canaries in your account. Do not include secrets or proprietary information in your canary names. The canary name makes up part of the canary ARN, and the ARN is included in outbound calls over the internet. For more information, see [Security Considerations for Synthetics Canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/servicelens_canaries_security.html).
     /// This member is required.
     public var name: Swift.String?
@@ -1508,6 +1518,7 @@ public struct CreateCanaryInput: Swift.Sendable {
         code: SyntheticsClientTypes.CanaryCodeInput? = nil,
         executionRoleArn: Swift.String? = nil,
         failureRetentionPeriodInDays: Swift.Int? = nil,
+        kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         provisionedResourceCleanup: SyntheticsClientTypes.ProvisionedResourceCleanupSetting? = nil,
         resourcesToReplicateTags: [SyntheticsClientTypes.ResourceToTag]? = nil,
@@ -1525,6 +1536,7 @@ public struct CreateCanaryInput: Swift.Sendable {
         self.code = code
         self.executionRoleArn = executionRoleArn
         self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
+        self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.provisionedResourceCleanup = provisionedResourceCleanup
         self.resourcesToReplicateTags = resourcesToReplicateTags
@@ -2354,6 +2366,8 @@ public struct UpdateCanaryInput: Swift.Sendable {
     public var executionRoleArn: Swift.String?
     /// The number of days to retain data about failed runs of this canary. This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html), as well as the range of information displayed in the Synthetics console.
     public var failureRetentionPeriodInDays: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the customer-managed AWS Key Management Service (AWS KMS) key used to encrypt the canary's AWS Lambda function environment variables at rest. If you don't specify a value, the service uses an AWS-managed key. If you omit this parameter, the service retains the existing value. To revert to the AWS-managed key, set this parameter to an empty string.
+    public var kmsKeyArn: Swift.String?
     /// The name of the canary that you want to update. To find the names of your canaries, use [DescribeCanaries](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html). You cannot change the name of a canary that has already been created.
     /// This member is required.
     public var name: Swift.String?
@@ -2385,6 +2399,7 @@ public struct UpdateCanaryInput: Swift.Sendable {
         dryRunId: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
         failureRetentionPeriodInDays: Swift.Int? = nil,
+        kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         provisionedResourceCleanup: SyntheticsClientTypes.ProvisionedResourceCleanupSetting? = nil,
         removeReplicaLocations: [Swift.String]? = nil,
@@ -2404,6 +2419,7 @@ public struct UpdateCanaryInput: Swift.Sendable {
         self.dryRunId = dryRunId
         self.executionRoleArn = executionRoleArn
         self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
+        self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.provisionedResourceCleanup = provisionedResourceCleanup
         self.removeReplicaLocations = removeReplicaLocations
@@ -2683,6 +2699,7 @@ extension CreateCanaryInput {
         try writer["Code"].write(value.code, with: SyntheticsClientTypes.CanaryCodeInput.write(value:to:))
         try writer["ExecutionRoleArn"].write(value.executionRoleArn)
         try writer["FailureRetentionPeriodInDays"].write(value.failureRetentionPeriodInDays)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
         try writer["Name"].write(value.name)
         try writer["ProvisionedResourceCleanup"].write(value.provisionedResourceCleanup)
         try writer["ResourcesToReplicateTags"].writeList(value.resourcesToReplicateTags, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SyntheticsClientTypes.ResourceToTag>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -2820,6 +2837,7 @@ extension UpdateCanaryInput {
         try writer["DryRunId"].write(value.dryRunId)
         try writer["ExecutionRoleArn"].write(value.executionRoleArn)
         try writer["FailureRetentionPeriodInDays"].write(value.failureRetentionPeriodInDays)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
         try writer["ProvisionedResourceCleanup"].write(value.provisionedResourceCleanup)
         try writer["RemoveReplicaLocations"].writeList(value.removeReplicaLocations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RunConfig"].write(value.runConfig, with: SyntheticsClientTypes.CanaryRunConfigInput.write(value:to:))
@@ -3573,6 +3591,7 @@ extension SyntheticsClientTypes.AddReplicaLocationInput {
 
     static func write(value: SyntheticsClientTypes.AddReplicaLocationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
         try writer["Location"].write(value.location)
         try writer["VpcConfig"].write(value.vpcConfig, with: SyntheticsClientTypes.VpcConfigInput.write(value:to:))
     }
@@ -3655,6 +3674,7 @@ extension SyntheticsClientTypes.Canary {
         value.multiLocationConfig = try reader["MultiLocationConfig"].readIfPresent(with: SyntheticsClientTypes.MultiLocationConfig.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.artifactConfig = try reader["ArtifactConfig"].readIfPresent(with: SyntheticsClientTypes.ArtifactConfigOutput.read(from:))
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
         value.dryRunConfig = try reader["DryRunConfig"].readIfPresent(with: SyntheticsClientTypes.DryRunConfigOutput.read(from:))
         return value
     }

@@ -17049,19 +17049,28 @@ extension EC2ClientTypes {
         public var launchTemplateId: Swift.String?
         /// The name of the launch template. You must specify the LaunchTemplateName or the LaunchTemplateId, but not both.
         public var launchTemplateName: Swift.String?
+        /// The base64-encoded user data for instances launched by the fleet. User data is limited to 16 KB, in raw form, before it is base64-encoded. Supported only for fleets of type instant.
+        public var launchTemplateSpecificationUserData: Swift.String?
         /// The launch template version number, $Latest, or $Default. You must specify a value, otherwise the request fails. If the value is $Latest, Amazon EC2 uses the latest version of the launch template. If the value is $Default, Amazon EC2 uses the default version of the launch template.
         public var version: Swift.String?
 
         public init(
             launchTemplateId: Swift.String? = nil,
             launchTemplateName: Swift.String? = nil,
+            launchTemplateSpecificationUserData: Swift.String? = nil,
             version: Swift.String? = nil
         ) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
+            self.launchTemplateSpecificationUserData = launchTemplateSpecificationUserData
             self.version = version
         }
     }
+}
+
+extension EC2ClientTypes.FleetLaunchTemplateSpecificationRequest: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "FleetLaunchTemplateSpecificationRequest(launchTemplateId: \(Swift.String(describing: launchTemplateId)), launchTemplateName: \(Swift.String(describing: launchTemplateName)), version: \(Swift.String(describing: version)), launchTemplateSpecificationUserData: \"CONTENT_REDACTED\")"}
 }
 
 extension EC2ClientTypes {
@@ -17172,6 +17181,25 @@ extension EC2ClientTypes {
             self.ebs = ebs
             self.noDevice = noDevice
             self.virtualName = virtualName
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes an IAM instance profile. Supported only for fleets of type instant.
+    public struct FleetIamInstanceProfileSpecificationRequest: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the instance profile.
+        public var arn: Swift.String?
+        /// The name of the instance profile.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.name = name
         }
     }
 }
@@ -17800,6 +17828,95 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum FleetInstanceMetadataEndpointState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FleetInstanceMetadataEndpointState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .enabled: return "enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum FleetHttpTokensState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `optional`
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FleetHttpTokensState] {
+            return [
+                .optional,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .optional: return "optional"
+            case .required: return "required"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the metadata options for the instances. Supported only for fleets of type instant.
+    public struct FleetInstanceMetadataOptionsRequest: Swift.Sendable {
+        /// Enables or disables the HTTP metadata endpoint on your instances.
+        ///
+        /// * enabled - The HTTP metadata endpoint is enabled.
+        ///
+        /// * disabled - The HTTP metadata endpoint is disabled.
+        public var httpEndpoint: EC2ClientTypes.FleetInstanceMetadataEndpointState?
+        /// The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel. Default: 1 Possible values: Integers from 1 to 64
+        public var httpPutResponseHopLimit: Swift.Int?
+        /// Indicates whether IMDSv2 is required.
+        ///
+        /// * optional - IMDSv2 is optional, which means that you can use either IMDSv2 or IMDSv1.
+        ///
+        /// * required - IMDSv2 is required, which means that IMDSv1 is disabled, and you must use IMDSv2.
+        public var httpTokens: EC2ClientTypes.FleetHttpTokensState?
+
+        public init(
+            httpEndpoint: EC2ClientTypes.FleetInstanceMetadataEndpointState? = nil,
+            httpPutResponseHopLimit: Swift.Int? = nil,
+            httpTokens: EC2ClientTypes.FleetHttpTokensState? = nil
+        ) {
+            self.httpEndpoint = httpEndpoint
+            self.httpPutResponseHopLimit = httpPutResponseHopLimit
+            self.httpTokens = httpTokens
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// Describes the placement of an instance.
     public struct Placement: Swift.Sendable {
         /// The affinity setting for the instance on the Dedicated Host. This parameter is not supported for [CreateFleet](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet) or [ImportInstance](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportInstance.html).
@@ -17859,6 +17976,8 @@ extension EC2ClientTypes {
         public var availabilityZoneId: Swift.String?
         /// The block device mappings, which define the EBS volumes and instance store volumes to attach to the instance at launch. Supported only for fleets of type instant. For more information, see [Block device mappings for volumes on Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html) in the Amazon EC2 User Guide.
         public var blockDeviceMappings: [EC2ClientTypes.FleetBlockDeviceMappingRequest]?
+        /// The IAM instance profile to associate with the instances. Supported only for fleets of type instant. For more information, see [IAM roles for Amazon EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html) in the Amazon EC2 User Guide.
+        public var iamInstanceProfile: EC2ClientTypes.FleetIamInstanceProfileSpecificationRequest?
         /// The ID of the AMI in the format ami-17characters00000. Alternatively, you can specify a Systems Manager parameter, using one of the following formats. The Systems Manager parameter will resolve to an AMI ID on launch. To reference a public parameter:
         ///
         /// * resolve:ssm:public-parameter
@@ -17888,8 +18007,12 @@ extension EC2ClientTypes {
         public var instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest?
         /// The instance type. mac1.metal is not supported as a launch template override. If you specify InstanceType, you can't specify InstanceRequirements.
         public var instanceType: EC2ClientTypes.InstanceType?
+        /// The name of the key pair to use for the instances. Supported only for fleets of type instant. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon EC2 User Guide.
+        public var keyName: Swift.String?
         /// The maximum price per unit hour that you are willing to pay for a Spot Instance. We do not recommend using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price. If you specify a maximum price, your instances will be interrupted more frequently than if you do not specify this parameter. If you specify a maximum price, it must be more than USD $0.001. Specifying a value below USD $0.001 will result in an InvalidParameterValue error message.
         public var maxPrice: Swift.String?
+        /// The metadata options for the instances. Supported only for fleets of type instant. For more information, see [Configure the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html) in the Amazon EC2 User Guide.
+        public var metadataOptions: EC2ClientTypes.FleetInstanceMetadataOptionsRequest?
         /// The location where the instance launched, if applicable.
         public var placement: EC2ClientTypes.Placement?
         /// The priority for the launch template override. The highest priority is launched first. If the On-Demand AllocationStrategy is set to prioritized, EC2 Fleet uses priority to determine which launch template override to use first in fulfilling On-Demand capacity. If the Spot AllocationStrategy is set to capacity-optimized-prioritized, EC2 Fleet uses priority on a best-effort basis to determine which launch template override to use in fulfilling Spot capacity, but optimizes for capacity first. Valid values are whole numbers starting at 0. The lower the number, the higher the priority. If no number is set, the launch template override has the lowest priority. You can set the same priority for different launch template overrides.
@@ -17903,10 +18026,13 @@ extension EC2ClientTypes {
             availabilityZone: Swift.String? = nil,
             availabilityZoneId: Swift.String? = nil,
             blockDeviceMappings: [EC2ClientTypes.FleetBlockDeviceMappingRequest]? = nil,
+            iamInstanceProfile: EC2ClientTypes.FleetIamInstanceProfileSpecificationRequest? = nil,
             imageId: Swift.String? = nil,
             instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest? = nil,
             instanceType: EC2ClientTypes.InstanceType? = nil,
+            keyName: Swift.String? = nil,
             maxPrice: Swift.String? = nil,
+            metadataOptions: EC2ClientTypes.FleetInstanceMetadataOptionsRequest? = nil,
             placement: EC2ClientTypes.Placement? = nil,
             priority: Swift.Double? = nil,
             subnetId: Swift.String? = nil,
@@ -17915,10 +18041,13 @@ extension EC2ClientTypes {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.blockDeviceMappings = blockDeviceMappings
+            self.iamInstanceProfile = iamInstanceProfile
             self.imageId = imageId
             self.instanceRequirements = instanceRequirements
             self.instanceType = instanceType
+            self.keyName = keyName
             self.maxPrice = maxPrice
+            self.metadataOptions = metadataOptions
             self.placement = placement
             self.priority = priority
             self.subnetId = subnetId
@@ -18419,7 +18548,7 @@ public struct CreateFleetInput: Swift.Sendable {
     public var reservedCapacityOptions: EC2ClientTypes.ReservedCapacityOptionsRequest?
     /// Describes the configuration of Spot Instances in an EC2 Fleet.
     public var spotOptions: EC2ClientTypes.SpotOptionsRequest?
-    /// The key-value pair for tagging the EC2 Fleet request on creation. For more information, see [Tag your resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#tag-resources). If the fleet type is instant, specify a resource type of fleet to tag the fleet or instance to tag the instances at launch. If the fleet type is maintain or request, specify a resource type of fleet to tag the fleet. You cannot specify a resource type of instance. To tag instances at launch, specify the tags in a [launch template](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html#create-launch-template).
+    /// The key-value pair for tagging the EC2 Fleet request on creation. For more information, see [Tag your resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#tag-resources). If the fleet type is instant, specify a resource type of fleet to tag the fleet, instance to tag the instances at launch, volume to tag the volumes at launch, or network-interface to tag the network interfaces at launch. If the fleet type is maintain or request, specify a resource type of fleet to tag the fleet. You cannot specify a resource type of instance, volume, or network-interface. To tag instances at launch, specify the tags in a [launch template](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html#create-launch-template).
     public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
     /// The number of units to request.
     /// This member is required.
@@ -19200,6 +19329,10 @@ extension EC2ClientTypes {
 
     /// Describes the instances that were launched by the fleet.
     public struct CreateFleetInstance: Swift.Sendable {
+        /// The name of the Availability Zone in which the instance was launched. For example, us-east-2a. Supported only for fleets of type instant.
+        public var availabilityZone: Swift.String?
+        /// The ID of the Availability Zone in which the instance was launched. For example, use2-az1. Supported only for fleets of type instant.
+        public var availabilityZoneId: Swift.String?
         /// The IDs of the instances.
         public var instanceIds: [Swift.String]?
         /// The instance type.
@@ -19210,19 +19343,27 @@ extension EC2ClientTypes {
         public var lifecycle: EC2ClientTypes.InstanceLifecycle?
         /// The value is windows for Windows instances in an EC2 Fleet. Otherwise, the value is blank.
         public var platform: EC2ClientTypes.PlatformValues?
+        /// The ID of the subnet in which the instance was launched. Supported only for fleets of type instant.
+        public var subnetId: Swift.String?
 
         public init(
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
             instanceIds: [Swift.String]? = nil,
             instanceType: EC2ClientTypes.InstanceType? = nil,
             launchTemplateAndOverrides: EC2ClientTypes.LaunchTemplateAndOverridesResponse? = nil,
             lifecycle: EC2ClientTypes.InstanceLifecycle? = nil,
-            platform: EC2ClientTypes.PlatformValues? = nil
+            platform: EC2ClientTypes.PlatformValues? = nil,
+            subnetId: Swift.String? = nil
         ) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.instanceIds = instanceIds
             self.instanceType = instanceType
             self.launchTemplateAndOverrides = launchTemplateAndOverrides
             self.lifecycle = lifecycle
             self.platform = platform
+            self.subnetId = subnetId
         }
     }
 }
@@ -123399,6 +123540,9 @@ extension EC2ClientTypes.CreateFleetInstance {
         value.instanceIds = try reader["instanceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
         value.instanceType = try reader["instanceType"].readIfPresent()
         value.platform = try reader["platform"].readIfPresent()
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.subnetId = try reader["subnetId"].readIfPresent()
         return value
     }
 }
@@ -124884,6 +125028,25 @@ extension EC2ClientTypes.FleetEbsBlockDeviceRequest {
     }
 }
 
+extension EC2ClientTypes.FleetIamInstanceProfileSpecificationRequest {
+
+    static func write(value: EC2ClientTypes.FleetIamInstanceProfileSpecificationRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["Name"].write(value.name)
+    }
+}
+
+extension EC2ClientTypes.FleetInstanceMetadataOptionsRequest {
+
+    static func write(value: EC2ClientTypes.FleetInstanceMetadataOptionsRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["HttpEndpoint"].write(value.httpEndpoint)
+        try writer["HttpPutResponseHopLimit"].write(value.httpPutResponseHopLimit)
+        try writer["HttpTokens"].write(value.httpTokens)
+    }
+}
+
 extension EC2ClientTypes.FleetLaunchTemplateConfig {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.FleetLaunchTemplateConfig {
@@ -124935,10 +125098,13 @@ extension EC2ClientTypes.FleetLaunchTemplateOverridesRequest {
         if !(value.blockDeviceMappings?.isEmpty ?? true) {
             try writer["BlockDeviceMapping"].writeList(value.blockDeviceMappings, memberWritingClosure: EC2ClientTypes.FleetBlockDeviceMappingRequest.write(value:to:), memberNodeInfo: "BlockDeviceMapping", isFlattened: true)
         }
+        try writer["IamInstanceProfile"].write(value.iamInstanceProfile, with: EC2ClientTypes.FleetIamInstanceProfileSpecificationRequest.write(value:to:))
         try writer["ImageId"].write(value.imageId)
         try writer["InstanceRequirements"].write(value.instanceRequirements, with: EC2ClientTypes.InstanceRequirementsRequest.write(value:to:))
         try writer["InstanceType"].write(value.instanceType)
+        try writer["KeyName"].write(value.keyName)
         try writer["MaxPrice"].write(value.maxPrice)
+        try writer["MetadataOptions"].write(value.metadataOptions, with: EC2ClientTypes.FleetInstanceMetadataOptionsRequest.write(value:to:))
         try writer["Placement"].write(value.placement, with: EC2ClientTypes.Placement.write(value:to:))
         try writer["Priority"].write(value.priority)
         try writer["SubnetId"].write(value.subnetId)
@@ -124971,6 +125137,7 @@ extension EC2ClientTypes.FleetLaunchTemplateSpecificationRequest {
         guard let value else { return }
         try writer["LaunchTemplateId"].write(value.launchTemplateId)
         try writer["LaunchTemplateName"].write(value.launchTemplateName)
+        try writer["LaunchTemplateSpecificationUserData"].write(value.launchTemplateSpecificationUserData)
         try writer["Version"].write(value.version)
     }
 }
