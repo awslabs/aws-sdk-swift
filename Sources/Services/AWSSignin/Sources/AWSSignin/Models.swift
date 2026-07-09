@@ -23,6 +23,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
+import struct Smithy.URIQueryItem
 
 extension SigninClientTypes {
 
@@ -123,7 +124,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension SigninClientTypes {
 
-    /// AWS credentials structure containing temporary access credentials The scoped-down, 15 minute duration AWS credentials. Scoping down will be based on CLI policy (CLI team needs to create it). Similar to cloud shell implementation.
+    /// AWS credentials structure containing temporary access credentials Scoped, temporary AWS credentials with a 15-minute duration.
     public struct AccessToken: Swift.Sendable {
         /// AWS access key ID for temporary credentials
         /// This member is required.
@@ -402,6 +403,52 @@ public struct CreateOAuth2TokenOutput: Swift.Sendable {
     }
 }
 
+/// Input structure for CreateOAuth2TokenWithIAM operation
+public struct CreateOAuth2TokenWithIAMInput: Swift.Sendable {
+    /// OAuth 2.0 grant type. Must be "client_credentials".
+    /// This member is required.
+    public var grantType: Swift.String?
+    /// The OAuth resource for which the access token is requested. Example: "aws-mcp.amazonaws.com".
+    /// This member is required.
+    public var resource: Swift.String?
+
+    public init(
+        grantType: Swift.String? = nil,
+        resource: Swift.String? = nil
+    ) {
+        self.grantType = grantType
+        self.resource = resource
+    }
+}
+
+/// Output structure for CreateOAuth2TokenWithIAM operation Contains the JWT access token, token type, and expiration per RFC 6749 §5.1.
+public struct CreateOAuth2TokenWithIAMOutput: Swift.Sendable {
+    /// JWT access token containing principal identity, resource scope, and session metadata
+    /// This member is required.
+    public var accessToken: Swift.String?
+    /// Token lifetime in seconds. Value is the minimum of session validity and 1 hour.
+    /// This member is required.
+    public var expiresIn: Swift.Int?
+    /// Always "Bearer" per OAuth 2.1 specification
+    /// This member is required.
+    public var tokenType: Swift.String?
+
+    public init(
+        accessToken: Swift.String? = nil,
+        expiresIn: Swift.Int? = nil,
+        tokenType: Swift.String? = nil
+    ) {
+        self.accessToken = accessToken
+        self.expiresIn = expiresIn
+        self.tokenType = tokenType
+    }
+}
+
+extension CreateOAuth2TokenWithIAMOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateOAuth2TokenWithIAMOutput(expiresIn: \(Swift.String(describing: expiresIn)), tokenType: \(Swift.String(describing: tokenType)), accessToken: \"CONTENT_REDACTED\")"}
+}
+
 /// Error thrown when requested resource is not found HTTP Status Code: 404 Not Found Used when the specified resource does not exist
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -594,6 +641,93 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
     }
 }
 
+/// Input structure for IntrospectOAuth2TokenWithIAM operation RFC 7662 §2.1 introspection request. Contains the token to inspect and an optional hint about the token's type.
+public struct IntrospectOAuth2TokenWithIAMInput: Swift.Sendable {
+    /// The string value of the token to introspect. May be either an access_token or a refresh_token issued by AWS Sign-In.
+    /// This member is required.
+    public var token: Swift.String?
+    /// Optional hint about the type of the token submitted for introspection. The server uses this hint to optimize lookup, but still falls back to the other token type on miss. Allowed values: access_token, refresh_token.
+    public var tokenTypeHint: Swift.String?
+
+    public init(
+        token: Swift.String? = nil,
+        tokenTypeHint: Swift.String? = nil
+    ) {
+        self.token = token
+        self.tokenTypeHint = tokenTypeHint
+    }
+}
+
+extension IntrospectOAuth2TokenWithIAMInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IntrospectOAuth2TokenWithIAMInput(tokenTypeHint: \(Swift.String(describing: tokenTypeHint)), token: \"CONTENT_REDACTED\")"}
+}
+
+/// Output structure for IntrospectOAuth2TokenWithIAM operation RFC 7662 §2.2 introspection response. Only active is required; all other claims are omitted when the token is inactive.
+public struct IntrospectOAuth2TokenWithIAMOutput: Swift.Sendable {
+    /// 12-digit AWS account ID of the token's subject principal.
+    public var accountId: Swift.String?
+    /// Indicates whether the token is currently active. true only when the token is valid, has not expired, has not been revoked, and belongs to the caller's account.
+    /// This member is required.
+    public var active: Swift.Bool?
+    /// Audience of the token: the OAuth resource the token is scoped to (for example, "aws-mcp.amazonaws.com"). Omitted for refresh tokens.
+    public var aud: Swift.String?
+    /// Client identifier for the OAuth 2.0 client that requested the token.
+    public var clientId: Swift.String?
+    /// Token expiration time as a NumericDate (Unix epoch seconds).
+    public var exp: Swift.Int?
+    /// Token issuance time as a NumericDate (Unix epoch seconds).
+    public var iat: Swift.Int?
+    /// Issuer of the token. Always "signin.amazonaws.com" for AWS Sign-In.
+    public var iss: Swift.String?
+    /// Unique identifier for the token.
+    public var jti: Swift.String?
+    /// Token "not before" time as a NumericDate (Unix epoch seconds).
+    public var nbf: Swift.Int?
+    /// The OAuth resource the token is scoped to during Human OAuth flow. Only present for refresh token introspection.
+    public var resource: Swift.String?
+    /// AWS Sign-In session ARN bound to the token, of the form arn:aws:signin:{region}:{account}:session/{uuid}.
+    public var signinSession: Swift.String?
+    /// Subject of the token: the IAM principal ARN. For assumed-role sessions, this is the session ARN (matches sts:GetCallerIdentity's Arn field), e.g. arn:aws:sts::123456789012:assumed-role/MyRole/session-name.
+    public var sub: Swift.String?
+    /// Indicates which kind of token was introspected. One of "access_token" or "refresh_token".
+    public var tokenType: Swift.String?
+    /// User identifier matching sts:GetCallerIdentity's UserId field for the token's subject principal (e.g. "AIDAEXAMPLE" for an IAM user, or "AROAEXAMPLE:session-name" for an assumed role).
+    public var userId: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        active: Swift.Bool? = nil,
+        aud: Swift.String? = nil,
+        clientId: Swift.String? = nil,
+        exp: Swift.Int? = nil,
+        iat: Swift.Int? = nil,
+        iss: Swift.String? = nil,
+        jti: Swift.String? = nil,
+        nbf: Swift.Int? = nil,
+        resource: Swift.String? = nil,
+        signinSession: Swift.String? = nil,
+        sub: Swift.String? = nil,
+        tokenType: Swift.String? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.accountId = accountId
+        self.active = active
+        self.aud = aud
+        self.clientId = clientId
+        self.exp = exp
+        self.iat = iat
+        self.iss = iss
+        self.jti = jti
+        self.nbf = nbf
+        self.resource = resource
+        self.signinSession = signinSession
+        self.sub = sub
+        self.tokenType = tokenType
+        self.userId = userId
+    }
+}
+
 /// Input for ListResourcePermissionStatements operation
 public struct ListResourcePermissionStatementsInput: Swift.Sendable {
     /// Maximum number of results to return
@@ -765,10 +899,50 @@ public struct PutResourcePermissionStatementOutput: Swift.Sendable {
     }
 }
 
+/// Input structure for RevokeOAuth2TokenWithIAM operation RFC 7009 §2.1 revocation request. Contains the refresh_token to revoke.
+public struct RevokeOAuth2TokenWithIAMInput: Swift.Sendable {
+    /// The refresh_token to revoke. Must be a refresh_token issued by AWS Sign-In (prefix "ASOR"); access_tokens are not accepted for revocation.
+    /// This member is required.
+    public var token: Swift.String?
+
+    public init(
+        token: Swift.String? = nil
+    ) {
+        self.token = token
+    }
+}
+
+extension RevokeOAuth2TokenWithIAMInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RevokeOAuth2TokenWithIAMInput(token: \"CONTENT_REDACTED\")"}
+}
+
+/// Output structure for RevokeOAuth2TokenWithIAM operation RFC 7009 §2.2 revocation response. The endpoint returns 200 OK with an empty body on success; there are no response fields.
+public struct RevokeOAuth2TokenWithIAMOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension CreateOAuth2TokenInput {
 
     static func urlPathProvider(_ value: CreateOAuth2TokenInput) -> Swift.String? {
         return "/v1/token"
+    }
+}
+
+extension CreateOAuth2TokenWithIAMInput {
+
+    static func urlPathProvider(_ value: CreateOAuth2TokenWithIAMInput) -> Swift.String? {
+        return "/v1/token"
+    }
+}
+
+extension CreateOAuth2TokenWithIAMInput {
+
+    static func queryItemProvider(_ value: CreateOAuth2TokenWithIAMInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "x-amz-client-auth-method", value: "iam"))
+        return items
     }
 }
 
@@ -800,6 +974,22 @@ extension GetResourcePolicyInput {
     }
 }
 
+extension IntrospectOAuth2TokenWithIAMInput {
+
+    static func urlPathProvider(_ value: IntrospectOAuth2TokenWithIAMInput) -> Swift.String? {
+        return "/v1/introspect"
+    }
+}
+
+extension IntrospectOAuth2TokenWithIAMInput {
+
+    static func queryItemProvider(_ value: IntrospectOAuth2TokenWithIAMInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "x-amz-client-auth-method", value: "iam"))
+        return items
+    }
+}
+
 extension ListResourcePermissionStatementsInput {
 
     static func urlPathProvider(_ value: ListResourcePermissionStatementsInput) -> Swift.String? {
@@ -821,11 +1011,36 @@ extension PutResourcePermissionStatementInput {
     }
 }
 
+extension RevokeOAuth2TokenWithIAMInput {
+
+    static func urlPathProvider(_ value: RevokeOAuth2TokenWithIAMInput) -> Swift.String? {
+        return "/v1/revoke"
+    }
+}
+
+extension RevokeOAuth2TokenWithIAMInput {
+
+    static func queryItemProvider(_ value: RevokeOAuth2TokenWithIAMInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "x-amz-client-auth-method", value: "iam"))
+        return items
+    }
+}
+
 extension CreateOAuth2TokenInput {
 
     static func write(value: CreateOAuth2TokenInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["tokenInput"].write(value.tokenInput, with: SigninClientTypes.CreateOAuth2TokenRequestBody.write(value:to:))
+    }
+}
+
+extension CreateOAuth2TokenWithIAMInput {
+
+    static func write(value: CreateOAuth2TokenWithIAMInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["grant_type"].write(value.grantType)
+        try writer["resource"].write(value.resource)
     }
 }
 
@@ -851,6 +1066,15 @@ extension GetConsoleAuthorizationConfigurationInput {
     static func write(value: GetConsoleAuthorizationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["targetId"].write(value.targetId)
+    }
+}
+
+extension IntrospectOAuth2TokenWithIAMInput {
+
+    static func write(value: IntrospectOAuth2TokenWithIAMInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["token"].write(value.token)
+        try writer["token_type_hint"].write(value.tokenTypeHint)
     }
 }
 
@@ -886,6 +1110,14 @@ extension PutResourcePermissionStatementInput {
     }
 }
 
+extension RevokeOAuth2TokenWithIAMInput {
+
+    static func write(value: RevokeOAuth2TokenWithIAMInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["token"].write(value.token)
+    }
+}
+
 extension CreateOAuth2TokenOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateOAuth2TokenOutput {
@@ -894,6 +1126,20 @@ extension CreateOAuth2TokenOutput {
         let reader = responseReader
         var value = CreateOAuth2TokenOutput()
         value.tokenOutput = try reader.readIfPresent(with: SigninClientTypes.CreateOAuth2TokenResponseBody.read(from:))
+        return value
+    }
+}
+
+extension CreateOAuth2TokenWithIAMOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateOAuth2TokenWithIAMOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateOAuth2TokenWithIAMOutput()
+        value.accessToken = try reader["access_token"].readIfPresent() ?? ""
+        value.expiresIn = try reader["expires_in"].readIfPresent() ?? 0
+        value.tokenType = try reader["token_type"].readIfPresent() ?? ""
         return value
     }
 }
@@ -945,6 +1191,31 @@ extension GetResourcePolicyOutput {
     }
 }
 
+extension IntrospectOAuth2TokenWithIAMOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> IntrospectOAuth2TokenWithIAMOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = IntrospectOAuth2TokenWithIAMOutput()
+        value.accountId = try reader["account_id"].readIfPresent()
+        value.active = try reader["active"].readIfPresent() ?? false
+        value.aud = try reader["aud"].readIfPresent()
+        value.clientId = try reader["client_id"].readIfPresent()
+        value.exp = try reader["exp"].readIfPresent()
+        value.iat = try reader["iat"].readIfPresent()
+        value.iss = try reader["iss"].readIfPresent()
+        value.jti = try reader["jti"].readIfPresent()
+        value.nbf = try reader["nbf"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent()
+        value.signinSession = try reader["signin_session"].readIfPresent()
+        value.sub = try reader["sub"].readIfPresent()
+        value.tokenType = try reader["token_type"].readIfPresent()
+        value.userId = try reader["user_id"].readIfPresent()
+        return value
+    }
+}
+
 extension ListResourcePermissionStatementsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListResourcePermissionStatementsOutput {
@@ -984,7 +1255,31 @@ extension PutResourcePermissionStatementOutput {
     }
 }
 
+extension RevokeOAuth2TokenWithIAMOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RevokeOAuth2TokenWithIAMOutput {
+        return RevokeOAuth2TokenWithIAMOutput()
+    }
+}
+
 enum CreateOAuth2TokenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsError": return try TooManyRequestsError.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateOAuth2TokenWithIAMOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -1072,6 +1367,23 @@ enum GetResourcePolicyOutputError {
     }
 }
 
+enum IntrospectOAuth2TokenWithIAMOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsError": return try TooManyRequestsError.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListResourcePermissionStatementsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1121,6 +1433,23 @@ enum PutResourcePermissionStatementOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsError": return try TooManyRequestsError.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RevokeOAuth2TokenWithIAMOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "TooManyRequestsError": return try TooManyRequestsError.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)

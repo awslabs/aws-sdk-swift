@@ -120,7 +120,7 @@ package struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension SigninClientTypes {
 
-    /// AWS credentials structure containing temporary access credentials The scoped-down, 15 minute duration AWS credentials. Scoping down will be based on CLI policy (CLI team needs to create it). Similar to cloud shell implementation.
+    /// AWS credentials structure containing temporary access credentials Scoped, temporary AWS credentials with a 15-minute duration.
     package struct AccessToken: Swift.Sendable {
         /// AWS access key ID for temporary credentials
         /// This member is required.

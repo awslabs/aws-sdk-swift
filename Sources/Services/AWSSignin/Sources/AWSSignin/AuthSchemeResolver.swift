@@ -37,6 +37,30 @@ public struct DefaultSigninAuthSchemeResolver: SigninAuthSchemeResolver {
         switch serviceParams.operation {
             case "createOAuth2Token":
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
+            case "createOAuth2TokenWithIAM":
+                var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "signin")
+                guard let region = serviceParams.region else {
+                    throw Smithy.ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
+                }
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
+                validAuthOptions.append(sigv4Option)
+            case "introspectOAuth2TokenWithIAM":
+                var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "signin")
+                guard let region = serviceParams.region else {
+                    throw Smithy.ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
+                }
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
+                validAuthOptions.append(sigv4Option)
+            case "revokeOAuth2TokenWithIAM":
+                var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "signin")
+                guard let region = serviceParams.region else {
+                    throw Smithy.ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
+                }
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
+                validAuthOptions.append(sigv4Option)
             default:
                 var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
                 sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "signin")

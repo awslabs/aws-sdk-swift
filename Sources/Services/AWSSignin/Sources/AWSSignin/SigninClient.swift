@@ -57,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.PayloadBodyMiddleware
+import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -735,6 +736,98 @@ extension SigninClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateOAuth2TokenWithIAM` operation on the `Signin` service.
+    ///
+    /// Grants permission to exchange client credentials for an OAuth 2.0 access token scoped to a resource that can be used to access AWS services from applications
+    ///
+    /// - Parameter input: Input structure for CreateOAuth2TokenWithIAM operation (Type: `CreateOAuth2TokenWithIAMInput`)
+    ///
+    /// - Returns: Output structure for CreateOAuth2TokenWithIAM operation Contains the JWT access token, token type, and expiration per RFC 6749 §5.1. (Type: `CreateOAuth2TokenWithIAMOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
+    ///
+    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
+    ///
+    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
+    ///
+    ///
+    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
+    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
+    ///
+    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
+    ///
+    ///
+    /// Possible causes:
+    ///
+    /// * Too many token requests from the same client
+    ///
+    /// * Rate limiting based on client_id or IP address
+    ///
+    /// * Abuse prevention mechanisms triggered
+    ///
+    /// * Service protection against excessive token generation
+    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    public func createOAuth2TokenWithIAM(input: CreateOAuth2TokenWithIAMInput) async throws -> CreateOAuth2TokenWithIAMOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createOAuth2TokenWithIAM")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "signin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateOAuth2TokenWithIAMInput, CreateOAuth2TokenWithIAMOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateOAuth2TokenWithIAMInput, CreateOAuth2TokenWithIAMOutput>(CreateOAuth2TokenWithIAMInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateOAuth2TokenWithIAMInput, CreateOAuth2TokenWithIAMOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<CreateOAuth2TokenWithIAMInput, CreateOAuth2TokenWithIAMOutput>(CreateOAuth2TokenWithIAMInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateOAuth2TokenWithIAMInput, CreateOAuth2TokenWithIAMOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateOAuth2TokenWithIAMInput, CreateOAuth2TokenWithIAMOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateOAuth2TokenWithIAMInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOAuth2TokenWithIAMInput, CreateOAuth2TokenWithIAMOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOAuth2TokenWithIAMOutput>(CreateOAuth2TokenWithIAMOutput.httpOutput(from:), CreateOAuth2TokenWithIAMOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOAuth2TokenWithIAMInput, CreateOAuth2TokenWithIAMOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateOAuth2TokenWithIAMOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Signin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, isOAuthEndpoint: true, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateOAuth2TokenWithIAMOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOAuth2TokenWithIAMOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateOAuth2TokenWithIAMInput, CreateOAuth2TokenWithIAMOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateOAuth2TokenWithIAMInput, CreateOAuth2TokenWithIAMOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Signin"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateOAuth2TokenWithIAMInput, CreateOAuth2TokenWithIAMOutput>(serviceID: serviceName, version: SigninClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Signin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateOAuth2TokenWithIAM")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteConsoleAuthorizationConfiguration` operation on the `Signin` service.
     ///
     /// Delete console authorization configuration with automatic scope detection
@@ -1100,6 +1193,98 @@ extension SigninClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `IntrospectOAuth2TokenWithIAM` operation on the `Signin` service.
+    ///
+    /// Grants permission to inspect the metadata and state of an OAuth 2.0 access token or refresh token Implements RFC 7662 OAuth 2.0 Token Introspection over a SigV4-authenticated endpoint. Inspects the metadata of an access_token or refresh_token issued by AWS Sign-In and returns the claims associated with it. Inactive token semantics (RFC 7662 §2.2): when the supplied token is unknown, expired, revoked, malformed, or owned by a different account, the response body is exactly { "active": false } with all other claims omitted.
+    ///
+    /// - Parameter input: Input structure for IntrospectOAuth2TokenWithIAM operation RFC 7662 §2.1 introspection request. Contains the token to inspect and an optional hint about the token's type. (Type: `IntrospectOAuth2TokenWithIAMInput`)
+    ///
+    /// - Returns: Output structure for IntrospectOAuth2TokenWithIAM operation RFC 7662 §2.2 introspection response. Only active is required; all other claims are omitted when the token is inactive. (Type: `IntrospectOAuth2TokenWithIAMOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
+    ///
+    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
+    ///
+    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
+    ///
+    ///
+    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
+    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
+    ///
+    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
+    ///
+    ///
+    /// Possible causes:
+    ///
+    /// * Too many token requests from the same client
+    ///
+    /// * Rate limiting based on client_id or IP address
+    ///
+    /// * Abuse prevention mechanisms triggered
+    ///
+    /// * Service protection against excessive token generation
+    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    public func introspectOAuth2TokenWithIAM(input: IntrospectOAuth2TokenWithIAMInput) async throws -> IntrospectOAuth2TokenWithIAMOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "introspectOAuth2TokenWithIAM")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "signin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<IntrospectOAuth2TokenWithIAMInput, IntrospectOAuth2TokenWithIAMOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<IntrospectOAuth2TokenWithIAMInput, IntrospectOAuth2TokenWithIAMOutput>(IntrospectOAuth2TokenWithIAMInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<IntrospectOAuth2TokenWithIAMInput, IntrospectOAuth2TokenWithIAMOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<IntrospectOAuth2TokenWithIAMInput, IntrospectOAuth2TokenWithIAMOutput>(IntrospectOAuth2TokenWithIAMInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<IntrospectOAuth2TokenWithIAMInput, IntrospectOAuth2TokenWithIAMOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<IntrospectOAuth2TokenWithIAMInput, IntrospectOAuth2TokenWithIAMOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: IntrospectOAuth2TokenWithIAMInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<IntrospectOAuth2TokenWithIAMInput, IntrospectOAuth2TokenWithIAMOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<IntrospectOAuth2TokenWithIAMOutput>(IntrospectOAuth2TokenWithIAMOutput.httpOutput(from:), IntrospectOAuth2TokenWithIAMOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<IntrospectOAuth2TokenWithIAMInput, IntrospectOAuth2TokenWithIAMOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<IntrospectOAuth2TokenWithIAMOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Signin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, isOAuthEndpoint: true, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<IntrospectOAuth2TokenWithIAMOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<IntrospectOAuth2TokenWithIAMOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<IntrospectOAuth2TokenWithIAMInput, IntrospectOAuth2TokenWithIAMOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<IntrospectOAuth2TokenWithIAMInput, IntrospectOAuth2TokenWithIAMOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Signin"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<IntrospectOAuth2TokenWithIAMInput, IntrospectOAuth2TokenWithIAMOutput>(serviceID: serviceName, version: SigninClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Signin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "IntrospectOAuth2TokenWithIAM")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListResourcePermissionStatements` operation on the `Signin` service.
     ///
     /// Retrieve all permission statements in the account's SignIn resource-based policy
@@ -1367,6 +1552,98 @@ extension SigninClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Signin")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutResourcePermissionStatement")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `RevokeOAuth2TokenWithIAM` operation on the `Signin` service.
+    ///
+    /// Grants permission to revoke an OAuth 2.0 refresh token and its associated refresh tokens Revokes a refresh_token issued by AWS Sign-In, invalidating the entire token chain so that the refresh_token can no longer be used to mint new access_tokens. Idempotency: revoking an already-revoked, expired, or otherwise invalid token still returns 200 OK with an empty body. Only the refresh_token type is accepted.
+    ///
+    /// - Parameter input: Input structure for RevokeOAuth2TokenWithIAM operation RFC 7009 §2.1 revocation request. Contains the refresh_token to revoke. (Type: `RevokeOAuth2TokenWithIAMInput`)
+    ///
+    /// - Returns: Output structure for RevokeOAuth2TokenWithIAM operation RFC 7009 §2.2 revocation response. The endpoint returns 200 OK with an empty body on success; there are no response fields. (Type: `RevokeOAuth2TokenWithIAMOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
+    ///
+    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
+    ///
+    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
+    ///
+    ///
+    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
+    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
+    ///
+    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
+    ///
+    ///
+    /// Possible causes:
+    ///
+    /// * Too many token requests from the same client
+    ///
+    /// * Rate limiting based on client_id or IP address
+    ///
+    /// * Abuse prevention mechanisms triggered
+    ///
+    /// * Service protection against excessive token generation
+    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    public func revokeOAuth2TokenWithIAM(input: RevokeOAuth2TokenWithIAMInput) async throws -> RevokeOAuth2TokenWithIAMOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "revokeOAuth2TokenWithIAM")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "signin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RevokeOAuth2TokenWithIAMInput, RevokeOAuth2TokenWithIAMOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RevokeOAuth2TokenWithIAMInput, RevokeOAuth2TokenWithIAMOutput>(RevokeOAuth2TokenWithIAMInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RevokeOAuth2TokenWithIAMInput, RevokeOAuth2TokenWithIAMOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<RevokeOAuth2TokenWithIAMInput, RevokeOAuth2TokenWithIAMOutput>(RevokeOAuth2TokenWithIAMInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RevokeOAuth2TokenWithIAMInput, RevokeOAuth2TokenWithIAMOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RevokeOAuth2TokenWithIAMInput, RevokeOAuth2TokenWithIAMOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RevokeOAuth2TokenWithIAMInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeOAuth2TokenWithIAMInput, RevokeOAuth2TokenWithIAMOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeOAuth2TokenWithIAMOutput>(RevokeOAuth2TokenWithIAMOutput.httpOutput(from:), RevokeOAuth2TokenWithIAMOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeOAuth2TokenWithIAMInput, RevokeOAuth2TokenWithIAMOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RevokeOAuth2TokenWithIAMOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Signin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, isOAuthEndpoint: true, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RevokeOAuth2TokenWithIAMOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RevokeOAuth2TokenWithIAMOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RevokeOAuth2TokenWithIAMInput, RevokeOAuth2TokenWithIAMOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RevokeOAuth2TokenWithIAMInput, RevokeOAuth2TokenWithIAMOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Signin"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RevokeOAuth2TokenWithIAMInput, RevokeOAuth2TokenWithIAMOutput>(serviceID: serviceName, version: SigninClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Signin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RevokeOAuth2TokenWithIAM")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
