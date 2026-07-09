@@ -11808,6 +11808,88 @@ public struct DeleteAttachedFileOutput: Swift.Sendable {
     public init() { }
 }
 
+/// The contact has not been disconnected and is not in a terminated state. PII can be deleted only from a contact that has been disconnected. This error is returned with an HTTP 409 status code.
+public struct ContactNotTerminatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ContactNotTerminatedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum ContactField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case additionalEmailRecipients
+        case customerEndpoint
+        case emailSubject
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContactField] {
+            return [
+                .additionalEmailRecipients,
+                .customerEndpoint,
+                .emailSubject
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .additionalEmailRecipients: return "ADDITIONAL_EMAIL_RECIPIENTS"
+            case .customerEndpoint: return "CUSTOMER_ENDPOINT"
+            case .emailSubject: return "EMAIL_SUBJECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DeleteContactDataInput: Swift.Sendable {
+    /// The categories of PII to redact from the contact. Valid values are CUSTOMER_ENDPOINT, ADDITIONAL_EMAIL_RECIPIENTS, and EMAIL_SUBJECT. ADDITIONAL_EMAIL_RECIPIENTS and EMAIL_SUBJECT are supported only for contacts in the email channel.
+    /// This member is required.
+    public var contactFields: [ConnectClientTypes.ContactField]?
+    /// The identifier of the contact. PII can be deleted only from a contact that has been disconnected (is in a terminated state).
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        contactFields: [ConnectClientTypes.ContactField]? = nil,
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.contactFields = contactFields
+        self.contactId = contactId
+        self.instanceId = instanceId
+    }
+}
+
+public struct DeleteContactDataOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteContactEvaluationInput: Swift.Sendable {
     /// A unique identifier for the contact evaluation.
     /// This member is required.
@@ -38412,6 +38494,19 @@ extension DeleteAttachedFileInput {
     }
 }
 
+extension DeleteContactDataInput {
+
+    static func urlPathProvider(_ value: DeleteContactDataInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let contactId = value.contactId else {
+            return nil
+        }
+        return "/contact/delete/\(instanceId.urlPercentEncoding())/\(contactId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteContactEvaluationInput {
 
     static func urlPathProvider(_ value: DeleteContactEvaluationInput) -> Swift.String? {
@@ -44179,6 +44274,14 @@ extension DeactivateEvaluationFormInput {
     }
 }
 
+extension DeleteContactDataInput {
+
+    static func write(value: DeleteContactDataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactFields"].writeList(value.contactFields, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectClientTypes.ContactField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension DisassociateAnalyticsDataSetInput {
 
     static func write(value: DisassociateAnalyticsDataSetInput?, to writer: SmithyJSON.Writer) throws {
@@ -46645,6 +46748,13 @@ extension DeleteAttachedFileOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAttachedFileOutput {
         return DeleteAttachedFileOutput()
+    }
+}
+
+extension DeleteContactDataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteContactDataOutput {
+        return DeleteContactDataOutput()
     }
 }
 
@@ -51353,6 +51463,25 @@ enum DeleteAttachedFileOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteContactDataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ContactNotTerminatedException": return try ContactNotTerminatedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -57250,6 +57379,19 @@ extension TooManyRequestsException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ContactNotTerminatedException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ContactNotTerminatedException {
+        let reader = baseError.errorBodyReader
+        var value = ContactNotTerminatedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
