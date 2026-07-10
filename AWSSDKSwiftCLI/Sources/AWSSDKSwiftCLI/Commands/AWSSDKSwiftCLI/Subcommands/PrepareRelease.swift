@@ -71,6 +71,17 @@ struct PrepareRelease {
 
     let sourceCodeArtifactId: String
 
+    /// Zero or more announcements to go at the top of the release notes.
+    /// Announcements should be hard-coded below by developers prior to release.
+    var announcements: [String] {
+        switch repoType {
+        case .awsSdkSwift:
+            []
+        case .smithySwift:
+            []
+        }
+    }
+
     typealias DiffChecker = (_ branch: String, _ version: Version) throws -> Bool
 
     /// Returns true if the repository has changes given the current branch and the version to compare, otherwise returns false
@@ -273,6 +284,7 @@ struct PrepareRelease {
             newVersion: newVersion,
             repoOrg: repoOrg,
             repoType: repoType,
+            announcements: announcements,
             commits: commits,
             buildRequest: buildRequestReader.getFeaturesFromFile(),
             featuresIDToServiceName: buildRequestReader.getFeaturesIDToServiceNameDictFromFile()
