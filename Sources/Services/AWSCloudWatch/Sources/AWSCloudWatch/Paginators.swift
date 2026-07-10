@@ -93,6 +93,7 @@ extension CloudWatchClient {
 extension DescribeAnomalyDetectorsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeAnomalyDetectorsInput {
         return DescribeAnomalyDetectorsInput(
+            anomalyDetectorIds: self.anomalyDetectorIds,
             anomalyDetectorTypes: self.anomalyDetectorTypes,
             dimensions: self.dimensions,
             maxResults: self.maxResults,

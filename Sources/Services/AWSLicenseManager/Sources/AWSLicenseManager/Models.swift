@@ -2295,6 +2295,8 @@ public struct CreateLicenseVersionInput: Swift.Sendable {
     /// Product name.
     /// This member is required.
     public var productName: Swift.String?
+    /// Specifies whether to reset the license usage for the new license version. If you don't specify a value, the license usage is not reset.
+    public var resetUsage: Swift.Bool?
     /// Current version of the license.
     public var sourceVersion: Swift.String?
     /// License status.
@@ -2314,6 +2316,7 @@ public struct CreateLicenseVersionInput: Swift.Sendable {
         licenseMetadata: [LicenseManagerClientTypes.Metadata]? = nil,
         licenseName: Swift.String? = nil,
         productName: Swift.String? = nil,
+        resetUsage: Swift.Bool? = false,
         sourceVersion: Swift.String? = nil,
         status: LicenseManagerClientTypes.LicenseStatus? = nil,
         validity: LicenseManagerClientTypes.DatetimeRange? = nil
@@ -2327,6 +2330,7 @@ public struct CreateLicenseVersionInput: Swift.Sendable {
         self.licenseMetadata = licenseMetadata
         self.licenseName = licenseName
         self.productName = productName
+        self.resetUsage = resetUsage
         self.sourceVersion = sourceVersion
         self.status = status
         self.validity = validity

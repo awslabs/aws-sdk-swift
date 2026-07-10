@@ -10292,8 +10292,10 @@ extension Inspector2ClientTypes {
     public enum EcrPullDateRescanDuration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case days14
         case days180
+        case days3
         case days30
         case days60
+        case days7
         case days90
         case sdkUnknown(Swift.String)
 
@@ -10301,8 +10303,10 @@ extension Inspector2ClientTypes {
             return [
                 .days14,
                 .days180,
+                .days3,
                 .days30,
                 .days60,
+                .days7,
                 .days90
             ]
         }
@@ -10316,8 +10320,10 @@ extension Inspector2ClientTypes {
             switch self {
             case .days14: return "DAYS_14"
             case .days180: return "DAYS_180"
+            case .days3: return "DAYS_3"
             case .days30: return "DAYS_30"
             case .days60: return "DAYS_60"
+            case .days7: return "DAYS_7"
             case .days90: return "DAYS_90"
             case let .sdkUnknown(s): return s
             }
@@ -10359,8 +10365,10 @@ extension Inspector2ClientTypes {
     public enum EcrRescanDuration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case days14
         case days180
+        case days3
         case days30
         case days60
+        case days7
         case days90
         case lifetime
         case sdkUnknown(Swift.String)
@@ -10369,8 +10377,10 @@ extension Inspector2ClientTypes {
             return [
                 .days14,
                 .days180,
+                .days3,
                 .days30,
                 .days60,
+                .days7,
                 .days90,
                 .lifetime
             ]
@@ -10385,8 +10395,10 @@ extension Inspector2ClientTypes {
             switch self {
             case .days14: return "DAYS_14"
             case .days180: return "DAYS_180"
+            case .days3: return "DAYS_3"
             case .days30: return "DAYS_30"
             case .days60: return "DAYS_60"
+            case .days7: return "DAYS_7"
             case .days90: return "DAYS_90"
             case .lifetime: return "LIFETIME"
             case let .sdkUnknown(s): return s

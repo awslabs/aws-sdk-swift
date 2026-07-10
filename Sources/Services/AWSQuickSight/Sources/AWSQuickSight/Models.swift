@@ -36,6 +36,21 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
+extension QuickSightClientTypes {
+
+    /// The access control settings for a knowledge base. Use this structure to enable or disable document-level access control lists (ACLs) that filter query results based on the permissions from the source data connector.
+    public struct AccessControlConfiguration: Swift.Sendable {
+        /// Specifies whether ACLs are enabled for the knowledge base.
+        public var isACLEnabled: Swift.Bool?
+
+        public init(
+            isACLEnabled: Swift.Bool? = nil
+        ) {
+            self.isACLEnabled = isACLEnabled
+        }
+    }
+}
+
 /// You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -23737,6 +23752,77 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The connection parameters for a fully managed knowledge base data source. Provide these parameters in the DataSourceParameters object when you create or update a data source that uses a fully managed knowledge base.
+    public struct FMKBParameters: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Bedrock knowledge base.
+        /// This member is required.
+        public var knowledgeBaseArn: Swift.String?
+        /// The IDs of the linked data sources.
+        public var linkedDataSourceIds: [Swift.String]?
+
+        public init(
+            knowledgeBaseArn: Swift.String? = nil,
+            linkedDataSourceIds: [Swift.String]? = nil
+        ) {
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.linkedDataSourceIds = linkedDataSourceIds
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum AuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case serviceAccount
+        case threeLeggedOauth
+        case twoLeggedOauth
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthType] {
+            return [
+                .serviceAccount,
+                .threeLeggedOauth,
+                .twoLeggedOauth
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .serviceAccount: return "SERVICE_ACCOUNT"
+            case .threeLeggedOauth: return "THREE_LEGGED_OAUTH"
+            case .twoLeggedOauth: return "TWO_LEGGED_OAUTH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The connection parameters for a Google Drive data source. Provide these parameters in the DataSourceParameters object when you create or update a data source that uses Google Drive.
+    public struct GoogleDriveParameters: Swift.Sendable {
+        /// The authentication type for the Google Drive data source. Valid values include:
+        ///
+        /// * SERVICE_ACCOUNT – Server-to-server authentication using a Google service account key.
+        ///
+        /// * THREE_LEGGED_OAUTH – Interactive OAuth that requires user consent.
+        public var authType: QuickSightClientTypes.AuthType?
+
+        public init(
+            authType: QuickSightClientTypes.AuthType? = nil
+        ) {
+            self.authType = authType
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The parameters that are required to connect to a Impala data source.
     public struct ImpalaParameters: Swift.Sendable {
         /// The database of the Impala data source.
@@ -23829,6 +23915,33 @@ extension QuickSightClientTypes {
             self.database = database
             self.host = host
             self.port = port
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The connection parameters for an OneDrive data source. Provide these parameters in the DataSourceParameters object when you create or update a data source that uses OneDrive.
+    public struct OneDriveParameters: Swift.Sendable {
+        /// The authentication type for the OneDrive data source. Valid values include:
+        ///
+        /// * TWO_LEGGED_OAUTH – Server-to-server authentication using client credentials that do not require user interaction.
+        ///
+        /// * THREE_LEGGED_OAUTH – Interactive OAuth that requires user consent.
+        public var authType: QuickSightClientTypes.AuthType?
+        /// The client ID for the OneDrive data source.
+        public var clientId: Swift.String?
+        /// The tenant ID for the OneDrive data source.
+        public var tenantId: Swift.String?
+
+        public init(
+            authType: QuickSightClientTypes.AuthType? = nil,
+            clientId: Swift.String? = nil,
+            tenantId: Swift.String? = nil
+        ) {
+            self.authType = authType
+            self.clientId = clientId
+            self.tenantId = tenantId
         }
     }
 }
@@ -24108,6 +24221,38 @@ extension QuickSightClientTypes {
             siteBaseUrl: Swift.String? = nil
         ) {
             self.siteBaseUrl = siteBaseUrl
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The connection parameters for a SharePoint data source. Provide these parameters in the DataSourceParameters object when you create or update a data source that uses SharePoint.
+    public struct SharePointParameters: Swift.Sendable {
+        /// The authentication type for the SharePoint data source. Valid values include:
+        ///
+        /// * TWO_LEGGED_OAUTH – Server-to-server authentication using client credentials that do not require user interaction.
+        ///
+        /// * THREE_LEGGED_OAUTH – Interactive OAuth that requires user consent.
+        public var authType: QuickSightClientTypes.AuthType?
+        /// The client ID for the SharePoint data source.
+        public var clientId: Swift.String?
+        /// The SharePoint domain for the data source.
+        /// This member is required.
+        public var sharePointDomain: Swift.String?
+        /// The tenant ID for the SharePoint data source.
+        public var tenantId: Swift.String?
+
+        public init(
+            authType: QuickSightClientTypes.AuthType? = nil,
+            clientId: Swift.String? = nil,
+            sharePointDomain: Swift.String? = nil,
+            tenantId: Swift.String? = nil
+        ) {
+            self.authType = authType
+            self.clientId = clientId
+            self.sharePointDomain = sharePointDomain
+            self.tenantId = tenantId
         }
     }
 }
@@ -24581,6 +24726,14 @@ extension QuickSightClientTypes {
         case confluenceparameters(QuickSightClientTypes.ConfluenceParameters)
         /// The parameters for Amazon Q Business.
         case qbusinessparameters(QuickSightClientTypes.QBusinessParameters)
+        /// The parameters for a SharePoint data source.
+        case sharepointparameters(QuickSightClientTypes.SharePointParameters)
+        /// The parameters for a Google Drive data source.
+        case googledriveparameters(QuickSightClientTypes.GoogleDriveParameters)
+        /// The parameters for an OneDrive data source.
+        case onedriveparameters(QuickSightClientTypes.OneDriveParameters)
+        /// The parameters for a fully managed knowledge base data source.
+        case fmkbparameters(QuickSightClientTypes.FMKBParameters)
         case sdkUnknown(Swift.String)
     }
 }
@@ -34456,6 +34609,317 @@ public struct CreateIngestionOutput: Swift.Sendable {
 
 extension QuickSightClientTypes {
 
+    /// The template configuration for a knowledge base.
+    public struct KbTemplateConfiguration: Swift.Sendable {
+        /// The template document that defines the knowledge base behavior.
+        public var template: Smithy.Document?
+
+        public init(
+            template: Smithy.Document? = nil
+        ) {
+            self.template = template
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The configuration settings for a knowledge base.
+    public struct KnowledgeBaseConfiguration: Swift.Sendable {
+        /// The template configuration for the knowledge base.
+        public var templateConfiguration: QuickSightClientTypes.KbTemplateConfiguration?
+
+        public init(
+            templateConfiguration: QuickSightClientTypes.KbTemplateConfiguration? = nil
+        ) {
+            self.templateConfiguration = templateConfiguration
+        }
+    }
+}
+
+extension QuickSightClientTypes.KnowledgeBaseConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum ImageExtractionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageExtractionStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The configuration for image extraction from knowledge base documents.
+    public struct ImageExtractionConfiguration: Swift.Sendable {
+        /// The status of image extraction. Valid values are ENABLED and DISABLED.
+        /// This member is required.
+        public var imageExtractionStatus: QuickSightClientTypes.ImageExtractionStatus?
+
+        public init(
+            imageExtractionStatus: QuickSightClientTypes.ImageExtractionStatus? = nil
+        ) {
+            self.imageExtractionStatus = imageExtractionStatus
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum VideoExtractionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoExtractionStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum VideoExtractionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case audioTranscriptionOnly
+        case visualContentAndAudioTranscription
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoExtractionType] {
+            return [
+                .audioTranscriptionOnly,
+                .visualContentAndAudioTranscription
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .audioTranscriptionOnly: return "AUDIO_TRANSCRIPTION_ONLY"
+            case .visualContentAndAudioTranscription: return "VISUAL_CONTENT_AND_AUDIO_TRANSCRIPTION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The configuration for video extraction from knowledge base documents.
+    public struct VideoExtractionConfiguration: Swift.Sendable {
+        /// The status of video extraction. Valid values are ENABLED and DISABLED.
+        /// This member is required.
+        public var videoExtractionStatus: QuickSightClientTypes.VideoExtractionStatus?
+        /// The type of video extraction to perform.
+        public var videoExtractionType: QuickSightClientTypes.VideoExtractionType?
+
+        public init(
+            videoExtractionStatus: QuickSightClientTypes.VideoExtractionStatus? = nil,
+            videoExtractionType: QuickSightClientTypes.VideoExtractionType? = nil
+        ) {
+            self.videoExtractionStatus = videoExtractionStatus
+            self.videoExtractionType = videoExtractionType
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The configuration for media extraction from knowledge base documents.
+    public struct MediaExtractionConfiguration: Swift.Sendable {
+        /// The configuration for audio extraction.
+        public var audioExtractionConfiguration: QuickSightClientTypes.AudioExtractionConfiguration?
+        /// The configuration for image extraction.
+        public var imageExtractionConfiguration: QuickSightClientTypes.ImageExtractionConfiguration?
+        /// The configuration for video extraction.
+        public var videoExtractionConfiguration: QuickSightClientTypes.VideoExtractionConfiguration?
+
+        public init(
+            audioExtractionConfiguration: QuickSightClientTypes.AudioExtractionConfiguration? = nil,
+            imageExtractionConfiguration: QuickSightClientTypes.ImageExtractionConfiguration? = nil,
+            videoExtractionConfiguration: QuickSightClientTypes.VideoExtractionConfiguration? = nil
+        ) {
+            self.audioExtractionConfiguration = audioExtractionConfiguration
+            self.imageExtractionConfiguration = imageExtractionConfiguration
+            self.videoExtractionConfiguration = videoExtractionConfiguration
+        }
+    }
+}
+
+public struct CreateKnowledgeBaseInput: Swift.Sendable {
+    /// The access control configuration for the knowledge base. If you don't specify this parameter, document-level ACLs are disabled.
+    public var accessControlConfiguration: QuickSightClientTypes.AccessControlConfiguration?
+    /// The ID of the Amazon Web Services account that contains the knowledge base.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the data source for the knowledge base.
+    /// This member is required.
+    public var dataSourceArn: Swift.String?
+    /// A description for the knowledge base. If you don't specify a description, the knowledge base is created without one.
+    public var description: Swift.String?
+    /// The configuration settings for a knowledge base.
+    /// This member is required.
+    public var knowledgeBaseConfiguration: QuickSightClientTypes.KnowledgeBaseConfiguration?
+    /// The unique identifier for the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The configuration for media extraction from knowledge base documents.
+    public var mediaExtractionConfiguration: QuickSightClientTypes.MediaExtractionConfiguration?
+    /// The name of the knowledge base.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A list of resource permissions on the knowledge base. Each entry grants a specified Amazon QuickSight principal either owner or viewer access. If you don't specify permissions, only the primary owner (if provided) receives owner access.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The Amazon Resource Name (ARN) of the primary owner for the knowledge base. The specified user is always granted owner access, regardless of what is specified in the Permissions field. If you don't specify a primary owner, the knowledge base is created without one.
+    public var primaryOwnerArn: Swift.String?
+    /// The tags to assign to the knowledge base. If you don't specify tags, the knowledge base is created without tags.
+    public var tags: [QuickSightClientTypes.Tag]?
+
+    public init(
+        accessControlConfiguration: QuickSightClientTypes.AccessControlConfiguration? = nil,
+        awsAccountId: Swift.String? = nil,
+        dataSourceArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        knowledgeBaseConfiguration: QuickSightClientTypes.KnowledgeBaseConfiguration? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        mediaExtractionConfiguration: QuickSightClientTypes.MediaExtractionConfiguration? = nil,
+        name: Swift.String? = nil,
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        primaryOwnerArn: Swift.String? = nil,
+        tags: [QuickSightClientTypes.Tag]? = nil
+    ) {
+        self.accessControlConfiguration = accessControlConfiguration
+        self.awsAccountId = awsAccountId
+        self.dataSourceArn = dataSourceArn
+        self.description = description
+        self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
+        self.knowledgeBaseId = knowledgeBaseId
+        self.mediaExtractionConfiguration = mediaExtractionConfiguration
+        self.name = name
+        self.permissions = permissions
+        self.primaryOwnerArn = primaryOwnerArn
+        self.tags = tags
+    }
+}
+
+extension CreateKnowledgeBaseInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateKnowledgeBaseInput(accessControlConfiguration: \(Swift.String(describing: accessControlConfiguration)), awsAccountId: \(Swift.String(describing: awsAccountId)), dataSourceArn: \(Swift.String(describing: dataSourceArn)), description: \(Swift.String(describing: description)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), mediaExtractionConfiguration: \(Swift.String(describing: mediaExtractionConfiguration)), name: \(Swift.String(describing: name)), permissions: \(Swift.String(describing: permissions)), primaryOwnerArn: \(Swift.String(describing: primaryOwnerArn)), tags: \(Swift.String(describing: tags)), knowledgeBaseConfiguration: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    public enum DataSetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataSetStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateKnowledgeBaseOutput: Swift.Sendable {
+    /// The creation status of the knowledge base.
+    /// This member is required.
+    public var creationStatus: QuickSightClientTypes.DataSetStatus?
+    /// The Amazon Resource Name (ARN) of the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseArn: Swift.String?
+    /// The unique identifier for the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int?
+
+    public init(
+        creationStatus: QuickSightClientTypes.DataSetStatus? = nil,
+        knowledgeBaseArn: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int? = nil
+    ) {
+        self.creationStatus = creationStatus
+        self.knowledgeBaseArn = knowledgeBaseArn
+        self.knowledgeBaseId = knowledgeBaseId
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+extension QuickSightClientTypes {
+
     public enum IdentityStore: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case quicksight
         case sdkUnknown(Swift.String)
@@ -37395,6 +37859,38 @@ public struct CreateVPCConnectionOutput: Swift.Sendable {
 
 extension QuickSightClientTypes {
 
+    public enum CredentialStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case authFailed
+        case connected
+        case notVerified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CredentialStatus] {
+            return [
+                .authFailed,
+                .connected,
+                .notVerified
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .authFailed: return "AUTH_FAILED"
+            case .connected: return "CONNECTED"
+            case .notVerified: return "NOT_VERIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The custom permissions profile.
     public struct CustomPermissions: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the custom permissions profile.
@@ -38040,44 +38536,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    public enum DataSetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case active
-        case creating
-        case deleting
-        case failed
-        case updating
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DataSetStatus] {
-            return [
-                .active,
-                .creating,
-                .deleting,
-                .failed,
-                .updating
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .active: return "ACTIVE"
-            case .creating: return "CREATING"
-            case .deleting: return "DELETING"
-            case .failed: return "FAILED"
-            case .updating: return "UPDATING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
     /// Dataset summary.
     public struct DataSetSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the dataset.
@@ -38207,12 +38665,22 @@ extension QuickSightClientTypes {
         public var arn: Swift.String?
         /// The time that this data source was created.
         public var createdTime: Foundation.Date?
+        /// The credential verification status of the data source. Valid values include:
+        ///
+        /// * CONNECTED – Credential validation succeeded.
+        ///
+        /// * AUTH_FAILED – Credential validation failed.
+        ///
+        /// * NOT_VERIFIED – Credential validation has not been performed.
+        public var credentialStatus: QuickSightClientTypes.CredentialStatus?
         /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public var dataSourceId: Swift.String?
         /// The parameters that Quick Sight uses to connect to your underlying source. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
         public var dataSourceParameters: QuickSightClientTypes.DataSourceParameters?
         /// Error information from the last update or the creation of the data source.
         public var errorInfo: QuickSightClientTypes.DataSourceErrorInfo?
+        /// The time that the credentials were last verified.
+        public var lastCredentialVerifiedAt: Foundation.Date?
         /// The last time that this data source was updated.
         public var lastUpdatedTime: Foundation.Date?
         /// A display name for the data source.
@@ -38232,9 +38700,11 @@ extension QuickSightClientTypes {
             alternateDataSourceParameters: [QuickSightClientTypes.DataSourceParameters]? = nil,
             arn: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
+            credentialStatus: QuickSightClientTypes.CredentialStatus? = nil,
             dataSourceId: Swift.String? = nil,
             dataSourceParameters: QuickSightClientTypes.DataSourceParameters? = nil,
             errorInfo: QuickSightClientTypes.DataSourceErrorInfo? = nil,
+            lastCredentialVerifiedAt: Foundation.Date? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             secretArn: Swift.String? = nil,
@@ -38246,9 +38716,11 @@ extension QuickSightClientTypes {
             self.alternateDataSourceParameters = alternateDataSourceParameters
             self.arn = arn
             self.createdTime = createdTime
+            self.credentialStatus = credentialStatus
             self.dataSourceId = dataSourceId
             self.dataSourceParameters = dataSourceParameters
             self.errorInfo = errorInfo
+            self.lastCredentialVerifiedAt = lastCredentialVerifiedAt
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
             self.secretArn = secretArn
@@ -42686,194 +43158,10 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// The template configuration for a knowledge base.
-    public struct KbTemplateConfiguration: Swift.Sendable {
-        /// The template document that defines the knowledge base behavior.
-        public var template: Smithy.Document?
-
-        public init(
-            template: Smithy.Document? = nil
-        ) {
-            self.template = template
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// The configuration settings for a knowledge base.
-    public struct KnowledgeBaseConfiguration: Swift.Sendable {
-        /// Indicates whether event notifications are enabled for the knowledge base.
-        public var eventEnabled: Swift.Bool?
-        /// The template configuration for the knowledge base.
-        public var templateConfiguration: QuickSightClientTypes.KbTemplateConfiguration?
-
-        public init(
-            eventEnabled: Swift.Bool? = nil,
-            templateConfiguration: QuickSightClientTypes.KbTemplateConfiguration? = nil
-        ) {
-            self.eventEnabled = eventEnabled
-            self.templateConfiguration = templateConfiguration
-        }
-    }
-}
-
-extension QuickSightClientTypes.KnowledgeBaseConfiguration: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CONTENT_REDACTED"
-    }
-}
-
-extension QuickSightClientTypes {
-
-    public enum ImageExtractionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ImageExtractionStatus] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// The configuration for image extraction from knowledge base documents.
-    public struct ImageExtractionConfiguration: Swift.Sendable {
-        /// The status of image extraction. Valid values are ENABLED and DISABLED.
-        /// This member is required.
-        public var imageExtractionStatus: QuickSightClientTypes.ImageExtractionStatus?
-
-        public init(
-            imageExtractionStatus: QuickSightClientTypes.ImageExtractionStatus? = nil
-        ) {
-            self.imageExtractionStatus = imageExtractionStatus
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    public enum VideoExtractionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [VideoExtractionStatus] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    public enum VideoExtractionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case audioTranscriptionOnly
-        case visualContentAndAudioTranscription
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [VideoExtractionType] {
-            return [
-                .audioTranscriptionOnly,
-                .visualContentAndAudioTranscription
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .audioTranscriptionOnly: return "AUDIO_TRANSCRIPTION_ONLY"
-            case .visualContentAndAudioTranscription: return "VISUAL_CONTENT_AND_AUDIO_TRANSCRIPTION"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// The configuration for video extraction from knowledge base documents.
-    public struct VideoExtractionConfiguration: Swift.Sendable {
-        /// The status of video extraction. Valid values are ENABLED and DISABLED.
-        /// This member is required.
-        public var videoExtractionStatus: QuickSightClientTypes.VideoExtractionStatus?
-        /// The type of video extraction to perform.
-        public var videoExtractionType: QuickSightClientTypes.VideoExtractionType?
-
-        public init(
-            videoExtractionStatus: QuickSightClientTypes.VideoExtractionStatus? = nil,
-            videoExtractionType: QuickSightClientTypes.VideoExtractionType? = nil
-        ) {
-            self.videoExtractionStatus = videoExtractionStatus
-            self.videoExtractionType = videoExtractionType
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// The configuration for media extraction from knowledge base documents.
-    public struct MediaExtractionConfiguration: Swift.Sendable {
-        /// The configuration for audio extraction.
-        public var audioExtractionConfiguration: QuickSightClientTypes.AudioExtractionConfiguration?
-        /// The configuration for image extraction.
-        public var imageExtractionConfiguration: QuickSightClientTypes.ImageExtractionConfiguration?
-        /// The configuration for video extraction.
-        public var videoExtractionConfiguration: QuickSightClientTypes.VideoExtractionConfiguration?
-
-        public init(
-            audioExtractionConfiguration: QuickSightClientTypes.AudioExtractionConfiguration? = nil,
-            imageExtractionConfiguration: QuickSightClientTypes.ImageExtractionConfiguration? = nil,
-            videoExtractionConfiguration: QuickSightClientTypes.VideoExtractionConfiguration? = nil
-        ) {
-            self.audioExtractionConfiguration = audioExtractionConfiguration
-            self.imageExtractionConfiguration = imageExtractionConfiguration
-            self.videoExtractionConfiguration = videoExtractionConfiguration
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
     /// A knowledge base resource that provides data from connected sources for AI-powered experiences in Amazon QuickSight.
     public struct KnowledgeBase: Swift.Sendable {
+        /// The access control configuration for the knowledge base.
+        public var accessControlConfiguration: QuickSightClientTypes.AccessControlConfiguration?
         /// The date and time that the knowledge base was created.
         public var createdAt: Foundation.Date?
         /// The ARN of the data source associated with the knowledge base.
@@ -42887,7 +43175,7 @@ extension QuickSightClientTypes {
         public var firstCompletedIngestionSummary: QuickSightClientTypes.KnowledgeBaseIngestionSummary?
         /// A summary of the first incomplete ingestion for the knowledge base.
         public var firstIncompleteIngestionSummary: QuickSightClientTypes.KnowledgeBaseIngestionSummary?
-        /// Indicates whether email notifications are enabled for ingestion failures.
+        /// Specifies whether email notifications are enabled for ingestion failures.
         public var isEmailNotificationOptedForIngestionFailures: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
@@ -42920,6 +43208,7 @@ extension QuickSightClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            accessControlConfiguration: QuickSightClientTypes.AccessControlConfiguration? = nil,
             createdAt: Foundation.Date? = nil,
             dataSourceArn: Swift.String? = nil,
             description: Swift.String? = nil,
@@ -42940,6 +43229,7 @@ extension QuickSightClientTypes {
             type: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.accessControlConfiguration = accessControlConfiguration
             self.createdAt = createdAt
             self.dataSourceArn = dataSourceArn
             self.description = description
@@ -42965,7 +43255,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.KnowledgeBase: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "KnowledgeBase(createdAt: \(Swift.String(describing: createdAt)), dataSourceArn: \(Swift.String(describing: dataSourceArn)), description: \(Swift.String(describing: description)), documentCount: \(Swift.String(describing: documentCount)), firstCompletedIngestionSummary: \(Swift.String(describing: firstCompletedIngestionSummary)), firstIncompleteIngestionSummary: \(Swift.String(describing: firstIncompleteIngestionSummary)), isEmailNotificationOptedForIngestionFailures: \(Swift.String(describing: isEmailNotificationOptedForIngestionFailures)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), knowledgeBaseSizeBytes: \(Swift.String(describing: knowledgeBaseSizeBytes)), latestIngestionSummary: \(Swift.String(describing: latestIngestionSummary)), mediaExtractionConfiguration: \(Swift.String(describing: mediaExtractionConfiguration)), name: \(Swift.String(describing: name)), primaryOwnerArn: \(Swift.String(describing: primaryOwnerArn)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), knowledgeBaseConfiguration: \"CONTENT_REDACTED\", primaryOwnerUsername: \"CONTENT_REDACTED\")"}
+        "KnowledgeBase(accessControlConfiguration: \(Swift.String(describing: accessControlConfiguration)), createdAt: \(Swift.String(describing: createdAt)), dataSourceArn: \(Swift.String(describing: dataSourceArn)), description: \(Swift.String(describing: description)), documentCount: \(Swift.String(describing: documentCount)), firstCompletedIngestionSummary: \(Swift.String(describing: firstCompletedIngestionSummary)), firstIncompleteIngestionSummary: \(Swift.String(describing: firstIncompleteIngestionSummary)), isEmailNotificationOptedForIngestionFailures: \(Swift.String(describing: isEmailNotificationOptedForIngestionFailures)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), knowledgeBaseSizeBytes: \(Swift.String(describing: knowledgeBaseSizeBytes)), latestIngestionSummary: \(Swift.String(describing: latestIngestionSummary)), mediaExtractionConfiguration: \(Swift.String(describing: mediaExtractionConfiguration)), name: \(Swift.String(describing: name)), primaryOwnerArn: \(Swift.String(describing: primaryOwnerArn)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), knowledgeBaseConfiguration: \"CONTENT_REDACTED\", primaryOwnerUsername: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeKnowledgeBaseOutput: Swift.Sendable {
@@ -46662,7 +46952,25 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The name of a field that you can use to filter knowledge base search results. Valid values include:
+    ///
+    /// * DATASOURCE_ARN – The Amazon Resource Name (ARN) of the associated data source.
+    ///
+    /// * DIRECT_QUICKSIGHT_OWNER – An Amazon QuickSight user or group with direct owner permissions.
+    ///
+    /// * DIRECT_QUICKSIGHT_SOLE_OWNER – An Amazon QuickSight user or group that is the sole direct owner.
+    ///
+    /// * DIRECT_QUICKSIGHT_VIEWER_OR_OWNER – An Amazon QuickSight user or group with direct viewer or owner permissions.
+    ///
+    /// * KNOWLEDGE_BASE_ID – The unique identifier of the knowledge base.
+    ///
+    /// * KNOWLEDGE_BASE_NAME – The display name of the knowledge base.
+    ///
+    /// * KNOWLEDGE_BASE_SIZE_BYTES – The size of the knowledge base in bytes.
+    ///
+    /// * PRIMARY_OWNER – The Amazon Resource Name (ARN) of the primary owner of the knowledge base.
     public enum KnowledgeBaseSearchFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case datasourceArn
         case directQuicksightOwner
         case directQuicksightSoleOwner
         case directQuicksightViewerOrOwner
@@ -46674,6 +46982,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [KnowledgeBaseSearchFilterName] {
             return [
+                .datasourceArn,
                 .directQuicksightOwner,
                 .directQuicksightSoleOwner,
                 .directQuicksightViewerOrOwner,
@@ -46691,6 +47000,7 @@ extension QuickSightClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .datasourceArn: return "DATASOURCE_ARN"
             case .directQuicksightOwner: return "DIRECT_QUICKSIGHT_OWNER"
             case .directQuicksightSoleOwner: return "DIRECT_QUICKSIGHT_SOLE_OWNER"
             case .directQuicksightViewerOrOwner: return "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
@@ -52814,6 +53124,77 @@ public struct UpdateKeyRegistrationOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateKnowledgeBaseInput: Swift.Sendable {
+    /// The access control configuration for the knowledge base. If you don't specify this parameter, the existing setting is retained.
+    public var accessControlConfiguration: QuickSightClientTypes.AccessControlConfiguration?
+    /// The ID of the Amazon Web Services account that contains the knowledge base.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// A description for the knowledge base. If you don't specify a description, the existing description is retained.
+    public var description: Swift.String?
+    /// Specifies whether email notifications are enabled for ingestion failures.
+    public var isEmailNotificationOptedForIngestionFailures: Swift.Bool?
+    /// The configuration settings for a knowledge base.
+    public var knowledgeBaseConfiguration: QuickSightClientTypes.KnowledgeBaseConfiguration?
+    /// The unique identifier for the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The configuration for media extraction from knowledge base documents.
+    public var mediaExtractionConfiguration: QuickSightClientTypes.MediaExtractionConfiguration?
+    /// The name of the knowledge base. If you don't specify a name, the existing name is retained.
+    public var name: Swift.String?
+
+    public init(
+        accessControlConfiguration: QuickSightClientTypes.AccessControlConfiguration? = nil,
+        awsAccountId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        isEmailNotificationOptedForIngestionFailures: Swift.Bool? = nil,
+        knowledgeBaseConfiguration: QuickSightClientTypes.KnowledgeBaseConfiguration? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        mediaExtractionConfiguration: QuickSightClientTypes.MediaExtractionConfiguration? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.accessControlConfiguration = accessControlConfiguration
+        self.awsAccountId = awsAccountId
+        self.description = description
+        self.isEmailNotificationOptedForIngestionFailures = isEmailNotificationOptedForIngestionFailures
+        self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
+        self.knowledgeBaseId = knowledgeBaseId
+        self.mediaExtractionConfiguration = mediaExtractionConfiguration
+        self.name = name
+    }
+}
+
+extension UpdateKnowledgeBaseInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateKnowledgeBaseInput(accessControlConfiguration: \(Swift.String(describing: accessControlConfiguration)), awsAccountId: \(Swift.String(describing: awsAccountId)), description: \(Swift.String(describing: description)), isEmailNotificationOptedForIngestionFailures: \(Swift.String(describing: isEmailNotificationOptedForIngestionFailures)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), mediaExtractionConfiguration: \(Swift.String(describing: mediaExtractionConfiguration)), name: \(Swift.String(describing: name)), knowledgeBaseConfiguration: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateKnowledgeBaseOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseArn: Swift.String?
+    /// The unique identifier for the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int?
+
+    public init(
+        knowledgeBaseArn: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int? = nil
+    ) {
+        self.knowledgeBaseArn = knowledgeBaseArn
+        self.knowledgeBaseId = knowledgeBaseId
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct UpdateKnowledgeBasePermissionsInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the knowledge base.
     /// This member is required.
@@ -54594,6 +54975,16 @@ extension CreateIngestionInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/ingestions/\(ingestionId.urlPercentEncoding())"
+    }
+}
+
+extension CreateKnowledgeBaseInput {
+
+    static func urlPathProvider(_ value: CreateKnowledgeBaseInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/knowledge-bases"
     }
 }
 
@@ -58451,6 +58842,19 @@ extension UpdateKeyRegistrationInput {
     }
 }
 
+extension UpdateKnowledgeBaseInput {
+
+    static func urlPathProvider(_ value: UpdateKnowledgeBaseInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/knowledge-bases/\(knowledgeBaseId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateKnowledgeBasePermissionsInput {
 
     static func urlPathProvider(_ value: UpdateKnowledgeBasePermissionsInput) -> Swift.String? {
@@ -59020,6 +59424,23 @@ extension CreateIngestionInput {
     static func write(value: CreateIngestionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["IngestionType"].write(value.ingestionType)
+    }
+}
+
+extension CreateKnowledgeBaseInput {
+
+    static func write(value: CreateKnowledgeBaseInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessControlConfiguration"].write(value.accessControlConfiguration, with: QuickSightClientTypes.AccessControlConfiguration.write(value:to:))
+        try writer["DataSourceArn"].write(value.dataSourceArn)
+        try writer["Description"].write(value.description)
+        try writer["KnowledgeBaseConfiguration"].write(value.knowledgeBaseConfiguration, with: QuickSightClientTypes.KnowledgeBaseConfiguration.write(value:to:))
+        try writer["KnowledgeBaseId"].write(value.knowledgeBaseId)
+        try writer["MediaExtractionConfiguration"].write(value.mediaExtractionConfiguration, with: QuickSightClientTypes.MediaExtractionConfiguration.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["Permissions"].writeList(value.permissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PrimaryOwnerArn"].write(value.primaryOwnerArn)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -59724,6 +60145,19 @@ extension UpdateKeyRegistrationInput {
     }
 }
 
+extension UpdateKnowledgeBaseInput {
+
+    static func write(value: UpdateKnowledgeBaseInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessControlConfiguration"].write(value.accessControlConfiguration, with: QuickSightClientTypes.AccessControlConfiguration.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["IsEmailNotificationOptedForIngestionFailures"].write(value.isEmailNotificationOptedForIngestionFailures)
+        try writer["KnowledgeBaseConfiguration"].write(value.knowledgeBaseConfiguration, with: QuickSightClientTypes.KnowledgeBaseConfiguration.write(value:to:))
+        try writer["MediaExtractionConfiguration"].write(value.mediaExtractionConfiguration, with: QuickSightClientTypes.MediaExtractionConfiguration.write(value:to:))
+        try writer["Name"].write(value.name)
+    }
+}
+
 extension UpdateKnowledgeBasePermissionsInput {
 
     static func write(value: UpdateKnowledgeBasePermissionsInput?, to writer: SmithyJSON.Writer) throws {
@@ -60278,6 +60712,22 @@ extension CreateIngestionOutput {
         value.arn = try reader["Arn"].readIfPresent()
         value.ingestionId = try reader["IngestionId"].readIfPresent()
         value.ingestionStatus = try reader["IngestionStatus"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension CreateKnowledgeBaseOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateKnowledgeBaseOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateKnowledgeBaseOutput()
+        value.creationStatus = try reader["CreationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.knowledgeBaseArn = try reader["KnowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["KnowledgeBaseId"].readIfPresent() ?? ""
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
@@ -63605,6 +64055,21 @@ extension UpdateKeyRegistrationOutput {
     }
 }
 
+extension UpdateKnowledgeBaseOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateKnowledgeBaseOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateKnowledgeBaseOutput()
+        value.knowledgeBaseArn = try reader["KnowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["KnowledgeBaseId"].readIfPresent() ?? ""
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension UpdateKnowledgeBasePermissionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateKnowledgeBasePermissionsOutput {
@@ -64402,6 +64867,28 @@ enum CreateIngestionOutputError {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateKnowledgeBaseOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
             case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -68699,6 +69186,28 @@ enum UpdateKeyRegistrationOutputError {
     }
 }
 
+enum UpdateKnowledgeBaseOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateKnowledgeBasePermissionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -69527,6 +70036,21 @@ extension IdentityTypeNotSupportedException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension QuickSightClientTypes.AccessControlConfiguration {
+
+    static func write(value: QuickSightClientTypes.AccessControlConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isACLEnabled"].write(value.isACLEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AccessControlConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AccessControlConfiguration()
+        value.isACLEnabled = try reader["isACLEnabled"].readIfPresent()
         return value
     }
 }
@@ -71181,6 +71705,11 @@ extension QuickSightClientTypes.AttributeAggregationFunction {
 }
 
 extension QuickSightClientTypes.AudioExtractionConfiguration {
+
+    static func write(value: QuickSightClientTypes.AudioExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audioExtractionStatus"].write(value.audioExtractionStatus)
+    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AudioExtractionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -75560,6 +76089,8 @@ extension QuickSightClientTypes.DataSource {
         value.sslProperties = try reader["SslProperties"].readIfPresent(with: QuickSightClientTypes.SslProperties.read(from:))
         value.errorInfo = try reader["ErrorInfo"].readIfPresent(with: QuickSightClientTypes.DataSourceErrorInfo.read(from:))
         value.secretArn = try reader["SecretArn"].readIfPresent()
+        value.credentialStatus = try reader["CredentialStatus"].readIfPresent()
+        value.lastCredentialVerifiedAt = try reader["LastCredentialVerifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -75615,6 +76146,10 @@ extension QuickSightClientTypes.DataSourceParameters {
                 try writer["DatabricksParameters"].write(databricksparameters, with: QuickSightClientTypes.DatabricksParameters.write(value:to:))
             case let .exasolparameters(exasolparameters):
                 try writer["ExasolParameters"].write(exasolparameters, with: QuickSightClientTypes.ExasolParameters.write(value:to:))
+            case let .fmkbparameters(fmkbparameters):
+                try writer["FMKBParameters"].write(fmkbparameters, with: QuickSightClientTypes.FMKBParameters.write(value:to:))
+            case let .googledriveparameters(googledriveparameters):
+                try writer["GoogleDriveParameters"].write(googledriveparameters, with: QuickSightClientTypes.GoogleDriveParameters.write(value:to:))
             case let .impalaparameters(impalaparameters):
                 try writer["ImpalaParameters"].write(impalaparameters, with: QuickSightClientTypes.ImpalaParameters.write(value:to:))
             case let .jiraparameters(jiraparameters):
@@ -75623,6 +76158,8 @@ extension QuickSightClientTypes.DataSourceParameters {
                 try writer["MariaDbParameters"].write(mariadbparameters, with: QuickSightClientTypes.MariaDbParameters.write(value:to:))
             case let .mysqlparameters(mysqlparameters):
                 try writer["MySqlParameters"].write(mysqlparameters, with: QuickSightClientTypes.MySqlParameters.write(value:to:))
+            case let .onedriveparameters(onedriveparameters):
+                try writer["OneDriveParameters"].write(onedriveparameters, with: QuickSightClientTypes.OneDriveParameters.write(value:to:))
             case let .oracleparameters(oracleparameters):
                 try writer["OracleParameters"].write(oracleparameters, with: QuickSightClientTypes.OracleParameters.write(value:to:))
             case let .postgresqlparameters(postgresqlparameters):
@@ -75643,6 +76180,8 @@ extension QuickSightClientTypes.DataSourceParameters {
                 try writer["S3TablesParameters"].write(s3tablesparameters, with: QuickSightClientTypes.S3TablesParameters.write(value:to:))
             case let .servicenowparameters(servicenowparameters):
                 try writer["ServiceNowParameters"].write(servicenowparameters, with: QuickSightClientTypes.ServiceNowParameters.write(value:to:))
+            case let .sharepointparameters(sharepointparameters):
+                try writer["SharePointParameters"].write(sharepointparameters, with: QuickSightClientTypes.SharePointParameters.write(value:to:))
             case let .snowflakeparameters(snowflakeparameters):
                 try writer["SnowflakeParameters"].write(snowflakeparameters, with: QuickSightClientTypes.SnowflakeParameters.write(value:to:))
             case let .sparkparameters(sparkparameters):
@@ -75734,6 +76273,14 @@ extension QuickSightClientTypes.DataSourceParameters {
                 return .confluenceparameters(try reader["ConfluenceParameters"].read(with: QuickSightClientTypes.ConfluenceParameters.read(from:)))
             case "QBusinessParameters":
                 return .qbusinessparameters(try reader["QBusinessParameters"].read(with: QuickSightClientTypes.QBusinessParameters.read(from:)))
+            case "SharePointParameters":
+                return .sharepointparameters(try reader["SharePointParameters"].read(with: QuickSightClientTypes.SharePointParameters.read(from:)))
+            case "GoogleDriveParameters":
+                return .googledriveparameters(try reader["GoogleDriveParameters"].read(with: QuickSightClientTypes.GoogleDriveParameters.read(from:)))
+            case "OneDriveParameters":
+                return .onedriveparameters(try reader["OneDriveParameters"].read(with: QuickSightClientTypes.OneDriveParameters.read(from:)))
+            case "FMKBParameters":
+                return .fmkbparameters(try reader["FMKBParameters"].read(with: QuickSightClientTypes.FMKBParameters.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -77694,6 +78241,23 @@ extension QuickSightClientTypes.FlowSummary {
     }
 }
 
+extension QuickSightClientTypes.FMKBParameters {
+
+    static func write(value: QuickSightClientTypes.FMKBParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KnowledgeBaseArn"].write(value.knowledgeBaseArn)
+        try writer["LinkedDataSourceIds"].writeList(value.linkedDataSourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FMKBParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.FMKBParameters()
+        value.knowledgeBaseArn = try reader["KnowledgeBaseArn"].readIfPresent() ?? ""
+        value.linkedDataSourceIds = try reader["LinkedDataSourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension QuickSightClientTypes.Folder {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Folder {
@@ -79192,6 +79756,21 @@ extension QuickSightClientTypes.GlobalTableBorderOptions {
     }
 }
 
+extension QuickSightClientTypes.GoogleDriveParameters {
+
+    static func write(value: QuickSightClientTypes.GoogleDriveParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthType"].write(value.authType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GoogleDriveParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GoogleDriveParameters()
+        value.authType = try reader["AuthType"].readIfPresent()
+        return value
+    }
+}
+
 extension QuickSightClientTypes.GradientColor {
 
     static func write(value: QuickSightClientTypes.GradientColor?, to writer: SmithyJSON.Writer) throws {
@@ -79797,6 +80376,11 @@ extension QuickSightClientTypes.ImageCustomActionOperation {
 
 extension QuickSightClientTypes.ImageExtractionConfiguration {
 
+    static func write(value: QuickSightClientTypes.ImageExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["imageExtractionStatus"].write(value.imageExtractionStatus)
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ImageExtractionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ImageExtractionConfiguration()
@@ -80333,6 +80917,11 @@ extension QuickSightClientTypes.JoinOperation {
 
 extension QuickSightClientTypes.KbTemplateConfiguration {
 
+    static func write(value: QuickSightClientTypes.KbTemplateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["template"].write(value.template)
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.KbTemplateConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.KbTemplateConfiguration()
@@ -80363,6 +80952,7 @@ extension QuickSightClientTypes.KnowledgeBase {
         value.dataSourceArn = try reader["DataSourceArn"].readIfPresent() ?? ""
         value.knowledgeBaseConfiguration = try reader["KnowledgeBaseConfiguration"].readIfPresent(with: QuickSightClientTypes.KnowledgeBaseConfiguration.read(from:))
         value.mediaExtractionConfiguration = try reader["MediaExtractionConfiguration"].readIfPresent(with: QuickSightClientTypes.MediaExtractionConfiguration.read(from:))
+        value.accessControlConfiguration = try reader["AccessControlConfiguration"].readIfPresent(with: QuickSightClientTypes.AccessControlConfiguration.read(from:))
         value.type = try reader["Type"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -80381,11 +80971,15 @@ extension QuickSightClientTypes.KnowledgeBase {
 
 extension QuickSightClientTypes.KnowledgeBaseConfiguration {
 
+    static func write(value: QuickSightClientTypes.KnowledgeBaseConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["templateConfiguration"].write(value.templateConfiguration, with: QuickSightClientTypes.KbTemplateConfiguration.write(value:to:))
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.KnowledgeBaseConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.KnowledgeBaseConfiguration()
         value.templateConfiguration = try reader["templateConfiguration"].readIfPresent(with: QuickSightClientTypes.KbTemplateConfiguration.read(from:))
-        value.eventEnabled = try reader["eventEnabled"].readIfPresent()
         return value
     }
 }
@@ -81453,6 +82047,13 @@ extension QuickSightClientTypes.MeasureField {
 
 extension QuickSightClientTypes.MediaExtractionConfiguration {
 
+    static func write(value: QuickSightClientTypes.MediaExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audioExtractionConfiguration"].write(value.audioExtractionConfiguration, with: QuickSightClientTypes.AudioExtractionConfiguration.write(value:to:))
+        try writer["imageExtractionConfiguration"].write(value.imageExtractionConfiguration, with: QuickSightClientTypes.ImageExtractionConfiguration.write(value:to:))
+        try writer["videoExtractionConfiguration"].write(value.videoExtractionConfiguration, with: QuickSightClientTypes.VideoExtractionConfiguration.write(value:to:))
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.MediaExtractionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.MediaExtractionConfiguration()
@@ -82075,6 +82676,25 @@ extension QuickSightClientTypes.OAuthParameters {
         value.identityProviderVpcConnectionProperties = try reader["IdentityProviderVpcConnectionProperties"].readIfPresent(with: QuickSightClientTypes.VpcConnectionProperties.read(from:))
         value.identityProviderResourceUri = try reader["IdentityProviderResourceUri"].readIfPresent()
         value.identityProviderCACertificatesBundleS3Uri = try reader["IdentityProviderCACertificatesBundleS3Uri"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.OneDriveParameters {
+
+    static func write(value: QuickSightClientTypes.OneDriveParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthType"].write(value.authType)
+        try writer["ClientId"].write(value.clientId)
+        try writer["TenantId"].write(value.tenantId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.OneDriveParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.OneDriveParameters()
+        value.tenantId = try reader["TenantId"].readIfPresent()
+        value.clientId = try reader["ClientId"].readIfPresent()
+        value.authType = try reader["AuthType"].readIfPresent()
         return value
     }
 }
@@ -85417,6 +86037,27 @@ extension QuickSightClientTypes.SharedViewConfigurations {
     static func write(value: QuickSightClientTypes.SharedViewConfigurations?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
+    }
+}
+
+extension QuickSightClientTypes.SharePointParameters {
+
+    static func write(value: QuickSightClientTypes.SharePointParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthType"].write(value.authType)
+        try writer["ClientId"].write(value.clientId)
+        try writer["SharePointDomain"].write(value.sharePointDomain)
+        try writer["TenantId"].write(value.tenantId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SharePointParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SharePointParameters()
+        value.sharePointDomain = try reader["SharePointDomain"].readIfPresent() ?? ""
+        value.tenantId = try reader["TenantId"].readIfPresent()
+        value.clientId = try reader["ClientId"].readIfPresent()
+        value.authType = try reader["AuthType"].readIfPresent()
+        return value
     }
 }
 
@@ -89354,6 +89995,12 @@ extension QuickSightClientTypes.ValueColumnConfiguration {
 }
 
 extension QuickSightClientTypes.VideoExtractionConfiguration {
+
+    static func write(value: QuickSightClientTypes.VideoExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["videoExtractionStatus"].write(value.videoExtractionStatus)
+        try writer["videoExtractionType"].write(value.videoExtractionType)
+    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VideoExtractionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
