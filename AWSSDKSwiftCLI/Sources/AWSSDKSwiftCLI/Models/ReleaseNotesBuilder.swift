@@ -14,6 +14,7 @@ struct ReleaseNotesBuilder {
     let newVersion: Version
     let repoOrg: PrepareRelease.Org
     let repoType: PrepareRelease.Repo
+    let announcements: [String]
     let commits: [String]
     let buildRequest: BuildRequest
     let featuresIDToServiceName: [String: String]
@@ -21,13 +22,27 @@ struct ReleaseNotesBuilder {
     // MARK: - Build
 
     func build() throws -> String {
+        let announcements = buildAnnouncements()
         let sdkChanges: [String] = buildSDKChangeSection()
         let serviceClientChanges = repoType == .awsSdkSwift ? (try buildServiceChangeSection()) : []
         let fullCommitLogLink = [
             "\n**Full Changelog**: https://github.com/\(repoOrg.rawValue)/\(repoType.rawValue)/compare/\(previousVersion)...\(newVersion)"
         ]
-        let contents = ["## What's Changed"] + serviceClientChanges + sdkChanges + fullCommitLogLink
+        let contents = announcements + ["## What's Changed"] + serviceClientChanges + sdkChanges + fullCommitLogLink
         return contents.joined(separator: .newline)
+    }
+
+    func buildAnnouncements() -> [String] {
+        let header = "## Announcements"
+        if self.announcements.isEmpty {
+            return []
+        } else if self.announcements.count == 1 {
+            // For a single announcement, print it unbulleted under the header
+            return [header] + self.announcements
+        } else {
+            // For multiple announcements, print them each bulleted under the header
+            return [header] + self.announcements.map { "* \($0)" }
+        }
     }
 
     func buildSDKChangeSection() -> [String] {
