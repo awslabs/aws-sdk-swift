@@ -99,6 +99,36 @@ class ReleaseNotesBuilderTests: CLITestCase {
     }
     """
 
+    func testAllSectionsPresentWithOneAnnouncement() throws {
+        let buildRequest = """
+        { "features": [\(feature1), \(feature2), \(feature3)] }
+        """
+        setUpBuildRequestAndMappingJSONs(buildRequest, mapping)
+        let announcements = ["I, for one, welcome our Swift overlords"]
+        let builder = try setUpBuilder(announcements: announcements, testCommits: includedTestCommits)
+        let releaseNotes = try builder.build()
+        let expected = """
+        ## Announcements
+        I, for one, welcome our Swift overlords
+        ## What's Changed
+        ### Service Features
+        * **AWS Service 1**: New feature description A.
+        * **AWS Service 2**: New feature description B.
+        ### Service Documentation
+        * **AWS Service 3**: Doc update description C.
+        ### Miscellaneous
+        * fix: Correct X
+        * feat: Add Y
+        * docs: Document Z
+        * refactor: Change A
+        * perf: Speed up B
+        * test: Try out C
+
+        **Full Changelog**: https://github.com/awslabs/aws-sdk-swift/compare/1.0.0...1.0.1
+        """
+        XCTAssertEqual(releaseNotes, expected)
+    }
+
     func testAllSectionsPresent() throws {
         let buildRequest = """
         { "features": [\(feature1), \(feature2), \(feature3)] }
@@ -111,6 +141,34 @@ class ReleaseNotesBuilderTests: CLITestCase {
         ### Service Features
         * **AWS Service 1**: New feature description A.
         * **AWS Service 2**: New feature description B.
+        ### Service Documentation
+        * **AWS Service 3**: Doc update description C.
+        ### Miscellaneous
+        * fix: Correct X
+        * feat: Add Y
+        * docs: Document Z
+        * refactor: Change A
+        * perf: Speed up B
+        * test: Try out C
+
+        **Full Changelog**: https://github.com/awslabs/aws-sdk-swift/compare/1.0.0...1.0.1
+        """
+        XCTAssertEqual(releaseNotes, expected)
+    }
+
+    func testNoServiceFeatureSectionPresentWithTwoAnnouncements() throws {
+        let buildRequest = """
+        { "features": [\(feature3)] }
+        """
+        setUpBuildRequestAndMappingJSONs(buildRequest, mapping)
+        let announcements = ["One for the money", "Two for the show"]
+        let builder = try setUpBuilder(announcements: announcements, testCommits: includedTestCommits)
+        let releaseNotes = try builder.build()
+        let expected = """
+        ## Announcements
+        * One for the money
+        * Two for the show
+        ## What's Changed
         ### Service Documentation
         * **AWS Service 3**: Doc update description C.
         ### Miscellaneous
@@ -234,12 +292,13 @@ class ReleaseNotesBuilderTests: CLITestCase {
         FileManager.default.createFile(atPath: "../feature-service-id.json", contents: Data(mapping.utf8))
     }
 
-    private func setUpBuilder(testCommits: [String] = []) throws -> ReleaseNotesBuilder {
+    private func setUpBuilder(announcements: [String] = [], testCommits: [String] = []) throws -> ReleaseNotesBuilder {
         return try ReleaseNotesBuilder(
             previousVersion: Version("1.0.0"),
             newVersion: Version("1.0.1"),
             repoOrg: .awslabs,
             repoType: .awsSdkSwift,
+            announcements: announcements,
             commits: testCommits,
             // Parameterize behavior of FeaturesReader with paths used to create JSON test files
             buildRequest: BuildRequestReader().getFeaturesFromFile(),
