@@ -71,7 +71,7 @@ extension RedshiftServerlessClientTypes {
 
     /// An array of key-value pairs to set for advanced control over Amazon Redshift Serverless.
     public struct ConfigParameter: Swift.Sendable {
-        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. For more information about query monitoring rules and available metrics, see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
+        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration, the maximum size of parameterValue is 8000 characters. For more information about query monitoring rules and available metrics, see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
         public var parameterKey: Swift.String?
         /// The value of the parameter to set.
         public var parameterValue: Swift.String?
@@ -3543,6 +3543,8 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
 }
 
 public struct RestoreFromRecoveryPointInput: Swift.Sendable {
+    /// If true, maintain existing data sharing, zero-ETL and S3 event integrations when restoring. Otherwise, integrations will not be maintained after the restore operation. Integrations are only maintained when restored to the same serverless namespace. Default: true
+    public var maintainIntegration: Swift.Bool?
     /// The name of the namespace to restore data into.
     /// This member is required.
     public var namespaceName: Swift.String?
@@ -3554,10 +3556,12 @@ public struct RestoreFromRecoveryPointInput: Swift.Sendable {
     public var workgroupName: Swift.String?
 
     public init(
+        maintainIntegration: Swift.Bool? = nil,
         namespaceName: Swift.String? = nil,
         recoveryPointId: Swift.String? = nil,
         workgroupName: Swift.String? = nil
     ) {
+        self.maintainIntegration = maintainIntegration
         self.namespaceName = namespaceName
         self.recoveryPointId = recoveryPointId
         self.workgroupName = workgroupName
@@ -3701,6 +3705,8 @@ public struct UpdateScheduledActionOutput: Swift.Sendable {
 public struct RestoreFromSnapshotInput: Swift.Sendable {
     /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.
     public var adminPasswordSecretKmsKeyId: Swift.String?
+    /// If true, maintain existing data sharing, zero-ETL and S3 event integrations when restoring. Otherwise, integrations will not be maintained after the restore operation. Integrations are only maintained when restored to the same serverless namespace. Default: true
+    public var maintainIntegration: Swift.Bool?
     /// If true, Amazon Redshift uses Secrets Manager to manage the restored snapshot's admin credentials. If MmanageAdminPassword is false or not set, Amazon Redshift uses the admin credentials that the namespace or cluster had at the time the snapshot was taken.
     public var manageAdminPassword: Swift.Bool?
     /// The name of the namespace to restore the snapshot to.
@@ -3718,6 +3724,7 @@ public struct RestoreFromSnapshotInput: Swift.Sendable {
 
     public init(
         adminPasswordSecretKmsKeyId: Swift.String? = nil,
+        maintainIntegration: Swift.Bool? = nil,
         manageAdminPassword: Swift.Bool? = nil,
         namespaceName: Swift.String? = nil,
         ownerAccount: Swift.String? = nil,
@@ -3726,6 +3733,7 @@ public struct RestoreFromSnapshotInput: Swift.Sendable {
         workgroupName: Swift.String? = nil
     ) {
         self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
+        self.maintainIntegration = maintainIntegration
         self.manageAdminPassword = manageAdminPassword
         self.namespaceName = namespaceName
         self.ownerAccount = ownerAccount

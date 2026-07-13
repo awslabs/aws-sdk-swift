@@ -401,6 +401,7 @@ extension GuardDutyClientTypes {
 extension GuardDutyClientTypes {
 
     public enum FreeTrialFeatureResult: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aiProtection
         case cloudTrail
         case dnsLogs
         case ebsMalwareProtection
@@ -416,6 +417,7 @@ extension GuardDutyClientTypes {
 
         public static var allCases: [FreeTrialFeatureResult] {
             return [
+                .aiProtection,
                 .cloudTrail,
                 .dnsLogs,
                 .ebsMalwareProtection,
@@ -437,6 +439,7 @@ extension GuardDutyClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .aiProtection: return "AI_PROTECTION"
             case .cloudTrail: return "CLOUD_TRAIL"
             case .dnsLogs: return "DNS_LOGS"
             case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"
@@ -1449,12 +1452,16 @@ extension GuardDutyClientTypes {
 
     /// Contains information about the observed behavior.
     public struct Observations: Swift.Sendable {
+        /// The numeric values that were unusual.
+        public var number: [Swift.Int]?
         /// The text that was unusual.
         public var text: [Swift.String]?
 
         public init(
+            number: [Swift.Int]? = nil,
             text: [Swift.String]? = nil
         ) {
+            self.number = number
             self.text = text
         }
     }
@@ -1463,6 +1470,8 @@ extension GuardDutyClientTypes {
 extension GuardDutyClientTypes {
 
     public enum ProfileSubtype: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case average
+        case count
         case frequent
         case infrequent
         case rare
@@ -1471,6 +1480,8 @@ extension GuardDutyClientTypes {
 
         public static var allCases: [ProfileSubtype] {
             return [
+                .average,
+                .count,
                 .frequent,
                 .infrequent,
                 .rare,
@@ -1485,6 +1496,8 @@ extension GuardDutyClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .average: return "AVERAGE"
+            case .count: return "COUNT"
             case .frequent: return "FREQUENT"
             case .infrequent: return "INFREQUENT"
             case .rare: return "RARE"
@@ -1499,11 +1512,13 @@ extension GuardDutyClientTypes {
 
     public enum ProfileType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case frequency
+        case volume
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProfileType] {
             return [
-                .frequency
+                .frequency,
+                .volume
             ]
         }
 
@@ -1515,6 +1530,7 @@ extension GuardDutyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .frequency: return "FREQUENCY"
+            case .volume: return "VOLUME"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1664,6 +1680,251 @@ extension GuardDutyClientTypes {
             ec2InstanceUids: [Swift.String]? = nil
         ) {
             self.ec2InstanceUids = ec2InstanceUids
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about a Bedrock guardrail associated with a finding.
+    public struct BedrockGuardrail: Swift.Sendable {
+        /// The ARN of the Bedrock guardrail.
+        public var arn: Swift.String?
+        /// The version of the Bedrock guardrail.
+        public var version: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.version = version
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum ContentPolicyFilterAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case blocked
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentPolicyFilterAction] {
+            return [
+                .blocked,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .blocked: return "BLOCKED"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum ConfidenceLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfidenceLevel] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum ContentPolicyFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hate
+        case insults
+        case jailbreak
+        case misconduct
+        case promptAttack
+        case sexual
+        case violence
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentPolicyFilterType] {
+            return [
+                .hate,
+                .insults,
+                .jailbreak,
+                .misconduct,
+                .promptAttack,
+                .sexual,
+                .violence
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hate: return "HATE"
+            case .insults: return "INSULTS"
+            case .jailbreak: return "JAILBREAK"
+            case .misconduct: return "MISCONDUCT"
+            case .promptAttack: return "PROMPT_ATTACK"
+            case .sexual: return "SEXUAL"
+            case .violence: return "VIOLENCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about a content policy filter that matched during a guardrail evaluation.
+    public struct ContentPolicyFilter: Swift.Sendable {
+        /// The action taken by the guardrail filter.
+        public var action: GuardDutyClientTypes.ContentPolicyFilterAction?
+        /// The confidence level that the content matched the filter.
+        public var confidence: GuardDutyClientTypes.ConfidenceLevel?
+        /// The type of content that was filtered by the guardrail.
+        public var type: GuardDutyClientTypes.ContentPolicyFilterType?
+
+        public init(
+            action: GuardDutyClientTypes.ContentPolicyFilterAction? = nil,
+            confidence: GuardDutyClientTypes.ConfidenceLevel? = nil,
+            type: GuardDutyClientTypes.ContentPolicyFilterType? = nil
+        ) {
+            self.action = action
+            self.confidence = confidence
+            self.type = type
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum GuardrailAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case guardrailIntervened
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailAction] {
+            return [
+                .guardrailIntervened,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .guardrailIntervened: return "GUARDRAIL_INTERVENED"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum GuardrailSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case input
+        case output
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailSource] {
+            return [
+                .input,
+                .output
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .input: return "INPUT"
+            case .output: return "OUTPUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the Bedrock guardrail that was involved in a finding.
+    public struct BedrockGuardrailDetails: Swift.Sendable {
+        /// The list of content policy filters that matched during the guardrail evaluation.
+        public var contentPolicyFilters: [GuardDutyClientTypes.ContentPolicyFilter]?
+        /// Indicates whether the guardrail intervened or not.
+        public var guardrailAction: GuardDutyClientTypes.GuardrailAction?
+        /// The ARN of the Bedrock guardrail. This field is deprecated. Use the guardrails list instead.
+        @available(*, deprecated, message: "Use guardrails list instead API deprecated since 2026-07-13")
+        public var guardrailArn: Swift.String?
+        /// Indicates whether the guardrail was applied on the input or output of the model invocation.
+        public var guardrailSource: GuardDutyClientTypes.GuardrailSource?
+        /// The version of the Bedrock guardrail. This field is deprecated. Use the guardrails list instead.
+        @available(*, deprecated, message: "Use guardrails list instead API deprecated since 2026-07-13")
+        public var guardrailVersion: Swift.String?
+        /// The list of Bedrock guardrails associated with the finding.
+        public var guardrails: [GuardDutyClientTypes.BedrockGuardrail]?
+
+        public init(
+            contentPolicyFilters: [GuardDutyClientTypes.ContentPolicyFilter]? = nil,
+            guardrailAction: GuardDutyClientTypes.GuardrailAction? = nil,
+            guardrailArn: Swift.String? = nil,
+            guardrailSource: GuardDutyClientTypes.GuardrailSource? = nil,
+            guardrailVersion: Swift.String? = nil,
+            guardrails: [GuardDutyClientTypes.BedrockGuardrail]? = nil
+        ) {
+            self.contentPolicyFilters = contentPolicyFilters
+            self.guardrailAction = guardrailAction
+            self.guardrailArn = guardrailArn
+            self.guardrailSource = guardrailSource
+            self.guardrailVersion = guardrailVersion
+            self.guardrails = guardrails
         }
     }
 }
@@ -2852,6 +3113,7 @@ extension GuardDutyClientTypes {
 
     public enum DetectorFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aiAnalyst
+        case aiProtection
         case ebsMalwareProtection
         case eksAuditLogs
         case eksRuntimeMonitoring
@@ -2864,6 +3126,7 @@ extension GuardDutyClientTypes {
         public static var allCases: [DetectorFeature] {
             return [
                 .aiAnalyst,
+                .aiProtection,
                 .ebsMalwareProtection,
                 .eksAuditLogs,
                 .eksRuntimeMonitoring,
@@ -2882,6 +3145,7 @@ extension GuardDutyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .aiAnalyst: return "AI_ANALYST"
+            case .aiProtection: return "AI_PROTECTION"
             case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"
             case .eksAuditLogs: return "EKS_AUDIT_LOGS"
             case .eksRuntimeMonitoring: return "EKS_RUNTIME_MONITORING"
@@ -6287,6 +6551,7 @@ extension GuardDutyClientTypes {
 extension GuardDutyClientTypes {
 
     public enum OrgFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aiProtection
         case ebsMalwareProtection
         case eksAuditLogs
         case eksRuntimeMonitoring
@@ -6298,6 +6563,7 @@ extension GuardDutyClientTypes {
 
         public static var allCases: [OrgFeature] {
             return [
+                .aiProtection,
                 .ebsMalwareProtection,
                 .eksAuditLogs,
                 .eksRuntimeMonitoring,
@@ -6315,6 +6581,7 @@ extension GuardDutyClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .aiProtection: return "AI_PROTECTION"
             case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"
             case .eksAuditLogs: return "EKS_AUDIT_LOGS"
             case .eksRuntimeMonitoring: return "EKS_RUNTIME_MONITORING"
@@ -7829,6 +8096,7 @@ extension GuardDutyClientTypes {
 
     public enum DetectorFeatureResult: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aiAnalyst
+        case aiProtection
         case cloudTrail
         case dnsLogs
         case ebsMalwareProtection
@@ -7844,6 +8112,7 @@ extension GuardDutyClientTypes {
         public static var allCases: [DetectorFeatureResult] {
             return [
                 .aiAnalyst,
+                .aiProtection,
                 .cloudTrail,
                 .dnsLogs,
                 .ebsMalwareProtection,
@@ -7865,6 +8134,7 @@ extension GuardDutyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .aiAnalyst: return "AI_ANALYST"
+            case .aiProtection: return "AI_PROTECTION"
             case .cloudTrail: return "CLOUD_TRAIL"
             case .dnsLogs: return "DNS_LOGS"
             case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"
@@ -8882,6 +9152,21 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    /// Contains information about the AI model involved in a finding.
+    public struct ModelDetail: Swift.Sendable {
+        /// The identifier of the AI model.
+        public var modelId: Swift.String?
+
+        public init(
+            modelId: Swift.String? = nil
+        ) {
+            self.modelId = modelId
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Contains information about the resource type RDSDBInstance involved in a GuardDuty finding.
     public struct RdsDbInstanceDetails: Swift.Sendable {
         /// The identifier of the database cluster that contains the database instance ID involved in the finding.
@@ -8991,18 +9276,42 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    /// Contains information about the time range within the continuous backup in Amazon Web Services Backup that was scanned for a point-in-time recovery resource.
+    public struct ScanConfigurationContinuousScanDetails: Swift.Sendable {
+        /// The timestamp representing the end of the time range that was scanned.
+        /// This member is required.
+        public var endTime: Foundation.Date?
+        /// The timestamp representing the start of the time range that was scanned.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Contains details about the backup recovery point.
     public struct RecoveryPointDetails: Swift.Sendable {
         /// The name of the backup vault containing the recovery point.
         public var backupVaultName: Swift.String?
+        /// Contains information about the time range within the continuous backup in Amazon Web Services Backup that was scanned for a point-in-time recovery resource.
+        public var continuousScanDetails: GuardDutyClientTypes.ScanConfigurationContinuousScanDetails?
         /// The Amazon Resource Name (ARN) of the recovery point.
         public var recoveryPointArn: Swift.String?
 
         public init(
             backupVaultName: Swift.String? = nil,
+            continuousScanDetails: GuardDutyClientTypes.ScanConfigurationContinuousScanDetails? = nil,
             recoveryPointArn: Swift.String? = nil
         ) {
             self.backupVaultName = backupVaultName
+            self.continuousScanDetails = continuousScanDetails
             self.recoveryPointArn = recoveryPointArn
         }
     }
@@ -9145,6 +9454,8 @@ extension GuardDutyClientTypes {
     public struct Resource: Swift.Sendable {
         /// The IAM access key details (user information) of a user that engaged in the activity that prompted GuardDuty to generate a finding.
         public var accessKeyDetails: GuardDutyClientTypes.AccessKeyDetails?
+        /// Contains information about the Bedrock guardrail that was involved in a finding.
+        public var bedrockGuardrailDetails: GuardDutyClientTypes.BedrockGuardrailDetails?
         /// Details of a container.
         public var containerDetails: GuardDutyClientTypes.Container?
         /// Contains details about the EBS snapshot that was scanned.
@@ -9163,6 +9474,8 @@ extension GuardDutyClientTypes {
         public var kubernetesDetails: GuardDutyClientTypes.KubernetesDetails?
         /// Contains information about the Lambda function that was involved in a finding.
         public var lambdaDetails: GuardDutyClientTypes.LambdaDetails?
+        /// Contains information about the AI models involved in a finding.
+        public var modelDetails: [GuardDutyClientTypes.ModelDetail]?
         /// Contains information about the database instance to which an anomalous login attempt was made.
         public var rdsDbInstanceDetails: GuardDutyClientTypes.RdsDbInstanceDetails?
         /// Contains information about the user details through which anomalous login attempt was made.
@@ -9178,6 +9491,7 @@ extension GuardDutyClientTypes {
 
         public init(
             accessKeyDetails: GuardDutyClientTypes.AccessKeyDetails? = nil,
+            bedrockGuardrailDetails: GuardDutyClientTypes.BedrockGuardrailDetails? = nil,
             containerDetails: GuardDutyClientTypes.Container? = nil,
             ebsSnapshotDetails: GuardDutyClientTypes.EbsSnapshotDetails? = nil,
             ebsVolumeDetails: GuardDutyClientTypes.EbsVolumeDetails? = nil,
@@ -9187,6 +9501,7 @@ extension GuardDutyClientTypes {
             instanceDetails: GuardDutyClientTypes.InstanceDetails? = nil,
             kubernetesDetails: GuardDutyClientTypes.KubernetesDetails? = nil,
             lambdaDetails: GuardDutyClientTypes.LambdaDetails? = nil,
+            modelDetails: [GuardDutyClientTypes.ModelDetail]? = nil,
             rdsDbInstanceDetails: GuardDutyClientTypes.RdsDbInstanceDetails? = nil,
             rdsDbUserDetails: GuardDutyClientTypes.RdsDbUserDetails? = nil,
             rdsLimitlessDbDetails: GuardDutyClientTypes.RdsLimitlessDbDetails? = nil,
@@ -9195,6 +9510,7 @@ extension GuardDutyClientTypes {
             s3BucketDetails: [GuardDutyClientTypes.S3BucketDetail]? = nil
         ) {
             self.accessKeyDetails = accessKeyDetails
+            self.bedrockGuardrailDetails = bedrockGuardrailDetails
             self.containerDetails = containerDetails
             self.ebsSnapshotDetails = ebsSnapshotDetails
             self.ebsVolumeDetails = ebsVolumeDetails
@@ -9204,6 +9520,7 @@ extension GuardDutyClientTypes {
             self.instanceDetails = instanceDetails
             self.kubernetesDetails = kubernetesDetails
             self.lambdaDetails = lambdaDetails
+            self.modelDetails = modelDetails
             self.rdsDbInstanceDetails = rdsDbInstanceDetails
             self.rdsDbUserDetails = rdsDbUserDetails
             self.rdsLimitlessDbDetails = rdsLimitlessDbDetails
@@ -10782,26 +11099,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
-    /// Contains information about the time range within the continuous backup in Amazon Web Services Backup that was scanned for a point-in-time recovery resource.
-    public struct ScanConfigurationContinuousScanDetails: Swift.Sendable {
-        /// The timestamp representing the end of the time range that was scanned.
-        /// This member is required.
-        public var endTime: Foundation.Date?
-        /// The timestamp representing the start of the time range that was scanned.
-        public var startTime: Foundation.Date?
-
-        public init(
-            endTime: Foundation.Date? = nil,
-            startTime: Foundation.Date? = nil
-        ) {
-            self.endTime = endTime
-            self.startTime = startTime
-        }
-    }
-}
-
-extension GuardDutyClientTypes {
-
     /// Contains information about the recovery point configuration used in the scan.
     public struct ScanConfigurationRecoveryPoint: Swift.Sendable {
         /// The name of the Amazon Web Services Backup vault that contains the recovery point for the scanned.
@@ -11995,6 +12292,7 @@ public struct GetTrustedEntitySetOutput: Swift.Sendable {
 extension GuardDutyClientTypes {
 
     public enum UsageFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aiProtection
         case cloudTrail
         case dnsLogs
         case ebsMalwareProtection
@@ -12012,6 +12310,7 @@ extension GuardDutyClientTypes {
 
         public static var allCases: [UsageFeature] {
             return [
+                .aiProtection,
                 .cloudTrail,
                 .dnsLogs,
                 .ebsMalwareProtection,
@@ -12035,6 +12334,7 @@ extension GuardDutyClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .aiProtection: return "AI_PROTECTION"
             case .cloudTrail: return "CLOUD_TRAIL"
             case .dnsLogs: return "DNS_LOGS"
             case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"
@@ -19837,6 +20137,32 @@ extension GuardDutyClientTypes.AwsApiCallAction {
     }
 }
 
+extension GuardDutyClientTypes.BedrockGuardrail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.BedrockGuardrail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.BedrockGuardrail()
+        value.arn = try reader["arn"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.BedrockGuardrailDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.BedrockGuardrailDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.BedrockGuardrailDetails()
+        value.guardrailArn = try reader["guardrailArn"].readIfPresent()
+        value.guardrailVersion = try reader["guardrailVersion"].readIfPresent()
+        value.guardrails = try reader["guardrails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.BedrockGuardrail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.guardrailAction = try reader["guardrailAction"].readIfPresent()
+        value.guardrailSource = try reader["guardrailSource"].readIfPresent()
+        value.contentPolicyFilters = try reader["contentPolicyFilters"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ContentPolicyFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension GuardDutyClientTypes.BlockPublicAccess {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.BlockPublicAccess {
@@ -19990,6 +20316,18 @@ extension GuardDutyClientTypes.ContainerInstanceDetails {
         var value = GuardDutyClientTypes.ContainerInstanceDetails()
         value.coveredContainerInstances = try reader["coveredContainerInstances"].readIfPresent()
         value.compatibleContainerInstances = try reader["compatibleContainerInstances"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ContentPolicyFilter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ContentPolicyFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ContentPolicyFilter()
+        value.type = try reader["type"].readIfPresent()
+        value.confidence = try reader["confidence"].readIfPresent()
+        value.action = try reader["action"].readIfPresent()
         return value
     }
 }
@@ -21397,6 +21735,16 @@ extension GuardDutyClientTypes.MemberFeaturesConfigurationResult {
     }
 }
 
+extension GuardDutyClientTypes.ModelDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ModelDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ModelDetail()
+        value.modelId = try reader["modelId"].readIfPresent()
+        return value
+    }
+}
+
 extension GuardDutyClientTypes.NetworkConnection {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.NetworkConnection {
@@ -21478,6 +21826,7 @@ extension GuardDutyClientTypes.Observations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.Observations()
         value.text = try reader["text"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.number = try reader["number"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -21911,6 +22260,7 @@ extension GuardDutyClientTypes.RecoveryPointDetails {
         var value = GuardDutyClientTypes.RecoveryPointDetails()
         value.recoveryPointArn = try reader["recoveryPointArn"].readIfPresent()
         value.backupVaultName = try reader["backupVaultName"].readIfPresent()
+        value.continuousScanDetails = try reader["continuousScanDetails"].readIfPresent(with: GuardDutyClientTypes.ScanConfigurationContinuousScanDetails.read(from:))
         return value
     }
 }
@@ -21973,6 +22323,8 @@ extension GuardDutyClientTypes.Resource {
         value.ebsSnapshotDetails = try reader["ebsSnapshotDetails"].readIfPresent(with: GuardDutyClientTypes.EbsSnapshotDetails.read(from:))
         value.ec2ImageDetails = try reader["ec2ImageDetails"].readIfPresent(with: GuardDutyClientTypes.Ec2ImageDetails.read(from:))
         value.recoveryPointDetails = try reader["recoveryPointDetails"].readIfPresent(with: GuardDutyClientTypes.RecoveryPointDetails.read(from:))
+        value.bedrockGuardrailDetails = try reader["bedrockGuardrailDetails"].readIfPresent(with: GuardDutyClientTypes.BedrockGuardrailDetails.read(from:))
+        value.modelDetails = try reader["modelDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ModelDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

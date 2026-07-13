@@ -4690,11 +4690,14 @@ extension LambdaClientTypes {
         case dotnetcore31
         case go1x
         case java11
+        case java11al2023
         case java17
+        case java17al2023
         case java21
         case java25
         case java8
         case java8al2
+        case java8al2023
         case nodejs
         case nodejs10x
         case nodejs12x
@@ -4740,11 +4743,14 @@ extension LambdaClientTypes {
                 .dotnetcore31,
                 .go1x,
                 .java11,
+                .java11al2023,
                 .java17,
+                .java17al2023,
                 .java21,
                 .java25,
                 .java8,
                 .java8al2,
+                .java8al2023,
                 .nodejs,
                 .nodejs10x,
                 .nodejs12x,
@@ -4796,11 +4802,14 @@ extension LambdaClientTypes {
             case .dotnetcore31: return "dotnetcore3.1"
             case .go1x: return "go1.x"
             case .java11: return "java11"
+            case .java11al2023: return "java11.al2023"
             case .java17: return "java17"
+            case .java17al2023: return "java17.al2023"
             case .java21: return "java21"
             case .java25: return "java25"
             case .java8: return "java8"
             case .java8al2: return "java8.al2"
+            case .java8al2023: return "java8.al2023"
             case .nodejs: return "nodejs"
             case .nodejs10x: return "nodejs10.x"
             case .nodejs12x: return "nodejs12.x"

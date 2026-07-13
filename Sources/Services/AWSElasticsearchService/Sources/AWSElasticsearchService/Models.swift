@@ -1938,6 +1938,36 @@ extension ElasticsearchClientTypes {
 
 extension ElasticsearchClientTypes {
 
+    /// The engine mode for the domain. Valid values are GENERAL (the standard Elasticsearch/OpenSearch engine) and OPTIMIZED (the cost- and performance-optimized engine for observability and log-analytics workloads). If you don't specify an engine mode, GENERAL is used. OPTIMIZED requires OpenSearch 3.5 or later, OpenSearch Optimized instance types (OR1, OR2, OM2, or OI2) for the data tier, and encryption at rest, and is available only for the OBSERVABILITY and MIXED use cases. The engine mode can't be changed after the domain is created.
+    public enum DomainEngineMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case general
+        case optimized
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DomainEngineMode] {
+            return [
+                .general,
+                .optimized
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .general: return "GENERAL"
+            case .optimized: return "OPTIMIZED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
     /// Type of Log File, it can be one of the following:
     ///
     /// * INDEX_SLOW_LOGS: Index slow logs contain insert requests that took more time than configured index query log threshold to execute.
@@ -2041,6 +2071,42 @@ extension ElasticsearchClientTypes {
 
 extension ElasticsearchClientTypes {
 
+    /// The primary use case for the domain, which determines the default configuration and the engine modes that are available. Valid values are SEARCH (full-text search, e-commerce, content discovery, and hybrid and semantic search), VECTOR (k-NN and semantic search, and retrieval-augmented generation), OBSERVABILITY (logs, metrics, traces, and dashboards), and MIXED (a combination of search and analytics). If you don't specify a use case, MIXED is used.
+    public enum DomainUseCase: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mixed
+        case observability
+        case search
+        case vector
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DomainUseCase] {
+            return [
+                .mixed,
+                .observability,
+                .search,
+                .vector
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mixed: return "MIXED"
+            case .observability: return "OBSERVABILITY"
+            case .search: return "SEARCH"
+            case .vector: return "VECTOR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
     /// Options to specify the subnets and security groups for VPC endpoint. For more information, see [ VPC Endpoints for Amazon Elasticsearch Service Domains](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html).
     public struct VPCOptions: Swift.Sendable {
         /// Specifies the security groups for VPC endpoint.
@@ -2086,6 +2152,8 @@ public struct CreateElasticsearchDomainInput: Swift.Sendable {
     public var elasticsearchVersion: Swift.String?
     /// Specifies the Encryption At Rest Options.
     public var encryptionAtRestOptions: ElasticsearchClientTypes.EncryptionAtRestOptions?
+    /// The engine mode for the domain. For valid values and requirements, see DomainEngineMode.
+    public var engineMode: ElasticsearchClientTypes.DomainEngineMode?
     /// Map of LogType and LogPublishingOption, each containing options to publish a given type of Elasticsearch log.
     public var logPublishingOptions: [Swift.String: ElasticsearchClientTypes.LogPublishingOption]?
     /// Specifies the NodeToNodeEncryptionOptions.
@@ -2094,6 +2162,8 @@ public struct CreateElasticsearchDomainInput: Swift.Sendable {
     public var snapshotOptions: ElasticsearchClientTypes.SnapshotOptions?
     /// A list of Tag added during domain creation.
     public var tagList: [ElasticsearchClientTypes.Tag]?
+    /// The primary use case for the domain. For valid values, see DomainUseCase.
+    public var useCase: ElasticsearchClientTypes.DomainUseCase?
     /// Options to specify the subnets and security groups for VPC endpoint. For more information, see [Creating a VPC](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html#es-creating-vpc) in VPC Endpoints for Amazon Elasticsearch Service Domains
     public var vpcOptions: ElasticsearchClientTypes.VPCOptions?
 
@@ -2111,10 +2181,12 @@ public struct CreateElasticsearchDomainInput: Swift.Sendable {
         elasticsearchClusterConfig: ElasticsearchClientTypes.ElasticsearchClusterConfig? = nil,
         elasticsearchVersion: Swift.String? = nil,
         encryptionAtRestOptions: ElasticsearchClientTypes.EncryptionAtRestOptions? = nil,
+        engineMode: ElasticsearchClientTypes.DomainEngineMode? = nil,
         logPublishingOptions: [Swift.String: ElasticsearchClientTypes.LogPublishingOption]? = nil,
         nodeToNodeEncryptionOptions: ElasticsearchClientTypes.NodeToNodeEncryptionOptions? = nil,
         snapshotOptions: ElasticsearchClientTypes.SnapshotOptions? = nil,
         tagList: [ElasticsearchClientTypes.Tag]? = nil,
+        useCase: ElasticsearchClientTypes.DomainUseCase? = nil,
         vpcOptions: ElasticsearchClientTypes.VPCOptions? = nil
     ) {
         self.accessPolicies = accessPolicies
@@ -2130,10 +2202,12 @@ public struct CreateElasticsearchDomainInput: Swift.Sendable {
         self.elasticsearchClusterConfig = elasticsearchClusterConfig
         self.elasticsearchVersion = elasticsearchVersion
         self.encryptionAtRestOptions = encryptionAtRestOptions
+        self.engineMode = engineMode
         self.logPublishingOptions = logPublishingOptions
         self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
         self.snapshotOptions = snapshotOptions
         self.tagList = tagList
+        self.useCase = useCase
         self.vpcOptions = vpcOptions
     }
 }
@@ -2562,6 +2636,8 @@ extension ElasticsearchClientTypes {
         public var endpoint: Swift.String?
         /// Map containing the Elasticsearch domain endpoints used to submit index and search requests. Example key, value: 'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'.
         public var endpoints: [Swift.String: Swift.String]?
+        /// The engine mode for the domain.
+        public var engineMode: ElasticsearchClientTypes.DomainEngineMode?
         /// Log publishing options for the given domain.
         public var logPublishingOptions: [Swift.String: ElasticsearchClientTypes.LogPublishingOption]?
         /// Information about the domain properties that are currently being modified.
@@ -2576,6 +2652,8 @@ extension ElasticsearchClientTypes {
         public var snapshotOptions: ElasticsearchClientTypes.SnapshotOptions?
         /// The status of an Elasticsearch domain version upgrade. True if Amazon Elasticsearch Service is undergoing a version upgrade. False if the configuration is active.
         public var upgradeProcessing: Swift.Bool?
+        /// The primary use case for the domain.
+        public var useCase: ElasticsearchClientTypes.DomainUseCase?
         /// The VPCOptions for the specified domain. For more information, see [VPC Endpoints for Amazon Elasticsearch Service Domains](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html).
         public var vpcOptions: ElasticsearchClientTypes.VPCDerivedInfo?
 
@@ -2601,6 +2679,7 @@ extension ElasticsearchClientTypes {
             encryptionAtRestOptions: ElasticsearchClientTypes.EncryptionAtRestOptions? = nil,
             endpoint: Swift.String? = nil,
             endpoints: [Swift.String: Swift.String]? = nil,
+            engineMode: ElasticsearchClientTypes.DomainEngineMode? = nil,
             logPublishingOptions: [Swift.String: ElasticsearchClientTypes.LogPublishingOption]? = nil,
             modifyingProperties: [ElasticsearchClientTypes.ModifyingProperties]? = nil,
             nodeToNodeEncryptionOptions: ElasticsearchClientTypes.NodeToNodeEncryptionOptions? = nil,
@@ -2608,6 +2687,7 @@ extension ElasticsearchClientTypes {
             serviceSoftwareOptions: ElasticsearchClientTypes.ServiceSoftwareOptions? = nil,
             snapshotOptions: ElasticsearchClientTypes.SnapshotOptions? = nil,
             upgradeProcessing: Swift.Bool? = nil,
+            useCase: ElasticsearchClientTypes.DomainUseCase? = nil,
             vpcOptions: ElasticsearchClientTypes.VPCDerivedInfo? = nil
         ) {
             self.accessPolicies = accessPolicies
@@ -2631,6 +2711,7 @@ extension ElasticsearchClientTypes {
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.endpoint = endpoint
             self.endpoints = endpoints
+            self.engineMode = engineMode
             self.logPublishingOptions = logPublishingOptions
             self.modifyingProperties = modifyingProperties
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
@@ -2638,6 +2719,7 @@ extension ElasticsearchClientTypes {
             self.serviceSoftwareOptions = serviceSoftwareOptions
             self.snapshotOptions = snapshotOptions
             self.upgradeProcessing = upgradeProcessing
+            self.useCase = useCase
             self.vpcOptions = vpcOptions
         }
     }
@@ -3901,6 +3983,27 @@ extension ElasticsearchClientTypes {
 
 extension ElasticsearchClientTypes {
 
+    /// The status of the engine mode for the domain.
+    public struct EngineModeStatus: Swift.Sendable {
+        /// The engine mode configured for the domain.
+        /// This member is required.
+        public var options: ElasticsearchClientTypes.DomainEngineMode?
+        /// The current status of the engine mode for the domain.
+        /// This member is required.
+        public var status: ElasticsearchClientTypes.OptionStatus?
+
+        public init(
+            options: ElasticsearchClientTypes.DomainEngineMode? = nil,
+            status: ElasticsearchClientTypes.OptionStatus? = nil
+        ) {
+            self.options = options
+            self.status = status
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
     /// The configured log publishing options for the domain and their current status.
     public struct LogPublishingOptionsStatus: Swift.Sendable {
         /// The log publishing options configured for the Elasticsearch domain.
@@ -3962,6 +4065,27 @@ extension ElasticsearchClientTypes {
 
 extension ElasticsearchClientTypes {
 
+    /// The status of the use case for the domain.
+    public struct UseCaseStatus: Swift.Sendable {
+        /// The use case configured for the domain.
+        /// This member is required.
+        public var options: ElasticsearchClientTypes.DomainUseCase?
+        /// The current status of the use case for the domain.
+        /// This member is required.
+        public var status: ElasticsearchClientTypes.OptionStatus?
+
+        public init(
+            options: ElasticsearchClientTypes.DomainUseCase? = nil,
+            status: ElasticsearchClientTypes.OptionStatus? = nil
+        ) {
+            self.options = options
+            self.status = status
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
     /// Status of the VPC options for the specified Elasticsearch domain.
     public struct VPCDerivedInfoStatus: Swift.Sendable {
         /// Specifies the VPC options for the specified Elasticsearch domain.
@@ -4011,6 +4135,8 @@ extension ElasticsearchClientTypes {
         public var elasticsearchVersion: ElasticsearchClientTypes.ElasticsearchVersionStatus?
         /// Specifies the EncryptionAtRestOptions for the Elasticsearch domain.
         public var encryptionAtRestOptions: ElasticsearchClientTypes.EncryptionAtRestOptionsStatus?
+        /// The engine mode configured for the domain.
+        public var engineMode: ElasticsearchClientTypes.EngineModeStatus?
         /// Log publishing options for the given domain.
         public var logPublishingOptions: ElasticsearchClientTypes.LogPublishingOptionsStatus?
         /// Information about the domain properties that are currently being modified.
@@ -4019,6 +4145,8 @@ extension ElasticsearchClientTypes {
         public var nodeToNodeEncryptionOptions: ElasticsearchClientTypes.NodeToNodeEncryptionOptionsStatus?
         /// Specifies the SnapshotOptions for the Elasticsearch domain.
         public var snapshotOptions: ElasticsearchClientTypes.SnapshotOptionsStatus?
+        /// The use case configured for the domain.
+        public var useCase: ElasticsearchClientTypes.UseCaseStatus?
         /// The VPCOptions for the specified domain. For more information, see [VPC Endpoints for Amazon Elasticsearch Service Domains](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html).
         public var vpcOptions: ElasticsearchClientTypes.VPCDerivedInfoStatus?
 
@@ -4036,10 +4164,12 @@ extension ElasticsearchClientTypes {
             elasticsearchClusterConfig: ElasticsearchClientTypes.ElasticsearchClusterConfigStatus? = nil,
             elasticsearchVersion: ElasticsearchClientTypes.ElasticsearchVersionStatus? = nil,
             encryptionAtRestOptions: ElasticsearchClientTypes.EncryptionAtRestOptionsStatus? = nil,
+            engineMode: ElasticsearchClientTypes.EngineModeStatus? = nil,
             logPublishingOptions: ElasticsearchClientTypes.LogPublishingOptionsStatus? = nil,
             modifyingProperties: [ElasticsearchClientTypes.ModifyingProperties]? = nil,
             nodeToNodeEncryptionOptions: ElasticsearchClientTypes.NodeToNodeEncryptionOptionsStatus? = nil,
             snapshotOptions: ElasticsearchClientTypes.SnapshotOptionsStatus? = nil,
+            useCase: ElasticsearchClientTypes.UseCaseStatus? = nil,
             vpcOptions: ElasticsearchClientTypes.VPCDerivedInfoStatus? = nil
         ) {
             self.accessPolicies = accessPolicies
@@ -4055,10 +4185,12 @@ extension ElasticsearchClientTypes {
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
             self.elasticsearchVersion = elasticsearchVersion
             self.encryptionAtRestOptions = encryptionAtRestOptions
+            self.engineMode = engineMode
             self.logPublishingOptions = logPublishingOptions
             self.modifyingProperties = modifyingProperties
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.snapshotOptions = snapshotOptions
+            self.useCase = useCase
             self.vpcOptions = vpcOptions
         }
     }
@@ -5678,12 +5810,16 @@ public struct UpdateElasticsearchDomainConfigInput: Swift.Sendable {
     public var elasticsearchClusterConfig: ElasticsearchClientTypes.ElasticsearchClusterConfig?
     /// Specifies the Encryption At Rest Options.
     public var encryptionAtRestOptions: ElasticsearchClientTypes.EncryptionAtRestOptions?
+    /// The engine mode for the domain. For valid values and requirements, see DomainEngineMode.
+    public var engineMode: ElasticsearchClientTypes.DomainEngineMode?
     /// Map of LogType and LogPublishingOption, each containing options to publish a given type of Elasticsearch log.
     public var logPublishingOptions: [Swift.String: ElasticsearchClientTypes.LogPublishingOption]?
     /// Specifies the NodeToNodeEncryptionOptions.
     public var nodeToNodeEncryptionOptions: ElasticsearchClientTypes.NodeToNodeEncryptionOptions?
     /// Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours.
     public var snapshotOptions: ElasticsearchClientTypes.SnapshotOptions?
+    /// The primary use case for the domain. For valid values, see DomainUseCase.
+    public var useCase: ElasticsearchClientTypes.DomainUseCase?
     /// Options to specify the subnets and security groups for VPC endpoint. For more information, see [Creating a VPC](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html#es-creating-vpc) in VPC Endpoints for Amazon Elasticsearch Service Domains
     public var vpcOptions: ElasticsearchClientTypes.VPCOptions?
 
@@ -5701,9 +5837,11 @@ public struct UpdateElasticsearchDomainConfigInput: Swift.Sendable {
         ebsOptions: ElasticsearchClientTypes.EBSOptions? = nil,
         elasticsearchClusterConfig: ElasticsearchClientTypes.ElasticsearchClusterConfig? = nil,
         encryptionAtRestOptions: ElasticsearchClientTypes.EncryptionAtRestOptions? = nil,
+        engineMode: ElasticsearchClientTypes.DomainEngineMode? = nil,
         logPublishingOptions: [Swift.String: ElasticsearchClientTypes.LogPublishingOption]? = nil,
         nodeToNodeEncryptionOptions: ElasticsearchClientTypes.NodeToNodeEncryptionOptions? = nil,
         snapshotOptions: ElasticsearchClientTypes.SnapshotOptions? = nil,
+        useCase: ElasticsearchClientTypes.DomainUseCase? = nil,
         vpcOptions: ElasticsearchClientTypes.VPCOptions? = nil
     ) {
         self.accessPolicies = accessPolicies
@@ -5719,9 +5857,11 @@ public struct UpdateElasticsearchDomainConfigInput: Swift.Sendable {
         self.ebsOptions = ebsOptions
         self.elasticsearchClusterConfig = elasticsearchClusterConfig
         self.encryptionAtRestOptions = encryptionAtRestOptions
+        self.engineMode = engineMode
         self.logPublishingOptions = logPublishingOptions
         self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
         self.snapshotOptions = snapshotOptions
+        self.useCase = useCase
         self.vpcOptions = vpcOptions
     }
 }
@@ -6624,10 +6764,12 @@ extension CreateElasticsearchDomainInput {
         try writer["ElasticsearchClusterConfig"].write(value.elasticsearchClusterConfig, with: ElasticsearchClientTypes.ElasticsearchClusterConfig.write(value:to:))
         try writer["ElasticsearchVersion"].write(value.elasticsearchVersion)
         try writer["EncryptionAtRestOptions"].write(value.encryptionAtRestOptions, with: ElasticsearchClientTypes.EncryptionAtRestOptions.write(value:to:))
+        try writer["EngineMode"].write(value.engineMode)
         try writer["LogPublishingOptions"].writeMap(value.logPublishingOptions, valueWritingClosure: ElasticsearchClientTypes.LogPublishingOption.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["NodeToNodeEncryptionOptions"].write(value.nodeToNodeEncryptionOptions, with: ElasticsearchClientTypes.NodeToNodeEncryptionOptions.write(value:to:))
         try writer["SnapshotOptions"].write(value.snapshotOptions, with: ElasticsearchClientTypes.SnapshotOptions.write(value:to:))
         try writer["TagList"].writeList(value.tagList, memberWritingClosure: ElasticsearchClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UseCase"].write(value.useCase)
         try writer["VPCOptions"].write(value.vpcOptions, with: ElasticsearchClientTypes.VPCOptions.write(value:to:))
     }
 }
@@ -6760,9 +6902,11 @@ extension UpdateElasticsearchDomainConfigInput {
         try writer["EBSOptions"].write(value.ebsOptions, with: ElasticsearchClientTypes.EBSOptions.write(value:to:))
         try writer["ElasticsearchClusterConfig"].write(value.elasticsearchClusterConfig, with: ElasticsearchClientTypes.ElasticsearchClusterConfig.write(value:to:))
         try writer["EncryptionAtRestOptions"].write(value.encryptionAtRestOptions, with: ElasticsearchClientTypes.EncryptionAtRestOptions.write(value:to:))
+        try writer["EngineMode"].write(value.engineMode)
         try writer["LogPublishingOptions"].writeMap(value.logPublishingOptions, valueWritingClosure: ElasticsearchClientTypes.LogPublishingOption.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["NodeToNodeEncryptionOptions"].write(value.nodeToNodeEncryptionOptions, with: ElasticsearchClientTypes.NodeToNodeEncryptionOptions.write(value:to:))
         try writer["SnapshotOptions"].write(value.snapshotOptions, with: ElasticsearchClientTypes.SnapshotOptions.write(value:to:))
+        try writer["UseCase"].write(value.useCase)
         try writer["VPCOptions"].write(value.vpcOptions, with: ElasticsearchClientTypes.VPCOptions.write(value:to:))
     }
 }
@@ -9034,6 +9178,8 @@ extension ElasticsearchClientTypes.ElasticsearchDomainConfig {
         value.modifyingProperties = try reader["ModifyingProperties"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.ModifyingProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: ElasticsearchClientTypes.DeploymentStrategyOptionsStatus.read(from:))
         value.automatedSnapshotPauseOptions = try reader["AutomatedSnapshotPauseOptions"].readIfPresent(with: ElasticsearchClientTypes.AutomatedSnapshotPauseOptionsStatus.read(from:))
+        value.useCase = try reader["UseCase"].readIfPresent(with: ElasticsearchClientTypes.UseCaseStatus.read(from:))
+        value.engineMode = try reader["EngineMode"].readIfPresent(with: ElasticsearchClientTypes.EngineModeStatus.read(from:))
         return value
     }
 }
@@ -9072,6 +9218,8 @@ extension ElasticsearchClientTypes.ElasticsearchDomainStatus {
         value.modifyingProperties = try reader["ModifyingProperties"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.ModifyingProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: ElasticsearchClientTypes.DeploymentStrategyOptions.read(from:))
         value.automatedSnapshotPauseOptions = try reader["AutomatedSnapshotPauseOptions"].readIfPresent(with: ElasticsearchClientTypes.AutomatedSnapshotPauseOptions.read(from:))
+        value.useCase = try reader["UseCase"].readIfPresent()
+        value.engineMode = try reader["EngineMode"].readIfPresent()
         return value
     }
 }
@@ -9110,6 +9258,17 @@ extension ElasticsearchClientTypes.EncryptionAtRestOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticsearchClientTypes.EncryptionAtRestOptionsStatus()
         value.options = try reader["Options"].readIfPresent(with: ElasticsearchClientTypes.EncryptionAtRestOptions.read(from:))
+        value.status = try reader["Status"].readIfPresent(with: ElasticsearchClientTypes.OptionStatus.read(from:))
+        return value
+    }
+}
+
+extension ElasticsearchClientTypes.EngineModeStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.EngineModeStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticsearchClientTypes.EngineModeStatus()
+        value.options = try reader["Options"].readIfPresent() ?? .sdkUnknown("")
         value.status = try reader["Status"].readIfPresent(with: ElasticsearchClientTypes.OptionStatus.read(from:))
         return value
     }
@@ -9560,6 +9719,17 @@ extension ElasticsearchClientTypes.UpgradeStepItem {
         value.upgradeStepStatus = try reader["UpgradeStepStatus"].readIfPresent()
         value.issues = try reader["Issues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.progressPercent = try reader["ProgressPercent"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticsearchClientTypes.UseCaseStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.UseCaseStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticsearchClientTypes.UseCaseStatus()
+        value.options = try reader["Options"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent(with: ElasticsearchClientTypes.OptionStatus.read(from:))
         return value
     }
 }
