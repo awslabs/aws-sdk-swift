@@ -5270,6 +5270,7 @@ extension LambdaClientTypes {
 
     public enum LastUpdateStatusReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capacityproviderscalinglimitexceeded
+        case dependencyerror
         case disabledkmskey
         case disallowedbyvpcencryptioncontrol
         case ec2requestlimitexceeded
@@ -5309,6 +5310,7 @@ extension LambdaClientTypes {
         public static var allCases: [LastUpdateStatusReasonCode] {
             return [
                 .capacityproviderscalinglimitexceeded,
+                .dependencyerror,
                 .disabledkmskey,
                 .disallowedbyvpcencryptioncontrol,
                 .ec2requestlimitexceeded,
@@ -5354,6 +5356,7 @@ extension LambdaClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .capacityproviderscalinglimitexceeded: return "CapacityProviderScalingLimitExceeded"
+            case .dependencyerror: return "DependencyError"
             case .disabledkmskey: return "DisabledKMSKey"
             case .disallowedbyvpcencryptioncontrol: return "DisallowedByVpcEncryptionControl"
             case .ec2requestlimitexceeded: return "EC2RequestLimitExceeded"
@@ -5517,6 +5520,7 @@ extension LambdaClientTypes {
     public enum StateReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capacityproviderscalinglimitexceeded
         case creating
+        case dependencyerror
         case disabledkmskey
         case disallowedbyvpcencryptioncontrol
         case drainingdurableexecutions
@@ -5560,6 +5564,7 @@ extension LambdaClientTypes {
             return [
                 .capacityproviderscalinglimitexceeded,
                 .creating,
+                .dependencyerror,
                 .disabledkmskey,
                 .disallowedbyvpcencryptioncontrol,
                 .drainingdurableexecutions,
@@ -5609,6 +5614,7 @@ extension LambdaClientTypes {
             switch self {
             case .capacityproviderscalinglimitexceeded: return "CapacityProviderScalingLimitExceeded"
             case .creating: return "Creating"
+            case .dependencyerror: return "DependencyError"
             case .disabledkmskey: return "DisabledKMSKey"
             case .disallowedbyvpcencryptioncontrol: return "DisallowedByVpcEncryptionControl"
             case .drainingdurableexecutions: return "DrainingDurableExecutions"

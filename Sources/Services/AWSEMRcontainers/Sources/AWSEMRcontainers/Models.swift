@@ -591,13 +591,17 @@ extension EMRcontainersClientTypes {
 
     /// Amazon S3 configuration for monitoring log publishing. You can configure your jobs to send log information to Amazon S3.
     public struct S3MonitoringConfiguration: Swift.Sendable {
+        /// The Amazon resource name (ARN) of the encryption key for logs.
+        public var encryptionKeyArn: Swift.String?
         /// Amazon S3 destination URI for log publishing.
         /// This member is required.
         public var logUri: Swift.String?
 
         public init(
+            encryptionKeyArn: Swift.String? = nil,
             logUri: Swift.String? = nil
         ) {
+            self.encryptionKeyArn = encryptionKeyArn
             self.logUri = logUri
         }
     }
@@ -836,6 +840,8 @@ public struct CreateVirtualClusterInput: Swift.Sendable {
     public var name: Swift.String?
     /// The ID of the security configuration.
     public var securityConfigurationId: Swift.String?
+    /// Indicates whether the virtual cluster has session support enabled.
+    public var sessionEnabled: Swift.Bool?
     /// The tags assigned to the virtual cluster.
     public var tags: [Swift.String: Swift.String]?
 
@@ -844,12 +850,14 @@ public struct CreateVirtualClusterInput: Swift.Sendable {
         containerProvider: EMRcontainersClientTypes.ContainerProvider? = nil,
         name: Swift.String? = nil,
         securityConfigurationId: Swift.String? = nil,
+        sessionEnabled: Swift.Bool? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.containerProvider = containerProvider
         self.name = name
         self.securityConfigurationId = securityConfigurationId
+        self.sessionEnabled = sessionEnabled
         self.tags = tags
     }
 }
@@ -1290,6 +1298,8 @@ extension EMRcontainersClientTypes {
         public var name: Swift.String?
         /// The ID of the security configuration.
         public var securityConfigurationId: Swift.String?
+        /// Indicates whether the virtual cluster has session support enabled.
+        public var sessionEnabled: Swift.Bool?
         /// The state of the virtual cluster.
         public var state: EMRcontainersClientTypes.VirtualClusterState?
         /// The assigned tags of the virtual cluster.
@@ -1302,6 +1312,7 @@ extension EMRcontainersClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             securityConfigurationId: Swift.String? = nil,
+            sessionEnabled: Swift.Bool? = nil,
             state: EMRcontainersClientTypes.VirtualClusterState? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
@@ -1311,6 +1322,7 @@ extension EMRcontainersClientTypes {
             self.id = id
             self.name = name
             self.securityConfigurationId = securityConfigurationId
+            self.sessionEnabled = sessionEnabled
             self.state = state
             self.tags = tags
         }
@@ -1403,6 +1415,8 @@ extension EMRcontainersClientTypes {
 public struct GetManagedEndpointSessionCredentialsOutput: Swift.Sendable {
     /// The structure containing the session credentials.
     public var credentials: EMRcontainersClientTypes.Credentials?
+    /// The structure containing the session token being returned.
+    public var endpointCredentials: EMRcontainersClientTypes.Credentials?
     /// The date and time when the session token will expire.
     public var expiresAt: Foundation.Date?
     /// The identifier of the session token returned.
@@ -1410,10 +1424,12 @@ public struct GetManagedEndpointSessionCredentialsOutput: Swift.Sendable {
 
     public init(
         credentials: EMRcontainersClientTypes.Credentials? = nil,
+        endpointCredentials: EMRcontainersClientTypes.Credentials? = nil,
         expiresAt: Foundation.Date? = nil,
         id: Swift.String? = nil
     ) {
         self.credentials = credentials
+        self.endpointCredentials = endpointCredentials
         self.expiresAt = expiresAt
         self.id = id
     }
@@ -1769,6 +1785,8 @@ extension EMRcontainersClientTypes {
     public struct Endpoint: Swift.Sendable {
         /// The ARN of the endpoint.
         public var arn: Swift.String?
+        /// The auth proxy URL of the endpoint.
+        public var authProxyUrl: Swift.String?
         /// The certificate ARN of the endpoint. This field is under deprecation and will be removed in future.
         @available(*, deprecated, message: "Customer provided certificate-arn is deprecated and would be removed in future.")
         public var certificateArn: Swift.String?
@@ -1807,6 +1825,7 @@ extension EMRcontainersClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            authProxyUrl: Swift.String? = nil,
             certificateArn: Swift.String? = nil,
             certificateAuthority: EMRcontainersClientTypes.Certificate? = nil,
             configurationOverrides: EMRcontainersClientTypes.ConfigurationOverrides? = nil,
@@ -1826,6 +1845,7 @@ extension EMRcontainersClientTypes {
             virtualClusterId: Swift.String? = nil
         ) {
             self.arn = arn
+            self.authProxyUrl = authProxyUrl
             self.certificateArn = certificateArn
             self.certificateAuthority = certificateAuthority
             self.configurationOverrides = configurationOverrides
@@ -1986,6 +2006,8 @@ public struct CreateManagedEndpointInput: Swift.Sendable {
     /// The Amazon EMR release version.
     /// This member is required.
     public var releaseLabel: Swift.String?
+    /// The idle timeout in minutes for the managed endpoint session.
+    public var sessionIdleTimeoutInMinutes: Swift.Int?
     /// The tags of the managed endpoint.
     public var tags: [Swift.String: Swift.String]?
     /// The type of the managed endpoint.
@@ -2002,6 +2024,7 @@ public struct CreateManagedEndpointInput: Swift.Sendable {
         executionRoleArn: Swift.String? = nil,
         name: Swift.String? = nil,
         releaseLabel: Swift.String? = nil,
+        sessionIdleTimeoutInMinutes: Swift.Int? = 0,
         tags: [Swift.String: Swift.String]? = nil,
         type: Swift.String? = nil,
         virtualClusterId: Swift.String? = nil
@@ -2012,6 +2035,7 @@ public struct CreateManagedEndpointInput: Swift.Sendable {
         self.executionRoleArn = executionRoleArn
         self.name = name
         self.releaseLabel = releaseLabel
+        self.sessionIdleTimeoutInMinutes = sessionIdleTimeoutInMinutes
         self.tags = tags
         self.type = type
         self.virtualClusterId = virtualClusterId
@@ -2652,6 +2676,7 @@ extension CreateManagedEndpointInput {
         try writer["executionRoleArn"].write(value.executionRoleArn)
         try writer["name"].write(value.name)
         try writer["releaseLabel"].write(value.releaseLabel)
+        try writer["sessionIdleTimeoutInMinutes"].write(value.sessionIdleTimeoutInMinutes)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["type"].write(value.type)
     }
@@ -2677,6 +2702,7 @@ extension CreateVirtualClusterInput {
         try writer["containerProvider"].write(value.containerProvider, with: EMRcontainersClientTypes.ContainerProvider.write(value:to:))
         try writer["name"].write(value.name)
         try writer["securityConfigurationId"].write(value.securityConfigurationId)
+        try writer["sessionEnabled"].write(value.sessionEnabled)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -2894,6 +2920,7 @@ extension GetManagedEndpointSessionCredentialsOutput {
         let reader = responseReader
         var value = GetManagedEndpointSessionCredentialsOutput()
         value.credentials = try reader["credentials"].readIfPresent(with: EMRcontainersClientTypes.Credentials.read(from:))
+        value.endpointCredentials = try reader["endpointCredentials"].readIfPresent(with: EMRcontainersClientTypes.Credentials.read(from:))
         value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.id = try reader["id"].readIfPresent()
         return value
@@ -3635,6 +3662,7 @@ extension EMRcontainersClientTypes.Endpoint {
         value.certificateAuthority = try reader["certificateAuthority"].readIfPresent(with: EMRcontainersClientTypes.Certificate.read(from:))
         value.configurationOverrides = try reader["configurationOverrides"].readIfPresent(with: EMRcontainersClientTypes.ConfigurationOverrides.read(from:))
         value.serverUrl = try reader["serverUrl"].readIfPresent()
+        value.authProxyUrl = try reader["authProxyUrl"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.securityGroup = try reader["securityGroup"].readIfPresent()
         value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3903,6 +3931,7 @@ extension EMRcontainersClientTypes.S3MonitoringConfiguration {
 
     static func write(value: EMRcontainersClientTypes.S3MonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["encryptionKeyArn"].write(value.encryptionKeyArn)
         try writer["logUri"].write(value.logUri)
     }
 
@@ -3910,6 +3939,7 @@ extension EMRcontainersClientTypes.S3MonitoringConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRcontainersClientTypes.S3MonitoringConfiguration()
         value.logUri = try reader["logUri"].readIfPresent() ?? ""
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
         return value
     }
 }
@@ -4047,6 +4077,7 @@ extension EMRcontainersClientTypes.VirtualCluster {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.securityConfigurationId = try reader["securityConfigurationId"].readIfPresent()
+        value.sessionEnabled = try reader["sessionEnabled"].readIfPresent()
         return value
     }
 }

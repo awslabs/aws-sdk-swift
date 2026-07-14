@@ -1960,6 +1960,36 @@ extension DrsClientTypes {
 
 extension DrsClientTypes {
 
+    /// Recovery mode to use during launch. FAST skips conversion to reduce recovery time. OPTIMAL runs full conversion for maximum compatibility.
+    public enum RecoveryMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fast
+        case optimal
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecoveryMode] {
+            return [
+                .fast,
+                .optimal
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fast: return "FAST"
+            case .optimal: return "OPTIMAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DrsClientTypes {
+
     public enum TargetInstanceTypeRightSizingMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case basic
         case inAws
@@ -2005,6 +2035,8 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Sendable {
     public var licensing: DrsClientTypes.Licensing?
     /// Whether we want to activate post-launch actions.
     public var postLaunchEnabled: Swift.Bool?
+    /// Recovery mode.
+    public var recoveryMode: DrsClientTypes.RecoveryMode?
     /// Request to associate tags during creation of a Launch Configuration Template.
     public var tags: [Swift.String: Swift.String]?
     /// Target instance type right-sizing method.
@@ -2018,6 +2050,7 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Sendable {
         launchIntoSourceInstance: Swift.Bool? = nil,
         licensing: DrsClientTypes.Licensing? = nil,
         postLaunchEnabled: Swift.Bool? = nil,
+        recoveryMode: DrsClientTypes.RecoveryMode? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
     ) {
@@ -2028,6 +2061,7 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Sendable {
         self.launchIntoSourceInstance = launchIntoSourceInstance
         self.licensing = licensing
         self.postLaunchEnabled = postLaunchEnabled
+        self.recoveryMode = recoveryMode
         self.tags = tags
         self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
     }
@@ -2035,7 +2069,7 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Sendable {
 
 extension CreateLaunchConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateLaunchConfigurationTemplateInput(copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), exportBucketArn: \(Swift.String(describing: exportBucketArn)), launchDisposition: \(Swift.String(describing: launchDisposition)), launchIntoSourceInstance: \(Swift.String(describing: launchIntoSourceInstance)), licensing: \(Swift.String(describing: licensing)), postLaunchEnabled: \(Swift.String(describing: postLaunchEnabled)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+        "CreateLaunchConfigurationTemplateInput(copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), exportBucketArn: \(Swift.String(describing: exportBucketArn)), launchDisposition: \(Swift.String(describing: launchDisposition)), launchIntoSourceInstance: \(Swift.String(describing: launchIntoSourceInstance)), licensing: \(Swift.String(describing: licensing)), postLaunchEnabled: \(Swift.String(describing: postLaunchEnabled)), recoveryMode: \(Swift.String(describing: recoveryMode)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension DrsClientTypes {
@@ -2060,6 +2094,8 @@ extension DrsClientTypes {
         public var licensing: DrsClientTypes.Licensing?
         /// Post-launch actions activated.
         public var postLaunchEnabled: Swift.Bool?
+        /// Recovery mode.
+        public var recoveryMode: DrsClientTypes.RecoveryMode?
         /// Tags of the Launch Configuration Template.
         public var tags: [Swift.String: Swift.String]?
         /// Target instance type right-sizing method.
@@ -2075,6 +2111,7 @@ extension DrsClientTypes {
             launchIntoSourceInstance: Swift.Bool? = nil,
             licensing: DrsClientTypes.Licensing? = nil,
             postLaunchEnabled: Swift.Bool? = nil,
+            recoveryMode: DrsClientTypes.RecoveryMode? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
         ) {
@@ -2087,6 +2124,7 @@ extension DrsClientTypes {
             self.launchIntoSourceInstance = launchIntoSourceInstance
             self.licensing = licensing
             self.postLaunchEnabled = postLaunchEnabled
+            self.recoveryMode = recoveryMode
             self.tags = tags
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
@@ -2095,7 +2133,7 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.LaunchConfigurationTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "LaunchConfigurationTemplate(arn: \(Swift.String(describing: arn)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), exportBucketArn: \(Swift.String(describing: exportBucketArn)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), launchIntoSourceInstance: \(Swift.String(describing: launchIntoSourceInstance)), licensing: \(Swift.String(describing: licensing)), postLaunchEnabled: \(Swift.String(describing: postLaunchEnabled)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+        "LaunchConfigurationTemplate(arn: \(Swift.String(describing: arn)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), exportBucketArn: \(Swift.String(describing: exportBucketArn)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), launchIntoSourceInstance: \(Swift.String(describing: launchIntoSourceInstance)), licensing: \(Swift.String(describing: licensing)), postLaunchEnabled: \(Swift.String(describing: postLaunchEnabled)), recoveryMode: \(Swift.String(describing: recoveryMode)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateLaunchConfigurationTemplateOutput: Swift.Sendable {
@@ -4387,6 +4425,8 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Sendable {
     public var licensing: DrsClientTypes.Licensing?
     /// Whether we want to activate post-launch actions.
     public var postLaunchEnabled: Swift.Bool?
+    /// Recovery mode.
+    public var recoveryMode: DrsClientTypes.RecoveryMode?
     /// Target instance type right-sizing method.
     public var targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod?
 
@@ -4399,6 +4439,7 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Sendable {
         launchIntoSourceInstance: Swift.Bool? = nil,
         licensing: DrsClientTypes.Licensing? = nil,
         postLaunchEnabled: Swift.Bool? = nil,
+        recoveryMode: DrsClientTypes.RecoveryMode? = nil,
         targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
     ) {
         self.copyPrivateIp = copyPrivateIp
@@ -4409,6 +4450,7 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Sendable {
         self.launchIntoSourceInstance = launchIntoSourceInstance
         self.licensing = licensing
         self.postLaunchEnabled = postLaunchEnabled
+        self.recoveryMode = recoveryMode
         self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
     }
 }
@@ -5213,6 +5255,8 @@ public struct GetLaunchConfigurationOutput: Swift.Sendable {
     public var name: Swift.String?
     /// Whether we want to activate post-launch actions for the Source Server.
     public var postLaunchEnabled: Swift.Bool?
+    /// Recovery mode.
+    public var recoveryMode: DrsClientTypes.RecoveryMode?
     /// The ID of the Source Server for this launch configuration.
     public var sourceServerID: Swift.String?
     /// Whether Elastic Disaster Recovery should try to automatically choose the instance type that best matches the OS, CPU, and RAM of your Source Server.
@@ -5227,6 +5271,7 @@ public struct GetLaunchConfigurationOutput: Swift.Sendable {
         licensing: DrsClientTypes.Licensing? = nil,
         name: Swift.String? = nil,
         postLaunchEnabled: Swift.Bool? = nil,
+        recoveryMode: DrsClientTypes.RecoveryMode? = nil,
         sourceServerID: Swift.String? = nil,
         targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
     ) {
@@ -5238,6 +5283,7 @@ public struct GetLaunchConfigurationOutput: Swift.Sendable {
         self.licensing = licensing
         self.name = name
         self.postLaunchEnabled = postLaunchEnabled
+        self.recoveryMode = recoveryMode
         self.sourceServerID = sourceServerID
         self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
     }
@@ -5616,6 +5662,8 @@ public struct UpdateLaunchConfigurationInput: Swift.Sendable {
     public var name: Swift.String?
     /// Whether we want to enable post-launch actions for the Source Server.
     public var postLaunchEnabled: Swift.Bool?
+    /// Recovery mode.
+    public var recoveryMode: DrsClientTypes.RecoveryMode?
     /// The ID of the Source Server that we want to retrieve a Launch Configuration for.
     /// This member is required.
     public var sourceServerID: Swift.String?
@@ -5630,6 +5678,7 @@ public struct UpdateLaunchConfigurationInput: Swift.Sendable {
         licensing: DrsClientTypes.Licensing? = nil,
         name: Swift.String? = nil,
         postLaunchEnabled: Swift.Bool? = nil,
+        recoveryMode: DrsClientTypes.RecoveryMode? = nil,
         sourceServerID: Swift.String? = nil,
         targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
     ) {
@@ -5640,6 +5689,7 @@ public struct UpdateLaunchConfigurationInput: Swift.Sendable {
         self.licensing = licensing
         self.name = name
         self.postLaunchEnabled = postLaunchEnabled
+        self.recoveryMode = recoveryMode
         self.sourceServerID = sourceServerID
         self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
     }
@@ -5662,6 +5712,8 @@ public struct UpdateLaunchConfigurationOutput: Swift.Sendable {
     public var name: Swift.String?
     /// Whether we want to activate post-launch actions for the Source Server.
     public var postLaunchEnabled: Swift.Bool?
+    /// Recovery mode.
+    public var recoveryMode: DrsClientTypes.RecoveryMode?
     /// The ID of the Source Server for this launch configuration.
     public var sourceServerID: Swift.String?
     /// Whether Elastic Disaster Recovery should try to automatically choose the instance type that best matches the OS, CPU, and RAM of your Source Server.
@@ -5676,6 +5728,7 @@ public struct UpdateLaunchConfigurationOutput: Swift.Sendable {
         licensing: DrsClientTypes.Licensing? = nil,
         name: Swift.String? = nil,
         postLaunchEnabled: Swift.Bool? = nil,
+        recoveryMode: DrsClientTypes.RecoveryMode? = nil,
         sourceServerID: Swift.String? = nil,
         targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
     ) {
@@ -5687,6 +5740,7 @@ public struct UpdateLaunchConfigurationOutput: Swift.Sendable {
         self.licensing = licensing
         self.name = name
         self.postLaunchEnabled = postLaunchEnabled
+        self.recoveryMode = recoveryMode
         self.sourceServerID = sourceServerID
         self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
     }
@@ -6325,6 +6379,7 @@ extension CreateLaunchConfigurationTemplateInput {
         try writer["launchIntoSourceInstance"].write(value.launchIntoSourceInstance)
         try writer["licensing"].write(value.licensing, with: DrsClientTypes.Licensing.write(value:to:))
         try writer["postLaunchEnabled"].write(value.postLaunchEnabled)
+        try writer["recoveryMode"].write(value.recoveryMode)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["targetInstanceTypeRightSizingMethod"].write(value.targetInstanceTypeRightSizingMethod)
     }
@@ -6714,6 +6769,7 @@ extension UpdateLaunchConfigurationInput {
         try writer["licensing"].write(value.licensing, with: DrsClientTypes.Licensing.write(value:to:))
         try writer["name"].write(value.name)
         try writer["postLaunchEnabled"].write(value.postLaunchEnabled)
+        try writer["recoveryMode"].write(value.recoveryMode)
         try writer["sourceServerID"].write(value.sourceServerID)
         try writer["targetInstanceTypeRightSizingMethod"].write(value.targetInstanceTypeRightSizingMethod)
     }
@@ -6731,6 +6787,7 @@ extension UpdateLaunchConfigurationTemplateInput {
         try writer["launchIntoSourceInstance"].write(value.launchIntoSourceInstance)
         try writer["licensing"].write(value.licensing, with: DrsClientTypes.Licensing.write(value:to:))
         try writer["postLaunchEnabled"].write(value.postLaunchEnabled)
+        try writer["recoveryMode"].write(value.recoveryMode)
         try writer["targetInstanceTypeRightSizingMethod"].write(value.targetInstanceTypeRightSizingMethod)
     }
 }
@@ -7089,6 +7146,7 @@ extension GetLaunchConfigurationOutput {
         value.licensing = try reader["licensing"].readIfPresent(with: DrsClientTypes.Licensing.read(from:))
         value.name = try reader["name"].readIfPresent()
         value.postLaunchEnabled = try reader["postLaunchEnabled"].readIfPresent()
+        value.recoveryMode = try reader["recoveryMode"].readIfPresent()
         value.sourceServerID = try reader["sourceServerID"].readIfPresent()
         value.targetInstanceTypeRightSizingMethod = try reader["targetInstanceTypeRightSizingMethod"].readIfPresent()
         return value
@@ -7381,6 +7439,7 @@ extension UpdateLaunchConfigurationOutput {
         value.licensing = try reader["licensing"].readIfPresent(with: DrsClientTypes.Licensing.read(from:))
         value.name = try reader["name"].readIfPresent()
         value.postLaunchEnabled = try reader["postLaunchEnabled"].readIfPresent()
+        value.recoveryMode = try reader["recoveryMode"].readIfPresent()
         value.sourceServerID = try reader["sourceServerID"].readIfPresent()
         value.targetInstanceTypeRightSizingMethod = try reader["targetInstanceTypeRightSizingMethod"].readIfPresent()
         return value
@@ -8820,6 +8879,7 @@ extension DrsClientTypes.LaunchConfigurationTemplate {
         value.exportBucketArn = try reader["exportBucketArn"].readIfPresent()
         value.postLaunchEnabled = try reader["postLaunchEnabled"].readIfPresent()
         value.launchIntoSourceInstance = try reader["launchIntoSourceInstance"].readIfPresent()
+        value.recoveryMode = try reader["recoveryMode"].readIfPresent()
         return value
     }
 }
