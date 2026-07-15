@@ -2756,14 +2756,51 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 extension ElasticLoadBalancingv2ClientTypes {
 
+    public enum SourceIpAddressTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SourceIpAddressTypeEnum] {
+            return [
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "ipv4"
+            case .ipv6: return "ipv6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a source IP condition. You can use this condition to route based on the IP address of the source that connects to the load balancer. If a client is behind a proxy, this is the IP address of the proxy not the IP address of the client.
     public struct SourceIpConditionConfig: Swift.Sendable {
+        /// The IP address type for Network Load Balancers. The valid values are:
+        ///
+        /// * ipv4 – IPv4 addresses only.
+        ///
+        /// * ipv6 – IPv6 addresses only.
+        public var ipAddressType: ElasticLoadBalancingv2ClientTypes.SourceIpAddressTypeEnum?
         /// The source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use an [HTTP header condition](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html#http-header-conditions). The total number of values must be less than, or equal to five.
         public var values: [Swift.String]?
 
         public init(
+            ipAddressType: ElasticLoadBalancingv2ClientTypes.SourceIpAddressTypeEnum? = nil,
             values: [Swift.String]? = nil
         ) {
+            self.ipAddressType = ipAddressType
             self.values = values
         }
     }
@@ -9566,6 +9603,7 @@ extension ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig {
 
     static func write(value: ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -9573,6 +9611,7 @@ extension ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig()
         value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         return value
     }
 }

@@ -1913,6 +1913,37 @@ extension PaymentCryptographyDataClientTypes.SessionKeyMastercard: Swift.CustomD
 
 extension PaymentCryptographyDataClientTypes {
 
+    /// Parameters to derive session key for a UnionPay payment card for Authorization Request Cryptogram (ARQC) generation and verification.
+    public struct SessionKeyUnionPay: Swift.Sendable {
+        /// The transaction counter that the terminal provides during transaction processing. This value is in hexadecimal format. For example, enter a decimal counter of 109 as 006D.
+        /// This member is required.
+        public var applicationTransactionCounter: Swift.String?
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). If not used, enter 00.
+        /// This member is required.
+        public var panSequenceNumber: Swift.String?
+        /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
+        /// This member is required.
+        public var primaryAccountNumber: Swift.String?
+
+        public init(
+            applicationTransactionCounter: Swift.String? = nil,
+            panSequenceNumber: Swift.String? = nil,
+            primaryAccountNumber: Swift.String? = nil
+        ) {
+            self.applicationTransactionCounter = applicationTransactionCounter
+            self.panSequenceNumber = panSequenceNumber
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.SessionKeyUnionPay: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SessionKeyUnionPay(applicationTransactionCounter: \(Swift.String(describing: applicationTransactionCounter)), panSequenceNumber: \(Swift.String(describing: panSequenceNumber)), primaryAccountNumber: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
     /// Parameters to derive session key for Visa payment card for ARQC verification.
     public struct SessionKeyVisa: Swift.Sendable {
         /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN).
@@ -1951,6 +1982,8 @@ extension PaymentCryptographyDataClientTypes {
         case amex(PaymentCryptographyDataClientTypes.SessionKeyAmex)
         /// Parameters to derive session key for a Visa payment cardfor ARQC verification.
         case visa(PaymentCryptographyDataClientTypes.SessionKeyVisa)
+        /// Parameters to derive session key for a UnionPay payment card for Authorization Request Cryptogram (ARQC) generation and verification.
+        case unionpay(PaymentCryptographyDataClientTypes.SessionKeyUnionPay)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2154,6 +2187,7 @@ extension PaymentCryptographyDataClientTypes {
         case emv2000
         case emvCommonSessionKey
         case mastercardSessionKey
+        case unionPay
         case visa
         case sdkUnknown(Swift.String)
 
@@ -2163,6 +2197,7 @@ extension PaymentCryptographyDataClientTypes {
                 .emv2000,
                 .emvCommonSessionKey,
                 .mastercardSessionKey,
+                .unionPay,
                 .visa
             ]
         }
@@ -2178,6 +2213,7 @@ extension PaymentCryptographyDataClientTypes {
             case .emv2000: return "EMV2000"
             case .emvCommonSessionKey: return "EMV_COMMON_SESSION_KEY"
             case .mastercardSessionKey: return "MASTERCARD_SESSION_KEY"
+            case .unionPay: return "UNION_PAY"
             case .visa: return "VISA"
             case let .sdkUnknown(s): return s
             }
@@ -5100,6 +5136,8 @@ extension PaymentCryptographyDataClientTypes.SessionKeyDerivation {
                 try writer["EmvCommon"].write(emvcommon, with: PaymentCryptographyDataClientTypes.SessionKeyEmvCommon.write(value:to:))
             case let .mastercard(mastercard):
                 try writer["Mastercard"].write(mastercard, with: PaymentCryptographyDataClientTypes.SessionKeyMastercard.write(value:to:))
+            case let .unionpay(unionpay):
+                try writer["UnionPay"].write(unionpay, with: PaymentCryptographyDataClientTypes.SessionKeyUnionPay.write(value:to:))
             case let .visa(visa):
                 try writer["Visa"].write(visa, with: PaymentCryptographyDataClientTypes.SessionKeyVisa.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -5151,6 +5189,16 @@ extension PaymentCryptographyDataClientTypes.SessionKeyMastercard {
         try writer["PanSequenceNumber"].write(value.panSequenceNumber)
         try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
         try writer["UnpredictableNumber"].write(value.unpredictableNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.SessionKeyUnionPay {
+
+    static func write(value: PaymentCryptographyDataClientTypes.SessionKeyUnionPay?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
     }
 }
 

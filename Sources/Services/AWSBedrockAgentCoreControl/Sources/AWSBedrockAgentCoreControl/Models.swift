@@ -9642,6 +9642,8 @@ extension BedrockAgentCoreControlClientTypes {
 
     /// Configuration for a Google Gemini model provider. Requires an API key stored in AgentCore Identity.
     public struct HarnessGeminiModelConfig: Swift.Sendable {
+        /// Provider-specific parameters passed through to the Gemini model provider unchanged.
+        public var additionalParams: Smithy.Document?
         /// The ARN of your Gemini API key on AgentCore Identity.
         /// This member is required.
         public var apiKeyArn: Swift.String?
@@ -9658,6 +9660,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var topp: Swift.Float?
 
         public init(
+            additionalParams: Smithy.Document? = nil,
             apiKeyArn: Swift.String? = nil,
             maxTokens: Swift.Int? = nil,
             modelId: Swift.String? = nil,
@@ -9665,6 +9668,7 @@ extension BedrockAgentCoreControlClientTypes {
             topk: Swift.Int? = nil,
             topp: Swift.Float? = nil
         ) {
+            self.additionalParams = additionalParams
             self.apiKeyArn = apiKeyArn
             self.maxTokens = maxTokens
             self.modelId = modelId
@@ -29371,6 +29375,7 @@ enum UpdatePolicyOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -31918,6 +31923,7 @@ extension BedrockAgentCoreControlClientTypes.HarnessGeminiModelConfig {
 
     static func write(value: BedrockAgentCoreControlClientTypes.HarnessGeminiModelConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalParams"].write(value.additionalParams)
         try writer["apiKeyArn"].write(value.apiKeyArn)
         try writer["maxTokens"].write(value.maxTokens)
         try writer["modelId"].write(value.modelId)
@@ -31935,6 +31941,7 @@ extension BedrockAgentCoreControlClientTypes.HarnessGeminiModelConfig {
         value.temperature = try reader["temperature"].readIfPresent()
         value.topp = try reader["topP"].readIfPresent()
         value.topk = try reader["topK"].readIfPresent()
+        value.additionalParams = try reader["additionalParams"].readIfPresent()
         return value
     }
 }
