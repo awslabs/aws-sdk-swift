@@ -1859,6 +1859,12 @@ extension SageMakerClientTypes {
         case mlG7e48xlarge
         case mlG7e4xlarge
         case mlG7e8xlarge
+        case mlG712xlarge
+        case mlG724xlarge
+        case mlG72xlarge
+        case mlG748xlarge
+        case mlG74xlarge
+        case mlG78xlarge
         case mlInf124xlarge
         case mlInf12xlarge
         case mlInf16xlarge
@@ -2134,6 +2140,12 @@ extension SageMakerClientTypes {
                 .mlG7e48xlarge,
                 .mlG7e4xlarge,
                 .mlG7e8xlarge,
+                .mlG712xlarge,
+                .mlG724xlarge,
+                .mlG72xlarge,
+                .mlG748xlarge,
+                .mlG74xlarge,
+                .mlG78xlarge,
                 .mlInf124xlarge,
                 .mlInf12xlarge,
                 .mlInf16xlarge,
@@ -2415,6 +2427,12 @@ extension SageMakerClientTypes {
             case .mlG7e48xlarge: return "ml.g7e.48xlarge"
             case .mlG7e4xlarge: return "ml.g7e.4xlarge"
             case .mlG7e8xlarge: return "ml.g7e.8xlarge"
+            case .mlG712xlarge: return "ml.g7.12xlarge"
+            case .mlG724xlarge: return "ml.g7.24xlarge"
+            case .mlG72xlarge: return "ml.g7.2xlarge"
+            case .mlG748xlarge: return "ml.g7.48xlarge"
+            case .mlG74xlarge: return "ml.g7.4xlarge"
+            case .mlG78xlarge: return "ml.g7.8xlarge"
             case .mlInf124xlarge: return "ml.inf1.24xlarge"
             case .mlInf12xlarge: return "ml.inf1.2xlarge"
             case .mlInf16xlarge: return "ml.inf1.6xlarge"

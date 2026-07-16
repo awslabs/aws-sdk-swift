@@ -993,7 +993,8 @@ extension ChimeSDKVoiceClient {
 
     /// Performs the `CreateProxySession` operation on the `ChimeSDKVoice` service.
     ///
-    /// Creates a proxy session for the specified Amazon Chime SDK Voice Connector for the specified participant phone numbers.
+    /// Creates a proxy session for the specified Amazon Chime SDK Voice Connector for the specified participant phone numbers. End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateProxySession.html API deprecated since 2026-04-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateProxySessionInput`)
     ///
@@ -1381,6 +1382,7 @@ extension ChimeSDKVoiceClient {
     /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
     /// - `BadRequestException` : The input parameters don't match the service's restrictions.
     /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
     /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
     /// - `ServiceFailureException` : The service encountered an unexpected error.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
@@ -1669,7 +1671,8 @@ extension ChimeSDKVoiceClient {
 
     /// Performs the `DeleteProxySession` operation on the `ChimeSDKVoice` service.
     ///
-    /// Deletes the specified proxy session from the specified Amazon Chime SDK Voice Connector.
+    /// Deletes the specified proxy session from the specified Amazon Chime SDK Voice Connector. End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteProxySession.html API deprecated since 2026-04-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteProxySessionInput`)
     ///
@@ -2241,7 +2244,8 @@ extension ChimeSDKVoiceClient {
 
     /// Performs the `DeleteVoiceConnectorProxy` operation on the `ChimeSDKVoice` service.
     ///
-    /// Deletes the proxy configuration from the specified Amazon Chime SDK Voice Connector.
+    /// Deletes the proxy configuration from the specified Amazon Chime SDK Voice Connector. End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorProxy.html API deprecated since 2026-04-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorProxyInput`)
     ///
@@ -3107,7 +3111,8 @@ extension ChimeSDKVoiceClient {
 
     /// Performs the `GetProxySession` operation on the `ChimeSDKVoice` service.
     ///
-    /// Retrieves the specified proxy session details for the specified Amazon Chime SDK Voice Connector.
+    /// Retrieves the specified proxy session details for the specified Amazon Chime SDK Voice Connector. End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetProxySession.html API deprecated since 2026-04-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetProxySessionInput`)
     ///
@@ -3261,6 +3266,7 @@ extension ChimeSDKVoiceClient {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input parameters don't match the service's restrictions.
     /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `GoneException` : Access to the target resource is no longer available at the origin server. This condition is likely to be permanent.
     /// - `NotFoundException` : The requested resource couldn't be found.
     /// - `ServiceFailureException` : The service encountered an unexpected error.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
@@ -3962,7 +3968,8 @@ extension ChimeSDKVoiceClient {
 
     /// Performs the `GetVoiceConnectorProxy` operation on the `ChimeSDKVoice` service.
     ///
-    /// Retrieves the proxy configuration details for the specified Amazon Chime SDK Voice Connector.
+    /// Retrieves the proxy configuration details for the specified Amazon Chime SDK Voice Connector. End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorProxy.html API deprecated since 2026-04-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorProxyInput`)
     ///
@@ -4677,7 +4684,8 @@ extension ChimeSDKVoiceClient {
 
     /// Performs the `ListProxySessions` operation on the `ChimeSDKVoice` service.
     ///
-    /// Lists the proxy sessions for the specified Amazon Chime SDK Voice Connector.
+    /// Lists the proxy sessions for the specified Amazon Chime SDK Voice Connector. End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListProxySessions.html API deprecated since 2026-04-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListProxySessionsInput`)
     ///
@@ -4831,6 +4839,7 @@ extension ChimeSDKVoiceClient {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input parameters don't match the service's restrictions.
     /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
     /// - `ServiceFailureException` : The service encountered an unexpected error.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
@@ -5403,6 +5412,7 @@ extension ChimeSDKVoiceClient {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input parameters don't match the service's restrictions.
     /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `GoneException` : Access to the target resource is no longer available at the origin server. This condition is likely to be permanent.
     /// - `NotFoundException` : The requested resource couldn't be found.
     /// - `ServiceFailureException` : The service encountered an unexpected error.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
@@ -5772,6 +5782,7 @@ extension ChimeSDKVoiceClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
     /// - `BadRequestException` : The input parameters don't match the service's restrictions.
     /// - `ForbiddenException` : The client is permanently forbidden from making the request.
     /// - `NotFoundException` : The requested resource couldn't be found.
@@ -5837,7 +5848,8 @@ extension ChimeSDKVoiceClient {
 
     /// Performs the `PutVoiceConnectorProxy` operation on the `ChimeSDKVoice` service.
     ///
-    /// Puts the specified proxy configuration to the specified Amazon Chime SDK Voice Connector.
+    /// Puts the specified proxy configuration to the specified Amazon Chime SDK Voice Connector. End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorProxy.html API deprecated since 2026-04-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `PutVoiceConnectorProxyInput`)
     ///
@@ -6959,7 +6971,8 @@ extension ChimeSDKVoiceClient {
 
     /// Performs the `UpdateProxySession` operation on the `ChimeSDKVoice` service.
     ///
-    /// Updates the specified proxy session details, such as voice or SMS capabilities.
+    /// Updates the specified proxy session details, such as voice or SMS capabilities. End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateProxySession.html API deprecated since 2026-04-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateProxySessionInput`)
     ///

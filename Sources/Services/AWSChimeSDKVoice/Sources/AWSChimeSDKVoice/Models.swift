@@ -173,6 +173,7 @@ extension ChimeSDKVoiceClientTypes {
         case throttling
         case unauthorized
         case unprocessable
+        case validation
         case voiceconnectorgroupassociationsexist
         case sdkUnknown(Swift.String)
 
@@ -193,6 +194,7 @@ extension ChimeSDKVoiceClientTypes {
                 .throttling,
                 .unauthorized,
                 .unprocessable,
+                .validation,
                 .voiceconnectorgroupassociationsexist
             ]
         }
@@ -219,6 +221,7 @@ extension ChimeSDKVoiceClientTypes {
             case .throttling: return "Throttling"
             case .unauthorized: return "Unauthorized"
             case .unprocessable: return "Unprocessable"
+            case .validation: return "Validation"
             case .voiceconnectorgroupassociationsexist: return "VoiceConnectorGroupAssociationsExist"
             case let .sdkUnknown(s): return s
             }
@@ -754,6 +757,35 @@ extension ChimeSDKVoiceClientTypes {
 
 extension ChimeSDKVoiceClientTypes {
 
+    public enum CallDistributionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case loadbalanceddistribution
+        case priorityweighteddistribution
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CallDistributionType] {
+            return [
+                .loadbalanceddistribution,
+                .priorityweighteddistribution
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .loadbalanceddistribution: return "LoadBalancedDistribution"
+            case .priorityweighteddistribution: return "PriorityWeightedDistribution"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ChimeSDKVoiceClientTypes {
+
     public enum CallingNameStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case unassigned
         case updatefailed
@@ -1089,7 +1121,7 @@ extension ChimeSDKVoiceClientTypes {
         /// The phone number order creation time stamp, in ISO 8601 format.
         public var createdTimestamp: Foundation.Date?
         /// The Firm Order Commitment (FOC) date for phone number porting orders. This field is null if a phone number order is not a porting order.
-        public var focDate: Foundation.Date?
+        public var focDate: Swift.String?
         /// The type of phone number being ordered, local or toll-free.
         public var orderType: ChimeSDKVoiceClientTypes.PhoneNumberOrderType?
         /// The ordered phone number details, such as the phone number in E.164 format and the phone number status.
@@ -1105,7 +1137,7 @@ extension ChimeSDKVoiceClientTypes {
 
         public init(
             createdTimestamp: Foundation.Date? = nil,
-            focDate: Foundation.Date? = nil,
+            focDate: Swift.String? = nil,
             orderType: ChimeSDKVoiceClientTypes.PhoneNumberOrderType? = nil,
             orderedPhoneNumbers: [ChimeSDKVoiceClientTypes.OrderedPhoneNumber]? = nil,
             phoneNumberOrderId: Swift.String? = nil,
@@ -1660,6 +1692,7 @@ public struct CreateSipRuleInput: Swift.Sendable {
     /// This member is required.
     public var name: Swift.String?
     /// List of SIP media applications, with priority and AWS Region. Only one SIP application per AWS Region can be used.
+    /// This member is required.
     public var targetApplications: [ChimeSDKVoiceClientTypes.SipRuleTargetApplication]?
     /// The type of trigger assigned to the SIP rule in TriggerValue, currently RequestUriHostname or ToPhoneNumber.
     /// This member is required.
@@ -1853,14 +1886,14 @@ public struct CreateVoiceConnectorInput: Swift.Sendable {
     public var awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion?
     /// The connectors for use with Connect Customer. The following options are available:
     ///
-    /// * CONNECT_CALL_TRANSFER_CONNECTOR - Enables enterprises to integrate Connect Customer with other voice systems to directly transfer voice calls and metadata without using the public telephone network. They can use Connect Customer telephony and Interactive Voice Response (IVR) with their existing voice systems to modernize the IVR experience of their existing contact center and their enterprise and branch voice systems. Additionally, enterprises migrating their contact center to Connect Customer can start with Connect telephony and IVR for immediate modernization ahead of agent migration.
+    /// * CONNECT_CALL_TRANSFER_CONNECTOR - Enables enterprises to integrate Connect Customer with other voice systems to directly transfer voice calls and metadata without using the public telephone network. They can use Connect Customer telephony and Interactive Voice Response (IVR) with their existing voice systems to modernize the IVR experience of their existing contact center and their enterprise and branch voice systems. Additionally, enterprises migrating their contact center to Connect Customer can start with Connect telephony and IVR for immediate modernization ahead of agent migration. This integration is a gated feature. Please reach out to your account team to discuss this feature with a Connect Specialist.
     ///
     /// * CONNECT_ANALYTICS_CONNECTOR - Enables enterprises to integrate Connect Customer with other voice systems for real-time and post-call analytics. They can use Connect Customer Contact Lens with their existing voice systems to provides call recordings, conversational analytics (including contact transcript, sensitive data redaction, content categorization, theme detection, sentiment analysis, real-time alerts, and post-contact summary), and agent performance evaluations (including evaluation forms, automated evaluation, supervisor review) with a rich user experience to display, search and filter customer interactions, and programmatic access to data streams and the data lake. Additionally, enterprises migrating their contact center to Connect Customer can start with Contact Lens analytics and performance insights ahead of agent migration.
     public var integrationType: ChimeSDKVoiceClientTypes.VoiceConnectorIntegrationType?
     /// The name of the Voice Connector.
     /// This member is required.
     public var name: Swift.String?
-    /// The type of network for the Voice Connector. Either IPv4 only or dual-stack (IPv4 and IPv6).
+    /// The type of network for the Voice Connector.
     public var networkType: ChimeSDKVoiceClientTypes.NetworkType?
     /// Enables or disables encryption for the Voice Connector.
     /// This member is required.
@@ -1897,7 +1930,7 @@ extension ChimeSDKVoiceClientTypes {
         public var integrationType: ChimeSDKVoiceClientTypes.VoiceConnectorIntegrationType?
         /// The Voice Connector's name.
         public var name: Swift.String?
-        /// The type of network of the Voice Connector. Either IPv4 only or dual-stack (IPv4 and IPv6).
+        /// The type of network for the Voice Connector.
         public var networkType: ChimeSDKVoiceClientTypes.NetworkType?
         /// The outbound host name for the Voice Connector.
         public var outboundHostName: Swift.String?
@@ -1952,14 +1985,13 @@ extension ChimeSDKVoiceClientTypes {
     /// For Amazon Chime SDK Voice Connector groups, the Amazon Chime SDK Voice Connectors to which you route inbound calls. Includes priority configuration settings. Limit: 3 VoiceConnectorItems per Voice Connector group.
     public struct VoiceConnectorItem: Swift.Sendable {
         /// The priority setting of a Voice Connector item. Calls are routed to hosts in priority order, with 1 as the highest priority. When hosts have equal priority, the system distributes calls among them based on their relative weight.
-        /// This member is required.
         public var priority: Swift.Int?
         /// The Voice Connector ID.
         /// This member is required.
         public var voiceConnectorId: Swift.String?
 
         public init(
-            priority: Swift.Int? = nil,
+            priority: Swift.Int? = 1,
             voiceConnectorId: Swift.String? = nil
         ) {
             self.priority = priority
@@ -1969,6 +2001,7 @@ extension ChimeSDKVoiceClientTypes {
 }
 
 public struct CreateVoiceConnectorGroupInput: Swift.Sendable {
+    public var callDistributionType: ChimeSDKVoiceClientTypes.CallDistributionType?
     /// The name of the Voice Connector group.
     /// This member is required.
     public var name: Swift.String?
@@ -1976,9 +2009,11 @@ public struct CreateVoiceConnectorGroupInput: Swift.Sendable {
     public var voiceConnectorItems: [ChimeSDKVoiceClientTypes.VoiceConnectorItem]?
 
     public init(
+        callDistributionType: ChimeSDKVoiceClientTypes.CallDistributionType? = nil,
         name: Swift.String? = nil,
         voiceConnectorItems: [ChimeSDKVoiceClientTypes.VoiceConnectorItem]? = nil
     ) {
+        self.callDistributionType = callDistributionType
         self.name = name
         self.voiceConnectorItems = voiceConnectorItems
     }
@@ -1988,6 +2023,7 @@ extension ChimeSDKVoiceClientTypes {
 
     /// The Amazon Chime SDK Voice Connector group configuration, including associated Voice Connectors. You can include Voice Connectors from different AWS Regions in a group. This creates a fault tolerant mechanism for fallback in case of availability events.
     public struct VoiceConnectorGroup: Swift.Sendable {
+        public var callDistributionType: ChimeSDKVoiceClientTypes.CallDistributionType?
         /// The Voice Connector group's creation time stamp, in ISO 8601 format.
         public var createdTimestamp: Foundation.Date?
         /// The name of a Voice Connector group.
@@ -2002,6 +2038,7 @@ extension ChimeSDKVoiceClientTypes {
         public var voiceConnectorItems: [ChimeSDKVoiceClientTypes.VoiceConnectorItem]?
 
         public init(
+            callDistributionType: ChimeSDKVoiceClientTypes.CallDistributionType? = nil,
             createdTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
             updatedTimestamp: Foundation.Date? = nil,
@@ -2009,6 +2046,7 @@ extension ChimeSDKVoiceClientTypes {
             voiceConnectorGroupId: Swift.String? = nil,
             voiceConnectorItems: [ChimeSDKVoiceClientTypes.VoiceConnectorItem]? = nil
         ) {
+            self.callDistributionType = callDistributionType
             self.createdTimestamp = createdTimestamp
             self.name = name
             self.updatedTimestamp = updatedTimestamp
@@ -2732,6 +2770,7 @@ extension ChimeSDKVoiceClientTypes {
         public var name: Swift.String?
         /// The phone number's order ID.
         public var orderId: Swift.String?
+        public var phoneNumberArn: Swift.String?
         /// The phone number's ID.
         public var phoneNumberId: Swift.String?
         /// The phone number's product type.
@@ -2754,6 +2793,7 @@ extension ChimeSDKVoiceClientTypes {
             e164PhoneNumber: Swift.String? = nil,
             name: Swift.String? = nil,
             orderId: Swift.String? = nil,
+            phoneNumberArn: Swift.String? = nil,
             phoneNumberId: Swift.String? = nil,
             productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType? = nil,
             status: ChimeSDKVoiceClientTypes.PhoneNumberStatus? = nil,
@@ -2770,6 +2810,7 @@ extension ChimeSDKVoiceClientTypes {
             self.e164PhoneNumber = e164PhoneNumber
             self.name = name
             self.orderId = orderId
+            self.phoneNumberArn = phoneNumberArn
             self.phoneNumberId = phoneNumberId
             self.productType = productType
             self.status = status
@@ -2781,7 +2822,7 @@ extension ChimeSDKVoiceClientTypes {
 
 extension ChimeSDKVoiceClientTypes.PhoneNumber: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PhoneNumber(associations: \(Swift.String(describing: associations)), callingNameStatus: \(Swift.String(describing: callingNameStatus)), capabilities: \(Swift.String(describing: capabilities)), country: \(Swift.String(describing: country)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), deletionTimestamp: \(Swift.String(describing: deletionTimestamp)), orderId: \(Swift.String(describing: orderId)), productType: \(Swift.String(describing: productType)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedTimestamp: \(Swift.String(describing: updatedTimestamp)), callingName: \"CONTENT_REDACTED\", e164PhoneNumber: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", phoneNumberId: \"CONTENT_REDACTED\")"}
+        "PhoneNumber(associations: \(Swift.String(describing: associations)), callingNameStatus: \(Swift.String(describing: callingNameStatus)), capabilities: \(Swift.String(describing: capabilities)), country: \(Swift.String(describing: country)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), deletionTimestamp: \(Swift.String(describing: deletionTimestamp)), orderId: \(Swift.String(describing: orderId)), phoneNumberArn: \(Swift.String(describing: phoneNumberArn)), productType: \(Swift.String(describing: productType)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedTimestamp: \(Swift.String(describing: updatedTimestamp)), callingName: \"CONTENT_REDACTED\", e164PhoneNumber: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", phoneNumberId: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetPhoneNumberOutput: Swift.Sendable {
@@ -4979,6 +5020,7 @@ extension UntagResourceInput: Swift.CustomDebugStringConvertible {
 
 public struct UpdateGlobalSettingsInput: Swift.Sendable {
     /// The Voice Connector settings.
+    /// This member is required.
     public var voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnectorSettings?
 
     public init(
@@ -5221,6 +5263,7 @@ public struct UpdateVoiceConnectorOutput: Swift.Sendable {
 }
 
 public struct UpdateVoiceConnectorGroupInput: Swift.Sendable {
+    public var callDistributionType: ChimeSDKVoiceClientTypes.CallDistributionType?
     /// The name of the Voice Connector group.
     /// This member is required.
     public var name: Swift.String?
@@ -5232,10 +5275,12 @@ public struct UpdateVoiceConnectorGroupInput: Swift.Sendable {
     public var voiceConnectorItems: [ChimeSDKVoiceClientTypes.VoiceConnectorItem]?
 
     public init(
+        callDistributionType: ChimeSDKVoiceClientTypes.CallDistributionType? = nil,
         name: Swift.String? = nil,
         voiceConnectorGroupId: Swift.String? = nil,
         voiceConnectorItems: [ChimeSDKVoiceClientTypes.VoiceConnectorItem]? = nil
     ) {
+        self.callDistributionType = callDistributionType
         self.name = name
         self.voiceConnectorGroupId = voiceConnectorGroupId
         self.voiceConnectorItems = voiceConnectorItems
@@ -6771,6 +6816,7 @@ extension CreateVoiceConnectorGroupInput {
 
     static func write(value: CreateVoiceConnectorGroupInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CallDistributionType"].write(value.callDistributionType)
         try writer["Name"].write(value.name)
         try writer["VoiceConnectorItems"].writeList(value.voiceConnectorItems, memberWritingClosure: ChimeSDKVoiceClientTypes.VoiceConnectorItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -7018,6 +7064,7 @@ extension UpdateVoiceConnectorGroupInput {
 
     static func write(value: UpdateVoiceConnectorGroupInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CallDistributionType"].write(value.callDistributionType)
         try writer["Name"].write(value.name)
         try writer["VoiceConnectorItems"].writeList(value.voiceConnectorItems, memberWritingClosure: ChimeSDKVoiceClientTypes.VoiceConnectorItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -8330,6 +8377,7 @@ enum CreateVoiceConnectorGroupOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ResourceLimitExceededException": return try ResourceLimitExceededException.makeError(baseError: baseError)
             case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -8862,6 +8910,7 @@ enum GetSipMediaApplicationAlexaSkillConfigurationOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GoneException": return try GoneException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -9305,6 +9354,7 @@ enum ListSipRulesOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottledClientException": return try ThrottledClientException.makeError(baseError: baseError)
@@ -9461,6 +9511,7 @@ enum PutSipMediaApplicationAlexaSkillConfigurationOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GoneException": return try GoneException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -9560,6 +9611,7 @@ enum PutVoiceConnectorOriginationOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
@@ -10468,6 +10520,7 @@ extension ChimeSDKVoiceClientTypes.PhoneNumber {
         var value = ChimeSDKVoiceClientTypes.PhoneNumber()
         value.phoneNumberId = try reader["PhoneNumberId"].readIfPresent()
         value.e164PhoneNumber = try reader["E164PhoneNumber"].readIfPresent()
+        value.phoneNumberArn = try reader["PhoneNumberArn"].readIfPresent()
         value.country = try reader["Country"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
         value.productType = try reader["ProductType"].readIfPresent()
@@ -10547,7 +10600,7 @@ extension ChimeSDKVoiceClientTypes.PhoneNumberOrder {
         value.orderedPhoneNumbers = try reader["OrderedPhoneNumbers"].readListIfPresent(memberReadingClosure: ChimeSDKVoiceClientTypes.OrderedPhoneNumber.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.focDate = try reader["FocDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.focDate = try reader["FocDate"].readIfPresent()
         return value
     }
 }
@@ -10878,6 +10931,7 @@ extension ChimeSDKVoiceClientTypes.VoiceConnectorGroup {
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.voiceConnectorGroupArn = try reader["VoiceConnectorGroupArn"].readIfPresent()
+        value.callDistributionType = try reader["CallDistributionType"].readIfPresent()
         return value
     }
 }
@@ -10894,7 +10948,7 @@ extension ChimeSDKVoiceClientTypes.VoiceConnectorItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKVoiceClientTypes.VoiceConnectorItem()
         value.voiceConnectorId = try reader["VoiceConnectorId"].readIfPresent() ?? ""
-        value.priority = try reader["Priority"].readIfPresent() ?? 0
+        value.priority = try reader["Priority"].readIfPresent() ?? 1
         return value
     }
 }

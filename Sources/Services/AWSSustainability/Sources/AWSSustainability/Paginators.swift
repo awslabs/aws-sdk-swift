@@ -78,3 +78,70 @@ extension PaginatorSequence where OperationStackInput == GetEstimatedCarbonEmiss
         return try await self.asyncCompactMap { item in item.results }
     }
 }
+extension SustainabilityClient {
+    /// Paginate over `[GetEstimatedWaterAllocationOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetEstimatedWaterAllocationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetEstimatedWaterAllocationOutput`
+    public func getEstimatedWaterAllocationPaginated(input: GetEstimatedWaterAllocationInput) -> ClientRuntime.PaginatorSequence<GetEstimatedWaterAllocationInput, GetEstimatedWaterAllocationOutput> {
+        return ClientRuntime.PaginatorSequence<GetEstimatedWaterAllocationInput, GetEstimatedWaterAllocationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getEstimatedWaterAllocation(input:))
+    }
+}
+
+extension GetEstimatedWaterAllocationInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetEstimatedWaterAllocationInput {
+        return GetEstimatedWaterAllocationInput(
+            allocationTypes: self.allocationTypes,
+            filterBy: self.filterBy,
+            granularity: self.granularity,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            nextToken: token,
+            timePeriod: self.timePeriod
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetEstimatedWaterAllocationInput, OperationStackOutput == GetEstimatedWaterAllocationOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getEstimatedWaterAllocationPaginated`
+    /// to access the nested member `[SustainabilityClientTypes.EstimatedWaterAllocation]`
+    /// - Returns: `[SustainabilityClientTypes.EstimatedWaterAllocation]`
+    public func results() async throws -> [SustainabilityClientTypes.EstimatedWaterAllocation] {
+        return try await self.asyncCompactMap { item in item.results }
+    }
+}
+extension SustainabilityClient {
+    /// Paginate over `[GetEstimatedWaterAllocationDimensionValuesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetEstimatedWaterAllocationDimensionValuesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetEstimatedWaterAllocationDimensionValuesOutput`
+    public func getEstimatedWaterAllocationDimensionValuesPaginated(input: GetEstimatedWaterAllocationDimensionValuesInput) -> ClientRuntime.PaginatorSequence<GetEstimatedWaterAllocationDimensionValuesInput, GetEstimatedWaterAllocationDimensionValuesOutput> {
+        return ClientRuntime.PaginatorSequence<GetEstimatedWaterAllocationDimensionValuesInput, GetEstimatedWaterAllocationDimensionValuesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getEstimatedWaterAllocationDimensionValues(input:))
+    }
+}
+
+extension GetEstimatedWaterAllocationDimensionValuesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetEstimatedWaterAllocationDimensionValuesInput {
+        return GetEstimatedWaterAllocationDimensionValuesInput(
+            dimensions: self.dimensions,
+            maxResults: self.maxResults,
+            nextToken: token,
+            timePeriod: self.timePeriod
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetEstimatedWaterAllocationDimensionValuesInput, OperationStackOutput == GetEstimatedWaterAllocationDimensionValuesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getEstimatedWaterAllocationDimensionValuesPaginated`
+    /// to access the nested member `[SustainabilityClientTypes.DimensionEntry]`
+    /// - Returns: `[SustainabilityClientTypes.DimensionEntry]`
+    public func results() async throws -> [SustainabilityClientTypes.DimensionEntry] {
+        return try await self.asyncCompactMap { item in item.results }
+    }
+}
