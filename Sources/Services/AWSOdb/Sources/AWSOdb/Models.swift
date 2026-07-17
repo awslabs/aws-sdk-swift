@@ -263,6 +263,153 @@ extension OdbClientTypes {
     }
 }
 
+extension OdbClientTypes {
+
+    /// The source of the admin password for an Autonomous Database.
+    public enum AdminPasswordSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apiRequestParameter
+        case customerManagedAwsSecret
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdminPasswordSource] {
+            return [
+                .apiRequestParameter,
+                .customerManagedAwsSecret
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .apiRequestParameter: return "API_REQUEST_PARAMETER"
+            case .customerManagedAwsSecret: return "CUSTOMER_MANAGED_AWS_SECRET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum ExternalIdType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case compartmentOcid
+        case databaseOcid
+        case tenantOcid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExternalIdType] {
+            return [
+                .compartmentOcid,
+                .databaseOcid,
+                .tenantOcid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .compartmentOcid: return "compartment_ocid"
+            case .databaseOcid: return "database_ocid"
+            case .tenantOcid: return "tenant_ocid"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The configuration of a customer-managed Amazon Web Services Secrets Manager secret used to supply a password.
+    public struct CustomerManagedAwsSecretConfiguration: Swift.Sendable {
+        /// The type of Oracle Cloud Identifier (OCID) used as the external ID when assuming the IAM role.
+        public var externalIdType: OdbClientTypes.ExternalIdType?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that OCI assumes to retrieve the secret value.
+        public var iamRoleArn: Swift.String?
+        /// The identifier or ARN of the Amazon Web Services Secrets Manager secret that contains the password.
+        public var secretId: Swift.String?
+
+        public init(
+            externalIdType: OdbClientTypes.ExternalIdType? = nil,
+            iamRoleArn: Swift.String? = nil,
+            secretId: Swift.String? = nil
+        ) {
+            self.externalIdType = externalIdType
+            self.iamRoleArn = iamRoleArn
+            self.secretId = secretId
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The configuration of the admin password source. This is a union, so only one of the following members can be specified.
+    public enum AdminPasswordSourceConfiguration: Swift.Sendable {
+        /// The configuration for a customer-managed Amazon Web Services Secrets Manager secret used as the admin password source.
+        case customermanagedawssecret(OdbClientTypes.CustomerManagedAwsSecretConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The input configuration for a customer-managed Amazon Web Services Secrets Manager secret used to supply a password.
+    public struct CustomerManagedAwsSecretConfigurationInput: Swift.Sendable {
+        /// The type of Oracle Cloud Identifier (OCID) used as the external ID when assuming the IAM role.
+        public var externalIdType: OdbClientTypes.ExternalIdType?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that OCI assumes to retrieve the secret value.
+        public var iamRoleArn: Swift.String?
+        /// The identifier or ARN of the Amazon Web Services Secrets Manager secret that contains the password.
+        public var secretId: Swift.String?
+
+        public init(
+            externalIdType: OdbClientTypes.ExternalIdType? = nil,
+            iamRoleArn: Swift.String? = nil,
+            secretId: Swift.String? = nil
+        ) {
+            self.externalIdType = externalIdType
+            self.iamRoleArn = iamRoleArn
+            self.secretId = secretId
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The input configuration for the admin password source. This is a union, so only one of the following members can be specified.
+    public enum AdminPasswordSourceConfigurationInput: Swift.Sendable {
+        /// The configuration for using a customer-managed Amazon Web Services Secrets Manager secret as the admin password source.
+        case customermanagedawssecret(OdbClientTypes.CustomerManagedAwsSecretConfigurationInput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension OdbClientTypes {
+
+    /// A summary of the admin password source configuration for an Autonomous Database.
+    public struct AdminPasswordSourceSummary: Swift.Sendable {
+        /// The source of the admin password for the Autonomous Database.
+        public var adminPasswordSource: OdbClientTypes.AdminPasswordSource?
+        /// The configuration of the admin password source for the Autonomous Database.
+        public var adminPasswordSourceConfiguration: OdbClientTypes.AdminPasswordSourceConfiguration?
+
+        public init(
+            adminPasswordSource: OdbClientTypes.AdminPasswordSource? = nil,
+            adminPasswordSourceConfiguration: OdbClientTypes.AdminPasswordSourceConfiguration? = nil
+        ) {
+            self.adminPasswordSource = adminPasswordSource
+            self.adminPasswordSourceConfiguration = adminPasswordSourceConfiguration
+        }
+    }
+}
+
 /// The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -764,38 +911,6 @@ extension OdbClientTypes {
             case .apex: return "APEX"
             case .lh: return "LH"
             case .oltp: return "OLTP"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension OdbClientTypes {
-
-    public enum ExternalIdType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case compartmentOcid
-        case databaseOcid
-        case tenantOcid
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ExternalIdType] {
-            return [
-                .compartmentOcid,
-                .databaseOcid,
-                .tenantOcid
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .compartmentOcid: return "compartment_ocid"
-            case .databaseOcid: return "database_ocid"
-            case .tenantOcid: return "tenant_ocid"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1612,6 +1727,8 @@ extension OdbClientTypes {
     public struct AutonomousDatabase: Swift.Sendable {
         /// The actual amount of data storage currently in use by the Autonomous Database, in TB.
         public var actualUsedDataStorageSizeInTBs: Swift.Double?
+        /// The summary of the admin password source configuration for the Autonomous Database.
+        public var adminPasswordSourceSummary: OdbClientTypes.AdminPasswordSourceSummary?
         /// The amount of storage currently allocated to the Autonomous Database, in TB.
         public var allocatedStorageSizeInTBs: Swift.Double?
         /// The list of IP addresses that are allowed to access the Autonomous Database.
@@ -1819,6 +1936,7 @@ extension OdbClientTypes {
 
         public init(
             actualUsedDataStorageSizeInTBs: Swift.Double? = nil,
+            adminPasswordSourceSummary: OdbClientTypes.AdminPasswordSourceSummary? = nil,
             allocatedStorageSizeInTBs: Swift.Double? = nil,
             allowlistedIps: [Swift.String]? = nil,
             apexDetails: OdbClientTypes.AutonomousDatabaseApex? = nil,
@@ -1923,6 +2041,7 @@ extension OdbClientTypes {
             usedDataStorageSizeInTBs: Swift.Double? = nil
         ) {
             self.actualUsedDataStorageSizeInTBs = actualUsedDataStorageSizeInTBs
+            self.adminPasswordSourceSummary = adminPasswordSourceSummary
             self.allocatedStorageSizeInTBs = allocatedStorageSizeInTBs
             self.allowlistedIps = allowlistedIps
             self.apexDetails = apexDetails
@@ -2530,6 +2649,8 @@ extension OdbClientTypes {
     public struct AutonomousDatabaseSummary: Swift.Sendable {
         /// The actual amount of data storage currently in use by the Autonomous Database, in TB.
         public var actualUsedDataStorageSizeInTBs: Swift.Double?
+        /// The summary of the admin password source configuration for the Autonomous Database.
+        public var adminPasswordSourceSummary: OdbClientTypes.AdminPasswordSourceSummary?
         /// The amount of storage currently allocated to the Autonomous Database, in TB.
         public var allocatedStorageSizeInTBs: Swift.Double?
         /// The list of IP addresses that are allowed to access the Autonomous Database.
@@ -2737,6 +2858,7 @@ extension OdbClientTypes {
 
         public init(
             actualUsedDataStorageSizeInTBs: Swift.Double? = nil,
+            adminPasswordSourceSummary: OdbClientTypes.AdminPasswordSourceSummary? = nil,
             allocatedStorageSizeInTBs: Swift.Double? = nil,
             allowlistedIps: [Swift.String]? = nil,
             apexDetails: OdbClientTypes.AutonomousDatabaseApex? = nil,
@@ -2841,6 +2963,7 @@ extension OdbClientTypes {
             usedDataStorageSizeInTBs: Swift.Double? = nil
         ) {
             self.actualUsedDataStorageSizeInTBs = actualUsedDataStorageSizeInTBs
+            self.adminPasswordSourceSummary = adminPasswordSourceSummary
             self.allocatedStorageSizeInTBs = allocatedStorageSizeInTBs
             self.allowlistedIps = allowlistedIps
             self.apexDetails = apexDetails
@@ -3310,6 +3433,10 @@ extension OdbClientTypes {
 public struct CreateAutonomousDatabaseInput: Swift.Sendable {
     /// The password for the ADMIN user of the Autonomous Database.
     public var adminPassword: Swift.String?
+    /// The source of the admin password for the Autonomous Database. When set to CUSTOMER_MANAGED_AWS_SECRET, the admin password is retrieved from an Amazon Web Services Secrets Manager secret.
+    public var adminPasswordSource: OdbClientTypes.AdminPasswordSource?
+    /// The configuration of the admin password source for the Autonomous Database.
+    public var adminPasswordSourceConfiguration: OdbClientTypes.AdminPasswordSourceConfigurationInput?
     /// The list of IP addresses that are allowed to access the Autonomous Database.
     public var allowlistedIps: [Swift.String]?
     /// The maintenance schedule type for the Autonomous Database.
@@ -3389,6 +3516,8 @@ public struct CreateAutonomousDatabaseInput: Swift.Sendable {
 
     public init(
         adminPassword: Swift.String? = nil,
+        adminPasswordSource: OdbClientTypes.AdminPasswordSource? = nil,
+        adminPasswordSourceConfiguration: OdbClientTypes.AdminPasswordSourceConfigurationInput? = nil,
         allowlistedIps: [Swift.String]? = nil,
         autonomousMaintenanceScheduleType: OdbClientTypes.AutonomousMaintenanceScheduleType? = nil,
         backupRetentionPeriodInDays: Swift.Int? = nil,
@@ -3429,6 +3558,8 @@ public struct CreateAutonomousDatabaseInput: Swift.Sendable {
         transportableTablespace: OdbClientTypes.TransportableTablespace? = nil
     ) {
         self.adminPassword = adminPassword
+        self.adminPasswordSource = adminPasswordSource
+        self.adminPasswordSourceConfiguration = adminPasswordSourceConfiguration
         self.allowlistedIps = allowlistedIps
         self.autonomousMaintenanceScheduleType = autonomousMaintenanceScheduleType
         self.backupRetentionPeriodInDays = backupRetentionPeriodInDays
@@ -3496,6 +3627,46 @@ public struct CreateAutonomousDatabaseOutput: Swift.Sendable {
 
 extension OdbClientTypes {
 
+    /// The source of the password for an Autonomous Database wallet.
+    public enum WalletPasswordSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apiRequestParameter
+        case customerManagedAwsSecret
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WalletPasswordSource] {
+            return [
+                .apiRequestParameter,
+                .customerManagedAwsSecret
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .apiRequestParameter: return "API_REQUEST_PARAMETER"
+            case .customerManagedAwsSecret: return "CUSTOMER_MANAGED_AWS_SECRET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The input configuration for the wallet password source. This is a union, so only one of the following members can be specified.
+    public enum WalletPasswordSourceConfigurationInput: Swift.Sendable {
+        /// The configuration for using a customer-managed Amazon Web Services Secrets Manager secret as the wallet password source.
+        case customermanagedawssecret(OdbClientTypes.CustomerManagedAwsSecretConfigurationInput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension OdbClientTypes {
+
     public enum WalletType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case instance
         case regional
@@ -3530,8 +3701,11 @@ public struct CreateAutonomousDatabaseWalletInput: Swift.Sendable {
     /// A client-provided token to ensure the idempotency of the request.
     public var clientToken: Swift.String?
     /// The password to encrypt the keys inside the wallet.
-    /// This member is required.
     public var password: Swift.String?
+    /// The source of the password for encrypting the wallet. When set to CUSTOMER_MANAGED_AWS_SECRET, the password is retrieved from an Amazon Web Services Secrets Manager secret.
+    public var passwordSource: OdbClientTypes.WalletPasswordSource?
+    /// The configuration of the password source for the Autonomous Database wallet.
+    public var passwordSourceConfiguration: OdbClientTypes.WalletPasswordSourceConfigurationInput?
     /// The type of wallet to create, either a regional wallet or an instance wallet.
     public var walletType: OdbClientTypes.WalletType?
 
@@ -3539,11 +3713,15 @@ public struct CreateAutonomousDatabaseWalletInput: Swift.Sendable {
         autonomousDatabaseId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         password: Swift.String? = nil,
+        passwordSource: OdbClientTypes.WalletPasswordSource? = nil,
+        passwordSourceConfiguration: OdbClientTypes.WalletPasswordSourceConfigurationInput? = nil,
         walletType: OdbClientTypes.WalletType? = nil
     ) {
         self.autonomousDatabaseId = autonomousDatabaseId
         self.clientToken = clientToken
         self.password = password
+        self.passwordSource = passwordSource
+        self.passwordSourceConfiguration = passwordSourceConfiguration
         self.walletType = walletType
     }
 }
@@ -3655,6 +3833,35 @@ public struct GetAutonomousDatabaseWalletDetailsInput: Swift.Sendable {
 
 extension OdbClientTypes {
 
+    /// The configuration of the wallet password source. This is a union, so only one of the following members can be specified.
+    public enum WalletPasswordSourceConfiguration: Swift.Sendable {
+        /// The configuration for a customer-managed Amazon Web Services Secrets Manager secret used as the wallet password source.
+        case customermanagedawssecret(OdbClientTypes.CustomerManagedAwsSecretConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension OdbClientTypes {
+
+    /// A summary of the password source configuration for an Autonomous Database wallet.
+    public struct WalletPasswordSourceSummary: Swift.Sendable {
+        /// The source of the password for the Autonomous Database wallet.
+        public var passwordSource: OdbClientTypes.WalletPasswordSource?
+        /// The configuration of the password source for the Autonomous Database wallet.
+        public var passwordSourceConfiguration: OdbClientTypes.WalletPasswordSourceConfiguration?
+
+        public init(
+            passwordSource: OdbClientTypes.WalletPasswordSource? = nil,
+            passwordSourceConfiguration: OdbClientTypes.WalletPasswordSourceConfiguration? = nil
+        ) {
+            self.passwordSource = passwordSource
+            self.passwordSourceConfiguration = passwordSourceConfiguration
+        }
+    }
+}
+
+extension OdbClientTypes {
+
     public enum AutonomousDatabaseWalletStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case updating
@@ -3686,15 +3893,19 @@ extension OdbClientTypes {
 
     /// The wallet details for an Autonomous Database.
     public struct AutonomousDatabaseWalletDetails: Swift.Sendable {
+        /// The summary of the password source configuration for the Autonomous Database wallet.
+        public var passwordSourceSummary: OdbClientTypes.WalletPasswordSourceSummary?
         /// The current status of the Autonomous Database wallet.
         public var status: OdbClientTypes.AutonomousDatabaseWalletStatus?
         /// The date and time when the Autonomous Database wallet was last rotated.
         public var timeRotated: Foundation.Date?
 
         public init(
+            passwordSourceSummary: OdbClientTypes.WalletPasswordSourceSummary? = nil,
             status: OdbClientTypes.AutonomousDatabaseWalletStatus? = nil,
             timeRotated: Foundation.Date? = nil
         ) {
+            self.passwordSourceSummary = passwordSourceSummary
             self.status = status
             self.timeRotated = timeRotated
         }
@@ -4048,6 +4259,10 @@ public struct SwitchoverAutonomousDatabaseOutput: Swift.Sendable {
 public struct UpdateAutonomousDatabaseInput: Swift.Sendable {
     /// The new password for the ADMIN user of the Autonomous Database.
     public var adminPassword: Swift.String?
+    /// The source of the admin password for the Autonomous Database. When set to CUSTOMER_MANAGED_AWS_SECRET, the admin password is retrieved from an Amazon Web Services Secrets Manager secret.
+    public var adminPasswordSource: OdbClientTypes.AdminPasswordSource?
+    /// The configuration of the admin password source for the Autonomous Database.
+    public var adminPasswordSourceConfiguration: OdbClientTypes.AdminPasswordSourceConfigurationInput?
     /// The list of IP addresses that are allowed to access the Autonomous Database.
     public var allowlistedIps: [Swift.String]?
     /// The frequency, in seconds, at which the refreshable clone Autonomous Database is automatically refreshed.
@@ -4136,6 +4351,8 @@ public struct UpdateAutonomousDatabaseInput: Swift.Sendable {
 
     public init(
         adminPassword: Swift.String? = nil,
+        adminPasswordSource: OdbClientTypes.AdminPasswordSource? = nil,
+        adminPasswordSourceConfiguration: OdbClientTypes.AdminPasswordSourceConfigurationInput? = nil,
         allowlistedIps: [Swift.String]? = nil,
         autoRefreshFrequencyInSeconds: Swift.Int? = nil,
         autoRefreshPointLagInSeconds: Swift.Int? = nil,
@@ -4180,6 +4397,8 @@ public struct UpdateAutonomousDatabaseInput: Swift.Sendable {
         timeOfAutoRefreshStart: Foundation.Date? = nil
     ) {
         self.adminPassword = adminPassword
+        self.adminPasswordSource = adminPasswordSource
+        self.adminPasswordSourceConfiguration = adminPasswordSourceConfiguration
         self.allowlistedIps = allowlistedIps
         self.autoRefreshFrequencyInSeconds = autoRefreshFrequencyInSeconds
         self.autoRefreshPointLagInSeconds = autoRefreshPointLagInSeconds
@@ -7897,11 +8116,13 @@ extension OdbClientTypes {
 
     public enum OciAwsIntegration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case kmstde
+        case secretsmanager
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OciAwsIntegration] {
             return [
-                .kmstde
+                .kmstde,
+                .secretsmanager
             ]
         }
 
@@ -7913,6 +8134,46 @@ extension OdbClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .kmstde: return "KmsTde"
+            case .secretsmanager: return "SecretsManager"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The lifecycle status of an Amazon Web Services Identity and Access Management (IAM) service role used for Autonomous Database integration with Oracle Cloud Infrastructure (OCI).
+    public enum OciIamRoleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case provisioning
+        case provisionFailed
+        case terminateFailed
+        case terminating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OciIamRoleStatus] {
+            return [
+                .available,
+                .provisioning,
+                .provisionFailed,
+                .terminateFailed,
+                .terminating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .provisioning: return "PROVISIONING"
+            case .provisionFailed: return "PROVISION_FAILED"
+            case .terminateFailed: return "TERMINATE_FAILED"
+            case .terminating: return "TERMINATING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7927,13 +8188,21 @@ extension OdbClientTypes {
         public var awsIntegration: OdbClientTypes.OciAwsIntegration?
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role.
         public var iamRoleArn: Swift.String?
+        /// The current lifecycle status of the IAM service role.
+        public var status: OdbClientTypes.OciIamRoleStatus?
+        /// Additional information about the current status of the IAM service role, if applicable.
+        public var statusReason: Swift.String?
 
         public init(
             awsIntegration: OdbClientTypes.OciAwsIntegration? = nil,
-            iamRoleArn: Swift.String? = nil
+            iamRoleArn: Swift.String? = nil,
+            status: OdbClientTypes.OciIamRoleStatus? = nil,
+            statusReason: Swift.String? = nil
         ) {
             self.awsIntegration = awsIntegration
             self.iamRoleArn = iamRoleArn
+            self.status = status
+            self.statusReason = statusReason
         }
     }
 }
@@ -8539,12 +8808,16 @@ extension OdbClientTypes {
 }
 
 public struct InitializeServiceInput: Swift.Sendable {
+    /// Specifies whether to enable or disable the OCI service-account role for Amazon Web Services Secrets Manager integration with Autonomous Database.
+    public var autonomousDatabaseOciAwsSecretsManagerIntegration: OdbClientTypes.Access?
     /// The Oracle Cloud Infrastructure (OCI) identity domain configuration for service initialization.
     public var ociIdentityDomain: Swift.Bool?
 
     public init(
+        autonomousDatabaseOciAwsSecretsManagerIntegration: OdbClientTypes.Access? = nil,
         ociIdentityDomain: Swift.Bool? = nil
     ) {
+        self.autonomousDatabaseOciAwsSecretsManagerIntegration = autonomousDatabaseOciAwsSecretsManagerIntegration
         self.ociIdentityDomain = ociIdentityDomain
     }
 }

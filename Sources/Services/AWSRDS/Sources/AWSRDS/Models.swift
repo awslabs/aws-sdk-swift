@@ -4110,6 +4110,26 @@ public struct VpcEncryptionControlViolationException: ClientRuntime.ModeledError
 
 extension RDSClientTypes {
 
+    /// Contains information about an Amazon Web Services Identity and Access Management (IAM) role to associate with a DB cluster. You can specify this structure in the AssociatedRoles parameter of [CreateDBCluster], [RestoreDBClusterFromS3], [RestoreDBClusterFromSnapshot], and [RestoreDBClusterToPointInTime].
+    public struct DBClusterAssociatedRole: Swift.Sendable {
+        /// The name of the feature associated with the IAM role. For information about supported feature names, see [DBEngineVersion].
+        public var featureName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM role to associate with the DB cluster.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            featureName: Swift.String? = nil,
+            roleArn: Swift.String? = nil
+        ) {
+            self.featureName = featureName
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     public enum ClusterScalabilityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case limitless
         case standard
@@ -4332,6 +4352,8 @@ extension RDSClientTypes {
 public struct CreateDBClusterInput: Swift.Sendable {
     /// The amount of storage in gibibytes (GiB) to allocate to each DB instance in the Multi-AZ DB cluster. Valid for Cluster Type: Multi-AZ DB clusters only This setting is required to create a Multi-AZ DB cluster.
     public var allocatedStorage: Swift.Int?
+    /// A list of Amazon Web Services Identity and Access Management (IAM) roles to associate with the DB cluster. Each role grants the DB cluster permission to access other Amazon Web Services on your behalf. For each role, specify a role ARN and, optionally, the feature name (such as s3Import, s3Export, or Lambda). Valid for Cluster Type: Aurora DB clusters only
+    public var associatedRoles: [RDSClientTypes.DBClusterAssociatedRole]?
     /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB cluster. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// A list of Availability Zones (AZs) where you specifically want to create DB instances in the DB cluster. For the first three DB instances that you create, RDS distributes each DB instance to a different AZ that you specify. For additional DB instances that you create, RDS randomly distributes them to the AZs that you specified. For example, if you create a DB cluster with one writer instance and three reader instances, RDS might distribute the writer instance to AZ 1, the first reader instance to AZ 2, the second reader instance to AZ 3, and the third reader instance to either AZ 1, AZ 2, or AZ 3. For more information, see [Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.RegionsAndAvailabilityZones.html#Concepts.RegionsAndAvailabilityZones.AvailabilityZones) and [High availability for Aurora DB instances](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.AuroraHighAvailability.html#Concepts.AuroraHighAvailability.Instances) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only Constraints:
@@ -4605,6 +4627,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
 
     public init(
         allocatedStorage: Swift.Int? = nil,
+        associatedRoles: [RDSClientTypes.DBClusterAssociatedRole]? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZones: [Swift.String]? = nil,
         backtrackWindow: Swift.Int? = nil,
@@ -4665,6 +4688,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         withExpressConfiguration: Swift.Bool? = nil
     ) {
         self.allocatedStorage = allocatedStorage
+        self.associatedRoles = associatedRoles
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZones = availabilityZones
         self.backtrackWindow = backtrackWindow
@@ -4728,7 +4752,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
 
 extension CreateDBClusterInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDBClusterInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZones: \(Swift.String(describing: availabilityZones)), backtrackWindow: \(Swift.String(describing: backtrackWindow)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), characterSetName: \(Swift.String(describing: characterSetName)), clusterScalabilityType: \(Swift.String(describing: clusterScalabilityType)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), databaseName: \(Swift.String(describing: databaseName)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbClusterInstanceClass: \(Swift.String(describing: dbClusterInstanceClass)), dbClusterParameterGroupName: \(Swift.String(describing: dbClusterParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dbSystemId: \(Swift.String(describing: dbSystemId)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableGlobalWriteForwarding: \(Swift.String(describing: enableGlobalWriteForwarding)), enableHttpEndpoint: \(Swift.String(describing: enableHttpEndpoint)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enableLimitlessDatabase: \(Swift.String(describing: enableLimitlessDatabase)), enableLocalWriteForwarding: \(Swift.String(describing: enableLocalWriteForwarding)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineMode: \(Swift.String(describing: engineMode)), engineVersion: \(Swift.String(describing: engineVersion)), globalClusterIdentifier: \(Swift.String(describing: globalClusterIdentifier)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), rdsCustomClusterConfiguration: \(Swift.String(describing: rdsCustomClusterConfiguration)), replicationSourceIdentifier: \(Swift.String(describing: replicationSourceIdentifier)), scalingConfiguration: \(Swift.String(describing: scalingConfiguration)), serverlessV2ScalingConfiguration: \(Swift.String(describing: serverlessV2ScalingConfiguration)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), withExpressConfiguration: \(Swift.String(describing: withExpressConfiguration)), masterUserPassword: \"CONTENT_REDACTED\", preSignedUrl: \"CONTENT_REDACTED\")"}
+        "CreateDBClusterInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), associatedRoles: \(Swift.String(describing: associatedRoles)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZones: \(Swift.String(describing: availabilityZones)), backtrackWindow: \(Swift.String(describing: backtrackWindow)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), characterSetName: \(Swift.String(describing: characterSetName)), clusterScalabilityType: \(Swift.String(describing: clusterScalabilityType)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), databaseName: \(Swift.String(describing: databaseName)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbClusterInstanceClass: \(Swift.String(describing: dbClusterInstanceClass)), dbClusterParameterGroupName: \(Swift.String(describing: dbClusterParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dbSystemId: \(Swift.String(describing: dbSystemId)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableGlobalWriteForwarding: \(Swift.String(describing: enableGlobalWriteForwarding)), enableHttpEndpoint: \(Swift.String(describing: enableHttpEndpoint)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enableLimitlessDatabase: \(Swift.String(describing: enableLimitlessDatabase)), enableLocalWriteForwarding: \(Swift.String(describing: enableLocalWriteForwarding)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineMode: \(Swift.String(describing: engineMode)), engineVersion: \(Swift.String(describing: engineVersion)), globalClusterIdentifier: \(Swift.String(describing: globalClusterIdentifier)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), rdsCustomClusterConfiguration: \(Swift.String(describing: rdsCustomClusterConfiguration)), replicationSourceIdentifier: \(Swift.String(describing: replicationSourceIdentifier)), scalingConfiguration: \(Swift.String(describing: scalingConfiguration)), serverlessV2ScalingConfiguration: \(Swift.String(describing: serverlessV2ScalingConfiguration)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), withExpressConfiguration: \(Swift.String(describing: withExpressConfiguration)), masterUserPassword: \"CONTENT_REDACTED\", preSignedUrl: \"CONTENT_REDACTED\")"}
 }
 
 extension RDSClientTypes {
@@ -20344,6 +20368,8 @@ public struct InvalidS3BucketFault: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 public struct RestoreDBClusterFromS3Input: Swift.Sendable {
+    /// A list of Amazon Web Services Identity and Access Management (IAM) roles to associate with the DB cluster when it's restored from Amazon S3. Each role grants the DB cluster permission to access other Amazon Web Services on your behalf. For each role, specify a role ARN and, optionally, the feature name (such as s3Import, s3Export, or Lambda).
+    public var associatedRoles: [RDSClientTypes.DBClusterAssociatedRole]?
     /// A list of Availability Zones (AZs) where instances in the restored DB cluster can be created.
     public var availabilityZones: [Swift.String]?
     /// The target backtrack window, in seconds. To disable backtracking, set this value to 0. Currently, Backtrack is only supported for Aurora MySQL DB clusters. Default: 0 Constraints:
@@ -20480,6 +20506,7 @@ public struct RestoreDBClusterFromS3Input: Swift.Sendable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
+        associatedRoles: [RDSClientTypes.DBClusterAssociatedRole]? = nil,
         availabilityZones: [Swift.String]? = nil,
         backtrackWindow: Swift.Int? = nil,
         backupRetentionPeriod: Swift.Int? = nil,
@@ -20519,6 +20546,7 @@ public struct RestoreDBClusterFromS3Input: Swift.Sendable {
         tags: [RDSClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
+        self.associatedRoles = associatedRoles
         self.availabilityZones = availabilityZones
         self.backtrackWindow = backtrackWindow
         self.backupRetentionPeriod = backupRetentionPeriod
@@ -20562,7 +20590,7 @@ public struct RestoreDBClusterFromS3Input: Swift.Sendable {
 
 extension RestoreDBClusterFromS3Input: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RestoreDBClusterFromS3Input(availabilityZones: \(Swift.String(describing: availabilityZones)), backtrackWindow: \(Swift.String(describing: backtrackWindow)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), characterSetName: \(Swift.String(describing: characterSetName)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseName: \(Swift.String(describing: databaseName)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbClusterParameterGroupName: \(Swift.String(describing: dbClusterParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), s3BucketName: \(Swift.String(describing: s3BucketName)), s3IngestionRoleArn: \(Swift.String(describing: s3IngestionRoleArn)), s3Prefix: \(Swift.String(describing: s3Prefix)), serverlessV2ScalingConfiguration: \(Swift.String(describing: serverlessV2ScalingConfiguration)), sourceEngine: \(Swift.String(describing: sourceEngine)), sourceEngineVersion: \(Swift.String(describing: sourceEngineVersion)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "RestoreDBClusterFromS3Input(associatedRoles: \(Swift.String(describing: associatedRoles)), availabilityZones: \(Swift.String(describing: availabilityZones)), backtrackWindow: \(Swift.String(describing: backtrackWindow)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), characterSetName: \(Swift.String(describing: characterSetName)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseName: \(Swift.String(describing: databaseName)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbClusterParameterGroupName: \(Swift.String(describing: dbClusterParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), s3BucketName: \(Swift.String(describing: s3BucketName)), s3IngestionRoleArn: \(Swift.String(describing: s3IngestionRoleArn)), s3Prefix: \(Swift.String(describing: s3Prefix)), serverlessV2ScalingConfiguration: \(Swift.String(describing: serverlessV2ScalingConfiguration)), sourceEngine: \(Swift.String(describing: sourceEngine)), sourceEngineVersion: \(Swift.String(describing: sourceEngineVersion)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBClusterFromS3Output: Swift.Sendable {
@@ -20624,6 +20652,8 @@ public struct InvalidRestoreFault: ClientRuntime.ModeledError, AWSClientRuntime.
 
 ///
 public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
+    /// A list of Amazon Web Services Identity and Access Management (IAM) roles to associate with the DB cluster when it's restored from a snapshot. Each role grants the DB cluster permission to access other Amazon Web Services on your behalf. For each role, specify a role ARN and, optionally, the feature name (such as s3Import, s3Export, or Lambda). Valid for Cluster Type: Aurora DB clusters only
+    public var associatedRoles: [RDSClientTypes.DBClusterAssociatedRole]?
     /// Provides the list of Availability Zones (AZs) where instances in the restored DB cluster can be created. Valid for: Aurora DB clusters only
     public var availabilityZones: [Swift.String]?
     /// The target backtrack window, in seconds. To disable backtracking, set this value to 0. Currently, Backtrack is only supported for Aurora MySQL DB clusters. Default: 0 Constraints:
@@ -20795,6 +20825,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
+        associatedRoles: [RDSClientTypes.DBClusterAssociatedRole]? = nil,
         availabilityZones: [Swift.String]? = nil,
         backtrackWindow: Swift.Int? = nil,
         backupRetentionPeriod: Swift.Int? = nil,
@@ -20836,6 +20867,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         tags: [RDSClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
+        self.associatedRoles = associatedRoles
         self.availabilityZones = availabilityZones
         self.backtrackWindow = backtrackWindow
         self.backupRetentionPeriod = backupRetentionPeriod
@@ -20892,6 +20924,8 @@ public struct RestoreDBClusterFromSnapshotOutput: Swift.Sendable {
 
 ///
 public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
+    /// A list of Amazon Web Services Identity and Access Management (IAM) roles to associate with the DB cluster when it's restored to a point in time. Each role grants the DB cluster permission to access other Amazon Web Services on your behalf. For each role, specify a role ARN and, optionally, the feature name (such as s3Import, s3Export, or Lambda). Valid for Cluster Type: Aurora DB clusters only
+    public var associatedRoles: [RDSClientTypes.DBClusterAssociatedRole]?
     /// The target backtrack window, in seconds. To disable backtracking, set this value to 0. Default: 0 Constraints:
     ///
     /// * If specified, this value must be set to a number from 0 to 259,200 (72 hours).
@@ -21079,6 +21113,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
+        associatedRoles: [RDSClientTypes.DBClusterAssociatedRole]? = nil,
         backtrackWindow: Swift.Int? = nil,
         backupRetentionPeriod: Swift.Int? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
@@ -21120,6 +21155,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         useLatestRestorableTime: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
+        self.associatedRoles = associatedRoles
         self.backtrackWindow = backtrackWindow
         self.backupRetentionPeriod = backupRetentionPeriod
         self.copyTagsToSnapshot = copyTagsToSnapshot
@@ -24301,6 +24337,7 @@ extension CreateDBClusterInput {
     static func write(value: CreateDBClusterInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["AllocatedStorage"].write(value.allocatedStorage)
+        try writer["AssociatedRoles"].writeList(value.associatedRoles, memberWritingClosure: RDSClientTypes.DBClusterAssociatedRole.write(value:to:), memberNodeInfo: "DBClusterAssociatedRole", isFlattened: false)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
         try writer["BacktrackWindow"].write(value.backtrackWindow)
@@ -26259,6 +26296,7 @@ extension RestoreDBClusterFromS3Input {
 
     static func write(value: RestoreDBClusterFromS3Input?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AssociatedRoles"].writeList(value.associatedRoles, memberWritingClosure: RDSClientTypes.DBClusterAssociatedRole.write(value:to:), memberNodeInfo: "DBClusterAssociatedRole", isFlattened: false)
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
         try writer["BacktrackWindow"].write(value.backtrackWindow)
         try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
@@ -26306,6 +26344,7 @@ extension RestoreDBClusterFromSnapshotInput {
 
     static func write(value: RestoreDBClusterFromSnapshotInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AssociatedRoles"].writeList(value.associatedRoles, memberWritingClosure: RDSClientTypes.DBClusterAssociatedRole.write(value:to:), memberNodeInfo: "DBClusterAssociatedRole", isFlattened: false)
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
         try writer["BacktrackWindow"].write(value.backtrackWindow)
         try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
@@ -26355,6 +26394,7 @@ extension RestoreDBClusterToPointInTimeInput {
 
     static func write(value: RestoreDBClusterToPointInTimeInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AssociatedRoles"].writeList(value.associatedRoles, memberWritingClosure: RDSClientTypes.DBClusterAssociatedRole.write(value:to:), memberNodeInfo: "DBClusterAssociatedRole", isFlattened: false)
         try writer["BacktrackWindow"].write(value.backtrackWindow)
         try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
@@ -29227,6 +29267,7 @@ enum CreateDBClusterOutputError {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "DBClusterParameterGroupNotFound": return try DBClusterParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "DBClusterQuotaExceededFault": return try DBClusterQuotaExceededFault.makeError(baseError: baseError)
+            case "DBClusterRoleQuotaExceeded": return try DBClusterRoleQuotaExceededFault.makeError(baseError: baseError)
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
             case "DBSubnetGroupDoesNotCoverEnoughAZs": return try DBSubnetGroupDoesNotCoverEnoughAZs.makeError(baseError: baseError)
             case "DBSubnetGroupNotFoundFault": return try DBSubnetGroupNotFoundFault.makeError(baseError: baseError)
@@ -31354,6 +31395,7 @@ enum RestoreDBClusterFromS3OutputError {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "DBClusterParameterGroupNotFound": return try DBClusterParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "DBClusterQuotaExceededFault": return try DBClusterQuotaExceededFault.makeError(baseError: baseError)
+            case "DBClusterRoleQuotaExceeded": return try DBClusterRoleQuotaExceededFault.makeError(baseError: baseError)
             case "DBSubnetGroupNotFoundFault": return try DBSubnetGroupNotFoundFault.makeError(baseError: baseError)
             case "DomainNotFoundFault": return try DomainNotFoundFault.makeError(baseError: baseError)
             case "InsufficientStorageClusterCapacity": return try InsufficientStorageClusterCapacityFault.makeError(baseError: baseError)
@@ -31382,6 +31424,7 @@ enum RestoreDBClusterFromSnapshotOutputError {
             case "DBClusterAlreadyExistsFault": return try DBClusterAlreadyExistsFault.makeError(baseError: baseError)
             case "DBClusterParameterGroupNotFound": return try DBClusterParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "DBClusterQuotaExceededFault": return try DBClusterQuotaExceededFault.makeError(baseError: baseError)
+            case "DBClusterRoleQuotaExceeded": return try DBClusterRoleQuotaExceededFault.makeError(baseError: baseError)
             case "DBClusterSnapshotNotFoundFault": return try DBClusterSnapshotNotFoundFault.makeError(baseError: baseError)
             case "DBSnapshotNotFound": return try DBSnapshotNotFoundFault.makeError(baseError: baseError)
             case "DBSubnetGroupDoesNotCoverEnoughAZs": return try DBSubnetGroupDoesNotCoverEnoughAZs.makeError(baseError: baseError)
@@ -31420,6 +31463,7 @@ enum RestoreDBClusterToPointInTimeOutputError {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "DBClusterParameterGroupNotFound": return try DBClusterParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "DBClusterQuotaExceededFault": return try DBClusterQuotaExceededFault.makeError(baseError: baseError)
+            case "DBClusterRoleQuotaExceeded": return try DBClusterRoleQuotaExceededFault.makeError(baseError: baseError)
             case "DBClusterSnapshotNotFoundFault": return try DBClusterSnapshotNotFoundFault.makeError(baseError: baseError)
             case "DBSubnetGroupNotFoundFault": return try DBSubnetGroupNotFoundFault.makeError(baseError: baseError)
             case "DomainNotFoundFault": return try DomainNotFoundFault.makeError(baseError: baseError)
@@ -34024,6 +34068,15 @@ extension RDSClientTypes.DBCluster {
         value.vpcNetworkingEnabled = try reader["VPCNetworkingEnabled"].readIfPresent()
         value.internetAccessGatewayEnabled = try reader["InternetAccessGatewayEnabled"].readIfPresent()
         return value
+    }
+}
+
+extension RDSClientTypes.DBClusterAssociatedRole {
+
+    static func write(value: RDSClientTypes.DBClusterAssociatedRole?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["FeatureName"].write(value.featureName)
+        try writer["RoleArn"].write(value.roleArn)
     }
 }
 

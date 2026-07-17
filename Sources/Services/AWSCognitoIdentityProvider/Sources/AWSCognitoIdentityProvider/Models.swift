@@ -4960,6 +4960,41 @@ public struct CreateTermsOutput: Swift.Sendable {
     }
 }
 
+extension CognitoIdentityProviderClientTypes {
+
+    public enum PasswordHashingAlgorithmType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case argon2id
+        case bcrypt
+        case pbkdf2Sha256
+        case scrypt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PasswordHashingAlgorithmType] {
+            return [
+                .argon2id,
+                .bcrypt,
+                .pbkdf2Sha256,
+                .scrypt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .argon2id: return "ARGON2ID"
+            case .bcrypt: return "BCRYPT"
+            case .pbkdf2Sha256: return "PBKDF2_SHA256"
+            case .scrypt: return "SCRYPT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// Represents the request to create the user import job.
 public struct CreateUserImportJobInput: Swift.Sendable {
     /// You must specify an IAM role that has permission to log import-job results to Amazon CloudWatch Logs. This parameter is the ARN of that role.
@@ -4968,6 +5003,8 @@ public struct CreateUserImportJobInput: Swift.Sendable {
     /// A friendly name for the user import job.
     /// This member is required.
     public var jobName: Swift.String?
+    /// The password hashing algorithm used to generate the hashes in the CSV file for this import job. Valid values: BCRYPT | SCRYPT | ARGON2ID | PBKDF2_SHA256
+    public var passwordHashingAlgorithm: CognitoIdentityProviderClientTypes.PasswordHashingAlgorithmType?
     /// The ID of the user pool that you want to import users into.
     /// This member is required.
     public var userPoolId: Swift.String?
@@ -4975,10 +5012,12 @@ public struct CreateUserImportJobInput: Swift.Sendable {
     public init(
         cloudWatchLogsRoleArn: Swift.String? = nil,
         jobName: Swift.String? = nil,
+        passwordHashingAlgorithm: CognitoIdentityProviderClientTypes.PasswordHashingAlgorithmType? = nil,
         userPoolId: Swift.String? = nil
     ) {
         self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
         self.jobName = jobName
+        self.passwordHashingAlgorithm = passwordHashingAlgorithm
         self.userPoolId = userPoolId
     }
 }
@@ -5050,6 +5089,8 @@ extension CognitoIdentityProviderClientTypes {
         public var jobId: Swift.String?
         /// The friendly name of the user import job.
         public var jobName: Swift.String?
+        /// The password hashing algorithm used to generate the hashes in the CSV file for this import job. Valid values: BCRYPT | SCRYPT | ARGON2ID | PBKDF2_SHA256
+        public var passwordHashingAlgorithm: CognitoIdentityProviderClientTypes.PasswordHashingAlgorithmType?
         /// The pre-signed URL target for uploading the CSV file.
         public var preSignedUrl: Swift.String?
         /// The number of users that were skipped.
@@ -5086,6 +5127,7 @@ extension CognitoIdentityProviderClientTypes {
             importedUsers: Swift.Int = 0,
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
+            passwordHashingAlgorithm: CognitoIdentityProviderClientTypes.PasswordHashingAlgorithmType? = nil,
             preSignedUrl: Swift.String? = nil,
             skippedUsers: Swift.Int = 0,
             startDate: Foundation.Date? = nil,
@@ -5100,6 +5142,7 @@ extension CognitoIdentityProviderClientTypes {
             self.importedUsers = importedUsers
             self.jobId = jobId
             self.jobName = jobName
+            self.passwordHashingAlgorithm = passwordHashingAlgorithm
             self.preSignedUrl = preSignedUrl
             self.skippedUsers = skippedUsers
             self.startDate = startDate
@@ -5769,21 +5812,73 @@ extension CognitoIdentityProviderClientTypes {
 
 extension CognitoIdentityProviderClientTypes {
 
+    /// The configuration that Amazon Cognito uses to send SMS messages through Amazon Web Services End User Messaging SMS. Provide this structure in the EumsSms member of SmsConfigurationType to use Amazon Web Services End User Messaging SMS instead of Amazon SNS.
+    public struct EumsSmsConfigurationType: Swift.Sendable {
+        /// The ARN of the IAM role that Amazon Cognito assumes to send SMS messages through Amazon Web Services End User Messaging SMS. The role must grant permission to call the sms-voice:SendTextMessage operation.
+        /// This member is required.
+        public var callerArn: Swift.String?
+        /// The name of the Amazon Web Services End User Messaging SMS configuration set that Amazon Cognito applies to messages, for logging and event destinations. If you omit this member, Amazon Cognito sends messages without applying a configuration set.
+        public var configurationSetName: Swift.String?
+        /// The external ID that Amazon Cognito includes when it assumes the CallerArn role. Use this value as a condition in the role trust policy to prevent the confused deputy problem.
+        public var externalId: Swift.String?
+        /// The principal entity ID required by India's Distributed Ledger Technology (DLT) regulations for SMS messages.
+        public var inEntityId: Swift.String?
+        /// The registered template ID for the message template required by India's DLT regulations for SMS messages.
+        public var inTemplateId: Swift.String?
+        /// The origination identity that Amazon Web Services End User Messaging SMS uses to send messages to your users. This value can be one of the following:
+        ///
+        /// * A phone number – A long code, toll-free number, or short code that is assigned to your account.
+        ///
+        /// * A sender ID – An alphabetic name that identifies the message sender in supported countries.
+        ///
+        /// * A phone pool – A group of phone numbers that Amazon Web Services End User Messaging SMS selects from when it sends messages.
+        ///
+        ///
+        /// You can provide an E.164 phone number or the ARN of the phone number, sender ID, or phone pool. Amazon Web Services End User Messaging SMS evaluates IAM authorization with the value that you provide. If the permissions policy of your CallerArn role scopes the sms-voice:SendTextMessage resource to a specific ARN, provide that same ARN. If the formats do not match, requests fail with an InvalidSmsRoleAccessPolicyException. Depending on the destination country, you must provide an origination identity. For country-specific requirements, see [Supported countries and regions for SMS messaging](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-sms-by-country.html) in the Amazon Web Services End User Messaging SMS User Guide.
+        public var originationIdentity: Swift.String?
+        /// The Amazon Web Services Region of the Amazon Web Services End User Messaging SMS resources that Amazon Cognito uses to send messages. Amazon Web Services End User Messaging SMS must be available in your user pool's Region. If you omit this parameter, Amazon Cognito uses the same Region as your user pool. You can also set this parameter to your user pool's Region explicitly. Amazon Cognito rejects any other value with an InvalidParameterException.
+        public var region: Swift.String?
+
+        public init(
+            callerArn: Swift.String? = nil,
+            configurationSetName: Swift.String? = nil,
+            externalId: Swift.String? = nil,
+            inEntityId: Swift.String? = nil,
+            inTemplateId: Swift.String? = nil,
+            originationIdentity: Swift.String? = nil,
+            region: Swift.String? = nil
+        ) {
+            self.callerArn = callerArn
+            self.configurationSetName = configurationSetName
+            self.externalId = externalId
+            self.inEntityId = inEntityId
+            self.inTemplateId = inTemplateId
+            self.originationIdentity = originationIdentity
+            self.region = region
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
     /// User pool configuration for delivery of SMS messages with Amazon Simple Notification Service. To send SMS messages with Amazon SNS in the Amazon Web Services Region that you want, the Amazon Cognito user pool uses an Identity and Access Management (IAM) role in your Amazon Web Services account.
     public struct SmsConfigurationType: Swift.Sendable {
+        /// The configuration for sending SMS messages through Amazon Web Services End User Messaging SMS, as an alternative to Amazon SNS. In a user pool, provide either the Amazon SNS configuration (SnsCallerArn) or this configuration, but not both. In Amazon Web Services Regions where Amazon SNS is not available, this configuration is required.
+        public var eumsSms: CognitoIdentityProviderClientTypes.EumsSmsConfigurationType?
         /// The external ID provides additional security for your IAM role. You can use an ExternalId with the IAM role that you use with Amazon SNS to send SMS messages for your user pool. If you provide an ExternalId, your Amazon Cognito user pool includes it in the request to assume your IAM role. You can configure the role trust policy to require that Amazon Cognito, and any principal, provide the ExternalID. If you use the Amazon Cognito Management Console to create a role for SMS multi-factor authentication (MFA), Amazon Cognito creates a role with the required permissions and a trust policy that demonstrates use of the ExternalId. For more information about the ExternalId of a role, see [How to use an external ID when granting access to your Amazon Web Services resources to a third party](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html).
         public var externalId: Swift.String?
         /// The Amazon Resource Name (ARN) of the Amazon SNS caller. This is the ARN of the IAM role in your Amazon Web Services account that Amazon Cognito will use to send SMS messages. SMS messages are subject to a [spending limit](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-email-phone-verification.html).
-        /// This member is required.
         public var snsCallerArn: Swift.String?
         /// The Amazon Web Services Region to use with Amazon SNS integration. You can choose the same Region as your user pool, or a supported Legacy Amazon SNS alternate Region. Amazon Cognito resources in the Asia Pacific (Seoul) Amazon Web Services Region must use your Amazon SNS configuration in the Asia Pacific (Tokyo) Region. For more information, see [SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html).
         public var snsRegion: Swift.String?
 
         public init(
+            eumsSms: CognitoIdentityProviderClientTypes.EumsSmsConfigurationType? = nil,
             externalId: Swift.String? = nil,
-            snsCallerArn: Swift.String? = nil,
+            snsCallerArn: Swift.String? = "",
             snsRegion: Swift.String? = nil
         ) {
+            self.eumsSms = eumsSms
             self.externalId = externalId
             self.snsCallerArn = snsCallerArn
             self.snsRegion = snsRegion
@@ -6898,13 +6993,13 @@ extension CognitoIdentityProviderClientTypes {
         /// The Amazon Resource Name (ARN) of an Certificate Manager SSL certificate. You use this certificate for the subdomain of your custom domain.
         /// This member is required.
         public var certificateArn: Swift.String?
-        /// The security policy for the custom domain. Defines the minimum TLS version and cipher suites that CloudFront uses when communicating with viewers (clients). Valid values are as follows:
+        /// The security policy for the custom domain. Defines the minimum TLS version and cipher suites that Amazon CloudFront supports when communicating with clients. For specific guidance, see [Supported protocols and ciphers between viewers and CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html). Valid values are as follows:
         ///
-        /// * TLS_V1: Supports TLS 1.0 and later. Provides the broadest client compatibility.
+        /// * TLS_V1_3_2025 (strictest): A post-quantum-ready policy requiring TLS 1.3. It provides the strongest security posture and is ideal for workloads where all clients and browsers are updated to the latest versions. [Supported protocols and ciphers for TLSv1.3_2025](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html).
         ///
-        /// * TLS_V1_2_2021: Supports TLS 1.2 and later with 2021 cipher suites. Recommended minimum for most use cases.
+        /// * TLS_V1_2_2021 (recommended): A post-quantum-ready policy which prefers TLS 1.3 but allows fallback to TLS 1.2 to accommodate older clients. It is the recommended minimum for typical commercial-grade consumer applications. [Supported protocols and ciphers for TLSv1.2_2021](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html).
         ///
-        /// * TLS_V1_3_2025: Supports TLS 1.3 and later with 2025 cipher suites. Provides the strongest security posture.
+        /// * TLS_V1 (strongly discouraged): Permits fallback to TLS 1.0. It offers the broadest compatibility, including support for legacy clients that are more than a decade old. This compatibility comes at the expense of allowing TLS versions and cryptographic algorithms that are no longer considered safe for commercial use. [Supported protocols and ciphers for TLSv1](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html).
         public var securityPolicy: CognitoIdentityProviderClientTypes.SecurityPolicyType?
 
         public init(
