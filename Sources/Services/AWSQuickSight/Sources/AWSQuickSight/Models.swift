@@ -25716,6 +25716,7 @@ extension QuickSightClientTypes {
 
     public enum ServiceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case athena
+        case glueDataCatalog
         case qbusiness
         case redshift
         case sdkUnknown(Swift.String)
@@ -25723,6 +25724,7 @@ extension QuickSightClientTypes {
         public static var allCases: [ServiceType] {
             return [
                 .athena,
+                .glueDataCatalog,
                 .qbusiness,
                 .redshift
             ]
@@ -25736,6 +25738,7 @@ extension QuickSightClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .athena: return "ATHENA"
+            case .glueDataCatalog: return "GLUE_DATA_CATALOG"
             case .qbusiness: return "QBUSINESS"
             case .redshift: return "REDSHIFT"
             case let .sdkUnknown(s): return s
@@ -28094,6 +28097,8 @@ extension QuickSightClientTypes {
         public var hubspotAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using HuggingFace connectors.
         public var huggingFaceAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, view, edit, delete, and run inbound email triggers for flows and automations.
+        public var inboundEmailTrigger: QuickSightClientTypes.CapabilityState?
         /// The ability to include content in scheduled email reports.
         public var includeContentInScheduledReportsEmail: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Intercom connectors.
@@ -28132,6 +28137,8 @@ extension QuickSightClientTypes {
         public var printReports: QuickSightClientTypes.CapabilityState?
         /// The ability to enable approvals for flow share.
         public var publishWithoutApproval: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, view, edit, delete, and run Quick event triggers for flows and automations.
+        public var quickEventTrigger: QuickSightClientTypes.CapabilityState?
         /// The ability to rename shared folders.
         public var renameSharedFolders: QuickSightClientTypes.CapabilityState?
         /// The ability to perform research-related actions.
@@ -28154,6 +28161,8 @@ extension QuickSightClientTypes {
         public var sapProductMasterDataAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform Scenario-related actions.
         public var scenario: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, view, edit, delete, and run schedule triggers for flows and automations.
+        public var scheduleTrigger: QuickSightClientTypes.CapabilityState?
         /// The ability to enable users to upgrade their user role.
         public var selfUpgradeUserRole: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using ServiceNow connectors.
@@ -28274,6 +28283,8 @@ extension QuickSightClientTypes {
         public var textractAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform Topic-related actions.
         public var topic: QuickSightClientTypes.CapabilityState?
+        /// The ability to manage trigger-related settings for flows and automations.
+        public var trigger: QuickSightClientTypes.CapabilityState?
         /// The ability to use internet to enhance results in Chat Agents, Flows, and Quick Research. Web search queries will be processed securely in an Amazon Web Services region us-east-1.
         public var useAgentWebSearch: QuickSightClientTypes.CapabilityState?
         /// The ability to use Bedrock Agent actions.
@@ -28461,6 +28472,7 @@ extension QuickSightClientTypes {
             googleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
             hubspotAction: QuickSightClientTypes.CapabilityState? = nil,
             huggingFaceAction: QuickSightClientTypes.CapabilityState? = nil,
+            inboundEmailTrigger: QuickSightClientTypes.CapabilityState? = nil,
             includeContentInScheduledReportsEmail: QuickSightClientTypes.CapabilityState? = nil,
             intercomAction: QuickSightClientTypes.CapabilityState? = nil,
             invokeAppsAIInference: QuickSightClientTypes.CapabilityState? = nil,
@@ -28480,6 +28492,7 @@ extension QuickSightClientTypes {
             performFlowUiTask: QuickSightClientTypes.CapabilityState? = nil,
             printReports: QuickSightClientTypes.CapabilityState? = nil,
             publishWithoutApproval: QuickSightClientTypes.CapabilityState? = nil,
+            quickEventTrigger: QuickSightClientTypes.CapabilityState? = nil,
             renameSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
             research: QuickSightClientTypes.CapabilityState? = nil,
             salesforceAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -28491,6 +28504,7 @@ extension QuickSightClientTypes {
             sapPhysicalInventoryAction: QuickSightClientTypes.CapabilityState? = nil,
             sapProductMasterDataAction: QuickSightClientTypes.CapabilityState? = nil,
             scenario: QuickSightClientTypes.CapabilityState? = nil,
+            scheduleTrigger: QuickSightClientTypes.CapabilityState? = nil,
             selfUpgradeUserRole: QuickSightClientTypes.CapabilityState? = nil,
             serviceNowAction: QuickSightClientTypes.CapabilityState? = nil,
             shareAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -28551,6 +28565,7 @@ extension QuickSightClientTypes {
             subscribeDashboardEmailReports: QuickSightClientTypes.CapabilityState? = nil,
             textractAction: QuickSightClientTypes.CapabilityState? = nil,
             topic: QuickSightClientTypes.CapabilityState? = nil,
+            trigger: QuickSightClientTypes.CapabilityState? = nil,
             useAgentWebSearch: QuickSightClientTypes.CapabilityState? = nil,
             useAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
             useAmazonBedrockFSAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -28690,6 +28705,7 @@ extension QuickSightClientTypes {
             self.googleCalendarAction = googleCalendarAction
             self.hubspotAction = hubspotAction
             self.huggingFaceAction = huggingFaceAction
+            self.inboundEmailTrigger = inboundEmailTrigger
             self.includeContentInScheduledReportsEmail = includeContentInScheduledReportsEmail
             self.intercomAction = intercomAction
             self.invokeAppsAIInference = invokeAppsAIInference
@@ -28709,6 +28725,7 @@ extension QuickSightClientTypes {
             self.performFlowUiTask = performFlowUiTask
             self.printReports = printReports
             self.publishWithoutApproval = publishWithoutApproval
+            self.quickEventTrigger = quickEventTrigger
             self.renameSharedFolders = renameSharedFolders
             self.research = research
             self.salesforceAction = salesforceAction
@@ -28720,6 +28737,7 @@ extension QuickSightClientTypes {
             self.sapPhysicalInventoryAction = sapPhysicalInventoryAction
             self.sapProductMasterDataAction = sapProductMasterDataAction
             self.scenario = scenario
+            self.scheduleTrigger = scheduleTrigger
             self.selfUpgradeUserRole = selfUpgradeUserRole
             self.serviceNowAction = serviceNowAction
             self.shareAmazonBedrockARSAction = shareAmazonBedrockARSAction
@@ -28780,6 +28798,7 @@ extension QuickSightClientTypes {
             self.subscribeDashboardEmailReports = subscribeDashboardEmailReports
             self.textractAction = textractAction
             self.topic = topic
+            self.trigger = trigger
             self.useAgentWebSearch = useAgentWebSearch
             self.useAmazonBedrockARSAction = useAmazonBedrockARSAction
             self.useAmazonBedrockFSAction = useAmazonBedrockFSAction
@@ -72884,6 +72903,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["GoogleCalendarAction"].write(value.googleCalendarAction)
         try writer["HubspotAction"].write(value.hubspotAction)
         try writer["HuggingFaceAction"].write(value.huggingFaceAction)
+        try writer["InboundEmailTrigger"].write(value.inboundEmailTrigger)
         try writer["IncludeContentInScheduledReportsEmail"].write(value.includeContentInScheduledReportsEmail)
         try writer["IntercomAction"].write(value.intercomAction)
         try writer["InvokeAppsAIInference"].write(value.invokeAppsAIInference)
@@ -72903,6 +72923,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["PerformFlowUiTask"].write(value.performFlowUiTask)
         try writer["PrintReports"].write(value.printReports)
         try writer["PublishWithoutApproval"].write(value.publishWithoutApproval)
+        try writer["QuickEventTrigger"].write(value.quickEventTrigger)
         try writer["RenameSharedFolders"].write(value.renameSharedFolders)
         try writer["Research"].write(value.research)
         try writer["SAPBillOfMaterialAction"].write(value.sapBillOfMaterialAction)
@@ -72914,6 +72935,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["SandPGMIAction"].write(value.sandPGMIAction)
         try writer["SandPGlobalEnergyAction"].write(value.sandPGlobalEnergyAction)
         try writer["Scenario"].write(value.scenario)
+        try writer["ScheduleTrigger"].write(value.scheduleTrigger)
         try writer["SelfUpgradeUserRole"].write(value.selfUpgradeUserRole)
         try writer["ServiceNowAction"].write(value.serviceNowAction)
         try writer["ShareAmazonBedrockARSAction"].write(value.shareAmazonBedrockARSAction)
@@ -72974,6 +72996,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["SubscribeDashboardEmailReports"].write(value.subscribeDashboardEmailReports)
         try writer["TextractAction"].write(value.textractAction)
         try writer["Topic"].write(value.topic)
+        try writer["Trigger"].write(value.trigger)
         try writer["UseAgentWebSearch"].write(value.useAgentWebSearch)
         try writer["UseAmazonBedrockARSAction"].write(value.useAmazonBedrockARSAction)
         try writer["UseAmazonBedrockFSAction"].write(value.useAmazonBedrockFSAction)
@@ -73254,6 +73277,10 @@ extension QuickSightClientTypes.Capabilities {
         value.generateAnalyses = try reader["GenerateAnalyses"].readIfPresent()
         value.story = try reader["Story"].readIfPresent()
         value.scenario = try reader["Scenario"].readIfPresent()
+        value.trigger = try reader["Trigger"].readIfPresent()
+        value.scheduleTrigger = try reader["ScheduleTrigger"].readIfPresent()
+        value.inboundEmailTrigger = try reader["InboundEmailTrigger"].readIfPresent()
+        value.quickEventTrigger = try reader["QuickEventTrigger"].readIfPresent()
         return value
     }
 }

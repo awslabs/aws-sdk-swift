@@ -965,7 +965,7 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
-    /// -- Function Configuration DataStructure
+    /// The configuration for an HTTP_REQUEST function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions for the request. For more information, see [HTTP_REQUEST](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types-http-request.html) in the MediaTailor User Guide.
     public struct HttpRequestConfiguration: Swift.Sendable {
         /// An expression that evaluates to the request body. Used with POST requests. The maximum size after evaluation is 64 KB.
         public var body: Swift.String?
@@ -1038,7 +1038,7 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
-    /// -- Define Mixin --
+    /// Defines reusable logic that MediaTailor executes at lifecycle hooks during ad insertion. The FunctionType determines the function's runtime behavior. For more information about functions, see [Working with functions](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions.html) in the MediaTailor User Guide.
     public struct Function: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the function.
         public var arn: Swift.String?
@@ -1349,6 +1349,56 @@ extension MediaTailorClientTypes {
             httpRequest: MediaTailorClientTypes.HttpRequest? = nil
         ) {
             self.httpRequest = httpRequest
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The concurrency settings for ad decision server interactions during ad personalization.
+    public struct AdsPersonalizationConcurrency: Swift.Sendable {
+        /// Enables parallel processing of ad decision server requests in VOD workflows when the ADS returns VAST responses. The default is false.
+        public var enableVodVastParallelization: Swift.Bool?
+        /// The maximum number of simultaneous requests that MediaTailor makes to the ad decision server per manifest request. The default is 1.
+        public var maxConcurrentAdsRequests: Swift.Int?
+
+        public init(
+            enableVodVastParallelization: Swift.Bool? = nil,
+            maxConcurrentAdsRequests: Swift.Int? = nil
+        ) {
+            self.enableVodVastParallelization = enableVodVastParallelization
+            self.maxConcurrentAdsRequests = maxConcurrentAdsRequests
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The timeout settings for ad decision server interactions during ad personalization.
+    public struct AdsPersonalizationTimeouts: Swift.Sendable {
+        /// The maximum time, in milliseconds, that MediaTailor waits for a single ad decision server response during live or VOD playback. The default is 3000.
+        public var adsRequestTimeoutMilliseconds: Swift.Int?
+        /// The maximum total time, in milliseconds, that MediaTailor spends on ad decision server activity for live manifests, including making requests, waiting for responses, and following VAST wrapper redirects. The default is 10000.
+        public var liveMaximumAdsPersonalizationTimeMilliseconds: Swift.Int?
+        /// The maximum time, in milliseconds, that MediaTailor waits for a single ad decision server response during prefetch retrieval. If not set, the value of AdsRequestTimeoutMilliseconds is used.
+        public var prefetchAdsRequestTimeoutMilliseconds: Swift.Int?
+        /// The maximum total time, in milliseconds, that MediaTailor spends on ad decision server activity during prefetch retrieval, including making requests, waiting for responses, and following VAST wrapper redirects.
+        public var prefetchMaximumAdsPersonalizationTimeMilliseconds: Swift.Int?
+        /// The maximum total time, in milliseconds, that MediaTailor spends on ad decision server activity for VOD manifests, including making requests, waiting for responses, and following VAST wrapper redirects. The default is 10000.
+        public var vodMaximumAdsPersonalizationTimeMilliseconds: Swift.Int?
+
+        public init(
+            adsRequestTimeoutMilliseconds: Swift.Int? = nil,
+            liveMaximumAdsPersonalizationTimeMilliseconds: Swift.Int? = nil,
+            prefetchAdsRequestTimeoutMilliseconds: Swift.Int? = nil,
+            prefetchMaximumAdsPersonalizationTimeMilliseconds: Swift.Int? = nil,
+            vodMaximumAdsPersonalizationTimeMilliseconds: Swift.Int? = nil
+        ) {
+            self.adsRequestTimeoutMilliseconds = adsRequestTimeoutMilliseconds
+            self.liveMaximumAdsPersonalizationTimeMilliseconds = liveMaximumAdsPersonalizationTimeMilliseconds
+            self.prefetchAdsRequestTimeoutMilliseconds = prefetchAdsRequestTimeoutMilliseconds
+            self.prefetchMaximumAdsPersonalizationTimeMilliseconds = prefetchMaximumAdsPersonalizationTimeMilliseconds
+            self.vodMaximumAdsPersonalizationTimeMilliseconds = vodMaximumAdsPersonalizationTimeMilliseconds
         }
     }
 }
@@ -1889,6 +1939,10 @@ extension MediaTailorClientTypes {
         public var adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration?
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public var adDecisionServerUrl: Swift.String?
+        /// The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.
+        public var adsPersonalizationConcurrency: MediaTailorClientTypes.AdsPersonalizationConcurrency?
+        /// The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.
+        public var adsPersonalizationTimeouts: MediaTailorClientTypes.AdsPersonalizationTimeouts?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
         public var availSuppression: MediaTailorClientTypes.AvailSuppression?
         /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see [Bumpers](https://docs.aws.amazon.com/mediatailor/latest/ug/bumpers.html).
@@ -1938,6 +1992,8 @@ extension MediaTailorClientTypes {
             adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
             adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration? = nil,
             adDecisionServerUrl: Swift.String? = nil,
+            adsPersonalizationConcurrency: MediaTailorClientTypes.AdsPersonalizationConcurrency? = nil,
+            adsPersonalizationTimeouts: MediaTailorClientTypes.AdsPersonalizationTimeouts? = nil,
             availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
             bumper: MediaTailorClientTypes.Bumper? = nil,
             cdnConfiguration: MediaTailorClientTypes.CdnConfiguration? = nil,
@@ -1964,6 +2020,8 @@ extension MediaTailorClientTypes {
             self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
+            self.adsPersonalizationConcurrency = adsPersonalizationConcurrency
+            self.adsPersonalizationTimeouts = adsPersonalizationTimeouts
             self.availSuppression = availSuppression
             self.bumper = bumper
             self.cdnConfiguration = cdnConfiguration
@@ -4485,6 +4543,10 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
     public var adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration?
     /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
     public var adDecisionServerUrl: Swift.String?
+    /// The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.
+    public var adsPersonalizationConcurrency: MediaTailorClientTypes.AdsPersonalizationConcurrency?
+    /// The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.
+    public var adsPersonalizationTimeouts: MediaTailorClientTypes.AdsPersonalizationTimeouts?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
     public var availSuppression: MediaTailorClientTypes.AvailSuppression?
     /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see [Bumpers](https://docs.aws.amazon.com/mediatailor/latest/ug/bumpers.html).
@@ -4534,6 +4596,8 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
         adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
         adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration? = nil,
         adDecisionServerUrl: Swift.String? = nil,
+        adsPersonalizationConcurrency: MediaTailorClientTypes.AdsPersonalizationConcurrency? = nil,
+        adsPersonalizationTimeouts: MediaTailorClientTypes.AdsPersonalizationTimeouts? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
         cdnConfiguration: MediaTailorClientTypes.CdnConfiguration? = nil,
@@ -4560,6 +4624,8 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
         self.adConditioningConfiguration = adConditioningConfiguration
         self.adDecisionServerConfiguration = adDecisionServerConfiguration
         self.adDecisionServerUrl = adDecisionServerUrl
+        self.adsPersonalizationConcurrency = adsPersonalizationConcurrency
+        self.adsPersonalizationTimeouts = adsPersonalizationTimeouts
         self.availSuppression = availSuppression
         self.bumper = bumper
         self.cdnConfiguration = cdnConfiguration
@@ -4972,6 +5038,10 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
     public var adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration?
     /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
     public var adDecisionServerUrl: Swift.String?
+    /// The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.
+    public var adsPersonalizationConcurrency: MediaTailorClientTypes.AdsPersonalizationConcurrency?
+    /// The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.
+    public var adsPersonalizationTimeouts: MediaTailorClientTypes.AdsPersonalizationTimeouts?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
     public var availSuppression: MediaTailorClientTypes.AvailSuppression?
     /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see [Bumpers](https://docs.aws.amazon.com/mediatailor/latest/ug/bumpers.html).
@@ -5008,6 +5078,8 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
         adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
         adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration? = nil,
         adDecisionServerUrl: Swift.String? = nil,
+        adsPersonalizationConcurrency: MediaTailorClientTypes.AdsPersonalizationConcurrency? = nil,
+        adsPersonalizationTimeouts: MediaTailorClientTypes.AdsPersonalizationTimeouts? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
         cdnConfiguration: MediaTailorClientTypes.CdnConfiguration? = nil,
@@ -5027,6 +5099,8 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
         self.adConditioningConfiguration = adConditioningConfiguration
         self.adDecisionServerConfiguration = adDecisionServerConfiguration
         self.adDecisionServerUrl = adDecisionServerUrl
+        self.adsPersonalizationConcurrency = adsPersonalizationConcurrency
+        self.adsPersonalizationTimeouts = adsPersonalizationTimeouts
         self.availSuppression = availSuppression
         self.bumper = bumper
         self.cdnConfiguration = cdnConfiguration
@@ -5052,6 +5126,10 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
     public var adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration?
     /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
     public var adDecisionServerUrl: Swift.String?
+    /// The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.
+    public var adsPersonalizationConcurrency: MediaTailorClientTypes.AdsPersonalizationConcurrency?
+    /// The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.
+    public var adsPersonalizationTimeouts: MediaTailorClientTypes.AdsPersonalizationTimeouts?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
     public var availSuppression: MediaTailorClientTypes.AvailSuppression?
     /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see [Bumpers](https://docs.aws.amazon.com/mediatailor/latest/ug/bumpers.html).
@@ -5101,6 +5179,8 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
         adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
         adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration? = nil,
         adDecisionServerUrl: Swift.String? = nil,
+        adsPersonalizationConcurrency: MediaTailorClientTypes.AdsPersonalizationConcurrency? = nil,
+        adsPersonalizationTimeouts: MediaTailorClientTypes.AdsPersonalizationTimeouts? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
         cdnConfiguration: MediaTailorClientTypes.CdnConfiguration? = nil,
@@ -5127,6 +5207,8 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
         self.adConditioningConfiguration = adConditioningConfiguration
         self.adDecisionServerConfiguration = adDecisionServerConfiguration
         self.adDecisionServerUrl = adDecisionServerUrl
+        self.adsPersonalizationConcurrency = adsPersonalizationConcurrency
+        self.adsPersonalizationTimeouts = adsPersonalizationTimeouts
         self.availSuppression = availSuppression
         self.bumper = bumper
         self.cdnConfiguration = cdnConfiguration
@@ -6105,6 +6187,8 @@ extension PutPlaybackConfigurationInput {
         try writer["AdConditioningConfiguration"].write(value.adConditioningConfiguration, with: MediaTailorClientTypes.AdConditioningConfiguration.write(value:to:))
         try writer["AdDecisionServerConfiguration"].write(value.adDecisionServerConfiguration, with: MediaTailorClientTypes.AdDecisionServerConfiguration.write(value:to:))
         try writer["AdDecisionServerUrl"].write(value.adDecisionServerUrl)
+        try writer["AdsPersonalizationConcurrency"].write(value.adsPersonalizationConcurrency, with: MediaTailorClientTypes.AdsPersonalizationConcurrency.write(value:to:))
+        try writer["AdsPersonalizationTimeouts"].write(value.adsPersonalizationTimeouts, with: MediaTailorClientTypes.AdsPersonalizationTimeouts.write(value:to:))
         try writer["AvailSuppression"].write(value.availSuppression, with: MediaTailorClientTypes.AvailSuppression.write(value:to:))
         try writer["Bumper"].write(value.bumper, with: MediaTailorClientTypes.Bumper.write(value:to:))
         try writer["CdnConfiguration"].write(value.cdnConfiguration, with: MediaTailorClientTypes.CdnConfiguration.write(value:to:))
@@ -6553,6 +6637,8 @@ extension GetPlaybackConfigurationOutput {
         value.adConditioningConfiguration = try reader["AdConditioningConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdConditioningConfiguration.read(from:))
         value.adDecisionServerConfiguration = try reader["AdDecisionServerConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdDecisionServerConfiguration.read(from:))
         value.adDecisionServerUrl = try reader["AdDecisionServerUrl"].readIfPresent()
+        value.adsPersonalizationConcurrency = try reader["AdsPersonalizationConcurrency"].readIfPresent(with: MediaTailorClientTypes.AdsPersonalizationConcurrency.read(from:))
+        value.adsPersonalizationTimeouts = try reader["AdsPersonalizationTimeouts"].readIfPresent(with: MediaTailorClientTypes.AdsPersonalizationTimeouts.read(from:))
         value.availSuppression = try reader["AvailSuppression"].readIfPresent(with: MediaTailorClientTypes.AvailSuppression.read(from:))
         value.bumper = try reader["Bumper"].readIfPresent(with: MediaTailorClientTypes.Bumper.read(from:))
         value.cdnConfiguration = try reader["CdnConfiguration"].readIfPresent(with: MediaTailorClientTypes.CdnConfiguration.read(from:))
@@ -6751,6 +6837,8 @@ extension PutPlaybackConfigurationOutput {
         value.adConditioningConfiguration = try reader["AdConditioningConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdConditioningConfiguration.read(from:))
         value.adDecisionServerConfiguration = try reader["AdDecisionServerConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdDecisionServerConfiguration.read(from:))
         value.adDecisionServerUrl = try reader["AdDecisionServerUrl"].readIfPresent()
+        value.adsPersonalizationConcurrency = try reader["AdsPersonalizationConcurrency"].readIfPresent(with: MediaTailorClientTypes.AdsPersonalizationConcurrency.read(from:))
+        value.adsPersonalizationTimeouts = try reader["AdsPersonalizationTimeouts"].readIfPresent(with: MediaTailorClientTypes.AdsPersonalizationTimeouts.read(from:))
         value.availSuppression = try reader["AvailSuppression"].readIfPresent(with: MediaTailorClientTypes.AvailSuppression.read(from:))
         value.bumper = try reader["Bumper"].readIfPresent(with: MediaTailorClientTypes.Bumper.read(from:))
         value.cdnConfiguration = try reader["CdnConfiguration"].readIfPresent(with: MediaTailorClientTypes.CdnConfiguration.read(from:))
@@ -7662,6 +7750,46 @@ extension MediaTailorClientTypes.AdsInteractionLog {
     }
 }
 
+extension MediaTailorClientTypes.AdsPersonalizationConcurrency {
+
+    static func write(value: MediaTailorClientTypes.AdsPersonalizationConcurrency?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnableVodVastParallelization"].write(value.enableVodVastParallelization)
+        try writer["MaxConcurrentAdsRequests"].write(value.maxConcurrentAdsRequests)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdsPersonalizationConcurrency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.AdsPersonalizationConcurrency()
+        value.maxConcurrentAdsRequests = try reader["MaxConcurrentAdsRequests"].readIfPresent()
+        value.enableVodVastParallelization = try reader["EnableVodVastParallelization"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.AdsPersonalizationTimeouts {
+
+    static func write(value: MediaTailorClientTypes.AdsPersonalizationTimeouts?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdsRequestTimeoutMilliseconds"].write(value.adsRequestTimeoutMilliseconds)
+        try writer["LiveMaximumAdsPersonalizationTimeMilliseconds"].write(value.liveMaximumAdsPersonalizationTimeMilliseconds)
+        try writer["PrefetchAdsRequestTimeoutMilliseconds"].write(value.prefetchAdsRequestTimeoutMilliseconds)
+        try writer["PrefetchMaximumAdsPersonalizationTimeMilliseconds"].write(value.prefetchMaximumAdsPersonalizationTimeMilliseconds)
+        try writer["VodMaximumAdsPersonalizationTimeMilliseconds"].write(value.vodMaximumAdsPersonalizationTimeMilliseconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdsPersonalizationTimeouts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.AdsPersonalizationTimeouts()
+        value.adsRequestTimeoutMilliseconds = try reader["AdsRequestTimeoutMilliseconds"].readIfPresent()
+        value.liveMaximumAdsPersonalizationTimeMilliseconds = try reader["LiveMaximumAdsPersonalizationTimeMilliseconds"].readIfPresent()
+        value.vodMaximumAdsPersonalizationTimeMilliseconds = try reader["VodMaximumAdsPersonalizationTimeMilliseconds"].readIfPresent()
+        value.prefetchAdsRequestTimeoutMilliseconds = try reader["PrefetchAdsRequestTimeoutMilliseconds"].readIfPresent()
+        value.prefetchMaximumAdsPersonalizationTimeMilliseconds = try reader["PrefetchMaximumAdsPersonalizationTimeMilliseconds"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaTailorClientTypes.Alert {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.Alert {
@@ -8183,6 +8311,8 @@ extension MediaTailorClientTypes.PlaybackConfiguration {
         value.adConditioningConfiguration = try reader["AdConditioningConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdConditioningConfiguration.read(from:))
         value.adDecisionServerConfiguration = try reader["AdDecisionServerConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdDecisionServerConfiguration.read(from:))
         value.functionMapping = try reader["FunctionMapping"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.adsPersonalizationTimeouts = try reader["AdsPersonalizationTimeouts"].readIfPresent(with: MediaTailorClientTypes.AdsPersonalizationTimeouts.read(from:))
+        value.adsPersonalizationConcurrency = try reader["AdsPersonalizationConcurrency"].readIfPresent(with: MediaTailorClientTypes.AdsPersonalizationConcurrency.read(from:))
         return value
     }
 }

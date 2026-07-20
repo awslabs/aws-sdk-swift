@@ -914,6 +914,16 @@ public struct InvokeAgentRuntimeInput: Swift.Sendable {
     public var baggage: Swift.String?
     /// The MIME type of the input data in the payload. This tells the agent runtime how to interpret the payload data. Common values include application/json for JSON data.
     public var contentType: Swift.String?
+    /// The MCP method being invoked. For example, tools/call, resources/read, or prompts/get.
+    public var mcpMethod: Swift.String?
+    /// The name of the MCP resource, tool, or prompt being accessed. The value depends on the method:
+    ///
+    /// * tools/call – The tool name.
+    ///
+    /// * resources/read – The resource URI.
+    ///
+    /// * prompts/get – The prompt name.
+    public var mcpName: Swift.String?
     /// The version of the MCP protocol being used.
     public var mcpProtocolVersion: Swift.String?
     /// The identifier of the MCP session.
@@ -940,6 +950,8 @@ public struct InvokeAgentRuntimeInput: Swift.Sendable {
         agentRuntimeArn: Swift.String? = nil,
         baggage: Swift.String? = nil,
         contentType: Swift.String? = nil,
+        mcpMethod: Swift.String? = nil,
+        mcpName: Swift.String? = nil,
         mcpProtocolVersion: Swift.String? = nil,
         mcpSessionId: Swift.String? = nil,
         payload: Foundation.Data? = nil,
@@ -955,6 +967,8 @@ public struct InvokeAgentRuntimeInput: Swift.Sendable {
         self.agentRuntimeArn = agentRuntimeArn
         self.baggage = baggage
         self.contentType = contentType
+        self.mcpMethod = mcpMethod
+        self.mcpName = mcpName
         self.mcpProtocolVersion = mcpProtocolVersion
         self.mcpSessionId = mcpSessionId
         self.payload = payload
@@ -969,7 +983,7 @@ public struct InvokeAgentRuntimeInput: Swift.Sendable {
 
 extension InvokeAgentRuntimeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeAgentRuntimeInput(accept: \(Swift.String(describing: accept)), accountId: \(Swift.String(describing: accountId)), agentRuntimeArn: \(Swift.String(describing: agentRuntimeArn)), baggage: \(Swift.String(describing: baggage)), contentType: \(Swift.String(describing: contentType)), mcpProtocolVersion: \(Swift.String(describing: mcpProtocolVersion)), mcpSessionId: \(Swift.String(describing: mcpSessionId)), qualifier: \(Swift.String(describing: qualifier)), runtimeSessionId: \(Swift.String(describing: runtimeSessionId)), runtimeUserId: \(Swift.String(describing: runtimeUserId)), traceId: \(Swift.String(describing: traceId)), traceParent: \(Swift.String(describing: traceParent)), traceState: \(Swift.String(describing: traceState)), payload: \"CONTENT_REDACTED\")"}
+        "InvokeAgentRuntimeInput(accept: \(Swift.String(describing: accept)), accountId: \(Swift.String(describing: accountId)), agentRuntimeArn: \(Swift.String(describing: agentRuntimeArn)), baggage: \(Swift.String(describing: baggage)), contentType: \(Swift.String(describing: contentType)), mcpMethod: \(Swift.String(describing: mcpMethod)), mcpName: \(Swift.String(describing: mcpName)), mcpProtocolVersion: \(Swift.String(describing: mcpProtocolVersion)), mcpSessionId: \(Swift.String(describing: mcpSessionId)), qualifier: \(Swift.String(describing: qualifier)), runtimeSessionId: \(Swift.String(describing: runtimeSessionId)), runtimeUserId: \(Swift.String(describing: runtimeUserId)), traceId: \(Swift.String(describing: traceId)), traceParent: \(Swift.String(describing: traceParent)), traceState: \(Swift.String(describing: traceState)), payload: \"CONTENT_REDACTED\")"}
 }
 
 public struct InvokeAgentRuntimeOutput: Swift.Sendable {
@@ -6970,6 +6984,8 @@ extension BedrockAgentCoreClientTypes {
 
     /// Configuration for a Google Gemini model provider. Requires an API key stored in AgentCore Identity.
     public struct HarnessGeminiModelConfig: Swift.Sendable {
+        /// Provider-specific parameters passed through to the Gemini model provider unchanged.
+        public var additionalParams: Smithy.Document?
         /// The ARN of your Gemini API key on AgentCore Identity.
         /// This member is required.
         public var apiKeyArn: Swift.String?
@@ -6986,6 +7002,7 @@ extension BedrockAgentCoreClientTypes {
         public var topp: Swift.Float?
 
         public init(
+            additionalParams: Smithy.Document? = nil,
             apiKeyArn: Swift.String? = nil,
             maxTokens: Swift.Int? = nil,
             modelId: Swift.String? = nil,
@@ -6993,6 +7010,7 @@ extension BedrockAgentCoreClientTypes {
             topk: Swift.Int? = nil,
             topp: Swift.Float? = nil
         ) {
+            self.additionalParams = additionalParams
             self.apiKeyArn = apiKeyArn
             self.maxTokens = maxTokens
             self.modelId = modelId
@@ -7515,6 +7533,8 @@ public struct InvokeHarnessInput: Swift.Sendable {
     public var actorId: Swift.String?
     /// The tools that the agent is allowed to use for this invocation. If specified, overrides the harness default.
     public var allowedTools: [Swift.String]?
+    /// W3C Baggage header for user-defined context propagation. Format: key1=value1,key2=value2
+    public var baggage: Swift.String?
     /// The ARN of the harness to invoke.
     /// This member is required.
     public var harnessArn: Swift.String?
@@ -7542,10 +7562,17 @@ public struct InvokeHarnessInput: Swift.Sendable {
     public var timeoutSeconds: Swift.Int?
     /// The tools available to the agent for this invocation. If specified, overrides the harness default.
     public var tools: [BedrockAgentCoreClientTypes.HarnessTool]?
+    /// Trace ID for maintaining observability through the operation.
+    public var traceId: Swift.String?
+    /// W3C trace context parent header containing version, trace ID, parent span ID, and trace flags.
+    public var traceParent: Swift.String?
+    /// W3C trace context state header for vendor-specific trace information.
+    public var traceState: Swift.String?
 
     public init(
         actorId: Swift.String? = nil,
         allowedTools: [Swift.String]? = nil,
+        baggage: Swift.String? = nil,
         harnessArn: Swift.String? = nil,
         maxIterations: Swift.Int? = nil,
         maxTokens: Swift.Int? = nil,
@@ -7557,10 +7584,14 @@ public struct InvokeHarnessInput: Swift.Sendable {
         skills: [BedrockAgentCoreClientTypes.HarnessSkill]? = nil,
         systemPrompt: [BedrockAgentCoreClientTypes.HarnessSystemContentBlock]? = nil,
         timeoutSeconds: Swift.Int? = nil,
-        tools: [BedrockAgentCoreClientTypes.HarnessTool]? = nil
+        tools: [BedrockAgentCoreClientTypes.HarnessTool]? = nil,
+        traceId: Swift.String? = nil,
+        traceParent: Swift.String? = nil,
+        traceState: Swift.String? = nil
     ) {
         self.actorId = actorId
         self.allowedTools = allowedTools
+        self.baggage = baggage
         self.harnessArn = harnessArn
         self.maxIterations = maxIterations
         self.maxTokens = maxTokens
@@ -7573,6 +7604,9 @@ public struct InvokeHarnessInput: Swift.Sendable {
         self.systemPrompt = systemPrompt
         self.timeoutSeconds = timeoutSeconds
         self.tools = tools
+        self.traceId = traceId
+        self.traceParent = traceParent
+        self.traceState = traceState
     }
 }
 
@@ -7600,6 +7634,27 @@ extension BedrockAgentCoreClientTypes {
         case json(Smithy.Document)
         case sdkUnknown(Swift.String)
     }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Delta payload for a tool result metadata.
+    public struct HarnessToolResultMetadataBlockDelta: Swift.Sendable {
+        /// The partial JSON-string fragment of the tool result metadata.
+        /// This member is required.
+        public var metadata: Swift.String?
+
+        public init(
+            metadata: Swift.String? = nil
+        ) {
+            self.metadata = metadata
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessToolResultMetadataBlockDelta: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HarnessToolResultMetadataBlockDelta(metadata: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreClientTypes {
@@ -7635,6 +7690,8 @@ extension BedrockAgentCoreClientTypes {
         case toolresult([BedrockAgentCoreClientTypes.HarnessToolResultBlockDelta])
         /// A reasoning content delta.
         case reasoningcontent(BedrockAgentCoreClientTypes.HarnessReasoningContentBlockDelta)
+        /// A tool result metadata delta.
+        case toolresultmetadata(BedrockAgentCoreClientTypes.HarnessToolResultMetadataBlockDelta)
         case sdkUnknown(Swift.String)
     }
 }
@@ -11627,6 +11684,12 @@ extension InvokeAgentRuntimeInput {
         if let contentType = value.contentType {
             items.add(SmithyHTTPAPI.Header(name: "Content-Type", value: Swift.String(contentType)))
         }
+        if let mcpMethod = value.mcpMethod {
+            items.add(SmithyHTTPAPI.Header(name: "Mcp-Method", value: Swift.String(mcpMethod)))
+        }
+        if let mcpName = value.mcpName {
+            items.add(SmithyHTTPAPI.Header(name: "Mcp-Name", value: Swift.String(mcpName)))
+        }
         if let mcpProtocolVersion = value.mcpProtocolVersion {
             items.add(SmithyHTTPAPI.Header(name: "Mcp-Protocol-Version", value: Swift.String(mcpProtocolVersion)))
         }
@@ -11782,11 +11845,23 @@ extension InvokeHarnessInput {
 
     static func headerProvider(_ value: InvokeHarnessInput) -> SmithyHTTPAPI.Headers {
         var items = SmithyHTTPAPI.Headers()
+        if let baggage = value.baggage {
+            items.add(SmithyHTTPAPI.Header(name: "baggage", value: Swift.String(baggage)))
+        }
         if let runtimeSessionId = value.runtimeSessionId {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id", value: Swift.String(runtimeSessionId)))
         }
         if let runtimeUserId = value.runtimeUserId {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Runtime-User-Id", value: Swift.String(runtimeUserId)))
+        }
+        if let traceId = value.traceId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Trace-Id", value: Swift.String(traceId)))
+        }
+        if let traceParent = value.traceParent {
+            items.add(SmithyHTTPAPI.Header(name: "traceparent", value: Swift.String(traceParent)))
+        }
+        if let traceState = value.traceState {
+            items.add(SmithyHTTPAPI.Header(name: "tracestate", value: Swift.String(traceState)))
         }
         return items
     }
@@ -16760,6 +16835,8 @@ extension BedrockAgentCoreClientTypes.HarnessContentBlockDelta {
                 return .toolresult(try reader["toolResult"].readList(memberReadingClosure: BedrockAgentCoreClientTypes.HarnessToolResultBlockDelta.read(from:), memberNodeInfo: "member", isFlattened: false))
             case "reasoningContent":
                 return .reasoningcontent(try reader["reasoningContent"].read(with: BedrockAgentCoreClientTypes.HarnessReasoningContentBlockDelta.read(from:)))
+            case "toolResultMetadata":
+                return .toolresultmetadata(try reader["toolResultMetadata"].read(with: BedrockAgentCoreClientTypes.HarnessToolResultMetadataBlockDelta.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -16835,6 +16912,7 @@ extension BedrockAgentCoreClientTypes.HarnessGeminiModelConfig {
 
     static func write(value: BedrockAgentCoreClientTypes.HarnessGeminiModelConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalParams"].write(value.additionalParams)
         try writer["apiKeyArn"].write(value.apiKeyArn)
         try writer["maxTokens"].write(value.maxTokens)
         try writer["modelId"].write(value.modelId)
@@ -17163,6 +17241,16 @@ extension BedrockAgentCoreClientTypes.HarnessToolResultContentBlock {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessToolResultMetadataBlockDelta {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessToolResultMetadataBlockDelta {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.HarnessToolResultMetadataBlockDelta()
+        value.metadata = try reader["metadata"].readIfPresent() ?? ""
+        return value
     }
 }
 

@@ -8484,11 +8484,15 @@ extension BedrockAgentCoreControlClientTypes {
         /// The identifier for the connector integration (for example, bedrock-knowledge-bases).
         /// This member is required.
         public var connectorId: Swift.String?
+        /// The version of the connector to use (for example, 1.1.0). If you don't specify a version, the service uses the latest available version.
+        public var version: Swift.String?
 
         public init(
-            connectorId: Swift.String? = nil
+            connectorId: Swift.String? = nil,
+            version: Swift.String? = nil
         ) {
             self.connectorId = connectorId
+            self.version = version
         }
     }
 }
@@ -30565,12 +30569,14 @@ extension BedrockAgentCoreControlClientTypes.ConnectorSource {
     static func write(value: BedrockAgentCoreControlClientTypes.ConnectorSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["connectorId"].write(value.connectorId)
+        try writer["version"].write(value.version)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ConnectorSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreControlClientTypes.ConnectorSource()
         value.connectorId = try reader["connectorId"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent()
         return value
     }
 }

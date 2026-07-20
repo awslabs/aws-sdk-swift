@@ -5131,6 +5131,61 @@ public struct GetAccountInput: Swift.Sendable {
 
 extension SESv2ClientTypes {
 
+    /// Identifies an Amazon SES pricing plan. See PutAccountPricingAttributesRequest$Plan for the list of supported values and their meanings.
+    public enum PricingPlan: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case enterprise
+        case essentials
+        case `none`
+        case pro
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PricingPlan] {
+            return [
+                .enterprise,
+                .essentials,
+                .none,
+                .pro
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .enterprise: return "ENTERPRISE"
+            case .essentials: return "ESSENTIALS"
+            case .none: return "NONE"
+            case .pro: return "PRO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// The pricing attributes that apply to your Amazon SES account, including the currently active pricing plan and any scheduled change for the next billing cycle.
+    public struct PricingAttributes: Swift.Sendable {
+        /// The pricing plan that is currently active on your Amazon SES account.
+        public var currentPlan: SESv2ClientTypes.PricingPlan?
+        /// The pricing plan that will become active at the start of the next billing cycle, if a scheduled change has been requested. This field is empty when no scheduled change is pending.
+        public var nextPlan: SESv2ClientTypes.PricingPlan?
+
+        public init(
+            currentPlan: SESv2ClientTypes.PricingPlan? = nil,
+            nextPlan: SESv2ClientTypes.PricingPlan? = nil
+        ) {
+            self.currentPlan = currentPlan
+            self.nextPlan = nextPlan
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
     /// An object that contains information about the per-day and per-second sending limits for your Amazon SES account in the current Amazon Web Services Region.
     public struct SendQuota: Swift.Sendable {
         /// The maximum number of emails that you can send in the current Amazon Web Services Region over a 24-hour period. A value of -1 signifies an unlimited quota. (This value is also referred to as your sending quota.)
@@ -5252,6 +5307,8 @@ public struct GetAccountOutput: Swift.Sendable {
     ///
     /// * SHUTDOWN – Your account's ability to send email is currently paused because of an issue with the email sent from your account. When you correct the issue, you can contact us and request that your account's ability to send email is resumed.
     public var enforcementStatus: Swift.String?
+    /// The pricing attributes that apply to your Amazon SES account, including the currently active pricing plan and any scheduled change.
+    public var pricingAttributes: SESv2ClientTypes.PricingAttributes?
     /// Indicates whether or not your account has production access in the current Amazon Web Services Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities. If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
     public var productionAccessEnabled: Swift.Bool
     /// An object that contains information about the per-day and per-second sending limits for your Amazon SES account in the current Amazon Web Services Region.
@@ -5267,6 +5324,7 @@ public struct GetAccountOutput: Swift.Sendable {
         dedicatedIpAutoWarmupEnabled: Swift.Bool = false,
         details: SESv2ClientTypes.AccountDetails? = nil,
         enforcementStatus: Swift.String? = nil,
+        pricingAttributes: SESv2ClientTypes.PricingAttributes? = nil,
         productionAccessEnabled: Swift.Bool = false,
         sendQuota: SESv2ClientTypes.SendQuota? = nil,
         sendingEnabled: Swift.Bool = false,
@@ -5276,6 +5334,7 @@ public struct GetAccountOutput: Swift.Sendable {
         self.dedicatedIpAutoWarmupEnabled = dedicatedIpAutoWarmupEnabled
         self.details = details
         self.enforcementStatus = enforcementStatus
+        self.pricingAttributes = pricingAttributes
         self.productionAccessEnabled = productionAccessEnabled
         self.sendQuota = sendQuota
         self.sendingEnabled = sendingEnabled
@@ -8127,6 +8186,33 @@ public struct PutAccountDetailsOutput: Swift.Sendable {
     public init() { }
 }
 
+/// A request to set the pricing plan for your Amazon SES account.
+public struct PutAccountPricingAttributesInput: Swift.Sendable {
+    /// The pricing plan to apply to your Amazon SES account. Can be one of the following:
+    ///
+    /// * NONE – No pricing plan is applied; billing follows per-feature pricing.
+    ///
+    /// * ESSENTIALS – Baseline Amazon SES capabilities and select premium features.
+    ///
+    /// * PRO – Includes everything in ESSENTIALS, plus additional premium features for growing senders.
+    ///
+    /// * ENTERPRISE – Includes everything in PRO, plus features intended for large-scale senders.
+    /// This member is required.
+    public var plan: SESv2ClientTypes.PricingPlan?
+
+    public init(
+        plan: SESv2ClientTypes.PricingPlan? = nil
+    ) {
+        self.plan = plan
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error response if the request fails.
+public struct PutAccountPricingAttributesOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// A request to change the ability of your account to send email.
 public struct PutAccountSendingAttributesInput: Swift.Sendable {
     /// Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email sending. If Amazon Web Services paused your account's ability to send email, you can't use this operation to resume your account's ability to send email.
@@ -10130,6 +10216,13 @@ extension PutAccountDetailsInput {
     }
 }
 
+extension PutAccountPricingAttributesInput {
+
+    static func urlPathProvider(_ value: PutAccountPricingAttributesInput) -> Swift.String? {
+        return "/v2/email/account/pricing-attributes"
+    }
+}
+
 extension PutAccountSendingAttributesInput {
 
     static func urlPathProvider(_ value: PutAccountSendingAttributesInput) -> Swift.String? {
@@ -10785,6 +10878,14 @@ extension PutAccountDetailsInput {
     }
 }
 
+extension PutAccountPricingAttributesInput {
+
+    static func write(value: PutAccountPricingAttributesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Plan"].write(value.plan)
+    }
+}
+
 extension PutAccountSendingAttributesInput {
 
     static func write(value: PutAccountSendingAttributesInput?, to writer: SmithyJSON.Writer) throws {
@@ -11372,6 +11473,7 @@ extension GetAccountOutput {
         value.dedicatedIpAutoWarmupEnabled = try reader["DedicatedIpAutoWarmupEnabled"].readIfPresent() ?? false
         value.details = try reader["Details"].readIfPresent(with: SESv2ClientTypes.AccountDetails.read(from:))
         value.enforcementStatus = try reader["EnforcementStatus"].readIfPresent()
+        value.pricingAttributes = try reader["PricingAttributes"].readIfPresent(with: SESv2ClientTypes.PricingAttributes.read(from:))
         value.productionAccessEnabled = try reader["ProductionAccessEnabled"].readIfPresent() ?? false
         value.sendQuota = try reader["SendQuota"].readIfPresent(with: SESv2ClientTypes.SendQuota.read(from:))
         value.sendingEnabled = try reader["SendingEnabled"].readIfPresent() ?? false
@@ -11998,6 +12100,13 @@ extension PutAccountDetailsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAccountDetailsOutput {
         return PutAccountDetailsOutput()
+    }
+}
+
+extension PutAccountPricingAttributesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAccountPricingAttributesOutput {
+        return PutAccountPricingAttributesOutput()
     }
 }
 
@@ -13494,6 +13603,22 @@ enum PutAccountDedicatedIpWarmupAttributesOutputError {
 }
 
 enum PutAccountDetailsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutAccountPricingAttributesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -15284,6 +15409,17 @@ extension SESv2ClientTypes.PlacementStatistics {
         value.missingPercentage = try reader["MissingPercentage"].readIfPresent()
         value.spfPercentage = try reader["SpfPercentage"].readIfPresent()
         value.dkimPercentage = try reader["DkimPercentage"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.PricingAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.PricingAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.PricingAttributes()
+        value.currentPlan = try reader["CurrentPlan"].readIfPresent()
+        value.nextPlan = try reader["NextPlan"].readIfPresent()
         return value
     }
 }
