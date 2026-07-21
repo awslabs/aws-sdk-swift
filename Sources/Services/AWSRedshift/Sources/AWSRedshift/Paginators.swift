@@ -802,6 +802,37 @@ extension PaginatorSequence where OperationStackInput == DescribeOrderableCluste
     }
 }
 extension RedshiftClient {
+    /// Paginate over `[DescribeQev2IdcApplicationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeQev2IdcApplicationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeQev2IdcApplicationsOutput`
+    public func describeQev2IdcApplicationsPaginated(input: DescribeQev2IdcApplicationsInput) -> ClientRuntime.PaginatorSequence<DescribeQev2IdcApplicationsInput, DescribeQev2IdcApplicationsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeQev2IdcApplicationsInput, DescribeQev2IdcApplicationsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeQev2IdcApplications(input:))
+    }
+}
+
+extension DescribeQev2IdcApplicationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeQev2IdcApplicationsInput {
+        return DescribeQev2IdcApplicationsInput(
+            marker: token,
+            maxRecords: self.maxRecords,
+            qev2IdcApplicationArn: self.qev2IdcApplicationArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeQev2IdcApplicationsInput, OperationStackOutput == DescribeQev2IdcApplicationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeQev2IdcApplicationsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.Qev2IdcApplication]`
+    /// - Returns: `[RedshiftClientTypes.Qev2IdcApplication]`
+    public func qev2IdcApplications() async throws -> [RedshiftClientTypes.Qev2IdcApplication] {
+        return try await self.asyncCompactMap { item in item.qev2IdcApplications }
+    }
+}
+extension RedshiftClient {
     /// Paginate over `[DescribeRedshiftIdcApplicationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

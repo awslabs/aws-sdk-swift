@@ -1072,9 +1072,9 @@ extension EntityResolutionClientTypes {
 
 extension EntityResolutionClientTypes {
 
-    /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console. For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
+    /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console. For workflows where resolutionType is PROVIDER, incremental processing is not supported.
     public struct IncrementalRunConfig: Swift.Sendable {
-        /// The type of incremental run. The only valid value is IMMEDIATE. This appears as "Automatic" in the console. For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
+        /// The type of incremental run. The only valid value is IMMEDIATE. This appears as "Automatic" in the console. For workflows where resolutionType is PROVIDER, incremental processing is not supported.
         public var incrementalRunType: EntityResolutionClientTypes.IncrementalRunType?
 
         public init(
@@ -1329,6 +1329,8 @@ extension EntityResolutionClientTypes {
 
     /// An object which defines the resolutionType and the ruleBasedProperties.
     public struct ResolutionTechniques: Swift.Sendable {
+        /// Specifies whether real-time matching is enabled for the rule-based matching workflow. When you enable real-time matching, you can use the GenerateMatchId operation with the workflow.
+        public var enableRealTimeMatching: Swift.Bool?
         /// The properties of the provider service.
         public var providerProperties: EntityResolutionClientTypes.ProviderProperties?
         /// The type of matching workflow to create. Specify one of the following types:
@@ -1346,11 +1348,13 @@ extension EntityResolutionClientTypes {
         public var ruleConditionProperties: EntityResolutionClientTypes.RuleConditionProperties?
 
         public init(
+            enableRealTimeMatching: Swift.Bool? = nil,
             providerProperties: EntityResolutionClientTypes.ProviderProperties? = nil,
             resolutionType: EntityResolutionClientTypes.ResolutionType? = nil,
             ruleBasedProperties: EntityResolutionClientTypes.RuleBasedProperties? = nil,
             ruleConditionProperties: EntityResolutionClientTypes.RuleConditionProperties? = nil
         ) {
+            self.enableRealTimeMatching = enableRealTimeMatching
             self.providerProperties = providerProperties
             self.resolutionType = resolutionType
             self.ruleBasedProperties = ruleBasedProperties
@@ -1362,7 +1366,7 @@ extension EntityResolutionClientTypes {
 public struct CreateMatchingWorkflowInput: Swift.Sendable {
     /// A description of the workflow.
     public var description: Swift.String?
-    /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console. For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
+    /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console. For workflows where resolutionType is PROVIDER, incremental processing is not supported.
     public var incrementalRunConfig: EntityResolutionClientTypes.IncrementalRunConfig?
     /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
     /// This member is required.
@@ -1827,7 +1831,7 @@ extension EntityResolutionClientTypes.Record: Swift.CustomDebugStringConvertible
 }
 
 public struct GenerateMatchIdInput: Swift.Sendable {
-    /// The processing mode that determines how Match IDs are generated and results are saved. Each mode provides different levels of accuracy, response time, and completeness of results. If not specified, defaults to CONSISTENT. CONSISTENT: Performs immediate lookup and matching against all existing records, with results saved synchronously. Provides highest accuracy but slower response time. EVENTUAL (shown as Background in the console): Performs initial match ID lookup or generation immediately, with record updates processed asynchronously in the background. Offers faster initial response time, with complete matching results available later in S3. EVENTUAL_NO_LOOKUP (shown as Quick ID generation in the console): Generates new match IDs without checking existing matches, with updates processed asynchronously. Provides fastest response time but should only be used for records known to be unique.
+    /// The processing mode that determines how Match IDs are generated and results are saved. Each mode provides different levels of accuracy, response time, and completeness of results. If not specified, defaults to CONSISTENT. CONSISTENT: Performs immediate lookup and matching against all existing records, with results saved synchronously. Provides highest accuracy but slower response time. EVENTUAL (shown as Background in the console): Performs initial match ID lookup or generation immediately, with record updates processed asynchronously in the background. Offers faster initial response time, with complete matching results available later in S3. EVENTUAL_NO_LOOKUP (shown as Quick ID generation in the console): Generates new match IDs without checking existing matches, with updates processed asynchronously. Provides fastest response time but should only be used for records known to be unique. Advanced matching workflows don't support the processingType field.
     public var processingType: EntityResolutionClientTypes.ProcessingType?
     /// The records to match.
     /// This member is required.
@@ -3651,7 +3655,7 @@ public struct UpdateIdNamespaceOutput: Swift.Sendable {
 public struct UpdateMatchingWorkflowInput: Swift.Sendable {
     /// A description of the workflow.
     public var description: Swift.String?
-    /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console. For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
+    /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console. For workflows where resolutionType is PROVIDER, incremental processing is not supported.
     public var incrementalRunConfig: EntityResolutionClientTypes.IncrementalRunConfig?
     /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
     /// This member is required.
@@ -6411,6 +6415,7 @@ extension EntityResolutionClientTypes.ResolutionTechniques {
 
     static func write(value: EntityResolutionClientTypes.ResolutionTechniques?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["enableRealTimeMatching"].write(value.enableRealTimeMatching)
         try writer["providerProperties"].write(value.providerProperties, with: EntityResolutionClientTypes.ProviderProperties.write(value:to:))
         try writer["resolutionType"].write(value.resolutionType)
         try writer["ruleBasedProperties"].write(value.ruleBasedProperties, with: EntityResolutionClientTypes.RuleBasedProperties.write(value:to:))
@@ -6423,6 +6428,7 @@ extension EntityResolutionClientTypes.ResolutionTechniques {
         value.resolutionType = try reader["resolutionType"].readIfPresent() ?? .sdkUnknown("")
         value.ruleBasedProperties = try reader["ruleBasedProperties"].readIfPresent(with: EntityResolutionClientTypes.RuleBasedProperties.read(from:))
         value.ruleConditionProperties = try reader["ruleConditionProperties"].readIfPresent(with: EntityResolutionClientTypes.RuleConditionProperties.read(from:))
+        value.enableRealTimeMatching = try reader["enableRealTimeMatching"].readIfPresent()
         value.providerProperties = try reader["providerProperties"].readIfPresent(with: EntityResolutionClientTypes.ProviderProperties.read(from:))
         return value
     }

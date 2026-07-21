@@ -5851,7 +5851,7 @@ extension SSMClientTypes {
         public var executionEndTime: Foundation.Date?
         /// The time the execution started.
         public var executionStartTime: Foundation.Date?
-        /// The list of execution outputs as defined in the Automation runbook.
+        /// A message that describes a failure that occurred during the automation execution.
         public var failureMessage: Swift.String?
         /// An S3 bucket where execution information is stored.
         public var logFile: Swift.String?
@@ -5885,6 +5885,8 @@ extension SSMClientTypes {
         public var targets: [SSMClientTypes.Target]?
         /// The CloudWatch alarm that was invoked by the automation.
         public var triggeredAlarms: [SSMClientTypes.AlarmStateInformation]?
+        /// A message that describes a non-critical issue that occurred during the automation execution.
+        public var warningMessage: Swift.String?
 
         public init(
             alarmConfiguration: SSMClientTypes.AlarmConfiguration? = nil,
@@ -5917,7 +5919,8 @@ extension SSMClientTypes {
             targetMaps: [[Swift.String: [Swift.String]]]? = nil,
             targetParameterName: Swift.String? = nil,
             targets: [SSMClientTypes.Target]? = nil,
-            triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil
+            triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil,
+            warningMessage: Swift.String? = nil
         ) {
             self.alarmConfiguration = alarmConfiguration
             self.associationId = associationId
@@ -5950,6 +5953,7 @@ extension SSMClientTypes {
             self.targetParameterName = targetParameterName
             self.targets = targets
             self.triggeredAlarms = triggeredAlarms
+            self.warningMessage = warningMessage
         }
     }
 }
@@ -6197,6 +6201,8 @@ extension SSMClientTypes {
         public var triggeredAlarms: [SSMClientTypes.AlarmStateInformation]?
         /// Strategies used when step fails, we support Continue and Abort. Abort will fail the automation when the step fails. Continue will ignore the failure of current step and allow automation to run the next step. With conditional branching, we add step:stepName to support the automation to go to another specific step.
         public var validNextSteps: [Swift.String]?
+        /// A message that describes a non-critical issue that occurred during the step execution. Present only if the step status includes a warning.
+        public var warningMessage: Swift.String?
 
         public init(
             action: Swift.String? = nil,
@@ -6222,7 +6228,8 @@ extension SSMClientTypes {
             targets: [SSMClientTypes.Target]? = nil,
             timeoutSeconds: Swift.Int? = nil,
             triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil,
-            validNextSteps: [Swift.String]? = nil
+            validNextSteps: [Swift.String]? = nil,
+            warningMessage: Swift.String? = nil
         ) {
             self.action = action
             self.executionEndTime = executionEndTime
@@ -6248,6 +6255,7 @@ extension SSMClientTypes {
             self.timeoutSeconds = timeoutSeconds
             self.triggeredAlarms = triggeredAlarms
             self.validNextSteps = validNextSteps
+            self.warningMessage = warningMessage
         }
     }
 }
@@ -10706,6 +10714,8 @@ extension SSMClientTypes {
         public var triggeredAlarms: [SSMClientTypes.AlarmStateInformation]?
         /// Variables defined for the automation.
         public var variables: [Swift.String: [Swift.String]]?
+        /// A message that describes a non-critical issue that occurred during the automation execution.
+        public var warningMessage: Swift.String?
 
         public init(
             alarmConfiguration: SSMClientTypes.AlarmConfiguration? = nil,
@@ -10742,7 +10752,8 @@ extension SSMClientTypes {
             targetParameterName: Swift.String? = nil,
             targets: [SSMClientTypes.Target]? = nil,
             triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil,
-            variables: [Swift.String: [Swift.String]]? = nil
+            variables: [Swift.String: [Swift.String]]? = nil,
+            warningMessage: Swift.String? = nil
         ) {
             self.alarmConfiguration = alarmConfiguration
             self.associationId = associationId
@@ -10779,6 +10790,7 @@ extension SSMClientTypes {
             self.targets = targets
             self.triggeredAlarms = triggeredAlarms
             self.variables = variables
+            self.warningMessage = warningMessage
         }
     }
 }

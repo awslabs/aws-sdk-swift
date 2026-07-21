@@ -6843,8 +6843,6 @@ extension Inspector2ClientTypes {
         /// The reason for the current status of the code security integration.
         /// This member is required.
         public var statusReason: Swift.String?
-        /// The tags associated with the code security integration.
-        public var tags: [Swift.String: Swift.String]?
         /// The type of repository provider for the integration.
         /// This member is required.
         public var type: Inspector2ClientTypes.IntegrationType?
@@ -6856,7 +6854,6 @@ extension Inspector2ClientTypes {
             name: Swift.String? = nil,
             status: Inspector2ClientTypes.IntegrationStatus? = nil,
             statusReason: Swift.String? = nil,
-            tags: [Swift.String: Swift.String]? = nil,
             type: Inspector2ClientTypes.IntegrationType? = nil
         ) {
             self.createdOn = createdOn
@@ -6865,7 +6862,6 @@ extension Inspector2ClientTypes {
             self.name = name
             self.status = status
             self.statusReason = statusReason
-            self.tags = tags
             self.type = type
         }
     }
@@ -7042,8 +7038,6 @@ extension Inspector2ClientTypes {
         public var scanConfigurationArn: Swift.String?
         /// The scope settings that define which repositories will be scanned. If the ScopeSetting parameter is ALL the scan configuration applies to all existing and future projects imported into Amazon Inspector.
         public var scopeSettings: Inspector2ClientTypes.ScopeSettings?
-        /// The tags associated with the scan configuration.
-        public var tags: [Swift.String: Swift.String]?
 
         public init(
             continuousIntegrationScanSupportedEvents: [Inspector2ClientTypes.ContinuousIntegrationScanEvent]? = nil,
@@ -7053,8 +7047,7 @@ extension Inspector2ClientTypes {
             periodicScanFrequency: Inspector2ClientTypes.PeriodicScanFrequency? = nil,
             ruleSetCategories: [Inspector2ClientTypes.RuleSetCategory]? = nil,
             scanConfigurationArn: Swift.String? = nil,
-            scopeSettings: Inspector2ClientTypes.ScopeSettings? = nil,
-            tags: [Swift.String: Swift.String]? = nil
+            scopeSettings: Inspector2ClientTypes.ScopeSettings? = nil
         ) {
             self.continuousIntegrationScanSupportedEvents = continuousIntegrationScanSupportedEvents
             self.frequencyExpression = frequencyExpression
@@ -7064,7 +7057,6 @@ extension Inspector2ClientTypes {
             self.ruleSetCategories = ruleSetCategories
             self.scanConfigurationArn = scanConfigurationArn
             self.scopeSettings = scopeSettings
-            self.tags = tags
         }
     }
 }
@@ -19007,7 +18999,6 @@ extension Inspector2ClientTypes.CodeSecurityIntegrationSummary {
         value.statusReason = try reader["statusReason"].readIfPresent() ?? ""
         value.createdOn = try reader["createdOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdateOn = try reader["lastUpdateOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -19078,7 +19069,6 @@ extension Inspector2ClientTypes.CodeSecurityScanConfigurationSummary {
         value.continuousIntegrationScanSupportedEvents = try reader["continuousIntegrationScanSupportedEvents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<Inspector2ClientTypes.ContinuousIntegrationScanEvent>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ruleSetCategories = try reader["ruleSetCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<Inspector2ClientTypes.RuleSetCategory>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.scopeSettings = try reader["scopeSettings"].readIfPresent(with: Inspector2ClientTypes.ScopeSettings.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

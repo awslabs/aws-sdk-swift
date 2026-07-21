@@ -59,6 +59,67 @@ extension EMRcontainersClientTypes {
 
 extension EMRcontainersClientTypes {
 
+    /// IAM configuration for the security configuration.
+    public struct IAMConfiguration: Swift.Sendable {
+        /// The ARN of the system role used by the security configuration.
+        public var systemRole: Swift.String?
+
+        public init(
+            systemRole: Swift.String? = nil
+        ) {
+            self.systemRole = systemRole
+        }
+    }
+}
+
+extension EMRcontainersClientTypes {
+
+    /// Identity Center related configuration for the security configuration.
+    public struct IdentityCenterConfiguration: Swift.Sendable {
+        /// The ARN of the EMR Identity Center application.
+        public var emrIdentityCenterApplicationARN: Swift.String?
+        /// Determines whether Identity Center is enabled for the security configuration.
+        public var enableIdentityCenter: Swift.Bool?
+        /// Determines whether user assignment is required for the Identity Center application.
+        public var identityCenterApplicationAssignmentRequired: Swift.Bool?
+        /// The ARN of the Identity Center instance.
+        public var identityCenterInstanceARN: Swift.String?
+
+        public init(
+            emrIdentityCenterApplicationARN: Swift.String? = nil,
+            enableIdentityCenter: Swift.Bool? = nil,
+            identityCenterApplicationAssignmentRequired: Swift.Bool? = nil,
+            identityCenterInstanceARN: Swift.String? = nil
+        ) {
+            self.emrIdentityCenterApplicationARN = emrIdentityCenterApplicationARN
+            self.enableIdentityCenter = enableIdentityCenter
+            self.identityCenterApplicationAssignmentRequired = identityCenterApplicationAssignmentRequired
+            self.identityCenterInstanceARN = identityCenterInstanceARN
+        }
+    }
+}
+
+extension EMRcontainersClientTypes {
+
+    /// Authentication configuration for the security configuration.
+    public struct AuthenticationConfiguration: Swift.Sendable {
+        /// IAM configuration for authentication in the security configuration.
+        public var iamConfiguration: EMRcontainersClientTypes.IAMConfiguration?
+        /// Identity Center configuration for authentication in the security configuration.
+        public var identityCenterConfiguration: EMRcontainersClientTypes.IdentityCenterConfiguration?
+
+        public init(
+            iamConfiguration: EMRcontainersClientTypes.IAMConfiguration? = nil,
+            identityCenterConfiguration: EMRcontainersClientTypes.IdentityCenterConfiguration? = nil
+        ) {
+            self.iamConfiguration = iamConfiguration
+            self.identityCenterConfiguration = identityCenterConfiguration
+        }
+    }
+}
+
+extension EMRcontainersClientTypes {
+
     public enum CertificateProviderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case pem
         case sdkUnknown(Swift.String)
@@ -745,12 +806,16 @@ extension EMRcontainersClientTypes {
 
     /// Configurations related to the security configuration for the request.
     public struct SecurityConfigurationData: Swift.Sendable {
+        /// Authentication-related configuration input for the security configuration.
+        public var authenticationConfiguration: EMRcontainersClientTypes.AuthenticationConfiguration?
         /// Authorization-related configuration input for the security configuration.
         public var authorizationConfiguration: EMRcontainersClientTypes.AuthorizationConfiguration?
 
         public init(
+            authenticationConfiguration: EMRcontainersClientTypes.AuthenticationConfiguration? = nil,
             authorizationConfiguration: EMRcontainersClientTypes.AuthorizationConfiguration? = nil
         ) {
+            self.authenticationConfiguration = authenticationConfiguration
             self.authorizationConfiguration = authorizationConfiguration
         }
     }
@@ -933,6 +998,29 @@ public struct DeleteManagedEndpointOutput: Swift.Sendable {
     ) {
         self.id = id
         self.virtualClusterId = virtualClusterId
+    }
+}
+
+public struct DeleteSecurityConfigurationInput: Swift.Sendable {
+    /// The ID of the security configuration to delete.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+public struct DeleteSecurityConfigurationOutput: Swift.Sendable {
+    /// The ID of the security configuration that was deleted.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
     }
 }
 
@@ -2318,6 +2406,16 @@ extension DeleteManagedEndpointInput {
     }
 }
 
+extension DeleteSecurityConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteSecurityConfigurationInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/securityconfigurations/\(id.urlPercentEncoding())"
+    }
+}
+
 extension DeleteVirtualClusterInput {
 
     static func urlPathProvider(_ value: DeleteVirtualClusterInput) -> Swift.String? {
@@ -2840,6 +2938,18 @@ extension DeleteManagedEndpointOutput {
     }
 }
 
+extension DeleteSecurityConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSecurityConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteSecurityConfigurationOutput()
+        value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteVirtualClusterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteVirtualClusterOutput {
@@ -3128,6 +3238,21 @@ enum DeleteJobTemplateOutputError {
 }
 
 enum DeleteManagedEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteSecurityConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -3458,6 +3583,23 @@ extension RequestThrottledException {
     }
 }
 
+extension EMRcontainersClientTypes.AuthenticationConfiguration {
+
+    static func write(value: EMRcontainersClientTypes.AuthenticationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["iamConfiguration"].write(value.iamConfiguration, with: EMRcontainersClientTypes.IAMConfiguration.write(value:to:))
+        try writer["identityCenterConfiguration"].write(value.identityCenterConfiguration, with: EMRcontainersClientTypes.IdentityCenterConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.AuthenticationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.AuthenticationConfiguration()
+        value.identityCenterConfiguration = try reader["identityCenterConfiguration"].readIfPresent(with: EMRcontainersClientTypes.IdentityCenterConfiguration.read(from:))
+        value.iamConfiguration = try reader["iamConfiguration"].readIfPresent(with: EMRcontainersClientTypes.IAMConfiguration.read(from:))
+        return value
+    }
+}
+
 extension EMRcontainersClientTypes.AuthorizationConfiguration {
 
     static func write(value: EMRcontainersClientTypes.AuthorizationConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -3669,6 +3811,42 @@ extension EMRcontainersClientTypes.Endpoint {
         value.stateDetails = try reader["stateDetails"].readIfPresent()
         value.failureReason = try reader["failureReason"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.IAMConfiguration {
+
+    static func write(value: EMRcontainersClientTypes.IAMConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["systemRole"].write(value.systemRole)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.IAMConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.IAMConfiguration()
+        value.systemRole = try reader["systemRole"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.IdentityCenterConfiguration {
+
+    static func write(value: EMRcontainersClientTypes.IdentityCenterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["emrIdentityCenterApplicationARN"].write(value.emrIdentityCenterApplicationARN)
+        try writer["enableIdentityCenter"].write(value.enableIdentityCenter)
+        try writer["identityCenterApplicationAssignmentRequired"].write(value.identityCenterApplicationAssignmentRequired)
+        try writer["identityCenterInstanceARN"].write(value.identityCenterInstanceARN)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.IdentityCenterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.IdentityCenterConfiguration()
+        value.enableIdentityCenter = try reader["enableIdentityCenter"].readIfPresent()
+        value.identityCenterApplicationAssignmentRequired = try reader["identityCenterApplicationAssignmentRequired"].readIfPresent()
+        value.identityCenterInstanceARN = try reader["identityCenterInstanceARN"].readIfPresent()
+        value.emrIdentityCenterApplicationARN = try reader["emrIdentityCenterApplicationARN"].readIfPresent()
         return value
     }
 }
@@ -3981,6 +4159,7 @@ extension EMRcontainersClientTypes.SecurityConfigurationData {
 
     static func write(value: EMRcontainersClientTypes.SecurityConfigurationData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["authenticationConfiguration"].write(value.authenticationConfiguration, with: EMRcontainersClientTypes.AuthenticationConfiguration.write(value:to:))
         try writer["authorizationConfiguration"].write(value.authorizationConfiguration, with: EMRcontainersClientTypes.AuthorizationConfiguration.write(value:to:))
     }
 
@@ -3988,6 +4167,7 @@ extension EMRcontainersClientTypes.SecurityConfigurationData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRcontainersClientTypes.SecurityConfigurationData()
         value.authorizationConfiguration = try reader["authorizationConfiguration"].readIfPresent(with: EMRcontainersClientTypes.AuthorizationConfiguration.read(from:))
+        value.authenticationConfiguration = try reader["authenticationConfiguration"].readIfPresent(with: EMRcontainersClientTypes.AuthenticationConfiguration.read(from:))
         return value
     }
 }

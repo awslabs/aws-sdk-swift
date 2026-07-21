@@ -1536,6 +1536,7 @@ extension InvoicingClientTypes {
         case testFailed
         case testInitializationFailed
         case testInitialized
+        case validated
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProcurementPortalPreferenceStatus] {
@@ -1545,7 +1546,8 @@ extension InvoicingClientTypes {
                 .suspended,
                 .testFailed,
                 .testInitializationFailed,
-                .testInitialized
+                .testInitialized,
+                .validated
             ]
         }
 
@@ -1562,6 +1564,7 @@ extension InvoicingClientTypes {
             case .testFailed: return "TEST_FAILED"
             case .testInitializationFailed: return "TEST_INITIALIZATION_FAILED"
             case .testInitialized: return "TEST_INITIALIZED"
+            case .validated: return "VALIDATED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2387,6 +2390,34 @@ public struct PutProcurementPortalPreferenceOutput: Swift.Sendable {
     }
 }
 
+public struct SendProcurementPortalValidationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the procurement portal preference to validate.
+    /// This member is required.
+    public var procurementPortalPreferenceArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        procurementPortalPreferenceArn: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+    }
+}
+
+public struct SendProcurementPortalValidationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the procurement portal preference for which the validation request was sent.
+    /// This member is required.
+    public var procurementPortalPreferenceArn: Swift.String?
+
+    public init(
+        procurementPortalPreferenceArn: Swift.String? = nil
+    ) {
+        self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the tags.
     /// This member is required.
@@ -2504,6 +2535,39 @@ public struct UpdateProcurementPortalPreferenceStatusInput: Swift.Sendable {
 
 public struct UpdateProcurementPortalPreferenceStatusOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the procurement portal preference with updated status.
+    /// This member is required.
+    public var procurementPortalPreferenceArn: Swift.String?
+
+    public init(
+        procurementPortalPreferenceArn: Swift.String? = nil
+    ) {
+        self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+    }
+}
+
+public struct VerifyProcurementPortalValidationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The validation code received from the procurement portal in response to a previous SendProcurementPortalValidation request.
+    /// This member is required.
+    public var code: Swift.String?
+    /// The Amazon Resource Name (ARN) of the procurement portal preference to validate.
+    /// This member is required.
+    public var procurementPortalPreferenceArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        code: Swift.String? = nil,
+        procurementPortalPreferenceArn: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.code = code
+        self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+    }
+}
+
+public struct VerifyProcurementPortalValidationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the procurement portal preference for which validation was completed.
     /// This member is required.
     public var procurementPortalPreferenceArn: Swift.String?
 
