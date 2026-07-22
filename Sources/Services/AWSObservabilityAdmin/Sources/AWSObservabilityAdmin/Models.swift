@@ -1245,6 +1245,9 @@ extension ObservabilityAdminClientTypes {
 
     public enum LogType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case access
+        case albAccess
+        case albConnection
+        case albHealthCheck
         case application
         case connection
         case s3ServerAccess
@@ -1255,6 +1258,9 @@ extension ObservabilityAdminClientTypes {
         public static var allCases: [LogType] {
             return [
                 .access,
+                .albAccess,
+                .albConnection,
+                .albHealthCheck,
                 .application,
                 .connection,
                 .s3ServerAccess,
@@ -1271,6 +1277,9 @@ extension ObservabilityAdminClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .access: return "ACCESS_LOGS"
+            case .albAccess: return "ALB_ACCESS_LOGS"
+            case .albConnection: return "ALB_CONNECTION_LOGS"
+            case .albHealthCheck: return "ALB_HEALTH_CHECK_LOGS"
             case .application: return "APPLICATION_LOGS"
             case .connection: return "CONNECTION_LOGS"
             case .s3ServerAccess: return "S3_SERVER_ACCESS_LOGS"
@@ -1621,6 +1630,7 @@ extension ObservabilityAdminClientTypes {
         case awsBedrockAgentcoreMemory
         case awsBedrockAgentcoreRuntime
         case awsBedrockAgentcoreWorkloadIdentity
+        case awsBedrockKnowledgebase
         case awsCloudfrontDistribution
         case awsCloudtrail
         case awsEc2Instance
@@ -1645,6 +1655,7 @@ extension ObservabilityAdminClientTypes {
                 .awsBedrockAgentcoreMemory,
                 .awsBedrockAgentcoreRuntime,
                 .awsBedrockAgentcoreWorkloadIdentity,
+                .awsBedrockKnowledgebase,
                 .awsCloudfrontDistribution,
                 .awsCloudtrail,
                 .awsEc2Instance,
@@ -1675,6 +1686,7 @@ extension ObservabilityAdminClientTypes {
             case .awsBedrockAgentcoreMemory: return "AWS::BedrockAgentCore::Memory"
             case .awsBedrockAgentcoreRuntime: return "AWS::BedrockAgentCore::Runtime"
             case .awsBedrockAgentcoreWorkloadIdentity: return "AWS::BedrockAgentCore::WorkloadIdentity"
+            case .awsBedrockKnowledgebase: return "AWS::Bedrock::KnowledgeBase"
             case .awsCloudfrontDistribution: return "AWS::CloudFront::Distribution"
             case .awsCloudtrail: return "AWS::CloudTrail"
             case .awsEc2Instance: return "AWS::EC2::Instance"

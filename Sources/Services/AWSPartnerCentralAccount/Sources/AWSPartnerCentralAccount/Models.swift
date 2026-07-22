@@ -86,6 +86,7 @@ extension PartnerCentralAccountClientTypes {
         case incompatibleConnectionState
         case incompatiblePartnerProfileTaskState
         case incompatibleProfileState
+        case incompatibleQualificationsAssociationTaskState
         case verificationAlreadyInProgress
         case sdkUnknown(Swift.String)
 
@@ -102,6 +103,7 @@ extension PartnerCentralAccountClientTypes {
                 .incompatibleConnectionState,
                 .incompatiblePartnerProfileTaskState,
                 .incompatibleProfileState,
+                .incompatibleQualificationsAssociationTaskState,
                 .verificationAlreadyInProgress
             ]
         }
@@ -124,6 +126,7 @@ extension PartnerCentralAccountClientTypes {
             case .incompatibleConnectionState: return "INCOMPATIBLE_CONNECTION_STATE"
             case .incompatiblePartnerProfileTaskState: return "INCOMPATIBLE_PARTNER_PROFILE_TASK_STATE"
             case .incompatibleProfileState: return "INCOMPATIBLE_PROFILE_STATE"
+            case .incompatibleQualificationsAssociationTaskState: return "INCOMPATIBLE_QUALIFICATIONS_ASSOCIATION_TASK_STATE"
             case .verificationAlreadyInProgress: return "VERIFICATION_ALREADY_IN_PROGRESS"
             case let .sdkUnknown(s): return s
             }
@@ -193,6 +196,8 @@ extension PartnerCentralAccountClientTypes {
         case partnerNotFound
         case partnerProfileNotFound
         case partnerProfileTaskNotFound
+        case qualificationsAssociationTaskNotFound
+        case qualificationsDisassociationTaskNotFound
         case receiverProfileNotFound
         case senderProfileNotFound
         case verificationNotFound
@@ -206,6 +211,8 @@ extension PartnerCentralAccountClientTypes {
                 .partnerNotFound,
                 .partnerProfileNotFound,
                 .partnerProfileTaskNotFound,
+                .qualificationsAssociationTaskNotFound,
+                .qualificationsDisassociationTaskNotFound,
                 .receiverProfileNotFound,
                 .senderProfileNotFound,
                 .verificationNotFound
@@ -225,6 +232,8 @@ extension PartnerCentralAccountClientTypes {
             case .partnerNotFound: return "PARTNER_NOT_FOUND"
             case .partnerProfileNotFound: return "PARTNER_PROFILE_NOT_FOUND"
             case .partnerProfileTaskNotFound: return "PARTNER_PROFILE_TASK_NOT_FOUND"
+            case .qualificationsAssociationTaskNotFound: return "QUALIFICATIONS_ASSOCIATION_TASK_NOT_FOUND"
+            case .qualificationsDisassociationTaskNotFound: return "QUALIFICATIONS_DISASSOCIATION_TASK_NOT_FOUND"
             case .receiverProfileNotFound: return "RECEIVER_PROFILE_NOT_FOUND"
             case .senderProfileNotFound: return "SENDER_PROFILE_NOT_FOUND"
             case .verificationNotFound: return "VERIFICATION_NOT_FOUND"
@@ -376,9 +385,15 @@ extension PartnerCentralAccountClientTypes {
         case incompatibleIdentityVerificationStatus
         case incompatibleKnowYourBusinessStatus
         case incompatibleLegalName
+        case incompatiblePrimaryPartner
+        case incompatibleSubsidiaryConnection
         case ineligibleAccountTier
         case invalidAccountLinkingStatus
         case invalidAccountState
+        case missingActiveSubsidiaryConnection
+        case qualificationsAssociationExists
+        case qualificationsAssociationLimitExceeded
+        case qualificationsAssociationNotFound
         case sdkUnknown(Swift.String)
 
         public static var allCases: [BusinessValidationCode] {
@@ -388,9 +403,15 @@ extension PartnerCentralAccountClientTypes {
                 .incompatibleIdentityVerificationStatus,
                 .incompatibleKnowYourBusinessStatus,
                 .incompatibleLegalName,
+                .incompatiblePrimaryPartner,
+                .incompatibleSubsidiaryConnection,
                 .ineligibleAccountTier,
                 .invalidAccountLinkingStatus,
-                .invalidAccountState
+                .invalidAccountState,
+                .missingActiveSubsidiaryConnection,
+                .qualificationsAssociationExists,
+                .qualificationsAssociationLimitExceeded,
+                .qualificationsAssociationNotFound
             ]
         }
 
@@ -406,9 +427,15 @@ extension PartnerCentralAccountClientTypes {
             case .incompatibleIdentityVerificationStatus: return "INCOMPATIBLE_IDENTITY_VERIFICATION_STATUS"
             case .incompatibleKnowYourBusinessStatus: return "INCOMPATIBLE_KNOW_YOUR_BUSINESS_STATUS"
             case .incompatibleLegalName: return "INCOMPATIBLE_LEGAL_NAME"
+            case .incompatiblePrimaryPartner: return "INCOMPATIBLE_PRIMARY_PARTNER"
+            case .incompatibleSubsidiaryConnection: return "INCOMPATIBLE_SUBSIDIARY_CONNECTION"
             case .ineligibleAccountTier: return "INELIGIBLE_ACCOUNT_TIER"
             case .invalidAccountLinkingStatus: return "INVALID_ACCOUNT_LINKING_STATUS"
             case .invalidAccountState: return "INVALID_ACCOUNT_STATE"
+            case .missingActiveSubsidiaryConnection: return "MISSING_ACTIVE_SUBSIDIARY_CONNECTION"
+            case .qualificationsAssociationExists: return "QUALIFICATIONS_ASSOCIATION_EXISTS"
+            case .qualificationsAssociationLimitExceeded: return "QUALIFICATIONS_ASSOCIATION_LIMIT_EXCEEDED"
+            case .qualificationsAssociationNotFound: return "QUALIFICATIONS_ASSOCIATION_NOT_FOUND"
             case let .sdkUnknown(s): return s
             }
         }
@@ -926,6 +953,25 @@ public struct AssociateAwsTrainingCertificationEmailDomainInput: Swift.Sendable 
 public struct AssociateAwsTrainingCertificationEmailDomainOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension PartnerCentralAccountClientTypes {
+
+    /// Identifies a partner in a qualifications association group. Contains the partner's profile identifier and AWS account identifier. In requests, provide at least one of ProfileId or AccountId. In responses, both fields are populated.
+    public struct QualificationsAssociationPartner: Swift.Sendable {
+        /// The 12-digit AWS account ID linked to the partner profile. Required in requests if ProfileId is not provided.
+        public var accountId: Swift.String?
+        /// The unique identifier for the partner profile, in the format pprofile-*. Required in requests if AccountId is not provided.
+        public var profileId: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            profileId: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.profileId = profileId
+        }
+    }
 }
 
 extension PartnerCentralAccountClientTypes {
@@ -2819,6 +2865,278 @@ public struct GetProfileVisibilityOutput: Swift.Sendable {
     }
 }
 
+public struct GetQualificationsAssociationDetailsInput: Swift.Sendable {
+    /// The catalog in which to look up the qualifications association. Valid values: AWS, Sandbox.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Your partner identifier. You can provide either a partner ID (for example, partner-abc123) or a partner ARN. You must own this identifier.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.catalog = catalog
+        self.identifier = identifier
+    }
+}
+
+extension PartnerCentralAccountClientTypes {
+
+    /// The current state of a partner qualifications association. Valid values: ASSOCIATED (the partner is associated with a primary), NOT_ASSOCIATED (the partner has no active association).
+    public enum QualificationsAssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associated
+        case notAssociated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QualificationsAssociationStatus] {
+            return [
+                .associated,
+                .notAssociated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associated: return "ASSOCIATED"
+            case .notAssociated: return "NOT_ASSOCIATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetQualificationsAssociationDetailsOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies your partner resource.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The list of all partner profile and account identifiers currently associated under the primary partner. This field is null when the status is NOT_ASSOCIATED.
+    public var associatedPartners: [PartnerCentralAccountClientTypes.QualificationsAssociationPartner]?
+    /// The catalog identifier echoed from the request.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Your unique partner identifier in the AWS Partner Network.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The primary partner's profile and account identifiers. This field is null when the status is NOT_ASSOCIATED.
+    public var primaryPartner: PartnerCentralAccountClientTypes.QualificationsAssociationPartner?
+    /// The current qualifications association status. Valid values: ASSOCIATED (the partner is associated with a primary), NOT_ASSOCIATED (the partner has no active association).
+    /// This member is required.
+    public var status: PartnerCentralAccountClientTypes.QualificationsAssociationStatus?
+    /// The timestamp when the qualifications association was last updated, in ISO 8601 format. This field is null when the status is NOT_ASSOCIATED.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        arn: Swift.String? = nil,
+        associatedPartners: [PartnerCentralAccountClientTypes.QualificationsAssociationPartner]? = nil,
+        catalog: Swift.String? = nil,
+        id: Swift.String? = nil,
+        primaryPartner: PartnerCentralAccountClientTypes.QualificationsAssociationPartner? = nil,
+        status: PartnerCentralAccountClientTypes.QualificationsAssociationStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.arn = arn
+        self.associatedPartners = associatedPartners
+        self.catalog = catalog
+        self.id = id
+        self.primaryPartner = primaryPartner
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct GetQualificationsAssociationTaskInput: Swift.Sendable {
+    /// The catalog in which to look up the qualifications association task. Valid values: AWS, Sandbox.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Your partner identifier. You can provide either a partner ID (for example, partner-abc123) or a partner ARN. You must own this identifier.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.catalog = catalog
+        self.identifier = identifier
+    }
+}
+
+extension PartnerCentralAccountClientTypes {
+
+    /// The current status of a qualifications association task. Valid values: IN_PROGRESS (task is running), SUCCEEDED (task completed successfully).
+    public enum QualificationsAssociationTaskStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QualificationsAssociationTaskStatus] {
+            return [
+                .inProgress,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetQualificationsAssociationTaskOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies your partner resource.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The catalog identifier echoed from the request.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The timestamp when the qualifications association task ended, in ISO 8601 format. This field is present only when the status is SUCCEEDED.
+    public var endedAt: Foundation.Date?
+    /// Your unique partner identifier in the AWS Partner Network.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The primary partner's profile and account identifiers that the task is associating qualifications with.
+    /// This member is required.
+    public var primaryPartner: PartnerCentralAccountClientTypes.QualificationsAssociationPartner?
+    /// The timestamp when the qualifications association task started, in ISO 8601 format.
+    /// This member is required.
+    public var startedAt: Foundation.Date?
+    /// The current status of the qualifications association task. Valid values: IN_PROGRESS, SUCCEEDED.
+    /// This member is required.
+    public var status: PartnerCentralAccountClientTypes.QualificationsAssociationTaskStatus?
+    /// The unique identifier of the qualifications association task, in the format pqatask-[a-z2-7]{13}.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        catalog: Swift.String? = nil,
+        endedAt: Foundation.Date? = nil,
+        id: Swift.String? = nil,
+        primaryPartner: PartnerCentralAccountClientTypes.QualificationsAssociationPartner? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: PartnerCentralAccountClientTypes.QualificationsAssociationTaskStatus? = nil,
+        taskId: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.catalog = catalog
+        self.endedAt = endedAt
+        self.id = id
+        self.primaryPartner = primaryPartner
+        self.startedAt = startedAt
+        self.status = status
+        self.taskId = taskId
+    }
+}
+
+public struct GetQualificationsDisassociationTaskInput: Swift.Sendable {
+    /// The catalog in which to look up the qualifications disassociation task. Valid values: AWS, Sandbox.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Your partner identifier. You can provide either a partner ID (for example, partner-abc123) or a partner ARN. You must own this identifier.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.catalog = catalog
+        self.identifier = identifier
+    }
+}
+
+extension PartnerCentralAccountClientTypes {
+
+    /// The current status of a qualifications disassociation task. Valid values: IN_PROGRESS (task is running), SUCCEEDED (task completed successfully).
+    public enum QualificationsDisassociationTaskStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QualificationsDisassociationTaskStatus] {
+            return [
+                .inProgress,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetQualificationsDisassociationTaskOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies your partner resource.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The primary partner's profile and account identifiers that the task is disassociating qualifications from.
+    /// This member is required.
+    public var associatedPartner: PartnerCentralAccountClientTypes.QualificationsAssociationPartner?
+    /// The catalog identifier echoed from the request.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The timestamp when the qualifications disassociation task ended, in ISO 8601 format. This field is present only when the status is SUCCEEDED.
+    public var endedAt: Foundation.Date?
+    /// Your unique partner identifier in the AWS Partner Network.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The timestamp when the qualifications disassociation task started, in ISO 8601 format.
+    /// This member is required.
+    public var startedAt: Foundation.Date?
+    /// The current status of the qualifications disassociation task. Valid values: IN_PROGRESS, SUCCEEDED.
+    /// This member is required.
+    public var status: PartnerCentralAccountClientTypes.QualificationsDisassociationTaskStatus?
+    /// The unique identifier of the qualifications disassociation task, in the format pqdtask-[a-z2-7]{13}.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        associatedPartner: PartnerCentralAccountClientTypes.QualificationsAssociationPartner? = nil,
+        catalog: Swift.String? = nil,
+        endedAt: Foundation.Date? = nil,
+        id: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: PartnerCentralAccountClientTypes.QualificationsDisassociationTaskStatus? = nil,
+        taskId: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.associatedPartner = associatedPartner
+        self.catalog = catalog
+        self.endedAt = endedAt
+        self.id = id
+        self.startedAt = startedAt
+        self.status = status
+        self.taskId = taskId
+    }
+}
+
 extension PartnerCentralAccountClientTypes {
 
     public enum VerificationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -3241,6 +3559,142 @@ public struct StartProfileUpdateTaskOutput: Swift.Sendable {
         self.startedAt = startedAt
         self.status = status
         self.taskDetails = taskDetails
+        self.taskId = taskId
+    }
+}
+
+public struct StartQualificationsAssociationTaskInput: Swift.Sendable {
+    /// The catalog in which to perform the qualifications association. Valid values: AWS, Sandbox.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// Your partner identifier. You can provide either a partner ID (for example, partner-abc123) or a partner ARN. You must own this identifier.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The primary (acquiring) partner's profile and account identifier to associate qualifications with. You must provide at least one of ProfileId or AccountId. You cannot specify yourself as the primary partner.
+    /// This member is required.
+    public var primaryPartner: PartnerCentralAccountClientTypes.QualificationsAssociationPartner?
+
+    public init(
+        catalog: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        primaryPartner: PartnerCentralAccountClientTypes.QualificationsAssociationPartner? = nil
+    ) {
+        self.catalog = catalog
+        self.clientToken = clientToken
+        self.identifier = identifier
+        self.primaryPartner = primaryPartner
+    }
+}
+
+public struct StartQualificationsAssociationTaskOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies your partner resource.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The catalog identifier echoed from the request.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Your unique partner identifier in the AWS Partner Network.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The resolved primary partner's profile and account identifiers, including both ProfileId and AccountId.
+    /// This member is required.
+    public var primaryPartner: PartnerCentralAccountClientTypes.QualificationsAssociationPartner?
+    /// The timestamp when the qualifications association task started, in ISO 8601 format.
+    /// This member is required.
+    public var startedAt: Foundation.Date?
+    /// The current status of the qualifications association task. The initial value is IN_PROGRESS.
+    /// This member is required.
+    public var status: PartnerCentralAccountClientTypes.QualificationsAssociationTaskStatus?
+    /// The unique identifier of the started qualifications association task, in the format pqatask-[a-z2-7]{13}.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        catalog: Swift.String? = nil,
+        id: Swift.String? = nil,
+        primaryPartner: PartnerCentralAccountClientTypes.QualificationsAssociationPartner? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: PartnerCentralAccountClientTypes.QualificationsAssociationTaskStatus? = nil,
+        taskId: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.catalog = catalog
+        self.id = id
+        self.primaryPartner = primaryPartner
+        self.startedAt = startedAt
+        self.status = status
+        self.taskId = taskId
+    }
+}
+
+public struct StartQualificationsDisassociationTaskInput: Swift.Sendable {
+    /// The primary partner's profile and account identifier that you are currently associated with and will disassociate from. You must provide at least one of ProfileId or AccountId. The specified partner must match your current primary association.
+    /// This member is required.
+    public var associatedPartner: PartnerCentralAccountClientTypes.QualificationsAssociationPartner?
+    /// The catalog in which to perform the qualifications disassociation. Valid values: AWS, Sandbox.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// Your partner identifier. You can provide either a partner ID (for example, partner-abc123) or a partner ARN. You must own this identifier.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        associatedPartner: PartnerCentralAccountClientTypes.QualificationsAssociationPartner? = nil,
+        catalog: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.associatedPartner = associatedPartner
+        self.catalog = catalog
+        self.clientToken = clientToken
+        self.identifier = identifier
+    }
+}
+
+public struct StartQualificationsDisassociationTaskOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies your partner resource.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The resolved primary partner's profile and account identifiers that the task is disassociating qualifications from.
+    /// This member is required.
+    public var associatedPartner: PartnerCentralAccountClientTypes.QualificationsAssociationPartner?
+    /// The catalog identifier echoed from the request.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Your unique partner identifier in the AWS Partner Network.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The timestamp when the qualifications disassociation task started, in ISO 8601 format.
+    /// This member is required.
+    public var startedAt: Foundation.Date?
+    /// The current status of the qualifications disassociation task. The initial value is IN_PROGRESS.
+    /// This member is required.
+    public var status: PartnerCentralAccountClientTypes.QualificationsDisassociationTaskStatus?
+    /// The unique identifier of the started qualifications disassociation task, in the format pqdtask-[a-z2-7]{13}.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        associatedPartner: PartnerCentralAccountClientTypes.QualificationsAssociationPartner? = nil,
+        catalog: Swift.String? = nil,
+        id: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: PartnerCentralAccountClientTypes.QualificationsDisassociationTaskStatus? = nil,
+        taskId: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.associatedPartner = associatedPartner
+        self.catalog = catalog
+        self.id = id
+        self.startedAt = startedAt
+        self.status = status
         self.taskId = taskId
     }
 }

@@ -10464,6 +10464,8 @@ public struct GetFilterOutput: Swift.Sendable {
     /// Specifies the action that is to be applied to the findings that match the filter.
     /// This member is required.
     public var action: GuardDutyClientTypes.FilterAction?
+    /// The timestamp when the filter was created. This field is not available for filters that were created before the lifecycle metadata feature was enabled (legacy filters).
+    public var createdAt: Foundation.Date?
     /// The description of the filter.
     public var description: Swift.String?
     /// Represents the criteria to be used in the filter for querying findings.
@@ -10476,21 +10478,31 @@ public struct GetFilterOutput: Swift.Sendable {
     public var rank: Swift.Int?
     /// The tags of the filter resource.
     public var tags: [Swift.String: Swift.String]?
+    /// The timestamp when the filter was last updated. For legacy filters, this field is present only after the filter has been updated at least once since the lifecycle metadata feature was enabled.
+    public var updatedAt: Foundation.Date?
+    /// The version of the filter. Every time the filter is updated, the version increments by 1. This field is not available for legacy filters that were created before the lifecycle metadata feature was enabled.
+    public var version: Swift.Int?
 
     public init(
         action: GuardDutyClientTypes.FilterAction? = nil,
+        createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         findingCriteria: GuardDutyClientTypes.FindingCriteria? = nil,
         name: Swift.String? = nil,
         rank: Swift.Int? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        updatedAt: Foundation.Date? = nil,
+        version: Swift.Int? = nil
     ) {
         self.action = action
+        self.createdAt = createdAt
         self.description = description
         self.findingCriteria = findingCriteria
         self.name = name
         self.rank = rank
         self.tags = tags
+        self.updatedAt = updatedAt
+        self.version = version
     }
 }
 
@@ -17787,11 +17799,14 @@ extension GetFilterOutput {
         let reader = responseReader
         var value = GetFilterOutput()
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.findingCriteria = try reader["findingCriteria"].readIfPresent(with: GuardDutyClientTypes.FindingCriteria.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.rank = try reader["rank"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.version = try reader["version"].readIfPresent()
         return value
     }
 }

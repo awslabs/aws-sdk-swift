@@ -425,6 +425,223 @@ extension PCSClientTypes {
 
 extension PCSClientTypes {
 
+    /// The caching policy for a node lifecycle script. Valid values:
+    ///
+    /// * CACHE_ONCE – Downloads the script once and reuses it on subsequent boots.
+    ///
+    /// * REFRESH_ON_REBOOT – Downloads the script on every boot.
+    public enum ScriptCachingPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cacheOnce
+        case refreshOnReboot
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScriptCachingPolicy] {
+            return [
+                .cacheOnce,
+                .refreshOnReboot
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cacheOnce: return "CACHE_ONCE"
+            case .refreshOnReboot: return "REFRESH_ON_REBOOT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The policy that determines when a node lifecycle script runs. Valid values:
+    ///
+    /// * FIRST_BOOT_ONLY – Runs the script only the first time the compute node boots.
+    ///
+    /// * EVERY_BOOT – Runs the script every time the compute node boots, including reboots.
+    public enum ExecutionPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case everyBoot
+        case firstBootOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutionPolicy] {
+            return [
+                .everyBoot,
+                .firstBootOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .everyBoot: return "EVERY_BOOT"
+            case .firstBootOnly: return "FIRST_BOOT_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The behavior when a node lifecycle script fails. Valid values:
+    ///
+    /// * TERMINATE – Terminates the compute node.
+    ///
+    /// * STOP_SEQUENCE – Stops running subsequent scripts in the sequence but doesn't terminate the compute node.
+    ///
+    /// * CONTINUE – Ignores the error and continues running the next script.
+    public enum OnError: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `continue`
+        case stopSequence
+        case terminate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OnError] {
+            return [
+                .continue,
+                .stopSequence,
+                .terminate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .continue: return "CONTINUE"
+            case .stopSequence: return "STOP_SEQUENCE"
+            case .terminate: return "TERMINATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The source location and integrity information for a node lifecycle script.
+    public struct ScriptSource: Swift.Sendable {
+        /// The SHA-256 checksum of the script content, as a 64-character hexadecimal string. This value is optional. When specified, PCS uses this value to verify the integrity of the downloaded script.
+        public var checksum: Swift.String?
+        /// The Amazon S3 version ID of the script. Use this value to pin the script to a specific version in a versioned Amazon S3 bucket. This value is only valid when scriptLocation is an Amazon S3 URI.
+        public var s3VersionId: Swift.String?
+        /// The location of the script. Specify either an Amazon S3 URI in the format s3://bucket-name/key or an HTTPS URL.
+        /// This member is required.
+        public var scriptLocation: Swift.String?
+
+        public init(
+            checksum: Swift.String? = nil,
+            s3VersionId: Swift.String? = nil,
+            scriptLocation: Swift.String? = nil
+        ) {
+            self.checksum = checksum
+            self.s3VersionId = s3VersionId
+            self.scriptLocation = scriptLocation
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// A script to run during a compute node lifecycle stage.
+    public struct NodeLifecycleScript: Swift.Sendable {
+        /// The command-line arguments to pass to the script. You can specify up to 20 arguments, and each argument can be up to 256 characters long.
+        public var arguments: [Swift.String]?
+        /// The policy that determines when the script runs. The default value is FIRST_BOOT_ONLY. Valid values:
+        ///
+        /// * FIRST_BOOT_ONLY – Runs the script only the first time the compute node boots.
+        ///
+        /// * EVERY_BOOT – Runs the script every time the compute node boots, including reboots.
+        public var executionPolicy: PCSClientTypes.ExecutionPolicy?
+        /// A unique name for the script. The name can be up to 64 characters long. Valid characters are letters, numbers, spaces, underscores (_), and hyphens (-). The first character must be a letter or a number.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The behavior when the script fails. The default value is TERMINATE. Valid values:
+        ///
+        /// * TERMINATE – Terminates the compute node.
+        ///
+        /// * STOP_SEQUENCE – Stops running subsequent scripts in the sequence but doesn't terminate the compute node.
+        ///
+        /// * CONTINUE – Ignores the error and continues running the next script.
+        public var onError: PCSClientTypes.OnError?
+        /// The source location and integrity information for the script.
+        /// This member is required.
+        public var scriptSource: PCSClientTypes.ScriptSource?
+
+        public init(
+            arguments: [Swift.String]? = nil,
+            executionPolicy: PCSClientTypes.ExecutionPolicy? = .firstBootOnly,
+            name: Swift.String? = nil,
+            onError: PCSClientTypes.OnError? = .terminate,
+            scriptSource: PCSClientTypes.ScriptSource? = nil
+        ) {
+            self.arguments = arguments
+            self.executionPolicy = executionPolicy
+            self.name = name
+            self.onError = onError
+            self.scriptSource = scriptSource
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The stages of a compute node's lifecycle where you can configure scripts to run.
+    public struct NodeLifecycleStages: Swift.Sendable {
+        /// The scripts to run after PCS finishes setting up the compute node and before the Slurm daemon (slurmd) starts. Use this stage for tasks that must complete before the node accepts jobs, such as mounting shared storage, configuring networking, or installing software packages.
+        public var nodeBootstrapped: [PCSClientTypes.NodeLifecycleScript]?
+        /// The scripts to run after the Slurm daemon (slurmd) starts and the compute node registers with the Slurm controller. Use this stage for tasks that require Slurm to be running, such as running Slurm commands.
+        public var nodeReady: [PCSClientTypes.NodeLifecycleScript]?
+
+        public init(
+            nodeBootstrapped: [PCSClientTypes.NodeLifecycleScript]? = nil,
+            nodeReady: [PCSClientTypes.NodeLifecycleScript]? = nil
+        ) {
+            self.nodeBootstrapped = nodeBootstrapped
+            self.nodeReady = nodeReady
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The lifecycle actions to configure on a compute node group when you create it. Lifecycle actions define scripts that PCS runs on compute nodes at specific stages of their lifecycle.
+    public struct NodeLifecycleActionsRequest: Swift.Sendable {
+        /// The caching policy for node lifecycle scripts. The default value is CACHE_ONCE. Valid values:
+        ///
+        /// * CACHE_ONCE – Downloads each script once and reuses it on subsequent boots.
+        ///
+        /// * REFRESH_ON_REBOOT – Downloads each script on every boot.
+        public var scriptCachingPolicy: PCSClientTypes.ScriptCachingPolicy?
+        /// The lifecycle stages where you configure scripts to run.
+        /// This member is required.
+        public var stages: PCSClientTypes.NodeLifecycleStages?
+
+        public init(
+            scriptCachingPolicy: PCSClientTypes.ScriptCachingPolicy? = .cacheOnce,
+            stages: PCSClientTypes.NodeLifecycleStages? = nil
+        ) {
+            self.scriptCachingPolicy = scriptCachingPolicy
+            self.stages = stages
+        }
+    }
+}
+
+extension PCSClientTypes {
+
     public enum PurchaseOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capacityBlock
         case interruptibleCapacityReservation
@@ -586,6 +803,8 @@ public struct CreateComputeNodeGroupInput: Swift.Sendable {
     /// A list of EC2 instance configurations that PCS can provision in the compute node group.
     /// This member is required.
     public var instanceConfigs: [PCSClientTypes.InstanceConfig]?
+    /// The lifecycle actions to run on compute nodes in the compute node group. Use lifecycle actions to run custom scripts at defined stages of a compute node's lifecycle, such as when a compute node finishes bootstrapping or becomes ready to accept jobs.
+    public var nodeLifecycleActions: PCSClientTypes.NodeLifecycleActionsRequest?
     /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, Interruptible Capacity Reservations, On-Demand Capacity Reservations, and Amazon EC2 Capacity Blocks for ML. For more information, see [Amazon EC2 billing and purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see [Using Amazon EC2 Capacity Blocks for ML with PCS](https://docs.aws.amazon.com/pcs/latest/userguide/capacity-blocks.html) in the PCS User Guide. For more information about PCS support for interruptible capacity reservations, see [Using I-ODCRs with PCS](https://docs.aws.amazon.com/pcs/latest/userguide/capacity-reservations-iodcr.html) in the PCS User Guide. Choose On-Demand if you plan to use an On-Demand Capacity Reservation (ODCR). For more information, see [Using ODCRs with PCS](https://docs.aws.amazon.com/pcs/latest/userguide/capacity-reservations-odcr.html). If you don't provide this option, it defaults to On-Demand.
     public var purchaseOption: PCSClientTypes.PurchaseOption?
     /// Specifies the boundaries of the compute node group auto scaling.
@@ -609,6 +828,7 @@ public struct CreateComputeNodeGroupInput: Swift.Sendable {
         customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate? = nil,
         iamInstanceProfileArn: Swift.String? = nil,
         instanceConfigs: [PCSClientTypes.InstanceConfig]? = nil,
+        nodeLifecycleActions: PCSClientTypes.NodeLifecycleActionsRequest? = nil,
         purchaseOption: PCSClientTypes.PurchaseOption? = nil,
         scalingConfiguration: PCSClientTypes.ScalingConfigurationRequest? = nil,
         slurmConfiguration: PCSClientTypes.ComputeNodeGroupSlurmConfigurationRequest? = nil,
@@ -623,6 +843,7 @@ public struct CreateComputeNodeGroupInput: Swift.Sendable {
         self.customLaunchTemplate = customLaunchTemplate
         self.iamInstanceProfileArn = iamInstanceProfileArn
         self.instanceConfigs = instanceConfigs
+        self.nodeLifecycleActions = nodeLifecycleActions
         self.purchaseOption = purchaseOption
         self.scalingConfiguration = scalingConfiguration
         self.slurmConfiguration = slurmConfiguration
@@ -647,6 +868,30 @@ extension PCSClientTypes {
         ) {
             self.code = code
             self.message = message
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The lifecycle actions configured on a compute node group. Lifecycle actions define scripts that PCS runs on compute nodes at specific stages of their lifecycle.
+    public struct NodeLifecycleActions: Swift.Sendable {
+        /// The caching policy for node lifecycle scripts. The default value is CACHE_ONCE. Valid values:
+        ///
+        /// * CACHE_ONCE – Downloads each script once and reuses it on subsequent boots.
+        ///
+        /// * REFRESH_ON_REBOOT – Downloads each script on every boot.
+        public var scriptCachingPolicy: PCSClientTypes.ScriptCachingPolicy?
+        /// The lifecycle stages where you configure scripts to run.
+        /// This member is required.
+        public var stages: PCSClientTypes.NodeLifecycleStages?
+
+        public init(
+            scriptCachingPolicy: PCSClientTypes.ScriptCachingPolicy? = .cacheOnce,
+            stages: PCSClientTypes.NodeLifecycleStages? = nil
+        ) {
+            self.scriptCachingPolicy = scriptCachingPolicy
+            self.stages = stages
         }
     }
 }
@@ -782,6 +1027,8 @@ extension PCSClientTypes {
         /// The name that identifies the compute node group.
         /// This member is required.
         public var name: Swift.String?
+        /// The lifecycle actions to run on compute nodes in the compute node group. Use lifecycle actions to run custom scripts at defined stages of a compute node's lifecycle, such as when a compute node finishes bootstrapping or becomes ready to accept jobs.
+        public var nodeLifecycleActions: PCSClientTypes.NodeLifecycleActions?
         /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, Interruptible Capacity Reservations, On-Demand Capacity Reservations, and Amazon EC2 Capacity Blocks for ML. For more information, see [Amazon EC2 billing and purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see [Using Amazon EC2 Capacity Blocks for ML with PCS](https://docs.aws.amazon.com/pcs/latest/userguide/capacity-blocks.html) in the PCS User Guide. For more information about PCS support for interruptible capacity reservations, see [Using I-ODCRs with PCS](https://docs.aws.amazon.com/pcs/latest/userguide/capacity-reservations-iodcr.html) in the PCS User Guide. Choose On-Demand if you plan to use an On-Demand Capacity Reservation (ODCR). For more information, see [Using ODCRs with PCS](https://docs.aws.amazon.com/pcs/latest/userguide/capacity-reservations-odcr.html). If you don't provide this option, it defaults to On-Demand.
         public var purchaseOption: PCSClientTypes.PurchaseOption?
         /// Specifies the boundaries of the compute node group auto scaling.
@@ -810,6 +1057,7 @@ extension PCSClientTypes {
             instanceConfigs: [PCSClientTypes.InstanceConfig]? = nil,
             modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            nodeLifecycleActions: PCSClientTypes.NodeLifecycleActions? = nil,
             purchaseOption: PCSClientTypes.PurchaseOption? = nil,
             scalingConfiguration: PCSClientTypes.ScalingConfiguration? = nil,
             slurmConfiguration: PCSClientTypes.ComputeNodeGroupSlurmConfiguration? = nil,
@@ -828,6 +1076,7 @@ extension PCSClientTypes {
             self.instanceConfigs = instanceConfigs
             self.modifiedAt = modifiedAt
             self.name = name
+            self.nodeLifecycleActions = nodeLifecycleActions
             self.purchaseOption = purchaseOption
             self.scalingConfiguration = scalingConfiguration
             self.slurmConfiguration = slurmConfiguration
@@ -987,6 +1236,30 @@ public struct ListComputeNodeGroupsOutput: Swift.Sendable {
 
 extension PCSClientTypes {
 
+    /// The lifecycle actions to configure on a compute node group when you update it. Lifecycle actions define scripts that PCS runs on compute nodes at specific stages of their lifecycle.
+    public struct UpdateNodeLifecycleActionsRequest: Swift.Sendable {
+        /// The caching policy for node lifecycle scripts. The default value is CACHE_ONCE. Valid values:
+        ///
+        /// * CACHE_ONCE – Downloads each script once and reuses it on subsequent boots.
+        ///
+        /// * REFRESH_ON_REBOOT – Downloads each script on every boot.
+        public var scriptCachingPolicy: PCSClientTypes.ScriptCachingPolicy?
+        /// The lifecycle stages where you configure scripts to run.
+        /// This member is required.
+        public var stages: PCSClientTypes.NodeLifecycleStages?
+
+        public init(
+            scriptCachingPolicy: PCSClientTypes.ScriptCachingPolicy? = .cacheOnce,
+            stages: PCSClientTypes.NodeLifecycleStages? = nil
+        ) {
+            self.scriptCachingPolicy = scriptCachingPolicy
+            self.stages = stages
+        }
+    }
+}
+
+extension PCSClientTypes {
+
     /// Additional options related to the Slurm scheduler.
     public struct UpdateComputeNodeGroupSlurmConfigurationRequest: Swift.Sendable {
         /// The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level scaleDownIdleTimeInSeconds setting. A value of -1 removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later.
@@ -1019,6 +1292,8 @@ public struct UpdateComputeNodeGroupInput: Swift.Sendable {
     public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
     /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see [IAM instance profiles for PCS](https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html) in the PCS User Guide.
     public var iamInstanceProfileArn: Swift.String?
+    /// The lifecycle actions to run on compute nodes in the compute node group. Use lifecycle actions to run custom scripts at defined stages of a compute node's lifecycle, such as when a compute node finishes bootstrapping or becomes ready to accept jobs.
+    public var nodeLifecycleActions: PCSClientTypes.UpdateNodeLifecycleActionsRequest?
     /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, Interruptible Capacity Reservations, On-Demand Capacity Reservations, and Amazon EC2 Capacity Blocks for ML. For more information, see [Amazon EC2 billing and purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see [Using Amazon EC2 Capacity Blocks for ML with PCS](https://docs.aws.amazon.com/pcs/latest/userguide/capacity-blocks.html) in the PCS User Guide. For more information about PCS support for interruptible capacity reservations, see [Using I-ODCRs with PCS](https://docs.aws.amazon.com/pcs/latest/userguide/capacity-reservations-iodcr.html) in the PCS User Guide. Choose On-Demand if you plan to use an On-Demand Capacity Reservation (ODCR). For more information, see [Using ODCRs with PCS](https://docs.aws.amazon.com/pcs/latest/userguide/capacity-reservations-odcr.html). If you don't provide this option, it defaults to On-Demand.
     public var purchaseOption: PCSClientTypes.PurchaseOption?
     /// Specifies the boundaries of the compute node group auto scaling.
@@ -1037,6 +1312,7 @@ public struct UpdateComputeNodeGroupInput: Swift.Sendable {
         computeNodeGroupIdentifier: Swift.String? = nil,
         customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate? = nil,
         iamInstanceProfileArn: Swift.String? = nil,
+        nodeLifecycleActions: PCSClientTypes.UpdateNodeLifecycleActionsRequest? = nil,
         purchaseOption: PCSClientTypes.PurchaseOption? = nil,
         scalingConfiguration: PCSClientTypes.ScalingConfigurationRequest? = nil,
         slurmConfiguration: PCSClientTypes.UpdateComputeNodeGroupSlurmConfigurationRequest? = nil,
@@ -1049,6 +1325,7 @@ public struct UpdateComputeNodeGroupInput: Swift.Sendable {
         self.computeNodeGroupIdentifier = computeNodeGroupIdentifier
         self.customLaunchTemplate = customLaunchTemplate
         self.iamInstanceProfileArn = iamInstanceProfileArn
+        self.nodeLifecycleActions = nodeLifecycleActions
         self.purchaseOption = purchaseOption
         self.scalingConfiguration = scalingConfiguration
         self.slurmConfiguration = slurmConfiguration
@@ -1492,7 +1769,7 @@ extension PCSClientTypes {
         /// The software PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. You can upgrade this version using the UpdateCluster API action. For more information, see [Upgrading the Slurm version on a cluster](https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_upgrade.html) and [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11 | 25.05 | 25.11
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. You can update this version using the UpdateCluster API action. For more information, see [Updating the scheduler version on a cluster](https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_version_update.html) and [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11 | 25.05 | 25.11
         /// This member is required.
         public var version: Swift.String?
 
@@ -2286,32 +2563,48 @@ public struct RegisterComputeNodeGroupInstanceInput: Swift.Sendable {
 }
 
 public struct RegisterComputeNodeGroupInstanceOutput: Swift.Sendable {
+    /// The name of the cluster that the compute node registered into.
+    public var clusterName: Swift.String?
+    /// The ID of the compute node group that the compute node registered into.
+    public var computeNodeGroupId: Swift.String?
+    /// The name of the compute node group that the compute node registered into.
+    public var computeNodeGroupName: Swift.String?
     /// The list of endpoints available for interaction with the scheduler.
     /// This member is required.
     public var endpoints: [PCSClientTypes.Endpoint]?
     /// The scheduler node ID for this instance.
     /// This member is required.
     public var nodeID: Swift.String?
+    /// The node lifecycle actions configured for the node group, including scripts to run when a compute node finishes bootstrapping or becomes ready to accept jobs.
+    public var nodeLifecycleActions: PCSClientTypes.NodeLifecycleActions?
     /// For the Slurm scheduler, this is the shared Munge key the scheduler uses to authenticate compute node group instances.
     /// This member is required.
     public var sharedSecret: Swift.String?
 
     public init(
+        clusterName: Swift.String? = nil,
+        computeNodeGroupId: Swift.String? = nil,
+        computeNodeGroupName: Swift.String? = nil,
         endpoints: [PCSClientTypes.Endpoint]? = nil,
         nodeID: Swift.String? = nil,
+        nodeLifecycleActions: PCSClientTypes.NodeLifecycleActions? = nil,
         sharedSecret: Swift.String? = nil
     ) {
+        self.clusterName = clusterName
+        self.computeNodeGroupId = computeNodeGroupId
+        self.computeNodeGroupName = computeNodeGroupName
         self.endpoints = endpoints
         self.nodeID = nodeID
+        self.nodeLifecycleActions = nodeLifecycleActions
         self.sharedSecret = sharedSecret
     }
 }
 
 extension PCSClientTypes {
 
-    /// The scheduler configuration for updating a cluster. Use this to specify the Slurm version to upgrade to.
+    /// The scheduler configuration for updating a cluster. Use this to specify the scheduler version to update to.
     public struct UpdateSchedulerRequest: Swift.Sendable {
-        /// The Slurm version to upgrade the cluster to. You can only upgrade to a newer version. For more information about supported versions and upgrade paths, see [Upgrading the Slurm version on a cluster](https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_upgrade.html) in the PCS User Guide. Valid Values: 24.05 | 24.11 | 25.05 | 25.11
+        /// The scheduler version to update the cluster to. You can only update to a newer version. For more information about supported versions and update paths, see [Updating the scheduler version on a cluster](https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_version_update.html) in the PCS User Guide. Valid Values: 24.05 | 24.11 | 25.05 | 25.11
         /// This member is required.
         public var version: Swift.String?
 
@@ -2398,7 +2691,7 @@ public struct UpdateClusterInput: Swift.Sendable {
     /// The name or ID of the cluster to update.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
-    /// The scheduler configuration to update for the cluster. Use this to upgrade the Slurm version. For more information, see [Upgrading the Slurm version on a cluster](https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_upgrade.html) in the PCS User Guide.
+    /// The scheduler configuration to update for the cluster. Use this to update the scheduler version. For more information, see [Updating the scheduler version on a cluster](https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_version_update.html) in the PCS User Guide.
     public var scheduler: PCSClientTypes.UpdateSchedulerRequest?
     /// Additional options related to the Slurm scheduler.
     public var slurmConfiguration: PCSClientTypes.UpdateClusterSlurmConfigurationRequest?

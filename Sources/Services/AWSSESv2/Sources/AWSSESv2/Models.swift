@@ -2739,6 +2739,8 @@ extension SESv2ClientTypes {
         case awsSesSaEast1
         case awsSesUsEast1
         case awsSesUsEast2
+        case awsSesUsGovEast1
+        case awsSesUsGovWest1
         case awsSesUsWest1
         case awsSesUsWest2
         case external
@@ -2772,6 +2774,8 @@ extension SESv2ClientTypes {
                 .awsSesSaEast1,
                 .awsSesUsEast1,
                 .awsSesUsEast2,
+                .awsSesUsGovEast1,
+                .awsSesUsGovWest1,
                 .awsSesUsWest1,
                 .awsSesUsWest2,
                 .external
@@ -2811,6 +2815,8 @@ extension SESv2ClientTypes {
             case .awsSesSaEast1: return "AWS_SES_SA_EAST_1"
             case .awsSesUsEast1: return "AWS_SES_US_EAST_1"
             case .awsSesUsEast2: return "AWS_SES_US_EAST_2"
+            case .awsSesUsGovEast1: return "AWS_SES_US_GOV_EAST_1"
+            case .awsSesUsGovWest1: return "AWS_SES_US_GOV_WEST_1"
             case .awsSesUsWest1: return "AWS_SES_US_WEST_1"
             case .awsSesUsWest2: return "AWS_SES_US_WEST_2"
             case .external: return "EXTERNAL"
@@ -2929,6 +2935,10 @@ extension SESv2ClientTypes {
         /// * AWS_SES_US_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in US West (N. California) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_US_WEST_2 – Configure DKIM for the identity by replicating from a parent identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_GOV_EAST_1 – Configure DKIM for the identity by replicating from a parent identity in AWS GovCloud (US-East) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_GOV_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in AWS GovCloud (US-West) region using Deterministic Easy-DKIM (DEED).
         public var domainSigningAttributesOrigin: SESv2ClientTypes.DkimSigningAttributesOrigin?
         /// [Bring Your Own DKIM] A private key that's used to generate a DKIM signature. The private key must use 1024 or 2048-bit RSA encryption, and must be encoded using base64 encoding.
         public var domainSigningPrivateKey: Swift.String?
@@ -3099,6 +3109,10 @@ extension SESv2ClientTypes {
         /// * AWS_SES_US_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US West (N. California) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_US_WEST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_GOV_EAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in AWS GovCloud (US-East) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_GOV_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in AWS GovCloud (US-West) region using Deterministic Easy-DKIM (DEED).
         public var signingAttributesOrigin: SESv2ClientTypes.DkimSigningAttributesOrigin?
         /// If the value is true, then the messages that you send from the identity are signed using DKIM. If the value is false, then the messages that you send from the identity aren't DKIM-signed.
         public var signingEnabled: Swift.Bool
