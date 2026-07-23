@@ -2034,6 +2034,42 @@ public struct DisassociateApplicationsOutput: Swift.Sendable {
 
 extension GameLiftStreamsClientTypes {
 
+    /// Contains the width and height dimensions, in pixels, that define the resolution of the stream session's virtual monitor. The total number of pixels (width × height) must not exceed 2,073,600 (equivalent to 1920 × 1080).
+    public struct Resolution: Swift.Sendable {
+        /// The height of the stream session's virtual monitor, in pixels. The value must be an even number.
+        /// This member is required.
+        public var height: Swift.Int?
+        /// The width of the stream session's virtual monitor, in pixels. The value must be an even number.
+        /// This member is required.
+        public var width: Swift.Int?
+
+        public init(
+            height: Swift.Int? = nil,
+            width: Swift.Int? = nil
+        ) {
+            self.height = height
+            self.width = width
+        }
+    }
+}
+
+extension GameLiftStreamsClientTypes {
+
+    /// The virtual monitor settings for a stream session, including the resolution. If not specified, the stream session uses the default resolution of 1920 × 1080.
+    public struct DisplayConfiguration: Swift.Sendable {
+        /// The resolution to apply to the stream session's virtual monitor. When specified, this value overrides the default resolution of 1920 × 1080.
+        public var resolution: GameLiftStreamsClientTypes.Resolution?
+
+        public init(
+            resolution: GameLiftStreamsClientTypes.Resolution? = nil
+        ) {
+            self.resolution = resolution
+        }
+    }
+}
+
+extension GameLiftStreamsClientTypes {
+
     public enum ExportFilesStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failed
         case pending
@@ -2290,6 +2326,8 @@ public struct GetStreamSessionOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// A human-readable label for the stream session. You can update this value at any time.
     public var description: Swift.String?
+    /// The configuration for the stream session's virtual monitor.
+    public var displayConfiguration: GameLiftStreamsClientTypes.DisplayConfiguration?
     /// Provides details about the stream session's exported files.
     public var exportFilesMetadata: GameLiftStreamsClientTypes.ExportFilesMetadata?
     /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
@@ -2366,6 +2404,7 @@ public struct GetStreamSessionOutput: Swift.Sendable {
         connectionTimeoutSeconds: Swift.Int? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
+        displayConfiguration: GameLiftStreamsClientTypes.DisplayConfiguration? = nil,
         exportFilesMetadata: GameLiftStreamsClientTypes.ExportFilesMetadata? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         location: Swift.String? = nil,
@@ -2389,6 +2428,7 @@ public struct GetStreamSessionOutput: Swift.Sendable {
         self.connectionTimeoutSeconds = connectionTimeoutSeconds
         self.createdAt = createdAt
         self.description = description
+        self.displayConfiguration = displayConfiguration
         self.exportFilesMetadata = exportFilesMetadata
         self.lastUpdatedAt = lastUpdatedAt
         self.location = location
@@ -2409,7 +2449,7 @@ public struct GetStreamSessionOutput: Swift.Sendable {
 
 extension GetStreamSessionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetStreamSessionOutput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationArn: \(Swift.String(describing: applicationArn)), arn: \(Swift.String(describing: arn)), connectionTimeoutSeconds: \(Swift.String(describing: connectionTimeoutSeconds)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), exportFilesMetadata: \(Swift.String(describing: exportFilesMetadata)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), location: \(Swift.String(describing: location)), logFileLocationUri: \(Swift.String(describing: logFileLocationUri)), performanceStatsConfiguration: \(Swift.String(describing: performanceStatsConfiguration)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), streamGroupId: \(Swift.String(describing: streamGroupId)), userId: \(Swift.String(describing: userId)), webSdkProtocolUrl: \(Swift.String(describing: webSdkProtocolUrl)), roleArn: \"CONTENT_REDACTED\", signalRequest: \"CONTENT_REDACTED\", signalResponse: \"CONTENT_REDACTED\")"}
+        "GetStreamSessionOutput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationArn: \(Swift.String(describing: applicationArn)), arn: \(Swift.String(describing: arn)), connectionTimeoutSeconds: \(Swift.String(describing: connectionTimeoutSeconds)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), displayConfiguration: \(Swift.String(describing: displayConfiguration)), exportFilesMetadata: \(Swift.String(describing: exportFilesMetadata)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), location: \(Swift.String(describing: location)), logFileLocationUri: \(Swift.String(describing: logFileLocationUri)), performanceStatsConfiguration: \(Swift.String(describing: performanceStatsConfiguration)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), streamGroupId: \(Swift.String(describing: streamGroupId)), userId: \(Swift.String(describing: userId)), webSdkProtocolUrl: \(Swift.String(describing: webSdkProtocolUrl)), roleArn: \"CONTENT_REDACTED\", signalRequest: \"CONTENT_REDACTED\", signalResponse: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListStreamSessionsInput: Swift.Sendable {
@@ -2650,6 +2690,8 @@ public struct StartStreamSessionInput: Swift.Sendable {
     public var connectionTimeoutSeconds: Swift.Int?
     /// A human-readable label for the stream session. You can update this value later.
     public var description: Swift.String?
+    /// The configuration for the stream session's virtual monitor, including the resolution settings. If not specified, Amazon GameLift Streams uses the default resolution of 1920 × 1080.
+    public var displayConfiguration: GameLiftStreamsClientTypes.DisplayConfiguration?
     /// The stream group to run this stream session with. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     /// This member is required.
     public var identifier: Swift.String?
@@ -2677,6 +2719,7 @@ public struct StartStreamSessionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         connectionTimeoutSeconds: Swift.Int? = nil,
         description: Swift.String? = nil,
+        displayConfiguration: GameLiftStreamsClientTypes.DisplayConfiguration? = nil,
         identifier: Swift.String? = nil,
         locations: [Swift.String]? = nil,
         performanceStatsConfiguration: GameLiftStreamsClientTypes.PerformanceStatsConfiguration? = nil,
@@ -2692,6 +2735,7 @@ public struct StartStreamSessionInput: Swift.Sendable {
         self.clientToken = clientToken
         self.connectionTimeoutSeconds = connectionTimeoutSeconds
         self.description = description
+        self.displayConfiguration = displayConfiguration
         self.identifier = identifier
         self.locations = locations
         self.performanceStatsConfiguration = performanceStatsConfiguration
@@ -2705,7 +2749,7 @@ public struct StartStreamSessionInput: Swift.Sendable {
 
 extension StartStreamSessionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartStreamSessionInput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationIdentifier: \(Swift.String(describing: applicationIdentifier)), clientToken: \(Swift.String(describing: clientToken)), connectionTimeoutSeconds: \(Swift.String(describing: connectionTimeoutSeconds)), description: \(Swift.String(describing: description)), identifier: \(Swift.String(describing: identifier)), locations: \(Swift.String(describing: locations)), performanceStatsConfiguration: \(Swift.String(describing: performanceStatsConfiguration)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), userId: \(Swift.String(describing: userId)), roleArn: \"CONTENT_REDACTED\", signalRequest: \"CONTENT_REDACTED\")"}
+        "StartStreamSessionInput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationIdentifier: \(Swift.String(describing: applicationIdentifier)), clientToken: \(Swift.String(describing: clientToken)), connectionTimeoutSeconds: \(Swift.String(describing: connectionTimeoutSeconds)), description: \(Swift.String(describing: description)), displayConfiguration: \(Swift.String(describing: displayConfiguration)), identifier: \(Swift.String(describing: identifier)), locations: \(Swift.String(describing: locations)), performanceStatsConfiguration: \(Swift.String(describing: performanceStatsConfiguration)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), userId: \(Swift.String(describing: userId)), roleArn: \"CONTENT_REDACTED\", signalRequest: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartStreamSessionOutput: Swift.Sendable {
@@ -2723,6 +2767,8 @@ public struct StartStreamSessionOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// A human-readable label for the stream session. You can update this value at any time.
     public var description: Swift.String?
+    /// The configuration for the stream session's virtual monitor.
+    public var displayConfiguration: GameLiftStreamsClientTypes.DisplayConfiguration?
     /// Provides details about the stream session's exported files.
     public var exportFilesMetadata: GameLiftStreamsClientTypes.ExportFilesMetadata?
     /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
@@ -2799,6 +2845,7 @@ public struct StartStreamSessionOutput: Swift.Sendable {
         connectionTimeoutSeconds: Swift.Int? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
+        displayConfiguration: GameLiftStreamsClientTypes.DisplayConfiguration? = nil,
         exportFilesMetadata: GameLiftStreamsClientTypes.ExportFilesMetadata? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         location: Swift.String? = nil,
@@ -2822,6 +2869,7 @@ public struct StartStreamSessionOutput: Swift.Sendable {
         self.connectionTimeoutSeconds = connectionTimeoutSeconds
         self.createdAt = createdAt
         self.description = description
+        self.displayConfiguration = displayConfiguration
         self.exportFilesMetadata = exportFilesMetadata
         self.lastUpdatedAt = lastUpdatedAt
         self.location = location
@@ -2842,7 +2890,7 @@ public struct StartStreamSessionOutput: Swift.Sendable {
 
 extension StartStreamSessionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartStreamSessionOutput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationArn: \(Swift.String(describing: applicationArn)), arn: \(Swift.String(describing: arn)), connectionTimeoutSeconds: \(Swift.String(describing: connectionTimeoutSeconds)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), exportFilesMetadata: \(Swift.String(describing: exportFilesMetadata)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), location: \(Swift.String(describing: location)), logFileLocationUri: \(Swift.String(describing: logFileLocationUri)), performanceStatsConfiguration: \(Swift.String(describing: performanceStatsConfiguration)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), streamGroupId: \(Swift.String(describing: streamGroupId)), userId: \(Swift.String(describing: userId)), webSdkProtocolUrl: \(Swift.String(describing: webSdkProtocolUrl)), roleArn: \"CONTENT_REDACTED\", signalRequest: \"CONTENT_REDACTED\", signalResponse: \"CONTENT_REDACTED\")"}
+        "StartStreamSessionOutput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationArn: \(Swift.String(describing: applicationArn)), arn: \(Swift.String(describing: arn)), connectionTimeoutSeconds: \(Swift.String(describing: connectionTimeoutSeconds)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), displayConfiguration: \(Swift.String(describing: displayConfiguration)), exportFilesMetadata: \(Swift.String(describing: exportFilesMetadata)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), location: \(Swift.String(describing: location)), logFileLocationUri: \(Swift.String(describing: logFileLocationUri)), performanceStatsConfiguration: \(Swift.String(describing: performanceStatsConfiguration)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), streamGroupId: \(Swift.String(describing: streamGroupId)), userId: \(Swift.String(describing: userId)), webSdkProtocolUrl: \(Swift.String(describing: webSdkProtocolUrl)), roleArn: \"CONTENT_REDACTED\", signalRequest: \"CONTENT_REDACTED\", signalResponse: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetStreamGroupInput: Swift.Sendable {
@@ -4293,6 +4341,7 @@ extension StartStreamSessionInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["ConnectionTimeoutSeconds"].write(value.connectionTimeoutSeconds)
         try writer["Description"].write(value.description)
+        try writer["DisplayConfiguration"].write(value.displayConfiguration, with: GameLiftStreamsClientTypes.DisplayConfiguration.write(value:to:))
         try writer["Locations"].writeList(value.locations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PerformanceStatsConfiguration"].write(value.performanceStatsConfiguration, with: GameLiftStreamsClientTypes.PerformanceStatsConfiguration.write(value:to:))
         try writer["Protocol"].write(value.`protocol`)
@@ -4527,6 +4576,7 @@ extension GetStreamSessionOutput {
         value.connectionTimeoutSeconds = try reader["ConnectionTimeoutSeconds"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
+        value.displayConfiguration = try reader["DisplayConfiguration"].readIfPresent(with: GameLiftStreamsClientTypes.DisplayConfiguration.read(from:))
         value.exportFilesMetadata = try reader["ExportFilesMetadata"].readIfPresent(with: GameLiftStreamsClientTypes.ExportFilesMetadata.read(from:))
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.location = try reader["Location"].readIfPresent()
@@ -4631,6 +4681,7 @@ extension StartStreamSessionOutput {
         value.connectionTimeoutSeconds = try reader["ConnectionTimeoutSeconds"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
+        value.displayConfiguration = try reader["DisplayConfiguration"].readIfPresent(with: GameLiftStreamsClientTypes.DisplayConfiguration.read(from:))
         value.exportFilesMetadata = try reader["ExportFilesMetadata"].readIfPresent(with: GameLiftStreamsClientTypes.ExportFilesMetadata.read(from:))
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.location = try reader["Location"].readIfPresent()
@@ -5306,6 +5357,21 @@ extension GameLiftStreamsClientTypes.DefaultApplication {
     }
 }
 
+extension GameLiftStreamsClientTypes.DisplayConfiguration {
+
+    static func write(value: GameLiftStreamsClientTypes.DisplayConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Resolution"].write(value.resolution, with: GameLiftStreamsClientTypes.Resolution.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.DisplayConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftStreamsClientTypes.DisplayConfiguration()
+        value.resolution = try reader["Resolution"].readIfPresent(with: GameLiftStreamsClientTypes.Resolution.read(from:))
+        return value
+    }
+}
+
 extension GameLiftStreamsClientTypes.ExportFilesMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ExportFilesMetadata {
@@ -5373,6 +5439,23 @@ extension GameLiftStreamsClientTypes.ReplicationStatus {
         var value = GameLiftStreamsClientTypes.ReplicationStatus()
         value.location = try reader["Location"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftStreamsClientTypes.Resolution {
+
+    static func write(value: GameLiftStreamsClientTypes.Resolution?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Height"].write(value.height)
+        try writer["Width"].write(value.width)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.Resolution {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftStreamsClientTypes.Resolution()
+        value.width = try reader["Width"].readIfPresent() ?? 0
+        value.height = try reader["Height"].readIfPresent() ?? 0
         return value
     }
 }

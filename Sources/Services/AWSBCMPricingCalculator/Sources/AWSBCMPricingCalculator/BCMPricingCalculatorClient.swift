@@ -21,11 +21,11 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultClockSkewProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -50,6 +50,7 @@ import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
@@ -60,10 +61,10 @@ import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct Smithy.Attributes
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.HTTPClientProtocol
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.HTTPClientProtocol
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.Plugin
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -633,7 +634,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func batchCreateBillScenarioCommitmentModification(input: BatchCreateBillScenarioCommitmentModificationInput) async throws -> BatchCreateBillScenarioCommitmentModificationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -652,7 +653,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -662,17 +663,20 @@ extension BCMPricingCalculatorClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateBillScenarioCommitmentModificationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCreateBillScenarioCommitmentModificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchCreateBillScenarioCommitmentModification"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateBillScenarioCommitmentModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -715,7 +719,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func batchCreateBillScenarioUsageModification(input: BatchCreateBillScenarioUsageModificationInput) async throws -> BatchCreateBillScenarioUsageModificationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -734,7 +738,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -744,17 +748,20 @@ extension BCMPricingCalculatorClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateBillScenarioUsageModificationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCreateBillScenarioUsageModificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchCreateBillScenarioUsageModification"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateBillScenarioUsageModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -797,7 +804,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func batchCreateWorkloadEstimateUsage(input: BatchCreateWorkloadEstimateUsageInput) async throws -> BatchCreateWorkloadEstimateUsageOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -816,7 +823,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -826,17 +833,20 @@ extension BCMPricingCalculatorClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateWorkloadEstimateUsageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCreateWorkloadEstimateUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchCreateWorkloadEstimateUsage"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateWorkloadEstimateUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -878,7 +888,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func batchDeleteBillScenarioCommitmentModification(input: BatchDeleteBillScenarioCommitmentModificationInput) async throws -> BatchDeleteBillScenarioCommitmentModificationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -897,7 +907,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -906,17 +916,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteBillScenarioCommitmentModificationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteBillScenarioCommitmentModificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchDeleteBillScenarioCommitmentModification"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteBillScenarioCommitmentModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -959,7 +972,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func batchDeleteBillScenarioUsageModification(input: BatchDeleteBillScenarioUsageModificationInput) async throws -> BatchDeleteBillScenarioUsageModificationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -978,7 +991,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -987,17 +1000,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteBillScenarioUsageModificationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteBillScenarioUsageModificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchDeleteBillScenarioUsageModification"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteBillScenarioUsageModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1039,7 +1055,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func batchDeleteWorkloadEstimateUsage(input: BatchDeleteWorkloadEstimateUsageInput) async throws -> BatchDeleteWorkloadEstimateUsageOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1058,7 +1074,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1067,17 +1083,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteWorkloadEstimateUsageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteWorkloadEstimateUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchDeleteWorkloadEstimateUsage"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteWorkloadEstimateUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1119,7 +1138,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func batchUpdateBillScenarioCommitmentModification(input: BatchUpdateBillScenarioCommitmentModificationInput) async throws -> BatchUpdateBillScenarioCommitmentModificationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1138,7 +1157,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1147,17 +1166,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateBillScenarioCommitmentModificationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchUpdateBillScenarioCommitmentModificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchUpdateBillScenarioCommitmentModification"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateBillScenarioCommitmentModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1200,7 +1222,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func batchUpdateBillScenarioUsageModification(input: BatchUpdateBillScenarioUsageModificationInput) async throws -> BatchUpdateBillScenarioUsageModificationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1219,7 +1241,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1228,17 +1250,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateBillScenarioUsageModificationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchUpdateBillScenarioUsageModificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchUpdateBillScenarioUsageModification"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateBillScenarioUsageModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1280,7 +1305,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func batchUpdateWorkloadEstimateUsage(input: BatchUpdateWorkloadEstimateUsageInput) async throws -> BatchUpdateWorkloadEstimateUsageOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1299,7 +1324,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1308,17 +1333,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateWorkloadEstimateUsageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchUpdateWorkloadEstimateUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchUpdateWorkloadEstimateUsage"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateWorkloadEstimateUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1360,7 +1388,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createBillEstimate(input: CreateBillEstimateInput) async throws -> CreateBillEstimateOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1379,7 +1407,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1389,17 +1417,20 @@ extension BCMPricingCalculatorClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBillEstimateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBillEstimateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.CreateBillEstimate"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBillEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1441,7 +1472,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createBillScenario(input: CreateBillScenarioInput) async throws -> CreateBillScenarioOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1460,7 +1491,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1470,17 +1501,20 @@ extension BCMPricingCalculatorClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBillScenarioOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBillScenarioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.CreateBillScenario"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBillScenarioOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1522,7 +1556,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createWorkloadEstimate(input: CreateWorkloadEstimateInput) async throws -> CreateWorkloadEstimateOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1541,7 +1575,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1551,17 +1585,20 @@ extension BCMPricingCalculatorClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkloadEstimateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWorkloadEstimateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.CreateWorkloadEstimate"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWorkloadEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1602,7 +1639,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteBillEstimate(input: DeleteBillEstimateInput) async throws -> DeleteBillEstimateOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1621,7 +1658,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1630,17 +1667,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBillEstimateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBillEstimateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.DeleteBillEstimate"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBillEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1681,7 +1721,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteBillScenario(input: DeleteBillScenarioInput) async throws -> DeleteBillScenarioOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1700,7 +1740,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1709,17 +1749,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBillScenarioOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBillScenarioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.DeleteBillScenario"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBillScenarioOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1759,7 +1802,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteWorkloadEstimate(input: DeleteWorkloadEstimateInput) async throws -> DeleteWorkloadEstimateOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1778,7 +1821,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1787,17 +1830,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkloadEstimateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWorkloadEstimateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.DeleteWorkloadEstimate"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWorkloadEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1838,7 +1884,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getBillEstimate(input: GetBillEstimateInput) async throws -> GetBillEstimateOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1857,7 +1903,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1866,17 +1912,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBillEstimateInput, GetBillEstimateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBillEstimateInput, GetBillEstimateOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBillEstimateInput, GetBillEstimateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBillEstimateInput, GetBillEstimateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBillEstimateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBillEstimateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBillEstimateInput, GetBillEstimateOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.GetBillEstimate"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBillEstimateInput, GetBillEstimateOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBillEstimateInput, GetBillEstimateOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetBillEstimateInput, GetBillEstimateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBillEstimateInput, GetBillEstimateOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBillEstimateInput, GetBillEstimateOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBillEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBillEstimateInput, GetBillEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetBillEstimateInput, GetBillEstimateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1917,7 +1966,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getBillScenario(input: GetBillScenarioInput) async throws -> GetBillScenarioOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1936,7 +1985,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1945,17 +1994,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBillScenarioInput, GetBillScenarioOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBillScenarioInput, GetBillScenarioOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBillScenarioInput, GetBillScenarioOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBillScenarioInput, GetBillScenarioOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBillScenarioOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBillScenarioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBillScenarioInput, GetBillScenarioOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.GetBillScenario"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBillScenarioInput, GetBillScenarioOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBillScenarioInput, GetBillScenarioOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetBillScenarioInput, GetBillScenarioOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBillScenarioInput, GetBillScenarioOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBillScenarioInput, GetBillScenarioOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBillScenarioOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBillScenarioInput, GetBillScenarioOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetBillScenarioInput, GetBillScenarioOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1995,7 +2047,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getPreferences(input: GetPreferencesInput) async throws -> GetPreferencesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2014,7 +2066,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2025,15 +2077,17 @@ extension BCMPricingCalculatorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPreferencesInput, GetPreferencesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPreferencesInput, GetPreferencesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPreferencesInput, GetPreferencesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPreferencesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPreferencesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPreferencesInput, GetPreferencesOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.GetPreferences"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPreferencesInput, GetPreferencesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPreferencesInput, GetPreferencesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetPreferencesInput, GetPreferencesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPreferencesInput, GetPreferencesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPreferencesInput, GetPreferencesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPreferencesInput, GetPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPreferencesInput, GetPreferencesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2074,7 +2128,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getWorkloadEstimate(input: GetWorkloadEstimateInput) async throws -> GetWorkloadEstimateOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2093,7 +2147,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2102,17 +2156,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkloadEstimateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetWorkloadEstimateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.GetWorkloadEstimate"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWorkloadEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2153,7 +2210,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listBillEstimateCommitments(input: ListBillEstimateCommitmentsInput) async throws -> ListBillEstimateCommitmentsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2172,7 +2229,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2181,17 +2238,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillEstimateCommitmentsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillEstimateCommitmentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListBillEstimateCommitments"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillEstimateCommitmentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2232,7 +2292,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listBillEstimateInputCommitmentModifications(input: ListBillEstimateInputCommitmentModificationsInput) async throws -> ListBillEstimateInputCommitmentModificationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2251,7 +2311,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2260,17 +2320,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillEstimateInputCommitmentModificationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillEstimateInputCommitmentModificationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListBillEstimateInputCommitmentModifications"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillEstimateInputCommitmentModificationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2311,7 +2374,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listBillEstimateInputUsageModifications(input: ListBillEstimateInputUsageModificationsInput) async throws -> ListBillEstimateInputUsageModificationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2330,7 +2393,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2339,17 +2402,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillEstimateInputUsageModificationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillEstimateInputUsageModificationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListBillEstimateInputUsageModifications"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillEstimateInputUsageModificationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2390,7 +2456,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listBillEstimateLineItems(input: ListBillEstimateLineItemsInput) async throws -> ListBillEstimateLineItemsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2409,7 +2475,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2418,17 +2484,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillEstimateLineItemsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillEstimateLineItemsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListBillEstimateLineItems"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillEstimateLineItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2468,7 +2537,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listBillEstimates(input: ListBillEstimatesInput) async throws -> ListBillEstimatesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2487,7 +2556,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2496,17 +2565,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillEstimatesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillEstimatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListBillEstimates"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillEstimatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2547,7 +2619,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listBillScenarioCommitmentModifications(input: ListBillScenarioCommitmentModificationsInput) async throws -> ListBillScenarioCommitmentModificationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2566,7 +2638,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2575,17 +2647,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillScenarioCommitmentModificationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillScenarioCommitmentModificationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListBillScenarioCommitmentModifications"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillScenarioCommitmentModificationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2626,7 +2701,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listBillScenarioUsageModifications(input: ListBillScenarioUsageModificationsInput) async throws -> ListBillScenarioUsageModificationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2645,7 +2720,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2654,17 +2729,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillScenarioUsageModificationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillScenarioUsageModificationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListBillScenarioUsageModifications"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillScenarioUsageModificationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2704,7 +2782,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listBillScenarios(input: ListBillScenariosInput) async throws -> ListBillScenariosOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2723,7 +2801,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2732,17 +2810,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBillScenariosInput, ListBillScenariosOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillScenariosInput, ListBillScenariosOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillScenariosInput, ListBillScenariosOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBillScenariosInput, ListBillScenariosOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillScenariosOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillScenariosOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillScenariosInput, ListBillScenariosOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListBillScenarios"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillScenariosInput, ListBillScenariosOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillScenariosInput, ListBillScenariosOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListBillScenariosInput, ListBillScenariosOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillScenariosInput, ListBillScenariosOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillScenariosInput, ListBillScenariosOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillScenariosOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillScenariosInput, ListBillScenariosOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillScenariosInput, ListBillScenariosOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2782,7 +2863,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2801,7 +2882,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2810,17 +2891,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListTagsForResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2861,7 +2945,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listWorkloadEstimateUsage(input: ListWorkloadEstimateUsageInput) async throws -> ListWorkloadEstimateUsageOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2880,7 +2964,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2889,17 +2973,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkloadEstimateUsageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWorkloadEstimateUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListWorkloadEstimateUsage"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkloadEstimateUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2939,7 +3026,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listWorkloadEstimates(input: ListWorkloadEstimatesInput) async throws -> ListWorkloadEstimatesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2958,7 +3045,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2967,17 +3054,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkloadEstimatesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWorkloadEstimatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListWorkloadEstimates"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkloadEstimatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3018,7 +3108,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3037,7 +3127,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3046,17 +3136,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.TagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3096,7 +3189,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3115,7 +3208,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3124,17 +3217,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.UntagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3176,7 +3272,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateBillEstimate(input: UpdateBillEstimateInput) async throws -> UpdateBillEstimateOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3195,7 +3291,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3204,17 +3300,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBillEstimateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateBillEstimateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.UpdateBillEstimate"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBillEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3256,7 +3355,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateBillScenario(input: UpdateBillScenarioInput) async throws -> UpdateBillScenarioOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3275,7 +3374,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3284,17 +3383,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBillScenarioOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateBillScenarioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.UpdateBillScenario"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBillScenarioOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3335,7 +3437,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updatePreferences(input: UpdatePreferencesInput) async throws -> UpdatePreferencesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3354,7 +3456,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3363,17 +3465,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePreferencesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePreferencesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.UpdatePreferences"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3415,7 +3520,7 @@ extension BCMPricingCalculatorClient {
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateWorkloadEstimate(input: UpdateWorkloadEstimateInput) async throws -> UpdateWorkloadEstimateOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3434,7 +3539,7 @@ extension BCMPricingCalculatorClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3443,17 +3548,20 @@ extension BCMPricingCalculatorClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkloadEstimateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWorkloadEstimateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.UpdateWorkloadEstimate"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWorkloadEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

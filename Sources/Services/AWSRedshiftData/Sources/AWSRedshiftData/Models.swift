@@ -60,6 +60,29 @@ public struct ActiveStatementsExceededException: ClientRuntime.ModeledError, AWS
     }
 }
 
+/// The number of active requests with WaitTimeSeconds for the same SQL statement exceeds the limit.
+public struct ActiveWaitingRequestsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ActiveWaitingRequestsExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// An SQL statement encountered an environmental error while running.
 public struct BatchExecuteStatementException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -170,6 +193,35 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension RedshiftDataClientTypes {
 
+    public enum ExecutionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case autoCommit
+        case transaction
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutionMode] {
+            return [
+                .autoCommit,
+                .transaction
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .autoCommit: return "AUTO_COMMIT"
+            case .transaction: return "TRANSACTION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RedshiftDataClientTypes {
+
     /// A parameter used in a SQL statement.
     public struct SqlParameter: Swift.Sendable {
         /// The name of the parameter.
@@ -227,7 +279,9 @@ public struct BatchExecuteStatementInput: Swift.Sendable {
     public var database: Swift.String?
     /// The database user name. This parameter is required when connecting to a cluster as a database user and authenticating using temporary credentials.
     public var dbUser: Swift.String?
-    /// The parameters for the SQL statements. The parameters are shared across all SQL statements in the batch.
+    /// Determines how the SQL statements in the batch are run. If set to TRANSACTION (the default), all SQL statements are run as a single transaction and they are committed or rolled back together. If set to AUTO_COMMIT, each SQL statement is committed individually, and a failure of one statement does not affect the others.
+    public var executionMode: RedshiftDataClientTypes.ExecutionMode?
+    /// The parameters for the SQL statements. The parameters are available to all SQL statements in the batch. Each statement can reference any subset of the provided parameters. Each provided parameter must be referenced by at least one SQL statement in the batch.
     public var parameters: [RedshiftDataClientTypes.SqlParameter]?
     /// The data format of the result of the SQL statement. If no format is specified, the default is JSON.
     public var resultFormat: RedshiftDataClientTypes.ResultFormatString?
@@ -237,11 +291,13 @@ public struct BatchExecuteStatementInput: Swift.Sendable {
     public var sessionId: Swift.String?
     /// The number of seconds to keep the session alive after the query finishes. The maximum time a session can keep alive is 24 hours. After 24 hours, the session is forced closed and the query is terminated.
     public var sessionKeepAliveSeconds: Swift.Int?
-    /// One or more SQL statements to run. The SQL statements are run as a single transaction. They run serially in the order of the array. Subsequent SQL statements don't start until the previous statement in the array completes. If any SQL statement fails, then because they are run as one transaction, all work is rolled back.
+    /// One or more SQL statements to run. The SQL statements run serially in the order of the array. Subsequent SQL statements don't start until the previous statement in the array completes. By default, the SQL statements are run as a single transaction. If any SQL statement fails, all work is rolled back. To change this behavior, see the ExecutionMode parameter.
     /// This member is required.
     public var sqls: [Swift.String]?
     /// The name of the SQL statements. You can name the SQL statements when you create them to identify the query.
     public var statementName: Swift.String?
+    /// The number of seconds to wait for all SQL statements in the batch to complete execution before returning the response. If the SQL statements do not complete within the specified time, the response returns the current status. The maximum value is 30 seconds.
+    public var waitTimeSeconds: Swift.Int?
     /// A value that indicates whether to send an event to the Amazon EventBridge event bus after the SQL statements run.
     public var withEvent: Swift.Bool?
     /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
@@ -252,6 +308,7 @@ public struct BatchExecuteStatementInput: Swift.Sendable {
         clusterIdentifier: Swift.String? = nil,
         database: Swift.String? = nil,
         dbUser: Swift.String? = nil,
+        executionMode: RedshiftDataClientTypes.ExecutionMode? = nil,
         parameters: [RedshiftDataClientTypes.SqlParameter]? = nil,
         resultFormat: RedshiftDataClientTypes.ResultFormatString? = nil,
         secretArn: Swift.String? = nil,
@@ -259,6 +316,7 @@ public struct BatchExecuteStatementInput: Swift.Sendable {
         sessionKeepAliveSeconds: Swift.Int? = nil,
         sqls: [Swift.String]? = nil,
         statementName: Swift.String? = nil,
+        waitTimeSeconds: Swift.Int? = nil,
         withEvent: Swift.Bool? = nil,
         workgroupName: Swift.String? = nil
     ) {
@@ -266,6 +324,7 @@ public struct BatchExecuteStatementInput: Swift.Sendable {
         self.clusterIdentifier = clusterIdentifier
         self.database = database
         self.dbUser = dbUser
+        self.executionMode = executionMode
         self.parameters = parameters
         self.resultFormat = resultFormat
         self.secretArn = secretArn
@@ -273,8 +332,50 @@ public struct BatchExecuteStatementInput: Swift.Sendable {
         self.sessionKeepAliveSeconds = sessionKeepAliveSeconds
         self.sqls = sqls
         self.statementName = statementName
+        self.waitTimeSeconds = waitTimeSeconds
         self.withEvent = withEvent
         self.workgroupName = workgroupName
+    }
+}
+
+extension RedshiftDataClientTypes {
+
+    public enum StatementStatusString: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aborted
+        case failed
+        case finished
+        case picked
+        case started
+        case submitted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StatementStatusString] {
+            return [
+                .aborted,
+                .failed,
+                .finished,
+                .picked,
+                .started,
+                .submitted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aborted: return "ABORTED"
+            case .failed: return "FAILED"
+            case .finished: return "FINISHED"
+            case .picked: return "PICKED"
+            case .started: return "STARTED"
+            case .submitted: return "SUBMITTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -289,12 +390,30 @@ public struct BatchExecuteStatementOutput: Swift.Sendable {
     public var dbGroups: [Swift.String]?
     /// The database user name.
     public var dbUser: Swift.String?
+    /// A value that indicates whether the statement has a result set. The result set can be empty. The value is true for an empty result set. The value is true if any substatement returns a result set.
+    public var hasResultSet: Swift.Bool?
     /// The identifier of the SQL statement whose results are to be fetched. This value is a universally unique identifier (UUID) generated by Amazon Redshift Data API. This identifier is returned by BatchExecuteStatment.
     public var id: Swift.String?
+    /// The process identifier from Amazon Redshift.
+    public var redshiftPid: Swift.Int?
     /// The name or ARN of the secret that enables access to the database.
     public var secretArn: Swift.String?
     /// The session identifier of the query.
     public var sessionId: Swift.String?
+    /// The status of the SQL statement. Status values are defined as follows:
+    ///
+    /// * ABORTED - The query run was stopped by the user.
+    ///
+    /// * FAILED - The query run failed.
+    ///
+    /// * FINISHED - The query has finished running.
+    ///
+    /// * PICKED - The query has been chosen to be run.
+    ///
+    /// * STARTED - The query run has started.
+    ///
+    /// * SUBMITTED - The query was submitted, but not yet processed.
+    public var status: RedshiftDataClientTypes.StatementStatusString?
     /// The serverless workgroup name or Amazon Resource Name (ARN). This element is not returned when connecting to a provisioned cluster.
     public var workgroupName: Swift.String?
 
@@ -304,9 +423,12 @@ public struct BatchExecuteStatementOutput: Swift.Sendable {
         database: Swift.String? = nil,
         dbGroups: [Swift.String]? = nil,
         dbUser: Swift.String? = nil,
+        hasResultSet: Swift.Bool? = nil,
         id: Swift.String? = nil,
+        redshiftPid: Swift.Int? = nil,
         secretArn: Swift.String? = nil,
         sessionId: Swift.String? = nil,
+        status: RedshiftDataClientTypes.StatementStatusString? = nil,
         workgroupName: Swift.String? = nil
     ) {
         self.clusterIdentifier = clusterIdentifier
@@ -314,9 +436,12 @@ public struct BatchExecuteStatementOutput: Swift.Sendable {
         self.database = database
         self.dbGroups = dbGroups
         self.dbUser = dbUser
+        self.hasResultSet = hasResultSet
         self.id = id
+        self.redshiftPid = redshiftPid
         self.secretArn = secretArn
         self.sessionId = sessionId
+        self.status = status
         self.workgroupName = workgroupName
     }
 }
@@ -458,11 +583,15 @@ public struct DescribeStatementInput: Swift.Sendable {
     /// The identifier of the SQL statement to describe. This value is a universally unique identifier (UUID) generated by Amazon Redshift Data API. A suffix indicates the number of the SQL statement. For example, d9b6c0c9-0747-4bf4-b142-e8883122f766:2 has a suffix of :2 that indicates the second SQL statement of a batch query. This identifier is returned by BatchExecuteStatment, ExecuteStatement, and ListStatements.
     /// This member is required.
     public var id: Swift.String?
+    /// The number of seconds to wait for the SQL statement to complete execution before returning the description. The maximum value is 30 seconds.
+    public var waitTimeSeconds: Swift.Int?
 
     public init(
-        id: Swift.String? = nil
+        id: Swift.String? = nil,
+        waitTimeSeconds: Swift.Int? = nil
     ) {
         self.id = id
+        self.waitTimeSeconds = waitTimeSeconds
     }
 }
 
@@ -499,47 +628,6 @@ extension RedshiftDataClientTypes {
             switch self {
             case .aborted: return "ABORTED"
             case .all: return "ALL"
-            case .failed: return "FAILED"
-            case .finished: return "FINISHED"
-            case .picked: return "PICKED"
-            case .started: return "STARTED"
-            case .submitted: return "SUBMITTED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension RedshiftDataClientTypes {
-
-    public enum StatementStatusString: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case aborted
-        case failed
-        case finished
-        case picked
-        case started
-        case submitted
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [StatementStatusString] {
-            return [
-                .aborted,
-                .failed,
-                .finished,
-                .picked,
-                .started,
-                .submitted
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .aborted: return "ABORTED"
             case .failed: return "FAILED"
             case .finished: return "FINISHED"
             case .picked: return "PICKED"
@@ -620,6 +708,8 @@ public struct DescribeStatementOutput: Swift.Sendable {
     public var duration: Swift.Int
     /// The error message from the cluster if the SQL statement encountered an error while running.
     public var error: Swift.String?
+    /// The execution mode of the batch request. TRANSACTION indicates all SQL statements are run as a single transaction. AUTO_COMMIT indicates each SQL statement is committed individually.
+    public var executionMode: RedshiftDataClientTypes.ExecutionMode?
     /// A value that indicates whether the statement has a result set. The result set can be empty. The value is true for an empty result set. The value is true if any substatement returns a result set.
     public var hasResultSet: Swift.Bool?
     /// The identifier of the SQL statement described. This value is a universally unique identifier (UUID) generated by Amazon Redshift Data API.
@@ -673,6 +763,7 @@ public struct DescribeStatementOutput: Swift.Sendable {
         dbUser: Swift.String? = nil,
         duration: Swift.Int = 0,
         error: Swift.String? = nil,
+        executionMode: RedshiftDataClientTypes.ExecutionMode? = nil,
         hasResultSet: Swift.Bool? = nil,
         id: Swift.String? = nil,
         queryParameters: [RedshiftDataClientTypes.SqlParameter]? = nil,
@@ -695,6 +786,7 @@ public struct DescribeStatementOutput: Swift.Sendable {
         self.dbUser = dbUser
         self.duration = duration
         self.error = error
+        self.executionMode = executionMode
         self.hasResultSet = hasResultSet
         self.id = id
         self.queryParameters = queryParameters
@@ -834,6 +926,8 @@ public struct ExecuteStatementInput: Swift.Sendable {
     public var sql: Swift.String?
     /// The name of the SQL statement. You can name the SQL statement when you create it to identify the query.
     public var statementName: Swift.String?
+    /// The number of seconds to wait for the SQL statement to complete execution before returning the response. If the SQL statement does not complete within the specified time, the response returns the current status. The maximum value is 30 seconds.
+    public var waitTimeSeconds: Swift.Int?
     /// A value that indicates whether to send an event to the Amazon EventBridge event bus after the SQL statement runs.
     public var withEvent: Swift.Bool?
     /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
@@ -851,6 +945,7 @@ public struct ExecuteStatementInput: Swift.Sendable {
         sessionKeepAliveSeconds: Swift.Int? = nil,
         sql: Swift.String? = nil,
         statementName: Swift.String? = nil,
+        waitTimeSeconds: Swift.Int? = nil,
         withEvent: Swift.Bool? = nil,
         workgroupName: Swift.String? = nil
     ) {
@@ -865,6 +960,7 @@ public struct ExecuteStatementInput: Swift.Sendable {
         self.sessionKeepAliveSeconds = sessionKeepAliveSeconds
         self.sql = sql
         self.statementName = statementName
+        self.waitTimeSeconds = waitTimeSeconds
         self.withEvent = withEvent
         self.workgroupName = workgroupName
     }
@@ -881,12 +977,30 @@ public struct ExecuteStatementOutput: Swift.Sendable {
     public var dbGroups: [Swift.String]?
     /// The database user name.
     public var dbUser: Swift.String?
+    /// A value that indicates whether the statement has a result set. The result set can be empty. The value is true for an empty result set.
+    public var hasResultSet: Swift.Bool?
     /// The identifier of the SQL statement whose results are to be fetched. This value is a universally unique identifier (UUID) generated by Amazon Redshift Data API.
     public var id: Swift.String?
+    /// The process identifier from Amazon Redshift.
+    public var redshiftPid: Swift.Int?
     /// The name or ARN of the secret that enables access to the database.
     public var secretArn: Swift.String?
     /// The session identifier of the query.
     public var sessionId: Swift.String?
+    /// The status of the SQL statement. Status values are defined as follows:
+    ///
+    /// * ABORTED - The query run was stopped by the user.
+    ///
+    /// * FAILED - The query run failed.
+    ///
+    /// * FINISHED - The query has finished running.
+    ///
+    /// * PICKED - The query has been chosen to be run.
+    ///
+    /// * STARTED - The query run has started.
+    ///
+    /// * SUBMITTED - The query was submitted, but not yet processed.
+    public var status: RedshiftDataClientTypes.StatementStatusString?
     /// The serverless workgroup name or Amazon Resource Name (ARN). This element is not returned when connecting to a provisioned cluster.
     public var workgroupName: Swift.String?
 
@@ -896,9 +1010,12 @@ public struct ExecuteStatementOutput: Swift.Sendable {
         database: Swift.String? = nil,
         dbGroups: [Swift.String]? = nil,
         dbUser: Swift.String? = nil,
+        hasResultSet: Swift.Bool? = nil,
         id: Swift.String? = nil,
+        redshiftPid: Swift.Int? = nil,
         secretArn: Swift.String? = nil,
         sessionId: Swift.String? = nil,
+        status: RedshiftDataClientTypes.StatementStatusString? = nil,
         workgroupName: Swift.String? = nil
     ) {
         self.clusterIdentifier = clusterIdentifier
@@ -906,9 +1023,12 @@ public struct ExecuteStatementOutput: Swift.Sendable {
         self.database = database
         self.dbGroups = dbGroups
         self.dbUser = dbUser
+        self.hasResultSet = hasResultSet
         self.id = id
+        self.redshiftPid = redshiftPid
         self.secretArn = secretArn
         self.sessionId = sessionId
+        self.status = status
         self.workgroupName = workgroupName
     }
 }
@@ -949,13 +1069,17 @@ public struct GetStatementResultInput: Swift.Sendable {
     public var id: Swift.String?
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned NextToken value in the next NextToken parameter and retrying the command. If the NextToken field is empty, all response records have been retrieved for the request.
     public var nextToken: Swift.String?
+    /// The number of seconds to wait for the SQL statement to complete execution before returning the result. The maximum value is 30 seconds.
+    public var waitTimeSeconds: Swift.Int?
 
     public init(
         id: Swift.String? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        waitTimeSeconds: Swift.Int? = nil
     ) {
         self.id = id
         self.nextToken = nextToken
+        self.waitTimeSeconds = waitTimeSeconds
     }
 }
 
@@ -989,13 +1113,17 @@ public struct GetStatementResultV2Input: Swift.Sendable {
     public var id: Swift.String?
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned NextToken value in the next NextToken parameter and retrying the command. If the NextToken field is empty, all response records have been retrieved for the request.
     public var nextToken: Swift.String?
+    /// The number of seconds to wait for the SQL statement to complete execution before returning the result. The maximum value is 30 seconds.
+    public var waitTimeSeconds: Swift.Int?
 
     public init(
         id: Swift.String? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        waitTimeSeconds: Swift.Int? = nil
     ) {
         self.id = id
         self.nextToken = nextToken
+        self.waitTimeSeconds = waitTimeSeconds
     }
 }
 
@@ -1134,6 +1262,163 @@ public struct ListSchemasOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.schemas = schemas
+    }
+}
+
+extension RedshiftDataClientTypes {
+
+    public enum SessionStatusString: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case busy
+        case closed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionStatusString] {
+            return [
+                .available,
+                .busy,
+                .closed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .busy: return "BUSY"
+            case .closed: return "CLOSED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListSessionsInput: Swift.Sendable {
+    /// The cluster identifier. Only sessions on this cluster are returned. When providing ClusterIdentifier, then WorkgroupName can't be specified.
+    public var clusterIdentifier: Swift.String?
+    /// The name of the database. Only sessions connected to this database are returned.
+    public var database: Swift.String?
+    /// The maximum number of sessions to return in the response. If more sessions exist than fit in one response, the operation returns NextToken to paginate the results.
+    public var maxResults: Swift.Int?
+    /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned NextToken value in the next NextToken parameter and retrying the command. If the NextToken field is empty, all response records have been retrieved for the request.
+    public var nextToken: Swift.String?
+    /// Specifies whether to return all sessions created by the caller's IAM role, including sessions from previous IAM sessions. If false, only sessions created in the current IAM session are returned. The default is true.
+    public var roleLevel: Swift.Bool?
+    /// The identifier of a specific session to return metadata for. This value is a universally unique identifier (UUID) generated by Amazon Redshift Data API. When you provide SessionId, you can't specify Status, ClusterIdentifier, WorkgroupName, or Database.
+    public var sessionId: Swift.String?
+    /// The status of the sessions to list. If no status is specified, sessions with a status of AVAILABLE or BUSY are returned. Status values are defined as follows:
+    ///
+    /// * AVAILABLE – The session is open and ready to run a SQL statement.
+    ///
+    /// * BUSY – The session is currently running a SQL statement.
+    ///
+    /// * CLOSED – The session is closed and can no longer run SQL statements.
+    public var status: RedshiftDataClientTypes.SessionStatusString?
+    /// The serverless workgroup name or Amazon Resource Name (ARN). Only sessions on this workgroup are returned. When providing WorkgroupName, then ClusterIdentifier can't be specified.
+    public var workgroupName: Swift.String?
+
+    public init(
+        clusterIdentifier: Swift.String? = nil,
+        database: Swift.String? = nil,
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil,
+        roleLevel: Swift.Bool? = nil,
+        sessionId: Swift.String? = nil,
+        status: RedshiftDataClientTypes.SessionStatusString? = nil,
+        workgroupName: Swift.String? = nil
+    ) {
+        self.clusterIdentifier = clusterIdentifier
+        self.database = database
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.roleLevel = roleLevel
+        self.sessionId = sessionId
+        self.status = status
+        self.workgroupName = workgroupName
+    }
+}
+
+extension RedshiftDataClientTypes {
+
+    /// Contains the metadata for a session returned by ListSessions, including its status, compute target, database connection, and lifecycle timestamps.
+    public struct SessionData: Swift.Sendable {
+        /// The cluster identifier. This element is not returned when connecting to a serverless workgroup.
+        public var clusterIdentifier: Swift.String?
+        /// The date and time (UTC) when the session was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The identifier of the SQL statement currently running in the session. This value is a universally unique identifier (UUID) generated by Amazon Redshift Data API. This element is returned only when the session status is BUSY.
+        public var currentStatementId: Swift.String?
+        /// The name of the database that the session is connected to.
+        public var database: Swift.String?
+        /// The database user name.
+        public var dbUser: Swift.String?
+        /// The number of seconds that the session is kept alive after a query finishes.
+        public var sessionAliveSeconds: Swift.Int?
+        /// The session identifier. This value is a universally unique identifier (UUID) generated by Amazon Redshift Data API.
+        /// This member is required.
+        public var sessionId: Swift.String?
+        /// The date and time (UTC) when the session is set to expire and be closed.
+        public var sessionTtl: Foundation.Date?
+        /// The status of the session. Status values are defined as follows:
+        ///
+        /// * AVAILABLE – The session is open and ready to run a SQL statement.
+        ///
+        /// * BUSY – The session is currently running a SQL statement.
+        ///
+        /// * CLOSED – The session is closed and can no longer run SQL statements.
+        /// This member is required.
+        public var status: RedshiftDataClientTypes.SessionStatusString?
+        /// The date and time (UTC) that the session metadata was last updated. An example is the time the status last changed.
+        public var updatedAt: Foundation.Date?
+        /// The serverless workgroup name or Amazon Resource Name (ARN). This element is not returned when connecting to a provisioned cluster.
+        public var workgroupName: Swift.String?
+
+        public init(
+            clusterIdentifier: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            currentStatementId: Swift.String? = nil,
+            database: Swift.String? = nil,
+            dbUser: Swift.String? = nil,
+            sessionAliveSeconds: Swift.Int? = nil,
+            sessionId: Swift.String? = nil,
+            sessionTtl: Foundation.Date? = nil,
+            status: RedshiftDataClientTypes.SessionStatusString? = nil,
+            updatedAt: Foundation.Date? = nil,
+            workgroupName: Swift.String? = nil
+        ) {
+            self.clusterIdentifier = clusterIdentifier
+            self.createdAt = createdAt
+            self.currentStatementId = currentStatementId
+            self.database = database
+            self.dbUser = dbUser
+            self.sessionAliveSeconds = sessionAliveSeconds
+            self.sessionId = sessionId
+            self.sessionTtl = sessionTtl
+            self.status = status
+            self.updatedAt = updatedAt
+            self.workgroupName = workgroupName
+        }
+    }
+}
+
+public struct ListSessionsOutput: Swift.Sendable {
+    /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned NextToken value in the next NextToken parameter and retrying the command. If the NextToken field is empty, all response records have been retrieved for the request.
+    public var nextToken: Swift.String?
+    /// The sessions that match the request.
+    /// This member is required.
+    public var sessions: [RedshiftDataClientTypes.SessionData]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        sessions: [RedshiftDataClientTypes.SessionData]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.sessions = sessions
     }
 }
 

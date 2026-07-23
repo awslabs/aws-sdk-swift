@@ -28303,6 +28303,8 @@ extension QuickSightClientTypes {
         public var useBedrockModels: QuickSightClientTypes.CapabilityState?
         /// The ability to use Box Agent actions.
         public var useBoxAgentAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Amazon Quick through the browser extension for Chrome, Firefox, and Edge.
+        public var useBrowserExtension: QuickSightClientTypes.CapabilityState?
         /// The ability to use Canva Agent actions.
         public var useCanvaAgentAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Comprehend actions.
@@ -28311,6 +28313,8 @@ extension QuickSightClientTypes {
         public var useComprehendMedicalAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Atlassian Confluence Cloud actions.
         public var useConfluenceAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Amazon Quick through the Microsoft Excel add-in.
+        public var useExcelAddInExtension: QuickSightClientTypes.CapabilityState?
         /// The ability to use FactSet actions.
         public var useFactSetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use REST API connection actions.
@@ -28345,8 +28349,12 @@ extension QuickSightClientTypes {
         public var useOneDriveAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use OpenAPI Specification actions.
         public var useOpenAPIAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Amazon Quick through the Microsoft Outlook add-in.
+        public var useOutlookAddInExtension: QuickSightClientTypes.CapabilityState?
         /// The ability to use PagerDuty Advance actions.
         public var usePagerDutyAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Amazon Quick through the Microsoft PowerPoint add-in.
+        public var usePowerpointAddInExtension: QuickSightClientTypes.CapabilityState?
         /// The ability to use SAP Bill of Materials actions.
         public var useSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use SAP Business Partner actions.
@@ -28373,6 +28381,8 @@ extension QuickSightClientTypes {
         public var useSmartsheetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Textract actions.
         public var useTextractAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Amazon Quick through the Microsoft Word add-in.
+        public var useWordAddInExtension: QuickSightClientTypes.CapabilityState?
         /// The ability to use Zendesk actions.
         public var useZendeskAction: QuickSightClientTypes.CapabilityState?
         /// The ability to view account SPICE capacity.
@@ -28575,10 +28585,12 @@ extension QuickSightClientTypes {
             useBambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
             useBedrockModels: QuickSightClientTypes.CapabilityState? = nil,
             useBoxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
+            useBrowserExtension: QuickSightClientTypes.CapabilityState? = nil,
             useCanvaAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             useComprehendAction: QuickSightClientTypes.CapabilityState? = nil,
             useComprehendMedicalAction: QuickSightClientTypes.CapabilityState? = nil,
             useConfluenceAction: QuickSightClientTypes.CapabilityState? = nil,
+            useExcelAddInExtension: QuickSightClientTypes.CapabilityState? = nil,
             useFactSetAction: QuickSightClientTypes.CapabilityState? = nil,
             useGenericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
             useGithubAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -28596,7 +28608,9 @@ extension QuickSightClientTypes {
             useNotionAction: QuickSightClientTypes.CapabilityState? = nil,
             useOneDriveAction: QuickSightClientTypes.CapabilityState? = nil,
             useOpenAPIAction: QuickSightClientTypes.CapabilityState? = nil,
+            useOutlookAddInExtension: QuickSightClientTypes.CapabilityState? = nil,
             usePagerDutyAction: QuickSightClientTypes.CapabilityState? = nil,
+            usePowerpointAddInExtension: QuickSightClientTypes.CapabilityState? = nil,
             useSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState? = nil,
             useSAPBusinessPartnerAction: QuickSightClientTypes.CapabilityState? = nil,
             useSAPMaterialStockAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -28610,6 +28624,7 @@ extension QuickSightClientTypes {
             useSlackAction: QuickSightClientTypes.CapabilityState? = nil,
             useSmartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
             useTextractAction: QuickSightClientTypes.CapabilityState? = nil,
+            useWordAddInExtension: QuickSightClientTypes.CapabilityState? = nil,
             useZendeskAction: QuickSightClientTypes.CapabilityState? = nil,
             viewAccountSPICECapacity: QuickSightClientTypes.CapabilityState? = nil,
             zendeskAction: QuickSightClientTypes.CapabilityState? = nil
@@ -28808,10 +28823,12 @@ extension QuickSightClientTypes {
             self.useBambooHRAction = useBambooHRAction
             self.useBedrockModels = useBedrockModels
             self.useBoxAgentAction = useBoxAgentAction
+            self.useBrowserExtension = useBrowserExtension
             self.useCanvaAgentAction = useCanvaAgentAction
             self.useComprehendAction = useComprehendAction
             self.useComprehendMedicalAction = useComprehendMedicalAction
             self.useConfluenceAction = useConfluenceAction
+            self.useExcelAddInExtension = useExcelAddInExtension
             self.useFactSetAction = useFactSetAction
             self.useGenericHTTPAction = useGenericHTTPAction
             self.useGithubAction = useGithubAction
@@ -28829,7 +28846,9 @@ extension QuickSightClientTypes {
             self.useNotionAction = useNotionAction
             self.useOneDriveAction = useOneDriveAction
             self.useOpenAPIAction = useOpenAPIAction
+            self.useOutlookAddInExtension = useOutlookAddInExtension
             self.usePagerDutyAction = usePagerDutyAction
+            self.usePowerpointAddInExtension = usePowerpointAddInExtension
             self.useSAPBillOfMaterialAction = useSAPBillOfMaterialAction
             self.useSAPBusinessPartnerAction = useSAPBusinessPartnerAction
             self.useSAPMaterialStockAction = useSAPMaterialStockAction
@@ -28843,6 +28862,7 @@ extension QuickSightClientTypes {
             self.useSlackAction = useSlackAction
             self.useSmartsheetAction = useSmartsheetAction
             self.useTextractAction = useTextractAction
+            self.useWordAddInExtension = useWordAddInExtension
             self.useZendeskAction = useZendeskAction
             self.viewAccountSPICECapacity = viewAccountSPICECapacity
             self.zendeskAction = zendeskAction
@@ -73006,10 +73026,12 @@ extension QuickSightClientTypes.Capabilities {
         try writer["UseBambooHRAction"].write(value.useBambooHRAction)
         try writer["UseBedrockModels"].write(value.useBedrockModels)
         try writer["UseBoxAgentAction"].write(value.useBoxAgentAction)
+        try writer["UseBrowserExtension"].write(value.useBrowserExtension)
         try writer["UseCanvaAgentAction"].write(value.useCanvaAgentAction)
         try writer["UseComprehendAction"].write(value.useComprehendAction)
         try writer["UseComprehendMedicalAction"].write(value.useComprehendMedicalAction)
         try writer["UseConfluenceAction"].write(value.useConfluenceAction)
+        try writer["UseExcelAddInExtension"].write(value.useExcelAddInExtension)
         try writer["UseFactSetAction"].write(value.useFactSetAction)
         try writer["UseGenericHTTPAction"].write(value.useGenericHTTPAction)
         try writer["UseGithubAction"].write(value.useGithubAction)
@@ -73027,7 +73049,9 @@ extension QuickSightClientTypes.Capabilities {
         try writer["UseNotionAction"].write(value.useNotionAction)
         try writer["UseOneDriveAction"].write(value.useOneDriveAction)
         try writer["UseOpenAPIAction"].write(value.useOpenAPIAction)
+        try writer["UseOutlookAddInExtension"].write(value.useOutlookAddInExtension)
         try writer["UsePagerDutyAction"].write(value.usePagerDutyAction)
+        try writer["UsePowerpointAddInExtension"].write(value.usePowerpointAddInExtension)
         try writer["UseSAPBillOfMaterialAction"].write(value.useSAPBillOfMaterialAction)
         try writer["UseSAPBusinessPartnerAction"].write(value.useSAPBusinessPartnerAction)
         try writer["UseSAPMaterialStockAction"].write(value.useSAPMaterialStockAction)
@@ -73041,6 +73065,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["UseSlackAction"].write(value.useSlackAction)
         try writer["UseSmartsheetAction"].write(value.useSmartsheetAction)
         try writer["UseTextractAction"].write(value.useTextractAction)
+        try writer["UseWordAddInExtension"].write(value.useWordAddInExtension)
         try writer["UseZendeskAction"].write(value.useZendeskAction)
         try writer["ViewAccountSPICECapacity"].write(value.viewAccountSPICECapacity)
         try writer["ZendeskAction"].write(value.zendeskAction)
@@ -73273,6 +73298,11 @@ extension QuickSightClientTypes.Capabilities {
         value.research = try reader["Research"].readIfPresent()
         value.selfUpgradeUserRole = try reader["SelfUpgradeUserRole"].readIfPresent()
         value.`extension` = try reader["Extension"].readIfPresent()
+        value.useBrowserExtension = try reader["UseBrowserExtension"].readIfPresent()
+        value.useWordAddInExtension = try reader["UseWordAddInExtension"].readIfPresent()
+        value.useOutlookAddInExtension = try reader["UseOutlookAddInExtension"].readIfPresent()
+        value.useExcelAddInExtension = try reader["UseExcelAddInExtension"].readIfPresent()
+        value.usePowerpointAddInExtension = try reader["UsePowerpointAddInExtension"].readIfPresent()
         value.manageSharedFolders = try reader["ManageSharedFolders"].readIfPresent()
         value.generateAnalyses = try reader["GenerateAnalyses"].readIfPresent()
         value.story = try reader["Story"].readIfPresent()

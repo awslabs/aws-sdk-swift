@@ -364,12 +364,16 @@ extension MediaPackageV2ClientTypes {
         case memberMissing
         case missingCertificateDomainName
         case noneModeWithTimingSource
+        case nonEpochLockedWithForceEndpointErrorConfiguration
         case numManifestsHigh
         case numManifestsLow
         case onlyCmafInputTypeAllowForceEndpointErrorConfiguration
         case onlyCmafInputTypeAllowMqcsInputSwitching
         case onlyCmafInputTypeAllowMqcsOutputConfiguration
+        case onlyCmafInputTypeAllowOutputLockingMode
         case onlyCmafInputTypeAllowPreferredInputConfiguration
+        case onlyNonEpochLockedAllowOutputTimestampMode
+        case outputTimestampModeImmutable
         case periodTriggersNoneSpecifiedWithAdditionalValues
         case resourceNotInSameRegion
         case roleArnInvalidFormat
@@ -468,12 +472,16 @@ extension MediaPackageV2ClientTypes {
                 .memberMissing,
                 .missingCertificateDomainName,
                 .noneModeWithTimingSource,
+                .nonEpochLockedWithForceEndpointErrorConfiguration,
                 .numManifestsHigh,
                 .numManifestsLow,
                 .onlyCmafInputTypeAllowForceEndpointErrorConfiguration,
                 .onlyCmafInputTypeAllowMqcsInputSwitching,
                 .onlyCmafInputTypeAllowMqcsOutputConfiguration,
+                .onlyCmafInputTypeAllowOutputLockingMode,
                 .onlyCmafInputTypeAllowPreferredInputConfiguration,
+                .onlyNonEpochLockedAllowOutputTimestampMode,
+                .outputTimestampModeImmutable,
                 .periodTriggersNoneSpecifiedWithAdditionalValues,
                 .resourceNotInSameRegion,
                 .roleArnInvalidFormat,
@@ -578,12 +586,16 @@ extension MediaPackageV2ClientTypes {
             case .memberMissing: return "MEMBER_MISSING"
             case .missingCertificateDomainName: return "MISSING_CERTIFICATE_DOMAIN_NAME"
             case .noneModeWithTimingSource: return "NONE_MODE_WITH_TIMING_SOURCE"
+            case .nonEpochLockedWithForceEndpointErrorConfiguration: return "NON_EPOCH_LOCKED_WITH_FORCE_ENDPOINT_ERROR_CONFIGURATION"
             case .numManifestsHigh: return "NUM_MANIFESTS_HIGH"
             case .numManifestsLow: return "NUM_MANIFESTS_LOW"
             case .onlyCmafInputTypeAllowForceEndpointErrorConfiguration: return "ONLY_CMAF_INPUT_TYPE_ALLOW_FORCE_ENDPOINT_ERROR_CONFIGURATION"
             case .onlyCmafInputTypeAllowMqcsInputSwitching: return "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_INPUT_SWITCHING"
             case .onlyCmafInputTypeAllowMqcsOutputConfiguration: return "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_OUTPUT_CONFIGURATION"
+            case .onlyCmafInputTypeAllowOutputLockingMode: return "ONLY_CMAF_INPUT_TYPE_ALLOW_OUTPUT_LOCKING_MODE"
             case .onlyCmafInputTypeAllowPreferredInputConfiguration: return "ONLY_CMAF_INPUT_TYPE_ALLOW_PREFERRED_INPUT_CONFIGURATION"
+            case .onlyNonEpochLockedAllowOutputTimestampMode: return "ONLY_NON_EPOCH_LOCKED_ALLOW_OUTPUT_TIMESTAMP_MODE"
+            case .outputTimestampModeImmutable: return "OUTPUT_TIMESTAMP_MODE_IMMUTABLE"
             case .periodTriggersNoneSpecifiedWithAdditionalValues: return "PERIOD_TRIGGERS_NONE_SPECIFIED_WITH_ADDITIONAL_VALUES"
             case .resourceNotInSameRegion: return "RESOURCE_NOT_IN_SAME_REGION"
             case .roleArnInvalidFormat: return "ROLE_ARN_INVALID_FORMAT"
@@ -910,6 +922,35 @@ extension MediaPackageV2ClientTypes {
     }
 }
 
+extension MediaPackageV2ClientTypes {
+
+    public enum OutputLockingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case epochLocked
+        case nonEpochLocked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OutputLockingMode] {
+            return [
+                .epochLocked,
+                .nonEpochLocked
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .epochLocked: return "EPOCH_LOCKED"
+            case .nonEpochLocked: return "NON_EPOCH_LOCKED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateChannelInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
@@ -931,6 +972,12 @@ public struct CreateChannelInput: Swift.Sendable {
     public var inputType: MediaPackageV2ClientTypes.InputType?
     /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
     public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
+    /// The output locking mode for the channel. This setting is only valid when InputType is CMAF. This value is immutable after channel creation. If you don't specify a value, the default is EPOCH_LOCKED. The allowed values are:
+    ///
+    /// * EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time. This mode supports cross-region synchronization and failover.
+    ///
+    /// * NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0. This mode does not support cross-region synchronization or failover.
+    public var outputLockingMode: MediaPackageV2ClientTypes.OutputLockingMode?
     /// A comma-separated list of tag key:value pairs that you define. For example: "Key1": "Value1",
     ///     "Key2": "Value2"
     public var tags: [Swift.String: Swift.String]?
@@ -943,6 +990,7 @@ public struct CreateChannelInput: Swift.Sendable {
         inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration? = nil,
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
         outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
+        outputLockingMode: MediaPackageV2ClientTypes.OutputLockingMode? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.channelGroupName = channelGroupName
@@ -952,6 +1000,7 @@ public struct CreateChannelInput: Swift.Sendable {
         self.inputSwitchConfiguration = inputSwitchConfiguration
         self.inputType = inputType
         self.outputHeaderConfiguration = outputHeaderConfiguration
+        self.outputLockingMode = outputLockingMode
         self.tags = tags
     }
 }
@@ -1007,6 +1056,12 @@ public struct CreateChannelOutput: Swift.Sendable {
     public var modifiedAt: Foundation.Date?
     /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
     public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
+    /// The output locking mode configured for the channel. The allowed values are:
+    ///
+    /// * EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time.
+    ///
+    /// * NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0.
+    public var outputLockingMode: MediaPackageV2ClientTypes.OutputLockingMode?
     /// The comma-separated list of tag key:value pairs assigned to the channel.
     public var tags: [Swift.String: Swift.String]?
 
@@ -1022,6 +1077,7 @@ public struct CreateChannelOutput: Swift.Sendable {
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
         modifiedAt: Foundation.Date? = nil,
         outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
+        outputLockingMode: MediaPackageV2ClientTypes.OutputLockingMode? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.arn = arn
@@ -1035,6 +1091,7 @@ public struct CreateChannelOutput: Swift.Sendable {
         self.inputType = inputType
         self.modifiedAt = modifiedAt
         self.outputHeaderConfiguration = outputHeaderConfiguration
+        self.outputLockingMode = outputLockingMode
         self.tags = tags
     }
 }
@@ -1110,6 +1167,12 @@ public struct GetChannelOutput: Swift.Sendable {
     public var modifiedAt: Foundation.Date?
     /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
     public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
+    /// The output locking mode configured for the channel. The allowed values are:
+    ///
+    /// * EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time.
+    ///
+    /// * NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0.
+    public var outputLockingMode: MediaPackageV2ClientTypes.OutputLockingMode?
     /// The time that the channel was last reset.
     public var resetAt: Foundation.Date?
     /// The comma-separated list of tag key:value pairs assigned to the channel.
@@ -1127,6 +1190,7 @@ public struct GetChannelOutput: Swift.Sendable {
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
         modifiedAt: Foundation.Date? = nil,
         outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
+        outputLockingMode: MediaPackageV2ClientTypes.OutputLockingMode? = nil,
         resetAt: Foundation.Date? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -1141,6 +1205,7 @@ public struct GetChannelOutput: Swift.Sendable {
         self.inputType = inputType
         self.modifiedAt = modifiedAt
         self.outputHeaderConfiguration = outputHeaderConfiguration
+        self.outputLockingMode = outputLockingMode
         self.resetAt = resetAt
         self.tags = tags
     }
@@ -1193,6 +1258,12 @@ extension MediaPackageV2ClientTypes {
         /// The date and time the channel was modified.
         /// This member is required.
         public var modifiedAt: Foundation.Date?
+        /// The output locking mode configured for the channel. The allowed values are:
+        ///
+        /// * EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time.
+        ///
+        /// * NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0.
+        public var outputLockingMode: MediaPackageV2ClientTypes.OutputLockingMode?
 
         public init(
             arn: Swift.String? = nil,
@@ -1201,7 +1272,8 @@ extension MediaPackageV2ClientTypes {
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             inputType: MediaPackageV2ClientTypes.InputType? = nil,
-            modifiedAt: Foundation.Date? = nil
+            modifiedAt: Foundation.Date? = nil,
+            outputLockingMode: MediaPackageV2ClientTypes.OutputLockingMode? = nil
         ) {
             self.arn = arn
             self.channelGroupName = channelGroupName
@@ -1210,6 +1282,7 @@ extension MediaPackageV2ClientTypes {
             self.description = description
             self.inputType = inputType
             self.modifiedAt = modifiedAt
+            self.outputLockingMode = outputLockingMode
         }
     }
 }
@@ -2520,6 +2593,35 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    public enum OutputTimestampMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case passthrough
+        case rebasedToChannelStart
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OutputTimestampMode] {
+            return [
+                .passthrough,
+                .rebasedToChannelStart
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .passthrough: return "PASSTHROUGH"
+            case .rebasedToChannelStart: return "REBASED_TO_CHANNEL_START"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     public enum CustomAdType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case alternateContentOpportunity
         case chapter
@@ -2708,6 +2810,12 @@ extension MediaPackageV2ClientTypes {
         public var encryption: MediaPackageV2ClientTypes.Encryption?
         /// When selected, the stream set includes an additional I-frame only stream, along with the other tracks. If false, this extra stream is not included. MediaPackage generates an I-frame only stream from the first rendition in the manifest. The service inserts EXT-I-FRAMES-ONLY tags in the output manifest, and then generates and includes an I-frames only playlist in the stream. This playlist permits player functionality like fast forward and rewind.
         public var includeIframeOnlyStreams: Swift.Bool?
+        /// The output timestamp mode for the origin endpoint's segments. This setting is only configurable on channels with OutputLockingMode set to NON_EPOCH_LOCKED. This value is immutable after endpoint creation. If you don't specify a value, the default is PASSTHROUGH. The allowed values are:
+        ///
+        /// * PASSTHROUGH - Output PTS (Presentation Timestamp) values pass through unchanged from the input.
+        ///
+        /// * REBASED_TO_CHANNEL_START - Output PTS is rebased relative to the channel start time.
+        public var outputTimestampMode: MediaPackageV2ClientTypes.OutputTimestampMode?
         /// The SCTE configuration options in the segment settings.
         public var scte: MediaPackageV2ClientTypes.Scte?
         /// The duration (in seconds) of each segment. Enter a value equal to, or a multiple of, the input segment duration. If the value that you enter is different from the input segment duration, MediaPackage rounds segments to the nearest multiple of the input segment duration.
@@ -2722,6 +2830,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             encryption: MediaPackageV2ClientTypes.Encryption? = nil,
             includeIframeOnlyStreams: Swift.Bool? = nil,
+            outputTimestampMode: MediaPackageV2ClientTypes.OutputTimestampMode? = nil,
             scte: MediaPackageV2ClientTypes.Scte? = nil,
             segmentDurationSeconds: Swift.Int? = nil,
             segmentName: Swift.String? = nil,
@@ -2730,6 +2839,7 @@ extension MediaPackageV2ClientTypes {
         ) {
             self.encryption = encryption
             self.includeIframeOnlyStreams = includeIframeOnlyStreams
+            self.outputTimestampMode = outputTimestampMode
             self.scte = scte
             self.segmentDurationSeconds = segmentDurationSeconds
             self.segmentName = segmentName
@@ -3938,6 +4048,12 @@ public struct UpdateChannelOutput: Swift.Sendable {
     public var modifiedAt: Foundation.Date?
     /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
     public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
+    /// The output locking mode configured for the channel. This value is immutable after channel creation. The allowed values are:
+    ///
+    /// * EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time.
+    ///
+    /// * NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0.
+    public var outputLockingMode: MediaPackageV2ClientTypes.OutputLockingMode?
     /// The comma-separated list of tag key:value pairs assigned to the channel.
     public var tags: [Swift.String: Swift.String]?
 
@@ -3953,6 +4069,7 @@ public struct UpdateChannelOutput: Swift.Sendable {
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
         modifiedAt: Foundation.Date? = nil,
         outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
+        outputLockingMode: MediaPackageV2ClientTypes.OutputLockingMode? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.arn = arn
@@ -3966,6 +4083,7 @@ public struct UpdateChannelOutput: Swift.Sendable {
         self.inputType = inputType
         self.modifiedAt = modifiedAt
         self.outputHeaderConfiguration = outputHeaderConfiguration
+        self.outputLockingMode = outputLockingMode
         self.tags = tags
     }
 }
@@ -5373,6 +5491,7 @@ extension CreateChannelInput {
         try writer["InputSwitchConfiguration"].write(value.inputSwitchConfiguration, with: MediaPackageV2ClientTypes.InputSwitchConfiguration.write(value:to:))
         try writer["InputType"].write(value.inputType)
         try writer["OutputHeaderConfiguration"].write(value.outputHeaderConfiguration, with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.write(value:to:))
+        try writer["OutputLockingMode"].write(value.outputLockingMode)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -5504,6 +5623,7 @@ extension CreateChannelOutput {
         value.inputType = try reader["InputType"].readIfPresent()
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.outputHeaderConfiguration = try reader["OutputHeaderConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.read(from:))
+        value.outputLockingMode = try reader["OutputLockingMode"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -5636,6 +5756,7 @@ extension GetChannelOutput {
         value.inputType = try reader["InputType"].readIfPresent()
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.outputHeaderConfiguration = try reader["OutputHeaderConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.read(from:))
+        value.outputLockingMode = try reader["OutputLockingMode"].readIfPresent()
         value.resetAt = try reader["ResetAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -5888,6 +6009,7 @@ extension UpdateChannelOutput {
         value.inputType = try reader["InputType"].readIfPresent()
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.outputHeaderConfiguration = try reader["OutputHeaderConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.read(from:))
+        value.outputLockingMode = try reader["OutputLockingMode"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -6621,6 +6743,7 @@ extension MediaPackageV2ClientTypes.ChannelListConfiguration {
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["Description"].readIfPresent()
         value.inputType = try reader["InputType"].readIfPresent()
+        value.outputLockingMode = try reader["OutputLockingMode"].readIfPresent()
         return value
     }
 }
@@ -7351,6 +7474,7 @@ extension MediaPackageV2ClientTypes.Segment {
         guard let value else { return }
         try writer["Encryption"].write(value.encryption, with: MediaPackageV2ClientTypes.Encryption.write(value:to:))
         try writer["IncludeIframeOnlyStreams"].write(value.includeIframeOnlyStreams)
+        try writer["OutputTimestampMode"].write(value.outputTimestampMode)
         try writer["Scte"].write(value.scte, with: MediaPackageV2ClientTypes.Scte.write(value:to:))
         try writer["SegmentDurationSeconds"].write(value.segmentDurationSeconds)
         try writer["SegmentName"].write(value.segmentName)
@@ -7368,6 +7492,7 @@ extension MediaPackageV2ClientTypes.Segment {
         value.tsIncludeDvbSubtitles = try reader["TsIncludeDvbSubtitles"].readIfPresent()
         value.scte = try reader["Scte"].readIfPresent(with: MediaPackageV2ClientTypes.Scte.read(from:))
         value.encryption = try reader["Encryption"].readIfPresent(with: MediaPackageV2ClientTypes.Encryption.read(from:))
+        value.outputTimestampMode = try reader["OutputTimestampMode"].readIfPresent()
         return value
     }
 }
