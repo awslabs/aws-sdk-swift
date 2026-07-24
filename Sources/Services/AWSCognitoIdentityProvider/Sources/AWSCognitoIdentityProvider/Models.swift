@@ -1759,6 +1759,85 @@ public struct AdminGetUserOutput: Swift.Sendable {
     }
 }
 
+public struct AdminGetUserAuthFactorsInput: Swift.Sendable {
+    /// The ID of the user pool where you want to get information about the user's authentication factors.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+    /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
+    /// This member is required.
+    public var username: Swift.String?
+
+    public init(
+        userPoolId: Swift.String? = nil,
+        username: Swift.String? = nil
+    ) {
+        self.userPoolId = userPoolId
+        self.username = username
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    public enum AuthFactorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case emailOtp
+        case password
+        case smsOtp
+        case softwareToken
+        case webAuthn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthFactorType] {
+            return [
+                .emailOtp,
+                .password,
+                .smsOtp,
+                .softwareToken,
+                .webAuthn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .emailOtp: return "EMAIL_OTP"
+            case .password: return "PASSWORD"
+            case .smsOtp: return "SMS_OTP"
+            case .softwareToken: return "SOFTWARE_TOKEN"
+            case .webAuthn: return "WEB_AUTHN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AdminGetUserAuthFactorsOutput: Swift.Sendable {
+    /// The authentication types that are available to the user with USER_AUTH sign-in, for example ["PASSWORD", "WEB_AUTHN"]. PASSWORD can only be used as a first authentication factor. SOFTWARE_TOKEN can only be used as an MFA factor. EMAIL_OTP, SMS_OTP, and WEB_AUTHN can be used as either a first authentication factor or an MFA factor. WEB_AUTHN is available as an MFA factor only when passkey MFA is enabled at the user pool level.
+    public var configuredUserAuthFactors: [CognitoIdentityProviderClientTypes.AuthFactorType]?
+    /// The challenge method that Amazon Cognito returns to the user in response to sign-in requests. Users can prefer SMS message, email message, or TOTP MFA.
+    public var preferredMfaSetting: Swift.String?
+    /// The MFA options that are activated for the user. The possible values in this list are SMS_MFA, EMAIL_OTP, and SOFTWARE_TOKEN_MFA.
+    public var userMFASettingList: [Swift.String]?
+    /// The name of the user who is eligible for the authentication factors in the response.
+    /// This member is required.
+    public var username: Swift.String?
+
+    public init(
+        configuredUserAuthFactors: [CognitoIdentityProviderClientTypes.AuthFactorType]? = nil,
+        preferredMfaSetting: Swift.String? = nil,
+        userMFASettingList: [Swift.String]? = nil,
+        username: Swift.String? = nil
+    ) {
+        self.configuredUserAuthFactors = configuredUserAuthFactors
+        self.preferredMfaSetting = preferredMfaSetting
+        self.userMFASettingList = userMFASettingList
+        self.username = username
+    }
+}
+
 /// This exception is thrown when Amazon Cognito isn't allowed to use your email identity. HTTP status code: 400.
 public struct InvalidEmailRoleAccessPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -3602,41 +3681,6 @@ extension CognitoIdentityProviderClientTypes {
             case .email: return "email"
             case .phoneNumber: return "phone_number"
             case .preferredUsername: return "preferred_username"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CognitoIdentityProviderClientTypes {
-
-    public enum AuthFactorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case emailOtp
-        case password
-        case smsOtp
-        case webAuthn
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [AuthFactorType] {
-            return [
-                .emailOtp,
-                .password,
-                .smsOtp,
-                .webAuthn
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .emailOtp: return "EMAIL_OTP"
-            case .password: return "PASSWORD"
-            case .smsOtp: return "SMS_OTP"
-            case .webAuthn: return "WEB_AUTHN"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5780,7 +5824,7 @@ extension CognitoIdentityProviderClientTypes {
 
     /// The policy for allowed types of authentication in a user pool. To activate this setting, your user pool must be in the [ Essentials tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html) or higher.
     public struct SignInPolicyType: Swift.Sendable {
-        /// The sign-in methods that a user pool supports as the first factor. You can permit users to start authentication with a standard username and password, or with other one-time password and hardware factors.
+        /// The sign-in methods that a user pool supports as the first factor. You can permit users to start authentication with a standard username and password, or with other one-time password and hardware factors. SOFTWARE_TOKEN is not currently supported as a first auth factor. Do not include this value in AllowedFirstAuthFactors.
         public var allowedFirstAuthFactors: [CognitoIdentityProviderClientTypes.AuthFactorType]?
 
         public init(
@@ -6088,7 +6132,14 @@ public struct CreateUserPoolInput: Swift.Sendable {
     public var keyConfiguration: CognitoIdentityProviderClientTypes.KeyConfigurationType?
     /// A collection of user pool Lambda triggers. Amazon Cognito invokes triggers at several possible stages of authentication operations. Triggers can modify the outcome of the operations that invoked them.
     public var lambdaConfig: CognitoIdentityProviderClientTypes.LambdaConfigType?
-    /// Sets multi-factor authentication (MFA) to be on, off, or optional. When ON, all users must set up MFA before they can sign in. When OPTIONAL, your application must make a client-side determination of whether a user wants to register an MFA device. For user pools with adaptive authentication with threat protection, choose OPTIONAL. When MfaConfiguration is OPTIONAL, managed login doesn't automatically prompt users to set up MFA. Amazon Cognito generates MFA prompts in API responses and in managed login for users who have chosen and configured a preferred MFA factor.
+    /// Sets multi-factor authentication (MFA) to be on, off, or optional. When ON, all users must set up MFA before they can sign in. When OPTIONAL, your application must make a client-side determination of whether a user wants to register an MFA device. For user pools with adaptive authentication with threat protection, choose OPTIONAL. When MfaConfiguration is OPTIONAL, managed login doesn't automatically prompt users to set up MFA. Amazon Cognito generates MFA prompts in API responses and in managed login for users who have chosen and configured a preferred MFA factor. The CreateUserPool operation supports only SMS MFA configuration. If you set MfaConfiguration to either of these values, include an SmsConfiguration in the same request:
+    ///
+    /// * ON – Requires MFA for all users
+    ///
+    /// * OPTIONAL – Makes MFA optional for each user
+    ///
+    ///
+    /// If you omit SmsConfiguration, the operation returns an InvalidParameterException. To configure TOTP or email MFA, use the [SetUserPoolMfaConfig](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_SetUserPoolMfaConfig.html) operation. You can also use SetUserPoolMfaConfig to add MFA factors later.
     public var mfaConfiguration: CognitoIdentityProviderClientTypes.UserPoolMfaType?
     /// The password policy and sign-in policy in the user pool. The password policy sets options like password complexity requirements and password history. The sign-in policy sets the options available to applications in [choice-based authentication](https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flows-selection-sdk.html#authentication-flows-selection-choice).
     public var policies: CognitoIdentityProviderClientTypes.UserPoolPolicyType?
@@ -7054,7 +7105,7 @@ public struct CreateUserPoolDomainInput: Swift.Sendable {
     /// The domain string. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For prefix domains, this is the prefix alone, such as myprefix. A prefix value of myprefix for a user pool in the us-east-1 Region results in a domain of myprefix.auth.us-east-1.amazoncognito.com.
     /// This member is required.
     public var domain: Swift.String?
-    /// The version of managed login branding that you want to apply to your domain. A value of 1 indicates hosted UI (classic) and a version of 2 indicates managed login. Managed login requires that your user pool be configured for any [feature plan](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html) other than Lite.
+    /// The version of managed login branding that you want to apply to your domain. A value of 1 indicates hosted UI (classic) and a version of 2 indicates managed login. Managed login requires that your user pool be configured for any [feature plan](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html) other than Lite. A ManagedLoginVersion value of 2 does not activate managed login pages for your app client. When you create an app client programmatically, your app client has no branding style. To use managed login, create a branding style using the [CreateManagedLoginBranding](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_CreateManagedLoginBranding.html) operation. When you use the console, Amazon Cognito assigns a default branding style automatically. When you use the API or an SDK, you must create a branding style yourself.
     public var managedLoginVersion: Swift.Int?
     /// The configuration of routing for requests to the domain for replicas of a replicated user pool. The routing configuration is currently only supported for custom domains.
     public var routing: CognitoIdentityProviderClientTypes.RoutingType?
@@ -8764,7 +8815,7 @@ public struct GetUserAuthFactorsInput: Swift.Sendable {
 }
 
 public struct GetUserAuthFactorsOutput: Swift.Sendable {
-    /// The authentication types that are available to the user with USER_AUTH sign-in, for example ["PASSWORD", "WEB_AUTHN"].
+    /// The authentication types that are available to the user with USER_AUTH sign-in, for example ["PASSWORD", "WEB_AUTHN"]. PASSWORD can only be used as a first authentication factor. SOFTWARE_TOKEN can only be used as an MFA factor. EMAIL_OTP, SMS_OTP, and WEB_AUTHN can be used as either a first authentication factor or an MFA factor. WEB_AUTHN is available as an MFA factor only when passkey MFA is enabled at the user pool level.
     public var configuredUserAuthFactors: [CognitoIdentityProviderClientTypes.AuthFactorType]?
     /// The challenge method that Amazon Cognito returns to the user in response to sign-in requests. Users can prefer SMS message, email message, or TOTP MFA.
     public var preferredMfaSetting: Swift.String?

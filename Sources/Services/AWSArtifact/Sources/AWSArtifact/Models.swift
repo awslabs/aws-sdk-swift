@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension ArtifactClientTypes {
@@ -557,7 +558,7 @@ public struct CreateComplianceInquiryInput: Swift.Sendable {
 
 extension CreateComplianceInquiryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateComplianceInquiryInput(clientToken: \(Swift.String(describing: clientToken)), name: \(Swift.String(describing: name)), supportMode: \(Swift.String(describing: supportMode)), tags: \(Swift.String(describing: tags)), inquiryContent: \"CONTENT_REDACTED\")"}
+        "CreateComplianceInquiryInput(clientToken: \(Swift.String(describing: clientToken)), supportMode: \(Swift.String(describing: supportMode)), tags: \(Swift.String(describing: tags)), inquiryContent: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension ArtifactClientTypes {
@@ -1104,6 +1105,121 @@ public struct ListComplianceInquiryQueriesOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.queries = queries
+    }
+}
+
+extension ArtifactClientTypes {
+
+    public enum FeedbackRating: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case thumbsDown
+        case thumbsUp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeedbackRating] {
+            return [
+                .thumbsDown,
+                .thumbsUp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .thumbsDown: return "THUMBS_DOWN"
+            case .thumbsUp: return "THUMBS_UP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ArtifactClientTypes {
+
+    public enum FeedbackReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case irrelevantResponse
+        case other
+        case partialResponse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeedbackReasonCode] {
+            return [
+                .irrelevantResponse,
+                .other,
+                .partialResponse
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .irrelevantResponse: return "IRRELEVANT_RESPONSE"
+            case .other: return "OTHER"
+            case .partialResponse: return "PARTIAL_RESPONSE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct PutComplianceInquiryFeedbackInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// An optional comment for the feedback.
+    public var comment: Swift.String?
+    /// The unique identifier for the compliance inquiry.
+    /// This member is required.
+    public var complianceInquiryId: Swift.String?
+    /// The sequential identifier of the query to provide feedback on.
+    public var queryIdentifier: Swift.Int?
+    /// The rating for the feedback. Valid values are THUMBS_UP and THUMBS_DOWN.
+    /// This member is required.
+    public var rating: ArtifactClientTypes.FeedbackRating?
+    /// The reason codes that describe why you rated the response. Valid values are OTHER, PARTIAL_RESPONSE, and IRRELEVANT_RESPONSE.
+    public var reasonCodes: [ArtifactClientTypes.FeedbackReasonCode]?
+    /// The response revision ID. Use this value to prevent submitting feedback on a stale response.
+    public var responseRevisionId: Swift.Int?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        comment: Swift.String? = nil,
+        complianceInquiryId: Swift.String? = nil,
+        queryIdentifier: Swift.Int? = nil,
+        rating: ArtifactClientTypes.FeedbackRating? = nil,
+        reasonCodes: [ArtifactClientTypes.FeedbackReasonCode]? = nil,
+        responseRevisionId: Swift.Int? = nil
+    ) {
+        self.clientToken = clientToken
+        self.comment = comment
+        self.complianceInquiryId = complianceInquiryId
+        self.queryIdentifier = queryIdentifier
+        self.rating = rating
+        self.reasonCodes = reasonCodes
+        self.responseRevisionId = responseRevisionId
+    }
+}
+
+extension PutComplianceInquiryFeedbackInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PutComplianceInquiryFeedbackInput(clientToken: \(Swift.String(describing: clientToken)), complianceInquiryId: \(Swift.String(describing: complianceInquiryId)), queryIdentifier: \(Swift.String(describing: queryIdentifier)), rating: \(Swift.String(describing: rating)), reasonCodes: \(Swift.String(describing: reasonCodes)), responseRevisionId: \(Swift.String(describing: responseRevisionId)), comment: \"CONTENT_REDACTED\")"}
+}
+
+public struct PutComplianceInquiryFeedbackOutput: Swift.Sendable {
+    /// The timestamp when the feedback was submitted.
+    /// This member is required.
+    public var submittedAt: Foundation.Date?
+
+    public init(
+        submittedAt: Foundation.Date? = nil
+    ) {
+        self.submittedAt = submittedAt
     }
 }
 
@@ -1949,6 +2065,13 @@ extension PutAccountSettingsInput {
     }
 }
 
+extension PutComplianceInquiryFeedbackInput {
+
+    static func urlPathProvider(_ value: PutComplianceInquiryFeedbackInput) -> Swift.String? {
+        return "/v1/compliance-inquiry/putFeedback"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -2012,6 +2135,20 @@ extension PutAccountSettingsInput {
     static func write(value: PutAccountSettingsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["notificationSubscriptionStatus"].write(value.notificationSubscriptionStatus)
+    }
+}
+
+extension PutComplianceInquiryFeedbackInput {
+
+    static func write(value: PutComplianceInquiryFeedbackInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["comment"].write(value.comment)
+        try writer["complianceInquiryId"].write(value.complianceInquiryId)
+        try writer["queryIdentifier"].write(value.queryIdentifier)
+        try writer["rating"].write(value.rating)
+        try writer["reasonCodes"].writeList(value.reasonCodes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ArtifactClientTypes.FeedbackReasonCode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["responseRevisionId"].write(value.responseRevisionId)
     }
 }
 
@@ -2196,6 +2333,18 @@ extension PutAccountSettingsOutput {
         let reader = responseReader
         var value = PutAccountSettingsOutput()
         value.accountSettings = try reader["accountSettings"].readIfPresent(with: ArtifactClientTypes.AccountSettings.read(from:))
+        return value
+    }
+}
+
+extension PutComplianceInquiryFeedbackOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutComplianceInquiryFeedbackOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutComplianceInquiryFeedbackOutput()
+        value.submittedAt = try reader["submittedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -2469,6 +2618,25 @@ enum PutAccountSettingsOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutComplianceInquiryFeedbackOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)

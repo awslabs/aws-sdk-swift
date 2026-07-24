@@ -1720,6 +1720,97 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AdminGetUserAuthFactors` operation on the `CognitoIdentityProvider` service.
+    ///
+    /// Lists the authentication options for a user in a user pool. Returns the following:
+    ///
+    /// * The user's multi-factor authentication (MFA) preferences.
+    ///
+    /// * The user's options for choice-based authentication with the USER_AUTH flow.
+    ///
+    ///
+    /// Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
+    ///
+    /// * [Signing Amazon Web Services API Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html)
+    ///
+    /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AdminGetUserAuthFactorsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AdminGetUserAuthFactorsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
+    /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+    /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
+    /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
+    /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
+    /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
+    public func adminGetUserAuthFactors(input: AdminGetUserAuthFactorsInput) async throws -> AdminGetUserAuthFactorsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CognitoIdentityProviderClient.adminGetUserAuthFactorsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "adminGetUserAuthFactors")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cognito-idp")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AdminGetUserAuthFactorsInput, AdminGetUserAuthFactorsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminGetUserAuthFactorsInput, AdminGetUserAuthFactorsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminGetUserAuthFactorsInput, AdminGetUserAuthFactorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AdminGetUserAuthFactorsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminGetUserAuthFactorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminGetUserAuthFactorsInput, AdminGetUserAuthFactorsOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminGetUserAuthFactors"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminGetUserAuthFactorsInput, AdminGetUserAuthFactorsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminGetUserAuthFactorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminGetUserAuthFactorsInput, AdminGetUserAuthFactorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminGetUserAuthFactorsInput, AdminGetUserAuthFactorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminGetUserAuthFactorsInput, AdminGetUserAuthFactorsOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AdminGetUserAuthFactors")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AdminInitiateAuth` operation on the `CognitoIdentityProvider` service.
     ///
     /// Starts sign-in for applications with a server-side component, for example a traditional web application. This operation specifies the authentication flow that you'd like to begin. The authentication flow that you specify must be supported in your app client configuration. For more information about authentication flows, see [Authentication flows](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow-methods.html). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more

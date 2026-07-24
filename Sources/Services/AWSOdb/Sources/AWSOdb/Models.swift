@@ -362,7 +362,7 @@ extension OdbClientTypes {
 
     /// The input configuration for a customer-managed Amazon Web Services Secrets Manager secret used to supply a password.
     public struct CustomerManagedAwsSecretConfigurationInput: Swift.Sendable {
-        /// The type of Oracle Cloud Identifier (OCID) used as the external ID when assuming the IAM role.
+        /// The type of Oracle Cloud Identifier (OCID) used as the external ID when assuming the IAM role. The valid values depend on the operation. For the CreateAutonomousDatabase operation, only compartment_ocid and tenant_ocid are allowed. For the UpdateAutonomousDatabase and CreateAutonomousDatabaseWallet operations, database_ocid, compartment_ocid, and tenant_ocid are all allowed.
         public var externalIdType: OdbClientTypes.ExternalIdType?
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that OCI assumes to retrieve the secret value.
         public var iamRoleArn: Swift.String?

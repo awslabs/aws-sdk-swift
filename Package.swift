@@ -156,7 +156,7 @@ private let serviceClientData: [ServiceClientData] = [
     .init(
         "AWSApplicationInsights",
         "application-insights.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyAWSJSON, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRetries, .SmithyRetriesAPI]
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRPCv2CBOR, .SmithyRetries, .SmithyRetriesAPI]
     ),
     .init(
         "AWSApplicationSignals",
