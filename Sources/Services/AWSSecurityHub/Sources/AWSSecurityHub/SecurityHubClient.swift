@@ -2043,7 +2043,7 @@ extension SecurityHubClient {
 
     /// Performs the `CreateConnector` operation on the `SecurityHub` service.
     ///
-    /// Creates a cloud service provider management (CSPM) connector in Security Hub CSPM. A connector establishes a connection between Security Hub CSPM and a third-party cloud provider, enabling Security Hub CSPM to ingest security findings and resource data from the connected environment.
+    /// Creates a connector to a third-party cloud provider in Security Hub CSPM. A connector establishes a connection between Security Hub CSPM and a third-party cloud provider, enabling Security Hub CSPM to ingest security findings and resource data from the connected environment.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateConnectorInput`)
     ///
@@ -6235,7 +6235,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetResourcesStatisticsV2` operation on the `SecurityHub` service.
     ///
-    /// Retrieves statistical information about Amazon Web Services resources and their associated security findings. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations, which lets you aggregate resources from your entire organization or from specific organizational units. Only the delegated administrator account can use Scopes.
+    /// Retrieves statistical information about Amazon Web Services resources and their associated security findings. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations, which lets you aggregate resources from your entire organization or from specific organizational units. Only the delegated administrator account can use Scopes. If you set GroupByField to ResourceSubCategory, ResourceInfo.AIDetails.HostResourceType, or ResourceInfo.AIDetails.CanonicalId, you must include a ResourceCategory string filter with comparison set to EQUALS and value AI/ML in the corresponding ResourceGroupByRule.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetResourcesStatisticsV2Input`)
     ///
@@ -6381,7 +6381,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetResourcesV2` operation on the `SecurityHub` service.
     ///
-    /// Returns a list of resources. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations, which lets you retrieve resources from your entire organization or from specific organizational units. Only the delegated administrator account can use Scopes. You can use the Filters parameter to refine results based on resource attributes. You can use Scopes and Filters independently or together. When both are provided, Scopes narrows the data set first, and then Filters refines results within that scoped data set.
+    /// Returns a list of resources. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations, which lets you retrieve resources from your entire organization or from specific organizational units. Only the delegated administrator account can use Scopes. You can use the Filters parameter to refine results based on resource attributes. You can use Scopes and Filters independently or together. When both are provided, Scopes narrows the data set first, and then Filters refines results within that scoped data set. For AI/ML resources, the response includes the ResourceSubCategory field. For self-hosted AI resources and their host resources, the response also includes ResourceInfo with AI-specific details. Self-hosted AI resources use a ResourceType with the SelfHosted::AI:: prefix, such as SelfHosted::AI::Model, SelfHosted::AI::Agent, SelfHosted::AI::InferenceEndpoint, and SelfHosted::AI::ExternalEndpoint. If you filter by ResourceSubCategory, you must also include a ResourceCategory string filter with comparison set to EQUALS and value AI/ML in the same request.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetResourcesV2Input`)
     ///

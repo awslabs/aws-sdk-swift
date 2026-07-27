@@ -178,13 +178,13 @@ extension SustainabilityClientTypes {
 
 extension SustainabilityClientTypes {
 
-    /// Specifies the dimensions available for grouping and filtering emissions data.
+    /// Specifies the dimensions available for grouping and filtering environmental impact data.
     public enum Dimension: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// The geographical area containing data center clusters where Amazon Web Services services are hosted.
         case region
         /// The cloud computing product and solution offered by Amazon Web Services.
         case service
-        /// The account ID whose Amazon Web Services usage resulted in the estimated carbon emissions.
+        /// The account ID whose Amazon Web Services usage is associated with the estimated environmental impact data.
         case usageAccountId
         case sdkUnknown(Swift.String)
 
@@ -214,9 +214,9 @@ extension SustainabilityClientTypes {
 
 extension SustainabilityClientTypes {
 
-    /// Filters emission values by specific dimension values.
+    /// Filters environmental impact values by specific dimension values.
     public struct FilterExpression: Swift.Sendable {
-        /// Filters emission values by specific dimension values.
+        /// Filters environmental impact values by specific dimension values.
         public var dimensions: [Swift.String: [Swift.String]]?
 
         public init(
@@ -229,17 +229,17 @@ extension SustainabilityClientTypes {
 
 extension SustainabilityClientTypes {
 
-    /// Specifies the time period over which emissions data is aggregated.
+    /// Specifies the time period over which environmental impact data is aggregated.
     public enum TimeGranularity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// Emissions aggregated by calendar month.
+        /// Environmental impact data aggregated by calendar month.
         case monthly
-        /// Emissions aggregated over calendar quarter periods (Q1: Jan-Mar, Q2: Apr-Jun, Q3: Jul-Sep, Q4: Oct-Dec).
+        /// Environmental impact data aggregated over calendar quarter periods (Q1: Jan-Mar, Q2: Apr-Jun, Q3: Jul-Sep, Q4: Oct-Dec).
         case quarterlyCalendar
-        /// Emissions aggregated over fiscal quarter periods based on the fiscal year start month specified in GranularityConfiguration.FiscalYearStartMonth.
+        /// Environmental impact data aggregated over fiscal quarter periods based on the fiscal year start month specified in GranularityConfiguration.FiscalYearStartMonth.
         case quarterlyFiscal
-        /// Emissions aggregated over calendar year periods (January-December).
+        /// Environmental impact data aggregated over calendar year periods (January-December).
         case yearlyCalendar
-        /// Emissions aggregated over fiscal year periods starting from the month specified in GranularityConfiguration.FiscalYearStartMonth.
+        /// Environmental impact data aggregated over fiscal year periods starting from the month specified in GranularityConfiguration.FiscalYearStartMonth.
         case yearlyFiscal
         case sdkUnknown(Swift.String)
 
@@ -310,19 +310,19 @@ extension SustainabilityClientTypes {
 public struct GetEstimatedCarbonEmissionsInput: Swift.Sendable {
     /// The emission types to include in the results. If absent, returns TOTAL_LBM_CARBON_EMISSIONS and TOTAL_MBM_CARBON_EMISSIONS emissions types.
     public var emissionsTypes: [SustainabilityClientTypes.EmissionsType]?
-    /// The criteria for filtering estimated carbon emissions.
+    /// The criteria for filtering estimated carbon emissions. To determine which dimensions are available to be filtered by, you can first call [GetEstimatedCarbonEmissionsDimensionValues]
     public var filterBy: SustainabilityClientTypes.FilterExpression?
-    /// The time granularity for the results. If absent, uses MONTHLY time granularity.
+    /// The time granularity for the results. If absent, uses MONTHLY time granularity. The smallest supported granularity for carbon emissions is MONTHLY. If requesting partial time periods, data will be returned based on the smallest supported granularity. For example, requesting 2025-04-01T00:00:00Z to 2026-04-01T00:00:00Z with YEARLY_CALENDAR granularity will return the last 9 months for 2025 and the first 3 months of 2026.
     public var granularity: SustainabilityClientTypes.TimeGranularity?
     /// Configuration for fiscal year calculations when using YEARLY_FISCAL or QUARTERLY_FISCAL granularity.
     public var granularityConfiguration: SustainabilityClientTypes.GranularityConfiguration?
     /// The dimensions available for grouping estimated carbon emissions.
     public var groupBy: [SustainabilityClientTypes.Dimension]?
-    /// The maximum number of results to return in a single call. Default is 40.
+    /// The maximum number of results to return in a single call. Default is 1000.
     public var maxResults: Swift.Int?
     /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.
     public var nextToken: Swift.String?
-    /// The date range for fetching estimated carbon emissions.
+    /// The date range for fetching estimated carbon emissions. The range must include the start date of a month for that month's data to be included in the response.
     /// This member is required.
     public var timePeriod: SustainabilityClientTypes.TimePeriod?
 
@@ -447,11 +447,11 @@ public struct GetEstimatedCarbonEmissionsDimensionValuesInput: Swift.Sendable {
     /// The dimensions available for grouping estimated carbon emissions.
     /// This member is required.
     public var dimensions: [SustainabilityClientTypes.Dimension]?
-    /// The maximum number of results to return in a single call. Default is 40.
+    /// The maximum number of results to return in a single call. Default is 1000.
     public var maxResults: Swift.Int?
     /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.
     public var nextToken: Swift.String?
-    /// The date range for fetching the dimension values.
+    /// The date range for fetching the dimension values. The range must include the start date of a month for that month's dimensions to be included in the response.
     /// This member is required.
     public var timePeriod: SustainabilityClientTypes.TimePeriod?
 
@@ -504,6 +504,207 @@ public struct GetEstimatedCarbonEmissionsDimensionValuesOutput: Swift.Sendable {
     }
 }
 
+extension SustainabilityClientTypes {
+
+    /// Specifies the types of water allocation calculations available.
+    public enum WaterAllocationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Total water drawn from surface water, groundwater, seawater, or a third party associated with Amazon Web Services account usage.
+        case totalWaterWithdrawals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WaterAllocationType] {
+            return [
+                .totalWaterWithdrawals
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .totalWaterWithdrawals: return "TOTAL_WATER_WITHDRAWALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetEstimatedWaterAllocationInput: Swift.Sendable {
+    /// The allocation types to include in the results. If absent, returns TOTAL_WATER_WITHDRAWALS allocation types.
+    public var allocationTypes: [SustainabilityClientTypes.WaterAllocationType]?
+    /// The criteria for filtering estimated water allocation. To determine which dimensions are available to be filtered by, you can first call [GetEstimatedWaterAllocationDimensionValues]
+    public var filterBy: SustainabilityClientTypes.FilterExpression?
+    /// The time granularity for the results. Only YEARLY_CALENDAR time granularity is currently supported for water allocation. Defaults to YEARLY_CALENDAR if absent. If requesting partial time periods, data will be returned based on the smallest supported granularity. For example, requesting 2025-04-01T00:00:00Z to 2026-04-01T00:00:00Z with YEARLY_CALENDAR will return all the data for 2026 only.
+    public var granularity: SustainabilityClientTypes.TimeGranularity?
+    /// The dimensions available for grouping estimated water allocation.
+    public var groupBy: [SustainabilityClientTypes.Dimension]?
+    /// The maximum number of results to return in a single call. Default is 1000.
+    public var maxResults: Swift.Int?
+    /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.
+    public var nextToken: Swift.String?
+    /// The date range for fetching estimated water allocation. The range must include the start date of a year for that year's data to be included in the response.
+    /// This member is required.
+    public var timePeriod: SustainabilityClientTypes.TimePeriod?
+
+    public init(
+        allocationTypes: [SustainabilityClientTypes.WaterAllocationType]? = nil,
+        filterBy: SustainabilityClientTypes.FilterExpression? = nil,
+        granularity: SustainabilityClientTypes.TimeGranularity? = nil,
+        groupBy: [SustainabilityClientTypes.Dimension]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        timePeriod: SustainabilityClientTypes.TimePeriod? = nil
+    ) {
+        self.allocationTypes = allocationTypes
+        self.filterBy = filterBy
+        self.granularity = granularity
+        self.groupBy = groupBy
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.timePeriod = timePeriod
+    }
+}
+
+extension SustainabilityClientTypes {
+
+    /// Specifies the unit of measurement for allocation.
+    public enum WaterAllocationUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Cubic meters of water.
+        case cubicMeters
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WaterAllocationUnit] {
+            return [
+                .cubicMeters
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cubicMeters: return "m3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SustainabilityClientTypes {
+
+    /// Represents a water allocation quantity with its value and unit of measurement.
+    public struct WaterAllocation: Swift.Sendable {
+        /// The unit of measurement for the allocation value.
+        /// This member is required.
+        public var unit: SustainabilityClientTypes.WaterAllocationUnit?
+        /// The numeric value of the allocation quantity.
+        /// This member is required.
+        public var value: Swift.Double?
+
+        public init(
+            unit: SustainabilityClientTypes.WaterAllocationUnit? = nil,
+            value: Swift.Double? = nil
+        ) {
+            self.unit = unit
+            self.value = value
+        }
+    }
+}
+
+extension SustainabilityClientTypes {
+
+    /// Contains estimated water allocation data for a specific time period and dimension grouping.
+    public struct EstimatedWaterAllocation: Swift.Sendable {
+        /// The allocation values for the requested water allocation types.
+        /// This member is required.
+        public var allocationValues: [Swift.String: SustainabilityClientTypes.WaterAllocation]?
+        /// The dimensions used to group water allocation values.
+        /// This member is required.
+        public var dimensionsValues: [Swift.String: Swift.String]?
+        /// The semantic version-formatted string that indicates the methodology version used to calculate the water allocation values. The AWS Sustainability service reflects the most recent model version for every month. You will not see two entries for the same month with different ModelVersion values.
+        /// This member is required.
+        public var modelVersion: Swift.String?
+        /// The reporting period for water allocation values.
+        /// This member is required.
+        public var timePeriod: SustainabilityClientTypes.TimePeriod?
+
+        public init(
+            allocationValues: [Swift.String: SustainabilityClientTypes.WaterAllocation]? = nil,
+            dimensionsValues: [Swift.String: Swift.String]? = nil,
+            modelVersion: Swift.String? = nil,
+            timePeriod: SustainabilityClientTypes.TimePeriod? = nil
+        ) {
+            self.allocationValues = allocationValues
+            self.dimensionsValues = dimensionsValues
+            self.modelVersion = modelVersion
+            self.timePeriod = timePeriod
+        }
+    }
+}
+
+public struct GetEstimatedWaterAllocationOutput: Swift.Sendable {
+    /// The pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
+    public var nextToken: Swift.String?
+    /// The result of the requested inputs.
+    /// This member is required.
+    public var results: [SustainabilityClientTypes.EstimatedWaterAllocation]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        results: [SustainabilityClientTypes.EstimatedWaterAllocation]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.results = results
+    }
+}
+
+public struct GetEstimatedWaterAllocationDimensionValuesInput: Swift.Sendable {
+    /// The dimensions available for grouping estimated water allocation.
+    /// This member is required.
+    public var dimensions: [SustainabilityClientTypes.Dimension]?
+    /// The maximum number of results to return in a single call. Default is 1000.
+    public var maxResults: Swift.Int?
+    /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.
+    public var nextToken: Swift.String?
+    /// The date range for fetching the dimension values. The range must include the start date of a year for that year's data to be included in the response.
+    /// This member is required.
+    public var timePeriod: SustainabilityClientTypes.TimePeriod?
+
+    public init(
+        dimensions: [SustainabilityClientTypes.Dimension]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        timePeriod: SustainabilityClientTypes.TimePeriod? = nil
+    ) {
+        self.dimensions = dimensions
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.timePeriod = timePeriod
+    }
+}
+
+public struct GetEstimatedWaterAllocationDimensionValuesOutput: Swift.Sendable {
+    /// The pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
+    public var nextToken: Swift.String?
+    /// The list of possible dimensions over which the allocation data is aggregated.
+    /// This member is required.
+    public var results: [SustainabilityClientTypes.DimensionEntry]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        results: [SustainabilityClientTypes.DimensionEntry]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.results = results
+    }
+}
+
 extension GetEstimatedCarbonEmissionsInput {
 
     static func urlPathProvider(_ value: GetEstimatedCarbonEmissionsInput) -> Swift.String? {
@@ -515,6 +716,20 @@ extension GetEstimatedCarbonEmissionsDimensionValuesInput {
 
     static func urlPathProvider(_ value: GetEstimatedCarbonEmissionsDimensionValuesInput) -> Swift.String? {
         return "/v1/estimated-carbon-emissions-dimension-values"
+    }
+}
+
+extension GetEstimatedWaterAllocationInput {
+
+    static func urlPathProvider(_ value: GetEstimatedWaterAllocationInput) -> Swift.String? {
+        return "/v1/estimated-water-allocation"
+    }
+}
+
+extension GetEstimatedWaterAllocationDimensionValuesInput {
+
+    static func urlPathProvider(_ value: GetEstimatedWaterAllocationDimensionValuesInput) -> Swift.String? {
+        return "/v1/estimated-water-allocation-dimension-values"
     }
 }
 
@@ -536,6 +751,31 @@ extension GetEstimatedCarbonEmissionsInput {
 extension GetEstimatedCarbonEmissionsDimensionValuesInput {
 
     static func write(value: GetEstimatedCarbonEmissionsDimensionValuesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SustainabilityClientTypes.Dimension>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["TimePeriod"].write(value.timePeriod, with: SustainabilityClientTypes.TimePeriod.write(value:to:))
+    }
+}
+
+extension GetEstimatedWaterAllocationInput {
+
+    static func write(value: GetEstimatedWaterAllocationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllocationTypes"].writeList(value.allocationTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SustainabilityClientTypes.WaterAllocationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FilterBy"].write(value.filterBy, with: SustainabilityClientTypes.FilterExpression.write(value:to:))
+        try writer["Granularity"].write(value.granularity)
+        try writer["GroupBy"].writeList(value.groupBy, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SustainabilityClientTypes.Dimension>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["TimePeriod"].write(value.timePeriod, with: SustainabilityClientTypes.TimePeriod.write(value:to:))
+    }
+}
+
+extension GetEstimatedWaterAllocationDimensionValuesInput {
+
+    static func write(value: GetEstimatedWaterAllocationDimensionValuesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SustainabilityClientTypes.Dimension>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MaxResults"].write(value.maxResults)
@@ -570,6 +810,32 @@ extension GetEstimatedCarbonEmissionsDimensionValuesOutput {
     }
 }
 
+extension GetEstimatedWaterAllocationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEstimatedWaterAllocationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetEstimatedWaterAllocationOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.results = try reader["Results"].readListIfPresent(memberReadingClosure: SustainabilityClientTypes.EstimatedWaterAllocation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GetEstimatedWaterAllocationDimensionValuesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEstimatedWaterAllocationDimensionValuesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetEstimatedWaterAllocationDimensionValuesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.results = try reader["Results"].readListIfPresent(memberReadingClosure: SustainabilityClientTypes.DimensionEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 enum GetEstimatedCarbonEmissionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -588,6 +854,40 @@ enum GetEstimatedCarbonEmissionsOutputError {
 }
 
 enum GetEstimatedCarbonEmissionsDimensionValuesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetEstimatedWaterAllocationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetEstimatedWaterAllocationDimensionValuesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -691,6 +991,19 @@ extension SustainabilityClientTypes.EstimatedCarbonEmissions {
     }
 }
 
+extension SustainabilityClientTypes.EstimatedWaterAllocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SustainabilityClientTypes.EstimatedWaterAllocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SustainabilityClientTypes.EstimatedWaterAllocation()
+        value.timePeriod = try reader["TimePeriod"].readIfPresent(with: SustainabilityClientTypes.TimePeriod.read(from:))
+        value.dimensionsValues = try reader["DimensionsValues"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.modelVersion = try reader["ModelVersion"].readIfPresent() ?? ""
+        value.allocationValues = try reader["AllocationValues"].readMapIfPresent(valueReadingClosure: SustainabilityClientTypes.WaterAllocation.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
 extension SustainabilityClientTypes.FilterExpression {
 
     static func write(value: SustainabilityClientTypes.FilterExpression?, to writer: SmithyJSON.Writer) throws {
@@ -720,6 +1033,17 @@ extension SustainabilityClientTypes.TimePeriod {
         var value = SustainabilityClientTypes.TimePeriod()
         value.start = try reader["Start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.end = try reader["End"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension SustainabilityClientTypes.WaterAllocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SustainabilityClientTypes.WaterAllocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SustainabilityClientTypes.WaterAllocation()
+        value.value = try reader["Value"].readIfPresent() ?? 0.0
+        value.unit = try reader["Unit"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

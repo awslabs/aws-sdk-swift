@@ -2873,9 +2873,6 @@ public struct GetResponderGatewayOutput: Swift.Sendable {
     public var gatewayId: Swift.String?
     /// The type of gateway. Valid values are EXTERNAL or INTERNAL.
     public var gatewayType: RTBFabricClientTypes.GatewayType?
-    /// Deprecated. Use 'linksRequestedCount' instead.
-    @available(*, deprecated, message: "Use linksRequestedCount instead API deprecated since 2026-05-11")
-    public var inboundLinksCount: Swift.Int?
     /// The count of requested links waiting for the responder gateway to accept or reject.
     public var linksRequestedCount: Swift.Int?
     /// The listener configuration for the responder gateway.
@@ -2917,7 +2914,6 @@ public struct GetResponderGatewayOutput: Swift.Sendable {
         externalInboundEndpoint: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
         gatewayType: RTBFabricClientTypes.GatewayType? = nil,
-        inboundLinksCount: Swift.Int? = nil,
         linksRequestedCount: Swift.Int? = nil,
         listenerConfig: RTBFabricClientTypes.ListenerConfig? = nil,
         managedEndpointConfiguration: RTBFabricClientTypes.ManagedEndpointConfiguration? = nil,
@@ -2939,7 +2935,6 @@ public struct GetResponderGatewayOutput: Swift.Sendable {
         self.externalInboundEndpoint = externalInboundEndpoint
         self.gatewayId = gatewayId
         self.gatewayType = gatewayType
-        self.inboundLinksCount = inboundLinksCount
         self.linksRequestedCount = linksRequestedCount
         self.listenerConfig = listenerConfig
         self.managedEndpointConfiguration = managedEndpointConfiguration
@@ -4275,7 +4270,6 @@ extension GetResponderGatewayOutput {
         value.externalInboundEndpoint = try reader["externalInboundEndpoint"].readIfPresent()
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.gatewayType = try reader["gatewayType"].readIfPresent()
-        value.inboundLinksCount = try reader["inboundLinksCount"].readIfPresent()
         value.linksRequestedCount = try reader["linksRequestedCount"].readIfPresent()
         value.listenerConfig = try reader["listenerConfig"].readIfPresent(with: RTBFabricClientTypes.ListenerConfig.read(from:))
         value.managedEndpointConfiguration = try reader["managedEndpointConfiguration"].readIfPresent(with: RTBFabricClientTypes.ManagedEndpointConfiguration.read(from:))

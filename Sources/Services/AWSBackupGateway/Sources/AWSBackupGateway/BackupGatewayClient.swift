@@ -20,11 +20,11 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultClockSkewProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -49,6 +49,7 @@ import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.LoggerMiddleware
@@ -58,10 +59,10 @@ import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct Smithy.Attributes
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.HTTPClientProtocol
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.HTTPClientProtocol
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.Plugin
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -628,7 +629,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func associateGatewayToServer(input: AssociateGatewayToServerInput) async throws -> AssociateGatewayToServerOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -647,7 +648,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -656,17 +657,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateGatewayToServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateGatewayToServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.AssociateGatewayToServer"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateGatewayToServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -704,7 +708,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func createGateway(input: CreateGatewayInput) async throws -> CreateGatewayOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -723,7 +727,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -732,17 +736,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateGatewayInput, CreateGatewayOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGatewayInput, CreateGatewayOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGatewayInput, CreateGatewayOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGatewayInput, CreateGatewayOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGatewayOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateGatewayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateGatewayInput, CreateGatewayOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.CreateGateway"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGatewayInput, CreateGatewayOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateGatewayInput, CreateGatewayOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateGatewayInput, CreateGatewayOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGatewayInput, CreateGatewayOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGatewayInput, CreateGatewayOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGatewayInput, CreateGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateGatewayInput, CreateGatewayOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -781,7 +788,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func deleteGateway(input: DeleteGatewayInput) async throws -> DeleteGatewayOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -800,7 +807,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -809,17 +816,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGatewayInput, DeleteGatewayOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGatewayInput, DeleteGatewayOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGatewayOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteGatewayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.DeleteGateway"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteGatewayInput, DeleteGatewayOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGatewayInput, DeleteGatewayOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteGatewayInput, DeleteGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -860,7 +870,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func deleteHypervisor(input: DeleteHypervisorInput) async throws -> DeleteHypervisorOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -879,7 +889,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -888,17 +898,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHypervisorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteHypervisorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.DeleteHypervisor"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteHypervisorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -938,7 +951,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func disassociateGatewayFromServer(input: DisassociateGatewayFromServerInput) async throws -> DisassociateGatewayFromServerOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -957,7 +970,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -966,17 +979,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateGatewayFromServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateGatewayFromServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.DisassociateGatewayFromServer"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateGatewayFromServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1015,7 +1031,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func getBandwidthRateLimitSchedule(input: GetBandwidthRateLimitScheduleInput) async throws -> GetBandwidthRateLimitScheduleOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1034,7 +1050,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1043,17 +1059,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBandwidthRateLimitScheduleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBandwidthRateLimitScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.GetBandwidthRateLimitSchedule"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBandwidthRateLimitScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1092,7 +1111,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func getGateway(input: GetGatewayInput) async throws -> GetGatewayOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1111,7 +1130,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1120,17 +1139,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGatewayInput, GetGatewayOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetGatewayInput, GetGatewayOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGatewayInput, GetGatewayOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGatewayInput, GetGatewayOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGatewayOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetGatewayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetGatewayInput, GetGatewayOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.GetGateway"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetGatewayInput, GetGatewayOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetGatewayInput, GetGatewayOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetGatewayInput, GetGatewayOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetGatewayInput, GetGatewayOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGatewayInput, GetGatewayOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetGatewayInput, GetGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetGatewayInput, GetGatewayOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1169,7 +1191,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func getHypervisor(input: GetHypervisorInput) async throws -> GetHypervisorOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1188,7 +1210,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1197,17 +1219,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHypervisorInput, GetHypervisorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetHypervisorInput, GetHypervisorOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetHypervisorInput, GetHypervisorOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHypervisorInput, GetHypervisorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHypervisorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetHypervisorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetHypervisorInput, GetHypervisorOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.GetHypervisor"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetHypervisorInput, GetHypervisorOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetHypervisorInput, GetHypervisorOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetHypervisorInput, GetHypervisorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetHypervisorInput, GetHypervisorOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetHypervisorInput, GetHypervisorOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetHypervisorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetHypervisorInput, GetHypervisorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetHypervisorInput, GetHypervisorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1246,7 +1271,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func getHypervisorPropertyMappings(input: GetHypervisorPropertyMappingsInput) async throws -> GetHypervisorPropertyMappingsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1265,7 +1290,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1274,17 +1299,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHypervisorPropertyMappingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetHypervisorPropertyMappingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.GetHypervisorPropertyMappings"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetHypervisorPropertyMappingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1323,7 +1351,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func getVirtualMachine(input: GetVirtualMachineInput) async throws -> GetVirtualMachineOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1342,7 +1370,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1351,17 +1379,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVirtualMachineOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetVirtualMachineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.GetVirtualMachine"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetVirtualMachineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1401,7 +1432,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func importHypervisorConfiguration(input: ImportHypervisorConfigurationInput) async throws -> ImportHypervisorConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1420,7 +1451,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1429,17 +1460,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportHypervisorConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportHypervisorConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.ImportHypervisorConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportHypervisorConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1477,7 +1511,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1496,7 +1530,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1505,17 +1539,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListGatewaysInput, ListGatewaysOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGatewaysInput, ListGatewaysOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGatewaysInput, ListGatewaysOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGatewaysInput, ListGatewaysOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGatewaysOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListGatewaysOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListGatewaysInput, ListGatewaysOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.ListGateways"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGatewaysInput, ListGatewaysOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListGatewaysInput, ListGatewaysOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListGatewaysInput, ListGatewaysOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGatewaysInput, ListGatewaysOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGatewaysInput, ListGatewaysOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGatewaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGatewaysInput, ListGatewaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListGatewaysInput, ListGatewaysOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1553,7 +1590,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func listHypervisors(input: ListHypervisorsInput) async throws -> ListHypervisorsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1572,7 +1609,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1581,17 +1618,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListHypervisorsInput, ListHypervisorsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListHypervisorsInput, ListHypervisorsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHypervisorsInput, ListHypervisorsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHypervisorsInput, ListHypervisorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHypervisorsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListHypervisorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListHypervisorsInput, ListHypervisorsOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.ListHypervisors"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListHypervisorsInput, ListHypervisorsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListHypervisorsInput, ListHypervisorsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListHypervisorsInput, ListHypervisorsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListHypervisorsInput, ListHypervisorsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHypervisorsInput, ListHypervisorsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListHypervisorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListHypervisorsInput, ListHypervisorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListHypervisorsInput, ListHypervisorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1630,7 +1670,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1649,7 +1689,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1658,17 +1698,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.ListTagsForResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1706,7 +1749,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func listVirtualMachines(input: ListVirtualMachinesInput) async throws -> ListVirtualMachinesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1725,7 +1768,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1734,17 +1777,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVirtualMachinesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListVirtualMachinesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.ListVirtualMachines"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVirtualMachinesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1783,7 +1829,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func putBandwidthRateLimitSchedule(input: PutBandwidthRateLimitScheduleInput) async throws -> PutBandwidthRateLimitScheduleOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1802,7 +1848,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1811,17 +1857,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBandwidthRateLimitScheduleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutBandwidthRateLimitScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.PutBandwidthRateLimitSchedule"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutBandwidthRateLimitScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1862,7 +1911,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func putHypervisorPropertyMappings(input: PutHypervisorPropertyMappingsInput) async throws -> PutHypervisorPropertyMappingsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1881,7 +1930,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1890,17 +1939,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<PutHypervisorPropertyMappingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutHypervisorPropertyMappingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.PutHypervisorPropertyMappings"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutHypervisorPropertyMappingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1940,7 +1992,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func putMaintenanceStartTime(input: PutMaintenanceStartTimeInput) async throws -> PutMaintenanceStartTimeOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1959,7 +2011,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1968,17 +2020,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMaintenanceStartTimeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutMaintenanceStartTimeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.PutMaintenanceStartTime"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutMaintenanceStartTimeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2018,7 +2073,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func startVirtualMachinesMetadataSync(input: StartVirtualMachinesMetadataSyncInput) async throws -> StartVirtualMachinesMetadataSyncOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2037,7 +2092,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2046,17 +2101,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartVirtualMachinesMetadataSyncOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartVirtualMachinesMetadataSyncOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.StartVirtualMachinesMetadataSync"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartVirtualMachinesMetadataSyncOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2095,7 +2153,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2114,7 +2172,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2123,17 +2181,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.TagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2173,7 +2234,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func testHypervisorConfiguration(input: TestHypervisorConfigurationInput) async throws -> TestHypervisorConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2192,7 +2253,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2201,17 +2262,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<TestHypervisorConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TestHypervisorConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.TestHypervisorConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TestHypervisorConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2250,7 +2314,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2269,7 +2333,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2278,17 +2342,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.UntagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2328,7 +2395,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func updateGatewayInformation(input: UpdateGatewayInformationInput) async throws -> UpdateGatewayInformationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2347,7 +2414,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2356,17 +2423,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGatewayInformationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateGatewayInformationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.UpdateGatewayInformation"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGatewayInformationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2405,7 +2475,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func updateGatewaySoftwareNow(input: UpdateGatewaySoftwareNowInput) async throws -> UpdateGatewaySoftwareNowOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2424,7 +2494,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2433,17 +2503,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGatewaySoftwareNowOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateGatewaySoftwareNowOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.UpdateGatewaySoftwareNow"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGatewaySoftwareNowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2484,7 +2557,7 @@ extension BackupGatewayClient {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func updateHypervisor(input: UpdateHypervisorInput) async throws -> UpdateHypervisorOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2503,7 +2576,7 @@ extension BackupGatewayClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2512,17 +2585,20 @@ extension BackupGatewayClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHypervisorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateHypervisorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>(overrides: ["X-Amz-Target": "BackupOnPremises_v20210101.UpdateHypervisor"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateHypervisorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

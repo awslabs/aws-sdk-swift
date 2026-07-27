@@ -688,6 +688,8 @@ extension CloudWatchClientTypes {
 
     /// An anomaly detection model associated with a particular CloudWatch metric, statistic, or metric math expression. You can use the model to display a band of expected, normal values when the metric is graphed. If you have enabled unified cross-account observability, and this account is a monitoring account, the metric can be in the same account or a source account.
     public struct AnomalyDetector: Swift.Sendable {
+        /// The unique identifier of the anomaly detector. The identifier does not restrict access to a specific anomaly detector in an IAM policy. Permissions for anomaly detector operations apply to all anomaly detectors in the account.
+        public var anomalyDetectorId: Swift.String?
         /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude from use for training the model, and the time zone to use for the metric.
         public var configuration: CloudWatchClientTypes.AnomalyDetectorConfiguration?
         /// The metric dimensions associated with the anomaly detection model.
@@ -712,6 +714,7 @@ extension CloudWatchClientTypes {
         public var stateValue: CloudWatchClientTypes.AnomalyDetectorStateValue?
 
         public init(
+            anomalyDetectorId: Swift.String? = nil,
             configuration: CloudWatchClientTypes.AnomalyDetectorConfiguration? = nil,
             dimensions: [CloudWatchClientTypes.Dimension]? = nil,
             metricCharacteristics: CloudWatchClientTypes.MetricCharacteristics? = nil,
@@ -722,6 +725,7 @@ extension CloudWatchClientTypes {
             stat: Swift.String? = nil,
             stateValue: CloudWatchClientTypes.AnomalyDetectorStateValue? = nil
         ) {
+            self.anomalyDetectorId = anomalyDetectorId
             self.configuration = configuration
             self.dimensions = dimensions
             self.metricCharacteristics = metricCharacteristics
@@ -1429,6 +1433,8 @@ public struct MissingRequiredParameterException: ClientRuntime.ModeledError, Cli
 }
 
 public struct DeleteAnomalyDetectorInput: Swift.Sendable {
+    /// Specifies the unique identifier of the anomaly detector to delete. If you specify this parameter, you do not need to specify a metric to identify the detector.
+    public var anomalyDetectorId: Swift.String?
     /// The metric dimensions associated with the anomaly detection model to delete.
     @available(*, deprecated, message: "Use SingleMetricAnomalyDetector.")
     public var dimensions: [CloudWatchClientTypes.Dimension]?
@@ -1473,6 +1479,7 @@ public struct DeleteAnomalyDetectorInput: Swift.Sendable {
     public var stat: Swift.String?
 
     public init(
+        anomalyDetectorId: Swift.String? = nil,
         dimensions: [CloudWatchClientTypes.Dimension]? = nil,
         metricMathAnomalyDetector: CloudWatchClientTypes.MetricMathAnomalyDetector? = nil,
         metricName: Swift.String? = nil,
@@ -1480,6 +1487,7 @@ public struct DeleteAnomalyDetectorInput: Swift.Sendable {
         singleMetricAnomalyDetector: CloudWatchClientTypes.SingleMetricAnomalyDetector? = nil,
         stat: Swift.String? = nil
     ) {
+        self.anomalyDetectorId = anomalyDetectorId
         self.dimensions = dimensions
         self.metricMathAnomalyDetector = metricMathAnomalyDetector
         self.metricName = metricName
@@ -1779,6 +1787,7 @@ extension CloudWatchClientTypes {
         /// This member is required.
         public var scheduleExpression: Swift.String?
         /// The offset, in seconds, before the scheduled execution time at which the query time range begins. For example, an offset of 360 (6 minutes) on a query running at 12:05:00 starts the query time range at 11:59:00.
+        /// This member is required.
         public var startTimeOffset: Swift.Int?
 
         public init(
@@ -2251,6 +2260,8 @@ public struct DescribeAlarmsForMetricOutput: Swift.Sendable {
 }
 
 public struct DescribeAnomalyDetectorsInput: Swift.Sendable {
+    /// Specifies the unique identifiers of the anomaly detectors to describe. You can specify up to 50 identifiers. If you specify this parameter, you cannot also specify the Namespace, MetricName, Dimensions, or AnomalyDetectorTypes metric filters.
+    public var anomalyDetectorIds: [Swift.String]?
     /// The anomaly detector types to request when using DescribeAnomalyDetectorsInput. If empty, defaults to SINGLE_METRIC.
     public var anomalyDetectorTypes: [CloudWatchClientTypes.AnomalyDetectorType]?
     /// Limits the results to only the anomaly detection models that are associated with the specified metric dimensions. If there are multiple metrics that have these dimensions and have anomaly detection models associated, they're all returned.
@@ -2265,6 +2276,7 @@ public struct DescribeAnomalyDetectorsInput: Swift.Sendable {
     public var nextToken: Swift.String?
 
     public init(
+        anomalyDetectorIds: [Swift.String]? = nil,
         anomalyDetectorTypes: [CloudWatchClientTypes.AnomalyDetectorType]? = nil,
         dimensions: [CloudWatchClientTypes.Dimension]? = nil,
         maxResults: Swift.Int? = nil,
@@ -2272,6 +2284,7 @@ public struct DescribeAnomalyDetectorsInput: Swift.Sendable {
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.anomalyDetectorIds = anomalyDetectorIds
         self.anomalyDetectorTypes = anomalyDetectorTypes
         self.dimensions = dimensions
         self.maxResults = maxResults
@@ -3967,8 +3980,14 @@ public struct PutAnomalyDetectorInput: Swift.Sendable {
 }
 
 public struct PutAnomalyDetectorOutput: Swift.Sendable {
+    /// The unique identifier of the anomaly detector that you created or updated.
+    public var anomalyDetectorId: Swift.String?
 
-    public init() { }
+    public init(
+        anomalyDetectorId: Swift.String? = nil
+    ) {
+        self.anomalyDetectorId = anomalyDetectorId
+    }
 }
 
 public struct PutCompositeAlarmInput: Swift.Sendable {

@@ -10183,8 +10183,6 @@ extension S3Client {
     ///
     /// * To use the UpdateObjectEncryption operation, you must have the following permissions:
     ///
-    /// * s3:PutObject
-    ///
     /// * s3:UpdateObjectEncryption
     ///
     /// * kms:Encrypt

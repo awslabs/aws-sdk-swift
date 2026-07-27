@@ -3737,6 +3737,12 @@
                         "smithy.api#documentation": "<p>A message describing why an execution has failed, if the status is set to Failed.</p>"
                     }
                 },
+                "WarningMessage": {
+                    "target": "com.amazonaws.ssm#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A message that describes a non-critical issue that occurred during the automation execution.</p>"
+                    }
+                },
                 "Mode": {
                     "target": "com.amazonaws.ssm#ExecutionMode",
                     "traits": {
@@ -4043,7 +4049,7 @@
                     }
                 },
                 "Targets": {
-                    "target": "com.amazonaws.ssm#Targets",
+                    "target": "com.amazonaws.ssm#AutomationTargets",
                     "traits": {
                         "smithy.api#documentation": "<p>Information about the resources that would be included in the actual runbook execution, if\n   it were to be run. Both Targets and TargetMaps can't be specified together.</p>"
                     }
@@ -4171,7 +4177,13 @@
                 "FailureMessage": {
                     "target": "com.amazonaws.ssm#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The list of execution outputs as defined in the Automation runbook.</p>"
+                        "smithy.api#documentation": "<p>A message that describes a failure that occurred during the automation execution.</p>"
+                    }
+                },
+                "WarningMessage": {
+                    "target": "com.amazonaws.ssm#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A message that describes a non-critical issue that occurred during the automation execution.</p>"
                     }
                 },
                 "TargetParameterName": {
@@ -4539,6 +4551,18 @@
                 "smithy.api#length": {
                     "min": 1,
                     "max": 50
+                }
+            }
+        },
+        "com.amazonaws.ssm#AutomationTargets": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.ssm#Target"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 1
                 }
             }
         },
@@ -30167,7 +30191,7 @@
                     }
                 },
                 "Targets": {
-                    "target": "com.amazonaws.ssm#Targets",
+                    "target": "com.amazonaws.ssm#AutomationTargets",
                     "traits": {
                         "smithy.api#documentation": "<p>A key-value mapping to target resources. Required if you specify TargetParameterName.</p>\n         <p>If both this parameter and the <code>TargetLocation:Targets</code> parameter are supplied,\n    <code>TargetLocation:Targets</code> takes precedence.</p>"
                     }
@@ -30642,6 +30666,12 @@
                         "smithy.api#documentation": "<p>If a step failed, this message explains why the execution failed.</p>"
                     }
                 },
+                "WarningMessage": {
+                    "target": "com.amazonaws.ssm#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A message that describes a non-critical issue that occurred during the step execution. Present only if the step status includes a warning.</p>"
+                    }
+                },
                 "FailureDetails": {
                     "target": "com.amazonaws.ssm#FailureDetails",
                     "traits": {
@@ -31111,7 +31141,7 @@
                     }
                 },
                 "Targets": {
-                    "target": "com.amazonaws.ssm#Targets",
+                    "target": "com.amazonaws.ssm#AutomationTargets",
                     "traits": {
                         "smithy.api#documentation": "<p>A list of key-value mappings to target resources. If you specify values for this data type,\n   you must also specify a value for <code>TargetParameterName</code>.</p>\n         <p>This <code>Targets</code> parameter takes precedence over the\n    <code>StartAutomationExecution:Targets</code> parameter if both are supplied.</p>"
                     }

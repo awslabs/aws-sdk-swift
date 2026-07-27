@@ -1798,6 +1798,240 @@ extension PartnerCentralAccountClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetQualificationsAssociationDetails` operation on the `PartnerCentralAccount` service.
+    ///
+    /// Returns your current qualifications association status, the primary partner, and the full list of partners associated under the primary partner.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetQualificationsAssociationDetailsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetQualificationsAssociationDetailsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied due to insufficient permissions. The caller does not have the required permissions to perform this operation.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This is typically a temporary condition and the request may be retried.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. This may occur when referencing a resource that does not exist or has been deleted.
+    /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period of time. The client should implement exponential backoff and retry the request.
+    /// - `ValidationException` : The request failed validation. One or more input parameters are invalid, missing, or do not meet the required format or constraints.
+    public func getQualificationsAssociationDetails(input: GetQualificationsAssociationDetailsInput) async throws -> GetQualificationsAssociationDetailsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralAccountClient.getQualificationsAssociationDetailsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getQualificationsAssociationDetails")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-account")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQualificationsAssociationDetailsInput, GetQualificationsAssociationDetailsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQualificationsAssociationDetailsInput, GetQualificationsAssociationDetailsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQualificationsAssociationDetailsInput, GetQualificationsAssociationDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetQualificationsAssociationDetailsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Account", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetQualificationsAssociationDetailsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetQualificationsAssociationDetailsInput, GetQualificationsAssociationDetailsOutput>(overrides: ["X-Amz-Target": "PartnerCentralAccount.GetQualificationsAssociationDetails"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetQualificationsAssociationDetailsInput, GetQualificationsAssociationDetailsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetQualificationsAssociationDetailsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetQualificationsAssociationDetailsInput, GetQualificationsAssociationDetailsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetQualificationsAssociationDetailsInput, GetQualificationsAssociationDetailsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Account"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetQualificationsAssociationDetailsInput, GetQualificationsAssociationDetailsOutput>(serviceID: serviceName, version: PartnerCentralAccountClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralAccount")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetQualificationsAssociationDetails")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetQualificationsAssociationTask` operation on the `PartnerCentralAccount` service.
+    ///
+    /// Retrieves the status and details of the most recent qualifications association task for your partner account. Use this operation to poll the progress of an association task initiated by StartQualificationsAssociationTask.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetQualificationsAssociationTaskInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetQualificationsAssociationTaskOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied due to insufficient permissions. The caller does not have the required permissions to perform this operation.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This is typically a temporary condition and the request may be retried.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. This may occur when referencing a resource that does not exist or has been deleted.
+    /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period of time. The client should implement exponential backoff and retry the request.
+    /// - `ValidationException` : The request failed validation. One or more input parameters are invalid, missing, or do not meet the required format or constraints.
+    public func getQualificationsAssociationTask(input: GetQualificationsAssociationTaskInput) async throws -> GetQualificationsAssociationTaskOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralAccountClient.getQualificationsAssociationTaskOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getQualificationsAssociationTask")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-account")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQualificationsAssociationTaskInput, GetQualificationsAssociationTaskOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQualificationsAssociationTaskInput, GetQualificationsAssociationTaskOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQualificationsAssociationTaskInput, GetQualificationsAssociationTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetQualificationsAssociationTaskOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Account", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetQualificationsAssociationTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetQualificationsAssociationTaskInput, GetQualificationsAssociationTaskOutput>(overrides: ["X-Amz-Target": "PartnerCentralAccount.GetQualificationsAssociationTask"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetQualificationsAssociationTaskInput, GetQualificationsAssociationTaskOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetQualificationsAssociationTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetQualificationsAssociationTaskInput, GetQualificationsAssociationTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetQualificationsAssociationTaskInput, GetQualificationsAssociationTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Account"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetQualificationsAssociationTaskInput, GetQualificationsAssociationTaskOutput>(serviceID: serviceName, version: PartnerCentralAccountClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralAccount")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetQualificationsAssociationTask")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetQualificationsDisassociationTask` operation on the `PartnerCentralAccount` service.
+    ///
+    /// Retrieves the status and details of the most recent qualifications disassociation task for your partner account. Use this operation to poll the progress of a disassociation task initiated by StartQualificationsDisassociationTask.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetQualificationsDisassociationTaskInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetQualificationsDisassociationTaskOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied due to insufficient permissions. The caller does not have the required permissions to perform this operation.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This is typically a temporary condition and the request may be retried.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. This may occur when referencing a resource that does not exist or has been deleted.
+    /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period of time. The client should implement exponential backoff and retry the request.
+    /// - `ValidationException` : The request failed validation. One or more input parameters are invalid, missing, or do not meet the required format or constraints.
+    public func getQualificationsDisassociationTask(input: GetQualificationsDisassociationTaskInput) async throws -> GetQualificationsDisassociationTaskOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralAccountClient.getQualificationsDisassociationTaskOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getQualificationsDisassociationTask")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-account")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQualificationsDisassociationTaskInput, GetQualificationsDisassociationTaskOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQualificationsDisassociationTaskInput, GetQualificationsDisassociationTaskOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQualificationsDisassociationTaskInput, GetQualificationsDisassociationTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetQualificationsDisassociationTaskOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Account", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetQualificationsDisassociationTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetQualificationsDisassociationTaskInput, GetQualificationsDisassociationTaskOutput>(overrides: ["X-Amz-Target": "PartnerCentralAccount.GetQualificationsDisassociationTask"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetQualificationsDisassociationTaskInput, GetQualificationsDisassociationTaskOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetQualificationsDisassociationTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetQualificationsDisassociationTaskInput, GetQualificationsDisassociationTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetQualificationsDisassociationTaskInput, GetQualificationsDisassociationTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Account"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetQualificationsDisassociationTaskInput, GetQualificationsDisassociationTaskOutput>(serviceID: serviceName, version: PartnerCentralAccountClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralAccount")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetQualificationsDisassociationTask")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetVerification` operation on the `PartnerCentralAccount` service.
     ///
     /// Retrieves the current status and details of a verification process for a partner account. This operation allows partners to check the progress and results of business or registrant verification processes.
@@ -2569,6 +2803,166 @@ extension PartnerCentralAccountClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralAccount")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartProfileUpdateTask")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartQualificationsAssociationTask` operation on the `PartnerCentralAccount` service.
+    ///
+    /// Initiates an asynchronous task to associate your partner qualifications with a primary account. You must be a subsidiary of the primary account with an active subsidiary connection. Use GetQualificationsAssociationTask to monitor task progress.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartQualificationsAssociationTaskInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartQualificationsAssociationTaskOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied due to insufficient permissions. The caller does not have the required permissions to perform this operation.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource. This typically occurs when trying to create a resource that already exists or modify a resource that has been changed by another process.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This is typically a temporary condition and the request may be retried.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. This may occur when referencing a resource that does not exist or has been deleted.
+    /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period of time. The client should implement exponential backoff and retry the request.
+    /// - `ValidationException` : The request failed validation. One or more input parameters are invalid, missing, or do not meet the required format or constraints.
+    public func startQualificationsAssociationTask(input: StartQualificationsAssociationTaskInput) async throws -> StartQualificationsAssociationTaskOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralAccountClient.startQualificationsAssociationTaskOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startQualificationsAssociationTask")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-account")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartQualificationsAssociationTaskInput, StartQualificationsAssociationTaskOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartQualificationsAssociationTaskInput, StartQualificationsAssociationTaskOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartQualificationsAssociationTaskInput, StartQualificationsAssociationTaskOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartQualificationsAssociationTaskInput, StartQualificationsAssociationTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartQualificationsAssociationTaskOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Account", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartQualificationsAssociationTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartQualificationsAssociationTaskInput, StartQualificationsAssociationTaskOutput>(overrides: ["X-Amz-Target": "PartnerCentralAccount.StartQualificationsAssociationTask"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartQualificationsAssociationTaskInput, StartQualificationsAssociationTaskOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartQualificationsAssociationTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartQualificationsAssociationTaskInput, StartQualificationsAssociationTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartQualificationsAssociationTaskInput, StartQualificationsAssociationTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Account"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartQualificationsAssociationTaskInput, StartQualificationsAssociationTaskOutput>(serviceID: serviceName, version: PartnerCentralAccountClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralAccount")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartQualificationsAssociationTask")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartQualificationsDisassociationTask` operation on the `PartnerCentralAccount` service.
+    ///
+    /// Initiates an asynchronous task to disassociate your partner qualifications from a primary account. You must currently be associated and cannot disassociate if you are the primary partner. Use GetQualificationsDisassociationTask to monitor task progress.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartQualificationsDisassociationTaskInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartQualificationsDisassociationTaskOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied due to insufficient permissions. The caller does not have the required permissions to perform this operation.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource. This typically occurs when trying to create a resource that already exists or modify a resource that has been changed by another process.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This is typically a temporary condition and the request may be retried.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. This may occur when referencing a resource that does not exist or has been deleted.
+    /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period of time. The client should implement exponential backoff and retry the request.
+    /// - `ValidationException` : The request failed validation. One or more input parameters are invalid, missing, or do not meet the required format or constraints.
+    public func startQualificationsDisassociationTask(input: StartQualificationsDisassociationTaskInput) async throws -> StartQualificationsDisassociationTaskOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralAccountClient.startQualificationsDisassociationTaskOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startQualificationsDisassociationTask")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-account")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartQualificationsDisassociationTaskInput, StartQualificationsDisassociationTaskOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartQualificationsDisassociationTaskInput, StartQualificationsDisassociationTaskOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartQualificationsDisassociationTaskInput, StartQualificationsDisassociationTaskOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartQualificationsDisassociationTaskInput, StartQualificationsDisassociationTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartQualificationsDisassociationTaskOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Account", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartQualificationsDisassociationTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartQualificationsDisassociationTaskInput, StartQualificationsDisassociationTaskOutput>(overrides: ["X-Amz-Target": "PartnerCentralAccount.StartQualificationsDisassociationTask"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartQualificationsDisassociationTaskInput, StartQualificationsDisassociationTaskOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartQualificationsDisassociationTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartQualificationsDisassociationTaskInput, StartQualificationsDisassociationTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartQualificationsDisassociationTaskInput, StartQualificationsDisassociationTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Account"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartQualificationsDisassociationTaskInput, StartQualificationsDisassociationTaskOutput>(serviceID: serviceName, version: PartnerCentralAccountClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralAccount")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartQualificationsDisassociationTask")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -643,10 +643,28 @@ extension AmpClientTypes {
 
 extension AmpClientTypes {
 
+    /// The configuration identifies the CloudWatch dataset used as a scraper destination.
+    public struct CloudWatchConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the CloudWatch dataset. To use the default dataset, specify arn:aws:cloudwatch:<region>:<account-id>:dataset/default.
+        /// This member is required.
+        public var datasetArn: Swift.String?
+
+        public init(
+            datasetArn: Swift.String? = nil
+        ) {
+            self.datasetArn = datasetArn
+        }
+    }
+}
+
+extension AmpClientTypes {
+
     /// Where to send the metrics from a scraper.
     public enum Destination: Swift.Sendable {
         /// The Amazon Managed Service for Prometheus workspace to send metrics to.
         case ampconfiguration(AmpClientTypes.AmpConfiguration)
+        /// The CloudWatch dataset to send metrics to.
+        case cloudwatchconfiguration(AmpClientTypes.CloudWatchConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -744,7 +762,7 @@ public struct CreateScraperInput: Swift.Sendable {
     public var alias: Swift.String?
     /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
-    /// The Amazon Managed Service for Prometheus workspace to send metrics to.
+    /// The destination where the scraper sends the collected metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
     /// This member is required.
     public var destination: AmpClientTypes.Destination?
     /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
@@ -932,7 +950,7 @@ extension AmpClientTypes {
         /// The date and time that the scraper was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
-        /// The Amazon Managed Service for Prometheus workspace the scraper sends metrics to.
+        /// The destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         /// This member is required.
         public var destination: AmpClientTypes.Destination?
         /// The date and time that the scraper was last modified.
@@ -1037,7 +1055,7 @@ extension AmpClientTypes {
         /// The date and time that the scraper was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
-        /// The Amazon Managed Service for Prometheus workspace the scraper sends metrics to.
+        /// The destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         /// This member is required.
         public var destination: AmpClientTypes.Destination?
         /// The date and time that the scraper was last modified.
@@ -1370,7 +1388,7 @@ public struct UpdateScraperInput: Swift.Sendable {
     public var alias: Swift.String?
     /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
     public var clientToken: Swift.String?
-    /// The new Amazon Managed Service for Prometheus workspace to send metrics to.
+    /// The new destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
     public var destination: AmpClientTypes.Destination?
     /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
     public var roleConfiguration: AmpClientTypes.RoleConfiguration?
@@ -5788,6 +5806,21 @@ extension AmpClientTypes.AnomalyDetectorSummary {
     }
 }
 
+extension AmpClientTypes.CloudWatchConfiguration {
+
+    static func write(value: AmpClientTypes.CloudWatchConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasetArn"].write(value.datasetArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.CloudWatchConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.CloudWatchConfiguration()
+        value.datasetArn = try reader["datasetArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension AmpClientTypes.CloudWatchLogDestination {
 
     static func write(value: AmpClientTypes.CloudWatchLogDestination?, to writer: SmithyJSON.Writer) throws {
@@ -5825,6 +5858,8 @@ extension AmpClientTypes.Destination {
         switch value {
             case let .ampconfiguration(ampconfiguration):
                 try writer["ampConfiguration"].write(ampconfiguration, with: AmpClientTypes.AmpConfiguration.write(value:to:))
+            case let .cloudwatchconfiguration(cloudwatchconfiguration):
+                try writer["cloudWatchConfiguration"].write(cloudwatchconfiguration, with: AmpClientTypes.CloudWatchConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -5836,6 +5871,8 @@ extension AmpClientTypes.Destination {
         switch name {
             case "ampConfiguration":
                 return .ampconfiguration(try reader["ampConfiguration"].read(with: AmpClientTypes.AmpConfiguration.read(from:)))
+            case "cloudWatchConfiguration":
+                return .cloudwatchconfiguration(try reader["cloudWatchConfiguration"].read(with: AmpClientTypes.CloudWatchConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }

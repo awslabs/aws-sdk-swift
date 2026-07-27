@@ -6728,6 +6728,8 @@ public struct GetRunTaskOutput: Swift.Sendable {
     public var stopTime: Foundation.Date?
     /// The task's ID.
     public var taskId: Swift.String?
+    /// The universally unique identifier (UUID) for the workflow task.
+    public var uuid: Swift.String?
 
     public init(
         cacheHit: Swift.Bool? = nil,
@@ -6745,7 +6747,8 @@ public struct GetRunTaskOutput: Swift.Sendable {
         status: OmicsClientTypes.TaskStatus? = nil,
         statusMessage: Swift.String? = nil,
         stopTime: Foundation.Date? = nil,
-        taskId: Swift.String? = nil
+        taskId: Swift.String? = nil,
+        uuid: Swift.String? = nil
     ) {
         self.cacheHit = cacheHit
         self.cacheS3Uri = cacheS3Uri
@@ -6763,6 +6766,7 @@ public struct GetRunTaskOutput: Swift.Sendable {
         self.statusMessage = statusMessage
         self.stopTime = stopTime
         self.taskId = taskId
+        self.uuid = uuid
     }
 }
 
@@ -8806,6 +8810,8 @@ extension OmicsClientTypes {
         public var stopTime: Foundation.Date?
         /// The task's ID.
         public var taskId: Swift.String?
+        /// The universally unique identifier (UUID) for the workflow task.
+        public var uuid: Swift.String?
 
         public init(
             cacheHit: Swift.Bool? = nil,
@@ -8819,7 +8825,8 @@ extension OmicsClientTypes {
             startTime: Foundation.Date? = nil,
             status: OmicsClientTypes.TaskStatus? = nil,
             stopTime: Foundation.Date? = nil,
-            taskId: Swift.String? = nil
+            taskId: Swift.String? = nil,
+            uuid: Swift.String? = nil
         ) {
             self.cacheHit = cacheHit
             self.cacheS3Uri = cacheS3Uri
@@ -8833,6 +8840,7 @@ extension OmicsClientTypes {
             self.status = status
             self.stopTime = stopTime
             self.taskId = taskId
+            self.uuid = uuid
         }
     }
 }
@@ -13529,6 +13537,7 @@ extension GetRunTaskOutput {
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         value.stopTime = try reader["stopTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.taskId = try reader["taskId"].readIfPresent()
+        value.uuid = try reader["uuid"].readIfPresent()
         return value
     }
 }
@@ -17735,6 +17744,7 @@ extension OmicsClientTypes.TaskListItem {
         value.stopTime = try reader["stopTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.gpus = try reader["gpus"].readIfPresent()
         value.instanceType = try reader["instanceType"].readIfPresent()
+        value.uuid = try reader["uuid"].readIfPresent()
         return value
     }
 }

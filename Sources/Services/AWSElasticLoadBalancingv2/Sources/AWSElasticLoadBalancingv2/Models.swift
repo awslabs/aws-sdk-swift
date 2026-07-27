@@ -2756,14 +2756,51 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    /// Information about a source IP condition. You can use this condition to route based on the IP address of the source that connects to the load balancer. If a client is behind a proxy, this is the IP address of the proxy not the IP address of the client.
+    public enum SourceIpAddressTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SourceIpAddressTypeEnum] {
+            return [
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "ipv4"
+            case .ipv6: return "ipv6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
+    /// Information about a source IP condition. You can use this condition to route based on the IP address of the source that connects to the load balancer. If a client is behind a proxy, this is the IP address of the proxy not the IP address of the client. For Application Load Balancers, use Values to specify CIDR ranges. For Network Load Balancers, use IpAddressType to match on the IP address type of the source traffic.
     public struct SourceIpConditionConfig: Swift.Sendable {
+        /// The IP address type for Network Load Balancers. The valid values are:
+        ///
+        /// * ipv4 – IPv4 addresses only.
+        ///
+        /// * ipv6 – IPv6 addresses only.
+        public var ipAddressType: ElasticLoadBalancingv2ClientTypes.SourceIpAddressTypeEnum?
         /// The source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use an [HTTP header condition](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html#http-header-conditions). The total number of values must be less than, or equal to five.
         public var values: [Swift.String]?
 
         public init(
+            ipAddressType: ElasticLoadBalancingv2ClientTypes.SourceIpAddressTypeEnum? = nil,
             values: [Swift.String]? = nil
         ) {
+            self.ipAddressType = ipAddressType
             self.values = values
         }
     }
@@ -2771,21 +2808,21 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    /// Information about a condition for a rule. Each rule can optionally include up to one of each of the following conditions: http-request-method, host-header, path-pattern, and source-ip. Each rule can also optionally include one or more of each of the following conditions: http-header and query-string. Note that the value for a condition can't be empty. For more information, see [Quotas for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html).
+    /// Information about a condition for a rule. Each rule can optionally include up to one of each of the following conditions: http-request-method, host-header, path-pattern, and source-ip. Each rule can also optionally include one or more of each of the following conditions: http-header and query-string. Note that the value for a condition can't be empty. For Network Load Balancer listener rules, the only supported condition is source-ip. Use SourceIpConfig with IpAddressType to match on the IP address type of the source traffic (ipv4 or ipv6). For more information, see [Quotas for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html).
     public struct RuleCondition: Swift.Sendable {
-        /// The field in the HTTP request. The following are the possible values:
+        /// The name of the field. The possible values are:
         ///
-        /// * http-header
+        /// * http-header – [ALB] Matches on an HTTP header field.
         ///
-        /// * http-request-method
+        /// * http-request-method – [ALB] Matches on the HTTP request method.
         ///
-        /// * host-header
+        /// * host-header – [ALB] Matches on the host header.
         ///
-        /// * path-pattern
+        /// * path-pattern – [ALB] Matches on the URL path of the request.
         ///
-        /// * query-string
+        /// * query-string – [ALB] Matches on a query string parameter.
         ///
-        /// * source-ip
+        /// * source-ip – [ALB, NLB] Matches on the source IP address. For ALB, use SourceIpConfig with Values to specify CIDR ranges. For NLB, use SourceIpConfig with IpAddressType to match the IP address type (ipv4 or ipv6).
         public var field: Swift.String?
         /// Information for a host header condition. Specify only when Field is host-header.
         public var hostHeaderConfig: ElasticLoadBalancingv2ClientTypes.HostHeaderConditionConfig?
@@ -9566,6 +9603,7 @@ extension ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig {
 
     static func write(value: ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -9573,6 +9611,7 @@ extension ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig()
         value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         return value
     }
 }

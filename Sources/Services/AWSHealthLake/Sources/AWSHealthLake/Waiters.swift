@@ -9,11 +9,65 @@
 
 import class SmithyWaitersAPI.Waiter
 import enum SmithyWaitersAPI.JMESUtils
+import protocol ClientRuntime.ServiceError
 import struct SmithyWaitersAPI.WaiterConfiguration
 import struct SmithyWaitersAPI.WaiterOptions
 import struct SmithyWaitersAPI.WaiterOutcome
 
 extension HealthLakeClient {
+
+    static func dataTransformationJobCompletedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeDataTransformationJobInput, DescribeDataTransformationJobOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeDataTransformationJobInput, DescribeDataTransformationJobOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeDataTransformationJobInput, result: Swift.Result<DescribeDataTransformationJobOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "TransformationJobProperties.JobStatus"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "COMPLETED"
+                guard case .success(let output) = result else { return false }
+                let transformationJobProperties = output.transformationJobProperties
+                let jobStatus = transformationJobProperties?.jobStatus
+                return SmithyWaitersAPI.JMESUtils.compare(jobStatus, ==, "COMPLETED")
+            }),
+            .init(state: .success, matcher: { (input: DescribeDataTransformationJobInput, result: Swift.Result<DescribeDataTransformationJobOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "TransformationJobProperties.JobStatus"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "COMPLETED_WITH_ERRORS"
+                guard case .success(let output) = result else { return false }
+                let transformationJobProperties = output.transformationJobProperties
+                let jobStatus = transformationJobProperties?.jobStatus
+                return SmithyWaitersAPI.JMESUtils.compare(jobStatus, ==, "COMPLETED_WITH_ERRORS")
+            }),
+            .init(state: .failure, matcher: { (input: DescribeDataTransformationJobInput, result: Swift.Result<DescribeDataTransformationJobOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "TransformationJobProperties.JobStatus"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "FAILED"
+                guard case .success(let output) = result else { return false }
+                let transformationJobProperties = output.transformationJobProperties
+                let jobStatus = transformationJobProperties?.jobStatus
+                return SmithyWaitersAPI.JMESUtils.compare(jobStatus, ==, "FAILED")
+            }),
+            .init(state: .failure, matcher: { (input: DescribeDataTransformationJobInput, result: Swift.Result<DescribeDataTransformationJobOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "ResourceNotFoundException"
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeDataTransformationJobInput, DescribeDataTransformationJobOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the DataTransformationJobCompleted event on the describeDataTransformationJob operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeDataTransformationJobInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilDataTransformationJobCompleted(options: SmithyWaitersAPI.WaiterOptions, input: DescribeDataTransformationJobInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeDataTransformationJobOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.dataTransformationJobCompletedWaiterConfig(), operation: self.describeDataTransformationJob(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
 
     static func fhirDatastoreActiveWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeFHIRDatastoreInput, DescribeFHIRDatastoreOutput> {
         let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeFHIRDatastoreInput, DescribeFHIRDatastoreOutput>.Acceptor] = [

@@ -21,11 +21,11 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultClockSkewProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -50,6 +50,7 @@ import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.LoggerMiddleware
@@ -59,10 +60,10 @@ import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct Smithy.Attributes
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.HTTPClientProtocol
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.HTTPClientProtocol
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.Plugin
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -630,7 +631,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func associateAppBlockBuilderAppBlock(input: AssociateAppBlockBuilderAppBlockInput) async throws -> AssociateAppBlockBuilderAppBlockOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -649,7 +650,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -658,17 +659,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateAppBlockBuilderAppBlockOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateAppBlockBuilderAppBlockOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.AssociateAppBlockBuilderAppBlock"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateAppBlockBuilderAppBlockOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -708,7 +712,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func associateApplicationFleet(input: AssociateApplicationFleetInput) async throws -> AssociateApplicationFleetOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -727,7 +731,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -736,17 +740,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateApplicationFleetInput, AssociateApplicationFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateApplicationFleetInput, AssociateApplicationFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateApplicationFleetInput, AssociateApplicationFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateApplicationFleetInput, AssociateApplicationFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateApplicationFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateApplicationFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateApplicationFleetInput, AssociateApplicationFleetOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.AssociateApplicationFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateApplicationFleetInput, AssociateApplicationFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateApplicationFleetInput, AssociateApplicationFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AssociateApplicationFleetInput, AssociateApplicationFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateApplicationFleetInput, AssociateApplicationFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateApplicationFleetInput, AssociateApplicationFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateApplicationFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateApplicationFleetInput, AssociateApplicationFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateApplicationFleetInput, AssociateApplicationFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -785,7 +792,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func associateApplicationToEntitlement(input: AssociateApplicationToEntitlementInput) async throws -> AssociateApplicationToEntitlementOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -804,7 +811,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -813,17 +820,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateApplicationToEntitlementInput, AssociateApplicationToEntitlementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateApplicationToEntitlementInput, AssociateApplicationToEntitlementOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateApplicationToEntitlementInput, AssociateApplicationToEntitlementOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateApplicationToEntitlementInput, AssociateApplicationToEntitlementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateApplicationToEntitlementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateApplicationToEntitlementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateApplicationToEntitlementInput, AssociateApplicationToEntitlementOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.AssociateApplicationToEntitlement"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateApplicationToEntitlementInput, AssociateApplicationToEntitlementOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateApplicationToEntitlementInput, AssociateApplicationToEntitlementOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AssociateApplicationToEntitlementInput, AssociateApplicationToEntitlementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateApplicationToEntitlementInput, AssociateApplicationToEntitlementOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateApplicationToEntitlementInput, AssociateApplicationToEntitlementOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateApplicationToEntitlementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateApplicationToEntitlementInput, AssociateApplicationToEntitlementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateApplicationToEntitlementInput, AssociateApplicationToEntitlementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -864,7 +874,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func associateFleet(input: AssociateFleetInput) async throws -> AssociateFleetOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -883,7 +893,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -892,17 +902,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateFleetInput, AssociateFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateFleetInput, AssociateFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateFleetInput, AssociateFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateFleetInput, AssociateFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateFleetInput, AssociateFleetOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.AssociateFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateFleetInput, AssociateFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateFleetInput, AssociateFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AssociateFleetInput, AssociateFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateFleetInput, AssociateFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateFleetInput, AssociateFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateFleetInput, AssociateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateFleetInput, AssociateFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -942,7 +955,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func associateSoftwareToImageBuilder(input: AssociateSoftwareToImageBuilderInput) async throws -> AssociateSoftwareToImageBuilderOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -961,7 +974,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -970,17 +983,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSoftwareToImageBuilderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateSoftwareToImageBuilderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.AssociateSoftwareToImageBuilder"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateSoftwareToImageBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1017,7 +1033,7 @@ extension AppStreamClient {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     public func batchAssociateUserStack(input: BatchAssociateUserStackInput) async throws -> BatchAssociateUserStackOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1036,7 +1052,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1045,17 +1061,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchAssociateUserStackInput, BatchAssociateUserStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchAssociateUserStackInput, BatchAssociateUserStackOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchAssociateUserStackInput, BatchAssociateUserStackOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchAssociateUserStackInput, BatchAssociateUserStackOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchAssociateUserStackOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchAssociateUserStackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchAssociateUserStackInput, BatchAssociateUserStackOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.BatchAssociateUserStack"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchAssociateUserStackInput, BatchAssociateUserStackOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchAssociateUserStackInput, BatchAssociateUserStackOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchAssociateUserStackInput, BatchAssociateUserStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchAssociateUserStackInput, BatchAssociateUserStackOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchAssociateUserStackInput, BatchAssociateUserStackOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchAssociateUserStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchAssociateUserStackInput, BatchAssociateUserStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchAssociateUserStackInput, BatchAssociateUserStackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1092,7 +1111,7 @@ extension AppStreamClient {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     public func batchDisassociateUserStack(input: BatchDisassociateUserStackInput) async throws -> BatchDisassociateUserStackOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1111,7 +1130,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1120,17 +1139,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDisassociateUserStackInput, BatchDisassociateUserStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDisassociateUserStackInput, BatchDisassociateUserStackOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDisassociateUserStackInput, BatchDisassociateUserStackOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDisassociateUserStackInput, BatchDisassociateUserStackOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDisassociateUserStackOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDisassociateUserStackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDisassociateUserStackInput, BatchDisassociateUserStackOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.BatchDisassociateUserStack"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDisassociateUserStackInput, BatchDisassociateUserStackOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDisassociateUserStackInput, BatchDisassociateUserStackOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchDisassociateUserStackInput, BatchDisassociateUserStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDisassociateUserStackInput, BatchDisassociateUserStackOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDisassociateUserStackInput, BatchDisassociateUserStackOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDisassociateUserStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDisassociateUserStackInput, BatchDisassociateUserStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDisassociateUserStackInput, BatchDisassociateUserStackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1171,7 +1193,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func copyImage(input: CopyImageInput) async throws -> CopyImageOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1190,7 +1212,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1199,17 +1221,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CopyImageInput, CopyImageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CopyImageInput, CopyImageOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyImageInput, CopyImageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyImageInput, CopyImageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyImageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CopyImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CopyImageInput, CopyImageOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CopyImage"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CopyImageInput, CopyImageOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CopyImageInput, CopyImageOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CopyImageInput, CopyImageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CopyImageInput, CopyImageOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyImageInput, CopyImageOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CopyImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CopyImageInput, CopyImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CopyImageInput, CopyImageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1248,7 +1273,7 @@ extension AppStreamClient {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     public func createAppBlock(input: CreateAppBlockInput) async throws -> CreateAppBlockOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1267,7 +1292,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1276,17 +1301,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAppBlockInput, CreateAppBlockOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAppBlockInput, CreateAppBlockOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppBlockInput, CreateAppBlockOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppBlockInput, CreateAppBlockOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppBlockOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAppBlockOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAppBlockInput, CreateAppBlockOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CreateAppBlock"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAppBlockInput, CreateAppBlockOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAppBlockInput, CreateAppBlockOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateAppBlockInput, CreateAppBlockOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAppBlockInput, CreateAppBlockOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppBlockInput, CreateAppBlockOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAppBlockOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAppBlockInput, CreateAppBlockOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAppBlockInput, CreateAppBlockOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1331,7 +1359,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func createAppBlockBuilder(input: CreateAppBlockBuilderInput) async throws -> CreateAppBlockBuilderOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1350,7 +1378,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1359,17 +1387,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppBlockBuilderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAppBlockBuilderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CreateAppBlockBuilder"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAppBlockBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1406,7 +1437,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func createAppBlockBuilderStreamingURL(input: CreateAppBlockBuilderStreamingURLInput) async throws -> CreateAppBlockBuilderStreamingURLOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1425,7 +1456,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1434,17 +1465,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppBlockBuilderStreamingURLOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAppBlockBuilderStreamingURLOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CreateAppBlockBuilderStreamingURL"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAppBlockBuilderStreamingURLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1484,7 +1518,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1503,7 +1537,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1512,17 +1546,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateApplicationInput, CreateApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateApplicationInput, CreateApplicationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateApplicationInput, CreateApplicationOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CreateApplication"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateApplicationInput, CreateApplicationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateApplicationInput, CreateApplicationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateApplicationInput, CreateApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateApplicationInput, CreateApplicationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateApplicationInput, CreateApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1563,7 +1600,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func createDirectoryConfig(input: CreateDirectoryConfigInput) async throws -> CreateDirectoryConfigOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1582,7 +1619,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1591,17 +1628,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDirectoryConfigInput, CreateDirectoryConfigOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDirectoryConfigInput, CreateDirectoryConfigOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDirectoryConfigInput, CreateDirectoryConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDirectoryConfigInput, CreateDirectoryConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDirectoryConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDirectoryConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDirectoryConfigInput, CreateDirectoryConfigOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CreateDirectoryConfig"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDirectoryConfigInput, CreateDirectoryConfigOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDirectoryConfigInput, CreateDirectoryConfigOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateDirectoryConfigInput, CreateDirectoryConfigOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDirectoryConfigInput, CreateDirectoryConfigOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDirectoryConfigInput, CreateDirectoryConfigOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDirectoryConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDirectoryConfigInput, CreateDirectoryConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDirectoryConfigInput, CreateDirectoryConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1640,7 +1680,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func createEntitlement(input: CreateEntitlementInput) async throws -> CreateEntitlementOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1659,7 +1699,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1668,17 +1708,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateEntitlementInput, CreateEntitlementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEntitlementInput, CreateEntitlementOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEntitlementInput, CreateEntitlementOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEntitlementInput, CreateEntitlementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEntitlementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEntitlementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEntitlementInput, CreateEntitlementOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CreateEntitlement"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEntitlementInput, CreateEntitlementOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEntitlementInput, CreateEntitlementOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateEntitlementInput, CreateEntitlementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEntitlementInput, CreateEntitlementOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEntitlementInput, CreateEntitlementOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEntitlementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateEntitlementInput, CreateEntitlementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateEntitlementInput, CreateEntitlementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1720,7 +1763,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func createExportImageTask(input: CreateExportImageTaskInput) async throws -> CreateExportImageTaskOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1739,7 +1782,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1748,17 +1791,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateExportImageTaskOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateExportImageTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CreateExportImageTask"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateExportImageTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1804,7 +1850,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1823,7 +1869,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1832,17 +1878,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFleetInput, CreateFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFleetInput, CreateFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetInput, CreateFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFleetInput, CreateFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFleetInput, CreateFleetOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CreateFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFleetInput, CreateFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFleetInput, CreateFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateFleetInput, CreateFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFleetInput, CreateFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetInput, CreateFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFleetInput, CreateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFleetInput, CreateFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1888,7 +1937,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func createImageBuilder(input: CreateImageBuilderInput) async throws -> CreateImageBuilderOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1907,7 +1956,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1916,17 +1965,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateImageBuilderInput, CreateImageBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateImageBuilderInput, CreateImageBuilderOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateImageBuilderInput, CreateImageBuilderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateImageBuilderInput, CreateImageBuilderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateImageBuilderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateImageBuilderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateImageBuilderInput, CreateImageBuilderOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CreateImageBuilder"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateImageBuilderInput, CreateImageBuilderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateImageBuilderInput, CreateImageBuilderOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateImageBuilderInput, CreateImageBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateImageBuilderInput, CreateImageBuilderOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateImageBuilderInput, CreateImageBuilderOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateImageBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateImageBuilderInput, CreateImageBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateImageBuilderInput, CreateImageBuilderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1963,7 +2015,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func createImageBuilderStreamingURL(input: CreateImageBuilderStreamingURLInput) async throws -> CreateImageBuilderStreamingURLOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1982,7 +2034,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1991,17 +2043,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateImageBuilderStreamingURLInput, CreateImageBuilderStreamingURLOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateImageBuilderStreamingURLInput, CreateImageBuilderStreamingURLOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateImageBuilderStreamingURLInput, CreateImageBuilderStreamingURLOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateImageBuilderStreamingURLInput, CreateImageBuilderStreamingURLOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateImageBuilderStreamingURLOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateImageBuilderStreamingURLOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateImageBuilderStreamingURLInput, CreateImageBuilderStreamingURLOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CreateImageBuilderStreamingURL"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateImageBuilderStreamingURLInput, CreateImageBuilderStreamingURLOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateImageBuilderStreamingURLInput, CreateImageBuilderStreamingURLOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateImageBuilderStreamingURLInput, CreateImageBuilderStreamingURLOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateImageBuilderStreamingURLInput, CreateImageBuilderStreamingURLOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateImageBuilderStreamingURLInput, CreateImageBuilderStreamingURLOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateImageBuilderStreamingURLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateImageBuilderStreamingURLInput, CreateImageBuilderStreamingURLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateImageBuilderStreamingURLInput, CreateImageBuilderStreamingURLOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2045,7 +2100,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func createImportedImage(input: CreateImportedImageInput) async throws -> CreateImportedImageOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2064,7 +2119,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2073,17 +2128,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateImportedImageInput, CreateImportedImageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateImportedImageInput, CreateImportedImageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateImportedImageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateImportedImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CreateImportedImage"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateImportedImageInput, CreateImportedImageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateImportedImageInput, CreateImportedImageOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateImportedImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateImportedImageInput, CreateImportedImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2126,7 +2184,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func createStack(input: CreateStackInput) async throws -> CreateStackOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2145,7 +2203,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2154,17 +2212,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateStackInput, CreateStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStackInput, CreateStackOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStackInput, CreateStackOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStackInput, CreateStackOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStackOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateStackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateStackInput, CreateStackOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CreateStack"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStackInput, CreateStackOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateStackInput, CreateStackOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateStackInput, CreateStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStackInput, CreateStackOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStackInput, CreateStackOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateStackInput, CreateStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateStackInput, CreateStackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2203,7 +2264,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func createStreamingURL(input: CreateStreamingURLInput) async throws -> CreateStreamingURLOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2222,7 +2283,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2231,17 +2292,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateStreamingURLInput, CreateStreamingURLOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStreamingURLInput, CreateStreamingURLOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStreamingURLInput, CreateStreamingURLOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamingURLInput, CreateStreamingURLOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStreamingURLOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateStreamingURLOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateStreamingURLInput, CreateStreamingURLOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CreateStreamingURL"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStreamingURLInput, CreateStreamingURLOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateStreamingURLInput, CreateStreamingURLOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateStreamingURLInput, CreateStreamingURLOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStreamingURLInput, CreateStreamingURLOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStreamingURLInput, CreateStreamingURLOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateStreamingURLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateStreamingURLInput, CreateStreamingURLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateStreamingURLInput, CreateStreamingURLOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2282,7 +2346,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func createThemeForStack(input: CreateThemeForStackInput) async throws -> CreateThemeForStackOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2301,7 +2365,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2310,17 +2374,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateThemeForStackInput, CreateThemeForStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateThemeForStackInput, CreateThemeForStackOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateThemeForStackInput, CreateThemeForStackOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateThemeForStackInput, CreateThemeForStackOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateThemeForStackOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateThemeForStackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateThemeForStackInput, CreateThemeForStackOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CreateThemeForStack"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateThemeForStackInput, CreateThemeForStackOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateThemeForStackInput, CreateThemeForStackOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateThemeForStackInput, CreateThemeForStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateThemeForStackInput, CreateThemeForStackOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateThemeForStackInput, CreateThemeForStackOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateThemeForStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateThemeForStackInput, CreateThemeForStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateThemeForStackInput, CreateThemeForStackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2362,7 +2429,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func createUpdatedImage(input: CreateUpdatedImageInput) async throws -> CreateUpdatedImageOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2381,7 +2448,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2390,17 +2457,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateUpdatedImageInput, CreateUpdatedImageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUpdatedImageInput, CreateUpdatedImageOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUpdatedImageInput, CreateUpdatedImageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUpdatedImageInput, CreateUpdatedImageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUpdatedImageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateUpdatedImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateUpdatedImageInput, CreateUpdatedImageOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CreateUpdatedImage"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUpdatedImageInput, CreateUpdatedImageOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateUpdatedImageInput, CreateUpdatedImageOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateUpdatedImageInput, CreateUpdatedImageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUpdatedImageInput, CreateUpdatedImageOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUpdatedImageInput, CreateUpdatedImageOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUpdatedImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateUpdatedImageInput, CreateUpdatedImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateUpdatedImageInput, CreateUpdatedImageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2438,7 +2508,7 @@ extension AppStreamClient {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     public func createUsageReportSubscription(input: CreateUsageReportSubscriptionInput) async throws -> CreateUsageReportSubscriptionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2457,7 +2527,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2468,15 +2538,17 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateUsageReportSubscriptionInput, CreateUsageReportSubscriptionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUsageReportSubscriptionInput, CreateUsageReportSubscriptionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUsageReportSubscriptionInput, CreateUsageReportSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUsageReportSubscriptionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateUsageReportSubscriptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateUsageReportSubscriptionInput, CreateUsageReportSubscriptionOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CreateUsageReportSubscription"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUsageReportSubscriptionInput, CreateUsageReportSubscriptionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateUsageReportSubscriptionInput, CreateUsageReportSubscriptionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateUsageReportSubscriptionInput, CreateUsageReportSubscriptionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUsageReportSubscriptionInput, CreateUsageReportSubscriptionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUsageReportSubscriptionInput, CreateUsageReportSubscriptionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUsageReportSubscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateUsageReportSubscriptionInput, CreateUsageReportSubscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateUsageReportSubscriptionInput, CreateUsageReportSubscriptionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2516,7 +2588,7 @@ extension AppStreamClient {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2535,7 +2607,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2544,17 +2616,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateUserInput, CreateUserOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUserInput, CreateUserOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateUserInput, CreateUserOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.CreateUser"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUserInput, CreateUserOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateUserInput, CreateUserOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateUserInput, CreateUserOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUserInput, CreateUserOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateUserInput, CreateUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateUserInput, CreateUserOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2592,7 +2667,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func deleteAppBlock(input: DeleteAppBlockInput) async throws -> DeleteAppBlockOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2611,7 +2686,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2620,17 +2695,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAppBlockInput, DeleteAppBlockOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAppBlockInput, DeleteAppBlockOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAppBlockInput, DeleteAppBlockOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppBlockInput, DeleteAppBlockOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppBlockOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAppBlockOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAppBlockInput, DeleteAppBlockOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DeleteAppBlock"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAppBlockInput, DeleteAppBlockOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAppBlockInput, DeleteAppBlockOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteAppBlockInput, DeleteAppBlockOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAppBlockInput, DeleteAppBlockOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAppBlockInput, DeleteAppBlockOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAppBlockOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAppBlockInput, DeleteAppBlockOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAppBlockInput, DeleteAppBlockOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2669,7 +2747,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func deleteAppBlockBuilder(input: DeleteAppBlockBuilderInput) async throws -> DeleteAppBlockBuilderOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2688,7 +2766,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2697,17 +2775,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppBlockBuilderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAppBlockBuilderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DeleteAppBlockBuilder"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAppBlockBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2746,7 +2827,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2765,7 +2846,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2774,17 +2855,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DeleteApplication"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2821,7 +2905,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func deleteDirectoryConfig(input: DeleteDirectoryConfigInput) async throws -> DeleteDirectoryConfigOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2840,7 +2924,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2849,17 +2933,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDirectoryConfigInput, DeleteDirectoryConfigOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDirectoryConfigInput, DeleteDirectoryConfigOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDirectoryConfigInput, DeleteDirectoryConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDirectoryConfigInput, DeleteDirectoryConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDirectoryConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDirectoryConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDirectoryConfigInput, DeleteDirectoryConfigOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DeleteDirectoryConfig"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDirectoryConfigInput, DeleteDirectoryConfigOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDirectoryConfigInput, DeleteDirectoryConfigOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteDirectoryConfigInput, DeleteDirectoryConfigOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDirectoryConfigInput, DeleteDirectoryConfigOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDirectoryConfigInput, DeleteDirectoryConfigOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDirectoryConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDirectoryConfigInput, DeleteDirectoryConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDirectoryConfigInput, DeleteDirectoryConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2898,7 +2985,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func deleteEntitlement(input: DeleteEntitlementInput) async throws -> DeleteEntitlementOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2917,7 +3004,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2926,17 +3013,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEntitlementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEntitlementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DeleteEntitlement"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEntitlementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2974,7 +3064,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2993,7 +3083,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3002,17 +3092,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFleetInput, DeleteFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFleetInput, DeleteFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFleetInput, DeleteFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFleetInput, DeleteFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFleetInput, DeleteFleetOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DeleteFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFleetInput, DeleteFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFleetInput, DeleteFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteFleetInput, DeleteFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFleetInput, DeleteFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFleetInput, DeleteFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFleetInput, DeleteFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFleetInput, DeleteFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3051,7 +3144,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func deleteImage(input: DeleteImageInput) async throws -> DeleteImageOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3070,7 +3163,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3079,17 +3172,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteImageInput, DeleteImageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteImageInput, DeleteImageOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteImageInput, DeleteImageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteImageInput, DeleteImageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteImageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteImageInput, DeleteImageOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DeleteImage"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteImageInput, DeleteImageOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteImageInput, DeleteImageOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteImageInput, DeleteImageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteImageInput, DeleteImageOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteImageInput, DeleteImageOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteImageInput, DeleteImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteImageInput, DeleteImageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3127,7 +3223,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func deleteImageBuilder(input: DeleteImageBuilderInput) async throws -> DeleteImageBuilderOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3146,7 +3242,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3155,17 +3251,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteImageBuilderInput, DeleteImageBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteImageBuilderInput, DeleteImageBuilderOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteImageBuilderInput, DeleteImageBuilderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteImageBuilderInput, DeleteImageBuilderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteImageBuilderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteImageBuilderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteImageBuilderInput, DeleteImageBuilderOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DeleteImageBuilder"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteImageBuilderInput, DeleteImageBuilderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteImageBuilderInput, DeleteImageBuilderOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteImageBuilderInput, DeleteImageBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteImageBuilderInput, DeleteImageBuilderOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteImageBuilderInput, DeleteImageBuilderOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteImageBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteImageBuilderInput, DeleteImageBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteImageBuilderInput, DeleteImageBuilderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3202,7 +3301,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func deleteImagePermissions(input: DeleteImagePermissionsInput) async throws -> DeleteImagePermissionsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3221,7 +3320,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3230,17 +3329,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteImagePermissionsInput, DeleteImagePermissionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteImagePermissionsInput, DeleteImagePermissionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteImagePermissionsInput, DeleteImagePermissionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteImagePermissionsInput, DeleteImagePermissionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteImagePermissionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteImagePermissionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteImagePermissionsInput, DeleteImagePermissionsOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DeleteImagePermissions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteImagePermissionsInput, DeleteImagePermissionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteImagePermissionsInput, DeleteImagePermissionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteImagePermissionsInput, DeleteImagePermissionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteImagePermissionsInput, DeleteImagePermissionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteImagePermissionsInput, DeleteImagePermissionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteImagePermissionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteImagePermissionsInput, DeleteImagePermissionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteImagePermissionsInput, DeleteImagePermissionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3279,7 +3381,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func deleteStack(input: DeleteStackInput) async throws -> DeleteStackOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3298,7 +3400,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3307,17 +3409,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteStackInput, DeleteStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteStackInput, DeleteStackOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStackInput, DeleteStackOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStackInput, DeleteStackOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStackOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteStackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteStackInput, DeleteStackOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DeleteStack"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteStackInput, DeleteStackOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteStackInput, DeleteStackOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteStackInput, DeleteStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteStackInput, DeleteStackOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStackInput, DeleteStackOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteStackInput, DeleteStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteStackInput, DeleteStackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3355,7 +3460,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func deleteThemeForStack(input: DeleteThemeForStackInput) async throws -> DeleteThemeForStackOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3374,7 +3479,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3383,17 +3488,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteThemeForStackInput, DeleteThemeForStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteThemeForStackInput, DeleteThemeForStackOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteThemeForStackInput, DeleteThemeForStackOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteThemeForStackInput, DeleteThemeForStackOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteThemeForStackOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteThemeForStackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteThemeForStackInput, DeleteThemeForStackOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DeleteThemeForStack"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteThemeForStackInput, DeleteThemeForStackOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteThemeForStackInput, DeleteThemeForStackOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteThemeForStackInput, DeleteThemeForStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteThemeForStackInput, DeleteThemeForStackOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteThemeForStackInput, DeleteThemeForStackOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteThemeForStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteThemeForStackInput, DeleteThemeForStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteThemeForStackInput, DeleteThemeForStackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3430,7 +3538,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func deleteUsageReportSubscription(input: DeleteUsageReportSubscriptionInput) async throws -> DeleteUsageReportSubscriptionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3449,7 +3557,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3460,15 +3568,17 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUsageReportSubscriptionInput, DeleteUsageReportSubscriptionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUsageReportSubscriptionInput, DeleteUsageReportSubscriptionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUsageReportSubscriptionInput, DeleteUsageReportSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUsageReportSubscriptionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteUsageReportSubscriptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteUsageReportSubscriptionInput, DeleteUsageReportSubscriptionOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DeleteUsageReportSubscription"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUsageReportSubscriptionInput, DeleteUsageReportSubscriptionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteUsageReportSubscriptionInput, DeleteUsageReportSubscriptionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteUsageReportSubscriptionInput, DeleteUsageReportSubscriptionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUsageReportSubscriptionInput, DeleteUsageReportSubscriptionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUsageReportSubscriptionInput, DeleteUsageReportSubscriptionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUsageReportSubscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteUsageReportSubscriptionInput, DeleteUsageReportSubscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteUsageReportSubscriptionInput, DeleteUsageReportSubscriptionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3504,7 +3614,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3523,7 +3633,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3532,17 +3642,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUserInput, DeleteUserOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteUserInput, DeleteUserOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DeleteUser"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUserInput, DeleteUserOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteUserInput, DeleteUserOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteUserInput, DeleteUserOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUserInput, DeleteUserOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteUserInput, DeleteUserOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3579,7 +3692,7 @@ extension AppStreamClient {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     public func describeAppBlockBuilderAppBlockAssociations(input: DescribeAppBlockBuilderAppBlockAssociationsInput) async throws -> DescribeAppBlockBuilderAppBlockAssociationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3598,7 +3711,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3607,17 +3720,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppBlockBuilderAppBlockAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAppBlockBuilderAppBlockAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeAppBlockBuilderAppBlockAssociations"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAppBlockBuilderAppBlockAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3654,7 +3770,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func describeAppBlockBuilders(input: DescribeAppBlockBuildersInput) async throws -> DescribeAppBlockBuildersOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3673,7 +3789,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3682,17 +3798,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppBlockBuildersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAppBlockBuildersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeAppBlockBuilders"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAppBlockBuildersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3729,7 +3848,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func describeAppBlocks(input: DescribeAppBlocksInput) async throws -> DescribeAppBlocksOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3748,7 +3867,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3757,17 +3876,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAppBlocksInput, DescribeAppBlocksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAppBlocksInput, DescribeAppBlocksOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppBlocksInput, DescribeAppBlocksOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppBlocksInput, DescribeAppBlocksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppBlocksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAppBlocksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAppBlocksInput, DescribeAppBlocksOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeAppBlocks"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAppBlocksInput, DescribeAppBlocksOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAppBlocksInput, DescribeAppBlocksOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeAppBlocksInput, DescribeAppBlocksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAppBlocksInput, DescribeAppBlocksOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppBlocksInput, DescribeAppBlocksOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAppBlocksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAppBlocksInput, DescribeAppBlocksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAppBlocksInput, DescribeAppBlocksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3805,7 +3927,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func describeAppLicenseUsage(input: DescribeAppLicenseUsageInput) async throws -> DescribeAppLicenseUsageOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3824,7 +3946,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3833,17 +3955,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppLicenseUsageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAppLicenseUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeAppLicenseUsage"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAppLicenseUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3880,7 +4005,7 @@ extension AppStreamClient {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     public func describeApplicationFleetAssociations(input: DescribeApplicationFleetAssociationsInput) async throws -> DescribeApplicationFleetAssociationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3899,7 +4024,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3908,17 +4033,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeApplicationFleetAssociationsInput, DescribeApplicationFleetAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeApplicationFleetAssociationsInput, DescribeApplicationFleetAssociationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationFleetAssociationsInput, DescribeApplicationFleetAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationFleetAssociationsInput, DescribeApplicationFleetAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationFleetAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeApplicationFleetAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeApplicationFleetAssociationsInput, DescribeApplicationFleetAssociationsOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeApplicationFleetAssociations"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeApplicationFleetAssociationsInput, DescribeApplicationFleetAssociationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeApplicationFleetAssociationsInput, DescribeApplicationFleetAssociationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeApplicationFleetAssociationsInput, DescribeApplicationFleetAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeApplicationFleetAssociationsInput, DescribeApplicationFleetAssociationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationFleetAssociationsInput, DescribeApplicationFleetAssociationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeApplicationFleetAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeApplicationFleetAssociationsInput, DescribeApplicationFleetAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeApplicationFleetAssociationsInput, DescribeApplicationFleetAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3955,7 +4083,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func describeApplications(input: DescribeApplicationsInput) async throws -> DescribeApplicationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3974,7 +4102,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3983,17 +4111,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeApplicationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeApplications"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeApplicationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4029,7 +4160,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func describeDirectoryConfigs(input: DescribeDirectoryConfigsInput) async throws -> DescribeDirectoryConfigsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4048,7 +4179,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4057,17 +4188,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDirectoryConfigsInput, DescribeDirectoryConfigsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDirectoryConfigsInput, DescribeDirectoryConfigsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDirectoryConfigsInput, DescribeDirectoryConfigsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDirectoryConfigsInput, DescribeDirectoryConfigsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDirectoryConfigsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDirectoryConfigsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDirectoryConfigsInput, DescribeDirectoryConfigsOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeDirectoryConfigs"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDirectoryConfigsInput, DescribeDirectoryConfigsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDirectoryConfigsInput, DescribeDirectoryConfigsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeDirectoryConfigsInput, DescribeDirectoryConfigsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDirectoryConfigsInput, DescribeDirectoryConfigsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDirectoryConfigsInput, DescribeDirectoryConfigsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDirectoryConfigsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDirectoryConfigsInput, DescribeDirectoryConfigsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDirectoryConfigsInput, DescribeDirectoryConfigsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4105,7 +4239,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func describeEntitlements(input: DescribeEntitlementsInput) async throws -> DescribeEntitlementsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4124,7 +4258,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4133,17 +4267,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEntitlementsInput, DescribeEntitlementsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEntitlementsInput, DescribeEntitlementsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEntitlementsInput, DescribeEntitlementsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEntitlementsInput, DescribeEntitlementsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEntitlementsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEntitlementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEntitlementsInput, DescribeEntitlementsOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeEntitlements"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEntitlementsInput, DescribeEntitlementsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEntitlementsInput, DescribeEntitlementsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeEntitlementsInput, DescribeEntitlementsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEntitlementsInput, DescribeEntitlementsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEntitlementsInput, DescribeEntitlementsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEntitlementsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEntitlementsInput, DescribeEntitlementsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeEntitlementsInput, DescribeEntitlementsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4179,7 +4316,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func describeFleets(input: DescribeFleetsInput) async throws -> DescribeFleetsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4198,7 +4335,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4207,17 +4344,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFleetsInput, DescribeFleetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetsInput, DescribeFleetsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetsInput, DescribeFleetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetsInput, DescribeFleetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFleetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetsInput, DescribeFleetsOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeFleets"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetsInput, DescribeFleetsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetsInput, DescribeFleetsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeFleetsInput, DescribeFleetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetsInput, DescribeFleetsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetsInput, DescribeFleetsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetsInput, DescribeFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetsInput, DescribeFleetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4253,7 +4393,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func describeImageBuilders(input: DescribeImageBuildersInput) async throws -> DescribeImageBuildersOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4272,7 +4412,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4281,17 +4421,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeImageBuildersInput, DescribeImageBuildersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImageBuildersInput, DescribeImageBuildersOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImageBuildersInput, DescribeImageBuildersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImageBuildersInput, DescribeImageBuildersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImageBuildersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeImageBuildersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeImageBuildersInput, DescribeImageBuildersOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeImageBuilders"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImageBuildersInput, DescribeImageBuildersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeImageBuildersInput, DescribeImageBuildersOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeImageBuildersInput, DescribeImageBuildersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImageBuildersInput, DescribeImageBuildersOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImageBuildersInput, DescribeImageBuildersOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImageBuildersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeImageBuildersInput, DescribeImageBuildersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeImageBuildersInput, DescribeImageBuildersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4327,7 +4470,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func describeImagePermissions(input: DescribeImagePermissionsInput) async throws -> DescribeImagePermissionsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4346,7 +4489,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4355,17 +4498,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeImagePermissionsInput, DescribeImagePermissionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImagePermissionsInput, DescribeImagePermissionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImagePermissionsInput, DescribeImagePermissionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImagePermissionsInput, DescribeImagePermissionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImagePermissionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeImagePermissionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeImagePermissionsInput, DescribeImagePermissionsOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeImagePermissions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImagePermissionsInput, DescribeImagePermissionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeImagePermissionsInput, DescribeImagePermissionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeImagePermissionsInput, DescribeImagePermissionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImagePermissionsInput, DescribeImagePermissionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImagePermissionsInput, DescribeImagePermissionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImagePermissionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeImagePermissionsInput, DescribeImagePermissionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeImagePermissionsInput, DescribeImagePermissionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4402,7 +4548,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4421,7 +4567,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4430,17 +4576,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeImagesInput, DescribeImagesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImagesInput, DescribeImagesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImagesInput, DescribeImagesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImagesInput, DescribeImagesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImagesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeImagesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeImagesInput, DescribeImagesOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeImages"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImagesInput, DescribeImagesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeImagesInput, DescribeImagesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeImagesInput, DescribeImagesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImagesInput, DescribeImagesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImagesInput, DescribeImagesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImagesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeImagesInput, DescribeImagesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeImagesInput, DescribeImagesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4476,7 +4625,7 @@ extension AppStreamClient {
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     public func describeSessions(input: DescribeSessionsInput) async throws -> DescribeSessionsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4495,7 +4644,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4504,17 +4653,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSessionsInput, DescribeSessionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSessionsInput, DescribeSessionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSessionsInput, DescribeSessionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSessionsInput, DescribeSessionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSessionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSessionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSessionsInput, DescribeSessionsOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeSessions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSessionsInput, DescribeSessionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSessionsInput, DescribeSessionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeSessionsInput, DescribeSessionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSessionsInput, DescribeSessionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSessionsInput, DescribeSessionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSessionsInput, DescribeSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSessionsInput, DescribeSessionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4551,7 +4703,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func describeSoftwareAssociations(input: DescribeSoftwareAssociationsInput) async throws -> DescribeSoftwareAssociationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4570,7 +4722,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4579,17 +4731,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSoftwareAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSoftwareAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeSoftwareAssociations"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSoftwareAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4625,7 +4780,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func describeStacks(input: DescribeStacksInput) async throws -> DescribeStacksOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4644,7 +4799,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4653,17 +4808,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeStacksInput, DescribeStacksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStacksInput, DescribeStacksOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStacksInput, DescribeStacksOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStacksInput, DescribeStacksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStacksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeStacksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeStacksInput, DescribeStacksOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeStacks"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStacksInput, DescribeStacksOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeStacksInput, DescribeStacksOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeStacksInput, DescribeStacksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStacksInput, DescribeStacksOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStacksInput, DescribeStacksOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStacksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeStacksInput, DescribeStacksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeStacksInput, DescribeStacksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4700,7 +4858,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func describeThemeForStack(input: DescribeThemeForStackInput) async throws -> DescribeThemeForStackOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4719,7 +4877,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4728,17 +4886,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeThemeForStackInput, DescribeThemeForStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeThemeForStackInput, DescribeThemeForStackOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeThemeForStackInput, DescribeThemeForStackOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeThemeForStackInput, DescribeThemeForStackOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeThemeForStackOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeThemeForStackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeThemeForStackInput, DescribeThemeForStackOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeThemeForStack"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeThemeForStackInput, DescribeThemeForStackOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeThemeForStackInput, DescribeThemeForStackOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeThemeForStackInput, DescribeThemeForStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeThemeForStackInput, DescribeThemeForStackOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeThemeForStackInput, DescribeThemeForStackOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeThemeForStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeThemeForStackInput, DescribeThemeForStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeThemeForStackInput, DescribeThemeForStackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4775,7 +4936,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func describeUsageReportSubscriptions(input: DescribeUsageReportSubscriptionsInput) async throws -> DescribeUsageReportSubscriptionsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4794,7 +4955,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4803,17 +4964,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeUsageReportSubscriptionsInput, DescribeUsageReportSubscriptionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeUsageReportSubscriptionsInput, DescribeUsageReportSubscriptionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUsageReportSubscriptionsInput, DescribeUsageReportSubscriptionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUsageReportSubscriptionsInput, DescribeUsageReportSubscriptionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUsageReportSubscriptionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeUsageReportSubscriptionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeUsageReportSubscriptionsInput, DescribeUsageReportSubscriptionsOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeUsageReportSubscriptions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeUsageReportSubscriptionsInput, DescribeUsageReportSubscriptionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeUsageReportSubscriptionsInput, DescribeUsageReportSubscriptionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeUsageReportSubscriptionsInput, DescribeUsageReportSubscriptionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeUsageReportSubscriptionsInput, DescribeUsageReportSubscriptionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUsageReportSubscriptionsInput, DescribeUsageReportSubscriptionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeUsageReportSubscriptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeUsageReportSubscriptionsInput, DescribeUsageReportSubscriptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeUsageReportSubscriptionsInput, DescribeUsageReportSubscriptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4854,7 +5018,7 @@ extension AppStreamClient {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     public func describeUserStackAssociations(input: DescribeUserStackAssociationsInput) async throws -> DescribeUserStackAssociationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4873,7 +5037,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4882,17 +5046,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeUserStackAssociationsInput, DescribeUserStackAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeUserStackAssociationsInput, DescribeUserStackAssociationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUserStackAssociationsInput, DescribeUserStackAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserStackAssociationsInput, DescribeUserStackAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserStackAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeUserStackAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeUserStackAssociationsInput, DescribeUserStackAssociationsOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeUserStackAssociations"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeUserStackAssociationsInput, DescribeUserStackAssociationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeUserStackAssociationsInput, DescribeUserStackAssociationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeUserStackAssociationsInput, DescribeUserStackAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeUserStackAssociationsInput, DescribeUserStackAssociationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUserStackAssociationsInput, DescribeUserStackAssociationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeUserStackAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeUserStackAssociationsInput, DescribeUserStackAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeUserStackAssociationsInput, DescribeUserStackAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4930,7 +5097,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4949,7 +5116,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4958,17 +5125,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeUsersInput, DescribeUsersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeUsersInput, DescribeUsersOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUsersInput, DescribeUsersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUsersInput, DescribeUsersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUsersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeUsersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeUsersInput, DescribeUsersOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DescribeUsers"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeUsersInput, DescribeUsersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeUsersInput, DescribeUsersOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeUsersInput, DescribeUsersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeUsersInput, DescribeUsersOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUsersInput, DescribeUsersOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeUsersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeUsersInput, DescribeUsersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeUsersInput, DescribeUsersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5004,7 +5174,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func disableUser(input: DisableUserInput) async throws -> DisableUserOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5023,7 +5193,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5032,17 +5202,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableUserInput, DisableUserOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableUserInput, DisableUserOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableUserInput, DisableUserOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableUserInput, DisableUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableUserOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableUserInput, DisableUserOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DisableUser"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableUserInput, DisableUserOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableUserInput, DisableUserOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DisableUserInput, DisableUserOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableUserInput, DisableUserOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableUserInput, DisableUserOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableUserInput, DisableUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableUserInput, DisableUserOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5081,7 +5254,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func disassociateAppBlockBuilderAppBlock(input: DisassociateAppBlockBuilderAppBlockInput) async throws -> DisassociateAppBlockBuilderAppBlockOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5100,7 +5273,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5109,17 +5282,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateAppBlockBuilderAppBlockOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateAppBlockBuilderAppBlockOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DisassociateAppBlockBuilderAppBlock"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateAppBlockBuilderAppBlockOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5157,7 +5333,7 @@ extension AppStreamClient {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     public func disassociateApplicationFleet(input: DisassociateApplicationFleetInput) async throws -> DisassociateApplicationFleetOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5176,7 +5352,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5185,17 +5361,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateApplicationFleetInput, DisassociateApplicationFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateApplicationFleetInput, DisassociateApplicationFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateApplicationFleetInput, DisassociateApplicationFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateApplicationFleetInput, DisassociateApplicationFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateApplicationFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateApplicationFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateApplicationFleetInput, DisassociateApplicationFleetOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DisassociateApplicationFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateApplicationFleetInput, DisassociateApplicationFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateApplicationFleetInput, DisassociateApplicationFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DisassociateApplicationFleetInput, DisassociateApplicationFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateApplicationFleetInput, DisassociateApplicationFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateApplicationFleetInput, DisassociateApplicationFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateApplicationFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateApplicationFleetInput, DisassociateApplicationFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateApplicationFleetInput, DisassociateApplicationFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5233,7 +5412,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func disassociateApplicationFromEntitlement(input: DisassociateApplicationFromEntitlementInput) async throws -> DisassociateApplicationFromEntitlementOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5252,7 +5431,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5261,17 +5440,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateApplicationFromEntitlementInput, DisassociateApplicationFromEntitlementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateApplicationFromEntitlementInput, DisassociateApplicationFromEntitlementOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateApplicationFromEntitlementInput, DisassociateApplicationFromEntitlementOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateApplicationFromEntitlementInput, DisassociateApplicationFromEntitlementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateApplicationFromEntitlementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateApplicationFromEntitlementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateApplicationFromEntitlementInput, DisassociateApplicationFromEntitlementOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DisassociateApplicationFromEntitlement"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateApplicationFromEntitlementInput, DisassociateApplicationFromEntitlementOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateApplicationFromEntitlementInput, DisassociateApplicationFromEntitlementOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DisassociateApplicationFromEntitlementInput, DisassociateApplicationFromEntitlementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateApplicationFromEntitlementInput, DisassociateApplicationFromEntitlementOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateApplicationFromEntitlementInput, DisassociateApplicationFromEntitlementOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateApplicationFromEntitlementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateApplicationFromEntitlementInput, DisassociateApplicationFromEntitlementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateApplicationFromEntitlementInput, DisassociateApplicationFromEntitlementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5310,7 +5492,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func disassociateFleet(input: DisassociateFleetInput) async throws -> DisassociateFleetOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5329,7 +5511,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5338,17 +5520,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateFleetInput, DisassociateFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateFleetInput, DisassociateFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateFleetInput, DisassociateFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFleetInput, DisassociateFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateFleetInput, DisassociateFleetOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DisassociateFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateFleetInput, DisassociateFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateFleetInput, DisassociateFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DisassociateFleetInput, DisassociateFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateFleetInput, DisassociateFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateFleetInput, DisassociateFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateFleetInput, DisassociateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateFleetInput, DisassociateFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5387,7 +5572,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func disassociateSoftwareFromImageBuilder(input: DisassociateSoftwareFromImageBuilderInput) async throws -> DisassociateSoftwareFromImageBuilderOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5406,7 +5591,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5415,17 +5600,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSoftwareFromImageBuilderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateSoftwareFromImageBuilderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DisassociateSoftwareFromImageBuilder"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateSoftwareFromImageBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5463,7 +5651,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func drainSessionInstance(input: DrainSessionInstanceInput) async throws -> DrainSessionInstanceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5482,7 +5670,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5491,17 +5679,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DrainSessionInstanceInput, DrainSessionInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DrainSessionInstanceInput, DrainSessionInstanceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DrainSessionInstanceInput, DrainSessionInstanceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DrainSessionInstanceInput, DrainSessionInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DrainSessionInstanceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DrainSessionInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DrainSessionInstanceInput, DrainSessionInstanceOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.DrainSessionInstance"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DrainSessionInstanceInput, DrainSessionInstanceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DrainSessionInstanceInput, DrainSessionInstanceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DrainSessionInstanceInput, DrainSessionInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DrainSessionInstanceInput, DrainSessionInstanceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DrainSessionInstanceInput, DrainSessionInstanceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DrainSessionInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DrainSessionInstanceInput, DrainSessionInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DrainSessionInstanceInput, DrainSessionInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5538,7 +5729,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func enableUser(input: EnableUserInput) async throws -> EnableUserOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5557,7 +5748,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5566,17 +5757,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableUserInput, EnableUserOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableUserInput, EnableUserOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableUserInput, EnableUserOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableUserInput, EnableUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableUserOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableUserInput, EnableUserOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.EnableUser"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableUserInput, EnableUserOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableUserInput, EnableUserOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<EnableUserInput, EnableUserOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableUserInput, EnableUserOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableUserInput, EnableUserOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableUserInput, EnableUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableUserInput, EnableUserOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5607,7 +5801,7 @@ extension AppStreamClient {
     /// - Returns: [no documentation found] (Type: `ExpireSessionOutput`)
     public func expireSession(input: ExpireSessionInput) async throws -> ExpireSessionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5626,7 +5820,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5635,17 +5829,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExpireSessionInput, ExpireSessionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExpireSessionInput, ExpireSessionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExpireSessionInput, ExpireSessionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExpireSessionInput, ExpireSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ExpireSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExpireSessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExpireSessionInput, ExpireSessionOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.ExpireSession"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExpireSessionInput, ExpireSessionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExpireSessionInput, ExpireSessionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ExpireSessionInput, ExpireSessionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExpireSessionInput, ExpireSessionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExpireSessionInput, ExpireSessionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExpireSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExpireSessionInput, ExpireSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ExpireSessionInput, ExpireSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5682,7 +5879,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func getExportImageTask(input: GetExportImageTaskInput) async throws -> GetExportImageTaskOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5701,7 +5898,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5710,17 +5907,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExportImageTaskOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetExportImageTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.GetExportImageTask"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetExportImageTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5751,7 +5951,7 @@ extension AppStreamClient {
     /// - Returns: [no documentation found] (Type: `ListAssociatedFleetsOutput`)
     public func listAssociatedFleets(input: ListAssociatedFleetsInput) async throws -> ListAssociatedFleetsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5770,7 +5970,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5779,17 +5979,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAssociatedFleetsInput, ListAssociatedFleetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAssociatedFleetsInput, ListAssociatedFleetsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssociatedFleetsInput, ListAssociatedFleetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociatedFleetsInput, ListAssociatedFleetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssociatedFleetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAssociatedFleetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAssociatedFleetsInput, ListAssociatedFleetsOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.ListAssociatedFleets"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAssociatedFleetsInput, ListAssociatedFleetsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAssociatedFleetsInput, ListAssociatedFleetsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAssociatedFleetsInput, ListAssociatedFleetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAssociatedFleetsInput, ListAssociatedFleetsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssociatedFleetsInput, ListAssociatedFleetsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAssociatedFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAssociatedFleetsInput, ListAssociatedFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAssociatedFleetsInput, ListAssociatedFleetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5820,7 +6023,7 @@ extension AppStreamClient {
     /// - Returns: [no documentation found] (Type: `ListAssociatedStacksOutput`)
     public func listAssociatedStacks(input: ListAssociatedStacksInput) async throws -> ListAssociatedStacksOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5839,7 +6042,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5848,17 +6051,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAssociatedStacksInput, ListAssociatedStacksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAssociatedStacksInput, ListAssociatedStacksOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssociatedStacksInput, ListAssociatedStacksOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociatedStacksInput, ListAssociatedStacksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssociatedStacksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAssociatedStacksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAssociatedStacksInput, ListAssociatedStacksOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.ListAssociatedStacks"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAssociatedStacksInput, ListAssociatedStacksOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAssociatedStacksInput, ListAssociatedStacksOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAssociatedStacksInput, ListAssociatedStacksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAssociatedStacksInput, ListAssociatedStacksOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssociatedStacksInput, ListAssociatedStacksOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAssociatedStacksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAssociatedStacksInput, ListAssociatedStacksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAssociatedStacksInput, ListAssociatedStacksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5896,7 +6102,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func listEntitledApplications(input: ListEntitledApplicationsInput) async throws -> ListEntitledApplicationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5915,7 +6121,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5924,17 +6130,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEntitledApplicationsInput, ListEntitledApplicationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEntitledApplicationsInput, ListEntitledApplicationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntitledApplicationsInput, ListEntitledApplicationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntitledApplicationsInput, ListEntitledApplicationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEntitledApplicationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEntitledApplicationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEntitledApplicationsInput, ListEntitledApplicationsOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.ListEntitledApplications"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEntitledApplicationsInput, ListEntitledApplicationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEntitledApplicationsInput, ListEntitledApplicationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListEntitledApplicationsInput, ListEntitledApplicationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEntitledApplicationsInput, ListEntitledApplicationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntitledApplicationsInput, ListEntitledApplicationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEntitledApplicationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEntitledApplicationsInput, ListEntitledApplicationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEntitledApplicationsInput, ListEntitledApplicationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5970,7 +6179,7 @@ extension AppStreamClient {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     public func listExportImageTasks(input: ListExportImageTasksInput) async throws -> ListExportImageTasksOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5989,7 +6198,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5998,17 +6207,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExportImageTasksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListExportImageTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.ListExportImageTasks"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListExportImageTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6044,7 +6256,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6063,7 +6275,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6072,17 +6284,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.ListTagsForResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6124,7 +6339,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func startAppBlockBuilder(input: StartAppBlockBuilderInput) async throws -> StartAppBlockBuilderOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6143,7 +6358,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6152,17 +6367,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAppBlockBuilderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartAppBlockBuilderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.StartAppBlockBuilder"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAppBlockBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6205,7 +6423,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func startFleet(input: StartFleetInput) async throws -> StartFleetOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6224,7 +6442,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6233,17 +6451,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartFleetInput, StartFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFleetInput, StartFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFleetInput, StartFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFleetInput, StartFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartFleetInput, StartFleetOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.StartFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFleetInput, StartFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartFleetInput, StartFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartFleetInput, StartFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFleetInput, StartFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFleetInput, StartFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartFleetInput, StartFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartFleetInput, StartFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6283,7 +6504,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func startImageBuilder(input: StartImageBuilderInput) async throws -> StartImageBuilderOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6302,7 +6523,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6311,17 +6532,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartImageBuilderInput, StartImageBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartImageBuilderInput, StartImageBuilderOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartImageBuilderInput, StartImageBuilderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartImageBuilderInput, StartImageBuilderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartImageBuilderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartImageBuilderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartImageBuilderInput, StartImageBuilderOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.StartImageBuilder"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartImageBuilderInput, StartImageBuilderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartImageBuilderInput, StartImageBuilderOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartImageBuilderInput, StartImageBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartImageBuilderInput, StartImageBuilderOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartImageBuilderInput, StartImageBuilderOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartImageBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartImageBuilderInput, StartImageBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartImageBuilderInput, StartImageBuilderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6359,7 +6583,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func startSoftwareDeploymentToImageBuilder(input: StartSoftwareDeploymentToImageBuilderInput) async throws -> StartSoftwareDeploymentToImageBuilderOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6378,7 +6602,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6387,17 +6611,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSoftwareDeploymentToImageBuilderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartSoftwareDeploymentToImageBuilderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.StartSoftwareDeploymentToImageBuilder"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartSoftwareDeploymentToImageBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6435,7 +6662,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func stopAppBlockBuilder(input: StopAppBlockBuilderInput) async throws -> StopAppBlockBuilderOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6454,7 +6681,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6463,17 +6690,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StopAppBlockBuilderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopAppBlockBuilderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.StopAppBlockBuilder"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopAppBlockBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6510,7 +6740,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func stopFleet(input: StopFleetInput) async throws -> StopFleetOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6529,7 +6759,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6538,17 +6768,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopFleetInput, StopFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopFleetInput, StopFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopFleetInput, StopFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopFleetInput, StopFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StopFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopFleetInput, StopFleetOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.StopFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopFleetInput, StopFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopFleetInput, StopFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopFleetInput, StopFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopFleetInput, StopFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopFleetInput, StopFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopFleetInput, StopFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopFleetInput, StopFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6586,7 +6819,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func stopImageBuilder(input: StopImageBuilderInput) async throws -> StopImageBuilderOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6605,7 +6838,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6614,17 +6847,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopImageBuilderInput, StopImageBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopImageBuilderInput, StopImageBuilderOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopImageBuilderInput, StopImageBuilderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopImageBuilderInput, StopImageBuilderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StopImageBuilderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopImageBuilderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopImageBuilderInput, StopImageBuilderOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.StopImageBuilder"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopImageBuilderInput, StopImageBuilderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopImageBuilderInput, StopImageBuilderOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopImageBuilderInput, StopImageBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopImageBuilderInput, StopImageBuilderOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopImageBuilderInput, StopImageBuilderOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopImageBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopImageBuilderInput, StopImageBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopImageBuilderInput, StopImageBuilderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6662,7 +6898,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6681,7 +6917,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6690,17 +6926,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.TagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6736,7 +6975,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6755,7 +6994,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6764,17 +7003,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.UntagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6819,7 +7061,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func updateAppBlockBuilder(input: UpdateAppBlockBuilderInput) async throws -> UpdateAppBlockBuilderOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6838,7 +7080,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6847,17 +7089,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAppBlockBuilderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAppBlockBuilderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.UpdateAppBlockBuilder"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAppBlockBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6895,7 +7140,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6914,7 +7159,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6923,17 +7168,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.UpdateApplication"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6974,7 +7222,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func updateDirectoryConfig(input: UpdateDirectoryConfigInput) async throws -> UpdateDirectoryConfigOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6993,7 +7241,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7002,17 +7250,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDirectoryConfigInput, UpdateDirectoryConfigOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDirectoryConfigInput, UpdateDirectoryConfigOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDirectoryConfigInput, UpdateDirectoryConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDirectoryConfigInput, UpdateDirectoryConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDirectoryConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDirectoryConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDirectoryConfigInput, UpdateDirectoryConfigOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.UpdateDirectoryConfig"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDirectoryConfigInput, UpdateDirectoryConfigOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDirectoryConfigInput, UpdateDirectoryConfigOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateDirectoryConfigInput, UpdateDirectoryConfigOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDirectoryConfigInput, UpdateDirectoryConfigOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDirectoryConfigInput, UpdateDirectoryConfigOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDirectoryConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDirectoryConfigInput, UpdateDirectoryConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDirectoryConfigInput, UpdateDirectoryConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7051,7 +7302,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func updateEntitlement(input: UpdateEntitlementInput) async throws -> UpdateEntitlementOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7070,7 +7321,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7079,17 +7330,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateEntitlementInput, UpdateEntitlementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEntitlementInput, UpdateEntitlementOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEntitlementInput, UpdateEntitlementOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEntitlementInput, UpdateEntitlementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEntitlementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEntitlementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEntitlementInput, UpdateEntitlementOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.UpdateEntitlement"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEntitlementInput, UpdateEntitlementOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEntitlementInput, UpdateEntitlementOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateEntitlementInput, UpdateEntitlementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEntitlementInput, UpdateEntitlementOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEntitlementInput, UpdateEntitlementOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEntitlementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEntitlementInput, UpdateEntitlementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateEntitlementInput, UpdateEntitlementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7142,7 +7396,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func updateFleet(input: UpdateFleetInput) async throws -> UpdateFleetOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7161,7 +7415,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7170,17 +7424,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFleetInput, UpdateFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFleetInput, UpdateFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetInput, UpdateFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFleetInput, UpdateFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFleetInput, UpdateFleetOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.UpdateFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFleetInput, UpdateFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFleetInput, UpdateFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateFleetInput, UpdateFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFleetInput, UpdateFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetInput, UpdateFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFleetInput, UpdateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFleetInput, UpdateFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7218,7 +7475,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func updateImagePermissions(input: UpdateImagePermissionsInput) async throws -> UpdateImagePermissionsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7237,7 +7494,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7246,17 +7503,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateImagePermissionsInput, UpdateImagePermissionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateImagePermissionsInput, UpdateImagePermissionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateImagePermissionsInput, UpdateImagePermissionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateImagePermissionsInput, UpdateImagePermissionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateImagePermissionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateImagePermissionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateImagePermissionsInput, UpdateImagePermissionsOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.UpdateImagePermissions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateImagePermissionsInput, UpdateImagePermissionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateImagePermissionsInput, UpdateImagePermissionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateImagePermissionsInput, UpdateImagePermissionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateImagePermissionsInput, UpdateImagePermissionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateImagePermissionsInput, UpdateImagePermissionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateImagePermissionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateImagePermissionsInput, UpdateImagePermissionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateImagePermissionsInput, UpdateImagePermissionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7300,7 +7560,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func updateStack(input: UpdateStackInput) async throws -> UpdateStackOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7319,7 +7579,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7328,17 +7588,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateStackInput, UpdateStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStackInput, UpdateStackOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStackInput, UpdateStackOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStackInput, UpdateStackOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStackOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateStackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateStackInput, UpdateStackOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.UpdateStack"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStackInput, UpdateStackOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateStackInput, UpdateStackOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateStackInput, UpdateStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStackInput, UpdateStackOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStackInput, UpdateStackOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateStackInput, UpdateStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateStackInput, UpdateStackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7379,7 +7642,7 @@ extension AppStreamClient {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func updateThemeForStack(input: UpdateThemeForStackInput) async throws -> UpdateThemeForStackOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7398,7 +7661,7 @@ extension AppStreamClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7407,17 +7670,20 @@ extension AppStreamClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateThemeForStackInput, UpdateThemeForStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateThemeForStackInput, UpdateThemeForStackOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThemeForStackInput, UpdateThemeForStackOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThemeForStackInput, UpdateThemeForStackOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThemeForStackOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateThemeForStackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateThemeForStackInput, UpdateThemeForStackOutput>(overrides: ["X-Amz-Target": "PhotonAdminProxyService.UpdateThemeForStack"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateThemeForStackInput, UpdateThemeForStackOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateThemeForStackInput, UpdateThemeForStackOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateThemeForStackInput, UpdateThemeForStackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateThemeForStackInput, UpdateThemeForStackOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThemeForStackInput, UpdateThemeForStackOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateThemeForStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateThemeForStackInput, UpdateThemeForStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateThemeForStackInput, UpdateThemeForStackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

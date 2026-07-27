@@ -1759,6 +1759,85 @@ public struct AdminGetUserOutput: Swift.Sendable {
     }
 }
 
+public struct AdminGetUserAuthFactorsInput: Swift.Sendable {
+    /// The ID of the user pool where you want to get information about the user's authentication factors.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+    /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
+    /// This member is required.
+    public var username: Swift.String?
+
+    public init(
+        userPoolId: Swift.String? = nil,
+        username: Swift.String? = nil
+    ) {
+        self.userPoolId = userPoolId
+        self.username = username
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    public enum AuthFactorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case emailOtp
+        case password
+        case smsOtp
+        case softwareToken
+        case webAuthn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthFactorType] {
+            return [
+                .emailOtp,
+                .password,
+                .smsOtp,
+                .softwareToken,
+                .webAuthn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .emailOtp: return "EMAIL_OTP"
+            case .password: return "PASSWORD"
+            case .smsOtp: return "SMS_OTP"
+            case .softwareToken: return "SOFTWARE_TOKEN"
+            case .webAuthn: return "WEB_AUTHN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AdminGetUserAuthFactorsOutput: Swift.Sendable {
+    /// The authentication types that are available to the user with USER_AUTH sign-in, for example ["PASSWORD", "WEB_AUTHN"]. PASSWORD can only be used as a first authentication factor. SOFTWARE_TOKEN can only be used as an MFA factor. EMAIL_OTP, SMS_OTP, and WEB_AUTHN can be used as either a first authentication factor or an MFA factor. WEB_AUTHN is available as an MFA factor only when passkey MFA is enabled at the user pool level.
+    public var configuredUserAuthFactors: [CognitoIdentityProviderClientTypes.AuthFactorType]?
+    /// The challenge method that Amazon Cognito returns to the user in response to sign-in requests. Users can prefer SMS message, email message, or TOTP MFA.
+    public var preferredMfaSetting: Swift.String?
+    /// The MFA options that are activated for the user. The possible values in this list are SMS_MFA, EMAIL_OTP, and SOFTWARE_TOKEN_MFA.
+    public var userMFASettingList: [Swift.String]?
+    /// The name of the user who is eligible for the authentication factors in the response.
+    /// This member is required.
+    public var username: Swift.String?
+
+    public init(
+        configuredUserAuthFactors: [CognitoIdentityProviderClientTypes.AuthFactorType]? = nil,
+        preferredMfaSetting: Swift.String? = nil,
+        userMFASettingList: [Swift.String]? = nil,
+        username: Swift.String? = nil
+    ) {
+        self.configuredUserAuthFactors = configuredUserAuthFactors
+        self.preferredMfaSetting = preferredMfaSetting
+        self.userMFASettingList = userMFASettingList
+        self.username = username
+    }
+}
+
 /// This exception is thrown when Amazon Cognito isn't allowed to use your email identity. HTTP status code: 400.
 public struct InvalidEmailRoleAccessPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -3610,41 +3689,6 @@ extension CognitoIdentityProviderClientTypes {
 
 extension CognitoIdentityProviderClientTypes {
 
-    public enum AuthFactorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case emailOtp
-        case password
-        case smsOtp
-        case webAuthn
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [AuthFactorType] {
-            return [
-                .emailOtp,
-                .password,
-                .smsOtp,
-                .webAuthn
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .emailOtp: return "EMAIL_OTP"
-            case .password: return "PASSWORD"
-            case .smsOtp: return "SMS_OTP"
-            case .webAuthn: return "WEB_AUTHN"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CognitoIdentityProviderClientTypes {
-
     /// The settings for Amazon Pinpoint analytics configuration. With an analytics configuration, your application can collect user-activity metrics for user notifications with a Amazon Pinpoint campaign. Amazon Pinpoint isn't available in all Amazon Web Services Regions. For a list of available Regions, see [Amazon Cognito and Amazon Pinpoint Region availability](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html#cognito-user-pools-find-region-mappings).
     public struct AnalyticsConfigurationType: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of an Amazon Pinpoint project that you want to connect to your user pool app client. Amazon Cognito publishes events to the Amazon Pinpoint project that ApplicationArn declares. You can also configure your application to pass an endpoint ID in the AnalyticsMetadata parameter of sign-in operations. The endpoint ID is information about the destination for push notifications
@@ -4960,6 +5004,41 @@ public struct CreateTermsOutput: Swift.Sendable {
     }
 }
 
+extension CognitoIdentityProviderClientTypes {
+
+    public enum PasswordHashingAlgorithmType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case argon2id
+        case bcrypt
+        case pbkdf2Sha256
+        case scrypt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PasswordHashingAlgorithmType] {
+            return [
+                .argon2id,
+                .bcrypt,
+                .pbkdf2Sha256,
+                .scrypt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .argon2id: return "ARGON2ID"
+            case .bcrypt: return "BCRYPT"
+            case .pbkdf2Sha256: return "PBKDF2_SHA256"
+            case .scrypt: return "SCRYPT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// Represents the request to create the user import job.
 public struct CreateUserImportJobInput: Swift.Sendable {
     /// You must specify an IAM role that has permission to log import-job results to Amazon CloudWatch Logs. This parameter is the ARN of that role.
@@ -4968,6 +5047,8 @@ public struct CreateUserImportJobInput: Swift.Sendable {
     /// A friendly name for the user import job.
     /// This member is required.
     public var jobName: Swift.String?
+    /// The password hashing algorithm used to generate the hashes in the CSV file for this import job. Valid values: BCRYPT | SCRYPT | ARGON2ID | PBKDF2_SHA256
+    public var passwordHashingAlgorithm: CognitoIdentityProviderClientTypes.PasswordHashingAlgorithmType?
     /// The ID of the user pool that you want to import users into.
     /// This member is required.
     public var userPoolId: Swift.String?
@@ -4975,10 +5056,12 @@ public struct CreateUserImportJobInput: Swift.Sendable {
     public init(
         cloudWatchLogsRoleArn: Swift.String? = nil,
         jobName: Swift.String? = nil,
+        passwordHashingAlgorithm: CognitoIdentityProviderClientTypes.PasswordHashingAlgorithmType? = nil,
         userPoolId: Swift.String? = nil
     ) {
         self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
         self.jobName = jobName
+        self.passwordHashingAlgorithm = passwordHashingAlgorithm
         self.userPoolId = userPoolId
     }
 }
@@ -5050,6 +5133,8 @@ extension CognitoIdentityProviderClientTypes {
         public var jobId: Swift.String?
         /// The friendly name of the user import job.
         public var jobName: Swift.String?
+        /// The password hashing algorithm used to generate the hashes in the CSV file for this import job. Valid values: BCRYPT | SCRYPT | ARGON2ID | PBKDF2_SHA256
+        public var passwordHashingAlgorithm: CognitoIdentityProviderClientTypes.PasswordHashingAlgorithmType?
         /// The pre-signed URL target for uploading the CSV file.
         public var preSignedUrl: Swift.String?
         /// The number of users that were skipped.
@@ -5086,6 +5171,7 @@ extension CognitoIdentityProviderClientTypes {
             importedUsers: Swift.Int = 0,
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
+            passwordHashingAlgorithm: CognitoIdentityProviderClientTypes.PasswordHashingAlgorithmType? = nil,
             preSignedUrl: Swift.String? = nil,
             skippedUsers: Swift.Int = 0,
             startDate: Foundation.Date? = nil,
@@ -5100,6 +5186,7 @@ extension CognitoIdentityProviderClientTypes {
             self.importedUsers = importedUsers
             self.jobId = jobId
             self.jobName = jobName
+            self.passwordHashingAlgorithm = passwordHashingAlgorithm
             self.preSignedUrl = preSignedUrl
             self.skippedUsers = skippedUsers
             self.startDate = startDate
@@ -5737,7 +5824,7 @@ extension CognitoIdentityProviderClientTypes {
 
     /// The policy for allowed types of authentication in a user pool. To activate this setting, your user pool must be in the [ Essentials tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html) or higher.
     public struct SignInPolicyType: Swift.Sendable {
-        /// The sign-in methods that a user pool supports as the first factor. You can permit users to start authentication with a standard username and password, or with other one-time password and hardware factors.
+        /// The sign-in methods that a user pool supports as the first factor. You can permit users to start authentication with a standard username and password, or with other one-time password and hardware factors. SOFTWARE_TOKEN is not currently supported as a first auth factor. Do not include this value in AllowedFirstAuthFactors.
         public var allowedFirstAuthFactors: [CognitoIdentityProviderClientTypes.AuthFactorType]?
 
         public init(
@@ -5769,21 +5856,73 @@ extension CognitoIdentityProviderClientTypes {
 
 extension CognitoIdentityProviderClientTypes {
 
+    /// The configuration that Amazon Cognito uses to send SMS messages through Amazon Web Services End User Messaging SMS. Provide this structure in the EumsSms member of SmsConfigurationType to use Amazon Web Services End User Messaging SMS instead of Amazon SNS.
+    public struct EumsSmsConfigurationType: Swift.Sendable {
+        /// The ARN of the IAM role that Amazon Cognito assumes to send SMS messages through Amazon Web Services End User Messaging SMS. The role must grant permission to call the sms-voice:SendTextMessage operation.
+        /// This member is required.
+        public var callerArn: Swift.String?
+        /// The name of the Amazon Web Services End User Messaging SMS configuration set that Amazon Cognito applies to messages, for logging and event destinations. If you omit this member, Amazon Cognito sends messages without applying a configuration set.
+        public var configurationSetName: Swift.String?
+        /// The external ID that Amazon Cognito includes when it assumes the CallerArn role. Use this value as a condition in the role trust policy to prevent the confused deputy problem.
+        public var externalId: Swift.String?
+        /// The principal entity ID required by India's Distributed Ledger Technology (DLT) regulations for SMS messages.
+        public var inEntityId: Swift.String?
+        /// The registered template ID for the message template required by India's DLT regulations for SMS messages.
+        public var inTemplateId: Swift.String?
+        /// The origination identity that Amazon Web Services End User Messaging SMS uses to send messages to your users. This value can be one of the following:
+        ///
+        /// * A phone number – A long code, toll-free number, or short code that is assigned to your account.
+        ///
+        /// * A sender ID – An alphabetic name that identifies the message sender in supported countries.
+        ///
+        /// * A phone pool – A group of phone numbers that Amazon Web Services End User Messaging SMS selects from when it sends messages.
+        ///
+        ///
+        /// You can provide an E.164 phone number or the ARN of the phone number, sender ID, or phone pool. Amazon Web Services End User Messaging SMS evaluates IAM authorization with the value that you provide. If the permissions policy of your CallerArn role scopes the sms-voice:SendTextMessage resource to a specific ARN, provide that same ARN. If the formats do not match, requests fail with an InvalidSmsRoleAccessPolicyException. Depending on the destination country, you must provide an origination identity. For country-specific requirements, see [Supported countries and regions for SMS messaging](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-sms-by-country.html) in the Amazon Web Services End User Messaging SMS User Guide.
+        public var originationIdentity: Swift.String?
+        /// The Amazon Web Services Region of the Amazon Web Services End User Messaging SMS resources that Amazon Cognito uses to send messages. Amazon Web Services End User Messaging SMS must be available in your user pool's Region. If you omit this parameter, Amazon Cognito uses the same Region as your user pool. You can also set this parameter to your user pool's Region explicitly. Amazon Cognito rejects any other value with an InvalidParameterException.
+        public var region: Swift.String?
+
+        public init(
+            callerArn: Swift.String? = nil,
+            configurationSetName: Swift.String? = nil,
+            externalId: Swift.String? = nil,
+            inEntityId: Swift.String? = nil,
+            inTemplateId: Swift.String? = nil,
+            originationIdentity: Swift.String? = nil,
+            region: Swift.String? = nil
+        ) {
+            self.callerArn = callerArn
+            self.configurationSetName = configurationSetName
+            self.externalId = externalId
+            self.inEntityId = inEntityId
+            self.inTemplateId = inTemplateId
+            self.originationIdentity = originationIdentity
+            self.region = region
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
     /// User pool configuration for delivery of SMS messages with Amazon Simple Notification Service. To send SMS messages with Amazon SNS in the Amazon Web Services Region that you want, the Amazon Cognito user pool uses an Identity and Access Management (IAM) role in your Amazon Web Services account.
     public struct SmsConfigurationType: Swift.Sendable {
+        /// The configuration for sending SMS messages through Amazon Web Services End User Messaging SMS, as an alternative to Amazon SNS. In a user pool, provide either the Amazon SNS configuration (SnsCallerArn) or this configuration, but not both. In Amazon Web Services Regions where Amazon SNS is not available, this configuration is required.
+        public var eumsSms: CognitoIdentityProviderClientTypes.EumsSmsConfigurationType?
         /// The external ID provides additional security for your IAM role. You can use an ExternalId with the IAM role that you use with Amazon SNS to send SMS messages for your user pool. If you provide an ExternalId, your Amazon Cognito user pool includes it in the request to assume your IAM role. You can configure the role trust policy to require that Amazon Cognito, and any principal, provide the ExternalID. If you use the Amazon Cognito Management Console to create a role for SMS multi-factor authentication (MFA), Amazon Cognito creates a role with the required permissions and a trust policy that demonstrates use of the ExternalId. For more information about the ExternalId of a role, see [How to use an external ID when granting access to your Amazon Web Services resources to a third party](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html).
         public var externalId: Swift.String?
         /// The Amazon Resource Name (ARN) of the Amazon SNS caller. This is the ARN of the IAM role in your Amazon Web Services account that Amazon Cognito will use to send SMS messages. SMS messages are subject to a [spending limit](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-email-phone-verification.html).
-        /// This member is required.
         public var snsCallerArn: Swift.String?
         /// The Amazon Web Services Region to use with Amazon SNS integration. You can choose the same Region as your user pool, or a supported Legacy Amazon SNS alternate Region. Amazon Cognito resources in the Asia Pacific (Seoul) Amazon Web Services Region must use your Amazon SNS configuration in the Asia Pacific (Tokyo) Region. For more information, see [SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html).
         public var snsRegion: Swift.String?
 
         public init(
+            eumsSms: CognitoIdentityProviderClientTypes.EumsSmsConfigurationType? = nil,
             externalId: Swift.String? = nil,
-            snsCallerArn: Swift.String? = nil,
+            snsCallerArn: Swift.String? = "",
             snsRegion: Swift.String? = nil
         ) {
+            self.eumsSms = eumsSms
             self.externalId = externalId
             self.snsCallerArn = snsCallerArn
             self.snsRegion = snsRegion
@@ -5993,7 +6132,14 @@ public struct CreateUserPoolInput: Swift.Sendable {
     public var keyConfiguration: CognitoIdentityProviderClientTypes.KeyConfigurationType?
     /// A collection of user pool Lambda triggers. Amazon Cognito invokes triggers at several possible stages of authentication operations. Triggers can modify the outcome of the operations that invoked them.
     public var lambdaConfig: CognitoIdentityProviderClientTypes.LambdaConfigType?
-    /// Sets multi-factor authentication (MFA) to be on, off, or optional. When ON, all users must set up MFA before they can sign in. When OPTIONAL, your application must make a client-side determination of whether a user wants to register an MFA device. For user pools with adaptive authentication with threat protection, choose OPTIONAL. When MfaConfiguration is OPTIONAL, managed login doesn't automatically prompt users to set up MFA. Amazon Cognito generates MFA prompts in API responses and in managed login for users who have chosen and configured a preferred MFA factor.
+    /// Sets multi-factor authentication (MFA) to be on, off, or optional. When ON, all users must set up MFA before they can sign in. When OPTIONAL, your application must make a client-side determination of whether a user wants to register an MFA device. For user pools with adaptive authentication with threat protection, choose OPTIONAL. When MfaConfiguration is OPTIONAL, managed login doesn't automatically prompt users to set up MFA. Amazon Cognito generates MFA prompts in API responses and in managed login for users who have chosen and configured a preferred MFA factor. The CreateUserPool operation supports only SMS MFA configuration. If you set MfaConfiguration to either of these values, include an SmsConfiguration in the same request:
+    ///
+    /// * ON – Requires MFA for all users
+    ///
+    /// * OPTIONAL – Makes MFA optional for each user
+    ///
+    ///
+    /// If you omit SmsConfiguration, the operation returns an InvalidParameterException. To configure TOTP or email MFA, use the [SetUserPoolMfaConfig](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_SetUserPoolMfaConfig.html) operation. You can also use SetUserPoolMfaConfig to add MFA factors later.
     public var mfaConfiguration: CognitoIdentityProviderClientTypes.UserPoolMfaType?
     /// The password policy and sign-in policy in the user pool. The password policy sets options like password complexity requirements and password history. The sign-in policy sets the options available to applications in [choice-based authentication](https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flows-selection-sdk.html#authentication-flows-selection-choice).
     public var policies: CognitoIdentityProviderClientTypes.UserPoolPolicyType?
@@ -6898,13 +7044,13 @@ extension CognitoIdentityProviderClientTypes {
         /// The Amazon Resource Name (ARN) of an Certificate Manager SSL certificate. You use this certificate for the subdomain of your custom domain.
         /// This member is required.
         public var certificateArn: Swift.String?
-        /// The security policy for the custom domain. Defines the minimum TLS version and cipher suites that CloudFront uses when communicating with viewers (clients). Valid values are as follows:
+        /// The security policy for the custom domain. Defines the minimum TLS version and cipher suites that Amazon CloudFront supports when communicating with clients. For specific guidance, see [Supported protocols and ciphers between viewers and CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html). Valid values are as follows:
         ///
-        /// * TLS_V1: Supports TLS 1.0 and later. Provides the broadest client compatibility.
+        /// * TLS_V1_3_2025 (strictest): A post-quantum-ready policy requiring TLS 1.3. It provides the strongest security posture and is ideal for workloads where all clients and browsers are updated to the latest versions. [Supported protocols and ciphers for TLSv1.3_2025](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html).
         ///
-        /// * TLS_V1_2_2021: Supports TLS 1.2 and later with 2021 cipher suites. Recommended minimum for most use cases.
+        /// * TLS_V1_2_2021 (recommended): A post-quantum-ready policy which prefers TLS 1.3 but allows fallback to TLS 1.2 to accommodate older clients. It is the recommended minimum for typical commercial-grade consumer applications. [Supported protocols and ciphers for TLSv1.2_2021](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html).
         ///
-        /// * TLS_V1_3_2025: Supports TLS 1.3 and later with 2025 cipher suites. Provides the strongest security posture.
+        /// * TLS_V1 (strongly discouraged): Permits fallback to TLS 1.0. It offers the broadest compatibility, including support for legacy clients that are more than a decade old. This compatibility comes at the expense of allowing TLS versions and cryptographic algorithms that are no longer considered safe for commercial use. [Supported protocols and ciphers for TLSv1](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html).
         public var securityPolicy: CognitoIdentityProviderClientTypes.SecurityPolicyType?
 
         public init(
@@ -6959,7 +7105,7 @@ public struct CreateUserPoolDomainInput: Swift.Sendable {
     /// The domain string. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For prefix domains, this is the prefix alone, such as myprefix. A prefix value of myprefix for a user pool in the us-east-1 Region results in a domain of myprefix.auth.us-east-1.amazoncognito.com.
     /// This member is required.
     public var domain: Swift.String?
-    /// The version of managed login branding that you want to apply to your domain. A value of 1 indicates hosted UI (classic) and a version of 2 indicates managed login. Managed login requires that your user pool be configured for any [feature plan](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html) other than Lite.
+    /// The version of managed login branding that you want to apply to your domain. A value of 1 indicates hosted UI (classic) and a version of 2 indicates managed login. Managed login requires that your user pool be configured for any [feature plan](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html) other than Lite. A ManagedLoginVersion value of 2 does not activate managed login pages for your app client. When you create an app client programmatically, your app client has no branding style. To use managed login, create a branding style using the [CreateManagedLoginBranding](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_CreateManagedLoginBranding.html) operation. When you use the console, Amazon Cognito assigns a default branding style automatically. When you use the API or an SDK, you must create a branding style yourself.
     public var managedLoginVersion: Swift.Int?
     /// The configuration of routing for requests to the domain for replicas of a replicated user pool. The routing configuration is currently only supported for custom domains.
     public var routing: CognitoIdentityProviderClientTypes.RoutingType?
@@ -8669,7 +8815,7 @@ public struct GetUserAuthFactorsInput: Swift.Sendable {
 }
 
 public struct GetUserAuthFactorsOutput: Swift.Sendable {
-    /// The authentication types that are available to the user with USER_AUTH sign-in, for example ["PASSWORD", "WEB_AUTHN"].
+    /// The authentication types that are available to the user with USER_AUTH sign-in, for example ["PASSWORD", "WEB_AUTHN"]. PASSWORD can only be used as a first authentication factor. SOFTWARE_TOKEN can only be used as an MFA factor. EMAIL_OTP, SMS_OTP, and WEB_AUTHN can be used as either a first authentication factor or an MFA factor. WEB_AUTHN is available as an MFA factor only when passkey MFA is enabled at the user pool level.
     public var configuredUserAuthFactors: [CognitoIdentityProviderClientTypes.AuthFactorType]?
     /// The challenge method that Amazon Cognito returns to the user in response to sign-in requests. Users can prefer SMS message, email message, or TOTP MFA.
     public var preferredMfaSetting: Swift.String?

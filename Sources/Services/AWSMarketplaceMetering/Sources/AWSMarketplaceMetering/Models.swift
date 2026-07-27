@@ -291,7 +291,7 @@ extension MarketplaceMeteringClientTypes {
     public struct UsageRecord: Swift.Sendable {
         /// The CustomerAWSAccountId parameter specifies the AWS account ID of the buyer. For existing integrations, to access your CustomerIdentifier to CustomerAWSAccountId mapping, see [Account Feeds](https://docs.aws.amazon.com/marketplace/latest/userguide/data-feed-account.html).
         public var customerAWSAccountId: Swift.String?
-        /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
+        /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application. CustomerIdentifier is not supported for new SaaS product integrations. Use CustomerAWSAccountId to identify the buyer.
         public var customerIdentifier: Swift.String?
         /// During the process of registering a product on Amazon Web Services Marketplace, dimensions are specified. These represent different units of value in your application.
         /// This member is required.
@@ -723,7 +723,7 @@ public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 
 /// Contains input to the ResolveCustomer operation.
 public struct ResolveCustomerInput: Swift.Sendable {
-    /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId, ProductCode, and LicenseArn.
+    /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId, ProductCode, and LicenseArn. For new SaaS product integrations, the CustomerIdentifier field is not populated. Use CustomerAWSAccountId and LicenseArn for customer identification.
     /// This member is required.
     public var registrationToken: Swift.String?
 
@@ -738,7 +738,7 @@ public struct ResolveCustomerInput: Swift.Sendable {
 public struct ResolveCustomerOutput: Swift.Sendable {
     /// The CustomerAWSAccountId provides the Amazon Web Services account ID associated with the CustomerIdentifier for the individual customer. Calls to BatchMeterUsage require CustomerAWSAccountId for each UsageRecord.
     public var customerAWSAccountId: Swift.String?
-    /// The CustomerIdentifier is used to identify an individual customer in your application.
+    /// The CustomerIdentifier is used to identify an individual customer in your application. For new SaaS product integrations, this field is not populated. Use CustomerAWSAccountId and LicenseArn to identify customers instead.
     public var customerIdentifier: Swift.String?
     /// The LicenseArn is a unique identifier for a specific granted license. These are typically used for software purchased through Amazon Web Services Marketplace. Calls to BatchMeterUsage require LicenseArn for each UsageRecord. Once you receive the CustomerAWSAccountId and LicenseArn in the response, store that for future purposes/API calls/integrations.
     public var licenseArn: Swift.String?

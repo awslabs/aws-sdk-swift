@@ -53,6 +53,7 @@ import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
+import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
@@ -1785,6 +1786,7 @@ extension ARCRegionswitchClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
+    /// - `ConflictException` : The client token was already used with different request parameters. A client token must map to the same parameters for every request. To retry this operation, provide a new client token.
     /// - `IllegalArgumentException` : The request processing has an invalid argument.
     /// - `IllegalStateException` : The operation failed because the current state of the resource doesn't allow the operation to proceed. HTTP Status Code: 400
     /// - `ResourceNotFoundException` : The specified resource was not found. HTTP Status Code: 404
@@ -1817,6 +1819,7 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartPlanExecutionInput, StartPlanExecutionOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartPlanExecutionInput, StartPlanExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartPlanExecutionInput, StartPlanExecutionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPlanExecutionInput, StartPlanExecutionOutput>())

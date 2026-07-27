@@ -2857,6 +2857,7 @@ extension GameLiftClientTypes {
         case created
         case creating
         case deleting
+        case expired
         case pending
         case updating
         case sdkUnknown(Swift.String)
@@ -2868,6 +2869,7 @@ extension GameLiftClientTypes {
                 .created,
                 .creating,
                 .deleting,
+                .expired,
                 .pending,
                 .updating
             ]
@@ -2885,6 +2887,7 @@ extension GameLiftClientTypes {
             case .created: return "CREATED"
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
+            case .expired: return "EXPIRED"
             case .pending: return "PENDING"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
@@ -2918,6 +2921,8 @@ extension GameLiftClientTypes {
         /// * ACTIVE -- The container fleet has been deployed and is ready to host game sessions.
         ///
         /// * UPDATING -- Updates to the container fleet is being updated. A deployment is in progress.
+        ///
+        /// * EXPIRED -- The container fleet has been expired. The fleet is scaled down to zero instances and cannot host new game sessions.
         public var status: GameLiftClientTypes.ContainerFleetLocationStatus?
 
         public init(
@@ -3062,6 +3067,7 @@ extension GameLiftClientTypes {
         case created
         case creating
         case deleting
+        case expired
         case pending
         case updating
         case sdkUnknown(Swift.String)
@@ -3073,6 +3079,7 @@ extension GameLiftClientTypes {
                 .created,
                 .creating,
                 .deleting,
+                .expired,
                 .pending,
                 .updating
             ]
@@ -3090,6 +3097,7 @@ extension GameLiftClientTypes {
             case .created: return "CREATED"
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
+            case .expired: return "EXPIRED"
             case .pending: return "PENDING"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
@@ -3169,6 +3177,8 @@ extension GameLiftClientTypes {
         /// * ACTIVE -- The container fleet has been deployed and is ready to host game sessions.
         ///
         /// * UPDATING -- Updates to the container fleet is being updated. A deployment is in progress.
+        ///
+        /// * EXPIRED -- The container fleet has been expired. The fleet is scaled down to zero instances and cannot host new game sessions.
         public var status: GameLiftClientTypes.ContainerFleetStatus?
 
         public init(
@@ -4684,6 +4694,7 @@ extension GameLiftClientTypes {
         case deleting
         case downloading
         case error
+        case expired
         case new
         case notFound
         case terminated
@@ -4698,6 +4709,7 @@ extension GameLiftClientTypes {
                 .deleting,
                 .downloading,
                 .error,
+                .expired,
                 .new,
                 .notFound,
                 .terminated,
@@ -4718,6 +4730,7 @@ extension GameLiftClientTypes {
             case .deleting: return "DELETING"
             case .downloading: return "DOWNLOADING"
             case .error: return "ERROR"
+            case .expired: return "EXPIRED"
             case .new: return "NEW"
             case .notFound: return "NOT_FOUND"
             case .terminated: return "TERMINATED"
@@ -4830,6 +4843,8 @@ extension GameLiftClientTypes {
         /// * ACTIVE -- The fleet is now ready to host game sessions.
         ///
         /// * ERROR -- An error occurred when downloading, validating, building, or activating the fleet.
+        ///
+        /// * EXPIRED -- The fleet has been expired. The fleet is scaled down to zero instances and cannot host new game sessions.
         ///
         /// * DELETING -- Hosts are responding to a delete fleet request.
         ///
@@ -8090,6 +8105,7 @@ extension GameLiftClientTypes {
         case fleetCreationRunningInstaller
         case fleetCreationValidatingRuntimeConfig
         case fleetDeleted
+        case fleetExpired
         case fleetInitializationFailed
         case fleetNewGameSessionProtectionPolicyUpdated
         case fleetScalingEvent
@@ -8150,6 +8166,7 @@ extension GameLiftClientTypes {
                 .fleetCreationRunningInstaller,
                 .fleetCreationValidatingRuntimeConfig,
                 .fleetDeleted,
+                .fleetExpired,
                 .fleetInitializationFailed,
                 .fleetNewGameSessionProtectionPolicyUpdated,
                 .fleetScalingEvent,
@@ -8216,6 +8233,7 @@ extension GameLiftClientTypes {
             case .fleetCreationRunningInstaller: return "FLEET_CREATION_RUNNING_INSTALLER"
             case .fleetCreationValidatingRuntimeConfig: return "FLEET_CREATION_VALIDATING_RUNTIME_CONFIG"
             case .fleetDeleted: return "FLEET_DELETED"
+            case .fleetExpired: return "FLEET_EXPIRED"
             case .fleetInitializationFailed: return "FLEET_INITIALIZATION_FAILED"
             case .fleetNewGameSessionProtectionPolicyUpdated: return "FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED"
             case .fleetScalingEvent: return "FLEET_SCALING_EVENT"
@@ -8362,6 +8380,8 @@ extension GameLiftClientTypes {
         /// * FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED -- A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.
         ///
         /// * FLEET_DELETED -- A request to delete a fleet was initiated.
+        ///
+        /// * FLEET_EXPIRED -- The fleet has been expired. The fleet is scaled down to zero instances and can no longer host game sessions.
         ///
         /// * GENERIC_EVENT -- An unspecified event has occurred.
         public var eventCode: GameLiftClientTypes.EventCode?

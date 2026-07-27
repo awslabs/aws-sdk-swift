@@ -11196,6 +11196,7 @@ extension BedrockAgentCoreControlClient {
     /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
     /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func updatePolicy(input: UpdatePolicyInput) async throws -> UpdatePolicyOutput {

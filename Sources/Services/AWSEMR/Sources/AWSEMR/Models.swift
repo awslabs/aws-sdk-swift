@@ -1719,25 +1719,6 @@ public struct CancelStepsOutput: Swift.Sendable {
 
 extension EMRClientTypes {
 
-    /// Describes the certificate authority used to establish an mTLS connection to the Spark Connect server when connecting directly over VPC peering.
-    public struct CertificateAuthority: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the certificate authority in Amazon Web Services Private CA that issued the Spark Connect server certificate.
-        public var certificateArn: Swift.String?
-        /// The PEM-encoded root CA certificate data. Provide this certificate to your client's trust store when connecting directly to the Spark Connect server over VPC peering.
-        public var certificateData: Swift.String?
-
-        public init(
-            certificateArn: Swift.String? = nil,
-            certificateData: Swift.String? = nil
-        ) {
-            self.certificateArn = certificateArn
-            self.certificateData = certificateData
-        }
-    }
-}
-
-extension EMRClientTypes {
-
     /// Holds CloudWatch log configuration settings and metadata that specify settings like log files to monitor and where to send them.
     public struct CloudWatchLogConfiguration: Swift.Sendable {
         /// Specifies if CloudWatch logging is enabled.
@@ -7060,8 +7041,6 @@ extension EMRClientTypes {
         /// The Amazon Resource Name (ARN) of the session.
         /// This member is required.
         public var arn: Swift.String?
-        /// The certificate authority used to establish an mTLS connection to the Spark Connect server when connecting directly over VPC peering.
-        public var certificateAuthority: EMRClientTypes.CertificateAuthority?
         /// The ID of the cluster that the session belongs to.
         /// This member is required.
         public var clusterId: Swift.String?
@@ -7103,7 +7082,6 @@ extension EMRClientTypes {
         public init(
             accountId: Swift.String? = nil,
             arn: Swift.String? = nil,
-            certificateAuthority: EMRClientTypes.CertificateAuthority? = nil,
             clusterId: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             endedAt: Foundation.Date? = nil,
@@ -7124,7 +7102,6 @@ extension EMRClientTypes {
         ) {
             self.accountId = accountId
             self.arn = arn
-            self.certificateAuthority = certificateAuthority
             self.clusterId = clusterId
             self.createdAt = createdAt
             self.endedAt = endedAt

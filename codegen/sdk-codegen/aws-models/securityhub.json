@@ -29,6 +29,80 @@
         ]
     },
     "shapes": {
+        "com.amazonaws.securityhub#AIDetails": {
+            "type": "structure",
+            "members": {
+                "HostResourceGuid": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the host resource that hosts the self-hosted AI resource. Present only on self-hosted AI resources.</p>"
+                    }
+                },
+                "HostResourceType": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The <code>ResourceType</code> of the host resource that hosts the self-hosted AI resource, such as <code>AWS::EC2::Instance</code>. Present only on self-hosted AI resources.</p>"
+                    }
+                },
+                "CanonicalId": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The canonical identifier for the AI resource, independent of where it is deployed. Multiple occurrences of the same resource on different hosts share the same <code>CanonicalId</code>. For model resources, the value follows the format <code>model/<purl></code>, such as <code>model/pkg:huggingface/meta-llama/llama-3-8b</code>. Present only on self-hosted AI resources.</p>"
+                    }
+                },
+                "SelfHostedAIModelResourceCount": {
+                    "target": "com.amazonaws.securityhub#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The number of self-hosted AI resources of <code>ResourceSubCategory</code>\n            <code>Model</code> detected on the host resource. Present only on host resources.</p>"
+                    }
+                },
+                "SelfHostedAIAgentResourceCount": {
+                    "target": "com.amazonaws.securityhub#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The number of self-hosted AI resources of <code>ResourceSubCategory</code>\n            <code>Agent</code> detected on the host resource. Present only on host resources.</p>"
+                    }
+                },
+                "SelfHostedAIModelServingResourceCount": {
+                    "target": "com.amazonaws.securityhub#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The number of self-hosted AI resources of <code>ResourceSubCategory</code>\n            <code>ModelServing</code> detected on the host resource. Present only on host resources.</p>"
+                    }
+                },
+                "SelfHostedAIExternalEndpointResourceCount": {
+                    "target": "com.amazonaws.securityhub#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The number of self-hosted AI resources of <code>ResourceSubCategory</code>\n            <code>ExternalEndpoint</code> detected on the host resource. Present only on host resources.</p>"
+                    }
+                },
+                "SelfHostedAIDevelopmentResourceCount": {
+                    "target": "com.amazonaws.securityhub#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The number of self-hosted AI resources of <code>ResourceSubCategory</code>\n            <code>Development</code> detected on the host resource. Present only on host resources.</p>"
+                    }
+                },
+                "SelfHostedAIAgentFrameworkResourceCount": {
+                    "target": "com.amazonaws.securityhub#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The number of self-hosted AI resources of <code>ResourceSubCategory</code>\n            <code>AgentFramework</code> detected on the host resource. Present only on host resources.</p>"
+                    }
+                },
+                "SelfHostedAIAgentToolsAndIdentityResourceCount": {
+                    "target": "com.amazonaws.securityhub#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The number of self-hosted AI resources of <code>ResourceSubCategory</code>\n            <code>AgentToolsAndIdentity</code> detected on the host resource. Present only on host resources.</p>"
+                    }
+                },
+                "SelfHostedTotalAIResourceCount": {
+                    "target": "com.amazonaws.securityhub#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The total number of all self-hosted AI resources detected on the host resource. Present only on host resources.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains information about self-hosted AI resources and their host resources. The fields that are present depend on the role of the resource.</p>\n         <p>On a self-hosted AI resource (a resource with a <code>SelfHosted::AI::</code> resource type, such as <code>SelfHosted::AI::Model</code> or <code>SelfHosted::AI::Agent</code>), the <code>HostResourceGuid</code> and <code>HostResourceType</code> fields link the resource to its host. The <code>CanonicalId</code> field identifies what the resource is, enabling aggregation of identical resources across multiple hosts.</p>\n         <p>On a host resource (such as an Amazon EC2 instance), the <code>SelfHostedAI*ResourceCount</code> fields contain the count for each <code>ResourceSubCategory</code> and the total count of self-hosted AI resources detected on the host.</p>"
+            }
+        },
         "com.amazonaws.securityhub#AcceptAdministratorInvitation": {
             "type": "operation",
             "input": {
@@ -21053,7 +21127,7 @@
                     "target": "com.amazonaws.securityhub#NonEmptyString",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The ARN of the AWS Config connector used to establish the connection to Azure.</p>",
+                        "smithy.api#documentation": "<p>The ARN of the multi-cloud configuration connector used to establish the connection to Azure.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -21085,7 +21159,7 @@
                     "target": "com.amazonaws.securityhub#NonEmptyString",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The ARN of the AWS Config connector used to establish the connection to Azure.</p>",
+                        "smithy.api#documentation": "<p>The ARN of the multi-cloud configuration connector used to establish the connection to Azure.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -21310,7 +21384,9 @@
                                     "StandardsArn": "arn:aws:securityhub:eu-central-1::standards/pci-dss/v/3.2.1",
                                     "StandardsInput": {},
                                     "StandardsStatus": "DELETING",
-                                    "StandardsSubscriptionArn": "arn:aws:securityhub:us-west-1:123456789012:subscription/pci-dss/v/3.2.1"
+                                    "StandardsSubscriptionArn": "arn:aws:securityhub:us-west-1:123456789012:subscription/pci-dss/v/3.2.1",
+                                    "StandardsControlsUpdatable": "NOT_READY_FOR_UPDATES",
+                                    "Provider": "AWS"
                                 }
                             ]
                         }
@@ -21397,7 +21473,9 @@
                                     "StandardsArn": "arn:aws:securityhub:us-west-1::standards/pci-dss/v/3.2.1",
                                     "StandardsInput": {},
                                     "StandardsStatus": "PENDING",
-                                    "StandardsSubscriptionArn": "arn:aws:securityhub:us-west-1:123456789012:subscription/pci-dss/v/3.2.1"
+                                    "StandardsSubscriptionArn": "arn:aws:securityhub:us-west-1:123456789012:subscription/pci-dss/v/3.2.1",
+                                    "StandardsControlsUpdatable": "NOT_READY_FOR_UPDATES",
+                                    "Provider": "AWS"
                                 }
                             ]
                         }
@@ -21775,7 +21853,8 @@
                                             }
                                         }
                                     },
-                                    "LastUpdateReason": "Stayed with default value"
+                                    "LastUpdateReason": "Stayed with default value",
+                                    "Provider": "AWS"
                                 },
                                 {
                                     "SecurityControlId": "APIGateway.1",
@@ -21794,7 +21873,8 @@
                                             }
                                         }
                                     },
-                                    "LastUpdateReason": "Updated control parameters to comply with internal requirements"
+                                    "LastUpdateReason": "Updated control parameters to comply with internal requirements",
+                                    "Provider": "AWS"
                                 }
                             ]
                         }
@@ -24318,7 +24398,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Creates a cloud service provider management (CSPM) connector in Security Hub CSPM. A connector establishes a connection between Security Hub CSPM and a third-party cloud provider, enabling Security Hub CSPM to ingest security findings and resource data from the connected environment.</p>",
+                "smithy.api#documentation": "<p>Creates a connector to a third-party cloud provider in Security Hub CSPM. A connector establishes a connection between Security Hub CSPM and a third-party cloud provider, enabling Security Hub CSPM to ingest security findings and resource data from the connected environment.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "To create a CSPM connector",
@@ -26818,6 +26898,30 @@
                 "smithy.api#documentation": "<p>Returns a list of the available standards in Security Hub CSPM.</p>\n         <p>For each standard, the results include the standard ARN, the name, and a description. </p>",
                 "smithy.api#examples": [
                     {
+                        "title": "To get available Azure security standards",
+                        "documentation": "The following example returns a list of available security standards from a specified provider.",
+                        "input": {
+                            "Providers": [
+                                "Azure"
+                            ]
+                        },
+                        "output": {
+                            "Standards": [
+                                {
+                                    "StandardsArn": "arn:aws:securityhub:us-west-1::standards/cis-azure-foundations-benchmark/v/4.0.0",
+                                    "Name": "CIS Azure Foundations Benchmark v4.0.0",
+                                    "Description": "The Center for Internet Security (CIS) Microsoft Azure Foundations Benchmark v4.0.0 is a set of security configuration best practices for Azure. This Security Hub standard automatically checks your compliance readiness against a subset of CIS requirements.",
+                                    "EnabledByDefault": false,
+                                    "StandardsManagedBy": {
+                                        "Company": "AWS",
+                                        "Product": "Security Hub"
+                                    },
+                                    "Provider": "Azure"
+                                }
+                            ]
+                        }
+                    },
+                    {
                         "title": "To get available Security Hub standards",
                         "documentation": "The following example returns a list of available security standards in Security Hub.",
                         "output": {
@@ -26826,25 +26930,56 @@
                                     "StandardsArn": "arn:aws:securityhub:us-west-1::standards/aws-foundational-security-best-practices/v/1.0.0",
                                     "Name": "AWS Foundational Security Best Practices v1.0.0",
                                     "Description": "The AWS Foundational Security Best Practices standard is a set of automated security checks that detect when AWS accounts and deployed resources do not align to security best practices. The standard is defined by AWS security experts. This curated set of controls helps improve your security posture in AWS, and cover AWS's most popular and foundational services.",
-                                    "EnabledByDefault": true
+                                    "EnabledByDefault": true,
+                                    "StandardsManagedBy": {
+                                        "Company": "AWS",
+                                        "Product": "Security Hub"
+                                    },
+                                    "Provider": "AWS"
                                 },
                                 {
                                     "StandardsArn": "arn:aws:securityhub:us-west-1::ruleset/cis-aws-foundations-benchmark/v/1.2.0",
                                     "Name": "CIS AWS Foundations Benchmark v1.2.0",
                                     "Description": "The Center for Internet Security (CIS) AWS Foundations Benchmark v1.2.0 is a set of security configuration best practices for AWS. This Security Hub standard automatically checks for your compliance readiness against a subset of CIS requirements.",
-                                    "EnabledByDefault": true
+                                    "EnabledByDefault": true,
+                                    "StandardsManagedBy": {
+                                        "Company": "AWS",
+                                        "Product": "Security Hub"
+                                    },
+                                    "Provider": "AWS"
                                 },
                                 {
                                     "StandardsArn": "arn:aws::securityhub:us-west-1::standards/cis-aws-foundations-benchmark/v/1.4.0",
                                     "Name": "CIS AWS Foundations Benchmark v1.4.0",
                                     "Description": "The Center for Internet Security (CIS) AWS Foundations Benchmark v1.4.0 is a set of security configuration best practices for AWS. This Security Hub standard automatically checks for your compliance readiness against a subset of CIS requirements.",
-                                    "EnabledByDefault": false
+                                    "EnabledByDefault": false,
+                                    "StandardsManagedBy": {
+                                        "Company": "AWS",
+                                        "Product": "Security Hub"
+                                    },
+                                    "Provider": "AWS"
                                 },
                                 {
                                     "StandardsArn": "arn:aws:securityhub:us-west-1::standards/pci-dss/v/3.2.1",
                                     "Name": "PCI DSS v3.2.1",
                                     "Description": "The Payment Card Industry Data Security Standard (PCI DSS) v3.2.1 is an information security standard for entities that store, process, and/or transmit cardholder data. This Security Hub standard automatically checks for your compliance readiness against a subset of PCI DSS requirements.",
-                                    "EnabledByDefault": false
+                                    "EnabledByDefault": false,
+                                    "StandardsManagedBy": {
+                                        "Company": "AWS",
+                                        "Product": "Security Hub"
+                                    },
+                                    "Provider": "AWS"
+                                },
+                                {
+                                    "StandardsArn": "arn:aws:securityhub:us-west-1::standards/cis-azure-foundations-benchmark/v/4.0.0",
+                                    "Name": "CIS Azure Foundations Benchmark v4.0.0",
+                                    "Description": "The Center for Internet Security (CIS) Microsoft Azure Foundations Benchmark v4.0.0 is a set of security configuration best practices for Azure. This Security Hub standard automatically checks your compliance readiness against a subset of CIS requirements.",
+                                    "EnabledByDefault": false,
+                                    "StandardsManagedBy": {
+                                        "Company": "AWS",
+                                        "Product": "Security Hub"
+                                    },
+                                    "Provider": "Azure"
                                 }
                             ]
                         }
@@ -27488,6 +27623,23 @@
             "members": {},
             "traits": {
                 "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.securityhub#DiscoveryType": {
+            "type": "enum",
+            "members": {
+                "MANAGED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Managed"
+                    }
+                },
+                "SELF_HOSTED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SelfHosted"
+                    }
+                }
             }
         },
         "com.amazonaws.securityhub#DnsRequestAction": {
@@ -29603,7 +29755,8 @@
                                     "StandardsArn": "arn:aws:securityhub:us-west-1::standards/pci-dss/v/3.2.1",
                                     "StandardsInput": {},
                                     "StandardsStatus": "READY",
-                                    "StandardsSubscriptionArn": "arn:aws:securityhub:us-west-1:123456789012:subscription/pci-dss/v/3.2.1"
+                                    "StandardsSubscriptionArn": "arn:aws:securityhub:us-west-1:123456789012:subscription/pci-dss/v/3.2.1",
+                                    "Provider": "AWS"
                                 }
                             ]
                         }
@@ -30926,7 +31079,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Retrieves statistical information about Amazon Web Services resources and their associated security findings.</p>\n         <p>You can use the <code>Scopes</code> parameter to define the data boundary for the query. Currently, <code>Scopes</code> supports <code>AwsOrganizations</code>, which lets you aggregate resources from your entire organization or from specific organizational units. Only the delegated administrator account can use <code>Scopes</code>.</p>",
+                "smithy.api#documentation": "<p>Retrieves statistical information about Amazon Web Services resources and their associated security findings.</p>\n         <p>You can use the <code>Scopes</code> parameter to define the data boundary for the query. Currently, <code>Scopes</code> supports <code>AwsOrganizations</code>, which lets you aggregate resources from your entire organization or from specific organizational units. Only the delegated administrator account can use <code>Scopes</code>.</p>\n         <p>If you set <code>GroupByField</code> to <code>ResourceSubCategory</code>, <code>ResourceInfo.AIDetails.HostResourceType</code>, or <code>ResourceInfo.AIDetails.CanonicalId</code>, you must include a <code>ResourceCategory</code> string filter with comparison set to <code>EQUALS</code> and value <code>AI/ML</code> in the corresponding <code>ResourceGroupByRule</code>.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/resourcesv2/statistics",
@@ -31128,7 +31281,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Returns a list of resources.</p>\n         <p>You can use the <code>Scopes</code> parameter to define the data boundary for the query. Currently, <code>Scopes</code> supports <code>AwsOrganizations</code>, which lets you retrieve resources from your entire organization or from specific organizational units. Only the delegated administrator account can use <code>Scopes</code>.</p>\n         <p>You can use the <code>Filters</code> parameter to refine results based on resource attributes. You can use <code>Scopes</code> and <code>Filters</code> independently or together. When both are provided, <code>Scopes</code> narrows the data set first, and then <code>Filters</code> refines results within that scoped data set.</p>",
+                "smithy.api#documentation": "<p>Returns a list of resources.</p>\n         <p>You can use the <code>Scopes</code> parameter to define the data boundary for the query. Currently, <code>Scopes</code> supports <code>AwsOrganizations</code>, which lets you retrieve resources from your entire organization or from specific organizational units. Only the delegated administrator account can use <code>Scopes</code>.</p>\n         <p>You can use the <code>Filters</code> parameter to refine results based on resource attributes. You can use <code>Scopes</code> and <code>Filters</code> independently or together. When both are provided, <code>Scopes</code> narrows the data set first, and then <code>Filters</code> refines results within that scoped data set.</p>\n         <p>For AI/ML resources, the response includes the <code>ResourceSubCategory</code> field. For self-hosted AI resources and their host resources, the response also includes <code>ResourceInfo</code> with AI-specific details. Self-hosted AI resources use a <code>ResourceType</code> with the <code>SelfHosted::AI::</code> prefix, such as <code>SelfHosted::AI::Model</code>, <code>SelfHosted::AI::Agent</code>, <code>SelfHosted::AI::InferenceEndpoint</code>, and <code>SelfHosted::AI::ExternalEndpoint</code>.</p>\n         <p>If you filter by <code>ResourceSubCategory</code>, you must also include a <code>ResourceCategory</code> string filter with comparison set to <code>EQUALS</code> and value <code>AI/ML</code> in the same request.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/resourcesv2",
@@ -31255,7 +31408,8 @@
                                             }
                                         }
                                     }
-                                }
+                                },
+                                "Provider": "AWS"
                             }
                         }
                     }
@@ -33621,6 +33775,51 @@
                 "smithy.api#documentation": "<p>\n         Lists all of the security controls that apply to a specified standard.\n      </p>",
                 "smithy.api#examples": [
                     {
+                        "title": "To list Azure security control definitions",
+                        "documentation": "The following example lists security control definitions for a specified provider.",
+                        "input": {
+                            "Providers": [
+                                "Azure"
+                            ],
+                            "MaxResults": 3
+                        },
+                        "output": {
+                            "SecurityControlDefinitions": [
+                                {
+                                    "SecurityControlId": "Azure.App.1",
+                                    "Title": "Azure Container Apps with managed identity enabled should follow least privilege",
+                                    "Description": "This control checks whether Azure Container Apps have managed identity enabled. The control fails if the Container App has a system-assigned or user-assigned managed identity enabled.",
+                                    "RemediationUrl": "https://docs.aws.amazon.com/console/securityhub/Azure.App.1/remediation",
+                                    "SeverityRating": "MEDIUM",
+                                    "CurrentRegionAvailability": "AVAILABLE",
+                                    "CustomizableProperties": [],
+                                    "Provider": "Azure"
+                                },
+                                {
+                                    "SecurityControlId": "Azure.App.2",
+                                    "Title": "Azure Container Apps should not pass Azure SDK credentials as environment variables",
+                                    "Description": "This control checks whether an Azure Container App passes Azure SDK credentials as plain-text container environment variables. The control fails if any container (including initContainers) defines AZURE_CLIENT_SECRET, AZURE_CLIENT_CERTIFICATE_PASSWORD, or AZURE_PASSWORD as a plain-text environment variable instead of referencing a secret via secretRef.",
+                                    "RemediationUrl": "https://docs.aws.amazon.com/console/securityhub/Azure.App.2/remediation",
+                                    "SeverityRating": "CRITICAL",
+                                    "CurrentRegionAvailability": "AVAILABLE",
+                                    "CustomizableProperties": [],
+                                    "Provider": "Azure"
+                                },
+                                {
+                                    "SecurityControlId": "Azure.App.3",
+                                    "Title": "Azure Container Apps should not have external ingress enabled",
+                                    "Description": "This control checks whether Azure Container Apps have external ingress configured. The control fails if the Container App ingress is set to accept traffic from anywhere (external).",
+                                    "RemediationUrl": "https://docs.aws.amazon.com/console/securityhub/Azure.App.3/remediation",
+                                    "SeverityRating": "HIGH",
+                                    "CurrentRegionAvailability": "AVAILABLE",
+                                    "CustomizableProperties": [],
+                                    "Provider": "Azure"
+                                }
+                            ],
+                            "NextToken": "U2FsdGVkX1..."
+                        }
+                    },
+                    {
                         "title": "To list security controls that apply to a standard",
                         "documentation": "The following example lists security controls that apply to a specified Security Hub standard. ",
                         "input": {
@@ -33639,7 +33838,8 @@
                                     "CurrentRegionAvailability": "AVAILABLE",
                                     "CustomizableProperties": [
                                         "Parameters"
-                                    ]
+                                    ],
+                                    "Provider": "AWS"
                                 },
                                 {
                                     "SecurityControlId": "APIGateway.1",
@@ -33650,7 +33850,8 @@
                                     "CurrentRegionAvailability": "AVAILABLE",
                                     "CustomizableProperties": [
                                         "Parameters"
-                                    ]
+                                    ],
+                                    "Provider": "AWS"
                                 },
                                 {
                                     "SecurityControlId": "APIGateway.2",
@@ -33658,7 +33859,18 @@
                                     "Description": "This control checks whether Amazon API Gateway REST API stages have SSL certificates configured that backend systems can use to authenticate that incoming requests are from the API Gateway.",
                                     "RemediationUrl": "https://docs.aws.amazon.com/console/securityhub/APIGateway.2/remediation",
                                     "SeverityRating": "MEDIUM",
-                                    "CurrentRegionAvailability": "AVAILABLE"
+                                    "CurrentRegionAvailability": "AVAILABLE",
+                                    "Provider": "AWS"
+                                },
+                                {
+                                    "SecurityControlId": "Azure.App.1",
+                                    "Title": "Azure Container Apps with managed identity enabled should follow least privilege",
+                                    "Description": "This control checks whether Azure Container Apps have managed identity enabled. The control fails if the Container App has a system-assigned or user-assigned managed identity enabled.",
+                                    "RemediationUrl": "https://docs.aws.amazon.com/console/securityhub/Azure.App.1/remediation",
+                                    "SeverityRating": "MEDIUM",
+                                    "CurrentRegionAvailability": "AVAILABLE",
+                                    "CustomizableProperties": [],
+                                    "Provider": "Azure"
                                 }
                             ],
                             "NextToken": "U2FsdGVkX1..."
@@ -37628,6 +37840,30 @@
                     "traits": {
                         "smithy.api#enumValue": "FindingsSummary.FindingType"
                     }
+                },
+                "RESOURCE_SUB_CATEGORY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ResourceSubCategory"
+                    }
+                },
+                "DISCOVERY_TYPE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DiscoveryType"
+                    }
+                },
+                "HOST_RESOURCE_TYPE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ResourceInfo.AIDetails.HostResourceType"
+                    }
+                },
+                "CANONICAL_ID": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ResourceInfo.AIDetails.CanonicalId"
+                    }
                 }
             }
         },
@@ -37673,6 +37909,20 @@
                 "smithy.api#documentation": "<p>\n            The request was rejected because it conflicts with the resource's availability. For example, you tried\n            to update a security control that's currently in the <code>UPDATING</code> state.\n        </p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 400
+            }
+        },
+        "com.amazonaws.securityhub#ResourceInfo": {
+            "type": "structure",
+            "members": {
+                "AIDetails": {
+                    "target": "com.amazonaws.securityhub#AIDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Details that are specific to self-hosted AI resources and their host resources.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Additional details about a resource that are specific to its category. For AI/ML resources and their host resources, this structure contains <code>AIDetails</code>.</p>"
             }
         },
         "com.amazonaws.securityhub#ResourceList": {
@@ -37867,6 +38117,24 @@
                         "smithy.api#documentation": "<p>The configuration details of a resource.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "ResourceSubCategory": {
+                    "target": "com.amazonaws.securityhub#ResourceSubCategory",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The AI/ML sub-grouping of the resource. Present only when <code>ResourceCategory</code> is <code>AI/ML</code>.</p>"
+                    }
+                },
+                "DiscoveryType": {
+                    "target": "com.amazonaws.securityhub#DiscoveryType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies how the resource was discovered. If the value is <code>Managed</code>, the resource is natively provided by a cloud service provider. If the value is <code>SelfHosted</code>, the resource is hosted on customer-managed infrastructure, such as a compute instance or container image.</p>"
+                    }
+                },
+                "ResourceInfo": {
+                    "target": "com.amazonaws.securityhub#ResourceInfo",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Additional resource-type-specific details. For self-hosted AI resources and their host resources, contains an <code>AIDetails</code> structure.</p>"
+                    }
                 }
             },
             "traits": {
@@ -37941,6 +38209,77 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>A comprehensive distribution of security findings by severity level for Amazon Web Services resources.</p>"
+            }
+        },
+        "com.amazonaws.securityhub#ResourceSubCategory": {
+            "type": "enum",
+            "members": {
+                "MODEL": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Model"
+                    }
+                },
+                "MODEL_SERVING": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ModelServing"
+                    }
+                },
+                "AGENT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Agent"
+                    }
+                },
+                "AGENT_FRAMEWORK": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AgentFramework"
+                    }
+                },
+                "AGENT_TOOLS_AND_IDENTITY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AgentToolsAndIdentity"
+                    }
+                },
+                "SAFETY_AND_GUARDRAIL": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SafetyAndGuardrail"
+                    }
+                },
+                "KNOWLEDGE_AND_DATA": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "KnowledgeAndData"
+                    }
+                },
+                "ORCHESTRATION_AND_PIPELINE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "OrchestrationAndPipeline"
+                    }
+                },
+                "EXTERNAL_ENDPOINT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ExternalEndpoint"
+                    }
+                },
+                "DEVELOPMENT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Development"
+                    }
+                },
+                "OTHER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Other"
+                    }
+                }
             }
         },
         "com.amazonaws.securityhub#ResourceTag": {
@@ -38195,6 +38534,54 @@
                     "traits": {
                         "smithy.api#enumValue": "FindingsSummary.Severities.Unknown"
                     }
+                },
+                "SELF_HOSTED_AI_MODEL_RESOURCE_COUNT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ResourceInfo.AIDetails.SelfHostedAIModelResourceCount"
+                    }
+                },
+                "SELF_HOSTED_AI_AGENT_RESOURCE_COUNT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ResourceInfo.AIDetails.SelfHostedAIAgentResourceCount"
+                    }
+                },
+                "SELF_HOSTED_AI_MODEL_SERVING_RESOURCE_COUNT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ResourceInfo.AIDetails.SelfHostedAIModelServingResourceCount"
+                    }
+                },
+                "SELF_HOSTED_AI_EXTERNAL_ENDPOINT_RESOURCE_COUNT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ResourceInfo.AIDetails.SelfHostedAIExternalEndpointResourceCount"
+                    }
+                },
+                "SELF_HOSTED_AI_DEVELOPMENT_RESOURCE_COUNT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ResourceInfo.AIDetails.SelfHostedAIDevelopmentResourceCount"
+                    }
+                },
+                "SELF_HOSTED_AI_AGENT_FRAMEWORK_RESOURCE_COUNT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ResourceInfo.AIDetails.SelfHostedAIAgentFrameworkResourceCount"
+                    }
+                },
+                "SELF_HOSTED_AI_AGENT_TOOLS_AND_IDENTITY_RESOURCE_COUNT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ResourceInfo.AIDetails.SelfHostedAIAgentToolsAndIdentityResourceCount"
+                    }
+                },
+                "SELF_HOSTED_TOTAL_AI_RESOURCE_COUNT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ResourceInfo.AIDetails.SelfHostedTotalAIResourceCount"
+                    }
                 }
             }
         },
@@ -38312,6 +38699,36 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "FindingsSummary.ProductName"
+                    }
+                },
+                "RESOURCE_SUB_CATEGORY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ResourceSubCategory"
+                    }
+                },
+                "DISCOVERY_TYPE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DiscoveryType"
+                    }
+                },
+                "HOST_RESOURCE_GUID": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ResourceInfo.AIDetails.HostResourceGuid"
+                    }
+                },
+                "HOST_RESOURCE_TYPE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ResourceInfo.AIDetails.HostResourceType"
+                    }
+                },
+                "CANONICAL_ID": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ResourceInfo.AIDetails.CanonicalId"
                     }
                 }
             }

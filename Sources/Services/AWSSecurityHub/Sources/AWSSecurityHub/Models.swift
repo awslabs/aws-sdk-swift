@@ -1175,6 +1175,61 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    /// Contains information about self-hosted AI resources and their host resources. The fields that are present depend on the role of the resource. On a self-hosted AI resource (a resource with a SelfHosted::AI:: resource type, such as SelfHosted::AI::Model or SelfHosted::AI::Agent), the HostResourceGuid and HostResourceType fields link the resource to its host. The CanonicalId field identifies what the resource is, enabling aggregation of identical resources across multiple hosts. On a host resource (such as an Amazon EC2 instance), the SelfHostedAI*ResourceCount fields contain the count for each ResourceSubCategory and the total count of self-hosted AI resources detected on the host.
+    public struct AIDetails: Swift.Sendable {
+        /// The canonical identifier for the AI resource, independent of where it is deployed. Multiple occurrences of the same resource on different hosts share the same CanonicalId. For model resources, the value follows the format model/, such as model/pkg:huggingface/meta-llama/llama-3-8b. Present only on self-hosted AI resources.
+        public var canonicalId: Swift.String?
+        /// The identifier of the host resource that hosts the self-hosted AI resource. Present only on self-hosted AI resources.
+        public var hostResourceGuid: Swift.String?
+        /// The ResourceType of the host resource that hosts the self-hosted AI resource, such as AWS::EC2::Instance. Present only on self-hosted AI resources.
+        public var hostResourceType: Swift.String?
+        /// The number of self-hosted AI resources of ResourceSubCategoryAgentFramework detected on the host resource. Present only on host resources.
+        public var selfHostedAIAgentFrameworkResourceCount: Swift.Int?
+        /// The number of self-hosted AI resources of ResourceSubCategoryAgent detected on the host resource. Present only on host resources.
+        public var selfHostedAIAgentResourceCount: Swift.Int?
+        /// The number of self-hosted AI resources of ResourceSubCategoryAgentToolsAndIdentity detected on the host resource. Present only on host resources.
+        public var selfHostedAIAgentToolsAndIdentityResourceCount: Swift.Int?
+        /// The number of self-hosted AI resources of ResourceSubCategoryDevelopment detected on the host resource. Present only on host resources.
+        public var selfHostedAIDevelopmentResourceCount: Swift.Int?
+        /// The number of self-hosted AI resources of ResourceSubCategoryExternalEndpoint detected on the host resource. Present only on host resources.
+        public var selfHostedAIExternalEndpointResourceCount: Swift.Int?
+        /// The number of self-hosted AI resources of ResourceSubCategoryModel detected on the host resource. Present only on host resources.
+        public var selfHostedAIModelResourceCount: Swift.Int?
+        /// The number of self-hosted AI resources of ResourceSubCategoryModelServing detected on the host resource. Present only on host resources.
+        public var selfHostedAIModelServingResourceCount: Swift.Int?
+        /// The total number of all self-hosted AI resources detected on the host resource. Present only on host resources.
+        public var selfHostedTotalAIResourceCount: Swift.Int?
+
+        public init(
+            canonicalId: Swift.String? = nil,
+            hostResourceGuid: Swift.String? = nil,
+            hostResourceType: Swift.String? = nil,
+            selfHostedAIAgentFrameworkResourceCount: Swift.Int? = nil,
+            selfHostedAIAgentResourceCount: Swift.Int? = nil,
+            selfHostedAIAgentToolsAndIdentityResourceCount: Swift.Int? = nil,
+            selfHostedAIDevelopmentResourceCount: Swift.Int? = nil,
+            selfHostedAIExternalEndpointResourceCount: Swift.Int? = nil,
+            selfHostedAIModelResourceCount: Swift.Int? = nil,
+            selfHostedAIModelServingResourceCount: Swift.Int? = nil,
+            selfHostedTotalAIResourceCount: Swift.Int? = nil
+        ) {
+            self.canonicalId = canonicalId
+            self.hostResourceGuid = hostResourceGuid
+            self.hostResourceType = hostResourceType
+            self.selfHostedAIAgentFrameworkResourceCount = selfHostedAIAgentFrameworkResourceCount
+            self.selfHostedAIAgentResourceCount = selfHostedAIAgentResourceCount
+            self.selfHostedAIAgentToolsAndIdentityResourceCount = selfHostedAIAgentToolsAndIdentityResourceCount
+            self.selfHostedAIDevelopmentResourceCount = selfHostedAIDevelopmentResourceCount
+            self.selfHostedAIExternalEndpointResourceCount = selfHostedAIExternalEndpointResourceCount
+            self.selfHostedAIModelResourceCount = selfHostedAIModelResourceCount
+            self.selfHostedAIModelServingResourceCount = selfHostedAIModelServingResourceCount
+            self.selfHostedTotalAIResourceCount = selfHostedTotalAIResourceCount
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     public enum AllowedOperators: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case and
         case or
@@ -21479,7 +21534,7 @@ extension SecurityHubClientTypes {
 
     /// The detailed Azure configuration for a connector.
     public struct AzureDetail: Swift.Sendable {
-        /// The ARN of the AWS Config connector used to establish the connection to Azure.
+        /// The ARN of the multi-cloud configuration connector used to establish the connection to Azure.
         /// This member is required.
         public var awsConfigConnectorArn: Swift.String?
         /// The list of Azure regions being monitored.
@@ -21505,7 +21560,7 @@ extension SecurityHubClientTypes {
 
     /// The configuration for connecting to an Azure environment.
     public struct AzureProviderConfiguration: Swift.Sendable {
-        /// The ARN of the AWS Config connector used to establish the connection to Azure.
+        /// The ARN of the multi-cloud configuration connector used to establish the connection to Azure.
         /// This member is required.
         public var awsConfigConnectorArn: Swift.String?
         /// The list of Azure regions to monitor.
@@ -26310,6 +26365,35 @@ public struct DisassociateMembersOutput: Swift.Sendable {
     public init() { }
 }
 
+extension SecurityHubClientTypes {
+
+    public enum DiscoveryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case managed
+        case selfHosted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DiscoveryType] {
+            return [
+                .managed,
+                .selfHosted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .managed: return "Managed"
+            case .selfHosted: return "SelfHosted"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct EnableImportFindingsForProductInput: Swift.Sendable {
     /// The ARN of the product to enable the integration for.
     /// This member is required.
@@ -28130,6 +28214,14 @@ extension SecurityHubClientTypes {
 extension SecurityHubClientTypes {
 
     public enum ResourcesNumberField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case selfHostedAiAgentFrameworkResourceCount
+        case selfHostedAiAgentResourceCount
+        case selfHostedAiAgentToolsAndIdentityResourceCount
+        case selfHostedAiDevelopmentResourceCount
+        case selfHostedAiExternalEndpointResourceCount
+        case selfHostedAiModelResourceCount
+        case selfHostedAiModelServingResourceCount
+        case selfHostedTotalAiResourceCount
         case severityCritical
         case severityFatal
         case severityHigh
@@ -28143,6 +28235,14 @@ extension SecurityHubClientTypes {
 
         public static var allCases: [ResourcesNumberField] {
             return [
+                .selfHostedAiAgentFrameworkResourceCount,
+                .selfHostedAiAgentResourceCount,
+                .selfHostedAiAgentToolsAndIdentityResourceCount,
+                .selfHostedAiDevelopmentResourceCount,
+                .selfHostedAiExternalEndpointResourceCount,
+                .selfHostedAiModelResourceCount,
+                .selfHostedAiModelServingResourceCount,
+                .selfHostedTotalAiResourceCount,
                 .severityCritical,
                 .severityFatal,
                 .severityHigh,
@@ -28162,6 +28262,14 @@ extension SecurityHubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .selfHostedAiAgentFrameworkResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIAgentFrameworkResourceCount"
+            case .selfHostedAiAgentResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIAgentResourceCount"
+            case .selfHostedAiAgentToolsAndIdentityResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIAgentToolsAndIdentityResourceCount"
+            case .selfHostedAiDevelopmentResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIDevelopmentResourceCount"
+            case .selfHostedAiExternalEndpointResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIExternalEndpointResourceCount"
+            case .selfHostedAiModelResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIModelResourceCount"
+            case .selfHostedAiModelServingResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIModelServingResourceCount"
+            case .selfHostedTotalAiResourceCount: return "ResourceInfo.AIDetails.SelfHostedTotalAIResourceCount"
             case .severityCritical: return "FindingsSummary.Severities.Critical"
             case .severityFatal: return "FindingsSummary.Severities.Fatal"
             case .severityHigh: return "FindingsSummary.Severities.High"
@@ -28201,7 +28309,11 @@ extension SecurityHubClientTypes {
     public enum ResourcesStringField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accountId
         case accountName
+        case canonicalId
+        case discoveryType
         case findingType
+        case hostResourceGuid
+        case hostResourceType
         case productName
         case region
         case resourceCategory
@@ -28213,6 +28325,7 @@ extension SecurityHubClientTypes {
         case resourceOwnerOrgId
         case resourceProvider
         case resourceRegion
+        case resourceSubCategory
         case resourceType
         case sdkUnknown(Swift.String)
 
@@ -28220,7 +28333,11 @@ extension SecurityHubClientTypes {
             return [
                 .accountId,
                 .accountName,
+                .canonicalId,
+                .discoveryType,
                 .findingType,
+                .hostResourceGuid,
+                .hostResourceType,
                 .productName,
                 .region,
                 .resourceCategory,
@@ -28232,6 +28349,7 @@ extension SecurityHubClientTypes {
                 .resourceOwnerOrgId,
                 .resourceProvider,
                 .resourceRegion,
+                .resourceSubCategory,
                 .resourceType
             ]
         }
@@ -28245,7 +28363,11 @@ extension SecurityHubClientTypes {
             switch self {
             case .accountId: return "AccountId"
             case .accountName: return "AccountName"
+            case .canonicalId: return "ResourceInfo.AIDetails.CanonicalId"
+            case .discoveryType: return "DiscoveryType"
             case .findingType: return "FindingsSummary.FindingType"
+            case .hostResourceGuid: return "ResourceInfo.AIDetails.HostResourceGuid"
+            case .hostResourceType: return "ResourceInfo.AIDetails.HostResourceType"
             case .productName: return "FindingsSummary.ProductName"
             case .region: return "Region"
             case .resourceCategory: return "ResourceCategory"
@@ -28257,6 +28379,7 @@ extension SecurityHubClientTypes {
             case .resourceOwnerOrgId: return "ResourceOwnerOrgId"
             case .resourceProvider: return "ResourceProvider"
             case .resourceRegion: return "ResourceRegion"
+            case .resourceSubCategory: return "ResourceSubCategory"
             case .resourceType: return "ResourceType"
             case let .sdkUnknown(s): return s
             }
@@ -28288,7 +28411,10 @@ extension SecurityHubClientTypes {
     public enum ResourceGroupByField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accountId
         case accountName
+        case canonicalId
+        case discoveryType
         case findingType
+        case hostResourceType
         case region
         case resourceCategory
         case resourceCloudPartition
@@ -28297,6 +28423,7 @@ extension SecurityHubClientTypes {
         case resourceOwnerOrgId
         case resourceProvider
         case resourceRegion
+        case resourceSubCategory
         case resourceType
         case sdkUnknown(Swift.String)
 
@@ -28304,7 +28431,10 @@ extension SecurityHubClientTypes {
             return [
                 .accountId,
                 .accountName,
+                .canonicalId,
+                .discoveryType,
                 .findingType,
+                .hostResourceType,
                 .region,
                 .resourceCategory,
                 .resourceCloudPartition,
@@ -28313,6 +28443,7 @@ extension SecurityHubClientTypes {
                 .resourceOwnerOrgId,
                 .resourceProvider,
                 .resourceRegion,
+                .resourceSubCategory,
                 .resourceType
             ]
         }
@@ -28326,7 +28457,10 @@ extension SecurityHubClientTypes {
             switch self {
             case .accountId: return "AccountId"
             case .accountName: return "AccountName"
+            case .canonicalId: return "ResourceInfo.AIDetails.CanonicalId"
+            case .discoveryType: return "DiscoveryType"
             case .findingType: return "FindingsSummary.FindingType"
+            case .hostResourceType: return "ResourceInfo.AIDetails.HostResourceType"
             case .region: return "Region"
             case .resourceCategory: return "ResourceCategory"
             case .resourceCloudPartition: return "ResourceCloudPartition"
@@ -28335,6 +28469,7 @@ extension SecurityHubClientTypes {
             case .resourceOwnerOrgId: return "ResourceOwnerOrgId"
             case .resourceProvider: return "ResourceProvider"
             case .resourceRegion: return "ResourceRegion"
+            case .resourceSubCategory: return "ResourceSubCategory"
             case .resourceType: return "ResourceType"
             case let .sdkUnknown(s): return s
             }
@@ -28650,6 +28785,77 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    /// Additional details about a resource that are specific to its category. For AI/ML resources and their host resources, this structure contains AIDetails.
+    public struct ResourceInfo: Swift.Sendable {
+        /// Details that are specific to self-hosted AI resources and their host resources.
+        public var aiDetails: SecurityHubClientTypes.AIDetails?
+
+        public init(
+            aiDetails: SecurityHubClientTypes.AIDetails? = nil
+        ) {
+            self.aiDetails = aiDetails
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum ResourceSubCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agent
+        case agentFramework
+        case agentToolsAndIdentity
+        case development
+        case externalEndpoint
+        case knowledgeAndData
+        case model
+        case modelServing
+        case orchestrationAndPipeline
+        case other
+        case safetyAndGuardrail
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceSubCategory] {
+            return [
+                .agent,
+                .agentFramework,
+                .agentToolsAndIdentity,
+                .development,
+                .externalEndpoint,
+                .knowledgeAndData,
+                .model,
+                .modelServing,
+                .orchestrationAndPipeline,
+                .other,
+                .safetyAndGuardrail
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agent: return "Agent"
+            case .agentFramework: return "AgentFramework"
+            case .agentToolsAndIdentity: return "AgentToolsAndIdentity"
+            case .development: return "Development"
+            case .externalEndpoint: return "ExternalEndpoint"
+            case .knowledgeAndData: return "KnowledgeAndData"
+            case .model: return "Model"
+            case .modelServing: return "ModelServing"
+            case .orchestrationAndPipeline: return "OrchestrationAndPipeline"
+            case .other: return "Other"
+            case .safetyAndGuardrail: return "SafetyAndGuardrail"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     /// Represents tag information associated with Amazon Web Services resources.
     public struct ResourceTag: Swift.Sendable {
         /// The identifier or name of the tag.
@@ -28678,6 +28884,8 @@ extension SecurityHubClientTypes {
         public var accountId: Swift.String?
         /// The name of the Amazon Web Services account that's associated with the resource.
         public var accountName: Swift.String?
+        /// Specifies how the resource was discovered. If the value is Managed, the resource is natively provided by a cloud service provider. If the value is SelfHosted, the resource is hosted on customer-managed infrastructure, such as a compute instance or container image.
+        public var discoveryType: SecurityHubClientTypes.DiscoveryType?
         /// An aggregated view of security findings associated with a resource.
         public var findingsSummary: [SecurityHubClientTypes.ResourceFindingsSummary]?
         /// The Amazon Web Services Region that recorded the resource data in Security Hub.
@@ -28700,6 +28908,8 @@ extension SecurityHubClientTypes {
         /// The unique identifier for a resource.
         /// This member is required.
         public var resourceId: Swift.String?
+        /// Additional resource-type-specific details. For self-hosted AI resources and their host resources, contains an AIDetails structure.
+        public var resourceInfo: SecurityHubClientTypes.ResourceInfo?
         /// The name of the resource.
         public var resourceName: Swift.String?
         /// The identifier of the cloud account that owns the resource. For Amazon Web Services resources, this is the Amazon Web Services account ID. For Azure resources, this is the Azure subscription ID.
@@ -28710,6 +28920,8 @@ extension SecurityHubClientTypes {
         public var resourceProvider: Swift.String?
         /// The native cloud region where the resource is located. For Amazon Web Services, this is an Amazon Web Services Region (for example, us-east-1). For Azure resources, this is the Azure region (for example, westus2). This field is always included.
         public var resourceRegion: Swift.String?
+        /// The AI/ML sub-grouping of the resource. Present only when ResourceCategory is AI/ML.
+        public var resourceSubCategory: SecurityHubClientTypes.ResourceSubCategory?
         /// The key-value pairs associated with a resource.
         public var resourceTags: [SecurityHubClientTypes.ResourceTag]?
         /// The type of resource.
@@ -28719,6 +28931,7 @@ extension SecurityHubClientTypes {
         public init(
             accountId: Swift.String? = nil,
             accountName: Swift.String? = nil,
+            discoveryType: SecurityHubClientTypes.DiscoveryType? = nil,
             findingsSummary: [SecurityHubClientTypes.ResourceFindingsSummary]? = nil,
             region: Swift.String? = nil,
             resourceCategory: SecurityHubClientTypes.ResourceCategory? = nil,
@@ -28728,16 +28941,19 @@ extension SecurityHubClientTypes {
             resourceDetailCaptureTimeDt: Swift.String? = nil,
             resourceGuid: Swift.String? = nil,
             resourceId: Swift.String? = nil,
+            resourceInfo: SecurityHubClientTypes.ResourceInfo? = nil,
             resourceName: Swift.String? = nil,
             resourceOwnerAccountId: Swift.String? = nil,
             resourceOwnerOrgId: Swift.String? = nil,
             resourceProvider: Swift.String? = nil,
             resourceRegion: Swift.String? = nil,
+            resourceSubCategory: SecurityHubClientTypes.ResourceSubCategory? = nil,
             resourceTags: [SecurityHubClientTypes.ResourceTag]? = nil,
             resourceType: Swift.String? = nil
         ) {
             self.accountId = accountId
             self.accountName = accountName
+            self.discoveryType = discoveryType
             self.findingsSummary = findingsSummary
             self.region = region
             self.resourceCategory = resourceCategory
@@ -28747,11 +28963,13 @@ extension SecurityHubClientTypes {
             self.resourceDetailCaptureTimeDt = resourceDetailCaptureTimeDt
             self.resourceGuid = resourceGuid
             self.resourceId = resourceId
+            self.resourceInfo = resourceInfo
             self.resourceName = resourceName
             self.resourceOwnerAccountId = resourceOwnerAccountId
             self.resourceOwnerOrgId = resourceOwnerOrgId
             self.resourceProvider = resourceProvider
             self.resourceRegion = resourceRegion
+            self.resourceSubCategory = resourceSubCategory
             self.resourceTags = resourceTags
             self.resourceType = resourceType
         }
@@ -36519,6 +36737,26 @@ extension SecurityHubClientTypes.AggregatorV2 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.AggregatorV2()
         value.aggregatorV2Arn = try reader["AggregatorV2Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.AIDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AIDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.AIDetails()
+        value.hostResourceGuid = try reader["HostResourceGuid"].readIfPresent()
+        value.hostResourceType = try reader["HostResourceType"].readIfPresent()
+        value.canonicalId = try reader["CanonicalId"].readIfPresent()
+        value.selfHostedAIModelResourceCount = try reader["SelfHostedAIModelResourceCount"].readIfPresent()
+        value.selfHostedAIAgentResourceCount = try reader["SelfHostedAIAgentResourceCount"].readIfPresent()
+        value.selfHostedAIModelServingResourceCount = try reader["SelfHostedAIModelServingResourceCount"].readIfPresent()
+        value.selfHostedAIExternalEndpointResourceCount = try reader["SelfHostedAIExternalEndpointResourceCount"].readIfPresent()
+        value.selfHostedAIDevelopmentResourceCount = try reader["SelfHostedAIDevelopmentResourceCount"].readIfPresent()
+        value.selfHostedAIAgentFrameworkResourceCount = try reader["SelfHostedAIAgentFrameworkResourceCount"].readIfPresent()
+        value.selfHostedAIAgentToolsAndIdentityResourceCount = try reader["SelfHostedAIAgentToolsAndIdentityResourceCount"].readIfPresent()
+        value.selfHostedTotalAIResourceCount = try reader["SelfHostedTotalAIResourceCount"].readIfPresent()
         return value
     }
 }
@@ -50728,6 +50966,16 @@ extension SecurityHubClientTypes.ResourceGroupByRule {
     }
 }
 
+extension SecurityHubClientTypes.ResourceInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourceInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourceInfo()
+        value.aiDetails = try reader["AIDetails"].readIfPresent(with: SecurityHubClientTypes.AIDetails.read(from:))
+        return value
+    }
+}
+
 extension SecurityHubClientTypes.ResourceOwner {
 
     static func write(value: SecurityHubClientTypes.ResourceOwner?, to writer: SmithyJSON.Writer) throws {
@@ -50798,6 +51046,9 @@ extension SecurityHubClientTypes.ResourceResult {
         value.findingsSummary = try reader["FindingsSummary"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourceFindingsSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.resourceTags = try reader["ResourceTags"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.resourceConfig = try reader["ResourceConfig"].readIfPresent() ?? [:]
+        value.resourceSubCategory = try reader["ResourceSubCategory"].readIfPresent()
+        value.discoveryType = try reader["DiscoveryType"].readIfPresent()
+        value.resourceInfo = try reader["ResourceInfo"].readIfPresent(with: SecurityHubClientTypes.ResourceInfo.read(from:))
         return value
     }
 }

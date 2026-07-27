@@ -914,6 +914,16 @@ public struct InvokeAgentRuntimeInput: Swift.Sendable {
     public var baggage: Swift.String?
     /// The MIME type of the input data in the payload. This tells the agent runtime how to interpret the payload data. Common values include application/json for JSON data.
     public var contentType: Swift.String?
+    /// The MCP method being invoked. For example, tools/call, resources/read, or prompts/get.
+    public var mcpMethod: Swift.String?
+    /// The name of the MCP resource, tool, or prompt being accessed. The value depends on the method:
+    ///
+    /// * tools/call – The tool name.
+    ///
+    /// * resources/read – The resource URI.
+    ///
+    /// * prompts/get – The prompt name.
+    public var mcpName: Swift.String?
     /// The version of the MCP protocol being used.
     public var mcpProtocolVersion: Swift.String?
     /// The identifier of the MCP session.
@@ -940,6 +950,8 @@ public struct InvokeAgentRuntimeInput: Swift.Sendable {
         agentRuntimeArn: Swift.String? = nil,
         baggage: Swift.String? = nil,
         contentType: Swift.String? = nil,
+        mcpMethod: Swift.String? = nil,
+        mcpName: Swift.String? = nil,
         mcpProtocolVersion: Swift.String? = nil,
         mcpSessionId: Swift.String? = nil,
         payload: Foundation.Data? = nil,
@@ -955,6 +967,8 @@ public struct InvokeAgentRuntimeInput: Swift.Sendable {
         self.agentRuntimeArn = agentRuntimeArn
         self.baggage = baggage
         self.contentType = contentType
+        self.mcpMethod = mcpMethod
+        self.mcpName = mcpName
         self.mcpProtocolVersion = mcpProtocolVersion
         self.mcpSessionId = mcpSessionId
         self.payload = payload
@@ -969,7 +983,7 @@ public struct InvokeAgentRuntimeInput: Swift.Sendable {
 
 extension InvokeAgentRuntimeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeAgentRuntimeInput(accept: \(Swift.String(describing: accept)), accountId: \(Swift.String(describing: accountId)), agentRuntimeArn: \(Swift.String(describing: agentRuntimeArn)), baggage: \(Swift.String(describing: baggage)), contentType: \(Swift.String(describing: contentType)), mcpProtocolVersion: \(Swift.String(describing: mcpProtocolVersion)), mcpSessionId: \(Swift.String(describing: mcpSessionId)), qualifier: \(Swift.String(describing: qualifier)), runtimeSessionId: \(Swift.String(describing: runtimeSessionId)), runtimeUserId: \(Swift.String(describing: runtimeUserId)), traceId: \(Swift.String(describing: traceId)), traceParent: \(Swift.String(describing: traceParent)), traceState: \(Swift.String(describing: traceState)), payload: \"CONTENT_REDACTED\")"}
+        "InvokeAgentRuntimeInput(accept: \(Swift.String(describing: accept)), accountId: \(Swift.String(describing: accountId)), agentRuntimeArn: \(Swift.String(describing: agentRuntimeArn)), baggage: \(Swift.String(describing: baggage)), contentType: \(Swift.String(describing: contentType)), mcpMethod: \(Swift.String(describing: mcpMethod)), mcpName: \(Swift.String(describing: mcpName)), mcpProtocolVersion: \(Swift.String(describing: mcpProtocolVersion)), mcpSessionId: \(Swift.String(describing: mcpSessionId)), qualifier: \(Swift.String(describing: qualifier)), runtimeSessionId: \(Swift.String(describing: runtimeSessionId)), runtimeUserId: \(Swift.String(describing: runtimeUserId)), traceId: \(Swift.String(describing: traceId)), traceParent: \(Swift.String(describing: traceParent)), traceState: \(Swift.String(describing: traceState)), payload: \"CONTENT_REDACTED\")"}
 }
 
 public struct InvokeAgentRuntimeOutput: Swift.Sendable {
@@ -1783,6 +1797,74 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// The configuration for mounting an Amazon Elastic File System (Amazon EFS) access point that you own into a session.
+    public struct EfsConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Elastic File System (Amazon EFS) access point to mount.
+        /// This member is required.
+        public var accessPointArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Amazon Elastic File System (Amazon EFS) file system that owns the access point.
+        /// This member is required.
+        public var fileSystemArn: Swift.String?
+        /// The absolute path within the session at which the access point is mounted, for example /mnt/efs. Each mount path must be unique across all file system configurations in the session.
+        /// This member is required.
+        public var mountPath: Swift.String?
+
+        public init(
+            accessPointArn: Swift.String? = nil,
+            fileSystemArn: Swift.String? = nil,
+            mountPath: Swift.String? = nil
+        ) {
+            self.accessPointArn = accessPointArn
+            self.fileSystemArn = fileSystemArn
+            self.mountPath = mountPath
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The configuration for mounting an Amazon Simple Storage Service (Amazon S3) Files access point that you own into a session.
+    public struct S3FilesConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Simple Storage Service (Amazon S3) Files access point to mount.
+        /// This member is required.
+        public var accessPointArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Amazon Simple Storage Service (Amazon S3) Files file system that owns the access point.
+        /// This member is required.
+        public var fileSystemArn: Swift.String?
+        /// The absolute path within the session at which the access point is mounted, for example /mnt/s3data. Each mount path must be unique across all file system configurations in the session.
+        /// This member is required.
+        public var mountPath: Swift.String?
+
+        public init(
+            accessPointArn: Swift.String? = nil,
+            fileSystemArn: Swift.String? = nil,
+            mountPath: Swift.String? = nil
+        ) {
+            self.accessPointArn = accessPointArn
+            self.fileSystemArn = fileSystemArn
+            self.mountPath = mountPath
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Specifies a file system to mount into the session by providing exactly one of the following:
+    ///
+    /// * s3FilesConfiguration - Mounts an Amazon Simple Storage Service (Amazon S3) Files access point.
+    ///
+    /// * efsConfiguration - Mounts an Amazon Elastic File System (Amazon EFS) access point.
+    public enum ToolsFileSystemConfiguration: Swift.Sendable {
+        /// The configuration for mounting your own Amazon Simple Storage Service (Amazon S3) Files access point into the session.
+        case s3filesconfiguration(BedrockAgentCoreClientTypes.S3FilesConfiguration)
+        /// The configuration for mounting your own Amazon Elastic File System (Amazon EFS) access point into the session.
+        case efsconfiguration(BedrockAgentCoreClientTypes.EfsConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// The configuration for a browser profile in Amazon Bedrock AgentCore. A browser profile contains persistent browser data such as cookies and local storage that can be saved from one browser session and reused in subsequent sessions. Browser profiles enable continuity for tasks that require authentication, maintain user preferences, or depend on previously stored browser state.
     public struct BrowserProfileConfiguration: Swift.Sendable {
         /// The unique identifier of the browser profile. This identifier is used to reference the profile when starting new browser sessions or saving session data to the profile.
@@ -2045,6 +2127,8 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
     public var enterprisePolicies: [BedrockAgentCoreClientTypes.BrowserEnterprisePolicy]?
     /// The list of browser extensions that are configured in the browser session.
     public var extensions: [BedrockAgentCoreClientTypes.BrowserExtension]?
+    /// The file system configurations for the browser session. Each entry describes an access point and its mount path.
+    public var filesystemConfigurations: [BedrockAgentCoreClientTypes.ToolsFileSystemConfiguration]?
     /// The time at which the browser session was last updated.
     public var lastUpdatedAt: Foundation.Date?
     /// The name of the browser session.
@@ -2073,6 +2157,7 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         enterprisePolicies: [BedrockAgentCoreClientTypes.BrowserEnterprisePolicy]? = nil,
         extensions: [BedrockAgentCoreClientTypes.BrowserExtension]? = nil,
+        filesystemConfigurations: [BedrockAgentCoreClientTypes.ToolsFileSystemConfiguration]? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         profileConfiguration: BedrockAgentCoreClientTypes.BrowserProfileConfiguration? = nil,
@@ -2089,6 +2174,7 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.enterprisePolicies = enterprisePolicies
         self.extensions = extensions
+        self.filesystemConfigurations = filesystemConfigurations
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
         self.profileConfiguration = profileConfiguration
@@ -2717,6 +2803,8 @@ public struct StartBrowserSessionInput: Swift.Sendable {
     public var enterprisePolicies: [BedrockAgentCoreClientTypes.BrowserEnterprisePolicy]?
     /// A list of browser extensions to load into the browser session.
     public var extensions: [BedrockAgentCoreClientTypes.BrowserExtension]?
+    /// The file system configurations to mount into the browser session. Use these configurations to mount your own Amazon Simple Storage Service (Amazon S3) Files or Amazon Elastic File System (Amazon EFS) access points. Your session can then read and write your data. If you don't specify this field, no additional file systems are mounted.
+    public var filesystemConfigurations: [BedrockAgentCoreClientTypes.ToolsFileSystemConfiguration]?
     /// The name of the browser session. This name helps you identify and manage the session. The name does not need to be unique.
     public var name: Swift.String?
     /// The browser profile configuration to use for this session. A browser profile contains persistent data such as cookies and local storage that can be reused across multiple browser sessions. If specified, the session initializes with the profile's stored data, enabling continuity for tasks that require authentication or personalized settings.
@@ -2738,6 +2826,7 @@ public struct StartBrowserSessionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         enterprisePolicies: [BedrockAgentCoreClientTypes.BrowserEnterprisePolicy]? = nil,
         extensions: [BedrockAgentCoreClientTypes.BrowserExtension]? = nil,
+        filesystemConfigurations: [BedrockAgentCoreClientTypes.ToolsFileSystemConfiguration]? = nil,
         name: Swift.String? = nil,
         profileConfiguration: BedrockAgentCoreClientTypes.BrowserProfileConfiguration? = nil,
         proxyConfiguration: BedrockAgentCoreClientTypes.ProxyConfiguration? = nil,
@@ -2751,6 +2840,7 @@ public struct StartBrowserSessionInput: Swift.Sendable {
         self.clientToken = clientToken
         self.enterprisePolicies = enterprisePolicies
         self.extensions = extensions
+        self.filesystemConfigurations = filesystemConfigurations
         self.name = name
         self.profileConfiguration = profileConfiguration
         self.proxyConfiguration = proxyConfiguration
@@ -2971,6 +3061,8 @@ public struct GetCodeInterpreterSessionOutput: Swift.Sendable {
     /// The time at which the code interpreter session was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
+    /// The file system configurations for the code interpreter session. Each entry describes an access point and its mount path.
+    public var filesystemConfigurations: [BedrockAgentCoreClientTypes.ToolsFileSystemConfiguration]?
     /// The name of the code interpreter session.
     public var name: Swift.String?
     /// The identifier of the code interpreter session.
@@ -2985,6 +3077,7 @@ public struct GetCodeInterpreterSessionOutput: Swift.Sendable {
         certificates: [BedrockAgentCoreClientTypes.Certificate]? = nil,
         codeInterpreterIdentifier: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
+        filesystemConfigurations: [BedrockAgentCoreClientTypes.ToolsFileSystemConfiguration]? = nil,
         name: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         sessionTimeoutSeconds: Swift.Int? = nil,
@@ -2993,6 +3086,7 @@ public struct GetCodeInterpreterSessionOutput: Swift.Sendable {
         self.certificates = certificates
         self.codeInterpreterIdentifier = codeInterpreterIdentifier
         self.createdAt = createdAt
+        self.filesystemConfigurations = filesystemConfigurations
         self.name = name
         self.sessionId = sessionId
         self.sessionTimeoutSeconds = sessionTimeoutSeconds
@@ -3087,6 +3181,8 @@ public struct StartCodeInterpreterSessionInput: Swift.Sendable {
     /// The unique identifier of the code interpreter to use for this session. This identifier specifies which code interpreter environment to initialize for the session.
     /// This member is required.
     public var codeInterpreterIdentifier: Swift.String?
+    /// The file system configurations to mount into the code interpreter session. Use these configurations to mount your own Amazon Simple Storage Service (Amazon S3) Files or Amazon Elastic File System (Amazon EFS) access points. Your session can then read and write your data. If you don't specify this field, no additional file systems are mounted.
+    public var filesystemConfigurations: [BedrockAgentCoreClientTypes.ToolsFileSystemConfiguration]?
     /// The name of the code interpreter session. This name helps you identify and manage the session. The name does not need to be unique.
     public var name: Swift.String?
     /// The duration in seconds (time-to-live) after which the session automatically terminates, regardless of ongoing activity. Defaults to 900 seconds (15 minutes). Recommended minimum: 60 seconds. Maximum allowed: 28,800 seconds (8 hours).
@@ -3100,6 +3196,7 @@ public struct StartCodeInterpreterSessionInput: Swift.Sendable {
         certificates: [BedrockAgentCoreClientTypes.Certificate]? = nil,
         clientToken: Swift.String? = nil,
         codeInterpreterIdentifier: Swift.String? = nil,
+        filesystemConfigurations: [BedrockAgentCoreClientTypes.ToolsFileSystemConfiguration]? = nil,
         name: Swift.String? = nil,
         sessionTimeoutSeconds: Swift.Int? = nil,
         traceId: Swift.String? = nil,
@@ -3108,6 +3205,7 @@ public struct StartCodeInterpreterSessionInput: Swift.Sendable {
         self.certificates = certificates
         self.clientToken = clientToken
         self.codeInterpreterIdentifier = codeInterpreterIdentifier
+        self.filesystemConfigurations = filesystemConfigurations
         self.name = name
         self.sessionTimeoutSeconds = sessionTimeoutSeconds
         self.traceId = traceId
@@ -6970,6 +7068,8 @@ extension BedrockAgentCoreClientTypes {
 
     /// Configuration for a Google Gemini model provider. Requires an API key stored in AgentCore Identity.
     public struct HarnessGeminiModelConfig: Swift.Sendable {
+        /// Provider-specific parameters passed through to the Gemini model provider unchanged.
+        public var additionalParams: Smithy.Document?
         /// The ARN of your Gemini API key on AgentCore Identity.
         /// This member is required.
         public var apiKeyArn: Swift.String?
@@ -6986,6 +7086,7 @@ extension BedrockAgentCoreClientTypes {
         public var topp: Swift.Float?
 
         public init(
+            additionalParams: Smithy.Document? = nil,
             apiKeyArn: Swift.String? = nil,
             maxTokens: Swift.Int? = nil,
             modelId: Swift.String? = nil,
@@ -6993,6 +7094,7 @@ extension BedrockAgentCoreClientTypes {
             topk: Swift.Int? = nil,
             topp: Swift.Float? = nil
         ) {
+            self.additionalParams = additionalParams
             self.apiKeyArn = apiKeyArn
             self.maxTokens = maxTokens
             self.modelId = modelId
@@ -7515,6 +7617,8 @@ public struct InvokeHarnessInput: Swift.Sendable {
     public var actorId: Swift.String?
     /// The tools that the agent is allowed to use for this invocation. If specified, overrides the harness default.
     public var allowedTools: [Swift.String]?
+    /// W3C Baggage header for user-defined context propagation. Format: key1=value1,key2=value2
+    public var baggage: Swift.String?
     /// The ARN of the harness to invoke.
     /// This member is required.
     public var harnessArn: Swift.String?
@@ -7542,10 +7646,17 @@ public struct InvokeHarnessInput: Swift.Sendable {
     public var timeoutSeconds: Swift.Int?
     /// The tools available to the agent for this invocation. If specified, overrides the harness default.
     public var tools: [BedrockAgentCoreClientTypes.HarnessTool]?
+    /// Trace ID for maintaining observability through the operation.
+    public var traceId: Swift.String?
+    /// W3C trace context parent header containing version, trace ID, parent span ID, and trace flags.
+    public var traceParent: Swift.String?
+    /// W3C trace context state header for vendor-specific trace information.
+    public var traceState: Swift.String?
 
     public init(
         actorId: Swift.String? = nil,
         allowedTools: [Swift.String]? = nil,
+        baggage: Swift.String? = nil,
         harnessArn: Swift.String? = nil,
         maxIterations: Swift.Int? = nil,
         maxTokens: Swift.Int? = nil,
@@ -7557,10 +7668,14 @@ public struct InvokeHarnessInput: Swift.Sendable {
         skills: [BedrockAgentCoreClientTypes.HarnessSkill]? = nil,
         systemPrompt: [BedrockAgentCoreClientTypes.HarnessSystemContentBlock]? = nil,
         timeoutSeconds: Swift.Int? = nil,
-        tools: [BedrockAgentCoreClientTypes.HarnessTool]? = nil
+        tools: [BedrockAgentCoreClientTypes.HarnessTool]? = nil,
+        traceId: Swift.String? = nil,
+        traceParent: Swift.String? = nil,
+        traceState: Swift.String? = nil
     ) {
         self.actorId = actorId
         self.allowedTools = allowedTools
+        self.baggage = baggage
         self.harnessArn = harnessArn
         self.maxIterations = maxIterations
         self.maxTokens = maxTokens
@@ -7573,6 +7688,9 @@ public struct InvokeHarnessInput: Swift.Sendable {
         self.systemPrompt = systemPrompt
         self.timeoutSeconds = timeoutSeconds
         self.tools = tools
+        self.traceId = traceId
+        self.traceParent = traceParent
+        self.traceState = traceState
     }
 }
 
@@ -7600,6 +7718,27 @@ extension BedrockAgentCoreClientTypes {
         case json(Smithy.Document)
         case sdkUnknown(Swift.String)
     }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Delta payload for a tool result metadata.
+    public struct HarnessToolResultMetadataBlockDelta: Swift.Sendable {
+        /// The partial JSON-string fragment of the tool result metadata.
+        /// This member is required.
+        public var metadata: Swift.String?
+
+        public init(
+            metadata: Swift.String? = nil
+        ) {
+            self.metadata = metadata
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessToolResultMetadataBlockDelta: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HarnessToolResultMetadataBlockDelta(metadata: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreClientTypes {
@@ -7635,6 +7774,8 @@ extension BedrockAgentCoreClientTypes {
         case toolresult([BedrockAgentCoreClientTypes.HarnessToolResultBlockDelta])
         /// A reasoning content delta.
         case reasoningcontent(BedrockAgentCoreClientTypes.HarnessReasoningContentBlockDelta)
+        /// A tool result metadata delta.
+        case toolresultmetadata(BedrockAgentCoreClientTypes.HarnessToolResultMetadataBlockDelta)
         case sdkUnknown(Swift.String)
     }
 }
@@ -11627,6 +11768,12 @@ extension InvokeAgentRuntimeInput {
         if let contentType = value.contentType {
             items.add(SmithyHTTPAPI.Header(name: "Content-Type", value: Swift.String(contentType)))
         }
+        if let mcpMethod = value.mcpMethod {
+            items.add(SmithyHTTPAPI.Header(name: "Mcp-Method", value: Swift.String(mcpMethod)))
+        }
+        if let mcpName = value.mcpName {
+            items.add(SmithyHTTPAPI.Header(name: "Mcp-Name", value: Swift.String(mcpName)))
+        }
         if let mcpProtocolVersion = value.mcpProtocolVersion {
             items.add(SmithyHTTPAPI.Header(name: "Mcp-Protocol-Version", value: Swift.String(mcpProtocolVersion)))
         }
@@ -11782,11 +11929,23 @@ extension InvokeHarnessInput {
 
     static func headerProvider(_ value: InvokeHarnessInput) -> SmithyHTTPAPI.Headers {
         var items = SmithyHTTPAPI.Headers()
+        if let baggage = value.baggage {
+            items.add(SmithyHTTPAPI.Header(name: "baggage", value: Swift.String(baggage)))
+        }
         if let runtimeSessionId = value.runtimeSessionId {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id", value: Swift.String(runtimeSessionId)))
         }
         if let runtimeUserId = value.runtimeUserId {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Runtime-User-Id", value: Swift.String(runtimeUserId)))
+        }
+        if let traceId = value.traceId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Trace-Id", value: Swift.String(traceId)))
+        }
+        if let traceParent = value.traceParent {
+            items.add(SmithyHTTPAPI.Header(name: "traceparent", value: Swift.String(traceParent)))
+        }
+        if let traceState = value.traceState {
+            items.add(SmithyHTTPAPI.Header(name: "tracestate", value: Swift.String(traceState)))
         }
         return items
     }
@@ -12717,6 +12876,7 @@ extension StartBrowserSessionInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["enterprisePolicies"].writeList(value.enterprisePolicies, memberWritingClosure: BedrockAgentCoreClientTypes.BrowserEnterprisePolicy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["extensions"].writeList(value.extensions, memberWritingClosure: BedrockAgentCoreClientTypes.BrowserExtension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["filesystemConfigurations"].writeList(value.filesystemConfigurations, memberWritingClosure: BedrockAgentCoreClientTypes.ToolsFileSystemConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["profileConfiguration"].write(value.profileConfiguration, with: BedrockAgentCoreClientTypes.BrowserProfileConfiguration.write(value:to:))
         try writer["proxyConfiguration"].write(value.proxyConfiguration, with: BedrockAgentCoreClientTypes.ProxyConfiguration.write(value:to:))
@@ -12731,6 +12891,7 @@ extension StartCodeInterpreterSessionInput {
         guard let value else { return }
         try writer["certificates"].writeList(value.certificates, memberWritingClosure: BedrockAgentCoreClientTypes.Certificate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
+        try writer["filesystemConfigurations"].writeList(value.filesystemConfigurations, memberWritingClosure: BedrockAgentCoreClientTypes.ToolsFileSystemConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["sessionTimeoutSeconds"].write(value.sessionTimeoutSeconds)
     }
@@ -13092,6 +13253,7 @@ extension GetBrowserSessionOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.enterprisePolicies = try reader["enterprisePolicies"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.BrowserEnterprisePolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.extensions = try reader["extensions"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.BrowserExtension.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.filesystemConfigurations = try reader["filesystemConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.ToolsFileSystemConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent()
         value.profileConfiguration = try reader["profileConfiguration"].readIfPresent(with: BedrockAgentCoreClientTypes.BrowserProfileConfiguration.read(from:))
@@ -13116,6 +13278,7 @@ extension GetCodeInterpreterSessionOutput {
         value.certificates = try reader["certificates"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.Certificate.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.codeInterpreterIdentifier = try reader["codeInterpreterIdentifier"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.filesystemConfigurations = try reader["filesystemConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.ToolsFileSystemConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["name"].readIfPresent()
         value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
         value.sessionTimeoutSeconds = try reader["sessionTimeoutSeconds"].readIfPresent()
@@ -16236,6 +16399,25 @@ extension BedrockAgentCoreClientTypes.Descriptors {
     }
 }
 
+extension BedrockAgentCoreClientTypes.EfsConfiguration {
+
+    static func write(value: BedrockAgentCoreClientTypes.EfsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessPointArn"].write(value.accessPointArn)
+        try writer["fileSystemArn"].write(value.fileSystemArn)
+        try writer["mountPath"].write(value.mountPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.EfsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.EfsConfiguration()
+        value.accessPointArn = try reader["accessPointArn"].readIfPresent() ?? ""
+        value.mountPath = try reader["mountPath"].readIfPresent() ?? ""
+        value.fileSystemArn = try reader["fileSystemArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.EmbeddedCryptoWallet {
 
     static func write(value: BedrockAgentCoreClientTypes.EmbeddedCryptoWallet?, to writer: SmithyJSON.Writer) throws {
@@ -16760,6 +16942,8 @@ extension BedrockAgentCoreClientTypes.HarnessContentBlockDelta {
                 return .toolresult(try reader["toolResult"].readList(memberReadingClosure: BedrockAgentCoreClientTypes.HarnessToolResultBlockDelta.read(from:), memberNodeInfo: "member", isFlattened: false))
             case "reasoningContent":
                 return .reasoningcontent(try reader["reasoningContent"].read(with: BedrockAgentCoreClientTypes.HarnessReasoningContentBlockDelta.read(from:)))
+            case "toolResultMetadata":
+                return .toolresultmetadata(try reader["toolResultMetadata"].read(with: BedrockAgentCoreClientTypes.HarnessToolResultMetadataBlockDelta.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -16835,6 +17019,7 @@ extension BedrockAgentCoreClientTypes.HarnessGeminiModelConfig {
 
     static func write(value: BedrockAgentCoreClientTypes.HarnessGeminiModelConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalParams"].write(value.additionalParams)
         try writer["apiKeyArn"].write(value.apiKeyArn)
         try writer["maxTokens"].write(value.maxTokens)
         try writer["modelId"].write(value.modelId)
@@ -17163,6 +17348,16 @@ extension BedrockAgentCoreClientTypes.HarnessToolResultContentBlock {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessToolResultMetadataBlockDelta {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessToolResultMetadataBlockDelta {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.HarnessToolResultMetadataBlockDelta()
+        value.metadata = try reader["metadata"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -18337,6 +18532,25 @@ extension RuntimeClientError {
     }
 }
 
+extension BedrockAgentCoreClientTypes.S3FilesConfiguration {
+
+    static func write(value: BedrockAgentCoreClientTypes.S3FilesConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessPointArn"].write(value.accessPointArn)
+        try writer["fileSystemArn"].write(value.fileSystemArn)
+        try writer["mountPath"].write(value.mountPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.S3FilesConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.S3FilesConfiguration()
+        value.accessPointArn = try reader["accessPointArn"].readIfPresent() ?? ""
+        value.mountPath = try reader["mountPath"].readIfPresent() ?? ""
+        value.fileSystemArn = try reader["fileSystemArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.S3Location {
 
     static func write(value: BedrockAgentCoreClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
@@ -18879,6 +19093,34 @@ extension BedrockAgentCoreClientTypes.ToolsDefinition {
         value.protocolVersion = try reader["protocolVersion"].readIfPresent()
         value.inlineContent = try reader["inlineContent"].readIfPresent()
         return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ToolsFileSystemConfiguration {
+
+    static func write(value: BedrockAgentCoreClientTypes.ToolsFileSystemConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .efsconfiguration(efsconfiguration):
+                try writer["efsConfiguration"].write(efsconfiguration, with: BedrockAgentCoreClientTypes.EfsConfiguration.write(value:to:))
+            case let .s3filesconfiguration(s3filesconfiguration):
+                try writer["s3FilesConfiguration"].write(s3filesconfiguration, with: BedrockAgentCoreClientTypes.S3FilesConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ToolsFileSystemConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3FilesConfiguration":
+                return .s3filesconfiguration(try reader["s3FilesConfiguration"].read(with: BedrockAgentCoreClientTypes.S3FilesConfiguration.read(from:)))
+            case "efsConfiguration":
+                return .efsconfiguration(try reader["efsConfiguration"].read(with: BedrockAgentCoreClientTypes.EfsConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

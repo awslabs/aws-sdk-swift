@@ -905,7 +905,7 @@ extension EntityResolutionClient {
 
     /// Performs the `CreateMatchingWorkflow` operation on the `EntityResolution` service.
     ///
-    /// Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use UpdateMatchingWorkflow. For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
+    /// Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use UpdateMatchingWorkflow. For workflows where resolutionType is PROVIDER, incremental processing is not supported.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateMatchingWorkflowInput`)
     ///
@@ -3143,7 +3143,7 @@ extension EntityResolutionClient {
 
     /// Performs the `UpdateMatchingWorkflow` operation on the `EntityResolution` service.
     ///
-    /// Updates an existing matching workflow. The workflow must already exist for this operation to succeed. For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
+    /// Updates an existing matching workflow. The workflow must already exist for this operation to succeed. For workflows where resolutionType is PROVIDER, incremental processing is not supported.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateMatchingWorkflowInput`)
     ///

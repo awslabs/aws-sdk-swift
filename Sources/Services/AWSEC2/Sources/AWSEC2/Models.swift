@@ -11382,6 +11382,19 @@ extension EC2ClientTypes {
         case c8iMetal48xl
         case c8iMetal96xl
         case c8iXlarge
+        case c8ib12xlarge
+        case c8ib16xlarge
+        case c8ib24xlarge
+        case c8ib2xlarge
+        case c8ib32xlarge
+        case c8ib48xlarge
+        case c8ib4xlarge
+        case c8ib8xlarge
+        case c8ib96xlarge
+        case c8ibLarge
+        case c8ibMetal48xl
+        case c8ibMetal96xl
+        case c8ibXlarge
         case c8id12xlarge
         case c8id16xlarge
         case c8id24xlarge
@@ -11395,6 +11408,47 @@ extension EC2ClientTypes {
         case c8idMetal48xl
         case c8idMetal96xl
         case c8idXlarge
+        case c8in12xlarge
+        case c8in16xlarge
+        case c8in24xlarge
+        case c8in2xlarge
+        case c8in32xlarge
+        case c8in48xlarge
+        case c8in4xlarge
+        case c8in8xlarge
+        case c8in96xlarge
+        case c8inLarge
+        case c8inMetal48xl
+        case c8inMetal96xl
+        case c8inXlarge
+        case c8ine12xlarge
+        case c8ine2xlarge
+        case c8ine4xlarge
+        case c8ine8xlarge
+        case c8ineLarge
+        case c8ineXlarge
+        case c9g12xlarge
+        case c9g16xlarge
+        case c9g24xlarge
+        case c9g2xlarge
+        case c9g48xlarge
+        case c9g4xlarge
+        case c9g8xlarge
+        case c9gLarge
+        case c9gMedium
+        case c9gMetal48xl
+        case c9gXlarge
+        case c9gd12xlarge
+        case c9gd16xlarge
+        case c9gd24xlarge
+        case c9gd2xlarge
+        case c9gd48xlarge
+        case c9gd4xlarge
+        case c9gd8xlarge
+        case c9gdLarge
+        case c9gdMedium
+        case c9gdMetal48xl
+        case c9gdXlarge
         case cc14xlarge
         case cc28xlarge
         case cg14xlarge
@@ -11473,6 +11527,12 @@ extension EC2ClientTypes {
         case g6f4xlarge
         case g6fLarge
         case g6fXlarge
+        case g712xlarge
+        case g724xlarge
+        case g72xlarge
+        case g748xlarge
+        case g74xlarge
+        case g78xlarge
         case g7e12xlarge
         case g7e24xlarge
         case g7e2xlarge
@@ -11878,6 +11938,19 @@ extension EC2ClientTypes {
         case m8iMetal48xl
         case m8iMetal96xl
         case m8iXlarge
+        case m8ib12xlarge
+        case m8ib16xlarge
+        case m8ib24xlarge
+        case m8ib2xlarge
+        case m8ib32xlarge
+        case m8ib48xlarge
+        case m8ib4xlarge
+        case m8ib8xlarge
+        case m8ib96xlarge
+        case m8ibLarge
+        case m8ibMetal48xl
+        case m8ibMetal96xl
+        case m8ibXlarge
         case m8id12xlarge
         case m8id16xlarge
         case m8id24xlarge
@@ -11891,11 +11964,79 @@ extension EC2ClientTypes {
         case m8idMetal48xl
         case m8idMetal96xl
         case m8idXlarge
+        case m8idb12xlarge
+        case m8idb16xlarge
+        case m8idb24xlarge
+        case m8idb2xlarge
+        case m8idb32xlarge
+        case m8idb48xlarge
+        case m8idb4xlarge
+        case m8idb8xlarge
+        case m8idb96xlarge
+        case m8idbLarge
+        case m8idbMetal48xl
+        case m8idbMetal96xl
+        case m8idbXlarge
+        case m8idn12xlarge
+        case m8idn16xlarge
+        case m8idn24xlarge
+        case m8idn2xlarge
+        case m8idn32xlarge
+        case m8idn48xlarge
+        case m8idn4xlarge
+        case m8idn8xlarge
+        case m8idn96xlarge
+        case m8idnLarge
+        case m8idnMetal48xl
+        case m8idnMetal96xl
+        case m8idnXlarge
+        case m8in12xlarge
+        case m8in16xlarge
+        case m8in24xlarge
+        case m8in2xlarge
+        case m8in32xlarge
+        case m8in48xlarge
+        case m8in4xlarge
+        case m8in8xlarge
+        case m8in96xlarge
+        case m8inLarge
+        case m8inMetal48xl
+        case m8inMetal96xl
+        case m8inXlarge
+        case m8ine12xlarge
+        case m8ine2xlarge
+        case m8ine4xlarge
+        case m8ine8xlarge
+        case m8ineLarge
+        case m8ineXlarge
+        case m9g12xlarge
+        case m9g16xlarge
+        case m9g24xlarge
+        case m9g2xlarge
+        case m9g48xlarge
+        case m9g4xlarge
+        case m9g8xlarge
+        case m9gLarge
+        case m9gMetal24xl
+        case m9gMetal48xl
+        case m9gXlarge
+        case m9gd12xlarge
+        case m9gd16xlarge
+        case m9gd24xlarge
+        case m9gd2xlarge
+        case m9gd48xlarge
+        case m9gd4xlarge
+        case m9gd8xlarge
+        case m9gdLarge
+        case m9gdMetal24xl
+        case m9gdMetal48xl
+        case m9gdXlarge
         case mac1Metal
         case mac2M1ultraMetal
         case mac2M2Metal
         case mac2M2proMetal
         case mac2Metal
+        case macM3ultraMetal
         case macM4Metal
         case macM4maxMetal
         case macM4proMetal
@@ -12185,6 +12326,19 @@ extension EC2ClientTypes {
         case r8iMetal48xl
         case r8iMetal96xl
         case r8iXlarge
+        case r8ib12xlarge
+        case r8ib16xlarge
+        case r8ib24xlarge
+        case r8ib2xlarge
+        case r8ib32xlarge
+        case r8ib48xlarge
+        case r8ib4xlarge
+        case r8ib8xlarge
+        case r8ib96xlarge
+        case r8ibLarge
+        case r8ibMetal48xl
+        case r8ibMetal96xl
+        case r8ibXlarge
         case r8id12xlarge
         case r8id16xlarge
         case r8id24xlarge
@@ -12198,6 +12352,45 @@ extension EC2ClientTypes {
         case r8idMetal48xl
         case r8idMetal96xl
         case r8idXlarge
+        case r8idb12xlarge
+        case r8idb16xlarge
+        case r8idb24xlarge
+        case r8idb2xlarge
+        case r8idb32xlarge
+        case r8idb48xlarge
+        case r8idb4xlarge
+        case r8idb8xlarge
+        case r8idb96xlarge
+        case r8idbLarge
+        case r8idbMetal48xl
+        case r8idbMetal96xl
+        case r8idbXlarge
+        case r8idn12xlarge
+        case r8idn16xlarge
+        case r8idn24xlarge
+        case r8idn2xlarge
+        case r8idn32xlarge
+        case r8idn48xlarge
+        case r8idn4xlarge
+        case r8idn8xlarge
+        case r8idn96xlarge
+        case r8idnLarge
+        case r8idnMetal48xl
+        case r8idnMetal96xl
+        case r8idnXlarge
+        case r8in12xlarge
+        case r8in16xlarge
+        case r8in24xlarge
+        case r8in2xlarge
+        case r8in32xlarge
+        case r8in48xlarge
+        case r8in4xlarge
+        case r8in8xlarge
+        case r8in96xlarge
+        case r8inLarge
+        case r8inMetal48xl
+        case r8inMetal96xl
+        case r8inXlarge
         case t1Micro
         case t22xlarge
         case t2Large
@@ -12598,6 +12791,19 @@ extension EC2ClientTypes {
                 .c8iMetal48xl,
                 .c8iMetal96xl,
                 .c8iXlarge,
+                .c8ib12xlarge,
+                .c8ib16xlarge,
+                .c8ib24xlarge,
+                .c8ib2xlarge,
+                .c8ib32xlarge,
+                .c8ib48xlarge,
+                .c8ib4xlarge,
+                .c8ib8xlarge,
+                .c8ib96xlarge,
+                .c8ibLarge,
+                .c8ibMetal48xl,
+                .c8ibMetal96xl,
+                .c8ibXlarge,
                 .c8id12xlarge,
                 .c8id16xlarge,
                 .c8id24xlarge,
@@ -12611,6 +12817,47 @@ extension EC2ClientTypes {
                 .c8idMetal48xl,
                 .c8idMetal96xl,
                 .c8idXlarge,
+                .c8in12xlarge,
+                .c8in16xlarge,
+                .c8in24xlarge,
+                .c8in2xlarge,
+                .c8in32xlarge,
+                .c8in48xlarge,
+                .c8in4xlarge,
+                .c8in8xlarge,
+                .c8in96xlarge,
+                .c8inLarge,
+                .c8inMetal48xl,
+                .c8inMetal96xl,
+                .c8inXlarge,
+                .c8ine12xlarge,
+                .c8ine2xlarge,
+                .c8ine4xlarge,
+                .c8ine8xlarge,
+                .c8ineLarge,
+                .c8ineXlarge,
+                .c9g12xlarge,
+                .c9g16xlarge,
+                .c9g24xlarge,
+                .c9g2xlarge,
+                .c9g48xlarge,
+                .c9g4xlarge,
+                .c9g8xlarge,
+                .c9gLarge,
+                .c9gMedium,
+                .c9gMetal48xl,
+                .c9gXlarge,
+                .c9gd12xlarge,
+                .c9gd16xlarge,
+                .c9gd24xlarge,
+                .c9gd2xlarge,
+                .c9gd48xlarge,
+                .c9gd4xlarge,
+                .c9gd8xlarge,
+                .c9gdLarge,
+                .c9gdMedium,
+                .c9gdMetal48xl,
+                .c9gdXlarge,
                 .cc14xlarge,
                 .cc28xlarge,
                 .cg14xlarge,
@@ -12689,6 +12936,12 @@ extension EC2ClientTypes {
                 .g6f4xlarge,
                 .g6fLarge,
                 .g6fXlarge,
+                .g712xlarge,
+                .g724xlarge,
+                .g72xlarge,
+                .g748xlarge,
+                .g74xlarge,
+                .g78xlarge,
                 .g7e12xlarge,
                 .g7e24xlarge,
                 .g7e2xlarge,
@@ -13094,6 +13347,19 @@ extension EC2ClientTypes {
                 .m8iMetal48xl,
                 .m8iMetal96xl,
                 .m8iXlarge,
+                .m8ib12xlarge,
+                .m8ib16xlarge,
+                .m8ib24xlarge,
+                .m8ib2xlarge,
+                .m8ib32xlarge,
+                .m8ib48xlarge,
+                .m8ib4xlarge,
+                .m8ib8xlarge,
+                .m8ib96xlarge,
+                .m8ibLarge,
+                .m8ibMetal48xl,
+                .m8ibMetal96xl,
+                .m8ibXlarge,
                 .m8id12xlarge,
                 .m8id16xlarge,
                 .m8id24xlarge,
@@ -13107,11 +13373,79 @@ extension EC2ClientTypes {
                 .m8idMetal48xl,
                 .m8idMetal96xl,
                 .m8idXlarge,
+                .m8idb12xlarge,
+                .m8idb16xlarge,
+                .m8idb24xlarge,
+                .m8idb2xlarge,
+                .m8idb32xlarge,
+                .m8idb48xlarge,
+                .m8idb4xlarge,
+                .m8idb8xlarge,
+                .m8idb96xlarge,
+                .m8idbLarge,
+                .m8idbMetal48xl,
+                .m8idbMetal96xl,
+                .m8idbXlarge,
+                .m8idn12xlarge,
+                .m8idn16xlarge,
+                .m8idn24xlarge,
+                .m8idn2xlarge,
+                .m8idn32xlarge,
+                .m8idn48xlarge,
+                .m8idn4xlarge,
+                .m8idn8xlarge,
+                .m8idn96xlarge,
+                .m8idnLarge,
+                .m8idnMetal48xl,
+                .m8idnMetal96xl,
+                .m8idnXlarge,
+                .m8in12xlarge,
+                .m8in16xlarge,
+                .m8in24xlarge,
+                .m8in2xlarge,
+                .m8in32xlarge,
+                .m8in48xlarge,
+                .m8in4xlarge,
+                .m8in8xlarge,
+                .m8in96xlarge,
+                .m8inLarge,
+                .m8inMetal48xl,
+                .m8inMetal96xl,
+                .m8inXlarge,
+                .m8ine12xlarge,
+                .m8ine2xlarge,
+                .m8ine4xlarge,
+                .m8ine8xlarge,
+                .m8ineLarge,
+                .m8ineXlarge,
+                .m9g12xlarge,
+                .m9g16xlarge,
+                .m9g24xlarge,
+                .m9g2xlarge,
+                .m9g48xlarge,
+                .m9g4xlarge,
+                .m9g8xlarge,
+                .m9gLarge,
+                .m9gMetal24xl,
+                .m9gMetal48xl,
+                .m9gXlarge,
+                .m9gd12xlarge,
+                .m9gd16xlarge,
+                .m9gd24xlarge,
+                .m9gd2xlarge,
+                .m9gd48xlarge,
+                .m9gd4xlarge,
+                .m9gd8xlarge,
+                .m9gdLarge,
+                .m9gdMetal24xl,
+                .m9gdMetal48xl,
+                .m9gdXlarge,
                 .mac1Metal,
                 .mac2M1ultraMetal,
                 .mac2M2Metal,
                 .mac2M2proMetal,
                 .mac2Metal,
+                .macM3ultraMetal,
                 .macM4Metal,
                 .macM4maxMetal,
                 .macM4proMetal,
@@ -13401,6 +13735,19 @@ extension EC2ClientTypes {
                 .r8iMetal48xl,
                 .r8iMetal96xl,
                 .r8iXlarge,
+                .r8ib12xlarge,
+                .r8ib16xlarge,
+                .r8ib24xlarge,
+                .r8ib2xlarge,
+                .r8ib32xlarge,
+                .r8ib48xlarge,
+                .r8ib4xlarge,
+                .r8ib8xlarge,
+                .r8ib96xlarge,
+                .r8ibLarge,
+                .r8ibMetal48xl,
+                .r8ibMetal96xl,
+                .r8ibXlarge,
                 .r8id12xlarge,
                 .r8id16xlarge,
                 .r8id24xlarge,
@@ -13414,6 +13761,45 @@ extension EC2ClientTypes {
                 .r8idMetal48xl,
                 .r8idMetal96xl,
                 .r8idXlarge,
+                .r8idb12xlarge,
+                .r8idb16xlarge,
+                .r8idb24xlarge,
+                .r8idb2xlarge,
+                .r8idb32xlarge,
+                .r8idb48xlarge,
+                .r8idb4xlarge,
+                .r8idb8xlarge,
+                .r8idb96xlarge,
+                .r8idbLarge,
+                .r8idbMetal48xl,
+                .r8idbMetal96xl,
+                .r8idbXlarge,
+                .r8idn12xlarge,
+                .r8idn16xlarge,
+                .r8idn24xlarge,
+                .r8idn2xlarge,
+                .r8idn32xlarge,
+                .r8idn48xlarge,
+                .r8idn4xlarge,
+                .r8idn8xlarge,
+                .r8idn96xlarge,
+                .r8idnLarge,
+                .r8idnMetal48xl,
+                .r8idnMetal96xl,
+                .r8idnXlarge,
+                .r8in12xlarge,
+                .r8in16xlarge,
+                .r8in24xlarge,
+                .r8in2xlarge,
+                .r8in32xlarge,
+                .r8in48xlarge,
+                .r8in4xlarge,
+                .r8in8xlarge,
+                .r8in96xlarge,
+                .r8inLarge,
+                .r8inMetal48xl,
+                .r8inMetal96xl,
+                .r8inXlarge,
                 .t1Micro,
                 .t22xlarge,
                 .t2Large,
@@ -13820,6 +14206,19 @@ extension EC2ClientTypes {
             case .c8iMetal48xl: return "c8i.metal-48xl"
             case .c8iMetal96xl: return "c8i.metal-96xl"
             case .c8iXlarge: return "c8i.xlarge"
+            case .c8ib12xlarge: return "c8ib.12xlarge"
+            case .c8ib16xlarge: return "c8ib.16xlarge"
+            case .c8ib24xlarge: return "c8ib.24xlarge"
+            case .c8ib2xlarge: return "c8ib.2xlarge"
+            case .c8ib32xlarge: return "c8ib.32xlarge"
+            case .c8ib48xlarge: return "c8ib.48xlarge"
+            case .c8ib4xlarge: return "c8ib.4xlarge"
+            case .c8ib8xlarge: return "c8ib.8xlarge"
+            case .c8ib96xlarge: return "c8ib.96xlarge"
+            case .c8ibLarge: return "c8ib.large"
+            case .c8ibMetal48xl: return "c8ib.metal-48xl"
+            case .c8ibMetal96xl: return "c8ib.metal-96xl"
+            case .c8ibXlarge: return "c8ib.xlarge"
             case .c8id12xlarge: return "c8id.12xlarge"
             case .c8id16xlarge: return "c8id.16xlarge"
             case .c8id24xlarge: return "c8id.24xlarge"
@@ -13833,6 +14232,47 @@ extension EC2ClientTypes {
             case .c8idMetal48xl: return "c8id.metal-48xl"
             case .c8idMetal96xl: return "c8id.metal-96xl"
             case .c8idXlarge: return "c8id.xlarge"
+            case .c8in12xlarge: return "c8in.12xlarge"
+            case .c8in16xlarge: return "c8in.16xlarge"
+            case .c8in24xlarge: return "c8in.24xlarge"
+            case .c8in2xlarge: return "c8in.2xlarge"
+            case .c8in32xlarge: return "c8in.32xlarge"
+            case .c8in48xlarge: return "c8in.48xlarge"
+            case .c8in4xlarge: return "c8in.4xlarge"
+            case .c8in8xlarge: return "c8in.8xlarge"
+            case .c8in96xlarge: return "c8in.96xlarge"
+            case .c8inLarge: return "c8in.large"
+            case .c8inMetal48xl: return "c8in.metal-48xl"
+            case .c8inMetal96xl: return "c8in.metal-96xl"
+            case .c8inXlarge: return "c8in.xlarge"
+            case .c8ine12xlarge: return "c8ine.12xlarge"
+            case .c8ine2xlarge: return "c8ine.2xlarge"
+            case .c8ine4xlarge: return "c8ine.4xlarge"
+            case .c8ine8xlarge: return "c8ine.8xlarge"
+            case .c8ineLarge: return "c8ine.large"
+            case .c8ineXlarge: return "c8ine.xlarge"
+            case .c9g12xlarge: return "c9g.12xlarge"
+            case .c9g16xlarge: return "c9g.16xlarge"
+            case .c9g24xlarge: return "c9g.24xlarge"
+            case .c9g2xlarge: return "c9g.2xlarge"
+            case .c9g48xlarge: return "c9g.48xlarge"
+            case .c9g4xlarge: return "c9g.4xlarge"
+            case .c9g8xlarge: return "c9g.8xlarge"
+            case .c9gLarge: return "c9g.large"
+            case .c9gMedium: return "c9g.medium"
+            case .c9gMetal48xl: return "c9g.metal-48xl"
+            case .c9gXlarge: return "c9g.xlarge"
+            case .c9gd12xlarge: return "c9gd.12xlarge"
+            case .c9gd16xlarge: return "c9gd.16xlarge"
+            case .c9gd24xlarge: return "c9gd.24xlarge"
+            case .c9gd2xlarge: return "c9gd.2xlarge"
+            case .c9gd48xlarge: return "c9gd.48xlarge"
+            case .c9gd4xlarge: return "c9gd.4xlarge"
+            case .c9gd8xlarge: return "c9gd.8xlarge"
+            case .c9gdLarge: return "c9gd.large"
+            case .c9gdMedium: return "c9gd.medium"
+            case .c9gdMetal48xl: return "c9gd.metal-48xl"
+            case .c9gdXlarge: return "c9gd.xlarge"
             case .cc14xlarge: return "cc1.4xlarge"
             case .cc28xlarge: return "cc2.8xlarge"
             case .cg14xlarge: return "cg1.4xlarge"
@@ -13911,6 +14351,12 @@ extension EC2ClientTypes {
             case .g6f4xlarge: return "g6f.4xlarge"
             case .g6fLarge: return "g6f.large"
             case .g6fXlarge: return "g6f.xlarge"
+            case .g712xlarge: return "g7.12xlarge"
+            case .g724xlarge: return "g7.24xlarge"
+            case .g72xlarge: return "g7.2xlarge"
+            case .g748xlarge: return "g7.48xlarge"
+            case .g74xlarge: return "g7.4xlarge"
+            case .g78xlarge: return "g7.8xlarge"
             case .g7e12xlarge: return "g7e.12xlarge"
             case .g7e24xlarge: return "g7e.24xlarge"
             case .g7e2xlarge: return "g7e.2xlarge"
@@ -14316,6 +14762,19 @@ extension EC2ClientTypes {
             case .m8iMetal48xl: return "m8i.metal-48xl"
             case .m8iMetal96xl: return "m8i.metal-96xl"
             case .m8iXlarge: return "m8i.xlarge"
+            case .m8ib12xlarge: return "m8ib.12xlarge"
+            case .m8ib16xlarge: return "m8ib.16xlarge"
+            case .m8ib24xlarge: return "m8ib.24xlarge"
+            case .m8ib2xlarge: return "m8ib.2xlarge"
+            case .m8ib32xlarge: return "m8ib.32xlarge"
+            case .m8ib48xlarge: return "m8ib.48xlarge"
+            case .m8ib4xlarge: return "m8ib.4xlarge"
+            case .m8ib8xlarge: return "m8ib.8xlarge"
+            case .m8ib96xlarge: return "m8ib.96xlarge"
+            case .m8ibLarge: return "m8ib.large"
+            case .m8ibMetal48xl: return "m8ib.metal-48xl"
+            case .m8ibMetal96xl: return "m8ib.metal-96xl"
+            case .m8ibXlarge: return "m8ib.xlarge"
             case .m8id12xlarge: return "m8id.12xlarge"
             case .m8id16xlarge: return "m8id.16xlarge"
             case .m8id24xlarge: return "m8id.24xlarge"
@@ -14329,11 +14788,79 @@ extension EC2ClientTypes {
             case .m8idMetal48xl: return "m8id.metal-48xl"
             case .m8idMetal96xl: return "m8id.metal-96xl"
             case .m8idXlarge: return "m8id.xlarge"
+            case .m8idb12xlarge: return "m8idb.12xlarge"
+            case .m8idb16xlarge: return "m8idb.16xlarge"
+            case .m8idb24xlarge: return "m8idb.24xlarge"
+            case .m8idb2xlarge: return "m8idb.2xlarge"
+            case .m8idb32xlarge: return "m8idb.32xlarge"
+            case .m8idb48xlarge: return "m8idb.48xlarge"
+            case .m8idb4xlarge: return "m8idb.4xlarge"
+            case .m8idb8xlarge: return "m8idb.8xlarge"
+            case .m8idb96xlarge: return "m8idb.96xlarge"
+            case .m8idbLarge: return "m8idb.large"
+            case .m8idbMetal48xl: return "m8idb.metal-48xl"
+            case .m8idbMetal96xl: return "m8idb.metal-96xl"
+            case .m8idbXlarge: return "m8idb.xlarge"
+            case .m8idn12xlarge: return "m8idn.12xlarge"
+            case .m8idn16xlarge: return "m8idn.16xlarge"
+            case .m8idn24xlarge: return "m8idn.24xlarge"
+            case .m8idn2xlarge: return "m8idn.2xlarge"
+            case .m8idn32xlarge: return "m8idn.32xlarge"
+            case .m8idn48xlarge: return "m8idn.48xlarge"
+            case .m8idn4xlarge: return "m8idn.4xlarge"
+            case .m8idn8xlarge: return "m8idn.8xlarge"
+            case .m8idn96xlarge: return "m8idn.96xlarge"
+            case .m8idnLarge: return "m8idn.large"
+            case .m8idnMetal48xl: return "m8idn.metal-48xl"
+            case .m8idnMetal96xl: return "m8idn.metal-96xl"
+            case .m8idnXlarge: return "m8idn.xlarge"
+            case .m8in12xlarge: return "m8in.12xlarge"
+            case .m8in16xlarge: return "m8in.16xlarge"
+            case .m8in24xlarge: return "m8in.24xlarge"
+            case .m8in2xlarge: return "m8in.2xlarge"
+            case .m8in32xlarge: return "m8in.32xlarge"
+            case .m8in48xlarge: return "m8in.48xlarge"
+            case .m8in4xlarge: return "m8in.4xlarge"
+            case .m8in8xlarge: return "m8in.8xlarge"
+            case .m8in96xlarge: return "m8in.96xlarge"
+            case .m8inLarge: return "m8in.large"
+            case .m8inMetal48xl: return "m8in.metal-48xl"
+            case .m8inMetal96xl: return "m8in.metal-96xl"
+            case .m8inXlarge: return "m8in.xlarge"
+            case .m8ine12xlarge: return "m8ine.12xlarge"
+            case .m8ine2xlarge: return "m8ine.2xlarge"
+            case .m8ine4xlarge: return "m8ine.4xlarge"
+            case .m8ine8xlarge: return "m8ine.8xlarge"
+            case .m8ineLarge: return "m8ine.large"
+            case .m8ineXlarge: return "m8ine.xlarge"
+            case .m9g12xlarge: return "m9g.12xlarge"
+            case .m9g16xlarge: return "m9g.16xlarge"
+            case .m9g24xlarge: return "m9g.24xlarge"
+            case .m9g2xlarge: return "m9g.2xlarge"
+            case .m9g48xlarge: return "m9g.48xlarge"
+            case .m9g4xlarge: return "m9g.4xlarge"
+            case .m9g8xlarge: return "m9g.8xlarge"
+            case .m9gLarge: return "m9g.large"
+            case .m9gMetal24xl: return "m9g.metal-24xl"
+            case .m9gMetal48xl: return "m9g.metal-48xl"
+            case .m9gXlarge: return "m9g.xlarge"
+            case .m9gd12xlarge: return "m9gd.12xlarge"
+            case .m9gd16xlarge: return "m9gd.16xlarge"
+            case .m9gd24xlarge: return "m9gd.24xlarge"
+            case .m9gd2xlarge: return "m9gd.2xlarge"
+            case .m9gd48xlarge: return "m9gd.48xlarge"
+            case .m9gd4xlarge: return "m9gd.4xlarge"
+            case .m9gd8xlarge: return "m9gd.8xlarge"
+            case .m9gdLarge: return "m9gd.large"
+            case .m9gdMetal24xl: return "m9gd.metal-24xl"
+            case .m9gdMetal48xl: return "m9gd.metal-48xl"
+            case .m9gdXlarge: return "m9gd.xlarge"
             case .mac1Metal: return "mac1.metal"
             case .mac2M1ultraMetal: return "mac2-m1ultra.metal"
             case .mac2M2Metal: return "mac2-m2.metal"
             case .mac2M2proMetal: return "mac2-m2pro.metal"
             case .mac2Metal: return "mac2.metal"
+            case .macM3ultraMetal: return "mac-m3ultra.metal"
             case .macM4Metal: return "mac-m4.metal"
             case .macM4maxMetal: return "mac-m4max.metal"
             case .macM4proMetal: return "mac-m4pro.metal"
@@ -14623,6 +15150,19 @@ extension EC2ClientTypes {
             case .r8iMetal48xl: return "r8i.metal-48xl"
             case .r8iMetal96xl: return "r8i.metal-96xl"
             case .r8iXlarge: return "r8i.xlarge"
+            case .r8ib12xlarge: return "r8ib.12xlarge"
+            case .r8ib16xlarge: return "r8ib.16xlarge"
+            case .r8ib24xlarge: return "r8ib.24xlarge"
+            case .r8ib2xlarge: return "r8ib.2xlarge"
+            case .r8ib32xlarge: return "r8ib.32xlarge"
+            case .r8ib48xlarge: return "r8ib.48xlarge"
+            case .r8ib4xlarge: return "r8ib.4xlarge"
+            case .r8ib8xlarge: return "r8ib.8xlarge"
+            case .r8ib96xlarge: return "r8ib.96xlarge"
+            case .r8ibLarge: return "r8ib.large"
+            case .r8ibMetal48xl: return "r8ib.metal-48xl"
+            case .r8ibMetal96xl: return "r8ib.metal-96xl"
+            case .r8ibXlarge: return "r8ib.xlarge"
             case .r8id12xlarge: return "r8id.12xlarge"
             case .r8id16xlarge: return "r8id.16xlarge"
             case .r8id24xlarge: return "r8id.24xlarge"
@@ -14636,6 +15176,45 @@ extension EC2ClientTypes {
             case .r8idMetal48xl: return "r8id.metal-48xl"
             case .r8idMetal96xl: return "r8id.metal-96xl"
             case .r8idXlarge: return "r8id.xlarge"
+            case .r8idb12xlarge: return "r8idb.12xlarge"
+            case .r8idb16xlarge: return "r8idb.16xlarge"
+            case .r8idb24xlarge: return "r8idb.24xlarge"
+            case .r8idb2xlarge: return "r8idb.2xlarge"
+            case .r8idb32xlarge: return "r8idb.32xlarge"
+            case .r8idb48xlarge: return "r8idb.48xlarge"
+            case .r8idb4xlarge: return "r8idb.4xlarge"
+            case .r8idb8xlarge: return "r8idb.8xlarge"
+            case .r8idb96xlarge: return "r8idb.96xlarge"
+            case .r8idbLarge: return "r8idb.large"
+            case .r8idbMetal48xl: return "r8idb.metal-48xl"
+            case .r8idbMetal96xl: return "r8idb.metal-96xl"
+            case .r8idbXlarge: return "r8idb.xlarge"
+            case .r8idn12xlarge: return "r8idn.12xlarge"
+            case .r8idn16xlarge: return "r8idn.16xlarge"
+            case .r8idn24xlarge: return "r8idn.24xlarge"
+            case .r8idn2xlarge: return "r8idn.2xlarge"
+            case .r8idn32xlarge: return "r8idn.32xlarge"
+            case .r8idn48xlarge: return "r8idn.48xlarge"
+            case .r8idn4xlarge: return "r8idn.4xlarge"
+            case .r8idn8xlarge: return "r8idn.8xlarge"
+            case .r8idn96xlarge: return "r8idn.96xlarge"
+            case .r8idnLarge: return "r8idn.large"
+            case .r8idnMetal48xl: return "r8idn.metal-48xl"
+            case .r8idnMetal96xl: return "r8idn.metal-96xl"
+            case .r8idnXlarge: return "r8idn.xlarge"
+            case .r8in12xlarge: return "r8in.12xlarge"
+            case .r8in16xlarge: return "r8in.16xlarge"
+            case .r8in24xlarge: return "r8in.24xlarge"
+            case .r8in2xlarge: return "r8in.2xlarge"
+            case .r8in32xlarge: return "r8in.32xlarge"
+            case .r8in48xlarge: return "r8in.48xlarge"
+            case .r8in4xlarge: return "r8in.4xlarge"
+            case .r8in8xlarge: return "r8in.8xlarge"
+            case .r8in96xlarge: return "r8in.96xlarge"
+            case .r8inLarge: return "r8in.large"
+            case .r8inMetal48xl: return "r8in.metal-48xl"
+            case .r8inMetal96xl: return "r8in.metal-96xl"
+            case .r8inXlarge: return "r8in.xlarge"
             case .t1Micro: return "t1.micro"
             case .t22xlarge: return "t2.2xlarge"
             case .t2Large: return "t2.large"

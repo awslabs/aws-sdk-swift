@@ -2986,10 +2986,44 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+/// The client token was already used with different request parameters. A client token must map to the same parameters for every request. To retry this operation, provide a new client token.
+public struct ConflictException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The identifier of the resource involved in the client token conflict.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of the resource involved in the client token conflict.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
 public struct StartPlanExecutionInput: Swift.Sendable {
     /// The action to perform. Valid values are activate (to shift traffic to the target Region) or deactivate (to shift traffic away from the target Region).
     /// This member is required.
     public var action: ARCRegionswitchClientTypes.ExecutionAction?
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request and returns the result of the original successful request. If you don't provide a client token, the service automatically generates one. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
     /// An optional comment explaining why the plan execution is being started.
     public var comment: Swift.String?
     /// A boolean value indicating whether to use the latest version of the plan. If set to false, you must specify a specific version.
@@ -3007,6 +3041,7 @@ public struct StartPlanExecutionInput: Swift.Sendable {
 
     public init(
         action: ARCRegionswitchClientTypes.ExecutionAction? = nil,
+        clientToken: Swift.String? = nil,
         comment: Swift.String? = nil,
         latestVersion: Swift.String? = nil,
         mode: ARCRegionswitchClientTypes.ExecutionMode? = nil,
@@ -3015,6 +3050,7 @@ public struct StartPlanExecutionInput: Swift.Sendable {
         targetRegion: Swift.String? = nil
     ) {
         self.action = action
+        self.clientToken = clientToken
         self.comment = comment
         self.latestVersion = latestVersion
         self.mode = mode

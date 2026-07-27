@@ -613,6 +613,87 @@ extension HealthLakeClient {
 }
 
 extension HealthLakeClient {
+    /// Performs the `CreateDataTransformationProfile` operation on the `HealthLake` service.
+    ///
+    /// Creates a data transformation profile in DRAFT state. Specify a built-in starter profile, an existing profile version, raw profile content, or a sample data file as the source.
+    ///
+    /// - Parameter input: The request parameters for the CreateDataTransformationProfile operation. (Type: `CreateDataTransformationProfileInput`)
+    ///
+    /// - Returns: The response from the CreateDataTransformationProfile operation. (Type: `CreateDataTransformationProfileOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `ConflictException` : The data store is in a transition state and the user requested action cannot be performed.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ServiceQuotaExceededException` : The request exceeds the service quota.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
+    public func createDataTransformationProfile(input: CreateDataTransformationProfileInput) async throws -> CreateDataTransformationProfileOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = HealthLakeClient.createDataTransformationProfileOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createDataTransformationProfile")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "healthlake")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateDataTransformationProfileInput, CreateDataTransformationProfileOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDataTransformationProfileInput, CreateDataTransformationProfileOutput>(hostPrefix: "datatransformation."))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataTransformationProfileInput, CreateDataTransformationProfileOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataTransformationProfileInput, CreateDataTransformationProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataTransformationProfileOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("HealthLake", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDataTransformationProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDataTransformationProfileInput, CreateDataTransformationProfileOutput>(overrides: ["X-Amz-Target": "HealthLake.CreateDataTransformationProfile"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDataTransformationProfileInput, CreateDataTransformationProfileOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDataTransformationProfileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDataTransformationProfileInput, CreateDataTransformationProfileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDataTransformationProfileInput, CreateDataTransformationProfileOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "HealthLake"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDataTransformationProfileInput, CreateDataTransformationProfileOutput>(serviceID: serviceName, version: HealthLakeClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "HealthLake")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDataTransformationProfile")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateFHIRDatastore` operation on the `HealthLake` service.
     ///
     /// Create a FHIR-enabled data store.
@@ -679,6 +760,84 @@ extension HealthLakeClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "HealthLake")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateFHIRDatastore")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteDataTransformationProfile` operation on the `HealthLake` service.
+    ///
+    /// Deletes a data transformation profile and all its versions, including the DRAFT and all published versions.
+    ///
+    /// - Parameter input: The request parameters for the DeleteDataTransformationProfile operation. (Type: `DeleteDataTransformationProfileInput`)
+    ///
+    /// - Returns: The response from the DeleteDataTransformationProfile operation. (Type: `DeleteDataTransformationProfileOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
+    public func deleteDataTransformationProfile(input: DeleteDataTransformationProfileInput) async throws -> DeleteDataTransformationProfileOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = HealthLakeClient.deleteDataTransformationProfileOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteDataTransformationProfile")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "healthlake")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataTransformationProfileInput, DeleteDataTransformationProfileOutput>(hostPrefix: "datatransformation."))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDataTransformationProfileInput, DeleteDataTransformationProfileOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataTransformationProfileInput, DeleteDataTransformationProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataTransformationProfileOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("HealthLake", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDataTransformationProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDataTransformationProfileInput, DeleteDataTransformationProfileOutput>(overrides: ["X-Amz-Target": "HealthLake.DeleteDataTransformationProfile"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDataTransformationProfileInput, DeleteDataTransformationProfileOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDataTransformationProfileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDataTransformationProfileInput, DeleteDataTransformationProfileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDataTransformationProfileInput, DeleteDataTransformationProfileOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "HealthLake"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDataTransformationProfileInput, DeleteDataTransformationProfileOutput>(serviceID: serviceName, version: HealthLakeClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "HealthLake")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDataTransformationProfile")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -758,6 +917,84 @@ extension HealthLakeClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "HealthLake")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteFHIRDatastore")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeDataTransformationJob` operation on the `HealthLake` service.
+    ///
+    /// Describes a data transformation job, including its current status, configuration, and progress information.
+    ///
+    /// - Parameter input: The request parameters for the DescribeDataTransformationJob operation. (Type: `DescribeDataTransformationJobInput`)
+    ///
+    /// - Returns: The response from the DescribeDataTransformationJob operation. (Type: `DescribeDataTransformationJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
+    public func describeDataTransformationJob(input: DescribeDataTransformationJobInput) async throws -> DescribeDataTransformationJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = HealthLakeClient.describeDataTransformationJobOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeDataTransformationJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "healthlake")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDataTransformationJobInput, DescribeDataTransformationJobOutput>(hostPrefix: "datatransformation."))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDataTransformationJobInput, DescribeDataTransformationJobOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataTransformationJobInput, DescribeDataTransformationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataTransformationJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("HealthLake", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDataTransformationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDataTransformationJobInput, DescribeDataTransformationJobOutput>(overrides: ["X-Amz-Target": "HealthLake.DescribeDataTransformationJob"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDataTransformationJobInput, DescribeDataTransformationJobOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDataTransformationJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDataTransformationJobInput, DescribeDataTransformationJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDataTransformationJobInput, DescribeDataTransformationJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "HealthLake"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDataTransformationJobInput, DescribeDataTransformationJobOutput>(serviceID: serviceName, version: HealthLakeClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "HealthLake")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDataTransformationJob")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -989,6 +1226,316 @@ extension HealthLakeClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "HealthLake")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeFHIRImportJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetDataTransformationProfile` operation on the `HealthLake` service.
+    ///
+    /// Retrieves a data transformation profile's metadata and profile content at a specific version. Specify version 0 to retrieve the DRAFT, a version number between 1 and 99 to retrieve a specific published version, or omit the version to retrieve the latest published version.
+    ///
+    /// - Parameter input: The request parameters for the GetDataTransformationProfile operation. (Type: `GetDataTransformationProfileInput`)
+    ///
+    /// - Returns: The response from the GetDataTransformationProfile operation. (Type: `GetDataTransformationProfileOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
+    public func getDataTransformationProfile(input: GetDataTransformationProfileInput) async throws -> GetDataTransformationProfileOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = HealthLakeClient.getDataTransformationProfileOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDataTransformationProfile")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "healthlake")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataTransformationProfileInput, GetDataTransformationProfileOutput>(hostPrefix: "datatransformation."))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataTransformationProfileInput, GetDataTransformationProfileOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataTransformationProfileInput, GetDataTransformationProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDataTransformationProfileOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("HealthLake", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDataTransformationProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDataTransformationProfileInput, GetDataTransformationProfileOutput>(overrides: ["X-Amz-Target": "HealthLake.GetDataTransformationProfile"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDataTransformationProfileInput, GetDataTransformationProfileOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataTransformationProfileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDataTransformationProfileInput, GetDataTransformationProfileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDataTransformationProfileInput, GetDataTransformationProfileOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "HealthLake"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDataTransformationProfileInput, GetDataTransformationProfileOutput>(serviceID: serviceName, version: HealthLakeClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "HealthLake")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDataTransformationProfile")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListDataTransformationJobs` operation on the `HealthLake` service.
+    ///
+    /// Lists data transformation jobs for your AWS account. Results can be filtered by status, job name, and submit time window. Results are paginated. Use the NextToken parameter to retrieve additional results.
+    ///
+    /// - Parameter input: The request parameters for the ListDataTransformationJobs operation. (Type: `ListDataTransformationJobsInput`)
+    ///
+    /// - Returns: The response from the ListDataTransformationJobs operation. (Type: `ListDataTransformationJobsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
+    public func listDataTransformationJobs(input: ListDataTransformationJobsInput) async throws -> ListDataTransformationJobsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = HealthLakeClient.listDataTransformationJobsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listDataTransformationJobs")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "healthlake")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDataTransformationJobsInput, ListDataTransformationJobsOutput>(hostPrefix: "datatransformation."))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataTransformationJobsInput, ListDataTransformationJobsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataTransformationJobsInput, ListDataTransformationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDataTransformationJobsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("HealthLake", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataTransformationJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDataTransformationJobsInput, ListDataTransformationJobsOutput>(overrides: ["X-Amz-Target": "HealthLake.ListDataTransformationJobs"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataTransformationJobsInput, ListDataTransformationJobsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataTransformationJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataTransformationJobsInput, ListDataTransformationJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataTransformationJobsInput, ListDataTransformationJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "HealthLake"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataTransformationJobsInput, ListDataTransformationJobsOutput>(serviceID: serviceName, version: HealthLakeClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "HealthLake")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDataTransformationJobs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListDataTransformationProfileVersions` operation on the `HealthLake` service.
+    ///
+    /// Lists all versions of a specific data transformation profile (DRAFT and published), in reverse chronological order (newest first). Use GetDataTransformationProfile to retrieve profile content. Results are paginated. Use the NextToken parameter to retrieve additional results.
+    ///
+    /// - Parameter input: The request parameters for the ListDataTransformationProfileVersions operation. (Type: `ListDataTransformationProfileVersionsInput`)
+    ///
+    /// - Returns: The response from the ListDataTransformationProfileVersions operation. (Type: `ListDataTransformationProfileVersionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
+    public func listDataTransformationProfileVersions(input: ListDataTransformationProfileVersionsInput) async throws -> ListDataTransformationProfileVersionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = HealthLakeClient.listDataTransformationProfileVersionsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listDataTransformationProfileVersions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "healthlake")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDataTransformationProfileVersionsInput, ListDataTransformationProfileVersionsOutput>(hostPrefix: "datatransformation."))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataTransformationProfileVersionsInput, ListDataTransformationProfileVersionsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataTransformationProfileVersionsInput, ListDataTransformationProfileVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDataTransformationProfileVersionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("HealthLake", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataTransformationProfileVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDataTransformationProfileVersionsInput, ListDataTransformationProfileVersionsOutput>(overrides: ["X-Amz-Target": "HealthLake.ListDataTransformationProfileVersions"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataTransformationProfileVersionsInput, ListDataTransformationProfileVersionsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataTransformationProfileVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataTransformationProfileVersionsInput, ListDataTransformationProfileVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataTransformationProfileVersionsInput, ListDataTransformationProfileVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "HealthLake"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataTransformationProfileVersionsInput, ListDataTransformationProfileVersionsOutput>(serviceID: serviceName, version: HealthLakeClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "HealthLake")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDataTransformationProfileVersions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListDataTransformationProfiles` operation on the `HealthLake` service.
+    ///
+    /// Lists all data transformation profiles in your account, returning the latest version summary for each. Use GetDataTransformationProfile to retrieve profile content. Results are paginated. Use the NextToken parameter to retrieve additional results.
+    ///
+    /// - Parameter input: The request parameters for the ListDataTransformationProfiles operation. (Type: `ListDataTransformationProfilesInput`)
+    ///
+    /// - Returns: The response from the ListDataTransformationProfiles operation. (Type: `ListDataTransformationProfilesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
+    public func listDataTransformationProfiles(input: ListDataTransformationProfilesInput) async throws -> ListDataTransformationProfilesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = HealthLakeClient.listDataTransformationProfilesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listDataTransformationProfiles")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "healthlake")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDataTransformationProfilesInput, ListDataTransformationProfilesOutput>(hostPrefix: "datatransformation."))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataTransformationProfilesInput, ListDataTransformationProfilesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataTransformationProfilesInput, ListDataTransformationProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDataTransformationProfilesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("HealthLake", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataTransformationProfilesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDataTransformationProfilesInput, ListDataTransformationProfilesOutput>(overrides: ["X-Amz-Target": "HealthLake.ListDataTransformationProfiles"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataTransformationProfilesInput, ListDataTransformationProfilesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataTransformationProfilesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataTransformationProfilesInput, ListDataTransformationProfilesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataTransformationProfilesInput, ListDataTransformationProfilesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "HealthLake"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataTransformationProfilesInput, ListDataTransformationProfilesOutput>(serviceID: serviceName, version: HealthLakeClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "HealthLake")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDataTransformationProfiles")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1308,6 +1855,163 @@ extension HealthLakeClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PublishDataTransformationProfile` operation on the `HealthLake` service.
+    ///
+    /// Promotes the current DRAFT version of a data transformation profile to a new immutable published version. Also supports rollback by publishing from a previously published version.
+    ///
+    /// - Parameter input: The request parameters for the PublishDataTransformationProfile operation. (Type: `PublishDataTransformationProfileInput`)
+    ///
+    /// - Returns: The response from the PublishDataTransformationProfile operation. (Type: `PublishDataTransformationProfileOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ServiceQuotaExceededException` : The request exceeds the service quota.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
+    public func publishDataTransformationProfile(input: PublishDataTransformationProfileInput) async throws -> PublishDataTransformationProfileOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = HealthLakeClient.publishDataTransformationProfileOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "publishDataTransformationProfile")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "healthlake")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PublishDataTransformationProfileInput, PublishDataTransformationProfileOutput>(hostPrefix: "datatransformation."))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PublishDataTransformationProfileInput, PublishDataTransformationProfileOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PublishDataTransformationProfileInput, PublishDataTransformationProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PublishDataTransformationProfileOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("HealthLake", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PublishDataTransformationProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PublishDataTransformationProfileInput, PublishDataTransformationProfileOutput>(overrides: ["X-Amz-Target": "HealthLake.PublishDataTransformationProfile"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PublishDataTransformationProfileInput, PublishDataTransformationProfileOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PublishDataTransformationProfileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PublishDataTransformationProfileInput, PublishDataTransformationProfileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PublishDataTransformationProfileInput, PublishDataTransformationProfileOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "HealthLake"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PublishDataTransformationProfileInput, PublishDataTransformationProfileOutput>(serviceID: serviceName, version: HealthLakeClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "HealthLake")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PublishDataTransformationProfile")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartDataTransformationJob` operation on the `HealthLake` service.
+    ///
+    /// Starts an asynchronous data transformation job that converts source files from Amazon Simple Storage Service (Amazon S3) and writes the output to Amazon S3 or AWS HealthLake.
+    ///
+    /// - Parameter input: The request parameters for the StartDataTransformationJob operation. (Type: `StartDataTransformationJobInput`)
+    ///
+    /// - Returns: The response from the StartDataTransformationJob operation. (Type: `StartDataTransformationJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
+    public func startDataTransformationJob(input: StartDataTransformationJobInput) async throws -> StartDataTransformationJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = HealthLakeClient.startDataTransformationJobOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startDataTransformationJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "healthlake")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartDataTransformationJobInput, StartDataTransformationJobOutput>(hostPrefix: "datatransformation."))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDataTransformationJobInput, StartDataTransformationJobOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDataTransformationJobInput, StartDataTransformationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartDataTransformationJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("HealthLake", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartDataTransformationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartDataTransformationJobInput, StartDataTransformationJobOutput>(overrides: ["X-Amz-Target": "HealthLake.StartDataTransformationJob"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartDataTransformationJobInput, StartDataTransformationJobOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDataTransformationJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartDataTransformationJobInput, StartDataTransformationJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartDataTransformationJobInput, StartDataTransformationJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "HealthLake"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartDataTransformationJobInput, StartDataTransformationJobOutput>(serviceID: serviceName, version: HealthLakeClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "HealthLake")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartDataTransformationJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartFHIRExportJob` operation on the `HealthLake` service.
     ///
     /// Start a FHIR export job.
@@ -1320,6 +2024,7 @@ extension HealthLakeClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `FailedDependencyException` : A dependent service failed to fulfill the request.
     /// - `InternalServerException` : An unknown internal error occurred in the service.
     /// - `ResourceNotFoundException` : The requested data store was not found.
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
@@ -1399,6 +2104,7 @@ extension HealthLakeClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `FailedDependencyException` : A dependent service failed to fulfill the request.
     /// - `InternalServerException` : An unknown internal error occurred in the service.
     /// - `ResourceNotFoundException` : The requested data store was not found.
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
@@ -1616,6 +2322,84 @@ extension HealthLakeClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateDataTransformationProfile` operation on the `HealthLake` service.
+    ///
+    /// Updates the DRAFT version (version 0) of a data transformation profile with new profile content. The update replaces all existing DRAFT content.
+    ///
+    /// - Parameter input: The request parameters for the UpdateDataTransformationProfile operation. (Type: `UpdateDataTransformationProfileInput`)
+    ///
+    /// - Returns: The response from the UpdateDataTransformationProfile operation. (Type: `UpdateDataTransformationProfileOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
+    public func updateDataTransformationProfile(input: UpdateDataTransformationProfileInput) async throws -> UpdateDataTransformationProfileOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = HealthLakeClient.updateDataTransformationProfileOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateDataTransformationProfile")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "healthlake")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDataTransformationProfileInput, UpdateDataTransformationProfileOutput>(hostPrefix: "datatransformation."))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataTransformationProfileInput, UpdateDataTransformationProfileOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataTransformationProfileInput, UpdateDataTransformationProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataTransformationProfileOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("HealthLake", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDataTransformationProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDataTransformationProfileInput, UpdateDataTransformationProfileOutput>(overrides: ["X-Amz-Target": "HealthLake.UpdateDataTransformationProfile"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDataTransformationProfileInput, UpdateDataTransformationProfileOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDataTransformationProfileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDataTransformationProfileInput, UpdateDataTransformationProfileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDataTransformationProfileInput, UpdateDataTransformationProfileOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "HealthLake"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDataTransformationProfileInput, UpdateDataTransformationProfileOutput>(serviceID: serviceName, version: HealthLakeClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "HealthLake")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDataTransformationProfile")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateFHIRDatastore` operation on the `HealthLake` service.
     ///
     /// Update the properties of a FHIR-enabled data store.
@@ -1683,6 +2467,89 @@ extension HealthLakeClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "HealthLake")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateFHIRDatastore")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateProfileWithAgent` operation on the `HealthLake` service.
+    ///
+    /// Updates a data transformation profile using chat-based interaction with an agent. Supports multi-turn conversations for iteratively customizing profiles.
+    ///
+    /// - Parameter input: The request parameters for the UpdateProfileWithAgent operation. (Type: `UpdateProfileWithAgentInput`)
+    ///
+    /// - Returns: The response from the UpdateProfileWithAgent operation. (Type: `UpdateProfileWithAgentOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `AgentMessageOutOfContextException` : The agent message does not fit within the current conversation context. Start a new conversation or provide a message that relates to the current profile customization session.
+    /// - `ConversationNotFoundException` : The specified conversation identifier does not exist. Verify the conversation ID or omit it to start a new conversation.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
+    /// - `NotImplementedOperationException` : The requested operation is not yet available. Check the service documentation for a list of supported operations.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `UnauthorizedException` : You are not authorized to make this request. Verify that your AWS credentials are valid and that you have the required permissions.
+    /// - `UnsupportedMIMETypeException` : The content type in your request is not supported. Use a supported content type for this operation.
+    /// - `ValidationException` : The user input parameter was invalid.
+    public func updateProfileWithAgent(input: UpdateProfileWithAgentInput) async throws -> UpdateProfileWithAgentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = HealthLakeClient.updateProfileWithAgentOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateProfileWithAgent")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "healthlake")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProfileWithAgentInput, UpdateProfileWithAgentOutput>(hostPrefix: "datatransformation."))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProfileWithAgentInput, UpdateProfileWithAgentOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProfileWithAgentInput, UpdateProfileWithAgentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProfileWithAgentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("HealthLake", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProfileWithAgentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProfileWithAgentInput, UpdateProfileWithAgentOutput>(overrides: ["X-Amz-Target": "HealthLake.UpdateProfileWithAgent"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProfileWithAgentInput, UpdateProfileWithAgentOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProfileWithAgentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProfileWithAgentInput, UpdateProfileWithAgentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProfileWithAgentInput, UpdateProfileWithAgentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "HealthLake"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProfileWithAgentInput, UpdateProfileWithAgentOutput>(serviceID: serviceName, version: HealthLakeClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "HealthLake")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateProfileWithAgent")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

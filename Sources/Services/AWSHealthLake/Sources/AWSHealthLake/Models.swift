@@ -18,6 +18,7 @@ import protocol ClientRuntime.ModeledError
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// A general-purpose string value.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -34,6 +35,1197 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+/// An unknown internal error occurred in the service.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A general-purpose string value.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The requested data store was not found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A general-purpose string value.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The user has exceeded their maximum number of allowed calls to the given API.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A general-purpose string value.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The user input parameter was invalid.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A general-purpose string value.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The data store is in a transition state and the user requested action cannot be performed.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A general-purpose string value.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request exceeds the service quota.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// Identifies an existing data transformation profile and version to clone when creating a new profile.
+    public struct ExistingVersionedProfileSource: Swift.Sendable {
+        /// The unique identifier of the existing profile to clone from.
+        /// This member is required.
+        public var profileId: Swift.String?
+        /// The version number of the existing profile to clone from.
+        /// This member is required.
+        public var version: Swift.Int?
+
+        public init(
+            profileId: Swift.String? = nil,
+            version: Swift.Int? = nil
+        ) {
+            self.profileId = profileId
+            self.version = version
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// Contains raw content to use as the source when creating a data transformation profile directly from a mapping.
+    public struct ProfileMappingSource: Swift.Sendable {
+        /// The content as a map of file paths to profile strings.
+        /// This member is required.
+        public var profileMapping: [Swift.String: Swift.String]?
+
+        public init(
+            profileMapping: [Swift.String: Swift.String]? = nil
+        ) {
+            self.profileMapping = profileMapping
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// Identifies a sample data file in Amazon S3 to use as the source when creating a data transformation profile. Valid only when the source format is Comma-separated values (CSV).
+    public struct SampleDataSource: Swift.Sendable {
+        /// The Amazon S3 URI of the sample data file.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init(
+            s3Uri: Swift.String? = nil
+        ) {
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// Identifies a built-in starter profile to use as the source when creating a data transformation profile. Valid only when the source format is Consolidated Clinical Document Architecture (C-CDA).
+    public struct StarterProfileSource: Swift.Sendable {
+        /// The name of the built-in starter profile.
+        /// This member is required.
+        public var starterProfileName: Swift.String?
+
+        public init(
+            starterProfileName: Swift.String? = nil
+        ) {
+            self.starterProfileName = starterProfileName
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// The source for initial content when creating a data transformation profile. Specify exactly one variant: a built-in starter profile, an existing profile version to clone, raw profile content, or a sample data file.
+    public enum CreateDataTransformationProfileSource: Swift.Sendable {
+        /// Creates the profile from a built-in starter profile. Valid only when the source format is Consolidated Clinical Document Architecture (C-CDA).
+        case starterprofile(HealthLakeClientTypes.StarterProfileSource)
+        /// Creates the profile by cloning an existing profile at a specific version.
+        case existingversionedprofileid(HealthLakeClientTypes.ExistingVersionedProfileSource)
+        /// Creates the profile from raw profile content that you provide directly. Use this variant for continuous integration and continuous delivery (CI/CD) workflows.
+        case profilemapping(HealthLakeClientTypes.ProfileMappingSource)
+        /// Creates the profile from a sample data file stored in Amazon S3. Valid only when the source format is Comma-separated values (CSV).
+        case sampledata(HealthLakeClientTypes.SampleDataSource)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    public enum SourceFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ccda
+        case csv
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SourceFormat] {
+            return [
+                .ccda,
+                .csv
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ccda: return "CCDA"
+            case .csv: return "CSV"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The request parameters for the CreateDataTransformationProfile operation.
+public struct CreateDataTransformationProfileInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
+    public var clientToken: Swift.String?
+    /// The AWS Key Management Service (AWS KMS) key identifier used to encrypt the profile content at rest.
+    public var kmsKeyId: Swift.String?
+    /// A human-readable description of the profile's purpose.
+    public var profileDescription: Swift.String?
+    /// A name for the data transformation profile.
+    /// This member is required.
+    public var profileName: Swift.String?
+    /// The source for the initial profile content. Specify a built-in starter profile, an existing profile version to clone, raw profile content for CI/CD workflows, or a sample data file in Amazon S3.
+    /// This member is required.
+    public var source: HealthLakeClientTypes.CreateDataTransformationProfileSource?
+    /// The source data format that this profile converts from (Consolidated Clinical Document Architecture (C-CDA) or Comma-separated values (CSV)).
+    /// This member is required.
+    public var sourceFormat: HealthLakeClientTypes.SourceFormat?
+    /// The tags to associate with the profile at creation time.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        profileDescription: Swift.String? = nil,
+        profileName: Swift.String? = nil,
+        source: HealthLakeClientTypes.CreateDataTransformationProfileSource? = nil,
+        sourceFormat: HealthLakeClientTypes.SourceFormat? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.kmsKeyId = kmsKeyId
+        self.profileDescription = profileDescription
+        self.profileName = profileName
+        self.source = source
+        self.sourceFormat = sourceFormat
+        self.tags = tags
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    public enum TargetFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fhirR4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetFormat] {
+            return [
+                .fhirR4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fhirR4: return "FHIR_R4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The response from the CreateDataTransformationProfile operation.
+public struct CreateDataTransformationProfileOutput: Swift.Sendable {
+    /// The timestamp when the profile was last updated.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The unique identifier of the created profile.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// The name of the created profile.
+    /// This member is required.
+    public var profileName: Swift.String?
+    /// The source data format of the profile.
+    /// This member is required.
+    public var sourceFormat: HealthLakeClientTypes.SourceFormat?
+    /// The target output format. Always FHIR_R4.
+    /// This member is required.
+    public var targetFormat: HealthLakeClientTypes.TargetFormat?
+    /// The version number of the newly created profile. The starting version is always 0, which indicates the profile is in DRAFT state.
+    /// This member is required.
+    public var version: Swift.Int?
+
+    public init(
+        lastUpdatedAt: Foundation.Date? = nil,
+        profileId: Swift.String? = nil,
+        profileName: Swift.String? = nil,
+        sourceFormat: HealthLakeClientTypes.SourceFormat? = nil,
+        targetFormat: HealthLakeClientTypes.TargetFormat? = nil,
+        version: Swift.Int? = nil
+    ) {
+        self.lastUpdatedAt = lastUpdatedAt
+        self.profileId = profileId
+        self.profileName = profileName
+        self.sourceFormat = sourceFormat
+        self.targetFormat = targetFormat
+        self.version = version
+    }
+}
+
+/// The request parameters for the DeleteDataTransformationProfile operation.
+public struct DeleteDataTransformationProfileInput: Swift.Sendable {
+    /// The unique identifier of the profile to delete.
+    /// This member is required.
+    public var profileId: Swift.String?
+
+    public init(
+        profileId: Swift.String? = nil
+    ) {
+        self.profileId = profileId
+    }
+}
+
+/// The response from the DeleteDataTransformationProfile operation.
+public struct DeleteDataTransformationProfileOutput: Swift.Sendable {
+    /// The timestamp when the profile was deleted.
+    /// This member is required.
+    public var deletionTime: Foundation.Date?
+    /// The unique identifier of the deleted profile.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// The name of the deleted profile.
+    public var profileName: Swift.String?
+
+    public init(
+        deletionTime: Foundation.Date? = nil,
+        profileId: Swift.String? = nil,
+        profileName: Swift.String? = nil
+    ) {
+        self.deletionTime = deletionTime
+        self.profileId = profileId
+        self.profileName = profileName
+    }
+}
+
+/// The request parameters for the GetDataTransformationProfile operation.
+public struct GetDataTransformationProfileInput: Swift.Sendable {
+    /// The unique identifier of the profile to retrieve.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// The version number to retrieve. Specify 0 to retrieve the DRAFT version. If you omit this parameter, the service returns the latest published version.
+    public var profileVersion: Swift.Int?
+
+    public init(
+        profileId: Swift.String? = nil,
+        profileVersion: Swift.Int? = nil
+    ) {
+        self.profileId = profileId
+        self.profileVersion = profileVersion
+    }
+}
+
+/// The response from the GetDataTransformationProfile operation.
+public struct GetDataTransformationProfileOutput: Swift.Sendable {
+    /// A description of what changed in this version.
+    public var changeDescription: Swift.String?
+    /// The timestamp when this version was last updated.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The description of the profile.
+    public var profileDescription: Swift.String?
+    /// The unique identifier of the profile.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// The profile content as a map of file paths to content strings.
+    /// This member is required.
+    public var profileMapping: [Swift.String: Swift.String]?
+    /// The name of the profile.
+    public var profileName: Swift.String?
+    /// The source data format of the profile.
+    /// This member is required.
+    public var sourceFormat: HealthLakeClientTypes.SourceFormat?
+    /// The target output format of the profile.
+    /// This member is required.
+    public var targetFormat: HealthLakeClientTypes.TargetFormat?
+    /// The version number of the retrieved profile.
+    /// This member is required.
+    public var version: Swift.Int?
+
+    public init(
+        changeDescription: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        profileDescription: Swift.String? = nil,
+        profileId: Swift.String? = nil,
+        profileMapping: [Swift.String: Swift.String]? = nil,
+        profileName: Swift.String? = nil,
+        sourceFormat: HealthLakeClientTypes.SourceFormat? = nil,
+        targetFormat: HealthLakeClientTypes.TargetFormat? = nil,
+        version: Swift.Int? = nil
+    ) {
+        self.changeDescription = changeDescription
+        self.lastUpdatedAt = lastUpdatedAt
+        self.profileDescription = profileDescription
+        self.profileId = profileId
+        self.profileMapping = profileMapping
+        self.profileName = profileName
+        self.sourceFormat = sourceFormat
+        self.targetFormat = targetFormat
+        self.version = version
+    }
+}
+
+/// The request parameters for the ListDataTransformationProfiles operation.
+public struct ListDataTransformationProfilesInput: Swift.Sendable {
+    /// The maximum number of profiles to return per page. If you don't specify a value, the service returns up to 100 results.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous response. Pass this value to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// Filters the results by source data format.
+    /// This member is required.
+    public var sourceFormat: HealthLakeClientTypes.SourceFormat?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sourceFormat: HealthLakeClientTypes.SourceFormat? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sourceFormat = sourceFormat
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// Contains summary information about a data transformation profile. To retrieve profile content, call GetDataTransformationProfile.
+    public struct DataTransformationProfileSummary: Swift.Sendable {
+        /// The timestamp when the profile was last updated.
+        public var lastUpdatedAt: Foundation.Date?
+        /// A description of the profile's purpose.
+        public var profileDescription: Swift.String?
+        /// The unique identifier of the profile.
+        /// This member is required.
+        public var profileId: Swift.String?
+        /// The name of the profile.
+        public var profileName: Swift.String?
+        /// The source data format that this profile converts from.
+        /// This member is required.
+        public var sourceFormat: HealthLakeClientTypes.SourceFormat?
+        /// The target output format of the profile.
+        /// This member is required.
+        public var targetFormat: HealthLakeClientTypes.TargetFormat?
+        /// The latest version number of the profile.
+        /// This member is required.
+        public var version: Swift.Int?
+
+        public init(
+            lastUpdatedAt: Foundation.Date? = nil,
+            profileDescription: Swift.String? = nil,
+            profileId: Swift.String? = nil,
+            profileName: Swift.String? = nil,
+            sourceFormat: HealthLakeClientTypes.SourceFormat? = nil,
+            targetFormat: HealthLakeClientTypes.TargetFormat? = nil,
+            version: Swift.Int? = nil
+        ) {
+            self.lastUpdatedAt = lastUpdatedAt
+            self.profileDescription = profileDescription
+            self.profileId = profileId
+            self.profileName = profileName
+            self.sourceFormat = sourceFormat
+            self.targetFormat = targetFormat
+            self.version = version
+        }
+    }
+}
+
+/// The response from the ListDataTransformationProfiles operation.
+public struct ListDataTransformationProfilesOutput: Swift.Sendable {
+    /// The list of data transformation profile summaries.
+    /// This member is required.
+    public var items: [HealthLakeClientTypes.DataTransformationProfileSummary]?
+    /// The pagination token to use in the next request. If this value is null, there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [HealthLakeClientTypes.DataTransformationProfileSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+/// The request parameters for the ListDataTransformationProfileVersions operation.
+public struct ListDataTransformationProfileVersionsInput: Swift.Sendable {
+    /// The maximum number of profile versions to return per page. If you don't specify a value, the service returns up to 100 results.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous response. Pass this value to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The unique identifier of the profile whose versions to list.
+    /// This member is required.
+    public var profileId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        profileId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.profileId = profileId
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// Contains summary information about a specific version of a data transformation profile. To retrieve profile content, call GetDataTransformationProfile.
+    public struct DataTransformationProfileVersionSummary: Swift.Sendable {
+        /// A description of what changed in this version.
+        public var changeDescription: Swift.String?
+        /// The timestamp when this version was last updated.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The unique identifier of the profile.
+        /// This member is required.
+        public var profileId: Swift.String?
+        /// The name of the profile.
+        public var profileName: Swift.String?
+        /// The source data format that this profile converts from.
+        /// This member is required.
+        public var sourceFormat: HealthLakeClientTypes.SourceFormat?
+        /// The target output format of the profile.
+        /// This member is required.
+        public var targetFormat: HealthLakeClientTypes.TargetFormat?
+        /// The version number.
+        /// This member is required.
+        public var version: Swift.Int?
+
+        public init(
+            changeDescription: Swift.String? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            profileId: Swift.String? = nil,
+            profileName: Swift.String? = nil,
+            sourceFormat: HealthLakeClientTypes.SourceFormat? = nil,
+            targetFormat: HealthLakeClientTypes.TargetFormat? = nil,
+            version: Swift.Int? = nil
+        ) {
+            self.changeDescription = changeDescription
+            self.lastUpdatedAt = lastUpdatedAt
+            self.profileId = profileId
+            self.profileName = profileName
+            self.sourceFormat = sourceFormat
+            self.targetFormat = targetFormat
+            self.version = version
+        }
+    }
+}
+
+/// The response from the ListDataTransformationProfileVersions operation.
+public struct ListDataTransformationProfileVersionsOutput: Swift.Sendable {
+    /// The list of data transformation profile version summaries.
+    /// This member is required.
+    public var items: [HealthLakeClientTypes.DataTransformationProfileVersionSummary]?
+    /// The pagination token to use in the next request. If this value is null, there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [HealthLakeClientTypes.DataTransformationProfileVersionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+/// The request parameters for the PublishDataTransformationProfile operation.
+public struct PublishDataTransformationProfileInput: Swift.Sendable {
+    /// A description of what changed or why this version is being published.
+    public var changeDescription: Swift.String?
+    /// The version number of a previously published version to republish as the new latest version. Use this parameter for rollback scenarios. If you omit this parameter, the service publishes the current DRAFT version.
+    public var fromExistingVersion: Swift.Int?
+    /// The unique identifier of the profile to publish.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// The source data format of the profile.
+    /// This member is required.
+    public var sourceFormat: HealthLakeClientTypes.SourceFormat?
+
+    public init(
+        changeDescription: Swift.String? = nil,
+        fromExistingVersion: Swift.Int? = nil,
+        profileId: Swift.String? = nil,
+        sourceFormat: HealthLakeClientTypes.SourceFormat? = nil
+    ) {
+        self.changeDescription = changeDescription
+        self.fromExistingVersion = fromExistingVersion
+        self.profileId = profileId
+        self.sourceFormat = sourceFormat
+    }
+}
+
+/// The response from the PublishDataTransformationProfile operation.
+public struct PublishDataTransformationProfileOutput: Swift.Sendable {
+    /// The timestamp when the profile was last updated.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The unique identifier of the published profile.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// The name of the published profile.
+    public var profileName: Swift.String?
+    /// The source data format of the profile.
+    /// This member is required.
+    public var sourceFormat: HealthLakeClientTypes.SourceFormat?
+    /// The target output format of the profile.
+    /// This member is required.
+    public var targetFormat: HealthLakeClientTypes.TargetFormat?
+    /// The new version number that was created.
+    /// This member is required.
+    public var version: Swift.Int?
+
+    public init(
+        lastUpdatedAt: Foundation.Date? = nil,
+        profileId: Swift.String? = nil,
+        profileName: Swift.String? = nil,
+        sourceFormat: HealthLakeClientTypes.SourceFormat? = nil,
+        targetFormat: HealthLakeClientTypes.TargetFormat? = nil,
+        version: Swift.Int? = nil
+    ) {
+        self.lastUpdatedAt = lastUpdatedAt
+        self.profileId = profileId
+        self.profileName = profileName
+        self.sourceFormat = sourceFormat
+        self.targetFormat = targetFormat
+        self.version = version
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// The Amazon S3 location and source format configuration for input data in a transformation job.
+    public struct TransformationInputDataConfig: Swift.Sendable {
+        /// The Amazon S3 URI of the input data to transform.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+        /// The format of the source data files (C-CDA or CSV).
+        public var sourceFormat: HealthLakeClientTypes.SourceFormat?
+
+        public init(
+            s3Uri: Swift.String? = nil,
+            sourceFormat: HealthLakeClientTypes.SourceFormat? = nil
+        ) {
+            self.s3Uri = s3Uri
+            self.sourceFormat = sourceFormat
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// The Amazon S3 output configuration for a data transformation job, including the output location and encryption settings.
+    public struct DataTransformationS3Configuration: Swift.Sendable {
+        /// The AWS Key Management Service (AWS KMS) key identifier used to encrypt the transformation job output written to Amazon S3.
+        /// This member is required.
+        public var kmsKeyId: Swift.String?
+        /// The Amazon S3 URI where AWS HealthLake writes the converted output files.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init(
+            kmsKeyId: Swift.String? = nil,
+            s3Uri: Swift.String? = nil
+        ) {
+            self.kmsKeyId = kmsKeyId
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// The Amazon S3 output location and encryption configuration for a transformation job.
+    public struct TransformationOutputDataConfig: Swift.Sendable {
+        /// The Amazon S3 output location and AWS Key Management Service (AWS KMS) encryption configuration.
+        /// This member is required.
+        public var s3Configuration: HealthLakeClientTypes.DataTransformationS3Configuration?
+
+        public init(
+            s3Configuration: HealthLakeClientTypes.DataTransformationS3Configuration? = nil
+        ) {
+            self.s3Configuration = s3Configuration
+        }
+    }
+}
+
+/// The request parameters for the StartDataTransformationJob operation.
+public struct StartDataTransformationJobInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that AWS HealthLake assumes to read from and write to the specified Amazon S3 locations.
+    /// This member is required.
+    public var dataAccessRoleArn: Swift.String?
+    /// Specifies whether drift detection is enabled for this job. When enabled, AWS HealthLake writes a drift report to the output Amazon S3 location alongside the converted files.
+    public var driftDetectionEnabled: Swift.Bool?
+    /// The Amazon S3 location and format of the source files to transform.
+    /// This member is required.
+    public var inputDataConfig: HealthLakeClientTypes.TransformationInputDataConfig?
+    /// A descriptive name for the data transformation job.
+    public var jobName: Swift.String?
+    /// The Amazon S3 output location and AWS Key Management Service (AWS KMS) encryption configuration.
+    /// This member is required.
+    public var outputDataConfig: HealthLakeClientTypes.TransformationOutputDataConfig?
+    /// The unique identifier of the data transformation profile to use for conversion.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// Specifies whether FHIR R4 Provenance resource generation is enabled for this transformation job. When provenance is enabled, the service also generates related DocumentReference and Device resources. If you don't specify a value, the default is true. To disable provenance output, set this parameter to false.
+    public var provenanceEnabled: Swift.Bool?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        dataAccessRoleArn: Swift.String? = nil,
+        driftDetectionEnabled: Swift.Bool? = nil,
+        inputDataConfig: HealthLakeClientTypes.TransformationInputDataConfig? = nil,
+        jobName: Swift.String? = nil,
+        outputDataConfig: HealthLakeClientTypes.TransformationOutputDataConfig? = nil,
+        profileId: Swift.String? = nil,
+        provenanceEnabled: Swift.Bool? = nil
+    ) {
+        self.clientToken = clientToken
+        self.dataAccessRoleArn = dataAccessRoleArn
+        self.driftDetectionEnabled = driftDetectionEnabled
+        self.inputDataConfig = inputDataConfig
+        self.jobName = jobName
+        self.outputDataConfig = outputDataConfig
+        self.profileId = profileId
+        self.provenanceEnabled = provenanceEnabled
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    public enum TransformationJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case completedWithErrors
+        case failed
+        case inProgress
+        case queued
+        case submitted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransformationJobStatus] {
+            return [
+                .completed,
+                .completedWithErrors,
+                .failed,
+                .inProgress,
+                .queued,
+                .submitted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .completedWithErrors: return "COMPLETED_WITH_ERRORS"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .queued: return "QUEUED"
+            case .submitted: return "SUBMITTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The response from the StartDataTransformationJob operation.
+public struct StartDataTransformationJobOutput: Swift.Sendable {
+    /// The unique identifier assigned to the data transformation job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The initial status of the data transformation job.
+    /// This member is required.
+    public var jobStatus: HealthLakeClientTypes.TransformationJobStatus?
+
+    public init(
+        jobId: Swift.String? = nil,
+        jobStatus: HealthLakeClientTypes.TransformationJobStatus? = nil
+    ) {
+        self.jobId = jobId
+        self.jobStatus = jobStatus
+    }
+}
+
+/// The request parameters for the UpdateDataTransformationProfile operation.
+public struct UpdateDataTransformationProfileInput: Swift.Sendable {
+    /// A description of what changed in this update.
+    public var changeDescription: Swift.String?
+    /// The unique identifier of the profile to update.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// The new profile content for the DRAFT version. This is a full replacement of all profile files.
+    /// This member is required.
+    public var profileMapping: [Swift.String: Swift.String]?
+
+    public init(
+        changeDescription: Swift.String? = nil,
+        profileId: Swift.String? = nil,
+        profileMapping: [Swift.String: Swift.String]? = nil
+    ) {
+        self.changeDescription = changeDescription
+        self.profileId = profileId
+        self.profileMapping = profileMapping
+    }
+}
+
+/// The response from the UpdateDataTransformationProfile operation.
+public struct UpdateDataTransformationProfileOutput: Swift.Sendable {
+    /// The timestamp when the profile was last updated.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The unique identifier of the updated profile.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// The name of the updated profile.
+    public var profileName: Swift.String?
+    /// The source data format of the profile.
+    /// This member is required.
+    public var sourceFormat: HealthLakeClientTypes.SourceFormat?
+    /// The target output format of the profile.
+    /// This member is required.
+    public var targetFormat: HealthLakeClientTypes.TargetFormat?
+
+    public init(
+        lastUpdatedAt: Foundation.Date? = nil,
+        profileId: Swift.String? = nil,
+        profileName: Swift.String? = nil,
+        sourceFormat: HealthLakeClientTypes.SourceFormat? = nil,
+        targetFormat: HealthLakeClientTypes.TargetFormat? = nil
+    ) {
+        self.lastUpdatedAt = lastUpdatedAt
+        self.profileId = profileId
+        self.profileName = profileName
+        self.sourceFormat = sourceFormat
+        self.targetFormat = targetFormat
+    }
+}
+
+/// The agent message does not fit within the current conversation context. Start a new conversation or provide a message that relates to the current profile customization session.
+public struct AgentMessageOutOfContextException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AgentMessageOutOfContextException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The specified conversation identifier does not exist. Verify the conversation ID or omit it to start a new conversation.
+public struct ConversationNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConversationNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The requested operation is not yet available. Check the service documentation for a list of supported operations.
+public struct NotImplementedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NotImplementedOperationException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// You are not authorized to make this request. Verify that your AWS credentials are valid and that you have the required permissions.
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnauthorizedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The content type in your request is not supported. Use a supported content type for this operation.
+public struct UnsupportedMIMETypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedMIMETypeException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    public enum AgentInputMessageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case normal
+        case userConfirmationResponse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentInputMessageType] {
+            return [
+                .normal,
+                .userConfirmationResponse
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .normal: return "normal"
+            case .userConfirmationResponse: return "confirmation_response"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// Represents a message sent to the agent during chat-based profile customization.
+    public struct AgentInputMessage: Swift.Sendable {
+        /// The text of your message to the agent.
+        /// This member is required.
+        public var body: Swift.String?
+        /// The type of input message, which determines how the agent processes your request. Valid values:
+        ///
+        /// * normal: A regular message to the agent.
+        ///
+        /// * confirmation_response: A response to a confirmation request from the agent.
+        /// This member is required.
+        public var type: HealthLakeClientTypes.AgentInputMessageType?
+
+        public init(
+            body: Swift.String? = nil,
+            type: HealthLakeClientTypes.AgentInputMessageType? = nil
+        ) {
+            self.body = body
+            self.type = type
+        }
+    }
+}
+
+/// The request parameters for the UpdateProfileWithAgent operation.
+public struct UpdateProfileWithAgentInput: Swift.Sendable {
+    /// The conversation identifier for multi-turn interactions. Omit to start a new conversation.
+    public var conversationId: Swift.String?
+    /// The message to send to the agent.
+    /// This member is required.
+    public var inputMessage: HealthLakeClientTypes.AgentInputMessage?
+    /// The unique identifier of the profile to update via the agent.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// The source data format for the transformation.
+    /// This member is required.
+    public var sourceFormat: HealthLakeClientTypes.SourceFormat?
+
+    public init(
+        conversationId: Swift.String? = nil,
+        inputMessage: HealthLakeClientTypes.AgentInputMessage? = nil,
+        profileId: Swift.String? = nil,
+        sourceFormat: HealthLakeClientTypes.SourceFormat? = nil
+    ) {
+        self.conversationId = conversationId
+        self.inputMessage = inputMessage
+        self.profileId = profileId
+        self.sourceFormat = sourceFormat
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    public enum AgentOutputMessageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case choices
+        case complete
+        case error
+        case initialGreeting
+        case normal
+        case options
+        case userConfirmationRequest
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentOutputMessageType] {
+            return [
+                .choices,
+                .complete,
+                .error,
+                .initialGreeting,
+                .normal,
+                .options,
+                .userConfirmationRequest
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .choices: return "choices"
+            case .complete: return "complete"
+            case .error: return "error"
+            case .initialGreeting: return "INITIAL_GREETING"
+            case .normal: return "normal"
+            case .options: return "options"
+            case .userConfirmationRequest: return "confirmation"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// Represents a response message from the agent during chat-based profile customization.
+    public struct AgentOutputMessage: Swift.Sendable {
+        /// The text of the agent's response.
+        /// This member is required.
+        public var body: Swift.String?
+        /// A list of selectable options presented when the response type is options.
+        public var optionsList: [Swift.String]?
+        /// The type of output message, which indicates how to interpret the agent's response.
+        /// This member is required.
+        public var type: HealthLakeClientTypes.AgentOutputMessageType?
+
+        public init(
+            body: Swift.String? = nil,
+            optionsList: [Swift.String]? = nil,
+            type: HealthLakeClientTypes.AgentOutputMessageType? = nil
+        ) {
+            self.body = body
+            self.optionsList = optionsList
+            self.type = type
+        }
+    }
+}
+
+/// The response from the UpdateProfileWithAgent operation.
+public struct UpdateProfileWithAgentOutput: Swift.Sendable {
+    /// The response message from the agent.
+    /// This member is required.
+    public var agentResponse: HealthLakeClientTypes.AgentOutputMessage?
+    /// The conversation identifier to use for follow-up messages in this conversation.
+    /// This member is required.
+    public var conversationId: Swift.String?
+
+    public init(
+        agentResponse: HealthLakeClientTypes.AgentOutputMessage? = nil,
+        conversationId: Swift.String? = nil
+    ) {
+        self.agentResponse = agentResponse
+        self.conversationId = conversationId
     }
 }
 
@@ -154,100 +1346,9 @@ extension HealthLakeClientTypes {
     }
 }
 
-/// The data store is in a transition state and the user requested action cannot be performed.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// An unknown internal error occurred in the service.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InternalServerException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The user has exceeded their maximum number of allowed calls to the given API.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The user input parameter was invalid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ValidationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 extension HealthLakeClientTypes {
 
+    /// The FHIR version supported by the data store.
     public enum FHIRVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case r4
         case sdkUnknown(Swift.String)
@@ -358,6 +1459,7 @@ extension HealthLakeClientTypes {
 
 extension HealthLakeClientTypes {
 
+    /// The type of preloaded data.
     public enum PreloadDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case synthea
         case sdkUnknown(Swift.String)
@@ -520,6 +1622,7 @@ public struct CreateFHIRDatastoreInput: Swift.Sendable {
 
 extension HealthLakeClientTypes {
 
+    /// The status of a data store.
     public enum DatastoreStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case createFailed
@@ -736,29 +1839,6 @@ extension HealthLakeClientTypes {
     }
 }
 
-/// The requested data store was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 public struct DeleteFHIRDatastoreInput: Swift.Sendable {
     /// The AWS-generated identifier for the data store to be deleted.
     /// This member is required.
@@ -795,6 +1875,140 @@ public struct DeleteFHIRDatastoreOutput: Swift.Sendable {
         self.datastoreEndpoint = datastoreEndpoint
         self.datastoreId = datastoreId
         self.datastoreStatus = datastoreStatus
+    }
+}
+
+/// The request parameters for the DescribeDataTransformationJob operation.
+public struct DescribeDataTransformationJobInput: Swift.Sendable {
+    /// The unique identifier of the data transformation job to describe.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// Contains progress metrics for a data transformation job, including counts of files scanned, converted, and failed.
+    public struct TransformationJobProgressReport: Swift.Sendable {
+        /// The total number of source files successfully converted.
+        /// This member is required.
+        public var totalFilesConverted: Swift.Int?
+        /// The total number of source files that failed conversion.
+        /// This member is required.
+        public var totalFilesFailed: Swift.Int?
+        /// The total number of source files scanned by the job.
+        /// This member is required.
+        public var totalFilesScanned: Swift.Int?
+        /// The total number of FHIR R4 resources generated across all converted files.
+        /// This member is required.
+        public var totalResourcesGenerated: Swift.Int?
+
+        public init(
+            totalFilesConverted: Swift.Int? = nil,
+            totalFilesFailed: Swift.Int? = nil,
+            totalFilesScanned: Swift.Int? = nil,
+            totalResourcesGenerated: Swift.Int? = nil
+        ) {
+            self.totalFilesConverted = totalFilesConverted
+            self.totalFilesFailed = totalFilesFailed
+            self.totalFilesScanned = totalFilesScanned
+            self.totalResourcesGenerated = totalResourcesGenerated
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// Contains the properties of a data transformation job, including its status, configuration, and progress information. You retrieve this structure by calling DescribeDataTransformationJob.
+    public struct TransformationJobProperties: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants AWS HealthLake access to the specified Amazon S3 locations. AWS HealthLake assumes this role to read input files and write output files.
+        /// This member is required.
+        public var dataAccessRoleArn: Swift.String?
+        /// Specifies whether drift detection is enabled for this job. When enabled, AWS HealthLake writes a drift report to the output Amazon S3 location alongside the converted files.
+        public var driftDetectionEnabled: Swift.Bool?
+        /// The timestamp when the job completed or failed.
+        public var endTime: Foundation.Date?
+        /// The Amazon S3 location and format of the source files for this job.
+        /// This member is required.
+        public var inputDataConfig: HealthLakeClientTypes.TransformationInputDataConfig?
+        /// The unique identifier of the data transformation job.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The name of the data transformation job.
+        public var jobName: Swift.String?
+        /// The progress report for the data transformation job, including counts of files processed and resources generated.
+        public var jobProgressReport: HealthLakeClientTypes.TransformationJobProgressReport?
+        /// The current status of the data transformation job.
+        /// This member is required.
+        public var jobStatus: HealthLakeClientTypes.TransformationJobStatus?
+        /// An informational message about the job, such as an error description if the job failed.
+        public var message: Swift.String?
+        /// The Amazon S3 location and encryption configuration for the converted output.
+        /// This member is required.
+        public var outputDataConfig: HealthLakeClientTypes.TransformationOutputDataConfig?
+        /// The unique identifier of the data transformation profile used for this job.
+        public var profileId: Swift.String?
+        /// The name of the data transformation profile used for this job.
+        public var profileName: Swift.String?
+        /// The version number of the data transformation profile used for this job.
+        public var profileVersion: Swift.Int?
+        /// Specifies whether FHIR R4 Provenance resource generation is enabled for this transformation job. When provenance is enabled, the service also generates related DocumentReference and Device resources.
+        public var provenanceEnabled: Swift.Bool?
+        /// The timestamp when the job was submitted.
+        /// This member is required.
+        public var submitTime: Foundation.Date?
+
+        public init(
+            dataAccessRoleArn: Swift.String? = nil,
+            driftDetectionEnabled: Swift.Bool? = nil,
+            endTime: Foundation.Date? = nil,
+            inputDataConfig: HealthLakeClientTypes.TransformationInputDataConfig? = nil,
+            jobId: Swift.String? = nil,
+            jobName: Swift.String? = nil,
+            jobProgressReport: HealthLakeClientTypes.TransformationJobProgressReport? = nil,
+            jobStatus: HealthLakeClientTypes.TransformationJobStatus? = nil,
+            message: Swift.String? = nil,
+            outputDataConfig: HealthLakeClientTypes.TransformationOutputDataConfig? = nil,
+            profileId: Swift.String? = nil,
+            profileName: Swift.String? = nil,
+            profileVersion: Swift.Int? = nil,
+            provenanceEnabled: Swift.Bool? = nil,
+            submitTime: Foundation.Date? = nil
+        ) {
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.driftDetectionEnabled = driftDetectionEnabled
+            self.endTime = endTime
+            self.inputDataConfig = inputDataConfig
+            self.jobId = jobId
+            self.jobName = jobName
+            self.jobProgressReport = jobProgressReport
+            self.jobStatus = jobStatus
+            self.message = message
+            self.outputDataConfig = outputDataConfig
+            self.profileId = profileId
+            self.profileName = profileName
+            self.profileVersion = profileVersion
+            self.provenanceEnabled = provenanceEnabled
+            self.submitTime = submitTime
+        }
+    }
+}
+
+/// The response from the DescribeDataTransformationJob operation.
+public struct DescribeDataTransformationJobOutput: Swift.Sendable {
+    /// The properties of the data transformation job, including status, configuration, and progress information.
+    /// This member is required.
+    public var transformationJobProperties: HealthLakeClientTypes.TransformationJobProperties?
+
+    public init(
+        transformationJobProperties: HealthLakeClientTypes.TransformationJobProperties? = nil
+    ) {
+        self.transformationJobProperties = transformationJobProperties
     }
 }
 
@@ -841,6 +2055,7 @@ public struct DescribeFHIRExportJobInput: Swift.Sendable {
 
 extension HealthLakeClientTypes {
 
+    /// The status of a job.
     public enum JobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelCompleted
         case cancelFailed
@@ -1020,10 +2235,22 @@ extension HealthLakeClientTypes {
     public struct JobProgressReport: Swift.Sendable {
         /// The transaction rate the import job is processed at.
         public var throughput: Swift.Double?
+        /// Number of CCDA files successfully transformed during the import's transformation phase. Populated only for import jobs that use the two-Step-Function (transformation + ingestion) flow; null for legacy single-SF imports and for pure FHIR imports that skip transformation.
+        public var totalFilesConverted: Swift.Int?
         /// The number of files that failed to be read from the S3 input bucket due to customer error.
         public var totalNumberOfFilesReadWithCustomerError: Swift.Int?
         /// The number of files imported.
         public var totalNumberOfImportedFiles: Swift.Int?
+        /// The number of non-FHIR files imported.
+        public var totalNumberOfImportedNonFhirFiles: Swift.Int?
+        /// The number of non-FHIR files that failed to be read from the S3 input bucket due to customer error.
+        public var totalNumberOfNonFhirFilesReadWithCustomerError: Swift.Int?
+        /// The number of non-FHIR resources imported.
+        public var totalNumberOfNonFhirResourcesImported: Swift.Int?
+        /// The number of non-FHIR resources scanned from the S3 input bucket.
+        public var totalNumberOfNonFhirResourcesScanned: Swift.Int?
+        /// The number of non-FHIR resources that failed due to customer error.
+        public var totalNumberOfNonFhirResourcesWithCustomerError: Swift.Int?
         /// The number of resources imported.
         public var totalNumberOfResourcesImported: Swift.Int?
         /// The number of resources scanned from the S3 input bucket.
@@ -1032,33 +2259,58 @@ extension HealthLakeClientTypes {
         public var totalNumberOfResourcesWithCustomerError: Swift.Int?
         /// The number of files scanned from the S3 input bucket.
         public var totalNumberOfScannedFiles: Swift.Int?
+        /// The number of non-FHIR files scanned from the S3 input bucket.
+        public var totalNumberOfScannedNonFhirFiles: Swift.Int?
+        /// Number of FHIR resources produced by the transformation phase. Populated only for import jobs that use the two-Step-Function flow; null for legacy single-SF imports and for pure FHIR imports.
+        public var totalResourcesGenerated: Swift.Int?
         /// The size (in MB) of files scanned from the S3 input bucket.
         public var totalSizeOfScannedFilesInMB: Swift.Double?
+        /// The size (in MB) of non-FHIR files scanned from the S3 input bucket.
+        public var totalSizeOfScannedNonFhirFilesInMB: Swift.Double?
 
         public init(
             throughput: Swift.Double? = nil,
+            totalFilesConverted: Swift.Int? = nil,
             totalNumberOfFilesReadWithCustomerError: Swift.Int? = nil,
             totalNumberOfImportedFiles: Swift.Int? = nil,
+            totalNumberOfImportedNonFhirFiles: Swift.Int? = nil,
+            totalNumberOfNonFhirFilesReadWithCustomerError: Swift.Int? = nil,
+            totalNumberOfNonFhirResourcesImported: Swift.Int? = nil,
+            totalNumberOfNonFhirResourcesScanned: Swift.Int? = nil,
+            totalNumberOfNonFhirResourcesWithCustomerError: Swift.Int? = nil,
             totalNumberOfResourcesImported: Swift.Int? = nil,
             totalNumberOfResourcesScanned: Swift.Int? = nil,
             totalNumberOfResourcesWithCustomerError: Swift.Int? = nil,
             totalNumberOfScannedFiles: Swift.Int? = nil,
-            totalSizeOfScannedFilesInMB: Swift.Double? = nil
+            totalNumberOfScannedNonFhirFiles: Swift.Int? = nil,
+            totalResourcesGenerated: Swift.Int? = nil,
+            totalSizeOfScannedFilesInMB: Swift.Double? = nil,
+            totalSizeOfScannedNonFhirFilesInMB: Swift.Double? = nil
         ) {
             self.throughput = throughput
+            self.totalFilesConverted = totalFilesConverted
             self.totalNumberOfFilesReadWithCustomerError = totalNumberOfFilesReadWithCustomerError
             self.totalNumberOfImportedFiles = totalNumberOfImportedFiles
+            self.totalNumberOfImportedNonFhirFiles = totalNumberOfImportedNonFhirFiles
+            self.totalNumberOfNonFhirFilesReadWithCustomerError = totalNumberOfNonFhirFilesReadWithCustomerError
+            self.totalNumberOfNonFhirResourcesImported = totalNumberOfNonFhirResourcesImported
+            self.totalNumberOfNonFhirResourcesScanned = totalNumberOfNonFhirResourcesScanned
+            self.totalNumberOfNonFhirResourcesWithCustomerError = totalNumberOfNonFhirResourcesWithCustomerError
             self.totalNumberOfResourcesImported = totalNumberOfResourcesImported
             self.totalNumberOfResourcesScanned = totalNumberOfResourcesScanned
             self.totalNumberOfResourcesWithCustomerError = totalNumberOfResourcesWithCustomerError
             self.totalNumberOfScannedFiles = totalNumberOfScannedFiles
+            self.totalNumberOfScannedNonFhirFiles = totalNumberOfScannedNonFhirFiles
+            self.totalResourcesGenerated = totalResourcesGenerated
             self.totalSizeOfScannedFilesInMB = totalSizeOfScannedFilesInMB
+            self.totalSizeOfScannedNonFhirFilesInMB = totalSizeOfScannedNonFhirFilesInMB
         }
     }
 }
 
 extension HealthLakeClientTypes {
 
+    /// The level of FHIR validation to apply.
     public enum ValidationLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case minimal
         case strict
@@ -1162,6 +2414,117 @@ public struct DescribeFHIRImportJobOutput: Swift.Sendable {
         importJobProperties: HealthLakeClientTypes.ImportJobProperties? = nil
     ) {
         self.importJobProperties = importJobProperties
+    }
+}
+
+/// A dependent service failed to fulfill the request.
+public struct FailedDependencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "FailedDependencyException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request parameters for the ListDataTransformationJobs operation.
+public struct ListDataTransformationJobsInput: Swift.Sendable {
+    /// Filters the results to include only jobs with the specified name.
+    public var jobName: Swift.String?
+    /// Filters the results to include only jobs with the specified status.
+    public var jobStatus: HealthLakeClientTypes.TransformationJobStatus?
+    /// The maximum number of jobs to return per page. If you don't specify a value, the service returns up to 100 results.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous response. Pass this value to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// Filters the results to include only jobs submitted at or after this timestamp.
+    public var submittedAfter: Foundation.Date?
+    /// Filters the results to include only jobs submitted at or before this timestamp.
+    public var submittedBefore: Foundation.Date?
+
+    public init(
+        jobName: Swift.String? = nil,
+        jobStatus: HealthLakeClientTypes.TransformationJobStatus? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        submittedAfter: Foundation.Date? = nil,
+        submittedBefore: Foundation.Date? = nil
+    ) {
+        self.jobName = jobName
+        self.jobStatus = jobStatus
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.submittedAfter = submittedAfter
+        self.submittedBefore = submittedBefore
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// Contains summary information about a data transformation job. To retrieve full job details, call DescribeDataTransformationJob.
+    public struct TransformationJobSummary: Swift.Sendable {
+        /// The timestamp when the job completed.
+        public var endTime: Foundation.Date?
+        /// The unique identifier of the job.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The name of the job.
+        public var jobName: Swift.String?
+        /// The current status of the job.
+        /// This member is required.
+        public var jobStatus: HealthLakeClientTypes.TransformationJobStatus?
+        /// The source data format for this job.
+        public var sourceFormat: HealthLakeClientTypes.SourceFormat?
+        /// The timestamp when the job was submitted.
+        /// This member is required.
+        public var submitTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            jobId: Swift.String? = nil,
+            jobName: Swift.String? = nil,
+            jobStatus: HealthLakeClientTypes.TransformationJobStatus? = nil,
+            sourceFormat: HealthLakeClientTypes.SourceFormat? = nil,
+            submitTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.jobId = jobId
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.sourceFormat = sourceFormat
+            self.submitTime = submitTime
+        }
+    }
+}
+
+/// The response from the ListDataTransformationJobs operation.
+public struct ListDataTransformationJobsOutput: Swift.Sendable {
+    /// The list of data transformation job summaries.
+    /// This member is required.
+    public var items: [HealthLakeClientTypes.TransformationJobSummary]?
+    /// The pagination token to use in the next request. If this value is null, there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [HealthLakeClientTypes.TransformationJobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
     }
 }
 
@@ -1387,14 +2750,20 @@ public struct StartFHIRImportJobInput: Swift.Sendable {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
+    /// A boolean value.
+    public var driftDetectionEnabled: Swift.Bool?
     /// The input properties for the import job request.
     /// This member is required.
     public var inputDataConfig: HealthLakeClientTypes.InputDataConfig?
+    /// A bounded-length string value.
+    public var inputFormat: Swift.String?
     /// The import job name.
     public var jobName: Swift.String?
     /// The output data configuration supplied when the export job was created.
     /// This member is required.
     public var jobOutputDataConfig: HealthLakeClientTypes.OutputDataConfig?
+    /// A bounded-length string value.
+    public var profileId: Swift.String?
     /// The validation level of the import job.
     public var validationLevel: HealthLakeClientTypes.ValidationLevel?
 
@@ -1402,17 +2771,23 @@ public struct StartFHIRImportJobInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         dataAccessRoleArn: Swift.String? = nil,
         datastoreId: Swift.String? = nil,
+        driftDetectionEnabled: Swift.Bool? = false,
         inputDataConfig: HealthLakeClientTypes.InputDataConfig? = nil,
+        inputFormat: Swift.String? = nil,
         jobName: Swift.String? = nil,
         jobOutputDataConfig: HealthLakeClientTypes.OutputDataConfig? = nil,
+        profileId: Swift.String? = nil,
         validationLevel: HealthLakeClientTypes.ValidationLevel? = nil
     ) {
         self.clientToken = clientToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.datastoreId = datastoreId
+        self.driftDetectionEnabled = driftDetectionEnabled
         self.inputDataConfig = inputDataConfig
+        self.inputFormat = inputFormat
         self.jobName = jobName
         self.jobOutputDataConfig = jobOutputDataConfig
+        self.profileId = profileId
         self.validationLevel = validationLevel
     }
 }

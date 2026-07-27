@@ -1663,7 +1663,7 @@ extension SESv2Client {
 
     /// Performs the `CreateMultiRegionEndpoint` operation on the `SESv2` service.
     ///
-    /// Creates a multi-region endpoint (global-endpoint). The primary region is going to be the AWS-Region where the operation is executed. The secondary region has to be provided in request's parameters. From the data flow standpoint there is no difference between primary and secondary regions - sending traffic will be split equally between the two. The primary region is the region where the resource has been created and where it can be managed.
+    /// Creates a multi-region endpoint (global-endpoint). The primary region is going to be the AWS-Region where the operation is executed. The secondary region has to be provided in request's parameters. From the data flow standpoint there is no difference between primary and secondary regions - sending traffic is divided between the two. The primary region is the region where the resource has been created and where it can be managed.
     ///
     /// - Parameter input: Represents a request to create a multi-region endpoint (global-endpoint). (Type: `CreateMultiRegionEndpointInput`)
     ///
@@ -5989,6 +5989,78 @@ extension SESv2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SESv2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAccountDetails")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutAccountPricingAttributes` operation on the `SESv2` service.
+    ///
+    /// Set the pricing plan for your Amazon SES account. Use this operation to choose a billing plan that packages multiple Amazon SES features at a single rate.
+    ///
+    /// - Parameter input: A request to set the pricing plan for your Amazon SES account. (Type: `PutAccountPricingAttributesInput`)
+    ///
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error response if the request fails. (Type: `PutAccountPricingAttributesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input you provided is invalid.
+    /// - `ConflictException` : If there is already an ongoing account details update under review.
+    /// - `TooManyRequestsException` : Too many requests have been made to the operation.
+    public func putAccountPricingAttributes(input: PutAccountPricingAttributesInput) async throws -> PutAccountPricingAttributesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putAccountPricingAttributes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutAccountPricingAttributesInput, PutAccountPricingAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutAccountPricingAttributesInput, PutAccountPricingAttributesOutput>(PutAccountPricingAttributesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAccountPricingAttributesInput, PutAccountPricingAttributesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAccountPricingAttributesInput, PutAccountPricingAttributesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutAccountPricingAttributesInput, PutAccountPricingAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAccountPricingAttributesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountPricingAttributesInput, PutAccountPricingAttributesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountPricingAttributesOutput>(PutAccountPricingAttributesOutput.httpOutput(from:), PutAccountPricingAttributesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountPricingAttributesInput, PutAccountPricingAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountPricingAttributesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SESv2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAccountPricingAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAccountPricingAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAccountPricingAttributesInput, PutAccountPricingAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAccountPricingAttributesInput, PutAccountPricingAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SESv2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAccountPricingAttributesInput, PutAccountPricingAttributesOutput>(serviceID: serviceName, version: SESv2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SESv2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAccountPricingAttributes")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -2177,6 +2177,92 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateKnowledgeBase` operation on the `QuickSight` service.
+    ///
+    /// Creates a knowledge base from a specified data source. Supported data source connector types include:
+    ///
+    /// * S3_KNOWLEDGE_BASE – Uses an Amazon S3 bucket as the data source.
+    ///
+    /// * WEB_CRAWLER – Uses web pages indexed by the built-in web crawler as the data source.
+    ///
+    /// * GOOGLE_DRIVE – Uses Google Drive as the data source. Supports service account authentication only.
+    ///
+    /// * SHAREPOINT – Uses SharePoint as the data source. Supports two-legged OAuth only.
+    ///
+    /// * ONE_DRIVE – Uses OneDrive as the data source. Supports two-legged OAuth only.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateKnowledgeBaseInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateKnowledgeBaseOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `InvalidRequestException` : You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
+    /// - `LimitExceededException` : A limit is exceeded.
+    /// - `PreconditionNotMetException` : One or more preconditions aren't met.
+    /// - `ResourceExistsException` : The resource specified already exists.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    public func createKnowledgeBase(input: CreateKnowledgeBaseInput) async throws -> CreateKnowledgeBaseOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createKnowledgeBase")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateKnowledgeBaseInput, CreateKnowledgeBaseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateKnowledgeBaseInput, CreateKnowledgeBaseOutput>(CreateKnowledgeBaseInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateKnowledgeBaseInput, CreateKnowledgeBaseOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateKnowledgeBaseInput, CreateKnowledgeBaseOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateKnowledgeBaseInput, CreateKnowledgeBaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateKnowledgeBaseInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKnowledgeBaseInput, CreateKnowledgeBaseOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKnowledgeBaseOutput>(CreateKnowledgeBaseOutput.httpOutput(from:), CreateKnowledgeBaseOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKnowledgeBaseInput, CreateKnowledgeBaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateKnowledgeBaseOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateKnowledgeBaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateKnowledgeBaseOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateKnowledgeBaseInput, CreateKnowledgeBaseOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateKnowledgeBaseInput, CreateKnowledgeBaseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "QuickSight"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateKnowledgeBaseInput, CreateKnowledgeBaseOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateKnowledgeBase")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateNamespace` operation on the `QuickSight` service.
     ///
     /// (Enterprise edition only) Creates a new namespace for you to use with Amazon Quick Sight. A namespace allows you to isolate the Quick Sight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Quick Sight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web Services Support.
@@ -18200,6 +18286,82 @@ extension QuickSightClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateKeyRegistration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateKnowledgeBase` operation on the `QuickSight` service.
+    ///
+    /// Updates the properties of an existing knowledge base.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateKnowledgeBaseInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateKnowledgeBaseOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `InvalidRequestException` : You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
+    /// - `LimitExceededException` : A limit is exceeded.
+    /// - `PreconditionNotMetException` : One or more preconditions aren't met.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    public func updateKnowledgeBase(input: UpdateKnowledgeBaseInput) async throws -> UpdateKnowledgeBaseOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateKnowledgeBase")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateKnowledgeBaseInput, UpdateKnowledgeBaseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateKnowledgeBaseInput, UpdateKnowledgeBaseOutput>(UpdateKnowledgeBaseInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateKnowledgeBaseInput, UpdateKnowledgeBaseOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateKnowledgeBaseInput, UpdateKnowledgeBaseOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateKnowledgeBaseInput, UpdateKnowledgeBaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateKnowledgeBaseInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKnowledgeBaseInput, UpdateKnowledgeBaseOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKnowledgeBaseOutput>(UpdateKnowledgeBaseOutput.httpOutput(from:), UpdateKnowledgeBaseOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKnowledgeBaseInput, UpdateKnowledgeBaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKnowledgeBaseOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateKnowledgeBaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateKnowledgeBaseOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateKnowledgeBaseInput, UpdateKnowledgeBaseOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateKnowledgeBaseInput, UpdateKnowledgeBaseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "QuickSight"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateKnowledgeBaseInput, UpdateKnowledgeBaseOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateKnowledgeBase")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

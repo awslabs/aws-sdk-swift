@@ -798,6 +798,7 @@ extension RedshiftDataClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ActiveWaitingRequestsExceededException` : The number of active requests with WaitTimeSeconds for the same SQL statement exceeds the limit.
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ResourceNotFoundException` : The Amazon Redshift Data API operation failed due to a missing resource.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
@@ -1064,6 +1065,7 @@ extension RedshiftDataClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ActiveWaitingRequestsExceededException` : The number of active requests with WaitTimeSeconds for the same SQL statement exceeds the limit.
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ResourceNotFoundException` : The Amazon Redshift Data API operation failed due to a missing resource.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
@@ -1140,6 +1142,7 @@ extension RedshiftDataClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ActiveWaitingRequestsExceededException` : The number of active requests with WaitTimeSeconds for the same SQL statement exceeds the limit.
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ResourceNotFoundException` : The Amazon Redshift Data API operation failed due to a missing resource.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
@@ -1381,6 +1384,82 @@ extension RedshiftDataClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RedshiftData")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSchemas")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListSessions` operation on the `RedshiftData` service.
+    ///
+    /// Lists the sessions that the caller created in the last 24 hours. By default, only sessions with a status of AVAILABLE or BUSY are returned. You can filter the results by session status, compute target (cluster or serverless workgroup), or database. To retrieve the metadata for a single session, provide the SessionId parameter. Use NextToken to page through the session list. Returns only the sessions that the caller created. When identity-enhanced role sessions are used, you must provide either the ClusterIdentifier or WorkgroupName parameter to ensure that the AWS IAM Identity Center user can only access the Amazon Redshift IAM Identity Center applications they are assigned. For more information, see [ Trusted identity propagation overview](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-overview.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListSessionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListSessionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
+    /// - `ResourceNotFoundException` : The Amazon Redshift Data API operation failed due to a missing resource.
+    /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
+    public func listSessions(input: ListSessionsInput) async throws -> ListSessionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RedshiftDataClient.listSessionsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSessions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "redshift-data")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSessionsInput, ListSessionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSessionsInput, ListSessionsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSessionsInput, ListSessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSessionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Redshift Data", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSessionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSessionsInput, ListSessionsOutput>(overrides: ["X-Amz-Target": "RedshiftData.ListSessions"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSessionsInput, ListSessionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSessionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSessionsInput, ListSessionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSessionsInput, ListSessionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Redshift Data"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSessionsInput, ListSessionsOutput>(serviceID: serviceName, version: RedshiftDataClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RedshiftData")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSessions")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

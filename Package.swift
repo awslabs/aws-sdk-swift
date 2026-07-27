@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.231.0"
+let clientRuntimeVersion: Version = "0.233.0"
 let crtVersion: Version = "0.63.0"
 
 let excludeRuntimeUnitTests = false
@@ -126,7 +126,7 @@ private let serviceClientData: [ServiceClientData] = [
     .init(
         "AWSAppStream",
         "appstream.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyAWSJSON, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRetries, .SmithyRetriesAPI, .SmithyWaitersAPI]
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRPCv2CBOR, .SmithyRetries, .SmithyRetriesAPI, .SmithyWaitersAPI]
     ),
     .init(
         "AWSAppSync",
@@ -156,7 +156,7 @@ private let serviceClientData: [ServiceClientData] = [
     .init(
         "AWSApplicationInsights",
         "application-insights.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyAWSJSON, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRetries, .SmithyRetriesAPI]
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRPCv2CBOR, .SmithyRetries, .SmithyRetriesAPI]
     ),
     .init(
         "AWSApplicationSignals",
@@ -206,12 +206,12 @@ private let serviceClientData: [ServiceClientData] = [
     .init(
         "AWSBCMPricingCalculator",
         "bcm-pricing-calculator.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyAWSJSON, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRetries, .SmithyRetriesAPI]
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRPCv2CBOR, .SmithyRetries, .SmithyRetriesAPI]
     ),
     .init(
         "AWSBCMRecommendedActions",
         "bcm-recommended-actions.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyAWSJSON, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRetries, .SmithyRetriesAPI]
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRPCv2CBOR, .SmithyRetries, .SmithyRetriesAPI]
     ),
     .init(
         "AWSBackup",
@@ -221,7 +221,7 @@ private let serviceClientData: [ServiceClientData] = [
     .init(
         "AWSBackupGateway",
         "backup-gateway.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyAWSJSON, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRetries, .SmithyRetriesAPI]
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRPCv2CBOR, .SmithyRetries, .SmithyRetriesAPI]
     ),
     .init(
         "AWSBackupSearch",
@@ -1056,7 +1056,7 @@ private let serviceClientData: [ServiceClientData] = [
     .init(
         "AWSKendraRanking",
         "kendra-ranking.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyAWSJSON, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRetries, .SmithyRetriesAPI]
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRPCv2CBOR, .SmithyRetries, .SmithyRetriesAPI]
     ),
     .init(
         "AWSKeyspaces",
@@ -2146,7 +2146,7 @@ private let serviceClientData: [ServiceClientData] = [
     .init(
         "AWSWorkspacesInstances",
         "workspaces-instances.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyAWSJSON, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRetries, .SmithyRetriesAPI]
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRPCv2CBOR, .SmithyRetries, .SmithyRetriesAPI]
     ),
     .init(
         "AWSXRay",

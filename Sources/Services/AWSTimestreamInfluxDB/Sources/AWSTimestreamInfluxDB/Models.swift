@@ -2452,6 +2452,10 @@ extension TimestreamInfluxDBClientTypes {
         public var parquetMemCacheQueryPathDuration: TimestreamInfluxDBClientTypes.Duration?
         /// Specifies the size of the in-memory Parquet cache in megabytes or percentage of total available memory. Default: 20%
         public var parquetMemCacheSize: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong?
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret that holds your repository access token.
+        public var pluginRepositorySecretArn: Swift.String?
+        /// Specifies the URL of the repository that InfluxDB downloads plugins from.
+        public var pluginRepositoryUrl: Swift.String?
         /// Specifies the interval to prefetch into the Parquet cache during compaction. Default: 3d
         public var preemptiveCacheAge: TimestreamInfluxDBClientTypes.Duration?
         /// Limits the number of Parquet files a query can access. If a query attempts to read more than this limit, InfluxDB 3 returns an error. Default: 432
@@ -2504,6 +2508,8 @@ extension TimestreamInfluxDBClientTypes {
             parquetMemCachePrunePercentage: Swift.Float? = nil,
             parquetMemCacheQueryPathDuration: TimestreamInfluxDBClientTypes.Duration? = nil,
             parquetMemCacheSize: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong? = nil,
+            pluginRepositorySecretArn: Swift.String? = nil,
+            pluginRepositoryUrl: Swift.String? = nil,
             preemptiveCacheAge: TimestreamInfluxDBClientTypes.Duration? = nil,
             queryFileLimit: Swift.Int? = nil,
             queryLogSize: Swift.Int? = nil,
@@ -2544,6 +2550,8 @@ extension TimestreamInfluxDBClientTypes {
             self.parquetMemCachePrunePercentage = parquetMemCachePrunePercentage
             self.parquetMemCacheQueryPathDuration = parquetMemCacheQueryPathDuration
             self.parquetMemCacheSize = parquetMemCacheSize
+            self.pluginRepositorySecretArn = pluginRepositorySecretArn
+            self.pluginRepositoryUrl = pluginRepositoryUrl
             self.preemptiveCacheAge = preemptiveCacheAge
             self.queryFileLimit = queryFileLimit
             self.queryLogSize = queryLogSize
@@ -2643,6 +2651,10 @@ extension TimestreamInfluxDBClientTypes {
         public var parquetMemCacheQueryPathDuration: TimestreamInfluxDBClientTypes.Duration?
         /// Specifies the size of the in-memory Parquet cache in megabytes or percentage of total available memory. Default: 20%
         public var parquetMemCacheSize: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong?
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret that holds your repository access token.
+        public var pluginRepositorySecretArn: Swift.String?
+        /// Specifies the URL of the repository that InfluxDB downloads plugins from.
+        public var pluginRepositoryUrl: Swift.String?
         /// Specifies the interval to prefetch into the Parquet cache during compaction. Default: 3d
         public var preemptiveCacheAge: TimestreamInfluxDBClientTypes.Duration?
         /// Limits the number of Parquet files a query can access. If a query attempts to read more than this limit, InfluxDB 3 returns an error. Default: 432
@@ -2711,6 +2723,8 @@ extension TimestreamInfluxDBClientTypes {
             parquetMemCachePrunePercentage: Swift.Float? = nil,
             parquetMemCacheQueryPathDuration: TimestreamInfluxDBClientTypes.Duration? = nil,
             parquetMemCacheSize: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong? = nil,
+            pluginRepositorySecretArn: Swift.String? = nil,
+            pluginRepositoryUrl: Swift.String? = nil,
             preemptiveCacheAge: TimestreamInfluxDBClientTypes.Duration? = nil,
             queryFileLimit: Swift.Int? = nil,
             queryLogSize: Swift.Int? = nil,
@@ -2764,6 +2778,8 @@ extension TimestreamInfluxDBClientTypes {
             self.parquetMemCachePrunePercentage = parquetMemCachePrunePercentage
             self.parquetMemCacheQueryPathDuration = parquetMemCacheQueryPathDuration
             self.parquetMemCacheSize = parquetMemCacheSize
+            self.pluginRepositorySecretArn = pluginRepositorySecretArn
+            self.pluginRepositoryUrl = pluginRepositoryUrl
             self.preemptiveCacheAge = preemptiveCacheAge
             self.queryFileLimit = queryFileLimit
             self.queryLogSize = queryLogSize

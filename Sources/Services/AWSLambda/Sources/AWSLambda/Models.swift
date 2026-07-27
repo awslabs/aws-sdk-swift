@@ -1136,6 +1136,72 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
+    public enum SystemLogLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case debug
+        case info
+        case warn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SystemLogLevel] {
+            return [
+                .debug,
+                .info,
+                .warn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .debug: return "DEBUG"
+            case .info: return "INFO"
+            case .warn: return "WARN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// The capacity provider's Amazon CloudWatch Logs configuration settings.
+    public struct CapacityProviderLoggingConfig: Swift.Sendable {
+        /// The name of the Amazon CloudWatch log group the capacity provider sends logs to. By default, Lambda capacity providers send logs to a default log group named /aws/lambda/capacity-provider/<capacity provider name>. To use a different log group, enter an existing log group or enter a new log group name.
+        public var logGroup: Swift.String?
+        /// Set this property to filter the system logs for your capacity provider that Lambda sends to CloudWatch. Lambda only sends system logs at the selected level of detail and lower, where DEBUG is the highest level and WARN is the lowest.
+        public var systemLogLevel: LambdaClientTypes.SystemLogLevel?
+
+        public init(
+            logGroup: Swift.String? = nil,
+            systemLogLevel: LambdaClientTypes.SystemLogLevel? = nil
+        ) {
+            self.logGroup = logGroup
+            self.systemLogLevel = systemLogLevel
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Configuration that specifies the telemetry collection for the capacity provider.
+    public struct CapacityProviderTelemetryConfig: Swift.Sendable {
+        /// The capacity provider's Amazon CloudWatch Logs configuration settings.
+        public var loggingConfig: LambdaClientTypes.CapacityProviderLoggingConfig?
+
+        public init(
+            loggingConfig: LambdaClientTypes.CapacityProviderLoggingConfig? = nil
+        ) {
+            self.loggingConfig = loggingConfig
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
     /// VPC configuration that specifies the network settings for compute instances managed by the capacity provider.
     public struct CapacityProviderVpcConfig: Swift.Sendable {
         /// A list of security group IDs that control network access for compute instances managed by the capacity provider.
@@ -1172,6 +1238,8 @@ public struct CreateCapacityProviderInput: Swift.Sendable {
     public var propagateTags: LambdaClientTypes.PropagateTags?
     /// A list of tags to associate with the capacity provider.
     public var tags: [Swift.String: Swift.String]?
+    /// The telemetry configuration for the capacity provider. Specifies logging settings for managed resources.
+    public var telemetryConfig: LambdaClientTypes.CapacityProviderTelemetryConfig?
     /// The VPC configuration for the capacity provider, including subnet IDs and security group IDs where compute instances will be launched.
     /// This member is required.
     public var vpcConfig: LambdaClientTypes.CapacityProviderVpcConfig?
@@ -1184,6 +1252,7 @@ public struct CreateCapacityProviderInput: Swift.Sendable {
         permissionsConfig: LambdaClientTypes.CapacityProviderPermissionsConfig? = nil,
         propagateTags: LambdaClientTypes.PropagateTags? = nil,
         tags: [Swift.String: Swift.String]? = nil,
+        telemetryConfig: LambdaClientTypes.CapacityProviderTelemetryConfig? = nil,
         vpcConfig: LambdaClientTypes.CapacityProviderVpcConfig? = nil
     ) {
         self.capacityProviderName = capacityProviderName
@@ -1193,6 +1262,7 @@ public struct CreateCapacityProviderInput: Swift.Sendable {
         self.permissionsConfig = permissionsConfig
         self.propagateTags = propagateTags
         self.tags = tags
+        self.telemetryConfig = telemetryConfig
         self.vpcConfig = vpcConfig
     }
 }
@@ -1255,6 +1325,8 @@ extension LambdaClientTypes {
         /// The current state of the capacity provider.
         /// This member is required.
         public var state: LambdaClientTypes.CapacityProviderState?
+        /// The telemetry configuration for the capacity provider, including logging settings.
+        public var telemetryConfig: LambdaClientTypes.CapacityProviderTelemetryConfig?
         /// The VPC configuration for the capacity provider.
         /// This member is required.
         public var vpcConfig: LambdaClientTypes.CapacityProviderVpcConfig?
@@ -1268,6 +1340,7 @@ extension LambdaClientTypes {
             permissionsConfig: LambdaClientTypes.CapacityProviderPermissionsConfig? = nil,
             propagateTags: LambdaClientTypes.PropagateTags? = nil,
             state: LambdaClientTypes.CapacityProviderState? = nil,
+            telemetryConfig: LambdaClientTypes.CapacityProviderTelemetryConfig? = nil,
             vpcConfig: LambdaClientTypes.CapacityProviderVpcConfig? = nil
         ) {
             self.capacityProviderArn = capacityProviderArn
@@ -1278,6 +1351,7 @@ extension LambdaClientTypes {
             self.permissionsConfig = permissionsConfig
             self.propagateTags = propagateTags
             self.state = state
+            self.telemetryConfig = telemetryConfig
             self.vpcConfig = vpcConfig
         }
     }
@@ -1495,15 +1569,19 @@ public struct UpdateCapacityProviderInput: Swift.Sendable {
     public var capacityProviderScalingConfig: LambdaClientTypes.CapacityProviderScalingConfig?
     /// Configuration for tag propagation to managed resources launched by the capacity provider.
     public var propagateTags: LambdaClientTypes.PropagateTags?
+    /// The updated telemetry configuration for the capacity provider.
+    public var telemetryConfig: LambdaClientTypes.CapacityProviderTelemetryConfig?
 
     public init(
         capacityProviderName: Swift.String? = nil,
         capacityProviderScalingConfig: LambdaClientTypes.CapacityProviderScalingConfig? = nil,
-        propagateTags: LambdaClientTypes.PropagateTags? = nil
+        propagateTags: LambdaClientTypes.PropagateTags? = nil,
+        telemetryConfig: LambdaClientTypes.CapacityProviderTelemetryConfig? = nil
     ) {
         self.capacityProviderName = capacityProviderName
         self.capacityProviderScalingConfig = capacityProviderScalingConfig
         self.propagateTags = propagateTags
+        self.telemetryConfig = telemetryConfig
     }
 }
 
@@ -4520,38 +4598,6 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
-    public enum SystemLogLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case debug
-        case info
-        case warn
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SystemLogLevel] {
-            return [
-                .debug,
-                .info,
-                .warn
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .debug: return "DEBUG"
-            case .info: return "INFO"
-            case .warn: return "WARN"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
     /// The function's Amazon CloudWatch Logs configuration settings.
     public struct LoggingConfig: Swift.Sendable {
         /// Set this property to filter the application logs for your function that Lambda sends to CloudWatch. Lambda only sends application logs at the selected level of detail and lower, where TRACE is the highest level and FATAL is the lowest.
@@ -4644,11 +4690,14 @@ extension LambdaClientTypes {
         case dotnetcore31
         case go1x
         case java11
+        case java11al2023
         case java17
+        case java17al2023
         case java21
         case java25
         case java8
         case java8al2
+        case java8al2023
         case nodejs
         case nodejs10x
         case nodejs12x
@@ -4694,11 +4743,14 @@ extension LambdaClientTypes {
                 .dotnetcore31,
                 .go1x,
                 .java11,
+                .java11al2023,
                 .java17,
+                .java17al2023,
                 .java21,
                 .java25,
                 .java8,
                 .java8al2,
+                .java8al2023,
                 .nodejs,
                 .nodejs10x,
                 .nodejs12x,
@@ -4750,11 +4802,14 @@ extension LambdaClientTypes {
             case .dotnetcore31: return "dotnetcore3.1"
             case .go1x: return "go1.x"
             case .java11: return "java11"
+            case .java11al2023: return "java11.al2023"
             case .java17: return "java17"
+            case .java17al2023: return "java17.al2023"
             case .java21: return "java21"
             case .java25: return "java25"
             case .java8: return "java8"
             case .java8al2: return "java8.al2"
+            case .java8al2023: return "java8.al2023"
             case .nodejs: return "nodejs"
             case .nodejs10x: return "nodejs10.x"
             case .nodejs12x: return "nodejs12.x"
@@ -5215,6 +5270,7 @@ extension LambdaClientTypes {
 
     public enum LastUpdateStatusReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capacityproviderscalinglimitexceeded
+        case dependencyerror
         case disabledkmskey
         case disallowedbyvpcencryptioncontrol
         case ec2requestlimitexceeded
@@ -5254,6 +5310,7 @@ extension LambdaClientTypes {
         public static var allCases: [LastUpdateStatusReasonCode] {
             return [
                 .capacityproviderscalinglimitexceeded,
+                .dependencyerror,
                 .disabledkmskey,
                 .disallowedbyvpcencryptioncontrol,
                 .ec2requestlimitexceeded,
@@ -5299,6 +5356,7 @@ extension LambdaClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .capacityproviderscalinglimitexceeded: return "CapacityProviderScalingLimitExceeded"
+            case .dependencyerror: return "DependencyError"
             case .disabledkmskey: return "DisabledKMSKey"
             case .disallowedbyvpcencryptioncontrol: return "DisallowedByVpcEncryptionControl"
             case .ec2requestlimitexceeded: return "EC2RequestLimitExceeded"
@@ -5462,6 +5520,7 @@ extension LambdaClientTypes {
     public enum StateReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capacityproviderscalinglimitexceeded
         case creating
+        case dependencyerror
         case disabledkmskey
         case disallowedbyvpcencryptioncontrol
         case drainingdurableexecutions
@@ -5505,6 +5564,7 @@ extension LambdaClientTypes {
             return [
                 .capacityproviderscalinglimitexceeded,
                 .creating,
+                .dependencyerror,
                 .disabledkmskey,
                 .disallowedbyvpcencryptioncontrol,
                 .drainingdurableexecutions,
@@ -5554,6 +5614,7 @@ extension LambdaClientTypes {
             switch self {
             case .capacityproviderscalinglimitexceeded: return "CapacityProviderScalingLimitExceeded"
             case .creating: return "Creating"
+            case .dependencyerror: return "DependencyError"
             case .disabledkmskey: return "DisabledKMSKey"
             case .disallowedbyvpcencryptioncontrol: return "DisallowedByVpcEncryptionControl"
             case .drainingdurableexecutions: return "DrainingDurableExecutions"
@@ -13826,6 +13887,7 @@ extension CreateCapacityProviderInput {
         try writer["PermissionsConfig"].write(value.permissionsConfig, with: LambdaClientTypes.CapacityProviderPermissionsConfig.write(value:to:))
         try writer["PropagateTags"].write(value.propagateTags, with: LambdaClientTypes.PropagateTags.write(value:to:))
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TelemetryConfig"].write(value.telemetryConfig, with: LambdaClientTypes.CapacityProviderTelemetryConfig.write(value:to:))
         try writer["VpcConfig"].write(value.vpcConfig, with: LambdaClientTypes.CapacityProviderVpcConfig.write(value:to:))
     }
 }
@@ -14076,6 +14138,7 @@ extension UpdateCapacityProviderInput {
         guard let value else { return }
         try writer["CapacityProviderScalingConfig"].write(value.capacityProviderScalingConfig, with: LambdaClientTypes.CapacityProviderScalingConfig.write(value:to:))
         try writer["PropagateTags"].write(value.propagateTags, with: LambdaClientTypes.PropagateTags.write(value:to:))
+        try writer["TelemetryConfig"].write(value.telemetryConfig, with: LambdaClientTypes.CapacityProviderTelemetryConfig.write(value:to:))
     }
 }
 
@@ -18210,6 +18273,7 @@ extension LambdaClientTypes.CapacityProvider {
         value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
         value.lastModified = try reader["LastModified"].readIfPresent()
         value.propagateTags = try reader["PropagateTags"].readIfPresent(with: LambdaClientTypes.PropagateTags.read(from:))
+        value.telemetryConfig = try reader["TelemetryConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderTelemetryConfig.read(from:))
         return value
     }
 }
@@ -18225,6 +18289,23 @@ extension LambdaClientTypes.CapacityProviderConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LambdaClientTypes.CapacityProviderConfig()
         value.lambdaManagedInstancesCapacityProviderConfig = try reader["LambdaManagedInstancesCapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.CapacityProviderLoggingConfig {
+
+    static func write(value: LambdaClientTypes.CapacityProviderLoggingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LogGroup"].write(value.logGroup)
+        try writer["SystemLogLevel"].write(value.systemLogLevel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CapacityProviderLoggingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CapacityProviderLoggingConfig()
+        value.systemLogLevel = try reader["SystemLogLevel"].readIfPresent()
+        value.logGroup = try reader["LogGroup"].readIfPresent()
         return value
     }
 }
@@ -18259,6 +18340,21 @@ extension LambdaClientTypes.CapacityProviderScalingConfig {
         value.maxVCpuCount = try reader["MaxVCpuCount"].readIfPresent()
         value.scalingMode = try reader["ScalingMode"].readIfPresent()
         value.scalingPolicies = try reader["ScalingPolicies"].readListIfPresent(memberReadingClosure: LambdaClientTypes.TargetTrackingScalingPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LambdaClientTypes.CapacityProviderTelemetryConfig {
+
+    static func write(value: LambdaClientTypes.CapacityProviderTelemetryConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LoggingConfig"].write(value.loggingConfig, with: LambdaClientTypes.CapacityProviderLoggingConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CapacityProviderTelemetryConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CapacityProviderTelemetryConfig()
+        value.loggingConfig = try reader["LoggingConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderLoggingConfig.read(from:))
         return value
     }
 }

@@ -2188,7 +2188,7 @@ extension PCSClient {
 
     /// Performs the `UpdateCluster` operation on the `PCS` service.
     ///
-    /// Updates a cluster configuration. You can upgrade the Slurm version, modify scheduler settings, and update accounting configuration for an existing cluster. For more information about upgrading the Slurm version, see [Upgrading the Slurm version on a cluster](https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_upgrade.html) in the PCS User Guide. You can only update clusters that are in ACTIVE, UPDATE_FAILED, or SUSPENDED state. All associated resources (queues and compute node groups) must be in ACTIVE state before you can update the cluster.
+    /// Updates a cluster configuration. You can update the scheduler version, modify scheduler settings, and update accounting configuration for an existing cluster. For more information about updating the scheduler version, see [Updating the scheduler version on a cluster](https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_version_update.html) in the PCS User Guide. You can only update clusters that are in ACTIVE, UPDATE_FAILED, or SUSPENDED state. All associated resources (queues and compute node groups) must be in ACTIVE state before you can update the cluster.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateClusterInput`)
     ///

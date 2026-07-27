@@ -12,6 +12,102 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension HealthLakeClient {
+    /// Paginate over `[ListDataTransformationJobsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDataTransformationJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataTransformationJobsOutput`
+    public func listDataTransformationJobsPaginated(input: ListDataTransformationJobsInput) -> ClientRuntime.PaginatorSequence<ListDataTransformationJobsInput, ListDataTransformationJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDataTransformationJobsInput, ListDataTransformationJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataTransformationJobs(input:))
+    }
+}
+
+extension ListDataTransformationJobsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDataTransformationJobsInput {
+        return ListDataTransformationJobsInput(
+            jobName: self.jobName,
+            jobStatus: self.jobStatus,
+            maxResults: self.maxResults,
+            nextToken: token,
+            submittedAfter: self.submittedAfter,
+            submittedBefore: self.submittedBefore
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDataTransformationJobsInput, OperationStackOutput == ListDataTransformationJobsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDataTransformationJobsPaginated`
+    /// to access the nested member `[HealthLakeClientTypes.TransformationJobSummary]`
+    /// - Returns: `[HealthLakeClientTypes.TransformationJobSummary]`
+    public func items() async throws -> [HealthLakeClientTypes.TransformationJobSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension HealthLakeClient {
+    /// Paginate over `[ListDataTransformationProfilesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDataTransformationProfilesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataTransformationProfilesOutput`
+    public func listDataTransformationProfilesPaginated(input: ListDataTransformationProfilesInput) -> ClientRuntime.PaginatorSequence<ListDataTransformationProfilesInput, ListDataTransformationProfilesOutput> {
+        return ClientRuntime.PaginatorSequence<ListDataTransformationProfilesInput, ListDataTransformationProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataTransformationProfiles(input:))
+    }
+}
+
+extension ListDataTransformationProfilesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDataTransformationProfilesInput {
+        return ListDataTransformationProfilesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sourceFormat: self.sourceFormat
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDataTransformationProfilesInput, OperationStackOutput == ListDataTransformationProfilesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDataTransformationProfilesPaginated`
+    /// to access the nested member `[HealthLakeClientTypes.DataTransformationProfileSummary]`
+    /// - Returns: `[HealthLakeClientTypes.DataTransformationProfileSummary]`
+    public func items() async throws -> [HealthLakeClientTypes.DataTransformationProfileSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension HealthLakeClient {
+    /// Paginate over `[ListDataTransformationProfileVersionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDataTransformationProfileVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataTransformationProfileVersionsOutput`
+    public func listDataTransformationProfileVersionsPaginated(input: ListDataTransformationProfileVersionsInput) -> ClientRuntime.PaginatorSequence<ListDataTransformationProfileVersionsInput, ListDataTransformationProfileVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDataTransformationProfileVersionsInput, ListDataTransformationProfileVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataTransformationProfileVersions(input:))
+    }
+}
+
+extension ListDataTransformationProfileVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDataTransformationProfileVersionsInput {
+        return ListDataTransformationProfileVersionsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            profileId: self.profileId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDataTransformationProfileVersionsInput, OperationStackOutput == ListDataTransformationProfileVersionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDataTransformationProfileVersionsPaginated`
+    /// to access the nested member `[HealthLakeClientTypes.DataTransformationProfileVersionSummary]`
+    /// - Returns: `[HealthLakeClientTypes.DataTransformationProfileVersionSummary]`
+    public func items() async throws -> [HealthLakeClientTypes.DataTransformationProfileVersionSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension HealthLakeClient {
     /// Paginate over `[ListFHIRDatastoresOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

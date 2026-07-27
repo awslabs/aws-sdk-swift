@@ -67,6 +67,11 @@ public struct DeleteHsmConfigurationOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteQev2IdcApplicationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteRedshiftIdcApplicationOutput: Swift.Sendable {
 
     public init() { }
@@ -4481,7 +4486,7 @@ public struct CreateClusterInput: Swift.Sendable {
     public var masterUsername: Swift.String?
     /// If true, Amazon Redshift will deploy the cluster in two Availability Zones (AZ).
     public var multiAZ: Swift.Bool?
-    /// The node type to be provisioned for the cluster. For information about node types, go to [ Working with Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes) in the Amazon Redshift Cluster Management Guide. Valid Values: dc2.large | dc2.8xlarge| rg.xlarge | rg.4xlarge | ra3.large | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
+    /// The node type to be provisioned for the cluster. For information about node types, go to [ Working with Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes) in the Amazon Redshift Cluster Management Guide. Valid Values: dc2.large | dc2.8xlarge | rg.large | rg.xlarge | rg.4xlarge | rg.12xlarge | ra3.large | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
     /// This member is required.
     public var nodeType: Swift.String?
     /// The number of compute nodes in the cluster. This parameter is required when the ClusterType parameter is specified as multi-node. For information about determining how many nodes you need, go to [ Working with Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes) in the Amazon Redshift Cluster Management Guide. If you don't specify this parameter, you get a single-node cluster. When requesting a multi-node cluster, you must specify the number of nodes that you want in the cluster. Default: 1 Constraints: Value must be at least 1 and no more than 100.
@@ -5827,6 +5832,105 @@ public struct CreateIntegrationOutput: Swift.Sendable {
         self.status = status
         self.tags = tags
         self.targetArn = targetArn
+    }
+}
+
+/// The Amazon Redshift Query Editor (QEV2) IAM Identity Center application already exists. Use a different application name or describe existing applications to find the ARN.
+public struct Qev2IdcApplicationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "Qev2IdcApplicationAlreadyExists" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct CreateQev2IdcApplicationInput: Swift.Sendable {
+    /// The display name for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application. It appears in the console.
+    /// This member is required.
+    public var idcDisplayName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance used to create the Amazon Redshift Query Editor (QEV2) managed application.
+    /// This member is required.
+    public var idcInstanceArn: Swift.String?
+    /// The name of the Amazon Redshift Query Editor (QEV2) application in IAM Identity Center.
+    /// This member is required.
+    public var qev2IdcApplicationName: Swift.String?
+    /// A list of tags to associate with the application. Tags are key-value pairs that you can use to organize and identify your resources.
+    public var tags: [RedshiftClientTypes.Tag]?
+
+    public init(
+        idcDisplayName: Swift.String? = nil,
+        idcInstanceArn: Swift.String? = nil,
+        qev2IdcApplicationName: Swift.String? = nil,
+        tags: [RedshiftClientTypes.Tag]? = nil
+    ) {
+        self.idcDisplayName = idcDisplayName
+        self.idcInstanceArn = idcInstanceArn
+        self.qev2IdcApplicationName = qev2IdcApplicationName
+        self.tags = tags
+    }
+}
+
+extension RedshiftClientTypes {
+
+    /// Contains configuration and status information for an Amazon Redshift Query Editor (QEV2) application that is registered with IAM Identity Center.
+    public struct Qev2IdcApplication: Swift.Sendable {
+        /// The display name for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application. It appears in the console.
+        public var idcDisplayName: Swift.String?
+        /// The Amazon Resource Name (ARN) for the IAM Identity Center instance that the Amazon Redshift Query Editor (QEV2) application integrates with.
+        public var idcInstanceArn: Swift.String?
+        /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) IAM Identity Center managed application.
+        public var idcManagedApplicationArn: Swift.String?
+        /// The onboarding status for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application.
+        public var idcOnboardStatus: Swift.String?
+        /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) application that integrates with IAM Identity Center.
+        public var qev2IdcApplicationArn: Swift.String?
+        /// The name of the Amazon Redshift Query Editor (QEV2) application in IAM Identity Center.
+        public var qev2IdcApplicationName: Swift.String?
+        /// A list of tags associated with the application. Tags are key-value pairs that you can use to organize and identify your resources.
+        public var tags: [RedshiftClientTypes.Tag]?
+
+        public init(
+            idcDisplayName: Swift.String? = nil,
+            idcInstanceArn: Swift.String? = nil,
+            idcManagedApplicationArn: Swift.String? = nil,
+            idcOnboardStatus: Swift.String? = nil,
+            qev2IdcApplicationArn: Swift.String? = nil,
+            qev2IdcApplicationName: Swift.String? = nil,
+            tags: [RedshiftClientTypes.Tag]? = nil
+        ) {
+            self.idcDisplayName = idcDisplayName
+            self.idcInstanceArn = idcInstanceArn
+            self.idcManagedApplicationArn = idcManagedApplicationArn
+            self.idcOnboardStatus = idcOnboardStatus
+            self.qev2IdcApplicationArn = qev2IdcApplicationArn
+            self.qev2IdcApplicationName = qev2IdcApplicationName
+            self.tags = tags
+        }
+    }
+}
+
+public struct CreateQev2IdcApplicationOutput: Swift.Sendable {
+    /// Contains configuration and status information for an Amazon Redshift Query Editor (QEV2) application that is registered with IAM Identity Center.
+    public var qev2IdcApplication: RedshiftClientTypes.Qev2IdcApplication?
+
+    public init(
+        qev2IdcApplication: RedshiftClientTypes.Qev2IdcApplication? = nil
+    ) {
+        self.qev2IdcApplication = qev2IdcApplication
     }
 }
 
@@ -7737,6 +7841,41 @@ public struct DeletePartnerOutput: Swift.Sendable {
     ) {
         self.databaseName = databaseName
         self.partnerName = partnerName
+    }
+}
+
+/// The specified Amazon Redshift Query Editor (QEV2) IAM Identity Center application doesn't exist. Verify that the application ARN is correct and that the application exists in this Region.
+public struct Qev2IdcApplicationNotExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "Qev2IdcApplicationNotExists" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteQev2IdcApplicationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application to delete.
+    /// This member is required.
+    public var qev2IdcApplicationArn: Swift.String?
+
+    public init(
+        qev2IdcApplicationArn: Swift.String? = nil
+    ) {
+        self.qev2IdcApplicationArn = qev2IdcApplicationArn
     }
 }
 
@@ -10052,6 +10191,40 @@ public struct DescribePartnersOutput: Swift.Sendable {
         partnerIntegrationInfoList: [RedshiftClientTypes.PartnerIntegrationInfo]? = nil
     ) {
         self.partnerIntegrationInfoList = partnerIntegrationInfoList
+    }
+}
+
+public struct DescribeQev2IdcApplicationsInput: Swift.Sendable {
+    /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
+    public var marker: Swift.String?
+    /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
+    public var maxRecords: Swift.Int?
+    /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) application that integrates with IAM Identity Center.
+    public var qev2IdcApplicationArn: Swift.String?
+
+    public init(
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        qev2IdcApplicationArn: Swift.String? = nil
+    ) {
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.qev2IdcApplicationArn = qev2IdcApplicationArn
+    }
+}
+
+public struct DescribeQev2IdcApplicationsOutput: Swift.Sendable {
+    /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
+    public var marker: Swift.String?
+    /// The list of Amazon Redshift Query Editor (QEV2) IAM Identity Center applications.
+    public var qev2IdcApplications: [RedshiftClientTypes.Qev2IdcApplication]?
+
+    public init(
+        marker: Swift.String? = nil,
+        qev2IdcApplications: [RedshiftClientTypes.Qev2IdcApplication]? = nil
+    ) {
+        self.marker = marker
+        self.qev2IdcApplications = qev2IdcApplications
     }
 }
 
@@ -12449,7 +12622,7 @@ public struct ModifyClusterInput: Swift.Sendable {
     ///
     /// Example: examplecluster
     public var newClusterIdentifier: Swift.String?
-    /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter. For more information about resizing clusters, go to [Resizing Clusters in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html) in the Amazon Redshift Cluster Management Guide. Valid Values: dc2.large | dc2.8xlarge| rg.xlarge | rg.4xlarge | ra3.large | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
+    /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter. For more information about resizing clusters, go to [Resizing Clusters in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html) in the Amazon Redshift Cluster Management Guide. Valid Values: dc2.large | dc2.8xlarge | rg.large | rg.xlarge | rg.4xlarge | rg.12xlarge | ra3.large | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
     public var nodeType: Swift.String?
     /// The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter. For more information about resizing clusters, go to [Resizing Clusters in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html) in the Amazon Redshift Cluster Management Guide. Valid Values: Integer greater than 0.
     public var numberOfNodes: Swift.Int?
@@ -13083,6 +13256,33 @@ public struct ModifyLakehouseConfigurationOutput: Swift.Sendable {
         self.clusterIdentifier = clusterIdentifier
         self.lakehouseIdcApplicationArn = lakehouseIdcApplicationArn
         self.lakehouseRegistrationStatus = lakehouseRegistrationStatus
+    }
+}
+
+public struct ModifyQev2IdcApplicationInput: Swift.Sendable {
+    /// The display name for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application. It appears in the console.
+    public var idcDisplayName: Swift.String?
+    /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) application that integrates with IAM Identity Center.
+    /// This member is required.
+    public var qev2IdcApplicationArn: Swift.String?
+
+    public init(
+        idcDisplayName: Swift.String? = nil,
+        qev2IdcApplicationArn: Swift.String? = nil
+    ) {
+        self.idcDisplayName = idcDisplayName
+        self.qev2IdcApplicationArn = qev2IdcApplicationArn
+    }
+}
+
+public struct ModifyQev2IdcApplicationOutput: Swift.Sendable {
+    /// Contains configuration and status information for an Amazon Redshift Query Editor (QEV2) application that is registered with IAM Identity Center.
+    public var qev2IdcApplication: RedshiftClientTypes.Qev2IdcApplication?
+
+    public init(
+        qev2IdcApplication: RedshiftClientTypes.Qev2IdcApplication? = nil
+    ) {
+        self.qev2IdcApplication = qev2IdcApplication
     }
 }
 
@@ -14352,6 +14552,13 @@ extension CreateIntegrationInput {
     }
 }
 
+extension CreateQev2IdcApplicationInput {
+
+    static func urlPathProvider(_ value: CreateQev2IdcApplicationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateRedshiftIdcApplicationInput {
 
     static func urlPathProvider(_ value: CreateRedshiftIdcApplicationInput) -> Swift.String? {
@@ -14488,6 +14695,13 @@ extension DeleteIntegrationInput {
 extension DeletePartnerInput {
 
     static func urlPathProvider(_ value: DeletePartnerInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteQev2IdcApplicationInput {
+
+    static func urlPathProvider(_ value: DeleteQev2IdcApplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14747,6 +14961,13 @@ extension DescribeOrderableClusterOptionsInput {
 extension DescribePartnersInput {
 
     static func urlPathProvider(_ value: DescribePartnersInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeQev2IdcApplicationsInput {
+
+    static func urlPathProvider(_ value: DescribeQev2IdcApplicationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15027,6 +15248,13 @@ extension ModifyIntegrationInput {
 extension ModifyLakehouseConfigurationInput {
 
     static func urlPathProvider(_ value: ModifyLakehouseConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyQev2IdcApplicationInput {
+
+    static func urlPathProvider(_ value: ModifyQev2IdcApplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15509,6 +15737,19 @@ extension CreateIntegrationInput {
     }
 }
 
+extension CreateQev2IdcApplicationInput {
+
+    static func write(value: CreateQev2IdcApplicationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["IdcDisplayName"].write(value.idcDisplayName)
+        try writer["IdcInstanceArn"].write(value.idcInstanceArn)
+        try writer["Qev2IdcApplicationName"].write(value.qev2IdcApplicationName)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: RedshiftClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+        try writer["Action"].write("CreateQev2IdcApplication")
+        try writer["Version"].write("2012-12-01")
+    }
+}
+
 extension CreateRedshiftIdcApplicationInput {
 
     static func write(value: CreateRedshiftIdcApplicationInput?, to writer: SmithyFormURL.Writer) throws {
@@ -15744,6 +15985,16 @@ extension DeletePartnerInput {
         try writer["DatabaseName"].write(value.databaseName)
         try writer["PartnerName"].write(value.partnerName)
         try writer["Action"].write("DeletePartner")
+        try writer["Version"].write("2012-12-01")
+    }
+}
+
+extension DeleteQev2IdcApplicationInput {
+
+    static func write(value: DeleteQev2IdcApplicationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Qev2IdcApplicationArn"].write(value.qev2IdcApplicationArn)
+        try writer["Action"].write("DeleteQev2IdcApplication")
         try writer["Version"].write("2012-12-01")
     }
 }
@@ -16213,6 +16464,18 @@ extension DescribePartnersInput {
         try writer["DatabaseName"].write(value.databaseName)
         try writer["PartnerName"].write(value.partnerName)
         try writer["Action"].write("DescribePartners")
+        try writer["Version"].write("2012-12-01")
+    }
+}
+
+extension DescribeQev2IdcApplicationsInput {
+
+    static func write(value: DescribeQev2IdcApplicationsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Marker"].write(value.marker)
+        try writer["MaxRecords"].write(value.maxRecords)
+        try writer["Qev2IdcApplicationArn"].write(value.qev2IdcApplicationArn)
+        try writer["Action"].write("DescribeQev2IdcApplications")
         try writer["Version"].write("2012-12-01")
     }
 }
@@ -16744,6 +17007,17 @@ extension ModifyLakehouseConfigurationInput {
         try writer["LakehouseIdcRegistration"].write(value.lakehouseIdcRegistration)
         try writer["LakehouseRegistration"].write(value.lakehouseRegistration)
         try writer["Action"].write("ModifyLakehouseConfiguration")
+        try writer["Version"].write("2012-12-01")
+    }
+}
+
+extension ModifyQev2IdcApplicationInput {
+
+    static func write(value: ModifyQev2IdcApplicationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["IdcDisplayName"].write(value.idcDisplayName)
+        try writer["Qev2IdcApplicationArn"].write(value.qev2IdcApplicationArn)
+        try writer["Action"].write("ModifyQev2IdcApplication")
         try writer["Version"].write("2012-12-01")
     }
 }
@@ -17381,6 +17655,18 @@ extension CreateIntegrationOutput {
     }
 }
 
+extension CreateQev2IdcApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateQev2IdcApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["CreateQev2IdcApplicationResult"]
+        var value = CreateQev2IdcApplicationOutput()
+        value.qev2IdcApplication = try reader["Qev2IdcApplication"].readIfPresent(with: RedshiftClientTypes.Qev2IdcApplication.read(from:))
+        return value
+    }
+}
+
 extension CreateRedshiftIdcApplicationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRedshiftIdcApplicationOutput {
@@ -17624,6 +17910,13 @@ extension DeletePartnerOutput {
         value.databaseName = try reader["DatabaseName"].readIfPresent()
         value.partnerName = try reader["PartnerName"].readIfPresent()
         return value
+    }
+}
+
+extension DeleteQev2IdcApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteQev2IdcApplicationOutput {
+        return DeleteQev2IdcApplicationOutput()
     }
 }
 
@@ -18062,6 +18355,19 @@ extension DescribePartnersOutput {
         let reader = responseReader["DescribePartnersResult"]
         var value = DescribePartnersOutput()
         value.partnerIntegrationInfoList = try reader["PartnerIntegrationInfoList"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.PartnerIntegrationInfo.read(from:), memberNodeInfo: "PartnerIntegrationInfo", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeQev2IdcApplicationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeQev2IdcApplicationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DescribeQev2IdcApplicationsResult"]
+        var value = DescribeQev2IdcApplicationsOutput()
+        value.marker = try reader["Marker"].readIfPresent()
+        value.qev2IdcApplications = try reader["Qev2IdcApplications"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Qev2IdcApplication.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -18618,6 +18924,18 @@ extension ModifyLakehouseConfigurationOutput {
         value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
         value.lakehouseIdcApplicationArn = try reader["LakehouseIdcApplicationArn"].readIfPresent()
         value.lakehouseRegistrationStatus = try reader["LakehouseRegistrationStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension ModifyQev2IdcApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyQev2IdcApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["ModifyQev2IdcApplicationResult"]
+        var value = ModifyQev2IdcApplicationOutput()
+        value.qev2IdcApplication = try reader["Qev2IdcApplication"].readIfPresent(with: RedshiftClientTypes.Qev2IdcApplication.read(from:))
         return value
     }
 }
@@ -19347,6 +19665,23 @@ enum CreateIntegrationOutputError {
     }
 }
 
+enum CreateQev2IdcApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DependentServiceAccessDenied": return try DependentServiceAccessDeniedFault.makeError(baseError: baseError)
+            case "DependentServiceUnavailableFault": return try DependentServiceUnavailableFault.makeError(baseError: baseError)
+            case "Qev2IdcApplicationAlreadyExists": return try Qev2IdcApplicationAlreadyExistsFault.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateRedshiftIdcApplicationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -19679,6 +20014,23 @@ enum DeletePartnerOutputError {
             case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
             case "PartnerNotFound": return try PartnerNotFoundFault.makeError(baseError: baseError)
             case "UnauthorizedPartnerIntegration": return try UnauthorizedPartnerIntegrationFault.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteQev2IdcApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DependentServiceAccessDenied": return try DependentServiceAccessDeniedFault.makeError(baseError: baseError)
+            case "DependentServiceUnavailableFault": return try DependentServiceUnavailableFault.makeError(baseError: baseError)
+            case "Qev2IdcApplicationNotExists": return try Qev2IdcApplicationNotExistsFault.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -20229,6 +20581,23 @@ enum DescribePartnersOutputError {
         switch baseError.code {
             case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
             case "UnauthorizedPartnerIntegration": return try UnauthorizedPartnerIntegrationFault.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeQev2IdcApplicationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DependentServiceAccessDenied": return try DependentServiceAccessDeniedFault.makeError(baseError: baseError)
+            case "DependentServiceUnavailableFault": return try DependentServiceUnavailableFault.makeError(baseError: baseError)
+            case "Qev2IdcApplicationNotExists": return try Qev2IdcApplicationNotExistsFault.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -20914,6 +21283,23 @@ enum ModifyLakehouseConfigurationOutputError {
             case "InvalidClusterState": return try InvalidClusterStateFault.makeError(baseError: baseError)
             case "RedshiftIdcApplicationNotExists": return try RedshiftIdcApplicationNotExistsFault.makeError(baseError: baseError)
             case "UnauthorizedOperation": return try UnauthorizedOperation.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyQev2IdcApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DependentServiceAccessDenied": return try DependentServiceAccessDeniedFault.makeError(baseError: baseError)
+            case "DependentServiceUnavailableFault": return try DependentServiceUnavailableFault.makeError(baseError: baseError)
+            case "Qev2IdcApplicationNotExists": return try Qev2IdcApplicationNotExistsFault.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -22409,6 +22795,19 @@ extension IntegrationTargetNotFoundFault {
     }
 }
 
+extension Qev2IdcApplicationAlreadyExistsFault {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> Qev2IdcApplicationAlreadyExistsFault {
+        let reader = baseError.errorBodyReader
+        var value = Qev2IdcApplicationAlreadyExistsFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension RedshiftIdcApplicationAlreadyExistsFault {
 
     static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> RedshiftIdcApplicationAlreadyExistsFault {
@@ -22752,6 +23151,19 @@ extension IntegrationNotFoundFault {
     static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IntegrationNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = IntegrationNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension Qev2IdcApplicationNotExistsFault {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> Qev2IdcApplicationNotExistsFault {
+        let reader = baseError.errorBodyReader
+        var value = Qev2IdcApplicationNotExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24037,6 +24449,22 @@ extension RedshiftClientTypes.ProvisionedIdentifier {
     static func write(value: RedshiftClientTypes.ProvisionedIdentifier?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["ClusterIdentifier"].write(value.clusterIdentifier)
+    }
+}
+
+extension RedshiftClientTypes.Qev2IdcApplication {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Qev2IdcApplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.Qev2IdcApplication()
+        value.idcInstanceArn = try reader["IdcInstanceArn"].readIfPresent()
+        value.qev2IdcApplicationName = try reader["Qev2IdcApplicationName"].readIfPresent()
+        value.qev2IdcApplicationArn = try reader["Qev2IdcApplicationArn"].readIfPresent()
+        value.idcManagedApplicationArn = try reader["IdcManagedApplicationArn"].readIfPresent()
+        value.idcOnboardStatus = try reader["IdcOnboardStatus"].readIfPresent()
+        value.idcDisplayName = try reader["IdcDisplayName"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
     }
 }
 

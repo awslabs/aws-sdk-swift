@@ -1260,6 +1260,8 @@ public struct CreateBrokerInput: Swift.Sendable {
     public var publiclyAccessible: Swift.Bool?
     /// The list of rules (1 minimum, 125 maximum) that authorize connections to brokers.
     public var securityGroups: [Swift.String]?
+    /// The broker's storage size in GB.
+    public var storageSize: Swift.Int?
     /// The broker's storage type.
     public var storageType: MqClientTypes.BrokerStorageType?
     /// The list of groups that define which subnets and IP ranges the broker can use from different Availability Zones. If you specify more than one subnet, the subnets must be in different Availability Zones. Amazon MQ will not be able to create VPC endpoints for your broker with multiple subnets in the same Availability Zone. A SINGLE_INSTANCE deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ Amazon MQ for ActiveMQ deployment requires two subnets. A CLUSTER_MULTI_AZ Amazon MQ for RabbitMQ deployment has no subnet requirements when deployed with public accessibility. Deployment without public accessibility requires at least one subnet. If you specify subnets in a [shared VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html) for a RabbitMQ broker, the associated VPC to which the specified subnets belong must be owned by your Amazon Web Services account. Amazon MQ will not be able to create VPC endpoints in VPCs that are not owned by your Amazon Web Services account.
@@ -1287,6 +1289,7 @@ public struct CreateBrokerInput: Swift.Sendable {
         maintenanceWindowStartTime: MqClientTypes.WeeklyStartTime? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         securityGroups: [Swift.String]? = nil,
+        storageSize: Swift.Int? = nil,
         storageType: MqClientTypes.BrokerStorageType? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -1309,6 +1312,7 @@ public struct CreateBrokerInput: Swift.Sendable {
         self.maintenanceWindowStartTime = maintenanceWindowStartTime
         self.publiclyAccessible = publiclyAccessible
         self.securityGroups = securityGroups
+        self.storageSize = storageSize
         self.storageType = storageType
         self.subnetIds = subnetIds
         self.tags = tags
@@ -1783,10 +1787,14 @@ public struct DescribeBrokerOutput: Swift.Sendable {
     public var pendingLdapServerMetadata: MqClientTypes.LdapServerMetadataOutput?
     /// The list of pending security groups to authorize connections to brokers.
     public var pendingSecurityGroups: [Swift.String]?
+    /// The pending storage size in GB, to be applied on the next broker restart.
+    public var pendingStorageSize: Swift.Int?
     /// Enables connections from applications outside of the VPC that hosts the broker's subnets.
     public var publiclyAccessible: Swift.Bool?
     /// The list of rules (1 minimum, 125 maximum) that authorize connections to brokers.
     public var securityGroups: [Swift.String]?
+    /// The broker's storage size in GB.
+    public var storageSize: Swift.Int?
     /// The broker's storage type.
     public var storageType: MqClientTypes.BrokerStorageType?
     /// The list of groups that define which subnets and IP ranges the broker can use from different Availability Zones.
@@ -1824,8 +1832,10 @@ public struct DescribeBrokerOutput: Swift.Sendable {
         pendingHostInstanceType: Swift.String? = nil,
         pendingLdapServerMetadata: MqClientTypes.LdapServerMetadataOutput? = nil,
         pendingSecurityGroups: [Swift.String]? = nil,
+        pendingStorageSize: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         securityGroups: [Swift.String]? = nil,
+        storageSize: Swift.Int? = nil,
         storageType: MqClientTypes.BrokerStorageType? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -1858,8 +1868,10 @@ public struct DescribeBrokerOutput: Swift.Sendable {
         self.pendingHostInstanceType = pendingHostInstanceType
         self.pendingLdapServerMetadata = pendingLdapServerMetadata
         self.pendingSecurityGroups = pendingSecurityGroups
+        self.pendingStorageSize = pendingStorageSize
         self.publiclyAccessible = publiclyAccessible
         self.securityGroups = securityGroups
+        self.storageSize = storageSize
         self.storageType = storageType
         self.subnetIds = subnetIds
         self.tags = tags
@@ -2433,6 +2445,8 @@ public struct UpdateBrokerInput: Swift.Sendable {
     public var resourceShareArns: [Swift.String]?
     /// The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers.
     public var securityGroups: [Swift.String]?
+    /// The broker's storage size in GB.
+    public var storageSize: Swift.Int?
 
     public init(
         authenticationStrategy: MqClientTypes.AuthenticationStrategy? = nil,
@@ -2446,7 +2460,8 @@ public struct UpdateBrokerInput: Swift.Sendable {
         logs: MqClientTypes.Logs? = nil,
         maintenanceWindowStartTime: MqClientTypes.WeeklyStartTime? = nil,
         resourceShareArns: [Swift.String]? = nil,
-        securityGroups: [Swift.String]? = nil
+        securityGroups: [Swift.String]? = nil,
+        storageSize: Swift.Int? = nil
     ) {
         self.authenticationStrategy = authenticationStrategy
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -2460,6 +2475,7 @@ public struct UpdateBrokerInput: Swift.Sendable {
         self.maintenanceWindowStartTime = maintenanceWindowStartTime
         self.resourceShareArns = resourceShareArns
         self.securityGroups = securityGroups
+        self.storageSize = storageSize
     }
 }
 
@@ -2494,6 +2510,8 @@ public struct UpdateBrokerOutput: Swift.Sendable {
     public var resourceShareArns: [Swift.String]?
     /// The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers.
     public var securityGroups: [Swift.String]?
+    /// The broker's storage size in GB.
+    public var storageSize: Swift.Int?
 
     public init(
         authenticationStrategy: MqClientTypes.AuthenticationStrategy? = nil,
@@ -2510,7 +2528,8 @@ public struct UpdateBrokerOutput: Swift.Sendable {
         pendingDataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput? = nil,
         pendingDataReplicationMode: MqClientTypes.DataReplicationMode? = nil,
         resourceShareArns: [Swift.String]? = nil,
-        securityGroups: [Swift.String]? = nil
+        securityGroups: [Swift.String]? = nil,
+        storageSize: Swift.Int? = nil
     ) {
         self.authenticationStrategy = authenticationStrategy
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -2527,6 +2546,7 @@ public struct UpdateBrokerOutput: Swift.Sendable {
         self.pendingDataReplicationMode = pendingDataReplicationMode
         self.resourceShareArns = resourceShareArns
         self.securityGroups = securityGroups
+        self.storageSize = storageSize
     }
 }
 
@@ -3034,6 +3054,7 @@ extension CreateBrokerInput {
         try writer["maintenanceWindowStartTime"].write(value.maintenanceWindowStartTime, with: MqClientTypes.WeeklyStartTime.write(value:to:))
         try writer["publiclyAccessible"].write(value.publiclyAccessible)
         try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["storageSize"].write(value.storageSize)
         try writer["storageType"].write(value.storageType)
         try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -3095,6 +3116,7 @@ extension UpdateBrokerInput {
         try writer["maintenanceWindowStartTime"].write(value.maintenanceWindowStartTime, with: MqClientTypes.WeeklyStartTime.write(value:to:))
         try writer["resourceShareArns"].writeList(value.resourceShareArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["storageSize"].write(value.storageSize)
     }
 }
 
@@ -3234,8 +3256,10 @@ extension DescribeBrokerOutput {
         value.pendingHostInstanceType = try reader["pendingHostInstanceType"].readIfPresent()
         value.pendingLdapServerMetadata = try reader["pendingLdapServerMetadata"].readIfPresent(with: MqClientTypes.LdapServerMetadataOutput.read(from:))
         value.pendingSecurityGroups = try reader["pendingSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pendingStorageSize = try reader["pendingStorageSize"].readIfPresent()
         value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent()
         value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.storageSize = try reader["storageSize"].readIfPresent()
         value.storageType = try reader["storageType"].readIfPresent()
         value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -3448,6 +3472,7 @@ extension UpdateBrokerOutput {
         value.pendingDataReplicationMode = try reader["pendingDataReplicationMode"].readIfPresent()
         value.resourceShareArns = try reader["resourceShareArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.storageSize = try reader["storageSize"].readIfPresent()
         return value
     }
 }

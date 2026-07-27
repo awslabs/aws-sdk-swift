@@ -10037,18 +10037,72 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The Git metadata for a notebook sync operation in Amazon SageMaker Unified Studio. Contains information about the Git repository, branch, and commit associated with the notebook.
+    public struct GitMetadata: Swift.Sendable {
+        /// The name of the Git branch.
+        /// This member is required.
+        public var branch: Swift.String?
+        /// The commit hash in the Git repository.
+        /// This member is required.
+        public var commitHash: Swift.String?
+        /// The commit message associated with the Git commit.
+        public var commitMessage: Swift.String?
+        /// The timestamp of when the commit was made.
+        public var committedAt: Foundation.Date?
+        /// The identifier of the Git connection.
+        /// This member is required.
+        public var connectionId: Swift.String?
+        /// The name of the file in the Git repository.
+        public var fileName: Swift.String?
+        /// The name of the Git repository.
+        /// This member is required.
+        public var repository: Swift.String?
+
+        public init(
+            branch: Swift.String? = nil,
+            commitHash: Swift.String? = nil,
+            commitMessage: Swift.String? = nil,
+            committedAt: Foundation.Date? = nil,
+            connectionId: Swift.String? = nil,
+            fileName: Swift.String? = nil,
+            repository: Swift.String? = nil
+        ) {
+            self.branch = branch
+            self.commitHash = commitHash
+            self.commitMessage = commitMessage
+            self.committedAt = committedAt
+            self.connectionId = connectionId
+            self.fileName = fileName
+            self.repository = repository
+        }
+    }
+}
+
+extension DataZoneClientTypes.GitMetadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GitMetadata(commitHash: \(Swift.String(describing: commitHash)), committedAt: \(Swift.String(describing: committedAt)), connectionId: \(Swift.String(describing: connectionId)), fileName: \(Swift.String(describing: fileName)), branch: \"CONTENT_REDACTED\", commitMessage: \"CONTENT_REDACTED\", repository: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
     /// The status of a notebook in Amazon SageMaker Unified Studio.
     public enum NotebookStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// The notebook is active.
         case active
         /// The notebook is archived.
         case archived
+        /// The notebook sync failed.
+        case syncFailed
+        /// The notebook sync is in progress.
+        case syncInProgress
         case sdkUnknown(Swift.String)
 
         public static var allCases: [NotebookStatus] {
             return [
                 .active,
-                .archived
+                .archived,
+                .syncFailed,
+                .syncInProgress
             ]
         }
 
@@ -10061,6 +10115,8 @@ extension DataZoneClientTypes {
             switch self {
             case .active: return "ACTIVE"
             case .archived: return "ARCHIVED"
+            case .syncFailed: return "SYNC_FAILED"
+            case .syncInProgress: return "SYNC_IN_PROGRESS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10086,6 +10142,8 @@ public struct CreateNotebookOutput: Swift.Sendable {
     public var environmentConfiguration: DataZoneClientTypes.EnvironmentConfig?
     /// The error details if the notebook creation failed.
     public var error: DataZoneClientTypes.NotebookError?
+    /// The Git metadata associated with the notebook.
+    public var gitMetadata: DataZoneClientTypes.GitMetadata?
     /// The identifier of the notebook.
     /// This member is required.
     public var id: Swift.String?
@@ -10122,6 +10180,7 @@ public struct CreateNotebookOutput: Swift.Sendable {
         domainId: Swift.String? = nil,
         environmentConfiguration: DataZoneClientTypes.EnvironmentConfig? = nil,
         error: DataZoneClientTypes.NotebookError? = nil,
+        gitMetadata: DataZoneClientTypes.GitMetadata? = nil,
         id: Swift.String? = nil,
         lockExpiresAt: Foundation.Date? = nil,
         lockedAt: Foundation.Date? = nil,
@@ -10142,6 +10201,7 @@ public struct CreateNotebookOutput: Swift.Sendable {
         self.domainId = domainId
         self.environmentConfiguration = environmentConfiguration
         self.error = error
+        self.gitMetadata = gitMetadata
         self.id = id
         self.lockExpiresAt = lockExpiresAt
         self.lockedAt = lockedAt
@@ -10158,7 +10218,7 @@ public struct CreateNotebookOutput: Swift.Sendable {
 
 extension CreateNotebookOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+        "CreateNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), gitMetadata: \(Swift.String(describing: gitMetadata)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -21043,6 +21103,8 @@ public struct GetNotebookOutput: Swift.Sendable {
     public var environmentConfiguration: DataZoneClientTypes.EnvironmentConfig?
     /// The error details if the notebook is in a failed state.
     public var error: DataZoneClientTypes.NotebookError?
+    /// The Git metadata associated with the notebook.
+    public var gitMetadata: DataZoneClientTypes.GitMetadata?
     /// The identifier of the notebook.
     /// This member is required.
     public var id: Swift.String?
@@ -21079,6 +21141,7 @@ public struct GetNotebookOutput: Swift.Sendable {
         domainId: Swift.String? = nil,
         environmentConfiguration: DataZoneClientTypes.EnvironmentConfig? = nil,
         error: DataZoneClientTypes.NotebookError? = nil,
+        gitMetadata: DataZoneClientTypes.GitMetadata? = nil,
         id: Swift.String? = nil,
         lockExpiresAt: Foundation.Date? = nil,
         lockedAt: Foundation.Date? = nil,
@@ -21099,6 +21162,7 @@ public struct GetNotebookOutput: Swift.Sendable {
         self.domainId = domainId
         self.environmentConfiguration = environmentConfiguration
         self.error = error
+        self.gitMetadata = gitMetadata
         self.id = id
         self.lockExpiresAt = lockExpiresAt
         self.lockedAt = lockedAt
@@ -21115,7 +21179,7 @@ public struct GetNotebookOutput: Swift.Sendable {
 
 extension GetNotebookOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+        "GetNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), gitMetadata: \(Swift.String(describing: gitMetadata)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListNotebooksInput: Swift.Sendable {
@@ -21304,6 +21368,8 @@ public struct UpdateNotebookOutput: Swift.Sendable {
     public var environmentConfiguration: DataZoneClientTypes.EnvironmentConfig?
     /// The error details if the notebook is in a failed state.
     public var error: DataZoneClientTypes.NotebookError?
+    /// The Git metadata associated with the notebook.
+    public var gitMetadata: DataZoneClientTypes.GitMetadata?
     /// The identifier of the notebook.
     /// This member is required.
     public var id: Swift.String?
@@ -21340,6 +21406,7 @@ public struct UpdateNotebookOutput: Swift.Sendable {
         domainId: Swift.String? = nil,
         environmentConfiguration: DataZoneClientTypes.EnvironmentConfig? = nil,
         error: DataZoneClientTypes.NotebookError? = nil,
+        gitMetadata: DataZoneClientTypes.GitMetadata? = nil,
         id: Swift.String? = nil,
         lockExpiresAt: Foundation.Date? = nil,
         lockedAt: Foundation.Date? = nil,
@@ -21360,6 +21427,7 @@ public struct UpdateNotebookOutput: Swift.Sendable {
         self.domainId = domainId
         self.environmentConfiguration = environmentConfiguration
         self.error = error
+        self.gitMetadata = gitMetadata
         self.id = id
         self.lockExpiresAt = lockExpiresAt
         self.lockedAt = lockedAt
@@ -21376,7 +21444,7 @@ public struct UpdateNotebookOutput: Swift.Sendable {
 
 extension UpdateNotebookOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+        "UpdateNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), gitMetadata: \(Swift.String(describing: gitMetadata)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -24368,6 +24436,105 @@ public struct StartNotebookImportOutput: Swift.Sendable {
 extension StartNotebookImportOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "StartNotebookImportOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), notebookId: \(Swift.String(describing: notebookId)), owningProjectId: \(Swift.String(describing: owningProjectId)), sourceLocation: \(Swift.String(describing: sourceLocation)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartNotebookSyncInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The description of the notebook.
+    public var description: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which to sync the notebook.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The Git metadata for the notebook sync, including repository, branch, and commit information.
+    public var gitMetadata: DataZoneClientTypes.GitMetadata?
+    /// The name of the notebook. The name must be between 1 and 256 characters.
+    public var name: Swift.String?
+    /// The identifier of an existing notebook to sync. If not specified, a new notebook is created.
+    public var notebookId: Swift.String?
+    /// The identifier of the project that will own the synced notebook.
+    /// This member is required.
+    public var owningProjectIdentifier: Swift.String?
+    /// The source location of the notebook to sync. This specifies the Amazon Simple Storage Service URI of the notebook file.
+    /// This member is required.
+    public var sourceLocation: DataZoneClientTypes.SourceLocation?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        gitMetadata: DataZoneClientTypes.GitMetadata? = nil,
+        name: Swift.String? = nil,
+        notebookId: Swift.String? = nil,
+        owningProjectIdentifier: Swift.String? = nil,
+        sourceLocation: DataZoneClientTypes.SourceLocation? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.gitMetadata = gitMetadata
+        self.name = name
+        self.notebookId = notebookId
+        self.owningProjectIdentifier = owningProjectIdentifier
+        self.sourceLocation = sourceLocation
+    }
+}
+
+extension StartNotebookSyncInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartNotebookSyncInput(clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), gitMetadata: \(Swift.String(describing: gitMetadata)), notebookId: \(Swift.String(describing: notebookId)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), sourceLocation: \(Swift.String(describing: sourceLocation)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartNotebookSyncOutput: Swift.Sendable {
+    /// The timestamp of when the notebook sync was started.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user who started the notebook sync.
+    public var createdBy: Swift.String?
+    /// The description of the synced notebook.
+    public var description: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
+    public var domainId: Swift.String?
+    /// The Git metadata associated with the synced notebook.
+    public var gitMetadata: DataZoneClientTypes.GitMetadata?
+    /// The name of the synced notebook.
+    public var name: Swift.String?
+    /// The identifier of the synced notebook.
+    public var notebookId: Swift.String?
+    /// The identifier of the project that owns the synced notebook.
+    public var owningProjectId: Swift.String?
+    /// The source location from which the notebook was synced.
+    public var sourceLocation: DataZoneClientTypes.SourceLocation?
+    /// The status of the notebook sync.
+    public var status: DataZoneClientTypes.NotebookStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        gitMetadata: DataZoneClientTypes.GitMetadata? = nil,
+        name: Swift.String? = nil,
+        notebookId: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        sourceLocation: DataZoneClientTypes.SourceLocation? = nil,
+        status: DataZoneClientTypes.NotebookStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.gitMetadata = gitMetadata
+        self.name = name
+        self.notebookId = notebookId
+        self.owningProjectId = owningProjectId
+        self.sourceLocation = sourceLocation
+        self.status = status
+    }
+}
+
+extension StartNotebookSyncOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartNotebookSyncOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), gitMetadata: \(Swift.String(describing: gitMetadata)), notebookId: \(Swift.String(describing: notebookId)), owningProjectId: \(Swift.String(describing: owningProjectId)), sourceLocation: \(Swift.String(describing: sourceLocation)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct TagResourceInput: Swift.Sendable {
@@ -29637,6 +29804,16 @@ extension StartNotebookRunInput {
     }
 }
 
+extension StartNotebookSyncInput {
+
+    static func urlPathProvider(_ value: StartNotebookSyncInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebook-syncs"
+    }
+}
+
 extension StopNotebookRunInput {
 
     static func urlPathProvider(_ value: StopNotebookRunInput) -> Swift.String? {
@@ -30679,6 +30856,20 @@ extension StartNotebookRunInput {
     }
 }
 
+extension StartNotebookSyncInput {
+
+    static func write(value: StartNotebookSyncInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["gitMetadata"].write(value.gitMetadata, with: DataZoneClientTypes.GitMetadata.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["notebookId"].write(value.notebookId)
+        try writer["owningProjectIdentifier"].write(value.owningProjectIdentifier)
+        try writer["sourceLocation"].write(value.sourceLocation, with: DataZoneClientTypes.SourceLocation.write(value:to:))
+    }
+}
+
 extension StopNotebookRunInput {
 
     static func write(value: StopNotebookRunInput?, to writer: SmithyJSON.Writer) throws {
@@ -31552,6 +31743,7 @@ extension CreateNotebookOutput {
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.environmentConfiguration = try reader["environmentConfiguration"].readIfPresent(with: DataZoneClientTypes.EnvironmentConfig.read(from:))
         value.error = try reader["error"].readIfPresent(with: DataZoneClientTypes.NotebookError.read(from:))
+        value.gitMetadata = try reader["gitMetadata"].readIfPresent(with: DataZoneClientTypes.GitMetadata.read(from:))
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lockExpiresAt = try reader["lockExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lockedAt = try reader["lockedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -32657,6 +32849,7 @@ extension GetNotebookOutput {
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.environmentConfiguration = try reader["environmentConfiguration"].readIfPresent(with: DataZoneClientTypes.EnvironmentConfig.read(from:))
         value.error = try reader["error"].readIfPresent(with: DataZoneClientTypes.NotebookError.read(from:))
+        value.gitMetadata = try reader["gitMetadata"].readIfPresent(with: DataZoneClientTypes.GitMetadata.read(from:))
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lockExpiresAt = try reader["lockExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lockedAt = try reader["lockedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -33716,6 +33909,27 @@ extension StartNotebookRunOutput {
     }
 }
 
+extension StartNotebookSyncOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartNotebookSyncOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartNotebookSyncOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.gitMetadata = try reader["gitMetadata"].readIfPresent(with: DataZoneClientTypes.GitMetadata.read(from:))
+        value.name = try reader["name"].readIfPresent()
+        value.notebookId = try reader["notebookId"].readIfPresent()
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        value.sourceLocation = try reader["sourceLocation"].readIfPresent(with: DataZoneClientTypes.SourceLocation.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension StopNotebookRunOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopNotebookRunOutput {
@@ -34051,6 +34265,7 @@ extension UpdateNotebookOutput {
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.environmentConfiguration = try reader["environmentConfiguration"].readIfPresent(with: DataZoneClientTypes.EnvironmentConfig.read(from:))
         value.error = try reader["error"].readIfPresent(with: DataZoneClientTypes.NotebookError.read(from:))
+        value.gitMetadata = try reader["gitMetadata"].readIfPresent(with: DataZoneClientTypes.GitMetadata.read(from:))
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lockExpiresAt = try reader["lockExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lockedAt = try reader["lockedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -37440,6 +37655,27 @@ enum StartNotebookRunOutputError {
     }
 }
 
+enum StartNotebookSyncOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopNotebookRunOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -40020,6 +40256,33 @@ extension DataZoneClientTypes.FormTypeData {
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.imports = try reader["imports"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.Import.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GitMetadata {
+
+    static func write(value: DataZoneClientTypes.GitMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["branch"].write(value.branch)
+        try writer["commitHash"].write(value.commitHash)
+        try writer["commitMessage"].write(value.commitMessage)
+        try writer["committedAt"].writeTimestamp(value.committedAt, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["connectionId"].write(value.connectionId)
+        try writer["fileName"].write(value.fileName)
+        try writer["repository"].write(value.repository)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GitMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GitMetadata()
+        value.connectionId = try reader["connectionId"].readIfPresent() ?? ""
+        value.repository = try reader["repository"].readIfPresent() ?? ""
+        value.branch = try reader["branch"].readIfPresent() ?? ""
+        value.commitHash = try reader["commitHash"].readIfPresent() ?? ""
+        value.fileName = try reader["fileName"].readIfPresent()
+        value.committedAt = try reader["committedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.commitMessage = try reader["commitMessage"].readIfPresent()
         return value
     }
 }

@@ -771,4 +771,148 @@ extension SustainabilityClient {
             .build()
         return try await op.execute(input: input)
     }
+
+    /// Performs the `GetEstimatedWaterAllocation` operation on the `Sustainability` service.
+    ///
+    /// Returns estimated water allocation values based on customer grouping and filtering parameters. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetEstimatedWaterAllocationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetEstimatedWaterAllocationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func getEstimatedWaterAllocation(input: GetEstimatedWaterAllocationInput) async throws -> GetEstimatedWaterAllocationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getEstimatedWaterAllocation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sustainability")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetEstimatedWaterAllocationInput, GetEstimatedWaterAllocationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEstimatedWaterAllocationInput, GetEstimatedWaterAllocationOutput>(GetEstimatedWaterAllocationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEstimatedWaterAllocationInput, GetEstimatedWaterAllocationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEstimatedWaterAllocationInput, GetEstimatedWaterAllocationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetEstimatedWaterAllocationInput, GetEstimatedWaterAllocationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEstimatedWaterAllocationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEstimatedWaterAllocationInput, GetEstimatedWaterAllocationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEstimatedWaterAllocationOutput>(GetEstimatedWaterAllocationOutput.httpOutput(from:), GetEstimatedWaterAllocationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEstimatedWaterAllocationInput, GetEstimatedWaterAllocationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetEstimatedWaterAllocationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Sustainability", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEstimatedWaterAllocationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEstimatedWaterAllocationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEstimatedWaterAllocationInput, GetEstimatedWaterAllocationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetEstimatedWaterAllocationInput, GetEstimatedWaterAllocationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Sustainability"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetEstimatedWaterAllocationInput, GetEstimatedWaterAllocationOutput>(serviceID: serviceName, version: SustainabilityClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Sustainability")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetEstimatedWaterAllocation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetEstimatedWaterAllocationDimensionValues` operation on the `Sustainability` service.
+    ///
+    /// Returns the possible dimension values available for a customer's account. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetEstimatedWaterAllocationDimensionValuesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetEstimatedWaterAllocationDimensionValuesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func getEstimatedWaterAllocationDimensionValues(input: GetEstimatedWaterAllocationDimensionValuesInput) async throws -> GetEstimatedWaterAllocationDimensionValuesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getEstimatedWaterAllocationDimensionValues")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sustainability")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetEstimatedWaterAllocationDimensionValuesInput, GetEstimatedWaterAllocationDimensionValuesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEstimatedWaterAllocationDimensionValuesInput, GetEstimatedWaterAllocationDimensionValuesOutput>(GetEstimatedWaterAllocationDimensionValuesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEstimatedWaterAllocationDimensionValuesInput, GetEstimatedWaterAllocationDimensionValuesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEstimatedWaterAllocationDimensionValuesInput, GetEstimatedWaterAllocationDimensionValuesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetEstimatedWaterAllocationDimensionValuesInput, GetEstimatedWaterAllocationDimensionValuesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEstimatedWaterAllocationDimensionValuesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEstimatedWaterAllocationDimensionValuesInput, GetEstimatedWaterAllocationDimensionValuesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEstimatedWaterAllocationDimensionValuesOutput>(GetEstimatedWaterAllocationDimensionValuesOutput.httpOutput(from:), GetEstimatedWaterAllocationDimensionValuesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEstimatedWaterAllocationDimensionValuesInput, GetEstimatedWaterAllocationDimensionValuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetEstimatedWaterAllocationDimensionValuesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Sustainability", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEstimatedWaterAllocationDimensionValuesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEstimatedWaterAllocationDimensionValuesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEstimatedWaterAllocationDimensionValuesInput, GetEstimatedWaterAllocationDimensionValuesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetEstimatedWaterAllocationDimensionValuesInput, GetEstimatedWaterAllocationDimensionValuesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Sustainability"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetEstimatedWaterAllocationDimensionValuesInput, GetEstimatedWaterAllocationDimensionValuesOutput>(serviceID: serviceName, version: SustainabilityClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Sustainability")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetEstimatedWaterAllocationDimensionValues")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
 }

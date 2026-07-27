@@ -469,6 +469,24 @@ extension SageMakerClientTypes {
         case mlC59xlarge
         case mlC5Large
         case mlC5Xlarge
+        case mlC6a12xlarge
+        case mlC6a16xlarge
+        case mlC6a24xlarge
+        case mlC6a2xlarge
+        case mlC6a32xlarge
+        case mlC6a48xlarge
+        case mlC6a4xlarge
+        case mlC6a8xlarge
+        case mlC6aLarge
+        case mlC6aXlarge
+        case mlC6g12xlarge
+        case mlC6g16xlarge
+        case mlC6g2xlarge
+        case mlC6g4xlarge
+        case mlC6g8xlarge
+        case mlC6gLarge
+        case mlC6gMedium
+        case mlC6gXlarge
         case mlC6i12xlarge
         case mlC6i16xlarge
         case mlC6i24xlarge
@@ -478,6 +496,30 @@ extension SageMakerClientTypes {
         case mlC6i8xlarge
         case mlC6iLarge
         case mlC6iXlarge
+        case mlC7g12xlarge
+        case mlC7g16xlarge
+        case mlC7g2xlarge
+        case mlC7g4xlarge
+        case mlC7g8xlarge
+        case mlC7gLarge
+        case mlC7gMedium
+        case mlC7gXlarge
+        case mlC8g12xlarge
+        case mlC8g16xlarge
+        case mlC8g24xlarge
+        case mlC8g2xlarge
+        case mlC8g48xlarge
+        case mlC8g4xlarge
+        case mlC8g8xlarge
+        case mlC8gLarge
+        case mlC8gMedium
+        case mlC8gXlarge
+        case mlG4dn12xlarge
+        case mlG4dn16xlarge
+        case mlG4dn2xlarge
+        case mlG4dn4xlarge
+        case mlG4dn8xlarge
+        case mlG4dnXlarge
         case mlG512xlarge
         case mlG516xlarge
         case mlG524xlarge
@@ -525,6 +567,24 @@ extension SageMakerClientTypes {
         case mlM58xlarge
         case mlM5Large
         case mlM5Xlarge
+        case mlM6a12xlarge
+        case mlM6a16xlarge
+        case mlM6a24xlarge
+        case mlM6a2xlarge
+        case mlM6a32xlarge
+        case mlM6a48xlarge
+        case mlM6a4xlarge
+        case mlM6a8xlarge
+        case mlM6aLarge
+        case mlM6aXlarge
+        case mlM6g12xlarge
+        case mlM6g16xlarge
+        case mlM6g2xlarge
+        case mlM6g4xlarge
+        case mlM6g8xlarge
+        case mlM6gLarge
+        case mlM6gMedium
+        case mlM6gXlarge
         case mlM6i12xlarge
         case mlM6i16xlarge
         case mlM6i24xlarge
@@ -534,6 +594,14 @@ extension SageMakerClientTypes {
         case mlM6i8xlarge
         case mlM6iLarge
         case mlM6iXlarge
+        case mlM7g12xlarge
+        case mlM7g16xlarge
+        case mlM7g2xlarge
+        case mlM7g4xlarge
+        case mlM7g8xlarge
+        case mlM7gLarge
+        case mlM7gMedium
+        case mlM7gXlarge
         case mlM7i12xlarge
         case mlM7i16xlarge
         case mlM7i24xlarge
@@ -543,6 +611,16 @@ extension SageMakerClientTypes {
         case mlM7i8xlarge
         case mlM7iLarge
         case mlM7iXlarge
+        case mlM8g12xlarge
+        case mlM8g16xlarge
+        case mlM8g24xlarge
+        case mlM8g2xlarge
+        case mlM8g48xlarge
+        case mlM8g4xlarge
+        case mlM8g8xlarge
+        case mlM8gLarge
+        case mlM8gMedium
+        case mlM8gXlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
         case mlP5en48xlarge
@@ -596,6 +674,24 @@ extension SageMakerClientTypes {
                 .mlC59xlarge,
                 .mlC5Large,
                 .mlC5Xlarge,
+                .mlC6a12xlarge,
+                .mlC6a16xlarge,
+                .mlC6a24xlarge,
+                .mlC6a2xlarge,
+                .mlC6a32xlarge,
+                .mlC6a48xlarge,
+                .mlC6a4xlarge,
+                .mlC6a8xlarge,
+                .mlC6aLarge,
+                .mlC6aXlarge,
+                .mlC6g12xlarge,
+                .mlC6g16xlarge,
+                .mlC6g2xlarge,
+                .mlC6g4xlarge,
+                .mlC6g8xlarge,
+                .mlC6gLarge,
+                .mlC6gMedium,
+                .mlC6gXlarge,
                 .mlC6i12xlarge,
                 .mlC6i16xlarge,
                 .mlC6i24xlarge,
@@ -605,6 +701,30 @@ extension SageMakerClientTypes {
                 .mlC6i8xlarge,
                 .mlC6iLarge,
                 .mlC6iXlarge,
+                .mlC7g12xlarge,
+                .mlC7g16xlarge,
+                .mlC7g2xlarge,
+                .mlC7g4xlarge,
+                .mlC7g8xlarge,
+                .mlC7gLarge,
+                .mlC7gMedium,
+                .mlC7gXlarge,
+                .mlC8g12xlarge,
+                .mlC8g16xlarge,
+                .mlC8g24xlarge,
+                .mlC8g2xlarge,
+                .mlC8g48xlarge,
+                .mlC8g4xlarge,
+                .mlC8g8xlarge,
+                .mlC8gLarge,
+                .mlC8gMedium,
+                .mlC8gXlarge,
+                .mlG4dn12xlarge,
+                .mlG4dn16xlarge,
+                .mlG4dn2xlarge,
+                .mlG4dn4xlarge,
+                .mlG4dn8xlarge,
+                .mlG4dnXlarge,
                 .mlG512xlarge,
                 .mlG516xlarge,
                 .mlG524xlarge,
@@ -652,6 +772,24 @@ extension SageMakerClientTypes {
                 .mlM58xlarge,
                 .mlM5Large,
                 .mlM5Xlarge,
+                .mlM6a12xlarge,
+                .mlM6a16xlarge,
+                .mlM6a24xlarge,
+                .mlM6a2xlarge,
+                .mlM6a32xlarge,
+                .mlM6a48xlarge,
+                .mlM6a4xlarge,
+                .mlM6a8xlarge,
+                .mlM6aLarge,
+                .mlM6aXlarge,
+                .mlM6g12xlarge,
+                .mlM6g16xlarge,
+                .mlM6g2xlarge,
+                .mlM6g4xlarge,
+                .mlM6g8xlarge,
+                .mlM6gLarge,
+                .mlM6gMedium,
+                .mlM6gXlarge,
                 .mlM6i12xlarge,
                 .mlM6i16xlarge,
                 .mlM6i24xlarge,
@@ -661,6 +799,14 @@ extension SageMakerClientTypes {
                 .mlM6i8xlarge,
                 .mlM6iLarge,
                 .mlM6iXlarge,
+                .mlM7g12xlarge,
+                .mlM7g16xlarge,
+                .mlM7g2xlarge,
+                .mlM7g4xlarge,
+                .mlM7g8xlarge,
+                .mlM7gLarge,
+                .mlM7gMedium,
+                .mlM7gXlarge,
                 .mlM7i12xlarge,
                 .mlM7i16xlarge,
                 .mlM7i24xlarge,
@@ -670,6 +816,16 @@ extension SageMakerClientTypes {
                 .mlM7i8xlarge,
                 .mlM7iLarge,
                 .mlM7iXlarge,
+                .mlM8g12xlarge,
+                .mlM8g16xlarge,
+                .mlM8g24xlarge,
+                .mlM8g2xlarge,
+                .mlM8g48xlarge,
+                .mlM8g4xlarge,
+                .mlM8g8xlarge,
+                .mlM8gLarge,
+                .mlM8gMedium,
+                .mlM8gXlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
                 .mlP5en48xlarge,
@@ -729,6 +885,24 @@ extension SageMakerClientTypes {
             case .mlC59xlarge: return "ml.c5.9xlarge"
             case .mlC5Large: return "ml.c5.large"
             case .mlC5Xlarge: return "ml.c5.xlarge"
+            case .mlC6a12xlarge: return "ml.c6a.12xlarge"
+            case .mlC6a16xlarge: return "ml.c6a.16xlarge"
+            case .mlC6a24xlarge: return "ml.c6a.24xlarge"
+            case .mlC6a2xlarge: return "ml.c6a.2xlarge"
+            case .mlC6a32xlarge: return "ml.c6a.32xlarge"
+            case .mlC6a48xlarge: return "ml.c6a.48xlarge"
+            case .mlC6a4xlarge: return "ml.c6a.4xlarge"
+            case .mlC6a8xlarge: return "ml.c6a.8xlarge"
+            case .mlC6aLarge: return "ml.c6a.large"
+            case .mlC6aXlarge: return "ml.c6a.xlarge"
+            case .mlC6g12xlarge: return "ml.c6g.12xlarge"
+            case .mlC6g16xlarge: return "ml.c6g.16xlarge"
+            case .mlC6g2xlarge: return "ml.c6g.2xlarge"
+            case .mlC6g4xlarge: return "ml.c6g.4xlarge"
+            case .mlC6g8xlarge: return "ml.c6g.8xlarge"
+            case .mlC6gLarge: return "ml.c6g.large"
+            case .mlC6gMedium: return "ml.c6g.medium"
+            case .mlC6gXlarge: return "ml.c6g.xlarge"
             case .mlC6i12xlarge: return "ml.c6i.12xlarge"
             case .mlC6i16xlarge: return "ml.c6i.16xlarge"
             case .mlC6i24xlarge: return "ml.c6i.24xlarge"
@@ -738,6 +912,30 @@ extension SageMakerClientTypes {
             case .mlC6i8xlarge: return "ml.c6i.8xlarge"
             case .mlC6iLarge: return "ml.c6i.large"
             case .mlC6iXlarge: return "ml.c6i.xlarge"
+            case .mlC7g12xlarge: return "ml.c7g.12xlarge"
+            case .mlC7g16xlarge: return "ml.c7g.16xlarge"
+            case .mlC7g2xlarge: return "ml.c7g.2xlarge"
+            case .mlC7g4xlarge: return "ml.c7g.4xlarge"
+            case .mlC7g8xlarge: return "ml.c7g.8xlarge"
+            case .mlC7gLarge: return "ml.c7g.large"
+            case .mlC7gMedium: return "ml.c7g.medium"
+            case .mlC7gXlarge: return "ml.c7g.xlarge"
+            case .mlC8g12xlarge: return "ml.c8g.12xlarge"
+            case .mlC8g16xlarge: return "ml.c8g.16xlarge"
+            case .mlC8g24xlarge: return "ml.c8g.24xlarge"
+            case .mlC8g2xlarge: return "ml.c8g.2xlarge"
+            case .mlC8g48xlarge: return "ml.c8g.48xlarge"
+            case .mlC8g4xlarge: return "ml.c8g.4xlarge"
+            case .mlC8g8xlarge: return "ml.c8g.8xlarge"
+            case .mlC8gLarge: return "ml.c8g.large"
+            case .mlC8gMedium: return "ml.c8g.medium"
+            case .mlC8gXlarge: return "ml.c8g.xlarge"
+            case .mlG4dn12xlarge: return "ml.g4dn.12xlarge"
+            case .mlG4dn16xlarge: return "ml.g4dn.16xlarge"
+            case .mlG4dn2xlarge: return "ml.g4dn.2xlarge"
+            case .mlG4dn4xlarge: return "ml.g4dn.4xlarge"
+            case .mlG4dn8xlarge: return "ml.g4dn.8xlarge"
+            case .mlG4dnXlarge: return "ml.g4dn.xlarge"
             case .mlG512xlarge: return "ml.g5.12xlarge"
             case .mlG516xlarge: return "ml.g5.16xlarge"
             case .mlG524xlarge: return "ml.g5.24xlarge"
@@ -785,6 +983,24 @@ extension SageMakerClientTypes {
             case .mlM58xlarge: return "ml.m5.8xlarge"
             case .mlM5Large: return "ml.m5.large"
             case .mlM5Xlarge: return "ml.m5.xlarge"
+            case .mlM6a12xlarge: return "ml.m6a.12xlarge"
+            case .mlM6a16xlarge: return "ml.m6a.16xlarge"
+            case .mlM6a24xlarge: return "ml.m6a.24xlarge"
+            case .mlM6a2xlarge: return "ml.m6a.2xlarge"
+            case .mlM6a32xlarge: return "ml.m6a.32xlarge"
+            case .mlM6a48xlarge: return "ml.m6a.48xlarge"
+            case .mlM6a4xlarge: return "ml.m6a.4xlarge"
+            case .mlM6a8xlarge: return "ml.m6a.8xlarge"
+            case .mlM6aLarge: return "ml.m6a.large"
+            case .mlM6aXlarge: return "ml.m6a.xlarge"
+            case .mlM6g12xlarge: return "ml.m6g.12xlarge"
+            case .mlM6g16xlarge: return "ml.m6g.16xlarge"
+            case .mlM6g2xlarge: return "ml.m6g.2xlarge"
+            case .mlM6g4xlarge: return "ml.m6g.4xlarge"
+            case .mlM6g8xlarge: return "ml.m6g.8xlarge"
+            case .mlM6gLarge: return "ml.m6g.large"
+            case .mlM6gMedium: return "ml.m6g.medium"
+            case .mlM6gXlarge: return "ml.m6g.xlarge"
             case .mlM6i12xlarge: return "ml.m6i.12xlarge"
             case .mlM6i16xlarge: return "ml.m6i.16xlarge"
             case .mlM6i24xlarge: return "ml.m6i.24xlarge"
@@ -794,6 +1010,14 @@ extension SageMakerClientTypes {
             case .mlM6i8xlarge: return "ml.m6i.8xlarge"
             case .mlM6iLarge: return "ml.m6i.large"
             case .mlM6iXlarge: return "ml.m6i.xlarge"
+            case .mlM7g12xlarge: return "ml.m7g.12xlarge"
+            case .mlM7g16xlarge: return "ml.m7g.16xlarge"
+            case .mlM7g2xlarge: return "ml.m7g.2xlarge"
+            case .mlM7g4xlarge: return "ml.m7g.4xlarge"
+            case .mlM7g8xlarge: return "ml.m7g.8xlarge"
+            case .mlM7gLarge: return "ml.m7g.large"
+            case .mlM7gMedium: return "ml.m7g.medium"
+            case .mlM7gXlarge: return "ml.m7g.xlarge"
             case .mlM7i12xlarge: return "ml.m7i.12xlarge"
             case .mlM7i16xlarge: return "ml.m7i.16xlarge"
             case .mlM7i24xlarge: return "ml.m7i.24xlarge"
@@ -803,6 +1027,16 @@ extension SageMakerClientTypes {
             case .mlM7i8xlarge: return "ml.m7i.8xlarge"
             case .mlM7iLarge: return "ml.m7i.large"
             case .mlM7iXlarge: return "ml.m7i.xlarge"
+            case .mlM8g12xlarge: return "ml.m8g.12xlarge"
+            case .mlM8g16xlarge: return "ml.m8g.16xlarge"
+            case .mlM8g24xlarge: return "ml.m8g.24xlarge"
+            case .mlM8g2xlarge: return "ml.m8g.2xlarge"
+            case .mlM8g48xlarge: return "ml.m8g.48xlarge"
+            case .mlM8g4xlarge: return "ml.m8g.4xlarge"
+            case .mlM8g8xlarge: return "ml.m8g.8xlarge"
+            case .mlM8gLarge: return "ml.m8g.large"
+            case .mlM8gMedium: return "ml.m8g.medium"
+            case .mlM8gXlarge: return "ml.m8g.xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
@@ -1763,6 +1997,12 @@ extension SageMakerClientTypes {
         case mlG7e48xlarge
         case mlG7e4xlarge
         case mlG7e8xlarge
+        case mlG712xlarge
+        case mlG724xlarge
+        case mlG72xlarge
+        case mlG748xlarge
+        case mlG74xlarge
+        case mlG78xlarge
         case mlInf124xlarge
         case mlInf12xlarge
         case mlInf16xlarge
@@ -2038,6 +2278,12 @@ extension SageMakerClientTypes {
                 .mlG7e48xlarge,
                 .mlG7e4xlarge,
                 .mlG7e8xlarge,
+                .mlG712xlarge,
+                .mlG724xlarge,
+                .mlG72xlarge,
+                .mlG748xlarge,
+                .mlG74xlarge,
+                .mlG78xlarge,
                 .mlInf124xlarge,
                 .mlInf12xlarge,
                 .mlInf16xlarge,
@@ -2319,6 +2565,12 @@ extension SageMakerClientTypes {
             case .mlG7e48xlarge: return "ml.g7e.48xlarge"
             case .mlG7e4xlarge: return "ml.g7e.4xlarge"
             case .mlG7e8xlarge: return "ml.g7e.8xlarge"
+            case .mlG712xlarge: return "ml.g7.12xlarge"
+            case .mlG724xlarge: return "ml.g7.24xlarge"
+            case .mlG72xlarge: return "ml.g7.2xlarge"
+            case .mlG748xlarge: return "ml.g7.48xlarge"
+            case .mlG74xlarge: return "ml.g7.4xlarge"
+            case .mlG78xlarge: return "ml.g7.8xlarge"
             case .mlInf124xlarge: return "ml.inf1.24xlarge"
             case .mlInf12xlarge: return "ml.inf1.2xlarge"
             case .mlInf16xlarge: return "ml.inf1.6xlarge"
@@ -13083,6 +13335,10 @@ extension SageMakerClientTypes {
         /// The schedule for automatic patching, including the next patch date.
         public var patchSchedule: SageMakerClientTypes.ClusterPatchSchedule?
         /// The strategy for applying patches to instances in the group.
+        ///
+        /// * WhenIdle: Cordons all instances and patches each instance as it becomes idle (no running jobs). Each instance is uncordoned immediately after patching and becomes available for new jobs. If instances do not become idle, they remain on the previous AMI version. You can then use UpdateClusterSoftware with the desired ImageReleaseVersion to manually update the remaining instances.
+        ///
+        /// * WhenAllIdle: Cordons all instances and waits for all to become idle before patching. All instances are uncordoned after patching completes. If not all instances become idle, no patching occurs and all instances remain on the previous AMI version.
         /// This member is required.
         public var patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy?
 
@@ -13124,6 +13380,10 @@ extension SageMakerClientTypes {
         /// The requested patch schedule. Differs from CurrentPatchSchedule when a reschedule request is pending.
         public var desiredPatchSchedule: SageMakerClientTypes.ClusterPatchScheduleDetails?
         /// The strategy used for applying patches to instances in the group.
+        ///
+        /// * WhenIdle: Cordons all instances and patches each instance as it becomes idle (no running jobs). Each instance is uncordoned immediately after patching and becomes available for new jobs. If instances do not become idle, they remain on the previous AMI version. You can then use UpdateClusterSoftware with the desired ImageReleaseVersion to manually update the remaining instances.
+        ///
+        /// * WhenAllIdle: Cordons all instances and waits for all to become idle before patching. All instances are uncordoned after patching completes. If not all instances become idle, no patching occurs and all instances remain on the previous AMI version.
         public var patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy?
 
         public init(
@@ -14522,7 +14782,7 @@ extension SageMakerClientTypes {
         ///
         /// * CustomAmiId: Use your custom AMI
         ///
-        /// * default: Use the default latest system image
+        /// * default: Use the default latest system image. For clusters with continuous scaling node provisioning mode, new instance groups inherit the AMI from the earliest existing instance group
         ///
         ///
         /// If you choose to use a custom AMI (CustomAmiId), ensure it meets the following requirements:
