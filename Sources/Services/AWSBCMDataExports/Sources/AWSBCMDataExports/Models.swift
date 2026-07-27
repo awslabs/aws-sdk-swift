@@ -249,12 +249,14 @@ extension BCMDataExportsClientTypes {
     public enum CompressionOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case gzip
         case parquet
+        case zip
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CompressionOption] {
             return [
                 .gzip,
-                .parquet
+                .parquet,
+                .zip
             ]
         }
 
@@ -267,6 +269,7 @@ extension BCMDataExportsClientTypes {
             switch self {
             case .gzip: return "GZIP"
             case .parquet: return "PARQUET"
+            case .zip: return "ZIP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -401,7 +404,7 @@ extension BCMDataExportsClientTypes {
         /// The name of the Amazon S3 bucket used as the destination of a data export file.
         /// This member is required.
         public var s3Bucket: Swift.String?
-        /// The AWS Account ID that owns the S3 bucket used as the destination for the data export.
+        /// The Amazon Web Services account ID that owns the S3 bucket used as the destination for the data export.
         public var s3BucketOwner: Swift.String?
         /// The output configuration for the data export.
         /// This member is required.
@@ -676,6 +679,7 @@ extension BCMDataExportsClientTypes {
 
     public enum ExecutionStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case billOwnerChanged
+        case deprecated
         case insufficientPermission
         case internalFailure
         case sdkUnknown(Swift.String)
@@ -683,6 +687,7 @@ extension BCMDataExportsClientTypes {
         public static var allCases: [ExecutionStatusReason] {
             return [
                 .billOwnerChanged,
+                .deprecated,
                 .insufficientPermission,
                 .internalFailure
             ]
@@ -696,6 +701,7 @@ extension BCMDataExportsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .billOwnerChanged: return "BILL_OWNER_CHANGED"
+            case .deprecated: return "DEPRECATED"
             case .insufficientPermission: return "INSUFFICIENT_PERMISSION"
             case .internalFailure: return "INTERNAL_FAILURE"
             case let .sdkUnknown(s): return s

@@ -27887,12 +27887,19 @@ public struct CancelIngestionOutput: Swift.Sendable {
 
 extension QuickSightClientTypes {
 
+    /// The permission state of a capability in a custom permissions profile. Valid values:
+    ///
+    /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+    ///
+    /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
     public enum CapabilityState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allow
         case deny
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CapabilityState] {
             return [
+                .allow,
                 .deny
             ]
         }
@@ -27904,6 +27911,7 @@ extension QuickSightClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .allow: return "ALLOW"
             case .deny: return "DENY"
             case let .sdkUnknown(s): return s
             }
@@ -30447,6 +30455,50 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes {
+
+    /// The default effect that Amazon Quick applies to capabilities in a governed category when you do not explicitly list those capabilities in Capabilities. Valid values:
+    ///
+    /// * DENY_BY_DEFAULT – Amazon Quick denies any capability access in the given category that the profile does not explicitly set to ALLOW.
+    public enum DefaultCategoryEffect: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case denyByDefault
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DefaultCategoryEffect] {
+            return [
+                .denyByDefault
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .denyByDefault: return "DENY_BY_DEFAULT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Contains the governance configuration for a custom permissions profile. When governance controls are defined for a category, any capabilities in that category not explicitly set to ALLOW in Capabilities are denied. Even newly added capabilities in the category are implicitly disabled when Amazon Quick releases them.
+    public struct Governance: Swift.Sendable {
+        /// A map of DefaultCategoryEffects.
+        public var defaultCategoryEffects: [Swift.String: QuickSightClientTypes.DefaultCategoryEffect]?
+
+        public init(
+            defaultCategoryEffects: [Swift.String: QuickSightClientTypes.DefaultCategoryEffect]? = nil
+        ) {
+            self.defaultCategoryEffects = defaultCategoryEffects
+        }
+    }
+}
+
 public struct CreateCustomPermissionsInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that you want to create the custom permissions profile in.
     /// This member is required.
@@ -30456,6 +30508,8 @@ public struct CreateCustomPermissionsInput: Swift.Sendable {
     /// The name of the custom permissions profile that you want to create.
     /// This member is required.
     public var customPermissionsName: Swift.String?
+    /// The governance configuration for the custom permissions profile. When governance controls are defined for a category, any capabilities in that category not explicitly set to ALLOW in Capabilities are denied. Even newly added capabilities in the category are implicitly disabled when Amazon Quick releases them.
+    public var governance: QuickSightClientTypes.Governance?
     /// The tags to associate with the custom permissions profile.
     public var tags: [QuickSightClientTypes.Tag]?
 
@@ -30463,11 +30517,13 @@ public struct CreateCustomPermissionsInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         capabilities: QuickSightClientTypes.Capabilities? = nil,
         customPermissionsName: Swift.String? = nil,
+        governance: QuickSightClientTypes.Governance? = nil,
         tags: [QuickSightClientTypes.Tag]? = nil
     ) {
         self.awsAccountId = awsAccountId
         self.capabilities = capabilities
         self.customPermissionsName = customPermissionsName
+        self.governance = governance
         self.tags = tags
     }
 }
@@ -37938,15 +37994,19 @@ extension QuickSightClientTypes {
         public var capabilities: QuickSightClientTypes.Capabilities?
         /// The name of the custom permissions profile.
         public var customPermissionsName: Swift.String?
+        /// The governance configuration for the custom permissions profile. When you enable governance for a category, Amazon Quick denies access to any current or new capability in that category unless you explicitly set that capability to ALLOW in Capabilities.
+        public var governance: QuickSightClientTypes.Governance?
 
         public init(
             arn: Swift.String? = nil,
             capabilities: QuickSightClientTypes.Capabilities? = nil,
-            customPermissionsName: Swift.String? = nil
+            customPermissionsName: Swift.String? = nil,
+            governance: QuickSightClientTypes.Governance? = nil
         ) {
             self.arn = arn
             self.capabilities = capabilities
             self.customPermissionsName = customPermissionsName
+            self.governance = governance
         }
     }
 }
@@ -52055,15 +52115,19 @@ public struct UpdateCustomPermissionsInput: Swift.Sendable {
     /// The name of the custom permissions profile that you want to update.
     /// This member is required.
     public var customPermissionsName: Swift.String?
+    /// The governance configuration for the custom permissions profile. The UpdateCustomPermissions operation replaces all existing Capabilities and Governance values. If you omit this parameter, Amazon Quick removes governance from the profile and the existing custom permission behavior applies.
+    public var governance: QuickSightClientTypes.Governance?
 
     public init(
         awsAccountId: Swift.String? = nil,
         capabilities: QuickSightClientTypes.Capabilities? = nil,
-        customPermissionsName: Swift.String? = nil
+        customPermissionsName: Swift.String? = nil,
+        governance: QuickSightClientTypes.Governance? = nil
     ) {
         self.awsAccountId = awsAccountId
         self.capabilities = capabilities
         self.customPermissionsName = customPermissionsName
+        self.governance = governance
     }
 }
 
@@ -59346,6 +59410,7 @@ extension CreateCustomPermissionsInput {
         guard let value else { return }
         try writer["Capabilities"].write(value.capabilities, with: QuickSightClientTypes.Capabilities.write(value:to:))
         try writer["CustomPermissionsName"].write(value.customPermissionsName)
+        try writer["Governance"].write(value.governance, with: QuickSightClientTypes.Governance.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -59998,6 +60063,7 @@ extension UpdateCustomPermissionsInput {
     static func write(value: UpdateCustomPermissionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Capabilities"].write(value.capabilities, with: QuickSightClientTypes.Capabilities.write(value:to:))
+        try writer["Governance"].write(value.governance, with: QuickSightClientTypes.Governance.write(value:to:))
     }
 }
 
@@ -74869,6 +74935,7 @@ extension QuickSightClientTypes.CustomPermissions {
         value.arn = try reader["Arn"].readIfPresent()
         value.customPermissionsName = try reader["CustomPermissionsName"].readIfPresent()
         value.capabilities = try reader["Capabilities"].readIfPresent(with: QuickSightClientTypes.Capabilities.read(from:))
+        value.governance = try reader["Governance"].readIfPresent(with: QuickSightClientTypes.Governance.read(from:))
         return value
     }
 }
@@ -79824,6 +79891,21 @@ extension QuickSightClientTypes.GoogleDriveParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.GoogleDriveParameters()
         value.authType = try reader["AuthType"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.Governance {
+
+    static func write(value: QuickSightClientTypes.Governance?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultCategoryEffects"].writeMap(value.defaultCategoryEffects, valueWritingClosure: SmithyReadWrite.WritingClosureBox<QuickSightClientTypes.DefaultCategoryEffect>().write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Governance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.Governance()
+        value.defaultCategoryEffects = try reader["DefaultCategoryEffects"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.DefaultCategoryEffect>().read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

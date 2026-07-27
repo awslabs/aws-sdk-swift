@@ -3423,6 +3423,8 @@ extension SecurityAgentClientTypes {
         public var riskType: SecurityAgentClientTypes.RiskType?
         /// The target endpoint being tested by the task.
         public var targetEndpoint: SecurityAgentClientTypes.Endpoint?
+        /// The number of active work hours consumed by the task during execution.
+        public var taskHours: Swift.Double?
         /// The unique identifier of the task.
         /// This member is required.
         public var taskId: Swift.String?
@@ -3442,6 +3444,7 @@ extension SecurityAgentClientTypes {
             pentestJobId: Swift.String? = nil,
             riskType: SecurityAgentClientTypes.RiskType? = nil,
             targetEndpoint: SecurityAgentClientTypes.Endpoint? = nil,
+            taskHours: Swift.Double? = nil,
             taskId: Swift.String? = nil,
             title: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
@@ -3456,6 +3459,7 @@ extension SecurityAgentClientTypes {
             self.pentestJobId = pentestJobId
             self.riskType = riskType
             self.targetEndpoint = targetEndpoint
+            self.taskHours = taskHours
             self.taskId = taskId
             self.title = title
             self.updatedAt = updatedAt
@@ -7812,6 +7816,8 @@ extension SecurityAgentClientTypes {
         public var pentestJobId: Swift.String?
         /// The type of security risk the task is testing for.
         public var riskType: SecurityAgentClientTypes.RiskType?
+        /// The number of active work hours consumed by the task during execution.
+        public var taskHours: Swift.Double?
         /// The unique identifier of the task.
         /// This member is required.
         public var taskId: Swift.String?
@@ -7827,6 +7833,7 @@ extension SecurityAgentClientTypes {
             pentestId: Swift.String? = nil,
             pentestJobId: Swift.String? = nil,
             riskType: SecurityAgentClientTypes.RiskType? = nil,
+            taskHours: Swift.Double? = nil,
             taskId: Swift.String? = nil,
             title: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
@@ -7837,6 +7844,7 @@ extension SecurityAgentClientTypes {
             self.pentestId = pentestId
             self.pentestJobId = pentestJobId
             self.riskType = riskType
+            self.taskHours = taskHours
             self.taskId = taskId
             self.title = title
             self.updatedAt = updatedAt
@@ -15481,6 +15489,7 @@ extension SecurityAgentClientTypes.Task {
         value.targetEndpoint = try reader["targetEndpoint"].readIfPresent(with: SecurityAgentClientTypes.Endpoint.read(from:))
         value.executionStatus = try reader["executionStatus"].readIfPresent()
         value.logsLocation = try reader["logsLocation"].readIfPresent(with: SecurityAgentClientTypes.LogLocation.read(from:))
+        value.taskHours = try reader["taskHours"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -15499,6 +15508,7 @@ extension SecurityAgentClientTypes.TaskSummary {
         value.title = try reader["title"].readIfPresent()
         value.riskType = try reader["riskType"].readIfPresent()
         value.executionStatus = try reader["executionStatus"].readIfPresent()
+        value.taskHours = try reader["taskHours"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value

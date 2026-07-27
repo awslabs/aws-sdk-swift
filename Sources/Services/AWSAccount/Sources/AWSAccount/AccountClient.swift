@@ -1262,6 +1262,78 @@ extension AccountClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetPrimaryEmailUpdateStatus` operation on the `Account` service.
+    ///
+    /// Retrieves the status of the most recent primary email update for the specified account. For complete details about how to update the primary email address, see [Update the primary email address for your AWS account](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-root-user-email.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetPrimaryEmailUpdateStatusInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetPrimaryEmailUpdateStatusOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation failed because the calling identity doesn't have the minimum required permissions.
+    /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
+    /// - `ResourceNotFoundException` : The operation failed because it specified a resource that can't be found.
+    /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
+    /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
+    public func getPrimaryEmailUpdateStatus(input: GetPrimaryEmailUpdateStatusInput) async throws -> GetPrimaryEmailUpdateStatusOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getPrimaryEmailUpdateStatus")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "account")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetPrimaryEmailUpdateStatusInput, GetPrimaryEmailUpdateStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPrimaryEmailUpdateStatusInput, GetPrimaryEmailUpdateStatusOutput>(GetPrimaryEmailUpdateStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPrimaryEmailUpdateStatusInput, GetPrimaryEmailUpdateStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPrimaryEmailUpdateStatusInput, GetPrimaryEmailUpdateStatusOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetPrimaryEmailUpdateStatusInput, GetPrimaryEmailUpdateStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPrimaryEmailUpdateStatusInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPrimaryEmailUpdateStatusInput, GetPrimaryEmailUpdateStatusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPrimaryEmailUpdateStatusOutput>(GetPrimaryEmailUpdateStatusOutput.httpOutput(from:), GetPrimaryEmailUpdateStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPrimaryEmailUpdateStatusInput, GetPrimaryEmailUpdateStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetPrimaryEmailUpdateStatusOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Account", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPrimaryEmailUpdateStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPrimaryEmailUpdateStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPrimaryEmailUpdateStatusInput, GetPrimaryEmailUpdateStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPrimaryEmailUpdateStatusInput, GetPrimaryEmailUpdateStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Account"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPrimaryEmailUpdateStatusInput, GetPrimaryEmailUpdateStatusOutput>(serviceID: serviceName, version: AccountClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Account")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPrimaryEmailUpdateStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetRegionOptStatus` operation on the `Account` service.
     ///
     /// Retrieves the opt-in status of a particular Region.

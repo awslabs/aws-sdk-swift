@@ -3227,6 +3227,60 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// A LoRA adapter entry identified by a model package ARN.
+    public struct AIAdapterModelPackageEntry: Swift.Sendable {
+        /// A unique identifier for the adapter. This ID is used as the inference component name when the adapter is deployed. The ID must start and end with an alphanumeric character, can contain hyphens between alphanumeric characters, and can be up to 63 characters long.
+        /// This member is required.
+        public var adapterId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the model package that contains the LoRA adapter artifacts.
+        /// This member is required.
+        public var modelPackageArn: Swift.String?
+
+        public init(
+            adapterId: Swift.String? = nil,
+            modelPackageArn: Swift.String? = nil
+        ) {
+            self.adapterId = adapterId
+            self.modelPackageArn = modelPackageArn
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A LoRA adapter entry identified by an Amazon S3 URI.
+    public struct AIAdapterS3Entry: Swift.Sendable {
+        /// A unique identifier for the adapter. This ID is used as the inference component name when the adapter is deployed. The ID must start and end with an alphanumeric character, can contain hyphens between alphanumeric characters, and can be up to 63 characters long.
+        /// This member is required.
+        public var adapterId: Swift.String?
+        /// The Amazon S3 URI of the directory that contains the LoRA adapter artifacts in PEFT format.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init(
+            adapterId: Swift.String? = nil,
+            s3Uri: Swift.String? = nil
+        ) {
+            self.adapterId = adapterId
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The source of LoRA adapters for an AI recommendation job. This is a union type — specify exactly one of the members.
+    public enum AIAdapterSource: Swift.Sendable {
+        /// A list of LoRA adapters identified by their model package ARNs. Use this when your adapters were produced by a SageMaker AI fine-tuning workflow that registers model packages.
+        case modelpackagearns([SageMakerClientTypes.AIAdapterModelPackageEntry])
+        /// A list of LoRA adapters identified by their Amazon S3 URIs. Use this when your adapters are stored as raw artifacts in Amazon S3.
+        case s3uris([SageMakerClientTypes.AIAdapterS3Entry])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// An inference component to benchmark.
     public struct AIBenchmarkInferenceComponent: Swift.Sendable {
         /// The name or Amazon Resource Name (ARN) of the inference component.
@@ -3609,6 +3663,27 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The per-recommendation LoRA adapter details. Contains both the model package ARNs and Amazon S3 URIs for each adapter, regardless of which form was originally supplied in the request. When the customer supplies only Amazon S3 URIs, Amazon SageMaker AI creates model packages on their behalf.
+    public struct AIRecommendationAdapterDetails: Swift.Sendable {
+        /// The list of LoRA adapters with their model package ARNs.
+        /// This member is required.
+        public var modelPackageArns: [SageMakerClientTypes.AIAdapterModelPackageEntry]?
+        /// The list of LoRA adapters with their Amazon S3 URIs.
+        /// This member is required.
+        public var s3Uris: [SageMakerClientTypes.AIAdapterS3Entry]?
+
+        public init(
+            modelPackageArns: [SageMakerClientTypes.AIAdapterModelPackageEntry]? = nil,
+            s3Uris: [SageMakerClientTypes.AIAdapterS3Entry]? = nil
+        ) {
+            self.modelPackageArns = modelPackageArns
+            self.s3Uris = s3Uris
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum AIRecommendationInstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mlG512xlarge
         case mlG516xlarge
@@ -3783,6 +3858,8 @@ extension SageMakerClientTypes {
         public var instanceCount: Swift.Int?
         /// The recommended instance type for the deployment.
         public var instanceType: SageMakerClientTypes.AIRecommendationInstanceType?
+        /// The minimum host (CPU) memory, in MiB, to reserve per model copy when deploying the recommendation as an Inference Component. This value maps to the base Inference Component's ComputeResourceRequirements$MinMemoryRequiredInMb and is sized so that CopyCountPerInstance copies co-place within the instance's allocatable host memory.
+        public var minCpuMemoryRequiredInMb: Swift.Int?
         /// The Amazon S3 data channels for the deployment.
         public var s3: [SageMakerClientTypes.AIRecommendationDeploymentS3Channel]?
 
@@ -3792,6 +3869,7 @@ extension SageMakerClientTypes {
             imageUri: Swift.String? = nil,
             instanceCount: Swift.Int? = nil,
             instanceType: SageMakerClientTypes.AIRecommendationInstanceType? = nil,
+            minCpuMemoryRequiredInMb: Swift.Int? = nil,
             s3: [SageMakerClientTypes.AIRecommendationDeploymentS3Channel]? = nil
         ) {
             self.copyCountPerInstance = copyCountPerInstance
@@ -3799,6 +3877,7 @@ extension SageMakerClientTypes {
             self.imageUri = imageUri
             self.instanceCount = instanceCount
             self.instanceType = instanceType
+            self.minCpuMemoryRequiredInMb = minCpuMemoryRequiredInMb
             self.s3 = s3
         }
     }
@@ -3932,6 +4011,8 @@ extension SageMakerClientTypes {
 
     /// An optimization recommendation generated by an AI recommendation job.
     public struct AIRecommendation: Swift.Sendable {
+        /// The LoRA adapter details for this recommendation. This field contains both the model package ARNs and Amazon S3 URIs for each adapter, regardless of which form was originally supplied. This field is absent when the job was created without LoRA adapters.
+        public var adapterDetails: SageMakerClientTypes.AIRecommendationAdapterDetails?
         /// The Amazon Resource Name (ARN) of the benchmark job associated with this recommendation.
         public var aiBenchmarkJobArn: Swift.String?
         /// The deployment configuration for this recommendation, including the container image, instance type, instance count, and environment variables.
@@ -3946,6 +4027,7 @@ extension SageMakerClientTypes {
         public var recommendationDescription: Swift.String?
 
         public init(
+            adapterDetails: SageMakerClientTypes.AIRecommendationAdapterDetails? = nil,
             aiBenchmarkJobArn: Swift.String? = nil,
             deploymentConfiguration: SageMakerClientTypes.AIRecommendationDeploymentConfiguration? = nil,
             expectedPerformance: [SageMakerClientTypes.AIRecommendationPerformanceMetric]? = nil,
@@ -3953,6 +4035,7 @@ extension SageMakerClientTypes {
             optimizationDetails: [SageMakerClientTypes.AIRecommendationOptimizationDetail]? = nil,
             recommendationDescription: Swift.String? = nil
         ) {
+            self.adapterDetails = adapterDetails
             self.aiBenchmarkJobArn = aiBenchmarkJobArn
             self.deploymentConfiguration = deploymentConfiguration
             self.expectedPerformance = expectedPerformance
@@ -17368,6 +17451,8 @@ public struct CreateAIBenchmarkJobOutput: Swift.Sendable {
 }
 
 public struct CreateAIRecommendationJobInput: Swift.Sendable {
+    /// The LoRA adapter source for the recommendation job. Specify either a list of model package ARNs or Amazon S3 URIs for your LoRA adapters. When this parameter is absent, the recommendation job runs without LoRA adapter support.
+    public var adapterSource: SageMakerClientTypes.AIAdapterSource?
     /// The name of the AI recommendation job. The name must be unique within your Amazon Web Services account in the current Amazon Web Services Region.
     /// This member is required.
     public var aiRecommendationJobName: Swift.String?
@@ -17396,6 +17481,7 @@ public struct CreateAIRecommendationJobInput: Swift.Sendable {
     public var tags: [SageMakerClientTypes.Tag]?
 
     public init(
+        adapterSource: SageMakerClientTypes.AIAdapterSource? = nil,
         aiRecommendationJobName: Swift.String? = nil,
         aiWorkloadConfigIdentifier: Swift.String? = nil,
         computeSpec: SageMakerClientTypes.AIRecommendationComputeSpec? = nil,
@@ -17407,6 +17493,7 @@ public struct CreateAIRecommendationJobInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
     ) {
+        self.adapterSource = adapterSource
         self.aiRecommendationJobName = aiRecommendationJobName
         self.aiWorkloadConfigIdentifier = aiWorkloadConfigIdentifier
         self.computeSpec = computeSpec
@@ -28294,6 +28381,12 @@ extension SageMakerClientTypes {
         case mlG64xlarge
         case mlG68xlarge
         case mlG6Xlarge
+        case mlG7e12xlarge
+        case mlG7e24xlarge
+        case mlG7e2xlarge
+        case mlG7e48xlarge
+        case mlG7e4xlarge
+        case mlG7e8xlarge
         case mlInf124xlarge
         case mlInf12xlarge
         case mlInf16xlarge
@@ -28481,6 +28574,12 @@ extension SageMakerClientTypes {
                 .mlG64xlarge,
                 .mlG68xlarge,
                 .mlG6Xlarge,
+                .mlG7e12xlarge,
+                .mlG7e24xlarge,
+                .mlG7e2xlarge,
+                .mlG7e48xlarge,
+                .mlG7e4xlarge,
+                .mlG7e8xlarge,
                 .mlInf124xlarge,
                 .mlInf12xlarge,
                 .mlInf16xlarge,
@@ -28674,6 +28773,12 @@ extension SageMakerClientTypes {
             case .mlG64xlarge: return "ml.g6.4xlarge"
             case .mlG68xlarge: return "ml.g6.8xlarge"
             case .mlG6Xlarge: return "ml.g6.xlarge"
+            case .mlG7e12xlarge: return "ml.g7e.12xlarge"
+            case .mlG7e24xlarge: return "ml.g7e.24xlarge"
+            case .mlG7e2xlarge: return "ml.g7e.2xlarge"
+            case .mlG7e48xlarge: return "ml.g7e.48xlarge"
+            case .mlG7e4xlarge: return "ml.g7e.4xlarge"
+            case .mlG7e8xlarge: return "ml.g7e.8xlarge"
             case .mlInf124xlarge: return "ml.inf1.24xlarge"
             case .mlInf12xlarge: return "ml.inf1.2xlarge"
             case .mlInf16xlarge: return "ml.inf1.6xlarge"
@@ -28993,6 +29098,12 @@ extension SageMakerClientTypes {
         case mlG64xlarge
         case mlG68xlarge
         case mlG6Xlarge
+        case mlG7e12xlarge
+        case mlG7e24xlarge
+        case mlG7e2xlarge
+        case mlG7e48xlarge
+        case mlG7e4xlarge
+        case mlG7e8xlarge
         case mlInf224xlarge
         case mlInf248xlarge
         case mlInf28xlarge
@@ -29002,6 +29113,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP6B20048xlarge
         case mlTrn1n32xlarge
         case mlTrn12xlarge
         case mlTrn132xlarge
@@ -29039,6 +29151,12 @@ extension SageMakerClientTypes {
                 .mlG64xlarge,
                 .mlG68xlarge,
                 .mlG6Xlarge,
+                .mlG7e12xlarge,
+                .mlG7e24xlarge,
+                .mlG7e2xlarge,
+                .mlG7e48xlarge,
+                .mlG7e4xlarge,
+                .mlG7e8xlarge,
                 .mlInf224xlarge,
                 .mlInf248xlarge,
                 .mlInf28xlarge,
@@ -29048,6 +29166,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP6B20048xlarge,
                 .mlTrn1n32xlarge,
                 .mlTrn12xlarge,
                 .mlTrn132xlarge
@@ -29091,6 +29210,12 @@ extension SageMakerClientTypes {
             case .mlG64xlarge: return "ml.g6.4xlarge"
             case .mlG68xlarge: return "ml.g6.8xlarge"
             case .mlG6Xlarge: return "ml.g6.xlarge"
+            case .mlG7e12xlarge: return "ml.g7e.12xlarge"
+            case .mlG7e24xlarge: return "ml.g7e.24xlarge"
+            case .mlG7e2xlarge: return "ml.g7e.2xlarge"
+            case .mlG7e48xlarge: return "ml.g7e.48xlarge"
+            case .mlG7e4xlarge: return "ml.g7e.4xlarge"
+            case .mlG7e8xlarge: return "ml.g7e.8xlarge"
             case .mlInf224xlarge: return "ml.inf2.24xlarge"
             case .mlInf248xlarge: return "ml.inf2.48xlarge"
             case .mlInf28xlarge: return "ml.inf2.8xlarge"
@@ -29100,6 +29225,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlTrn1n32xlarge: return "ml.trn1n.32xlarge"
             case .mlTrn12xlarge: return "ml.trn1.2xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
@@ -29431,6 +29557,8 @@ public struct CreateOptimizationJobInput: Swift.Sendable {
     public var stoppingCondition: SageMakerClientTypes.StoppingCondition?
     /// A list of key-value pairs associated with the optimization job. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference Guide.
     public var tags: [SageMakerClientTypes.Tag]?
+    /// The Amazon Resource Name (ARN) of the training plan to use for this optimization job. When you use reserved capacity from a training plan, the optimization job runs on that reserved capacity instead of on-demand capacity. If you omit this field, the job uses on-demand capacity. Currently, you can specify at most one training plan. For more information about how to reserve GPU capacity for your optimization jobs using Amazon SageMaker Training Plans, see [Reserve capacity with training plans](https://docs.aws.amazon.com/sagemaker/latest/dg/reserve-capacity-with-training-plans.html).
+    public var trainingPlanArns: [Swift.String]?
     /// A VPC in Amazon VPC that your optimized model has access to.
     public var vpcConfig: SageMakerClientTypes.OptimizationVpcConfig?
 
@@ -29445,6 +29573,7 @@ public struct CreateOptimizationJobInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
+        trainingPlanArns: [Swift.String]? = nil,
         vpcConfig: SageMakerClientTypes.OptimizationVpcConfig? = nil
     ) {
         self.deploymentInstanceType = deploymentInstanceType
@@ -29457,6 +29586,7 @@ public struct CreateOptimizationJobInput: Swift.Sendable {
         self.roleArn = roleArn
         self.stoppingCondition = stoppingCondition
         self.tags = tags
+        self.trainingPlanArns = trainingPlanArns
         self.vpcConfig = vpcConfig
     }
 }
@@ -34122,6 +34252,8 @@ public struct DescribeAIRecommendationJobInput: Swift.Sendable {
 }
 
 public struct DescribeAIRecommendationJobOutput: Swift.Sendable {
+    /// The LoRA adapter source that was specified when the recommendation job was created. This field is absent when the job was created without LoRA adapters.
+    public var adapterSource: SageMakerClientTypes.AIAdapterSource?
     /// The Amazon Resource Name (ARN) of the AI recommendation job.
     /// This member is required.
     public var aiRecommendationJobArn: Swift.String?
@@ -34166,6 +34298,7 @@ public struct DescribeAIRecommendationJobOutput: Swift.Sendable {
     public var tags: [SageMakerClientTypes.Tag]?
 
     public init(
+        adapterSource: SageMakerClientTypes.AIAdapterSource? = nil,
         aiRecommendationJobArn: Swift.String? = nil,
         aiRecommendationJobName: Swift.String? = nil,
         aiRecommendationJobStatus: SageMakerClientTypes.AIRecommendationJobStatus? = nil,
@@ -34184,6 +34317,7 @@ public struct DescribeAIRecommendationJobOutput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
     ) {
+        self.adapterSource = adapterSource
         self.aiRecommendationJobArn = aiRecommendationJobArn
         self.aiRecommendationJobName = aiRecommendationJobName
         self.aiRecommendationJobStatus = aiRecommendationJobStatus
@@ -41491,6 +41625,8 @@ public struct DescribeOptimizationJobOutput: Swift.Sendable {
     /// Specifies a limit to how long a job can run. When the job reaches the time limit, SageMaker ends the job. Use this API to cap costs. To stop a training job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost. The training algorithms provided by SageMaker automatically save the intermediate results of a model training job when possible. This attempt to save artifacts is only a best effort case as model might not be in a state from which it can be saved. For example, if training has just started, the model might not be ready to save. When saved, this intermediate data is a valid model artifact. You can use it to create a model with CreateModel. The Neural Topic Model (NTM) currently does not support saving intermediate model artifacts. When training NTMs, make sure that the maximum runtime is sufficient for the training job to complete.
     /// This member is required.
     public var stoppingCondition: SageMakerClientTypes.StoppingCondition?
+    /// The Amazon Resource Name (ARN) of the training plan associated with this optimization job. This field appears only when you specified a training plan when you created the job. Optimization jobs that use on-demand capacity don't return this field.
+    public var trainingPlanArns: [Swift.String]?
     /// A VPC in Amazon VPC that your optimized model has access to.
     public var vpcConfig: SageMakerClientTypes.OptimizationVpcConfig?
 
@@ -41512,6 +41648,7 @@ public struct DescribeOptimizationJobOutput: Swift.Sendable {
         outputConfig: SageMakerClientTypes.OptimizationJobOutputConfig? = nil,
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
+        trainingPlanArns: [Swift.String]? = nil,
         vpcConfig: SageMakerClientTypes.OptimizationVpcConfig? = nil
     ) {
         self.creationTime = creationTime
@@ -41531,6 +41668,7 @@ public struct DescribeOptimizationJobOutput: Swift.Sendable {
         self.outputConfig = outputConfig
         self.roleArn = roleArn
         self.stoppingCondition = stoppingCondition
+        self.trainingPlanArns = trainingPlanArns
         self.vpcConfig = vpcConfig
     }
 }
