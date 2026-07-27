@@ -59,9 +59,9 @@ extension EMRcontainersClientTypes {
 
 extension EMRcontainersClientTypes {
 
-    /// IAM configuration for the security configuration.
+    /// Contains the IAM settings for a security configuration, including the system role used for authentication.
     public struct IAMConfiguration: Swift.Sendable {
-        /// The ARN of the system role used by the security configuration.
+        /// The Amazon Resource Name (ARN) of the system role used by the security configuration.
         public var systemRole: Swift.String?
 
         public init(
@@ -74,15 +74,15 @@ extension EMRcontainersClientTypes {
 
 extension EMRcontainersClientTypes {
 
-    /// Identity Center related configuration for the security configuration.
+    /// Contains the IAM Identity Center settings for a security configuration, including instance ARN, application assignment requirements, and application ARN.
     public struct IdentityCenterConfiguration: Swift.Sendable {
-        /// The ARN of the EMR Identity Center application.
+        /// The Amazon Resource Name (ARN) of the Amazon EMR Identity Center application.
         public var emrIdentityCenterApplicationARN: Swift.String?
-        /// Determines whether Identity Center is enabled for the security configuration.
+        /// Specifies whether Identity Center is enabled for the security configuration.
         public var enableIdentityCenter: Swift.Bool?
-        /// Determines whether user assignment is required for the Identity Center application.
+        /// Specifies whether user assignment is required for the Identity Center application.
         public var identityCenterApplicationAssignmentRequired: Swift.Bool?
-        /// The ARN of the Identity Center instance.
+        /// The Amazon Resource Name (ARN) of the Identity Center instance.
         public var identityCenterInstanceARN: Swift.String?
 
         public init(
@@ -101,11 +101,11 @@ extension EMRcontainersClientTypes {
 
 extension EMRcontainersClientTypes {
 
-    /// Authentication configuration for the security configuration.
+    /// Contains the authentication settings for a security configuration, including Identity Center and IAM configuration options.
     public struct AuthenticationConfiguration: Swift.Sendable {
-        /// IAM configuration for authentication in the security configuration.
+        /// The IAM configuration to use for authentication.
         public var iamConfiguration: EMRcontainersClientTypes.IAMConfiguration?
-        /// Identity Center configuration for authentication in the security configuration.
+        /// The IAM Identity Center configuration to use for authentication.
         public var identityCenterConfiguration: EMRcontainersClientTypes.IdentityCenterConfiguration?
 
         public init(
@@ -652,7 +652,7 @@ extension EMRcontainersClientTypes {
 
     /// Amazon S3 configuration for monitoring log publishing. You can configure your jobs to send log information to Amazon S3.
     public struct S3MonitoringConfiguration: Swift.Sendable {
-        /// The Amazon resource name (ARN) of the encryption key for logs.
+        /// The Amazon Resource Name (ARN) of the encryption key for logs.
         public var encryptionKeyArn: Swift.String?
         /// Amazon S3 destination URI for log publishing.
         /// This member is required.
@@ -893,6 +893,25 @@ public struct EKSRequestThrottledException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
+extension EMRcontainersClientTypes {
+
+    /// The scheduler configuration for a virtual cluster on Amazon EMR on EKS. It controls how many job runs can run concurrently and how many can wait in the queue. When not set, no concurrency or queue limits are applied.
+    public struct SchedulerConfiguration: Swift.Sendable {
+        /// The maximum number of job runs that can be in the RUNNING state at any time for the virtual cluster. As running slots free up, queued job runs start automatically. If you omit this field, the service applies no concurrency limit.
+        public var maxConcurrentJobRuns: Swift.Int?
+        /// The maximum number of job runs that can be in the PENDING or SUBMITTED state at any time for the virtual cluster. When the queue is full, the service rejects StartJobRun requests with a ValidationException. If you omit this field, the service applies no queue-depth limit.
+        public var maxInQueueJobRuns: Swift.Int?
+
+        public init(
+            maxConcurrentJobRuns: Swift.Int? = nil,
+            maxInQueueJobRuns: Swift.Int? = nil
+        ) {
+            self.maxConcurrentJobRuns = maxConcurrentJobRuns
+            self.maxInQueueJobRuns = maxInQueueJobRuns
+        }
+    }
+}
+
 public struct CreateVirtualClusterInput: Swift.Sendable {
     /// The client token of the virtual cluster.
     /// This member is required.
@@ -903,6 +922,8 @@ public struct CreateVirtualClusterInput: Swift.Sendable {
     /// The specified name of the virtual cluster.
     /// This member is required.
     public var name: Swift.String?
+    /// The scheduler configuration (concurrency and queue limits) to apply to the virtual cluster at creation time. When omitted, no limits are applied.
+    public var schedulerConfiguration: EMRcontainersClientTypes.SchedulerConfiguration?
     /// The ID of the security configuration.
     public var securityConfigurationId: Swift.String?
     /// Indicates whether the virtual cluster has session support enabled.
@@ -914,6 +935,7 @@ public struct CreateVirtualClusterInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         containerProvider: EMRcontainersClientTypes.ContainerProvider? = nil,
         name: Swift.String? = nil,
+        schedulerConfiguration: EMRcontainersClientTypes.SchedulerConfiguration? = nil,
         securityConfigurationId: Swift.String? = nil,
         sessionEnabled: Swift.Bool? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -921,6 +943,7 @@ public struct CreateVirtualClusterInput: Swift.Sendable {
         self.clientToken = clientToken
         self.containerProvider = containerProvider
         self.name = name
+        self.schedulerConfiguration = schedulerConfiguration
         self.securityConfigurationId = securityConfigurationId
         self.sessionEnabled = sessionEnabled
         self.tags = tags
@@ -1014,7 +1037,7 @@ public struct DeleteSecurityConfigurationInput: Swift.Sendable {
 }
 
 public struct DeleteSecurityConfigurationOutput: Swift.Sendable {
-    /// The ID of the security configuration that was deleted.
+    /// The ID of the deleted security configuration.
     public var id: Swift.String?
 
     public init(
@@ -1337,6 +1360,25 @@ public struct DescribeVirtualClusterInput: Swift.Sendable {
 
 extension EMRcontainersClientTypes {
 
+    /// The current job-run counts for a virtual cluster, reflecting how much of the configured scheduler capacity is in use.
+    public struct SchedulerStatus: Swift.Sendable {
+        /// The number of job runs currently in the RUNNING state for the virtual cluster.
+        public var currentConcurrentJobRuns: Swift.Int
+        /// The number of job runs currently waiting in the queue (PENDING or SUBMITTED) for the virtual cluster.
+        public var currentInQueueJobRuns: Swift.Int
+
+        public init(
+            currentConcurrentJobRuns: Swift.Int = 0,
+            currentInQueueJobRuns: Swift.Int = 0
+        ) {
+            self.currentConcurrentJobRuns = currentConcurrentJobRuns
+            self.currentInQueueJobRuns = currentInQueueJobRuns
+        }
+    }
+}
+
+extension EMRcontainersClientTypes {
+
     public enum VirtualClusterState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case arrested
         case running
@@ -1384,9 +1426,13 @@ extension EMRcontainersClientTypes {
         public var id: Swift.String?
         /// The name of the virtual cluster.
         public var name: Swift.String?
+        /// The scheduler configuration (concurrency and queue limits) applied to the virtual cluster. The service does not return this field when no scheduler limits are configured.
+        public var schedulerConfiguration: EMRcontainersClientTypes.SchedulerConfiguration?
+        /// The current in-queue and concurrent job-run counts for the virtual cluster.
+        public var schedulerStatus: EMRcontainersClientTypes.SchedulerStatus?
         /// The ID of the security configuration.
         public var securityConfigurationId: Swift.String?
-        /// Indicates whether the virtual cluster has session support enabled.
+        /// Specifies whether the virtual cluster has session support enabled.
         public var sessionEnabled: Swift.Bool?
         /// The state of the virtual cluster.
         public var state: EMRcontainersClientTypes.VirtualClusterState?
@@ -1399,6 +1445,8 @@ extension EMRcontainersClientTypes {
             createdAt: Foundation.Date? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
+            schedulerConfiguration: EMRcontainersClientTypes.SchedulerConfiguration? = nil,
+            schedulerStatus: EMRcontainersClientTypes.SchedulerStatus? = nil,
             securityConfigurationId: Swift.String? = nil,
             sessionEnabled: Swift.Bool? = nil,
             state: EMRcontainersClientTypes.VirtualClusterState? = nil,
@@ -1409,6 +1457,8 @@ extension EMRcontainersClientTypes {
             self.createdAt = createdAt
             self.id = id
             self.name = name
+            self.schedulerConfiguration = schedulerConfiguration
+            self.schedulerStatus = schedulerStatus
             self.securityConfigurationId = securityConfigurationId
             self.sessionEnabled = sessionEnabled
             self.state = state
@@ -1503,7 +1553,7 @@ extension EMRcontainersClientTypes {
 public struct GetManagedEndpointSessionCredentialsOutput: Swift.Sendable {
     /// The structure containing the session credentials.
     public var credentials: EMRcontainersClientTypes.Credentials?
-    /// The structure containing the session token being returned.
+    /// The session credentials that the operation returns.
     public var endpointCredentials: EMRcontainersClientTypes.Credentials?
     /// The date and time when the session token will expire.
     public var expiresAt: Foundation.Date?
@@ -1800,6 +1850,40 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Contains the parameters for a request to update a virtual cluster on Amazon EMR on EKS.
+public struct UpdateVirtualClusterInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The ID of the virtual cluster to update.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The scheduler configuration to apply to the virtual cluster. The new configuration fully replaces the existing one. If you omit a field, the corresponding limit is removed.
+    public var schedulerConfiguration: EMRcontainersClientTypes.SchedulerConfiguration?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        id: Swift.String? = nil,
+        schedulerConfiguration: EMRcontainersClientTypes.SchedulerConfiguration? = nil
+    ) {
+        self.clientToken = clientToken
+        self.id = id
+        self.schedulerConfiguration = schedulerConfiguration
+    }
+}
+
+/// Contains the virtual cluster returned after a successful update request.
+public struct UpdateVirtualClusterOutput: Swift.Sendable {
+    /// The updated virtual cluster.
+    public var virtualCluster: EMRcontainersClientTypes.VirtualCluster?
+
+    public init(
+        virtualCluster: EMRcontainersClientTypes.VirtualCluster? = nil
+    ) {
+        self.virtualCluster = virtualCluster
+    }
+}
+
 extension EMRcontainersClientTypes {
 
     /// A configuration specification to be used when provisioning virtual clusters, which can include configurations for applications and software bundled with Amazon EMR on EKS. A configuration consists of a classification, properties, and optional nested configurations. A classification refers to an application-specific configuration file. Properties are the settings you want to change in that file.
@@ -1873,7 +1957,7 @@ extension EMRcontainersClientTypes {
     public struct Endpoint: Swift.Sendable {
         /// The ARN of the endpoint.
         public var arn: Swift.String?
-        /// The auth proxy URL of the endpoint.
+        /// The authentication proxy URL of the endpoint.
         public var authProxyUrl: Swift.String?
         /// The certificate ARN of the endpoint. This field is under deprecation and will be removed in future.
         @available(*, deprecated, message: "Customer provided certificate-arn is deprecated and would be removed in future.")
@@ -2094,7 +2178,7 @@ public struct CreateManagedEndpointInput: Swift.Sendable {
     /// The Amazon EMR release version.
     /// This member is required.
     public var releaseLabel: Swift.String?
-    /// The idle timeout in minutes for the managed endpoint session.
+    /// The number of idle minutes before the managed endpoint session times out.
     public var sessionIdleTimeoutInMinutes: Swift.Int?
     /// The tags of the managed endpoint.
     public var tags: [Swift.String: Swift.String]?
@@ -2752,6 +2836,16 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateVirtualClusterInput {
+
+    static func urlPathProvider(_ value: UpdateVirtualClusterInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/virtualclusters/\(id.urlPercentEncoding())"
+    }
+}
+
 extension CreateJobTemplateInput {
 
     static func write(value: CreateJobTemplateInput?, to writer: SmithyJSON.Writer) throws {
@@ -2799,6 +2893,7 @@ extension CreateVirtualClusterInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["containerProvider"].write(value.containerProvider, with: EMRcontainersClientTypes.ContainerProvider.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["schedulerConfiguration"].write(value.schedulerConfiguration, with: EMRcontainersClientTypes.SchedulerConfiguration.write(value:to:))
         try writer["securityConfigurationId"].write(value.securityConfigurationId)
         try writer["sessionEnabled"].write(value.sessionEnabled)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -2839,6 +2934,15 @@ extension TagResourceInput {
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UpdateVirtualClusterInput {
+
+    static func write(value: UpdateVirtualClusterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["schedulerConfiguration"].write(value.schedulerConfiguration, with: EMRcontainersClientTypes.SchedulerConfiguration.write(value:to:))
     }
 }
 
@@ -3140,6 +3244,18 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateVirtualClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateVirtualClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateVirtualClusterOutput()
+        value.virtualCluster = try reader["virtualCluster"].readIfPresent(with: EMRcontainersClientTypes.VirtualCluster.read(from:))
+        return value
     }
 }
 
@@ -3503,6 +3619,22 @@ enum TagResourceOutputError {
 }
 
 enum UntagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateVirtualClusterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4122,6 +4254,34 @@ extension EMRcontainersClientTypes.S3MonitoringConfiguration {
     }
 }
 
+extension EMRcontainersClientTypes.SchedulerConfiguration {
+
+    static func write(value: EMRcontainersClientTypes.SchedulerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxConcurrentJobRuns"].write(value.maxConcurrentJobRuns)
+        try writer["maxInQueueJobRuns"].write(value.maxInQueueJobRuns)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.SchedulerConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.SchedulerConfiguration()
+        value.maxInQueueJobRuns = try reader["maxInQueueJobRuns"].readIfPresent()
+        value.maxConcurrentJobRuns = try reader["maxConcurrentJobRuns"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.SchedulerStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.SchedulerStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.SchedulerStatus()
+        value.currentInQueueJobRuns = try reader["currentInQueueJobRuns"].readIfPresent() ?? 0
+        value.currentConcurrentJobRuns = try reader["currentConcurrentJobRuns"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension EMRcontainersClientTypes.SecureNamespaceInfo {
 
     static func write(value: EMRcontainersClientTypes.SecureNamespaceInfo?, to writer: SmithyJSON.Writer) throws {
@@ -4258,6 +4418,8 @@ extension EMRcontainersClientTypes.VirtualCluster {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.securityConfigurationId = try reader["securityConfigurationId"].readIfPresent()
         value.sessionEnabled = try reader["sessionEnabled"].readIfPresent()
+        value.schedulerConfiguration = try reader["schedulerConfiguration"].readIfPresent(with: EMRcontainersClientTypes.SchedulerConfiguration.read(from:))
+        value.schedulerStatus = try reader["schedulerStatus"].readIfPresent(with: EMRcontainersClientTypes.SchedulerStatus.read(from:))
         return value
     }
 }

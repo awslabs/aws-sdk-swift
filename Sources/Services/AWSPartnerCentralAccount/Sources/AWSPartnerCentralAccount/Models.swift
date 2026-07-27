@@ -1394,6 +1394,27 @@ extension PartnerCentralAccountClientTypes {
 
 extension PartnerCentralAccountClientTypes {
 
+    /// Contains the partner's headquarters location using International Organization for Standardization (ISO) 3166 country and subdivision codes.
+    public struct Headquarters: Swift.Sendable {
+        /// The ISO 3166-1 alpha-2 country code of the partner's headquarters. For example, US, BR, or DE.
+        /// This member is required.
+        public var countryCode: Swift.String?
+        /// The subdivision portion of the ISO 3166-2 code for the partner's headquarters (for example, SP from BR-SP, NSW from AU-NSW, or 13 from JP-13).
+        /// This member is required.
+        public var subdivisionCode: Swift.String?
+
+        public init(
+            countryCode: Swift.String? = nil,
+            subdivisionCode: Swift.String? = nil
+        ) {
+            self.countryCode = countryCode
+            self.subdivisionCode = subdivisionCode
+        }
+    }
+}
+
+extension PartnerCentralAccountClientTypes {
+
     public enum IndustrySegment: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case agricultureMining
         case biotechnology
@@ -1619,6 +1640,8 @@ extension PartnerCentralAccountClientTypes {
         /// The updated display name for the partner profile.
         /// This member is required.
         public var displayName: Swift.String?
+        /// The ISO 3166 country and subdivision codes for the partner's headquarters location. If you omit this field, the service retains the existing headquarters value.
+        public var headquarters: PartnerCentralAccountClientTypes.Headquarters?
         /// The updated industry segments for the partner profile.
         /// This member is required.
         public var industrySegments: [PartnerCentralAccountClientTypes.IndustrySegment]?
@@ -1640,6 +1663,7 @@ extension PartnerCentralAccountClientTypes {
         public init(
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
+            headquarters: PartnerCentralAccountClientTypes.Headquarters? = nil,
             industrySegments: [PartnerCentralAccountClientTypes.IndustrySegment]? = nil,
             localizedContents: [PartnerCentralAccountClientTypes.LocalizedContent]? = nil,
             logoUrl: Swift.String? = nil,
@@ -1649,6 +1673,7 @@ extension PartnerCentralAccountClientTypes {
         ) {
             self.description = description
             self.displayName = displayName
+            self.headquarters = headquarters
             self.industrySegments = industrySegments
             self.localizedContents = localizedContents
             self.logoUrl = logoUrl
@@ -2497,6 +2522,8 @@ extension PartnerCentralAccountClientTypes {
         /// The public display name for the partner organization.
         /// This member is required.
         public var displayName: Swift.String?
+        /// The ISO 3166 country and subdivision codes for the partner's headquarters location. If no headquarters location is set, this field is not included in the response.
+        public var headquarters: PartnerCentralAccountClientTypes.Headquarters?
         /// The industry segments or verticals that the partner serves.
         /// This member is required.
         public var industrySegments: [PartnerCentralAccountClientTypes.IndustrySegment]?
@@ -2520,6 +2547,7 @@ extension PartnerCentralAccountClientTypes {
         public init(
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
+            headquarters: PartnerCentralAccountClientTypes.Headquarters? = nil,
             industrySegments: [PartnerCentralAccountClientTypes.IndustrySegment]? = nil,
             localizedContents: [PartnerCentralAccountClientTypes.LocalizedContent]? = nil,
             logoUrl: Swift.String? = nil,
@@ -2530,6 +2558,7 @@ extension PartnerCentralAccountClientTypes {
         ) {
             self.description = description
             self.displayName = displayName
+            self.headquarters = headquarters
             self.industrySegments = industrySegments
             self.localizedContents = localizedContents
             self.logoUrl = logoUrl

@@ -3041,10 +3041,35 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    /// The distribution data for a statistic.
+    public struct DistributionData: Swift.Sendable {
+        /// The bin edge values for the distribution.
+        public var binEdges: [Swift.String]?
+        /// The frequency count for each bin in the distribution.
+        public var count: [Swift.Int]?
+        /// The data type of the column for the distribution.
+        public var dataType: Swift.String?
+
+        public init(
+            binEdges: [Swift.String]? = nil,
+            count: [Swift.Int]? = nil,
+            dataType: Swift.String? = nil
+        ) {
+            self.binEdges = binEdges
+            self.count = count
+            self.dataType = dataType
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// Describes the result of the evaluation of a data quality analyzer.
     public struct DataQualityAnalyzerResult: Swift.Sendable {
         /// A description of the data quality analyzer.
         public var description: Swift.String?
+        /// A map of distribution metrics associated with the evaluation of the analyzer.
+        public var evaluatedDistributions: [Swift.String: GlueClientTypes.DistributionData]?
         /// A map of metrics associated with the evaluation of the analyzer.
         public var evaluatedMetrics: [Swift.String: Swift.Double]?
         /// An evaluation message.
@@ -3054,11 +3079,13 @@ extension GlueClientTypes {
 
         public init(
             description: Swift.String? = nil,
+            evaluatedDistributions: [Swift.String: GlueClientTypes.DistributionData]? = nil,
             evaluatedMetrics: [Swift.String: Swift.Double]? = nil,
             evaluationMessage: Swift.String? = nil,
             name: Swift.String? = nil
         ) {
             self.description = description
+            self.evaluatedDistributions = evaluatedDistributions
             self.evaluatedMetrics = evaluatedMetrics
             self.evaluationMessage = evaluationMessage
             self.name = name
@@ -3395,6 +3422,448 @@ public struct BatchGetDataQualityResultOutput: Swift.Sendable {
     ) {
         self.results = results
         self.resultsNotFound = resultsNotFound
+    }
+}
+
+public struct BatchGetDataQualityRulesetEvaluationRunInput: Swift.Sendable {
+    /// A list of unique run identifiers for the evaluation runs to retrieve.
+    /// This member is required.
+    public var runIds: [Swift.String]?
+
+    public init(
+        runIds: [Swift.String]? = nil
+    ) {
+        self.runIds = runIds
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum DQCompositeRuleEvaluationMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case column
+        case row
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DQCompositeRuleEvaluationMethod] {
+            return [
+                .column,
+                .row
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .column: return "COLUMN"
+            case .row: return "ROW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The configuration for a Glue Data Catalog table used to store data quality results.
+    public struct CatalogTableConfigOptions: Swift.Sendable {
+        /// A unique identifier for the Glue Data Catalog.
+        public var catalogId: Swift.String?
+        /// The name of the database in the Glue Data Catalog.
+        public var databaseName: Swift.String?
+        /// The Amazon S3 location for storing the results.
+        public var s3Location: Swift.String?
+        /// The name of the table in the Glue Data Catalog.
+        public var tableName: Swift.String?
+
+        public init(
+            catalogId: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            s3Location: Swift.String? = nil,
+            tableName: Swift.String? = nil
+        ) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.s3Location = s3Location
+            self.tableName = tableName
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The configuration for writing data quality rule results.
+    public struct DataQualityRuleResultsOptions: Swift.Sendable {
+        /// The Glue Data Catalog table configuration for storing the rule results.
+        public var catalogTableConfig: GlueClientTypes.CatalogTableConfigOptions?
+        /// Set to true to write data quality rule results.
+        public var writeDataQualityRuleResultsEnabled: Swift.Bool?
+
+        public init(
+            catalogTableConfig: GlueClientTypes.CatalogTableConfigOptions? = nil,
+            writeDataQualityRuleResultsEnabled: Swift.Bool? = nil
+        ) {
+            self.catalogTableConfig = catalogTableConfig
+            self.writeDataQualityRuleResultsEnabled = writeDataQualityRuleResultsEnabled
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum ObservationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fixed
+        case scheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ObservationMode] {
+            return [
+                .fixed,
+                .scheduled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fixed: return "FIXED"
+            case .scheduled: return "SCHEDULED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The configuration for writing observation results.
+    public struct ObservationResultsOptions: Swift.Sendable {
+        /// The Glue Data Catalog table configuration for storing the observation results.
+        public var catalogTableConfig: GlueClientTypes.CatalogTableConfigOptions?
+        /// Set to true to write observation results.
+        public var writeObservationResultsEnabled: Swift.Bool?
+
+        public init(
+            catalogTableConfig: GlueClientTypes.CatalogTableConfigOptions? = nil,
+            writeObservationResultsEnabled: Swift.Bool? = nil
+        ) {
+            self.catalogTableConfig = catalogTableConfig
+            self.writeObservationResultsEnabled = writeObservationResultsEnabled
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum ObservationConfiguration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ObservationConfiguration] {
+            return [
+                .all,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The configuration for writing distribution results.
+    public struct DistributionResultsOptions: Swift.Sendable {
+        /// The Glue Data Catalog table configuration for storing the distribution results.
+        public var catalogTableConfig: GlueClientTypes.CatalogTableConfigOptions?
+        /// Set to true to write distribution results.
+        public var writeDistributionResultsEnabled: Swift.Bool?
+
+        public init(
+            catalogTableConfig: GlueClientTypes.CatalogTableConfigOptions? = nil,
+            writeDistributionResultsEnabled: Swift.Bool? = nil
+        ) {
+            self.catalogTableConfig = catalogTableConfig
+            self.writeDistributionResultsEnabled = writeDistributionResultsEnabled
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The configuration for writing profiling results.
+    public struct ProfilingResultsOptions: Swift.Sendable {
+        /// The Glue Data Catalog table configuration for storing the profiling results.
+        public var catalogTableConfig: GlueClientTypes.CatalogTableConfigOptions?
+        /// The configuration for writing distribution results.
+        public var distributionResults: GlueClientTypes.DistributionResultsOptions?
+        /// Set to true to write profiling results.
+        public var writeProfilingResultsEnabled: Swift.Bool?
+
+        public init(
+            catalogTableConfig: GlueClientTypes.CatalogTableConfigOptions? = nil,
+            distributionResults: GlueClientTypes.DistributionResultsOptions? = nil,
+            writeProfilingResultsEnabled: Swift.Bool? = nil
+        ) {
+            self.catalogTableConfig = catalogTableConfig
+            self.distributionResults = distributionResults
+            self.writeProfilingResultsEnabled = writeProfilingResultsEnabled
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum ResultTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case failedOnly
+        case passedOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResultTypeEnum] {
+            return [
+                .all,
+                .failedOnly,
+                .passedOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .failedOnly: return "FAILED_ONLY"
+            case .passedOnly: return "PASSED_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The configuration for writing row-level evaluation results.
+    public struct RowLevelResultsOptions: Swift.Sendable {
+        /// The Glue Data Catalog table configuration for storing the results.
+        public var catalogTableConfig: GlueClientTypes.CatalogTableConfigOptions?
+        /// The maximum number of rows to write in the results.
+        public var maxRowsToWrite: Swift.Int?
+        /// The result type to include in the row-level results output.
+        public var resultType: GlueClientTypes.ResultTypeEnum?
+
+        public init(
+            catalogTableConfig: GlueClientTypes.CatalogTableConfigOptions? = nil,
+            maxRowsToWrite: Swift.Int? = nil,
+            resultType: GlueClientTypes.ResultTypeEnum? = nil
+        ) {
+            self.catalogTableConfig = catalogTableConfig
+            self.maxRowsToWrite = maxRowsToWrite
+            self.resultType = resultType
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Additional run options you can specify for an evaluation run.
+    public struct DataQualityEvaluationRunAdditionalRunOptions: Swift.Sendable {
+        /// Whether or not to enable CloudWatch metrics.
+        public var cloudWatchMetricsEnabled: Swift.Bool?
+        /// Set the evaluation method for composite rules in the ruleset to ROW/COLUMN
+        public var compositeRuleEvaluationMethod: GlueClientTypes.DQCompositeRuleEvaluationMethod?
+        /// A custom prefix for the CloudWatch log group names. When specified, evaluation run logs are written to /error and /output instead of the default /aws-glue/data-quality/error and /aws-glue/data-quality/output log groups.
+        public var customLogGroupPrefix: Swift.String?
+        /// The configuration for writing rule results to a Glue Data Catalog table.
+        public var dataQualityRuleResults: GlueClientTypes.DataQualityRuleResultsOptions?
+        /// The observation mode for the evaluation run. Specifies how anomaly detection bounds are calculated.
+        public var observationMode: GlueClientTypes.ObservationMode?
+        /// The configuration for writing observation results to a Glue Data Catalog table.
+        public var observationResults: GlueClientTypes.ObservationResultsOptions?
+        /// The scope of the observation for the evaluation run. Specifies whether anomaly detection is enabled or disabled.
+        public var observationScope: GlueClientTypes.ObservationConfiguration?
+        /// The configuration for writing profiling results to a Glue Data Catalog table.
+        public var profilingResults: GlueClientTypes.ProfilingResultsOptions?
+        /// Prefix for Amazon S3 to store results.
+        public var resultsS3Prefix: Swift.String?
+        /// The configuration for writing row-level evaluation results to a Glue Data Catalog table.
+        public var rowLevelResults: GlueClientTypes.RowLevelResultsOptions?
+
+        public init(
+            cloudWatchMetricsEnabled: Swift.Bool? = nil,
+            compositeRuleEvaluationMethod: GlueClientTypes.DQCompositeRuleEvaluationMethod? = nil,
+            customLogGroupPrefix: Swift.String? = nil,
+            dataQualityRuleResults: GlueClientTypes.DataQualityRuleResultsOptions? = nil,
+            observationMode: GlueClientTypes.ObservationMode? = nil,
+            observationResults: GlueClientTypes.ObservationResultsOptions? = nil,
+            observationScope: GlueClientTypes.ObservationConfiguration? = nil,
+            profilingResults: GlueClientTypes.ProfilingResultsOptions? = nil,
+            resultsS3Prefix: Swift.String? = nil,
+            rowLevelResults: GlueClientTypes.RowLevelResultsOptions? = nil
+        ) {
+            self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
+            self.compositeRuleEvaluationMethod = compositeRuleEvaluationMethod
+            self.customLogGroupPrefix = customLogGroupPrefix
+            self.dataQualityRuleResults = dataQualityRuleResults
+            self.observationMode = observationMode
+            self.observationResults = observationResults
+            self.observationScope = observationScope
+            self.profilingResults = profilingResults
+            self.resultsS3Prefix = resultsS3Prefix
+            self.rowLevelResults = rowLevelResults
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum TaskStatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case running
+        case starting
+        case stopped
+        case stopping
+        case succeeded
+        case timeout
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TaskStatusType] {
+            return [
+                .failed,
+                .running,
+                .starting,
+                .stopped,
+                .stopping,
+                .succeeded,
+                .timeout
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case .succeeded: return "SUCCEEDED"
+            case .timeout: return "TIMEOUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The details of a data quality ruleset evaluation run.
+    public struct DataQualityRulesetEvaluationRun: Swift.Sendable {
+        /// A map of reference strings to additional data sources you can specify for an evaluation run.
+        public var additionalDataSources: [Swift.String: GlueClientTypes.DataSource]?
+        /// Additional run options you can specify for an evaluation run.
+        public var additionalRunOptions: GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions?
+        /// The date and time when this run was completed.
+        public var completedOn: Foundation.Date?
+        /// A data source (an Glue table) for which you want data quality results.
+        public var dataSource: GlueClientTypes.DataSource?
+        /// The error strings that are associated with the run.
+        public var errorString: Swift.String?
+        /// The amount of time (in seconds) that the run consumed resources.
+        public var executionTime: Swift.Int
+        /// A timestamp. The last point in time when this run was modified.
+        public var lastModifiedOn: Foundation.Date?
+        /// The number of G.1X workers to be used in the run. The default is 5.
+        public var numberOfWorkers: Swift.Int?
+        /// A list of result IDs for the data quality results for the run.
+        public var resultIds: [Swift.String]?
+        /// An IAM role supplied to encrypt the results of the run.
+        public var role: Swift.String?
+        /// A list of ruleset names for the run.
+        public var rulesetNames: [Swift.String]?
+        /// The unique run identifier associated with this run.
+        public var runId: Swift.String?
+        /// The date and time when this run started.
+        public var startedOn: Foundation.Date?
+        /// The status for this run.
+        public var status: GlueClientTypes.TaskStatusType?
+        /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+        public var timeout: Swift.Int?
+
+        public init(
+            additionalDataSources: [Swift.String: GlueClientTypes.DataSource]? = nil,
+            additionalRunOptions: GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions? = nil,
+            completedOn: Foundation.Date? = nil,
+            dataSource: GlueClientTypes.DataSource? = nil,
+            errorString: Swift.String? = nil,
+            executionTime: Swift.Int = 0,
+            lastModifiedOn: Foundation.Date? = nil,
+            numberOfWorkers: Swift.Int? = nil,
+            resultIds: [Swift.String]? = nil,
+            role: Swift.String? = nil,
+            rulesetNames: [Swift.String]? = nil,
+            runId: Swift.String? = nil,
+            startedOn: Foundation.Date? = nil,
+            status: GlueClientTypes.TaskStatusType? = nil,
+            timeout: Swift.Int? = nil
+        ) {
+            self.additionalDataSources = additionalDataSources
+            self.additionalRunOptions = additionalRunOptions
+            self.completedOn = completedOn
+            self.dataSource = dataSource
+            self.errorString = errorString
+            self.executionTime = executionTime
+            self.lastModifiedOn = lastModifiedOn
+            self.numberOfWorkers = numberOfWorkers
+            self.resultIds = resultIds
+            self.role = role
+            self.rulesetNames = rulesetNames
+            self.runId = runId
+            self.startedOn = startedOn
+            self.status = status
+            self.timeout = timeout
+        }
+    }
+}
+
+public struct BatchGetDataQualityRulesetEvaluationRunOutput: Swift.Sendable {
+    /// A list of evaluation run details for the requested run IDs.
+    public var runs: [GlueClientTypes.DataQualityRulesetEvaluationRun]?
+    /// A list of run IDs that were not found.
+    public var runsNotFound: [Swift.String]?
+
+    public init(
+        runs: [GlueClientTypes.DataQualityRulesetEvaluationRun]? = nil,
+        runsNotFound: [Swift.String]? = nil
+    ) {
+        self.runs = runs
+        self.runsNotFound = runsNotFound
     }
 }
 
@@ -10753,50 +11222,6 @@ public struct CancelMLTaskRunInput: Swift.Sendable {
     ) {
         self.taskRunId = taskRunId
         self.transformId = transformId
-    }
-}
-
-extension GlueClientTypes {
-
-    public enum TaskStatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case failed
-        case running
-        case starting
-        case stopped
-        case stopping
-        case succeeded
-        case timeout
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TaskStatusType] {
-            return [
-                .failed,
-                .running,
-                .starting,
-                .stopped,
-                .stopping,
-                .succeeded,
-                .timeout
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .failed: return "FAILED"
-            case .running: return "RUNNING"
-            case .starting: return "STARTING"
-            case .stopped: return "STOPPED"
-            case .stopping: return "STOPPING"
-            case .succeeded: return "SUCCEEDED"
-            case .timeout: return "TIMEOUT"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -20834,8 +21259,25 @@ public struct GetDataQualityRuleRecommendationRunInput: Swift.Sendable {
     }
 }
 
+extension GlueClientTypes {
+
+    /// Additional run options you can specify for a recommendation run.
+    public struct DataQualityRuleRecommendationRunAdditionalRunOptions: Swift.Sendable {
+        /// A custom prefix for the CloudWatch log group names. When specified, recommendation run logs are written to /error and /output instead of the default /aws-glue/data-quality/error and /aws-glue/data-quality/output log groups.
+        public var customLogGroupPrefix: Swift.String?
+
+        public init(
+            customLogGroupPrefix: Swift.String? = nil
+        ) {
+            self.customLogGroupPrefix = customLogGroupPrefix
+        }
+    }
+}
+
 /// The response for the Data Quality rule recommendation run.
 public struct GetDataQualityRuleRecommendationRunOutput: Swift.Sendable {
+    /// Additional run options you can specify for a recommendation run.
+    public var additionalRunOptions: GlueClientTypes.DataQualityRuleRecommendationRunAdditionalRunOptions?
     /// The date and time when this run was completed.
     public var completedOn: Foundation.Date?
     /// The name of the ruleset that was created by the run.
@@ -20866,6 +21308,7 @@ public struct GetDataQualityRuleRecommendationRunOutput: Swift.Sendable {
     public var timeout: Swift.Int?
 
     public init(
+        additionalRunOptions: GlueClientTypes.DataQualityRuleRecommendationRunAdditionalRunOptions? = nil,
         completedOn: Foundation.Date? = nil,
         createdRulesetName: Swift.String? = nil,
         dataQualitySecurityConfiguration: Swift.String? = nil,
@@ -20881,6 +21324,7 @@ public struct GetDataQualityRuleRecommendationRunOutput: Swift.Sendable {
         status: GlueClientTypes.TaskStatusType? = nil,
         timeout: Swift.Int? = nil
     ) {
+        self.additionalRunOptions = additionalRunOptions
         self.completedOn = completedOn
         self.createdRulesetName = createdRulesetName
         self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
@@ -20959,62 +21403,6 @@ public struct GetDataQualityRulesetEvaluationRunInput: Swift.Sendable {
         runId: Swift.String? = nil
     ) {
         self.runId = runId
-    }
-}
-
-extension GlueClientTypes {
-
-    public enum DQCompositeRuleEvaluationMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case column
-        case row
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DQCompositeRuleEvaluationMethod] {
-            return [
-                .column,
-                .row
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .column: return "COLUMN"
-            case .row: return "ROW"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension GlueClientTypes {
-
-    /// Additional run options you can specify for an evaluation run.
-    public struct DataQualityEvaluationRunAdditionalRunOptions: Swift.Sendable {
-        /// Whether or not to enable CloudWatch metrics.
-        public var cloudWatchMetricsEnabled: Swift.Bool?
-        /// Set the evaluation method for composite rules in the ruleset to ROW/COLUMN
-        public var compositeRuleEvaluationMethod: GlueClientTypes.DQCompositeRuleEvaluationMethod?
-        /// A custom prefix for the CloudWatch log group names. When specified, evaluation run logs are written to /error and /output instead of the default /aws-glue/data-quality/error and /aws-glue/data-quality/output log groups.
-        public var customLogGroupPrefix: Swift.String?
-        /// Prefix for Amazon S3 to store results.
-        public var resultsS3Prefix: Swift.String?
-
-        public init(
-            cloudWatchMetricsEnabled: Swift.Bool? = nil,
-            compositeRuleEvaluationMethod: GlueClientTypes.DQCompositeRuleEvaluationMethod? = nil,
-            customLogGroupPrefix: Swift.String? = nil,
-            resultsS3Prefix: Swift.String? = nil
-        ) {
-            self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
-            self.compositeRuleEvaluationMethod = compositeRuleEvaluationMethod
-            self.customLogGroupPrefix = customLogGroupPrefix
-            self.resultsS3Prefix = resultsS3Prefix
-        }
     }
 }
 
@@ -25771,15 +26159,19 @@ public struct ListDataQualityRuleRecommendationRunsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// A paginated token to offset the results.
     public var nextToken: Swift.String?
+    /// A list of key-value pair tags to filter recommendation runs.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         filter: GlueClientTypes.DataQualityRuleRecommendationRunFilter? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.tags = tags
     }
 }
 
@@ -25787,6 +26179,8 @@ extension GlueClientTypes {
 
     /// Describes the result of a data quality rule recommendation run.
     public struct DataQualityRuleRecommendationRunDescription: Swift.Sendable {
+        /// The name of the ruleset that was created by the recommendation run.
+        public var createdRulesetName: Swift.String?
         /// The data source (Glue table) associated with the recommendation run.
         public var dataSource: GlueClientTypes.DataSource?
         /// The unique run identifier associated with this run.
@@ -25797,11 +26191,13 @@ extension GlueClientTypes {
         public var status: GlueClientTypes.TaskStatusType?
 
         public init(
+            createdRulesetName: Swift.String? = nil,
             dataSource: GlueClientTypes.DataSource? = nil,
             runId: Swift.String? = nil,
             startedOn: Foundation.Date? = nil,
             status: GlueClientTypes.TaskStatusType? = nil
         ) {
+            self.createdRulesetName = createdRulesetName
             self.dataSource = dataSource
             self.runId = runId
             self.startedOn = startedOn
@@ -26175,6 +26571,8 @@ extension GlueClientTypes {
     public struct StatisticSummary: Swift.Sendable {
         /// The list of columns referenced by the statistic.
         public var columnsReferenced: [Swift.String]?
+        /// The distribution value for the statistic.
+        public var distributionValue: GlueClientTypes.DistributionData?
         /// The value of the statistic.
         public var doubleValue: Swift.Double
         /// The evaluation level of the statistic. Possible values: Dataset, Column, Multicolumn.
@@ -26198,6 +26596,7 @@ extension GlueClientTypes {
 
         public init(
             columnsReferenced: [Swift.String]? = nil,
+            distributionValue: GlueClientTypes.DistributionData? = nil,
             doubleValue: Swift.Double = 0.0,
             evaluationLevel: GlueClientTypes.StatisticEvaluationLevel? = nil,
             inclusionAnnotation: GlueClientTypes.TimestampedInclusionAnnotation? = nil,
@@ -26210,6 +26609,7 @@ extension GlueClientTypes {
             statisticProperties: [Swift.String: Swift.String]? = nil
         ) {
             self.columnsReferenced = columnsReferenced
+            self.distributionValue = distributionValue
             self.doubleValue = doubleValue
             self.evaluationLevel = evaluationLevel
             self.inclusionAnnotation = inclusionAnnotation
@@ -29137,6 +29537,8 @@ public struct StartCrawlerScheduleOutput: Swift.Sendable {
 
 /// The request of the Data Quality rule recommendation request.
 public struct StartDataQualityRuleRecommendationRunInput: Swift.Sendable {
+    /// Additional run options you can specify for a recommendation run.
+    public var additionalRunOptions: GlueClientTypes.DataQualityRuleRecommendationRunAdditionalRunOptions?
     /// Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource.
     public var clientToken: Swift.String?
     /// A name for the ruleset.
@@ -29155,6 +29557,7 @@ public struct StartDataQualityRuleRecommendationRunInput: Swift.Sendable {
     public var timeout: Swift.Int?
 
     public init(
+        additionalRunOptions: GlueClientTypes.DataQualityRuleRecommendationRunAdditionalRunOptions? = nil,
         clientToken: Swift.String? = nil,
         createdRulesetName: Swift.String? = nil,
         dataQualitySecurityConfiguration: Swift.String? = nil,
@@ -29163,6 +29566,7 @@ public struct StartDataQualityRuleRecommendationRunInput: Swift.Sendable {
         role: Swift.String? = nil,
         timeout: Swift.Int? = nil
     ) {
+        self.additionalRunOptions = additionalRunOptions
         self.clientToken = clientToken
         self.createdRulesetName = createdRulesetName
         self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration

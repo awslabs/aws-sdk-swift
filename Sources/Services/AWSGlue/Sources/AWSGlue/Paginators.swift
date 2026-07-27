@@ -821,7 +821,8 @@ extension ListDataQualityRuleRecommendationRunsInput: ClientRuntime.PaginateToke
         return ListDataQualityRuleRecommendationRunsInput(
             filter: self.filter,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            tags: self.tags
         )}
 }
 extension GlueClient {

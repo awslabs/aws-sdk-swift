@@ -319,12 +319,16 @@ extension AccountClientTypes {
 
     public enum PrimaryEmailUpdateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accepted
+        case completed
+        case failed
         case pending
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PrimaryEmailUpdateStatus] {
             return [
                 .accepted,
+                .completed,
+                .failed,
                 .pending
             ]
         }
@@ -337,6 +341,8 @@ extension AccountClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accepted: return "ACCEPTED"
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
             case .pending: return "PENDING"
             case let .sdkUnknown(s): return s
             }
@@ -829,6 +835,33 @@ extension GetPrimaryEmailOutput: Swift.CustomDebugStringConvertible {
         "GetPrimaryEmailOutput(primaryEmail: \"CONTENT_REDACTED\")"}
 }
 
+public struct GetPrimaryEmailUpdateStatusInput: Swift.Sendable {
+    /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html), and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html) enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin) account assigned. This operation can only be called from the management account or the delegated administrator account of an organization for a member account. The management account can't specify its own AccountId.
+    public var accountId: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil
+    ) {
+        self.accountId = accountId
+    }
+}
+
+public struct GetPrimaryEmailUpdateStatusOutput: Swift.Sendable {
+    /// The status of the most recent primary email update request.
+    /// This member is required.
+    public var status: AccountClientTypes.PrimaryEmailUpdateStatus?
+    /// The date and time that the most recent primary email update status was last changed.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        status: AccountClientTypes.PrimaryEmailUpdateStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
 public struct StartPrimaryEmailUpdateInput: Swift.Sendable {
     /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html), and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html) enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin) account assigned. This operation can only be called from the management account or the delegated administrator account of an organization for a member account. The management account can't specify its own AccountId.
     /// This member is required.
@@ -1083,6 +1116,13 @@ extension GetPrimaryEmailInput {
     }
 }
 
+extension GetPrimaryEmailUpdateStatusInput {
+
+    static func urlPathProvider(_ value: GetPrimaryEmailUpdateStatusInput) -> Swift.String? {
+        return "/getPrimaryEmailUpdateStatus"
+    }
+}
+
 extension GetRegionOptStatusInput {
 
     static func urlPathProvider(_ value: GetRegionOptStatusInput) -> Swift.String? {
@@ -1198,6 +1238,14 @@ extension GetGovCloudAccountInformationInput {
 extension GetPrimaryEmailInput {
 
     static func write(value: GetPrimaryEmailInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+    }
+}
+
+extension GetPrimaryEmailUpdateStatusInput {
+
+    static func write(value: GetPrimaryEmailUpdateStatusInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AccountId"].write(value.accountId)
     }
@@ -1356,6 +1404,19 @@ extension GetPrimaryEmailOutput {
         let reader = responseReader
         var value = GetPrimaryEmailOutput()
         value.primaryEmail = try reader["PrimaryEmail"].readIfPresent()
+        return value
+    }
+}
+
+extension GetPrimaryEmailUpdateStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPrimaryEmailUpdateStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPrimaryEmailUpdateStatusOutput()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -1565,6 +1626,24 @@ enum GetGovCloudAccountInformationOutputError {
 }
 
 enum GetPrimaryEmailOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPrimaryEmailUpdateStatusOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()

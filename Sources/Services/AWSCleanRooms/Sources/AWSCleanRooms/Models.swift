@@ -9603,12 +9603,14 @@ extension CleanRoomsClientTypes {
     public enum WorkerComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cr1x
         case cr4x
+        case cr8x
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WorkerComputeType] {
             return [
                 .cr1x,
-                .cr4x
+                .cr4x,
+                .cr8x
             ]
         }
 
@@ -9621,6 +9623,7 @@ extension CleanRoomsClientTypes {
             switch self {
             case .cr1x: return "CR.1X"
             case .cr4x: return "CR.4X"
+            case .cr8x: return "CR.8X"
             case let .sdkUnknown(s): return s
             }
         }

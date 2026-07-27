@@ -1385,6 +1385,82 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `BatchGetDataQualityRulesetEvaluationRun` operation on the `Glue` service.
+    ///
+    /// Retrieves the details of multiple evaluation runs in a single request.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchGetDataQualityRulesetEvaluationRunInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchGetDataQualityRulesetEvaluationRunOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func batchGetDataQualityRulesetEvaluationRun(input: BatchGetDataQualityRulesetEvaluationRunInput) async throws -> BatchGetDataQualityRulesetEvaluationRunOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.batchGetDataQualityRulesetEvaluationRunOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetDataQualityRulesetEvaluationRun")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetDataQualityRulesetEvaluationRunInput, BatchGetDataQualityRulesetEvaluationRunOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetDataQualityRulesetEvaluationRunInput, BatchGetDataQualityRulesetEvaluationRunOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetDataQualityRulesetEvaluationRunInput, BatchGetDataQualityRulesetEvaluationRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetDataQualityRulesetEvaluationRunOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetDataQualityRulesetEvaluationRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetDataQualityRulesetEvaluationRunInput, BatchGetDataQualityRulesetEvaluationRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchGetDataQualityRulesetEvaluationRun"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetDataQualityRulesetEvaluationRunInput, BatchGetDataQualityRulesetEvaluationRunOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetDataQualityRulesetEvaluationRunOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetDataQualityRulesetEvaluationRunInput, BatchGetDataQualityRulesetEvaluationRunOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetDataQualityRulesetEvaluationRunInput, BatchGetDataQualityRulesetEvaluationRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetDataQualityRulesetEvaluationRunInput, BatchGetDataQualityRulesetEvaluationRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetDataQualityRulesetEvaluationRun")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `BatchGetDevEndpoints` operation on the `Glue` service.
     ///
     /// Returns a list of resource metadata for a given list of development endpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
