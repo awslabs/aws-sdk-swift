@@ -3193,7 +3193,7 @@ public struct AssociateRoutingProfileQueuesInput: Swift.Sendable {
     /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The manual assignment queues to associate with this routing profile. Note: Use this config for chat, email, and task contacts. It does not support voice contacts.
+    /// The manual assignment queues to associate with this routing profile. For voice contacts, manual assignment supports only agent-first callback contacts. Chat, email, and task contacts are fully supported.
     public var manualAssignmentQueueConfigs: [ConnectClientTypes.RoutingProfileManualAssignmentQueueConfig]?
     /// The queues to associate with this routing profile.
     public var queueConfigs: [ConnectClientTypes.RoutingProfileQueueConfig]?
@@ -8947,7 +8947,7 @@ public struct CreateRoutingProfileInput: Swift.Sendable {
     /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum number of RoutingProfileManualAssignmentQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Connect Customer service quotas. Note: Use this config for chat, email, and task contacts. It does not support voice contacts.
+    /// The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum number of RoutingProfileManualAssignmentQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Connect Customer service quotas. For voice contacts, manual assignment supports only agent-first callback contacts. Chat, email, and task contacts are fully supported.
     public var manualAssignmentQueueConfigs: [ConnectClientTypes.RoutingProfileManualAssignmentQueueConfig]?
     /// The channels that agents can handle in the Contact Control Panel (CCP) for this routing profile.
     /// This member is required.
@@ -10148,15 +10148,15 @@ extension ConnectClientTypes {
 public struct CreateTaskTemplateInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// Constraints that are applicable to the fields listed.
+    /// Constraints that are applicable to the fields listed. Although this parameter is marked as optional in the API model, the service requires it when calling CreateTaskTemplate or UpdateTaskTemplate. The RequiredFields array must contain at least one element, and the field of type NAME must be included in RequiredFields.
     public var constraints: ConnectClientTypes.TaskTemplateConstraints?
-    /// The identifier of the flow that runs by default when a task is created by referencing this template.
+    /// The identifier of the flow that runs by default when a task is created by referencing this template. Although this parameter is marked as optional, the request must contain either a ContactFlowId or a field of type QUICK_CONNECT.
     public var contactFlowId: Swift.String?
     /// The default values for fields when a task is created by referencing this template.
     public var defaults: ConnectClientTypes.TaskTemplateDefaults?
     /// The description of the task template.
     public var description: Swift.String?
-    /// Fields that are part of the template.
+    /// Fields that are part of the template. The request must contain exactly one field of type NAME. This field must also be listed in the RequiredFields array within the Constraints parameter.
     /// This member is required.
     public var fields: [ConnectClientTypes.TaskTemplateField]?
     /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -21001,7 +21001,7 @@ public struct GetTaskTemplateOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN).
     /// This member is required.
     public var arn: Swift.String?
-    /// Constraints that are applicable to the fields listed.
+    /// Constraints that are applicable to the fields listed. Although this parameter is marked as optional in the API model, the service requires it when calling CreateTaskTemplate or UpdateTaskTemplate. The RequiredFields array must contain at least one element, and the field of type NAME must be included in RequiredFields.
     public var constraints: ConnectClientTypes.TaskTemplateConstraints?
     /// The identifier of the flow that runs by default when a task is created by referencing this template.
     public var contactFlowId: Swift.String?
@@ -34500,15 +34500,15 @@ public struct UpdateSecurityProfileInput: Swift.Sendable {
 }
 
 public struct UpdateTaskTemplateInput: Swift.Sendable {
-    /// Constraints that are applicable to the fields listed.
+    /// Constraints that are applicable to the fields listed. Although this parameter is marked as optional in the API model, the service requires it when calling CreateTaskTemplate or UpdateTaskTemplate. The RequiredFields array must contain at least one element, and the field of type NAME must be included in RequiredFields.
     public var constraints: ConnectClientTypes.TaskTemplateConstraints?
-    /// The identifier of the flow that runs by default when a task is created by referencing this template.
+    /// The identifier of the flow that runs by default when a task is created by referencing this template. Although this parameter is marked as optional, the request must contain either a ContactFlowId or a field of type QUICK_CONNECT.
     public var contactFlowId: Swift.String?
     /// The default values for fields when a task is created by referencing this template.
     public var defaults: ConnectClientTypes.TaskTemplateDefaults?
     /// The description of the task template.
     public var description: Swift.String?
-    /// Fields that are part of the template.
+    /// Fields that are part of the template. The request must contain exactly one field of type NAME. This field must also be listed in the RequiredFields array within the Constraints parameter.
     public var fields: [ConnectClientTypes.TaskTemplateField]?
     /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -34517,7 +34517,7 @@ public struct UpdateTaskTemplateInput: Swift.Sendable {
     public var name: Swift.String?
     /// The ContactFlowId for the flow that will be run if this template is used to create a self-assigned task.
     public var selfAssignFlowId: Swift.String?
-    /// Marks a template as ACTIVE or INACTIVE for a task to refer to it. Tasks can only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
+    /// Marks a template as ACTIVE or INACTIVE for a task to refer to it. Tasks can only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task that refers to this template cannot be created. Although this parameter is marked as optional, the service requires it when calling UpdateTaskTemplate.
     public var status: ConnectClientTypes.TaskTemplateStatus?
     /// A unique identifier for the task template.
     /// This member is required.
@@ -34551,7 +34551,7 @@ public struct UpdateTaskTemplateInput: Swift.Sendable {
 public struct UpdateTaskTemplateOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) for the task template resource.
     public var arn: Swift.String?
-    /// Constraints that are applicable to the fields listed.
+    /// Constraints that are applicable to the fields listed. Although this parameter is marked as optional in the API model, the service requires it when calling CreateTaskTemplate or UpdateTaskTemplate. The RequiredFields array must contain at least one element, and the field of type NAME must be included in RequiredFields.
     public var constraints: ConnectClientTypes.TaskTemplateConstraints?
     /// The identifier of the flow that runs by default when a task is created by referencing this template.
     public var contactFlowId: Swift.String?

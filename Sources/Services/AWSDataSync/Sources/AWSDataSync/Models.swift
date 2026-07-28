@@ -1123,7 +1123,11 @@ public struct CreateLocationHdfsInput: Swift.Sendable {
     public var kerberosPrincipal: Swift.String?
     /// The URI of the HDFS cluster's Key Management Server (KMS).
     public var kmsKeyProviderUri: Swift.String?
-    /// The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. You can use only one NameNode.
+    /// The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. The number of NameNodes you can specify depends on the task mode:
+    ///
+    /// * Enhanced mode – You can specify multiple NameNodes for HDFS High Availability (HA) configurations.
+    ///
+    /// * Basic mode – You can specify only one NameNode.
     /// This member is required.
     public var nameNodes: [DataSyncClientTypes.HdfsNameNode]?
     /// The Quality of Protection (QOP) configuration specifies the Remote Procedure Call (RPC) and data transfer protection settings configured on the Hadoop Distributed File System (HDFS) cluster. If QopConfiguration isn't specified, RpcProtection and DataTransferProtection default to PRIVACY. If you set RpcProtection or DataTransferProtection, the other parameter assumes the same value.
@@ -2154,7 +2158,7 @@ extension DataSyncClientTypes {
         /// * NONE - Ignores Atime.
         ///
         ///
-        /// If Atime is set to BEST_EFFORT, Mtime must be set to PRESERVE. If Atime is set to NONE, Mtime must also be NONE.
+        /// The following applies only to Basic mode tasks: If Atime is set to BEST_EFFORT, Mtime must be set to PRESERVE. If Atime is set to NONE, Mtime must also be NONE. Enhanced mode tasks support configuring Atime independently of Mtime.
         public var atime: DataSyncClientTypes.Atime?
         /// Limits the bandwidth used by a DataSync task. For example, if you want DataSync to use a maximum of 1 MB, set this value to 1048576 (=1024*1024).
         public var bytesPerSecond: Swift.Int?
@@ -2182,7 +2186,7 @@ extension DataSyncClientTypes {
         /// * NONE - Ignores Mtime.
         ///
         ///
-        /// If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE.
+        /// The following applies only to Basic mode tasks: If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE. Enhanced mode tasks don't support Mtime set to NONE.
         public var mtime: DataSyncClientTypes.Mtime?
         /// Specifies whether you want DataSync to PRESERVE object tags (default behavior) when transferring between object storage systems. If you want your DataSync task to ignore object tags, specify the NONE value.
         public var objectTags: DataSyncClientTypes.ObjectTags?
@@ -4867,7 +4871,11 @@ public struct UpdateLocationHdfsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the source HDFS cluster location.
     /// This member is required.
     public var locationArn: Swift.String?
-    /// The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. You can use only one NameNode.
+    /// The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. The number of NameNodes you can specify depends on the task mode:
+    ///
+    /// * Enhanced mode – You can specify multiple NameNodes for HDFS High Availability (HA) configurations.
+    ///
+    /// * Basic mode – You can specify only one NameNode.
     public var nameNodes: [DataSyncClientTypes.HdfsNameNode]?
     /// The Quality of Protection (QOP) configuration specifies the Remote Procedure Call (RPC) and data transfer privacy settings configured on the Hadoop Distributed File System (HDFS) cluster.
     public var qopConfiguration: DataSyncClientTypes.QopConfiguration?

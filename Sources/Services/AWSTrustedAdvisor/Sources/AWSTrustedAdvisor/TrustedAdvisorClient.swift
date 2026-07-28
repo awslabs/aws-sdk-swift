@@ -1242,6 +1242,75 @@ extension TrustedAdvisorClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListRecommendationsForResource` operation on the `TrustedAdvisor` service.
+    ///
+    /// List all Trusted Advisor recommendations for a given AWS resource ARN.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRecommendationsForResourceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRecommendationsForResourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Exception that access has been denied due to insufficient access
+    /// - `InternalServerException` : Exception to notify that an unexpected internal error occurred during processing of the request
+    /// - `ThrottlingException` : Exception to notify that requests are being throttled
+    /// - `ValidationException` : Exception that the request failed to satisfy service constraints
+    public func listRecommendationsForResource(input: ListRecommendationsForResourceInput) async throws -> ListRecommendationsForResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRecommendationsForResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "trustedadvisor")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRecommendationsForResourceInput, ListRecommendationsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRecommendationsForResourceInput, ListRecommendationsForResourceOutput>(ListRecommendationsForResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRecommendationsForResourceInput, ListRecommendationsForResourceOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListRecommendationsForResourceInput, ListRecommendationsForResourceOutput>(ListRecommendationsForResourceInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecommendationsForResourceOutput>(ListRecommendationsForResourceOutput.httpOutput(from:), ListRecommendationsForResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendationsForResourceInput, ListRecommendationsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendationsForResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("TrustedAdvisor", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRecommendationsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecommendationsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRecommendationsForResourceInput, ListRecommendationsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRecommendationsForResourceInput, ListRecommendationsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "TrustedAdvisor"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRecommendationsForResourceInput, ListRecommendationsForResourceOutput>(serviceID: serviceName, version: TrustedAdvisorClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TrustedAdvisor")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRecommendationsForResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateOrganizationRecommendationLifecycle` operation on the `TrustedAdvisor` service.
     ///
     /// Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.

@@ -224,3 +224,38 @@ extension PaginatorSequence where OperationStackInput == ListRecommendationsInpu
         return try await self.asyncCompactMap { item in item.recommendationSummaries }
     }
 }
+extension TrustedAdvisorClient {
+    /// Paginate over `[ListRecommendationsForResourceOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRecommendationsForResourceInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendationsForResourceOutput`
+    public func listRecommendationsForResourcePaginated(input: ListRecommendationsForResourceInput) -> ClientRuntime.PaginatorSequence<ListRecommendationsForResourceInput, ListRecommendationsForResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListRecommendationsForResourceInput, ListRecommendationsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecommendationsForResource(input:))
+    }
+}
+
+extension ListRecommendationsForResourceInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRecommendationsForResourceInput {
+        return ListRecommendationsForResourceInput(
+            awsResourceArn: self.awsResourceArn,
+            checkArn: self.checkArn,
+            language: self.language,
+            maxResults: self.maxResults,
+            nextToken: token,
+            pillar: self.pillar,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRecommendationsForResourceInput, OperationStackOutput == ListRecommendationsForResourceOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRecommendationsForResourcePaginated`
+    /// to access the nested member `[TrustedAdvisorClientTypes.RecommendationForResourceSummary]`
+    /// - Returns: `[TrustedAdvisorClientTypes.RecommendationForResourceSummary]`
+    public func recommendationForResourceSummaries() async throws -> [TrustedAdvisorClientTypes.RecommendationForResourceSummary] {
+        return try await self.asyncCompactMap { item in item.recommendationForResourceSummaries }
+    }
+}

@@ -466,9 +466,13 @@ extension TrustedAdvisorClientTypes {
         /// The ARN of the AWS Trusted Advisor Check
         /// This member is required.
         public var arn: Swift.String?
+        /// The AWS resource types that this check evaluates (for example, AWS::EC2::Instance).
+        public var awsResourceTypes: [Swift.String]?
         /// The AWS Services that the Check applies to
         /// This member is required.
         public var awsServices: [Swift.String]?
+        /// The granularity level at which the check operates: resource, account, or account_region.
+        public var checkGranularity: Swift.String?
         /// A description of what the AWS Trusted Advisor Check is monitoring
         /// This member is required.
         public var description: Swift.String?
@@ -484,27 +488,39 @@ extension TrustedAdvisorClientTypes {
         /// The Recommendation pillars that the AWS Trusted Advisor Check falls under
         /// This member is required.
         public var pillars: [TrustedAdvisorClientTypes.RecommendationPillar]?
+        /// The recommendation identifier associated with the check.
+        public var recommendationId: Swift.String?
+        /// Indicates whether this check is supported by the ListRecommendationsForResource API.
+        public var resourceArnQueryable: Swift.Bool
         /// The source of the Recommendation
         /// This member is required.
         public var source: TrustedAdvisorClientTypes.RecommendationSource?
 
         public init(
             arn: Swift.String? = nil,
+            awsResourceTypes: [Swift.String]? = [],
             awsServices: [Swift.String]? = nil,
+            checkGranularity: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             metadata: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil,
             pillars: [TrustedAdvisorClientTypes.RecommendationPillar]? = nil,
+            recommendationId: Swift.String? = nil,
+            resourceArnQueryable: Swift.Bool = false,
             source: TrustedAdvisorClientTypes.RecommendationSource? = nil
         ) {
             self.arn = arn
+            self.awsResourceTypes = awsResourceTypes
             self.awsServices = awsServices
+            self.checkGranularity = checkGranularity
             self.description = description
             self.id = id
             self.metadata = metadata
             self.name = name
             self.pillars = pillars
+            self.recommendationId = recommendationId
+            self.resourceArnQueryable = resourceArnQueryable
             self.source = source
         }
     }
@@ -1665,6 +1681,109 @@ public struct ListRecommendationsOutput: Swift.Sendable {
     }
 }
 
+public struct ListRecommendationsForResourceInput: Swift.Sendable {
+    /// The ARN of the AWS resource to query recommendations for
+    /// This member is required.
+    public var awsResourceArn: Swift.String?
+    /// The AWS Trusted Advisor Check ARN that relates to the Recommendation
+    public var checkArn: Swift.String?
+    /// The ISO 639-1 code for the language that you want your recommendations to appear in.
+    public var language: TrustedAdvisorClientTypes.RecommendationLanguage?
+    /// The maximum number of results to return per page
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The pillar that the recommendation belongs to
+    public var pillar: TrustedAdvisorClientTypes.RecommendationPillar?
+    /// The current status of the Recommendation Resource
+    public var status: TrustedAdvisorClientTypes.ResourceStatus?
+
+    public init(
+        awsResourceArn: Swift.String? = nil,
+        checkArn: Swift.String? = nil,
+        language: TrustedAdvisorClientTypes.RecommendationLanguage? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        pillar: TrustedAdvisorClientTypes.RecommendationPillar? = nil,
+        status: TrustedAdvisorClientTypes.ResourceStatus? = nil
+    ) {
+        self.awsResourceArn = awsResourceArn
+        self.checkArn = checkArn
+        self.language = language
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.pillar = pillar
+        self.status = status
+    }
+}
+
+extension TrustedAdvisorClientTypes {
+
+    /// Summary of a Recommendation for a specific AWS Resource
+    public struct RecommendationForResourceSummary: Swift.Sendable {
+        /// The AWS Resource ARN
+        /// This member is required.
+        public var awsResourceArn: Swift.String?
+        /// The Check ARN
+        /// This member is required.
+        public var checkArn: Swift.String?
+        /// The exclusion status of the recommendation
+        /// This member is required.
+        public var exclusionStatus: TrustedAdvisorClientTypes.ExclusionStatus?
+        /// When the recommendation was last updated
+        /// This member is required.
+        public var lastUpdatedAt: Foundation.Date?
+        /// Metadata associated with the recommendation
+        /// This member is required.
+        public var metadata: [Swift.String: Swift.String]?
+        /// The Pillars that the Recommendation is optimizing
+        /// This member is required.
+        public var pillars: [TrustedAdvisorClientTypes.RecommendationPillar]?
+        /// The Recommendation ARN
+        /// This member is required.
+        public var recommendationArn: Swift.String?
+        /// The current status of the recommendation
+        /// This member is required.
+        public var status: TrustedAdvisorClientTypes.ResourceStatus?
+
+        public init(
+            awsResourceArn: Swift.String? = nil,
+            checkArn: Swift.String? = nil,
+            exclusionStatus: TrustedAdvisorClientTypes.ExclusionStatus? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            metadata: [Swift.String: Swift.String]? = nil,
+            pillars: [TrustedAdvisorClientTypes.RecommendationPillar]? = nil,
+            recommendationArn: Swift.String? = nil,
+            status: TrustedAdvisorClientTypes.ResourceStatus? = nil
+        ) {
+            self.awsResourceArn = awsResourceArn
+            self.checkArn = checkArn
+            self.exclusionStatus = exclusionStatus
+            self.lastUpdatedAt = lastUpdatedAt
+            self.metadata = metadata
+            self.pillars = pillars
+            self.recommendationArn = recommendationArn
+            self.status = status
+        }
+    }
+}
+
+public struct ListRecommendationsForResourceOutput: Swift.Sendable {
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// List of Trusted Advisor recommendations associated with the given AWS resource
+    /// This member is required.
+    public var recommendationForResourceSummaries: [TrustedAdvisorClientTypes.RecommendationForResourceSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        recommendationForResourceSummaries: [TrustedAdvisorClientTypes.RecommendationForResourceSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.recommendationForResourceSummaries = recommendationForResourceSummaries
+    }
+}
+
 extension TrustedAdvisorClientTypes {
 
     public enum UpdateRecommendationLifecycleStage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -2066,6 +2185,48 @@ extension ListRecommendationsInput {
     }
 }
 
+extension ListRecommendationsForResourceInput {
+
+    static func urlPathProvider(_ value: ListRecommendationsForResourceInput) -> Swift.String? {
+        guard let awsResourceArn = value.awsResourceArn else {
+            return nil
+        }
+        return "/v1/recommendations-for-resource/\(awsResourceArn.urlPercentEncoding())"
+    }
+}
+
+extension ListRecommendationsForResourceInput {
+
+    static func queryItemProvider(_ value: ListRecommendationsForResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let pillar = value.pillar {
+            let pillarQueryItem = Smithy.URIQueryItem(name: "pillar".urlPercentEncoding(), value: Swift.String(pillar.rawValue).urlPercentEncoding())
+            items.append(pillarQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let language = value.language {
+            let languageQueryItem = Smithy.URIQueryItem(name: "language".urlPercentEncoding(), value: Swift.String(language.rawValue).urlPercentEncoding())
+            items.append(languageQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        if let checkArn = value.checkArn {
+            let checkArnQueryItem = Smithy.URIQueryItem(name: "checkArn".urlPercentEncoding(), value: Swift.String(checkArn).urlPercentEncoding())
+            items.append(checkArnQueryItem)
+        }
+        return items
+    }
+}
+
 extension UpdateOrganizationRecommendationLifecycleInput {
 
     static func urlPathProvider(_ value: UpdateOrganizationRecommendationLifecycleInput) -> Swift.String? {
@@ -2224,6 +2385,19 @@ extension ListRecommendationsOutput {
         var value = ListRecommendationsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.recommendationSummaries = try reader["recommendationSummaries"].readListIfPresent(memberReadingClosure: TrustedAdvisorClientTypes.RecommendationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListRecommendationsForResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRecommendationsForResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRecommendationsForResourceOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.recommendationForResourceSummaries = try reader["recommendationForResourceSummaries"].readListIfPresent(memberReadingClosure: TrustedAdvisorClientTypes.RecommendationForResourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2401,6 +2575,23 @@ enum ListRecommendationsOutputError {
     }
 }
 
+enum ListRecommendationsForResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateOrganizationRecommendationLifecycleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2547,6 +2738,10 @@ extension TrustedAdvisorClientTypes.CheckSummary {
         value.awsServices = try reader["awsServices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
         value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.resourceArnQueryable = try reader["resourceArnQueryable"].readIfPresent() ?? false
+        value.awsResourceTypes = try reader["awsResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.checkGranularity = try reader["checkGranularity"].readIfPresent()
+        value.recommendationId = try reader["recommendationId"].readIfPresent()
         return value
     }
 }
@@ -2661,6 +2856,23 @@ extension TrustedAdvisorClientTypes.RecommendationCostOptimizingAggregates {
         var value = TrustedAdvisorClientTypes.RecommendationCostOptimizingAggregates()
         value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent() ?? 0.0
         value.estimatedPercentMonthlySavings = try reader["estimatedPercentMonthlySavings"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension TrustedAdvisorClientTypes.RecommendationForResourceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.RecommendationForResourceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TrustedAdvisorClientTypes.RecommendationForResourceSummary()
+        value.checkArn = try reader["checkArn"].readIfPresent() ?? ""
+        value.recommendationArn = try reader["recommendationArn"].readIfPresent() ?? ""
+        value.awsResourceArn = try reader["awsResourceArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.exclusionStatus = try reader["exclusionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.pillars = try reader["pillars"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TrustedAdvisorClientTypes.RecommendationPillar>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
