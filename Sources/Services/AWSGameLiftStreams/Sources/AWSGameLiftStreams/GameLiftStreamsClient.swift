@@ -1097,6 +1097,81 @@ extension GameLiftStreamsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateStreamUrl` operation on the `GameLiftStreams` service.
+    ///
+    /// Creates a stream URL that grants temporary access to a stream session in a web browser without requiring an Amazon Web Services account or client integration. You can use the stream URL to start a stream session up to the number of times set by UsageLimit, until it expires after UrlExpiresAfterMinutes. Each successful use starts a new stream session. To make the request idempotent, provide a ClientToken.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateStreamUrlInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateStreamUrlOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the required permissions to access this Amazon GameLift Streams resource. Correct the permissions before you try again.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `InternalServerException` : The service encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource specified in the request was not found. Correct the request before you try again.
+    /// - `ServiceQuotaExceededException` : The request would cause the resource to exceed an allowed service quota. Resolve the issue before you try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Retry the request after the suggested wait time.
+    /// - `ValidationException` : One or more parameter values in the request fail to satisfy the specified constraints. Correct the invalid parameter values before retrying the request.
+    public func createStreamUrl(input: CreateStreamUrlInput) async throws -> CreateStreamUrlOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createStreamUrl")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "gameliftstreams")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateStreamUrlInput, CreateStreamUrlOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateStreamUrlInput, CreateStreamUrlOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateStreamUrlInput, CreateStreamUrlOutput>(CreateStreamUrlInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateStreamUrlInput, CreateStreamUrlOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStreamUrlInput, CreateStreamUrlOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateStreamUrlInput, CreateStreamUrlOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateStreamUrlInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStreamUrlInput, CreateStreamUrlOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStreamUrlOutput>(CreateStreamUrlOutput.httpOutput(from:), CreateStreamUrlOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamUrlInput, CreateStreamUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateStreamUrlOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLiftStreams", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateStreamUrlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateStreamUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateStreamUrlInput, CreateStreamUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateStreamUrlInput, CreateStreamUrlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLiftStreams"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateStreamUrlInput, CreateStreamUrlOutput>(serviceID: serviceName, version: GameLiftStreamsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLiftStreams")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateStreamUrl")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteApplication` operation on the `GameLiftStreams` service.
     ///
     /// Permanently deletes an Amazon GameLift Streams application resource. This also deletes the application content files stored with Amazon GameLift Streams. However, this does not delete the original files that you uploaded to your Amazon S3 bucket; you can delete these any time after Amazon GameLift Streams creates an application, which is the only time Amazon GameLift Streams accesses your Amazon S3 bucket. You can only delete an application that meets the following conditions:
@@ -1611,6 +1686,144 @@ extension GameLiftStreamsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetStreamUrl` operation on the `GameLiftStreams` service.
+    ///
+    /// Retrieves properties for a stream URL, including its current status, usage, and the stream sessions started through it. If you delete the stream group or application that backs the stream URL, this operation updates the status of the stream URL to REVOKED.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetStreamUrlInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetStreamUrlOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the required permissions to access this Amazon GameLift Streams resource. Correct the permissions before you try again.
+    /// - `InternalServerException` : The service encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource specified in the request was not found. Correct the request before you try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Retry the request after the suggested wait time.
+    /// - `ValidationException` : One or more parameter values in the request fail to satisfy the specified constraints. Correct the invalid parameter values before retrying the request.
+    public func getStreamUrl(input: GetStreamUrlInput) async throws -> GetStreamUrlOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getStreamUrl")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "gameliftstreams")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetStreamUrlInput, GetStreamUrlOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetStreamUrlInput, GetStreamUrlOutput>(GetStreamUrlInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStreamUrlInput, GetStreamUrlOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStreamUrlOutput>(GetStreamUrlOutput.httpOutput(from:), GetStreamUrlOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStreamUrlInput, GetStreamUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetStreamUrlOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLiftStreams", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetStreamUrlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetStreamUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetStreamUrlInput, GetStreamUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetStreamUrlInput, GetStreamUrlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLiftStreams"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetStreamUrlInput, GetStreamUrlOutput>(serviceID: serviceName, version: GameLiftStreamsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLiftStreams")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetStreamUrl")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListApplicationShaderCaches` operation on the `GameLiftStreams` service.
+    ///
+    /// Lists the shader caches associated with an Amazon GameLift Streams application. Each shader cache entry includes its status, associated stream groups, and size in bytes. Returns shader caches associated with the specified Amazon GameLift Streams application in all statuses.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationShaderCachesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListApplicationShaderCachesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the required permissions to access this Amazon GameLift Streams resource. Correct the permissions before you try again.
+    /// - `InternalServerException` : The service encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource specified in the request was not found. Correct the request before you try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Retry the request after the suggested wait time.
+    /// - `ValidationException` : One or more parameter values in the request fail to satisfy the specified constraints. Correct the invalid parameter values before retrying the request.
+    public func listApplicationShaderCaches(input: ListApplicationShaderCachesInput) async throws -> ListApplicationShaderCachesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listApplicationShaderCaches")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "gameliftstreams")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListApplicationShaderCachesInput, ListApplicationShaderCachesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListApplicationShaderCachesInput, ListApplicationShaderCachesOutput>(ListApplicationShaderCachesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListApplicationShaderCachesInput, ListApplicationShaderCachesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationShaderCachesOutput>(ListApplicationShaderCachesOutput.httpOutput(from:), ListApplicationShaderCachesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationShaderCachesInput, ListApplicationShaderCachesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationShaderCachesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLiftStreams", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListApplicationShaderCachesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListApplicationShaderCachesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListApplicationShaderCachesInput, ListApplicationShaderCachesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListApplicationShaderCachesInput, ListApplicationShaderCachesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLiftStreams"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListApplicationShaderCachesInput, ListApplicationShaderCachesOutput>(serviceID: serviceName, version: GameLiftStreamsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLiftStreams")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListApplicationShaderCaches")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListApplications` operation on the `GameLiftStreams` service.
     ///
     /// Retrieves a list of all Amazon GameLift Streams applications that are associated with the Amazon Web Services account in use. This operation returns applications in all statuses, in no particular order. You can paginate the results as needed.
@@ -1888,6 +2101,75 @@ extension GameLiftStreamsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListStreamUrls` operation on the `GameLiftStreams` service.
+    ///
+    /// Retrieves a list of the stream URLs in the current Amazon Web Services Region for your Amazon Web Services account. You can filter the results by status or by stream group. Use the pagination parameters to retrieve results as a set of sequential pages. If you delete the stream group or application that backs a stream URL, this operation updates that stream URL's status to REVOKED.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListStreamUrlsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListStreamUrlsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the required permissions to access this Amazon GameLift Streams resource. Correct the permissions before you try again.
+    /// - `InternalServerException` : The service encountered an internal error and is unable to complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Retry the request after the suggested wait time.
+    /// - `ValidationException` : One or more parameter values in the request fail to satisfy the specified constraints. Correct the invalid parameter values before retrying the request.
+    public func listStreamUrls(input: ListStreamUrlsInput) async throws -> ListStreamUrlsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listStreamUrls")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "gameliftstreams")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListStreamUrlsInput, ListStreamUrlsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListStreamUrlsInput, ListStreamUrlsOutput>(ListStreamUrlsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListStreamUrlsInput, ListStreamUrlsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListStreamUrlsInput, ListStreamUrlsOutput>(ListStreamUrlsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamUrlsOutput>(ListStreamUrlsOutput.httpOutput(from:), ListStreamUrlsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamUrlsInput, ListStreamUrlsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamUrlsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLiftStreams", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListStreamUrlsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStreamUrlsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListStreamUrlsInput, ListStreamUrlsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListStreamUrlsInput, ListStreamUrlsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLiftStreams"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListStreamUrlsInput, ListStreamUrlsOutput>(serviceID: serviceName, version: GameLiftStreamsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLiftStreams")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListStreamUrls")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `GameLiftStreams` service.
     ///
     /// Retrieves all tags assigned to a Amazon GameLift Streams resource. To list tags for a resource, specify the ARN value for the resource. Learn more [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference [ Amazon Web Services Tagging Strategies](http://aws.amazon.com/answers/account-management/aws-tagging-strategies/)
@@ -2014,6 +2296,78 @@ extension GameLiftStreamsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLiftStreams")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RemoveStreamGroupLocations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `RevokeStreamUrl` operation on the `GameLiftStreams` service.
+    ///
+    /// Revokes a stream URL so that it can no longer start new stream sessions. By default, stream sessions that are already running continue until they end on their own. To also end running sessions, set RevocationMode to REVOKE_AND_TERMINATE_SESSIONS. Revoking a stream URL is permanent. The status of the stream URL changes to REVOKED.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RevokeStreamUrlInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RevokeStreamUrlOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the required permissions to access this Amazon GameLift Streams resource. Correct the permissions before you try again.
+    /// - `InternalServerException` : The service encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource specified in the request was not found. Correct the request before you try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Retry the request after the suggested wait time.
+    /// - `ValidationException` : One or more parameter values in the request fail to satisfy the specified constraints. Correct the invalid parameter values before retrying the request.
+    public func revokeStreamUrl(input: RevokeStreamUrlInput) async throws -> RevokeStreamUrlOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "revokeStreamUrl")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "gameliftstreams")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RevokeStreamUrlInput, RevokeStreamUrlOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RevokeStreamUrlInput, RevokeStreamUrlOutput>(RevokeStreamUrlInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RevokeStreamUrlInput, RevokeStreamUrlOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RevokeStreamUrlInput, RevokeStreamUrlOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RevokeStreamUrlInput, RevokeStreamUrlOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RevokeStreamUrlInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeStreamUrlInput, RevokeStreamUrlOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeStreamUrlOutput>(RevokeStreamUrlOutput.httpOutput(from:), RevokeStreamUrlOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeStreamUrlInput, RevokeStreamUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RevokeStreamUrlOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLiftStreams", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RevokeStreamUrlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RevokeStreamUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RevokeStreamUrlInput, RevokeStreamUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RevokeStreamUrlInput, RevokeStreamUrlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GameLiftStreams"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RevokeStreamUrlInput, RevokeStreamUrlOutput>(serviceID: serviceName, version: GameLiftStreamsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLiftStreams")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RevokeStreamUrl")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

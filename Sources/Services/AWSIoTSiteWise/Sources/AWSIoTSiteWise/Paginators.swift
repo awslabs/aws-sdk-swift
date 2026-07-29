@@ -77,6 +77,39 @@ extension BatchGetAssetPropertyValueHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTSiteWiseClient {
+    /// Paginate over `[DescribePipelineExecutionOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribePipelineExecutionInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribePipelineExecutionOutput`
+    public func describePipelineExecutionPaginated(input: DescribePipelineExecutionInput) -> ClientRuntime.PaginatorSequence<DescribePipelineExecutionInput, DescribePipelineExecutionOutput> {
+        return ClientRuntime.PaginatorSequence<DescribePipelineExecutionInput, DescribePipelineExecutionOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describePipelineExecution(input:))
+    }
+}
+
+extension DescribePipelineExecutionInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribePipelineExecutionInput {
+        return DescribePipelineExecutionInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            pipelineExecutionId: self.pipelineExecutionId,
+            pipelineName: self.pipelineName,
+            workspaceName: self.workspaceName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribePipelineExecutionInput, OperationStackOutput == DescribePipelineExecutionOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describePipelineExecutionPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.ComputeNodeExecutionDetails]`
+    /// - Returns: `[IoTSiteWiseClientTypes.ComputeNodeExecutionDetails]`
+    public func computeNodeExecutionDetails() async throws -> [IoTSiteWiseClientTypes.ComputeNodeExecutionDetails] {
+        return try await self.asyncCompactMap { item in item.computeNodeExecutionDetails }
+    }
+}
+extension IoTSiteWiseClient {
     /// Paginate over `[ExecuteQueryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -226,6 +259,70 @@ extension PaginatorSequence where OperationStackInput == GetInterpolatedAssetPro
     }
 }
 extension IoTSiteWiseClient {
+    /// Paginate over `[GetQueryResultsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetQueryResultsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetQueryResultsOutput`
+    public func getQueryResultsPaginated(input: GetQueryResultsInput) -> ClientRuntime.PaginatorSequence<GetQueryResultsInput, GetQueryResultsOutput> {
+        return ClientRuntime.PaginatorSequence<GetQueryResultsInput, GetQueryResultsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getQueryResults(input:))
+    }
+}
+
+extension GetQueryResultsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetQueryResultsInput {
+        return GetQueryResultsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            queryId: self.queryId,
+            workspaceName: self.workspaceName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetQueryResultsInput, OperationStackOutput == GetQueryResultsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getQueryResultsPaginated`
+    /// to access the nested member `[[Swift.String?]]`
+    /// - Returns: `[[Swift.String?]]`
+    public func rows() async throws -> [[Swift.String?]] {
+        return try await self.asyncCompactMap { item in item.rows }
+    }
+}
+extension IoTSiteWiseClient {
+    /// Paginate over `[GetSearchResultsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetSearchResultsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetSearchResultsOutput`
+    public func getSearchResultsPaginated(input: GetSearchResultsInput) -> ClientRuntime.PaginatorSequence<GetSearchResultsInput, GetSearchResultsOutput> {
+        return ClientRuntime.PaginatorSequence<GetSearchResultsInput, GetSearchResultsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getSearchResults(input:))
+    }
+}
+
+extension GetSearchResultsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetSearchResultsInput {
+        return GetSearchResultsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchId: self.searchId,
+            workspaceName: self.workspaceName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetSearchResultsInput, OperationStackOutput == GetSearchResultsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getSearchResultsPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.SearchResult]`
+    /// - Returns: `[IoTSiteWiseClientTypes.SearchResult]`
+    public func searchResults() async throws -> [IoTSiteWiseClientTypes.SearchResult] {
+        return try await self.asyncCompactMap { item in item.searchResults }
+    }
+}
+extension IoTSiteWiseClient {
     /// Paginate over `[ListAccessPoliciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -292,6 +389,36 @@ extension PaginatorSequence where OperationStackInput == ListActionsInput, Opera
     /// - Returns: `[IoTSiteWiseClientTypes.ActionSummary]`
     public func actionSummaries() async throws -> [IoTSiteWiseClientTypes.ActionSummary] {
         return try await self.asyncCompactMap { item in item.actionSummaries }
+    }
+}
+extension IoTSiteWiseClient {
+    /// Paginate over `[ListApplicationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListApplicationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutput`
+    public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplications(input:))
+    }
+}
+
+extension ListApplicationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListApplicationsInput {
+        return ListApplicationsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListApplicationsInput, OperationStackOutput == ListApplicationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.ApplicationSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.ApplicationSummary]`
+    public func applications() async throws -> [IoTSiteWiseClientTypes.ApplicationSummary] {
+        return try await self.asyncCompactMap { item in item.applications }
     }
 }
 extension IoTSiteWiseClient {
@@ -539,7 +666,8 @@ extension ListBulkImportJobsInput: ClientRuntime.PaginateToken {
         return ListBulkImportJobsInput(
             filter: self.filter,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            workspaceName: self.workspaceName
         )}
 }
 
@@ -707,6 +835,103 @@ extension PaginatorSequence where OperationStackInput == ListDashboardsInput, Op
     }
 }
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListDatasetDataSegmentRelationshipsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDatasetDataSegmentRelationshipsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetDataSegmentRelationshipsOutput`
+    public func listDatasetDataSegmentRelationshipsPaginated(input: ListDatasetDataSegmentRelationshipsInput) -> ClientRuntime.PaginatorSequence<ListDatasetDataSegmentRelationshipsInput, ListDatasetDataSegmentRelationshipsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDatasetDataSegmentRelationshipsInput, ListDatasetDataSegmentRelationshipsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatasetDataSegmentRelationships(input:))
+    }
+}
+
+extension ListDatasetDataSegmentRelationshipsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDatasetDataSegmentRelationshipsInput {
+        return ListDatasetDataSegmentRelationshipsInput(
+            datasetId: self.datasetId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceName: self.workspaceName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDatasetDataSegmentRelationshipsInput, OperationStackOutput == ListDatasetDataSegmentRelationshipsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDatasetDataSegmentRelationshipsPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.DataSegmentRelationshipSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.DataSegmentRelationshipSummary]`
+    public func dataSegmentRelationshipSummaries() async throws -> [IoTSiteWiseClientTypes.DataSegmentRelationshipSummary] {
+        return try await self.asyncCompactMap { item in item.dataSegmentRelationshipSummaries }
+    }
+}
+extension IoTSiteWiseClient {
+    /// Paginate over `[ListDatasetDataSegmentsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDatasetDataSegmentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetDataSegmentsOutput`
+    public func listDatasetDataSegmentsPaginated(input: ListDatasetDataSegmentsInput) -> ClientRuntime.PaginatorSequence<ListDatasetDataSegmentsInput, ListDatasetDataSegmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDatasetDataSegmentsInput, ListDatasetDataSegmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatasetDataSegments(input:))
+    }
+}
+
+extension ListDatasetDataSegmentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDatasetDataSegmentsInput {
+        return ListDatasetDataSegmentsInput(
+            datasetId: self.datasetId,
+            datasetVersion: self.datasetVersion,
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceName: self.workspaceName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDatasetDataSegmentsInput, OperationStackOutput == ListDatasetDataSegmentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDatasetDataSegmentsPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.DataSegmentSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.DataSegmentSummary]`
+    public func dataSegments() async throws -> [IoTSiteWiseClientTypes.DataSegmentSummary] {
+        return try await self.asyncCompactMap { item in item.dataSegments }
+    }
+}
+extension IoTSiteWiseClient {
+    /// Paginate over `[ListDatasetExportJobsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDatasetExportJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetExportJobsOutput`
+    public func listDatasetExportJobsPaginated(input: ListDatasetExportJobsInput) -> ClientRuntime.PaginatorSequence<ListDatasetExportJobsInput, ListDatasetExportJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDatasetExportJobsInput, ListDatasetExportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatasetExportJobs(input:))
+    }
+}
+
+extension ListDatasetExportJobsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDatasetExportJobsInput {
+        return ListDatasetExportJobsInput(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceName: self.workspaceName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDatasetExportJobsInput, OperationStackOutput == ListDatasetExportJobsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDatasetExportJobsPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.ExportJobSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.ExportJobSummary]`
+    public func jobs() async throws -> [IoTSiteWiseClientTypes.ExportJobSummary] {
+        return try await self.asyncCompactMap { item in item.jobs }
+    }
+}
+extension IoTSiteWiseClient {
     /// Paginate over `[ListDatasetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -723,9 +948,11 @@ extension IoTSiteWiseClient {
 extension ListDatasetsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListDatasetsInput {
         return ListDatasetsInput(
+            datasetType: self.datasetType,
             maxResults: self.maxResults,
             nextToken: token,
-            sourceType: self.sourceType
+            sourceType: self.sourceType,
+            workspaceName: self.workspaceName
         )}
 }
 
@@ -735,6 +962,44 @@ extension PaginatorSequence where OperationStackInput == ListDatasetsInput, Oper
     /// - Returns: `[IoTSiteWiseClientTypes.DatasetSummary]`
     public func datasetSummaries() async throws -> [IoTSiteWiseClientTypes.DatasetSummary] {
         return try await self.asyncCompactMap { item in item.datasetSummaries }
+    }
+}
+extension IoTSiteWiseClient {
+    /// Paginate over `[ListEnrichmentJobsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEnrichmentJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEnrichmentJobsOutput`
+    public func listEnrichmentJobsPaginated(input: ListEnrichmentJobsInput) -> ClientRuntime.PaginatorSequence<ListEnrichmentJobsInput, ListEnrichmentJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEnrichmentJobsInput, ListEnrichmentJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEnrichmentJobs(input:))
+    }
+}
+
+extension ListEnrichmentJobsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEnrichmentJobsInput {
+        return ListEnrichmentJobsInput(
+            datasetId: self.datasetId,
+            endDate: self.endDate,
+            jobType: self.jobType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            propertyAlias: self.propertyAlias,
+            startDate: self.startDate,
+            status: self.status,
+            timeSeriesId: self.timeSeriesId,
+            workspaceName: self.workspaceName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListEnrichmentJobsInput, OperationStackOutput == ListEnrichmentJobsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listEnrichmentJobsPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.EnrichmentJobSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.EnrichmentJobSummary]`
+    public func jobs() async throws -> [IoTSiteWiseClientTypes.EnrichmentJobSummary] {
+        return try await self.asyncCompactMap { item in item.jobs }
     }
 }
 extension IoTSiteWiseClient {
@@ -834,6 +1099,74 @@ extension PaginatorSequence where OperationStackInput == ListInterfaceRelationsh
     }
 }
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListPipelineExecutionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPipelineExecutionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPipelineExecutionsOutput`
+    public func listPipelineExecutionsPaginated(input: ListPipelineExecutionsInput) -> ClientRuntime.PaginatorSequence<ListPipelineExecutionsInput, ListPipelineExecutionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPipelineExecutionsInput, ListPipelineExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPipelineExecutions(input:))
+    }
+}
+
+extension ListPipelineExecutionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPipelineExecutionsInput {
+        return ListPipelineExecutionsInput(
+            endTimeAfter: self.endTimeAfter,
+            endTimeBefore: self.endTimeBefore,
+            maxResults: self.maxResults,
+            nextToken: token,
+            pipelineName: self.pipelineName,
+            startTimeAfter: self.startTimeAfter,
+            startTimeBefore: self.startTimeBefore,
+            state: self.state,
+            workspaceName: self.workspaceName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListPipelineExecutionsInput, OperationStackOutput == ListPipelineExecutionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listPipelineExecutionsPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.PipelineExecutionSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.PipelineExecutionSummary]`
+    public func pipelineExecutionSummaries() async throws -> [IoTSiteWiseClientTypes.PipelineExecutionSummary] {
+        return try await self.asyncCompactMap { item in item.pipelineExecutionSummaries }
+    }
+}
+extension IoTSiteWiseClient {
+    /// Paginate over `[ListPipelinesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPipelinesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPipelinesOutput`
+    public func listPipelinesPaginated(input: ListPipelinesInput) -> ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput> {
+        return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPipelines(input:))
+    }
+}
+
+extension ListPipelinesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPipelinesInput {
+        return ListPipelinesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceName: self.workspaceName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListPipelinesInput, OperationStackOutput == ListPipelinesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listPipelinesPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.PipelineSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.PipelineSummary]`
+    public func pipelineSummaries() async throws -> [IoTSiteWiseClientTypes.PipelineSummary] {
+        return try await self.asyncCompactMap { item in item.pipelineSummaries }
+    }
+}
+extension IoTSiteWiseClient {
     /// Paginate over `[ListPortalsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -926,6 +1259,101 @@ extension PaginatorSequence where OperationStackInput == ListProjectsInput, Oper
     }
 }
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListQueriesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListQueriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListQueriesOutput`
+    public func listQueriesPaginated(input: ListQueriesInput) -> ClientRuntime.PaginatorSequence<ListQueriesInput, ListQueriesOutput> {
+        return ClientRuntime.PaginatorSequence<ListQueriesInput, ListQueriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listQueries(input:))
+    }
+}
+
+extension ListQueriesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListQueriesInput {
+        return ListQueriesInput(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceName: self.workspaceName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListQueriesInput, OperationStackOutput == ListQueriesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listQueriesPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.QuerySummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.QuerySummary]`
+    public func queries() async throws -> [IoTSiteWiseClientTypes.QuerySummary] {
+        return try await self.asyncCompactMap { item in item.queries }
+    }
+}
+extension IoTSiteWiseClient {
+    /// Paginate over `[ListSearchesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSearchesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSearchesOutput`
+    public func listSearchesPaginated(input: ListSearchesInput) -> ClientRuntime.PaginatorSequence<ListSearchesInput, ListSearchesOutput> {
+        return ClientRuntime.PaginatorSequence<ListSearchesInput, ListSearchesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSearches(input:))
+    }
+}
+
+extension ListSearchesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSearchesInput {
+        return ListSearchesInput(
+            listSearchesFilters: self.listSearchesFilters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceName: self.workspaceName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSearchesInput, OperationStackOutput == ListSearchesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSearchesPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.SearchSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.SearchSummary]`
+    public func searchSummaries() async throws -> [IoTSiteWiseClientTypes.SearchSummary] {
+        return try await self.asyncCompactMap { item in item.searchSummaries }
+    }
+}
+extension IoTSiteWiseClient {
+    /// Paginate over `[ListTasksOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTasksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTasksOutput`
+    public func listTasksPaginated(input: ListTasksInput) -> ClientRuntime.PaginatorSequence<ListTasksInput, ListTasksOutput> {
+        return ClientRuntime.PaginatorSequence<ListTasksInput, ListTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTasks(input:))
+    }
+}
+
+extension ListTasksInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTasksInput {
+        return ListTasksInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceName: self.workspaceName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTasksInput, OperationStackOutput == ListTasksOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTasksPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.TaskSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.TaskSummary]`
+    public func taskSummaries() async throws -> [IoTSiteWiseClientTypes.TaskSummary] {
+        return try await self.asyncCompactMap { item in item.taskSummaries }
+    }
+}
+extension IoTSiteWiseClient {
     /// Paginate over `[ListTimeSeriesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -946,7 +1374,8 @@ extension ListTimeSeriesInput: ClientRuntime.PaginateToken {
             assetId: self.assetId,
             maxResults: self.maxResults,
             nextToken: token,
-            timeSeriesType: self.timeSeriesType
+            timeSeriesType: self.timeSeriesType,
+            workspaceName: self.workspaceName
         )}
 }
 
@@ -956,5 +1385,35 @@ extension PaginatorSequence where OperationStackInput == ListTimeSeriesInput, Op
     /// - Returns: `[IoTSiteWiseClientTypes.TimeSeriesSummary]`
     public func timeSeriesSummaries() async throws -> [IoTSiteWiseClientTypes.TimeSeriesSummary] {
         return try await self.asyncCompactMap { item in item.timeSeriesSummaries }
+    }
+}
+extension IoTSiteWiseClient {
+    /// Paginate over `[ListWorkspacesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListWorkspacesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkspacesOutput`
+    public func listWorkspacesPaginated(input: ListWorkspacesInput) -> ClientRuntime.PaginatorSequence<ListWorkspacesInput, ListWorkspacesOutput> {
+        return ClientRuntime.PaginatorSequence<ListWorkspacesInput, ListWorkspacesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorkspaces(input:))
+    }
+}
+
+extension ListWorkspacesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListWorkspacesInput {
+        return ListWorkspacesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListWorkspacesInput, OperationStackOutput == ListWorkspacesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listWorkspacesPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.WorkspaceSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.WorkspaceSummary]`
+    public func workspaceSummaries() async throws -> [IoTSiteWiseClientTypes.WorkspaceSummary] {
+        return try await self.asyncCompactMap { item in item.workspaceSummaries }
     }
 }

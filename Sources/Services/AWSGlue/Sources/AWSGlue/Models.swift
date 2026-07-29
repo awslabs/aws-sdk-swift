@@ -17698,21 +17698,185 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    /// Configuration that defines how BETWEEN range filter operations are translated into REST API request parameters.
+    public struct BetweenConfiguration: Swift.Sendable {
+        /// The parameter name used for the upper bound value in a BETWEEN filter operation.
+        public var highBoundKey: Swift.String?
+        /// The parameter name used for the lower bound value in a BETWEEN filter operation.
+        public var lowBoundKey: Swift.String?
+        /// A template string for constructing the BETWEEN filter expression.
+        public var template: Swift.String?
+
+        public init(
+            highBoundKey: Swift.String? = nil,
+            lowBoundKey: Swift.String? = nil,
+            template: Swift.String? = nil
+        ) {
+            self.highBoundKey = highBoundKey
+            self.lowBoundKey = lowBoundKey
+            self.template = template
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Configuration that defines per-field overrides for filter behavior, allowing individual fields to customize how filter operations are applied.
+    public struct FilterOverrides: Swift.Sendable {
+        /// Field-specific configuration for handling BETWEEN range filter operations.
+        public var betweenConfiguration: GlueClientTypes.BetweenConfiguration?
+        /// The date and time format for filter expressions on this field, overriding the global DateTimeFormat. Accepts Java DateTimeFormatter patterns (for example, EEE, d MMM yyyy HH:mm:ss Z), EPOCH_SECONDS for Unix epoch seconds, or EPOCH_MILLIS for Unix epoch milliseconds.
+        public var dateTimeFormat: Swift.String?
+        /// An override for the field name to use in filter expressions, if different from the schema field name.
+        public var fieldName: Swift.String?
+        /// A map of logical filter operators to their field-specific API representations, overriding the global operator mappings. Supported operator keys are: EQUAL_TO, NOT_EQUAL_TO, LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUAL_TO, GREATER_THAN_OR_EQUAL_TO, CONTAINS, BETWEEN, AND, and OR.
+        public var operatorMappings: [Swift.String: Swift.String]?
+
+        public init(
+            betweenConfiguration: GlueClientTypes.BetweenConfiguration? = nil,
+            dateTimeFormat: Swift.String? = nil,
+            fieldName: Swift.String? = nil,
+            operatorMappings: [Swift.String: Swift.String]? = nil
+        ) {
+            self.betweenConfiguration = betweenConfiguration
+            self.dateTimeFormat = dateTimeFormat
+            self.fieldName = fieldName
+            self.operatorMappings = operatorMappings
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// Defines a field in an entity schema for REST connector data sources, specifying the field name and data type.
     public struct FieldDefinition: Swift.Sendable {
         /// The data type of the field.
         /// This member is required.
         public var fieldDataType: GlueClientTypes.FieldDataType?
+        /// Per-field overrides for filter behavior, allowing customization of how filters are applied to this specific field.
+        public var filterOverrides: GlueClientTypes.FilterOverrides?
+        /// Indicates whether this field can contain null values.
+        public var isNullable: Swift.Bool?
+        /// Indicates whether this field can be used for ordering results.
+        public var isOrderable: Swift.Bool?
+        /// Indicates whether this field can be used for partitioning queries to the data source.
+        public var isPartitionable: Swift.Bool?
+        /// Indicates whether this field can be used in filter predicates when querying data.
+        public var isQueryable: Swift.Bool?
         /// The name of the field in the entity schema.
         /// This member is required.
         public var name: Swift.String?
+        /// The format pattern for parsing date values from API responses. Required when the API uses a non-ISO-8601 format. Accepts Java DateTimeFormatter patterns (for example, EEE, d MMM yyyy HH:mm:ss Z), EPOCH_SECONDS for Unix epoch seconds, or EPOCH_MILLIS for Unix epoch milliseconds.
+        public var responseDateFormat: Swift.String?
 
         public init(
             fieldDataType: GlueClientTypes.FieldDataType? = nil,
-            name: Swift.String? = nil
+            filterOverrides: GlueClientTypes.FilterOverrides? = nil,
+            isNullable: Swift.Bool? = nil,
+            isOrderable: Swift.Bool? = nil,
+            isPartitionable: Swift.Bool? = nil,
+            isQueryable: Swift.Bool? = nil,
+            name: Swift.String? = nil,
+            responseDateFormat: Swift.String? = nil
         ) {
             self.fieldDataType = fieldDataType
+            self.filterOverrides = filterOverrides
+            self.isNullable = isNullable
+            self.isOrderable = isOrderable
+            self.isPartitionable = isPartitionable
+            self.isQueryable = isQueryable
             self.name = name
+            self.responseDateFormat = responseDateFormat
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The strategy used to apply filter predicates to REST API requests.
+    public enum FilterMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case filterString
+        case queryParams
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FilterMode] {
+            return [
+                .filterString,
+                .queryParams
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .filterString: return "FILTER_STRING"
+            case .queryParams: return "QUERY_PARAMS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Configuration for constructing filter expression strings when using the FILTER_STRING filter mode.
+    public struct FilterStringConfiguration: Swift.Sendable {
+        /// The query parameter name used to send the constructed filter expression string in API requests.
+        /// This member is required.
+        public var queryParameterName: Swift.String?
+        /// The character used to quote values when QuoteStringValues is true. Defaults to double quotes if not specified.
+        public var quoteCharacter: Swift.String?
+        /// Indicates whether string and date values should be wrapped with a quote character in the filter expression.
+        public var quoteStringValues: Swift.Bool?
+
+        public init(
+            queryParameterName: Swift.String? = nil,
+            quoteCharacter: Swift.String? = nil,
+            quoteStringValues: Swift.Bool? = nil
+        ) {
+            self.queryParameterName = queryParameterName
+            self.quoteCharacter = quoteCharacter
+            self.quoteStringValues = quoteStringValues
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Configuration that defines how filter predicates are applied to REST API requests, supporting both query parameter and filter string strategies.
+    public struct FilterConfiguration: Swift.Sendable {
+        /// Configuration for handling BETWEEN range filter operations.
+        public var betweenConfiguration: GlueClientTypes.BetweenConfiguration?
+        /// The global date and time format for filter expressions. Accepts Java DateTimeFormatter patterns (for example, EEE, d MMM yyyy HH:mm:ss Z), EPOCH_SECONDS for Unix epoch seconds, or EPOCH_MILLIS for Unix epoch milliseconds. If not specified, values are passed as-is in ISO-8601 format.
+        public var dateTimeFormat: Swift.String?
+        /// The strategy for applying filters to requests. Use QUERY_PARAMS to pass filters as individual query parameters, or FILTER_STRING to construct a single filter expression string.
+        /// This member is required.
+        public var filterMode: GlueClientTypes.FilterMode?
+        /// Configuration for constructing filter expressions when FilterMode is set to FILTER_STRING.
+        public var filterStringConfiguration: GlueClientTypes.FilterStringConfiguration?
+        /// A map of logical filter operators to their API-specific string representations. Supported operator keys are: EQUAL_TO, NOT_EQUAL_TO, LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUAL_TO, GREATER_THAN_OR_EQUAL_TO, CONTAINS, BETWEEN, AND, and OR.
+        public var operatorMappings: [Swift.String: Swift.String]?
+        /// Indicates whether surrounding double quotes should be stripped from filter values before processing.
+        public var stripQuotes: Swift.Bool?
+
+        public init(
+            betweenConfiguration: GlueClientTypes.BetweenConfiguration? = nil,
+            dateTimeFormat: Swift.String? = nil,
+            filterMode: GlueClientTypes.FilterMode? = nil,
+            filterStringConfiguration: GlueClientTypes.FilterStringConfiguration? = nil,
+            operatorMappings: [Swift.String: Swift.String]? = nil,
+            stripQuotes: Swift.Bool? = nil
+        ) {
+            self.betweenConfiguration = betweenConfiguration
+            self.dateTimeFormat = dateTimeFormat
+            self.filterMode = filterMode
+            self.filterStringConfiguration = filterStringConfiguration
+            self.operatorMappings = operatorMappings
+            self.stripQuotes = stripQuotes
         }
     }
 }
@@ -17860,6 +18024,8 @@ extension GlueClientTypes {
         public var allowedValues: [Swift.String]?
         /// The default value for the property.
         public var defaultValue: Swift.String?
+        /// A format template for the property value that defines how the value should be formatted before sending it in API requests. Use {value} as a placeholder for the actual property value (for example, SSWS {value}).
+        public var format: Swift.String?
         /// A key name to use when sending this property in API requests, if different from the display name.
         public var keyOverride: Swift.String?
         /// The name of the property.
@@ -17877,6 +18043,7 @@ extension GlueClientTypes {
         public init(
             allowedValues: [Swift.String]? = nil,
             defaultValue: Swift.String? = nil,
+            format: Swift.String? = nil,
             keyOverride: Swift.String? = nil,
             name: Swift.String? = nil,
             propertyLocation: GlueClientTypes.PropertyLocation? = nil,
@@ -17885,6 +18052,7 @@ extension GlueClientTypes {
         ) {
             self.allowedValues = allowedValues
             self.defaultValue = defaultValue
+            self.format = format
             self.keyOverride = keyOverride
             self.name = name
             self.propertyLocation = propertyLocation
@@ -17918,6 +18086,8 @@ extension GlueClientTypes {
 
     /// Configuration that defines how to make requests to endpoints, including request methods, paths, parameters, and response handling.
     public struct SourceConfiguration: Swift.Sendable {
+        /// Configuration for applying filter pushdown to REST API requests, defining how filter predicates are translated into query parameters or filter strings.
+        public var filterConfiguration: GlueClientTypes.FilterConfiguration?
         /// Configuration for handling paginated responses from the REST API, supporting both cursor-based and offset-based pagination strategies.
         public var paginationConfiguration: GlueClientTypes.PaginationConfiguration?
         /// The HTTP method to use for requests to this endpoint, such as GET, POST.
@@ -17930,12 +18100,14 @@ extension GlueClientTypes {
         public var responseConfiguration: GlueClientTypes.ResponseConfiguration?
 
         public init(
+            filterConfiguration: GlueClientTypes.FilterConfiguration? = nil,
             paginationConfiguration: GlueClientTypes.PaginationConfiguration? = nil,
             requestMethod: GlueClientTypes.HTTPMethod? = nil,
             requestParameters: [GlueClientTypes.ConnectorProperty]? = nil,
             requestPath: Swift.String? = nil,
             responseConfiguration: GlueClientTypes.ResponseConfiguration? = nil
         ) {
+            self.filterConfiguration = filterConfiguration
             self.paginationConfiguration = paginationConfiguration
             self.requestMethod = requestMethod
             self.requestParameters = requestParameters

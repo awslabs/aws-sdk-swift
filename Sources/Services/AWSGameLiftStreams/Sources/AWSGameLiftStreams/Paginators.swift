@@ -75,3 +75,35 @@ extension PaginatorSequence where OperationStackInput == ListStreamSessionsByAcc
         return try await self.asyncCompactMap { item in item.items }
     }
 }
+extension GameLiftStreamsClient {
+    /// Paginate over `[ListStreamUrlsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListStreamUrlsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStreamUrlsOutput`
+    public func listStreamUrlsPaginated(input: ListStreamUrlsInput) -> ClientRuntime.PaginatorSequence<ListStreamUrlsInput, ListStreamUrlsOutput> {
+        return ClientRuntime.PaginatorSequence<ListStreamUrlsInput, ListStreamUrlsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStreamUrls(input:))
+    }
+}
+
+extension ListStreamUrlsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListStreamUrlsInput {
+        return ListStreamUrlsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status,
+            streamGroupIdentifier: self.streamGroupIdentifier
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListStreamUrlsInput, OperationStackOutput == ListStreamUrlsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listStreamUrlsPaginated`
+    /// to access the nested member `[GameLiftStreamsClientTypes.StreamUrlSummary]`
+    /// - Returns: `[GameLiftStreamsClientTypes.StreamUrlSummary]`
+    public func items() async throws -> [GameLiftStreamsClientTypes.StreamUrlSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
