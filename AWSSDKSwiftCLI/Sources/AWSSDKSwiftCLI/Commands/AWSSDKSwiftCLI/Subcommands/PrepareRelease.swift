@@ -76,7 +76,11 @@ struct PrepareRelease {
     var announcements: [String] {
         switch repoType {
         case .awsSdkSwift:
-            []
+            [
+                "In Fall 2026, AWS SDK for Swift will end support for several older Swift and Xcode versions, " +
+                "and several Apple and Linux platforms.  See " +
+                "[this announcement](https://github.com/awslabs/aws-sdk-swift/discussions/2140) for details."
+            ]
         case .smithySwift:
             []
         }
